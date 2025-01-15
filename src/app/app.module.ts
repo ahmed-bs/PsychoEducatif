@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router'; // Correct import
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     FooterComponent, // Declare only components, directives, and pipes
   ],
   imports: [
