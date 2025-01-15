@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LayoutComponent } from './shared/layout/layout.component';
 
 const routes: Routes = [
-  { path: '',  loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule) },
+   {path:'',component:LayoutComponent}
 ];
 
 @NgModule({

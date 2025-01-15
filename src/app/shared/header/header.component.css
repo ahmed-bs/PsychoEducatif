@@ -78,7 +78,7 @@ nav a:hover::before {
 .card {
     display: inline-block;
     margin: 5px;
-    background-color: #e3f0ff;
+    background-color:#c7cfd9;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Ombre grise */
     text-align: center;
@@ -87,7 +87,7 @@ nav a:hover::before {
     color: var(--color-dark-variant);
     text-decoration: none;
     transition: transform 0.3s, box-shadow 0.3s;
-    height: 50px;
+    height: 40px;
     display: flex;
     align-items: center; 
     justify-content: center; 
