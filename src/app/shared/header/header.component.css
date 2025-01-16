@@ -1,194 +1,233 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 img {
-  display: flex;
-  width: 100%;
+    display: flex;
+    width: 100%;
 }
 
 a {
-  text-decoration: none;
-  transition: 0.3s;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 nav {
-  position: fixed;
-  isolation: isolate;
-  width: 100%;
-  z-index: 9;
+    position: fixed;
+    isolation: isolate;
+    width: 100%;
+    z-index: 9;
 }
 
 .nav__header {
-  padding: 1rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #f5f5f5; /* Beige background color */
-}
-
-.nav__logo a {
-  font-size: 1.75rem;
-  font-weight: 400;
-  font-family: 'Bebas Neue', sans-serif;
-  color: #1a73e8; /* Blue color for text */
-}
-
-.nav__menu__btn {
-  font-size: 1.5rem;
-  color: #1a73e8; /* Blue color for menu button */
-  cursor: pointer;
-}
-
-.nav__links {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  width: 100%;
-  padding: 2rem;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: #1a73e8; /* Blue background color */
-  transition: 0.5s;
-  z-index: -1;
-  transform: translateY(-100%);
-}
-
-.nav__links.open {
-  transform: translateY(0);
-}
-
-.nav__links a {
-  font-weight: 500;
-  color: #f5f5f5; /* Beige color for text */
-}
-
-.nav__links a:hover {
-  color: #ffffff; /* White text on hover */
-}
-
-.nav__btns {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  nav {
-    position: static;
-    padding-block: 2rem 0;
-    padding-inline: 1rem;
-    max-width: 1200px;
-    margin-inline: auto;
+    padding: 1rem;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .nav__header {
-    flex: 1;
-    padding: 0;
-    background-color: transparent;
-  }
-
-  .nav__logo a {
-    color: #1a73e8; /* Blue text color */
-  }
-
-  .nav__logo a span {
-    color: #ff9800; /* Orange color for span */
-  }
-
-  .nav__menu__btn {
-    display: none;
-  }
-
-  .nav__links {
-    position: static;
-    padding: 0;
-    flex-direction: row;
-    background-color: transparent;
-    transform: none;
-  }
-
-  .nav__links a {
-    padding-block: 5px;
-    color: #1a73e8; /* Blue color for links */
-    border-bottom: 4px solid transparent;
-  }
-
-  .nav__links a:hover {
-    color: #d1a25c;
-    border-color: #d1a25c; /* Orange hover border */
-  }
-
-  .nav__btns {
-    display: flex;
-    flex: 1;
-  }
-
-  .nav__btns .btn {
-    padding: 0.75rem 1.5rem;
-    outline: none;
-    border: none;
-    font-size: 1rem;
-    white-space: nowrap;
-    border-radius: 10px;
-    transition: 0.3s;
-    cursor: pointer;
-  }
-
-  .sign__up {
-    color: #1a73e8; /* Blue color for sign up */
-    background-color: transparent;
-  }
-
-  .sign__up:hover {
-    color: #b89c68; /* Orange hover color */
-  }
-
-  .sign__in {
-    color: #f5f5f5; /* Beige text color */
-    background-color: #1a73e8; /* Blue background for sign in */
-  }
-
-  .sign__in:hover {
-    background-color: #1565c0; /* Darker blue for hover */
-  }
-
-  .header__container {
-    padding-block: 2rem;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-  }
-
-  .header__image {
-    grid-area: 1/2/2/3;
-  }
-
-  .header__content :is(h1, p, .bar) {
-    text-align: left;
-  }
+    background-color: #84c1ff;
 }
 
-@media (min-width: 1024px) {
-  .header__content form {
-    flex-direction: row;
-  }
+.nav__logo a {
+    font-size: 1.75rem;
+    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    color: #070707;
+   
+}
 
-  .header__content button {
-    width: fit-content;
-  }
+.nav__logo span {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #d29f51;
+    
+}
+
+.nav__menu__btn {
+    font-size: 1.5rem;
+    color: #000000;
+    /* Blue color for menu button */
+    cursor: pointer;
+}
+
+.nav__links {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #84c1ff;
+    /* Blue background color */
+    transition: 0.5s;
+    z-index: -1;
+    transform: translateY(-100%);
+}
+
+.nav__links.open {
+    transform: translateY(0);
+}
+
+.nav__links a {
+    font-weight: 500;
+    color: #050505;
+    /* Beige color for text */
+}
+
+.nav__links a:hover {
+    color: #dfa246;
+    /* White text on hover */
+}
+
+.nav__btns {
+    display: flex;
+    justify-content: end;
+    /* Stack buttons vertically on small screens */
+
+}
+
+.nav__btns .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sign__up {
+    background-color: transparent;
+    color: #f5f5f5;
+    /* Beige text */
+}
+
+.sign__up:hover {
+    color: #ff9800;
+    /* Orange hover color */
+}
+
+.sign__in {
+    background-color: #f5f5f5;
+    /* Beige background */
+    color: #1a73e8;
+    /* Blue text */
+}
+
+.sign__in:hover {
+    background-color: #1565c0;
+    /* Dark blue */
+    color: #ffffff;
+    /* White text */
+}
+
+@media (min-width: 768px) {
+    nav {
+        position: static;
+        padding-block: 2rem 0;
+        padding-inline: 1rem;
+        max-width: 1200px;
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    .nav__header {
+        flex: 1;
+        padding: 0;
+        background-color: #ffffff;
+    }
+
+    .nav__logo a {
+        color: #070707;
+        /* Blue color for text */
+    }
+
+    .nav__logo span {
+        font-family: 'Bebas Neue', sans-serif;
+        color: #d29f51;
+        /* Blue color for text */
+    }
+
+    .nav__menu__btn {
+        display: none;
+    }
+
+    .nav__links {
+        position: static;
+        padding: 0;
+        flex-direction: row;
+        background-color: transparent;
+        transform: none;
+        justify-content: center;
+        margin-left: 200px;
+    }
+
+    .nav__links a {
+        padding-block: 5px;
+        font-size: 17px;
+        color: #1a73e8;
+        /* Blue color for links */
+        border-bottom: 4px solid transparent;
+    }
+
+    .nav__links a:hover {
+        color: #d1a25c;
+        border-color: #d1a25c;
+        /* Orange hover border */
+    }
+
+    .nav__btns {
+        display: flex;
+        flex: 1;
+    }
+
+    .nav__btns .btn {
+        padding: 0.75rem 1.5rem;
+        outline: none;
+        border: none;
+        font-size: 1rem;
+        white-space: nowrap;
+        border-radius: 10px;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .sign__up {
+        color: #1a73e8;
+        /* Blue color for sign up */
+        background-color: transparent;
+    }
+
+    .sign__up:hover {
+        color: #b89c68;
+        /* Orange hover color */
+    }
+
+    .sign__in {
+        color: #f5f5f5;
+        /* Beige text color */
+        background-color: #1a73e8;
+        /* Blue background for sign in */
+    }
+
+    .sign__in:hover {
+        background-color: #1565c0;
+        /* Darker blue for hover */
+    }
+
+
 }
