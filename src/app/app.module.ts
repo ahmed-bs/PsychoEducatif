@@ -31,7 +31,6 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     MatToolbarModule,
     MatButtonModule,
-    ClientModule,
    
   ],
   providers: [],
