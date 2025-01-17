@@ -132,7 +132,117 @@ nav {
     /* White text */
 }
 
+
 @media (min-width: 768px) {
+    nav {
+      position: static;
+      padding-block: 2rem 0;
+      padding-inline: 1rem;
+      max-width: 1200px;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+  
+    .nav__header {
+      flex: 1;
+      padding: 0;
+      background-color: transparent;
+    }
+  
+    .nav__logo a {
+      color: #1a73e8; /* Blue text color */
+    }
+  
+    .nav__logo a span {
+      color: #ff9800; /* Orange color for span */
+    }
+  
+    .nav__menu__btn {
+      display: none;
+    }
+  
+    .nav__links {
+      position: static;
+      padding: 0;
+      flex-direction: row;
+      background-color: transparent;
+      transform: none;
+    }
+  
+    .nav__links a {
+      padding-block: 5px;
+      color: #1a73e8; /* Blue color for links */
+      border-bottom: 4px solid transparent;
+    }
+  
+    .nav__links a:hover {
+      color: #d1a25c;
+      border-color: #d1a25c; /* Orange hover border */
+    }
+  
+    .nav__btns {
+      display: flex;
+      flex: 1;
+    }
+  
+    .nav__btns .btn {
+      padding: 0.75rem 1.5rem;
+      outline: none;
+      border: none;
+      font-size: 1rem;
+      white-space: nowrap;
+      border-radius: 10px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+  
+    .sign__up {
+      color: #1a73e8; /* Blue color for sign up */
+      background-color: transparent;
+    }
+  
+    .sign__up:hover {
+      color: #b89c68; /* Orange hover color */
+    }
+  
+    .sign__in {
+      color: #f5f5f5; /* Beige text color */
+      background-color: #1a73e8; /* Blue background for sign in */
+    }
+  
+    .sign__in:hover {
+      background-color: #1565c0; /* Darker blue for hover */
+    }
+  
+    .header__container {
+      padding-block: 2rem;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+    }
+  
+    .header__image {
+      grid-area: 1/2/2/3;
+    }
+  
+    .header__content :is(h1, p, .bar) {
+      text-align: left;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .header__content form {
+      flex-direction: row;
+    }
+  
+    .header__content button {
+      width: fit-content;
+    }
+  }
+
+@media (min-width < 768px) {
     nav {
         position: static;
         padding-block: 2rem 0;
@@ -231,3 +341,5 @@ nav {
 
 
 }
+
+
