@@ -13,6 +13,8 @@ import { RouterLink, RouterModule } from '@angular/router'; // Correct import
 import { LayoutComponent } from './shared/layout/layout.component';
 import { ClientModule } from './features/Client/Client.module';
 import { FormsModule } from '@angular/forms';
+import { SigninComponent } from './shared/signin/signin.component';
+import { SignupComponent } from './shared/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     LayoutComponent,
     FooterComponent,
+    SigninComponent,
+    SignupComponent
   ],
   imports: [
     RouterModule ,
