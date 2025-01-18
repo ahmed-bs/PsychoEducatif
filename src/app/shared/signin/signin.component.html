@@ -1,0 +1,57 @@
+<div class="page-content">
+  <div class="form-v6-content">
+    <div class="form-left">
+      <img src="assets/img/Kids reading.gif" alt="form">
+    </div>
+    <form class="form-detail" action="#" method="post">
+      <h1 class="custom-h1">Bienvenue!</h1>
+      <p class="custom-p">Vous connecter pour continuer</p>
+
+      <!-- Champ Nom et Prénom -->
+      <div class="form-row">
+        <mat-label class="label">Nom et Prénom</mat-label>
+        <mat-form-field appearance="fill" class="full-width input">
+          <input matInput placeholder="Entrez votre nom et prénom" required>
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Champ Mot de Passe -->
+      <mat-label class="label">Mot de passe</mat-label>
+      <mat-form-field appearance="fill" class="full-width input ">
+        <input matInput 
+               [type]="hide ? 'password' : 'text'" 
+               placeholder="Mot de passe obligatoire pour se connecter !" 
+               name="password" 
+               id="password" 
+               required>
+        <button mat-icon-button matSuffix 
+                type="button" 
+                aria-label="Afficher ou masquer le mot de passe" 
+                (click)="hide = !hide">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Bouton de soumission -->
+      <div class="form-row align-items">
+        <mat-checkbox name="rememberMe" class="checkbox">Se souvenir de moi</mat-checkbox>
+        <button  type="submit" class="submit-button">
+          Se connecter
+        </button>
+      </div>
+      <div class="text-centre">
+        <p>Pas encore de compte? <a routerLink="/signup" class="create-account-link">Créer un compte</a></p>
+      </div>
+
+      <div class="social-icons">
+        <a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 30px; color: #4267B2;"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 30px; color: #C13584;"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 30px; color: #25D366;"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 30px; color: #0A66C2;"></i></a>
+      </div>
+      
+      
+    </form>
+  </div>
+</div>
