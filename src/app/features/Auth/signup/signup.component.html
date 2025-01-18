@@ -1,25 +1,81 @@
 <div class="page-content">
   <div class="form-v6-content">
     <div class="form-left">
-      <img src="assets/img/Login.gif" alt="form">
+      <img src="assets/img/Innovation.gif" alt="form">
     </div>
-    <form class="form-detail" action="#" method="post">
-      <h2>Bienvenue!</h2>
-      <p> Vous connecter pour continuer</p>
+    <form class="form-detail" #signupForm="ngForm">
+      <h1 class="custom-h1">Créer un compte</h1>
+      <p class="custom-p">Remplissez les champs pour créer un nouveau compte</p>
+
+      <!-- Champ Nom et Prénom -->
       <div class="form-row">
-        <input type="text" name="full-name" id="full-name" class="input-text" placeholder="Ecriver votre mail" required>
+        <mat-label class="label">Nom et Prénom</mat-label>
+        <mat-form-field appearance="fill" class="full-width input">
+          <input matInput placeholder="Entrez votre nom et prénom" required>
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Champ Adresse Email -->
+      <div class="form-row">
+        <mat-label class="label">Adresse Email</mat-label>
+        <mat-form-field appearance="fill" class="full-width input">
+          <input matInput type="email" placeholder="Entrez votre adresse email" required>
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Champ Mot de Passe -->
+      <div class="form-row">
+        <mat-label class="label">Mot de Passe</mat-label>
+        <mat-form-field appearance="fill" class="full-width input">
+          <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Entrez un mot de passe sécurisé"
+            name="password" id="password" required>
+          <button mat-icon-button matSuffix type="button" aria-label="Afficher ou masquer le mot de passe"
+            (click)="hidePassword = !hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
       </div>
       <div class="form-row">
-        <input type="text" name="your-email" id="your-email" class="input-text" placeholder="Ecriver votre mail" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+        <mat-label class="label">Confirmer le Mot de Passe</mat-label>
+        <mat-form-field appearance="fill" class="full-width input">
+          <input matInput 
+           placeholder="Confirmez votre mot de passe" 
+          [type]="hideConfirmPassword ? 'password' : 'text'"
+            name="confirmPassword" id="confirmPassword" required>
+          <button mat-icon-button matSuffix type="button" aria-label="Afficher ou masquer le mot de passe"
+            (click)="hideConfirmPassword = !hideConfirmPassword">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
       </div>
-      <div class="form-row">
-        <input type="password" name="password" id="password" class="input-text" placeholder="Password" required>
+
+
+      <!-- Message d'erreur -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
       </div>
-      <div class="form-row">
-        <input type="password" name="comfirm-password" id="comfirm-password" class="input-text" placeholder="Comfirm Password" required>
+
+      <!-- Bouton de soumission -->
+      <div class="form-row align-items">
+        <mat-checkbox name="terms" class="checkbox" required>
+          J'accepte les <a href="#" target="_blank">termes et conditions</a>
+        </mat-checkbox>
+        <button type="submit" class="submit-button" [disabled]="!signupForm.form.valid">
+          S'inscrire
+        </button>
       </div>
-      <div class="form-row-last">
-        <input type="submit" name="register" class="register" value="Register">
+
+      <div class="text-centre">
+        <p>Vous avez déjà un compte? <a routerLink="/signin" class="login-link">Connectez-vous</a></p>
+      </div>
+
+      <div class="social-icons">
+        <a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 30px; color: #4267B2;"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 30px; color: #C13584;"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 30px; color: #25D366;"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 30px; color: #0A66C2;"></i></a>
       </div>
     </form>
   </div>
