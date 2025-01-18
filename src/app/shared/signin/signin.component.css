@@ -114,4 +114,107 @@
     text-decoration: underline;
     color: rgb(48, 112, 169); /* Darker blue on hover */
   }
+
+  .social-icons{
+    display: flex;
+     gap: 15px;
+     justify-content: center;
+  }
   
+
+  /* Responsive Styles for iPhone and iPad */
+@media (max-width: 1024px) {
+  .form-v6-content {
+    flex-direction: column; /* Stacks the content vertically */
+    padding: 20px; /* Reduces padding */
+  }
+
+  .form-left, .form-detail {
+    width: 100%; /* Full width for both sections */
+  }
+
+  .form-left img {
+    height: auto; /* Maintains aspect ratio */
+    margin-top: 20px; /* Reduces margin for smaller screens */
+  }
+
+  .custom-h1 {
+    font-size: 48px; /* Smaller font size for headings */
+  }
+
+  .custom-p {
+    font-size: 1.1rem; /* Smaller paragraph font */
+    margin-bottom: 50px; /* Adjust spacing */
+  }
+
+  .input {
+    height: 50px; /* Reduces input height */
+    margin: 5px 0; /* Adjusts margins */
+  }
+
+  .submit-button {
+    padding: 12px 20px; /* Adjusts button size */
+    font-size: 16px; /* Reduces button font size */
+  }
+
+  .form-row.align-items {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: space-between; /* Aligns items to the left */
+    gap: 10px; /* Adds space between the checkbox and button */
+    margin: 16px; /* Adds margin to the bottom */
+  }
+  
+  /* Styling for the checkbox */
+  .checkbox {
+    font-size: 0.9rem; /* Smaller font size */
+    color: black; /* Color of the checkbox label */
+  }
+}
+
+/* Specific Styling for iPhones (max-width: 768px) */
+@media (max-width: 768px) {
+  .custom-h1 {
+    font-size: 36px; /* Smaller font size for iPhone screens */
+  }
+
+  .custom-p {
+    font-size: 1rem; /* Smaller paragraph font */
+    margin-bottom: 40px; /* Adjust spacing for smaller screens */
+  }
+
+  .form-detail {
+    padding: 0; /* Less padding for smaller screens */
+  }
+
+  .input {
+    height: 45px; /* Further reduces input height */
+    padding: 3px; /* Adjusts internal padding */
+  }
+
+  .submit-button {
+    padding: 9px 10px; /* Smaller button */
+    font-size: 14px; /* Smaller button font size */
+  }
+}
+
+/* Additional Styles for Ultra-Small Screens (max-width: 480px) */
+@media (max-width: 480px) {
+  .custom-h1 {
+    font-size: 28px; /* Very small font size for ultra-small screens */
+  }
+
+  .custom-p {
+    font-size: 0.9rem; /* Very small paragraph font */
+    margin-bottom: 30px;
+  }
+
+  .form-row.align-items {
+    gap: 3px; /* Minimal gap for compact layout */
+  }
+
+  .submit-button {
+    font-size: 12px; /* Smallest button font */
+    padding: 8px 10px; /* Compact button size */
+  }
+}
