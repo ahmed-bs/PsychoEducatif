@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .main-content {
+    margin-top: 80px; /* Adjust according to navbar height */
+    padding: 20px;
+  }
+  
