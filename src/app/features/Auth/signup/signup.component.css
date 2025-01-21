@@ -1,222 +1,262 @@
 .page-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 140vh;
-    background-color: #ffffff;
-    font-family: 'Nunito', sans-serif;
-  }
-  
-  .form-v6-content {
-    display: flex;
-    background: #ffffff;
-    box-shadow: 4px 4px 10px 10px rgba(187, 223, 251, 0.43);
-    border-radius: 8px;
-    overflow: hidden;
-    padding: 30px 50px;
-    width: 150vh;
-  }
-  
-  .form-left {
-    width: 50%;
-  }
-  
-  .form-left img {
-    width: 100%;
-    height: 50%;
-    object-fit: cover;
-    margin-top: 73px;
-  }
-  
-  .form-detail {
-    padding:0 65px;
-    width: 50%;
-    display: flex; /* Active Flexbox */
-    flex-direction: column; /* Aligne les enfants verticalement */
-    justify-content: center; /* Centre verticalement */
-   
-  }
-  .full-width {
-    width: 100%;
-    margin-bottom: 16px;
-  }
-  
-  .input {
-    border: 2px solid rgb(159, 157, 157); /* Bordure noire */
-    border-radius: 4px; /* Coins arrondis */
-    padding: 8px; /* Espacement interne */
-    margin: 14px;
-    color: rgb(184, 184, 182);
-    height: 55px;
-  
-  }
-
-    
-  .custom-h1 {
-    font-size: 50px;
-    font-weight: 700;
-    color: rgb(77, 165, 216);
-    margin-bottom: 0;
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
-  }
-  
-  .custom-p {
-    font-size: 1rem; /* Taille de police petite */
-    color: black; /* Couleur noire */
-    margin-top: 0;
-    margin-bottom: 75px; /* Évite un espace vertical supplémentaire */
-    text-align: center; /* Centre le texte */
-  }
-
-.label{
-    color: solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: 'Nunito', sans-serif;
 }
-  
-  .form-row.align-items {
-    display: flex;
-    align-items: center; /* Aligns items vertically in the center */
-    justify-content: space-between; /* Aligns items to the left */
-    gap: 10px; /* Adds space between the checkbox and button */
-    margin: 16px; /* Adds margin to the bottom */
-  }
-  
-  /* Styling for the checkbox */
-  .checkbox {
-    font-size: 0.9rem; /* Smaller font size */
-    color: black; /* Color of the checkbox label */
-  }
-  
-  .submit-button {
-    background-color: rgb(77, 165, 216);
-    color: white;
-    padding: 14px 27px;
-    border-radius: 23px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
+
+.form-v6-content {
+  display: flex;
+  background: #ffffff;
+  box-shadow: 4px 4px 10px 10px rgba(187, 223, 251, 0.43);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0 50px;
+  max-width: 80%;
+  margin: 30px;
 }
-  .submit-button:hover {
-    background-color: rgb(98, 170, 211);
-    color: #ffffff;
-  }
-  
 
-  .create-account-link {
-    color: rgb(77, 165, 216); /* Blue color */
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .text-centre{
-    text-align: center;
-  }
-  
-  .create-account-link:hover {
-    text-decoration: underline;
-    color: rgb(48, 112, 169); /* Darker blue on hover */
-  }
+.form-left img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  margin-top: 73px;
+}
 
-  .social-icons{
-    display: flex;
-     gap: 15px;
-     justify-content: center;
-  }
-  
+.form-detail {
+  padding: 0 65px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  /* Responsive Styles for iPhone and iPad */
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.input {
+  border: 2px solid rgb(159, 157, 157);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 14px;
+  color: rgb(184, 184, 182);
+  height: 55px;
+  zoom: 0.6;
+
+}
+
+
+.custom-h1 {
+  font-size: 50px;
+  font-weight: 700;
+  color: rgb(77, 165, 216);
+  margin-bottom: 0;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+}
+
+.custom-p {
+  font-size: 1rem;
+  color: black;
+  margin-top: 0;
+  margin-bottom: 75px;
+  text-align: center;
+}
+
+.label {
+  color: solid black;
+}
+
+.form-row.align-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 16px;
+}
+
+/* Styling for the checkbox */
+.checkbox {
+  font-size: 0.9rem;
+  color: black;
+}
+
+.submit-button {
+  background-color: rgb(77, 165, 216);
+  color: white;
+  padding: 14px 27px;
+  border-radius: 23px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.submit-button:hover {
+  background-color: rgb(98, 170, 211);
+  color: #ffffff;
+}
+
+
+.create-account-link {
+  color: rgb(77, 165, 216);
+  /* Blue color */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.text-centre {
+  text-align: center;
+}
+
+.create-account-link:hover {
+  text-decoration: underline;
+  color: rgb(48, 112, 169);
+}
+
+/** Icon **/
+
+.social-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-icons {
+  list-style-type: none;
+  padding: 0;
+}
+
+.social-icons li {
+  margin: 100px 0;
+  text-align: center;
+}
+
+.social-icons i {
+  font-size: 40px;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.social-sidebar .social-icons li a i {
+  font-size: 50px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-sidebar .social-icons li a i:hover {
+  transform: scale(1.1);
+}
+
+
+/* Responsive Styles for iPhone and iPad */
 @media (max-width: 1024px) {
   .form-v6-content {
-    flex-direction: column; /* Stacks the content vertically */
-    padding: 20px; /* Reduces padding */
+    flex-direction: column;
+    padding: 20px;
   }
 
-  .form-left, .form-detail {
-    width: 100%; /* Full width for both sections */
+  .form-left,
+  .form-detail {
+    width: 100%;
   }
 
   .form-left img {
-    height: auto; /* Maintains aspect ratio */
-    margin-top: 20px; /* Reduces margin for smaller screens */
+    height: auto;
+    margin-top: 20px;
   }
 
   .custom-h1 {
-    font-size: 48px; /* Smaller font size for headings */
+    font-size: 48px;
   }
 
   .custom-p {
-    font-size: 1.1rem; /* Smaller paragraph font */
-    margin-bottom: 50px; /* Adjust spacing */
+    font-size: 1.1rem;
+    margin-bottom: 50px;
   }
 
   .input {
-    height: 50px; /* Reduces input height */
-    margin: 5px 0; /* Adjusts margins */
+    height: 50px;
+    margin: 5px 0;
   }
 
   .submit-button {
-    padding: 12px 20px; /* Adjusts button size */
-    font-size: 16px; /* Reduces button font size */
+    padding: 12px 20px;
+    font-size: 16px;
   }
 
   .form-row.align-items {
     display: flex;
-    align-items: center; /* Aligns items vertically in the center */
-    justify-content: space-between; /* Aligns items to the left */
-    gap: 10px; /* Adds space between the checkbox and button */
-    margin: 16px; /* Adds margin to the bottom */
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 16px;
   }
-  
+
   /* Styling for the checkbox */
   .checkbox {
-    font-size: 0.9rem; /* Smaller font size */
-    color: black; /* Color of the checkbox label */
+    font-size: 0.9rem;
+    color: black;
   }
 }
 
 /* Specific Styling for iPhones (max-width: 768px) */
 @media (max-width: 768px) {
   .custom-h1 {
-    font-size: 36px; /* Smaller font size for iPhone screens */
+    font-size: 36px;
   }
 
   .custom-p {
-    font-size: 1rem; /* Smaller paragraph font */
-    margin-bottom: 40px; /* Adjust spacing for smaller screens */
+    font-size: 1rem;
+    margin-bottom: 40px;
   }
 
   .form-detail {
-    padding: 0; /* Less padding for smaller screens */
+    padding: 0;
   }
 
   .input {
-    height: 45px; /* Further reduces input height */
-    padding: 3px; /* Adjusts internal padding */
+    height: 45px;
+    padding: 3px;
   }
 
   .submit-button {
-    padding: 9px 10px; /* Smaller button */
-    font-size: 14px; /* Smaller button font size */
+    padding: 9px 10px;
+    font-size: 14px;
+  }
+
+  .social-sidebar {
+    display: none;
   }
 }
 
 /* Additional Styles for Ultra-Small Screens (max-width: 480px) */
 @media (max-width: 480px) {
   .custom-h1 {
-    font-size: 28px; /* Very small font size for ultra-small screens */
+    font-size: 28px;
   }
 
   .custom-p {
-    font-size: 0.9rem; /* Very small paragraph font */
+    font-size: 0.9rem;
     margin-bottom: 30px;
   }
 
   .form-row.align-items {
-    gap: 3px; /* Minimal gap for compact layout */
+    gap: 3px;
   }
 
   .submit-button {
-    font-size: 12px; /* Smallest button font */
-    padding: 8px 10px; /* Compact button size */
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .social-sidebar {
+    display: none;
   }
 }
