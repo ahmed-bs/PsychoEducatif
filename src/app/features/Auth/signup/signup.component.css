@@ -119,6 +119,70 @@
   color: rgb(48, 112, 169);
 }
 
+/*go back button*/
+.cssbuttons-io-button {
+  background: rgb(77, 165, 216);
+  color: white;
+  font-family: inherit;
+  padding: 0.35em;
+  margin-top: 20px;
+  padding-left: 1.2em;
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 1.6em #6d9bdb;
+  overflow: hidden;
+  position: relative;
+  height: 3em;
+  padding-right: 3.5em;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cssbuttons-io-button .icon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #84c1ff;
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.cssbuttons-io-button:hover .icon {
+  width: calc(100% - 0.6em);
+}
+
+.cssbuttons-io-button .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #84c1ff;
+}
+
+.cssbuttons-io-button:hover .icon svg {
+  transform: translateX(0.1em);
+}
+
+.cssbuttons-io-button:active .icon {
+  transform: scale(0.95);
+}
+
+.cssbuttons-io-button:active {
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #84c1ff;
+  transform: scale(0.98);
+}
+
+
+
 /** Icon **/
 
 .social-sidebar {
@@ -231,8 +295,20 @@
     font-size: 14px;
   }
 
-  .social-sidebar {
+  .social-icons {
     display: none;
+  }
+  .social-sidebar {
+    display: inline;  
+  }
+  .cssbuttons-io-button a {
+    display: none;
+  }
+  
+
+  .cssbuttons-io-button {
+    padding: 25px;
+    background: #ffffff;
   }
 }
 
@@ -256,7 +332,19 @@
     padding: 8px 10px;
   }
 
-  .social-sidebar {
+  .social-icons{
     display: none;
+  }
+
+  .social-sidebar {
+    display: inline;  
+  }
+  .cssbuttons-io-button a {
+    display: none;
+  }
+
+  .cssbuttons-io-button {
+    padding: 25px;
+    background: #ffffff;
   }
 }
