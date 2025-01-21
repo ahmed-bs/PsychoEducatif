@@ -103,7 +103,7 @@
 }
 
 
-.create-account-link {
+.login-link {
   color: rgb(77, 165, 216);
   /* Blue color */
   text-decoration: none;
@@ -114,7 +114,7 @@
   text-align: center;
 }
 
-.create-account-link:hover {
+.login-link:hover {
   text-decoration: underline;
   color: rgb(48, 112, 169);
 }
