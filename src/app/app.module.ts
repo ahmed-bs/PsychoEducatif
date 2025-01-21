@@ -12,6 +12,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+// primeng module 
+
 //Components
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
@@ -40,6 +42,8 @@ import { NavbarHomeComponent } from './shared/navbar-home/navbar-home.component'
     MatInputModule,
     MatCheckboxModule,
     MatIconModule,
+    //primeng
+
 
   ],
   providers: [],
