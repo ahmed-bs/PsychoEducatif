@@ -23,6 +23,8 @@ nav {
     isolation: isolate;
     width: 100%;
     z-index: 9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
 }
 
 .nav__header {
@@ -31,7 +33,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #84c1ff;
+    background-color: #a2c5e9;
     margin-top: 0;
 }
 
@@ -52,7 +54,6 @@ nav {
 .nav__menu__btn {
     font-size: 1.5rem;
     color: #000000;
-    /* Blue color for menu button */
     cursor: pointer;
 }
 
@@ -68,8 +69,7 @@ nav {
     justify-content: center;
     flex-direction: column;
     gap: 2rem;
-    background-color: #84c1ff;
-    /* Blue background color */
+    background-color: #a2c5e9;
     transition: 0.5s;
     z-index: -1;
     transform: translateY(-100%);
@@ -81,21 +81,19 @@ nav {
 }
 
 .nav__links a {
-    font-weight: 500;
-    color: #050505;
-    /* Beige color for text */
-}
+    padding-block: 5px;
+    color: #1a73e8;
+    border-bottom: 4px solid transparent;
+  }
 
-.nav__links a:hover {
-    color: #dfa246;
-    /* White text on hover */
-}
+  .nav__links a:hover {
+    color: #d1a25c;
+    border-color: #d1a25c; 
+  }
 
 .nav__btns {
     display: flex;
     justify-content: flex-end;
-    /* Stack buttons vertically on small screens */
-
 }
 
 .nav__btns .btn {
@@ -110,26 +108,20 @@ nav {
 .sign__up {
     background-color: transparent;
     color: #f5f5f5;
-    /* Beige text */
 }
 
 .sign__up:hover {
     color: #ff9800;
-    /* Orange hover color */
 }
 
 .sign__in {
     background-color: #f5f5f5;
-    /* Beige background */
     color: #1a73e8;
-    /* Blue text */
 }
 
 .sign__in:hover {
     background-color: #1565c0;
-    /* Dark blue */
     color: #ffffff;
-    /* White text */
 }
 
 
@@ -148,20 +140,10 @@ nav {
         align-items: center;
         justify-content: space-between;
         gap: 2rem;
-        background-color: #ffffff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     
     .nav__header {
       background-color: transparent;
-    }
-  
-    .nav__logo a {
-      color: #1a73e8; /* Blue text color */
-    }
-  
-    .nav__logo a span {
-      color: #ff9800; /* Orange color for span */
     }
   
     .nav__menu__btn {
@@ -178,14 +160,8 @@ nav {
     }
   
     .nav__links a {
-      padding-block: 5px;
-      color: #1a73e8; /* Blue color for links */
+      padding-block: 5px; 
       border-bottom: 4px solid transparent;
-    }
-  
-    .nav__links a:hover {
-      color: #d1a25c;
-      border-color: #d1a25c; /* Orange hover border */
     }
   
     .nav__btns {
@@ -202,31 +178,9 @@ nav {
       border-radius: 10px;
       transition: 0.3s;
       cursor: pointer;
-    }
-  
-    .sign__up {
-      color: #1a73e8; /* Blue color for sign up */
-      background-color: transparent;
-    }
-  
-    .sign__up:hover {
-      color: #b89c68; /* Orange hover color */
-    }
-  
-    .sign__in {
-      color: #f5f5f5; /* Beige text color */
-      background-color: #1a73e8; /* Blue background for sign in */
-    }
-  
-    .sign__in:hover {
-      background-color: #1565c0; /* Darker blue for hover */
-    }
-  
-  
+    } 
   }
   
-
-
 
 @media (min-width < 768px) {
     nav {
@@ -244,20 +198,7 @@ nav {
     .nav__header {
         flex: 1;
         padding: 0;
-        background-color: #ffffff;
     }
-
-    .nav__logo a {
-        color: #070707;
-        /* Blue color for text */
-    }
-
-    .nav__logo span {
-        font-family: 'Bebas Neue', sans-serif;
-        color: #d29f51;
-        /* Blue color for text */
-    }
-
     .nav__menu__btn {
         display: none;
     }
@@ -276,14 +217,7 @@ nav {
         padding-block: 5px;
         font-size: 17px;
         color: #1a73e8;
-        /* Blue color for links */
         border-bottom: 4px solid transparent;
-    }
-
-    .nav__links a:hover {
-        color: #d1a25c;
-        border-color: #d1a25c;
-        /* Orange hover border */
     }
 
     .nav__btns {
@@ -302,29 +236,7 @@ nav {
         cursor: pointer;
     }
 
-    .sign__up {
-        color: #1a73e8;
-        /* Blue color for sign up */
-        background-color: transparent;
-    }
-
-    .sign__up:hover {
-        color: #b89c68;
-        /* Orange hover color */
-    }
-
-    .sign__in {
-        color: #f5f5f5;
-        /* Beige text color */
-        background-color: #1a73e8;
-        /* Blue background for sign in */
-    }
-
-    .sign__in:hover {
-        background-color: #1565c0;
-        /* Darker blue for hover */
-    }
-
+   
 
 }
 
