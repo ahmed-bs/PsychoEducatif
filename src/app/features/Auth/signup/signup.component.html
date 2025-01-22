@@ -1,6 +1,35 @@
 <div class="page-content">
+ 
   <div class="form-v6-content">
+    <div class="social-sidebar">
+    <button class="cssbuttons-io-button" routerLink="/">
+      <a> Retour </a>
+       <div class="icon">
+         <svg
+           height="24"
+           width="24"
+           viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg"
+         >
+           <path d="M0 0h24v24H0z" fill="none"></path>
+           <path
+             d="M15 19l-7-7 7-7M5 12h14"
+             fill="currentColor"
+           ></path>
+         </svg>
+       </div>
+     </button>
+   
+      <ul class="social-icons">
+        <li><a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 40px; color: #4267B2;"></i></a></li>
+        <li><a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 40px; color: #C13584;"></i></a></li>
+        <li><a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 40px; color: #25D366;"></i></a></li>
+        <li><a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 40px; color: #0A66C2;"></i></a></li>
+      </ul>
+    </div>
+    
     <div class="form-left">
+    
       <img src="assets/img/Innovation.gif" alt="form">
     </div>
     <form class="form-detail" #signupForm="ngForm">
@@ -10,7 +39,7 @@
       <!-- Champ Nom et Prénom -->
       <div class="form-row">
         <mat-label class="label">Nom et Prénom</mat-label>
-        <mat-form-field appearance="fill" class="full-width input">
+        <mat-form-field class="full-width input">
           <input matInput placeholder="Entrez votre nom et prénom" required>
           <mat-icon matSuffix>person</mat-icon>
         </mat-form-field>
@@ -68,14 +97,7 @@
       </div>
 
       <div class="text-centre">
-        <p>Vous avez déjà un compte? <a routerLink="/signin" class="login-link">Connectez-vous</a></p>
-      </div>
-
-      <div class="social-icons">
-        <a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 30px; color: #4267B2;"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 30px; color: #C13584;"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 30px; color: #25D366;"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 30px; color: #0A66C2;"></i></a>
+        <p>Vous avez déjà un compte? <a routerLink="/auth/signin" class="login-link">Connectez-vous</a></p>
       </div>
     </form>
   </div>

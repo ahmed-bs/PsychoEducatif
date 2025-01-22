@@ -4,7 +4,15 @@ body {
   }
   
   .main-content {
-    margin-top: 80px; /* Adjust according to navbar height */
     padding: 20px;
+    margin-top: 80px;
+  }
+
+  
+@media (max-width : 768px) {
+  .main-content {
+    margin-top: 0;
+    padding: 10px;
   }
   
+}

@@ -8,15 +8,30 @@
     </div>
   </div>
 
-  <ul class="nav__links"  id="nav-links">
+  <ul class="nav__links" id="nav-links">
     <li><a routerLink="/home">Évaluation</a></li>
     <li><a href="/object">Objectifs</a></li>
     <li><a href="/strategy">Stratégies</a></li>
     <li class="nav__btns">
       <button class="btn sign__up" routerLink="/auth/signup">Sign Up</button>
-      <button class="btn sign__in" routerLink="/auth/signin">Sign In</button>
+      <!-- From Uiverse.io by gharsh11032000 -->
+      <button class=" animated-button" routerLink="/auth/signin">
+        <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+          </path>
+        </svg>
+        <span class="text">Sign In</span>
+        <span class="circle"></span>
+        <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+          </path>
+        </svg>
+      </button>
+
     </li>
   </ul>
-  
+
 
 </nav>
