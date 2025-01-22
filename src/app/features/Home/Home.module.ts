@@ -5,12 +5,13 @@ import { EvaluationComponent } from './Evaluation/Evaluation.component';
 import { ObjectComponent } from './Object/Object.component';
 import { StrategyComponent } from './Strategy/Strategy.component';
 import { HomeRoutes } from './Home.routing';
+import { AccueilComponent } from './Accueil/Accueil.component';
 
 @NgModule({
   imports: [
     CommonModule,
     HomeRoutes
   ],
-  declarations: [HomeComponent,EvaluationComponent,ObjectComponent,StrategyComponent]
+  declarations: [HomeComponent,EvaluationComponent,ObjectComponent,StrategyComponent,AccueilComponent]
 })
 export class HomeModule { }

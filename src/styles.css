@@ -4,3 +4,13 @@ body{
     margin: 0;
 }
 
+:root {
+    --h1 :#1e1964;
+    --blue : #34A1CD;
+    --dark-purple : #55527C;
+    --grey : #B4B2C5;
+    --pink :  #EA4C89;
+    --circle : #F4F3FF;
+    --light-pink : #FFF5F6;
+    
+}
