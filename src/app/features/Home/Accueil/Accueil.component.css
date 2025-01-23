@@ -40,7 +40,7 @@ h3 {
 }
 p {
     font-size: 16px;
-    color: var(--grey);
+    color: black;
 }
 a {
     text-decoration: none;
@@ -176,6 +176,10 @@ a {
 .skills .grid-box{
     box-shadow: 4px 4px 10px 10px rgba(187, 223, 251, 0.43);
     border-radius: 20px;
+    border: 0.5px black solid;
+}
+.image{
+    width: 100px;
 }
 
 /* Portfolio */
