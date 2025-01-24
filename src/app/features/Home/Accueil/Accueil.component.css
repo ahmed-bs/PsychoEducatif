@@ -40,7 +40,7 @@ h3 {
 }
 p {
     font-size: 16px;
-    color: var(--grey);
+    color: black;
 }
 a {
     text-decoration: none;
@@ -89,38 +89,6 @@ a {
 }
 
 
-/* Navbar */
-.navbar {
-    width: 100%;
-    padding: 30px;
-    display: flex;
-    align-items: center;
-    justify-content:space-between ;
-    position: relative;
-}
-.toggle-btn i {
-    font-size: 30px;
-    color: var(--dark-purple);
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: none;
-}
-.navbar .nav-list ul ,.social-icons ul{
-    display: flex;
-}
-.nav-list ul li, .social-icons ul li {
-    margin: 0px 30px;
-    color: var(--dark-purple);
-    font-size: 18px;
-    cursor: pointer;
-}
-.social-icons ul li:hover {
-    transform: scale(1.4);
-}
-.logo {
-    width: 50px;
-}
 
 /* Header */
 .header {
@@ -176,6 +144,10 @@ a {
 .skills .grid-box{
     box-shadow: 4px 4px 10px 10px rgba(187, 223, 251, 0.43);
     border-radius: 20px;
+    border: 0.5px black solid;
+}
+.image{
+    width: 100px;
 }
 
 /* Portfolio */

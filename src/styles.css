@@ -5,12 +5,12 @@ body{
 }
 
 :root {
-    --h1 :#1e1964;
+    --h1 : #1e1964;
     --blue : #34A1CD;
-    --dark-purple : #55527C;
+    --dark-purple : #74a3e2;
     --grey : #B4B2C5;
-    --pink :  #EA4C89;
+    --pink :  #4c7bea;
     --circle : #F4F3FF;
-    --light-pink : #FFF5F6;
+    --light-pink : #85b0e7;
     
 }
