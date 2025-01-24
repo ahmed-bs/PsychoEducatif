@@ -23,10 +23,19 @@ li:hover {
     transform: scale(1.2);
 }
 h1 {
-    font-size: 35px;
+    font-size: 50px;
     color: var(--h1);
     font-weight: 900;
     text-align: center;
+    border-bottom: 2px solid rgb(161, 109, 14);
+    justify-content: center;
+}
+h2 {
+    font-size: 50px;
+    color: var(--h1);
+    font-weight: 900;
+    text-align: center;
+    
 }
 h3 {
     color: var(--grey);
@@ -55,9 +64,10 @@ a {
     font-weight: bold;
 }
 
-.container{
+.container2{
     width: 80%;
     margin: 60px auto;
+    margin-bottom: 100px;
 }
 .row {
     display: flex;
@@ -73,7 +83,7 @@ a {
 /* Header */
 .header {
     margin-top: 0px;
-    height: 80vh;
+    height: 60vh;
     position: relative;
 }
 .header .col-1 {
@@ -126,6 +136,10 @@ a {
     border-radius: 20px;
     border: 0.5px black solid;
 }
+.grid-box:hover {
+    transform: translateY(-5px); /* Slight zoom effect on hover */
+    cursor: pointer; /* Show a hand cursor when hovering */
+  }
 .image{
     width: 100px;
 }
@@ -143,6 +157,7 @@ a {
   .wrapper {
     width: 100%;
     margin: 0 auto;
+    
     
 }
 
@@ -244,7 +259,6 @@ a {
     position: absolute;
     left: 0;
     width: 100%;
-    padding: 2rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     outline: 1px solid transparent;
@@ -282,10 +296,10 @@ a {
 }
 
 .front .inner p {
-    font-size: 2rem;
+    font-size: 1.9rem;
     margin-bottom: 2rem;
     position: relative;
-    color: #ddd;
+    color: #cdeaff;
 }
 
 .front .inner p:after {
@@ -306,6 +320,17 @@ a {
     font-family: 'Montserrat';
     font-weight: 300;
 }
+
+.scroll-section {
+    opacity: 0; /* Initially hidden */
+    transform: translateY(50px); /* Move it below the viewport */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  
+  .scroll-section.visible {
+    opacity: 1; /* Show the section */
+    transform: translateY(0); /* Bring it into the viewport */
+  }
 
 @media screen and (max-width: 64rem) {
     .col {
@@ -329,8 +354,7 @@ a {
 
 /* Section Styles */
 .trust-section {
-    background-color: #f9f9f9;
-    padding: 4rem 2rem;
+    padding: 2rem 2rem;
     text-align: center;
   }
   
@@ -380,5 +404,100 @@ a {
   .trust-card p {
     font-size: 1rem;
     color: #666;
+  }
+
+    
+@media only screen and (max-width : 700px){
+    h1 {
+        font-size: 20px;
+    }
+  
+    /* Navbar */
+    .toggle-btn i {
+        display: block;
+    }
+    .brand img {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 20px;
+    }
+    .navbar {
+        background:  #E9F9FF;
+        height: 100vh;
+        flex-direction: column;
+        display: none;
+    }
+    .mobile-nav {
+        display: flex;
+    }
+    .nav-list ul {
+        flex-direction: column;
+    }
+    .nav-list ul li {
+        margin-top: 30px;
+    }
+    
+    .header {
+        height: 100%;
+        margin-top: 120px;
+    }
+    .header .row {
+        flex-direction: column;
+    }
+    .header .col-1 {
+        padding: 20px;
+    }
+    .header .col-2  img{
+        max-width: 90%;
+    }
+    .grid-wrapper {
+     grid-template-columns:repeat(auto-fit, minmax(300px, auto));
+    }
+    .grid-wrapper2 {
+      grid-template-columns:repeat(auto-fit, minmax(300px, auto));
+    }
+    .icon-title h2{
+        text-align: center;
+        margin-left: 30px;
+    }
+    h2{
+        font-size: 29px;
+        color: var(--h1);
+        font-weight: 900;
+        text-align: center;
+        margin-left: -27px;
+    }
+    .grid-box {
+        padding: 10px;
+    }
+   
+    .skills {
+        height: 100%;
+    }
+    .portfolio .title .ctn-title {
+        flex-direction: column;
+        text-align: left;
+    }
+    
+  .contact .container {
+    padding: 10px;
+    padding-bottom: 20px;
+  }
+  .contact .container h1 {
+    font-size: 20px;
+  }
+  .contact .quick-links{
+    flex-direction: column;
+  }
+  .contact .quick-links img {
+   width: 50px;
+  }
+  .contact .quick-links ul li {
+    margin: 0px 5px;
+  }
+  .copyright p{
+    font-size: 12px;
+  }  
   }
   

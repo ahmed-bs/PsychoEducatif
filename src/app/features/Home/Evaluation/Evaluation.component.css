@@ -28,6 +28,14 @@ h1 {
     font-size: 26px;
     color: var(--h1);
     font-weight: 900;
+    border-bottom: 2px solid rgb(161, 109, 14);
+}
+h2 {
+    font-size: 16px;
+    color: var(--h1);
+    font-weight: 900;
+    text-align: center;
+    
 }
 h3 {
     color: var(--grey);
@@ -35,6 +43,7 @@ h3 {
 p {
     font-size: 16px;
     color: black;
+    text-align: center;
 }
 a {
     text-decoration: none;
@@ -175,6 +184,11 @@ a {
     border-radius: 20px;
     border: 0.5px black solid;
 }
+
+.grid-box:hover {
+    transform: translateY(-9px);
+    cursor: pointer; /* Show a hand cursor when hovering */
+  }
 .image{
     width: 100px;
 }
@@ -371,9 +385,16 @@ a {
   .grid-wrapper {
    grid-template-columns:repeat(auto-fit, minmax(300px, auto));
   }
+  .grid-wrapper2 {
+    grid-template-columns:repeat(auto-fit, minmax(300px, auto));
+  }
+  .icon-title h2{
+    font-size: 16px;
+  }
   .grid-box {
       padding: 10px;
   }
+ 
   .skills {
       height: 100%;
   }
