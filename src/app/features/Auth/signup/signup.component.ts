@@ -8,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class SignupComponent implements OnInit {
   hidePassword = true;
   hideConfirmPassword = true;
+  fullName = '';
+  email = '';
   password = '';
   confirmPassword = '';
   errorMessage = '';
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 
@@ -25,10 +27,11 @@ export class SignupComponent implements OnInit {
     return true;
   }
 
-  onSubmit() {
-    if (this.validatePasswords()) {
-      // Effectuer les actions nécessaires lors de la soumission (exemple : envoyer au backend)
-      console.log('Formulaire soumis avec succès.');
+  onSubmit(form: any): void {
+    if (this.validatePasswords() && form.valid) {
+      console.log('Formulaire soumis avec succès :', form.value);
+    } else {
+      console.error('Erreur dans le formulaire.');
     }
   }
 }

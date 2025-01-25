@@ -24,31 +24,40 @@
       <h1 class="custom-h1">Bienvenue!</h1>
       <p class="custom-p">Vous connecter pour continuer</p>
 
-      <!-- Champ Nom et Prénom -->
-      <div class="form-row">
-        <mat-label class="label">Nom et Prénom</mat-label>
-        <mat-form-field appearance="fill" class="full-width input">
-          <input matInput placeholder="Entrez votre nom et prénom" required>
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
-      </div>
+  <!-- Champ Nom et Prénom -->
+  <div class="mb-3">
+    <label for="fullName" class="form-label">Nom et Prénom</label>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        id="fullName"
+        placeholder="Entrez votre nom et prénom"
+        required>
+      <span class="input-group-text">
+        <i class="bi bi-person"></i>
+      </span>
+    </div>
+  </div>
 
-      <!-- Champ Mot de Passe -->
-      <mat-label class="label">Mot de passe</mat-label>
-      <mat-form-field appearance="fill" class="full-width input ">
-        <input matInput 
-               [type]="hide ? 'password' : 'text'" 
-               placeholder="Mot de passe obligatoire pour se connecter !" 
-               name="password" 
-               id="password" 
-               required>
-        <button mat-icon-button matSuffix 
-                type="button" 
-                aria-label="Afficher ou masquer le mot de passe" 
-                (click)="hide = !hide">
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-      </mat-form-field>
+  <!-- Champ Mot de Passe -->
+  <div class="mb-3">
+    <label for="password" class="form-label">Mot de passe</label>
+    <div class="input-group">
+      <input
+        [type]="hide ? 'password' : 'text'"
+        class="form-control"
+        id="password"
+        placeholder="Mot de passe obligatoire pour se connecter !"
+        required>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="togglePasswordVisibility()">
+        <i [ngClass]="hide ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+      </button>
+    </div>
+  </div>
 
       <!-- Bouton de soumission -->
       <div class="form-row align-items">
