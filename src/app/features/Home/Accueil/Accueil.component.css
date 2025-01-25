@@ -918,7 +918,7 @@ a {
   TOPICS              
 -----------------------------------------*/
 .featured-section {
-  background-color:  rgb(77, 165, 216);; /* Teinte bleue avec transparence */
+  background-image: linear-gradient(to bottom right, rgb(81, 163, 235), rgb(244, 240, 244));/* Teinte bleue avec transparence */
     border-radius: 0 0 100px 100px;
     padding-bottom: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
