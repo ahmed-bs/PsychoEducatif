@@ -7,11 +7,15 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None 
 })
 export class SigninComponent implements OnInit {
-  hide = true;
-  rememberMe = false;
-  constructor() { }
+  hide = true; // Contrôle de la visibilité du mot de passe
+  rememberMe = false; // Valeur du checkbox "Se souvenir de moi"
 
-  ngOnInit() {
+  constructor() {}
+
+  ngOnInit() {}
+
+  togglePasswordVisibility() {
+    this.hide = !this.hide;
   }
 
 }

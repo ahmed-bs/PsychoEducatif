@@ -36,49 +36,83 @@
       <h1 class="custom-h1">Créer un compte</h1>
       <p class="custom-p">Remplissez les champs pour créer un nouveau compte</p>
 
-      <!-- Champ Nom et Prénom -->
-      <div class="form-row">
-        <mat-label class="label">Nom et Prénom</mat-label>
-        <mat-form-field class="full-width input">
-          <input matInput placeholder="Entrez votre nom et prénom" required>
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
-      </div>
-
-      <!-- Champ Adresse Email -->
-      <div class="form-row">
-        <mat-label class="label">Adresse Email</mat-label>
-        <mat-form-field appearance="fill" class="full-width input">
-          <input matInput type="email" placeholder="Entrez votre adresse email" required>
-          <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
-      </div>
-
-      <!-- Champ Mot de Passe -->
-      <div class="form-row">
-        <mat-label class="label">Mot de Passe</mat-label>
-        <mat-form-field appearance="fill" class="full-width input">
-          <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Entrez un mot de passe sécurisé"
-            name="password" id="password" required>
-          <button mat-icon-button matSuffix type="button" aria-label="Afficher ou masquer le mot de passe"
-            (click)="hidePassword = !hidePassword">
-            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-        </mat-form-field>
-      </div>
-      <div class="form-row">
-        <mat-label class="label">Confirmer le Mot de Passe</mat-label>
-        <mat-form-field appearance="fill" class="full-width input">
-          <input matInput 
-           placeholder="Confirmez votre mot de passe" 
-          [type]="hideConfirmPassword ? 'password' : 'text'"
-            name="confirmPassword" id="confirmPassword" required>
-          <button mat-icon-button matSuffix type="button" aria-label="Afficher ou masquer le mot de passe"
-            (click)="hideConfirmPassword = !hideConfirmPassword">
-            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-        </mat-form-field>
-      </div>
+         <!-- Champ Nom et Prénom -->
+         <div class="mb-3">
+          <label for="fullName" class="form-label">Nom et Prénom</label>
+          <div class="input-group">
+            <input 
+              type="text" 
+              id="fullName" 
+              class="form-control" 
+              placeholder="Entrez votre nom et prénom" 
+              required 
+              [(ngModel)]="fullName" 
+              name="fullName">
+            <span class="input-group-text">
+              <i class="bi bi-person"></i>
+            </span>
+          </div>
+        </div>
+  
+        <!-- Champ Adresse Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Adresse Email</label>
+          <div class="input-group">
+            <input 
+              type="email" 
+              id="email" 
+              class="form-control" 
+              placeholder="Entrez votre adresse email" 
+              required 
+              [(ngModel)]="email" 
+              name="email">
+            <span class="input-group-text">
+              <i class="bi bi-envelope"></i>
+            </span>
+          </div>
+        </div>
+  
+        <!-- Champ Mot de Passe -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de Passe</label>
+          <div class="input-group">
+            <input 
+              [type]="hidePassword ? 'password' : 'text'" 
+              id="password" 
+              class="form-control" 
+              placeholder="Entrez un mot de passe sécurisé" 
+              required 
+              [(ngModel)]="password" 
+              name="password">
+            <button 
+              class="btn btn-outline-secondary" 
+              type="button" 
+              (click)="hidePassword = !hidePassword">
+              <i [class]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+        </div>
+  
+        <!-- Champ Confirmer le Mot de Passe -->
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirmer le Mot de Passe</label>
+          <div class="input-group">
+            <input 
+              [type]="hideConfirmPassword ? 'password' : 'text'" 
+              id="confirmPassword" 
+              class="form-control" 
+              placeholder="Confirmez votre mot de passe" 
+              required 
+              [(ngModel)]="confirmPassword" 
+              name="confirmPassword">
+            <button 
+              class="btn btn-outline-secondary" 
+              type="button" 
+              (click)="hideConfirmPassword = !hideConfirmPassword">
+              <i [class]="hideConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+        </div>
 
 
       <!-- Message d'erreur -->
