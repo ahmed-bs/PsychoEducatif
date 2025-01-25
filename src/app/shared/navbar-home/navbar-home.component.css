@@ -256,7 +256,7 @@ nav {
     .nav__links {
       position: static;
       padding: 0;
-      flex-direction: row;
+      flex-direction:row;
       background-color: transparent;
       transform: none;
      
@@ -313,7 +313,7 @@ nav {
     .nav__links {
         position: absolute;
         padding: 0;
-        flex-direction: row;
+        flex-direction: column;
         background-color: transparent;
         transform: none;
         justify-content: center;
