@@ -31,7 +31,7 @@ h1 {
     border-bottom: 2px solid rgb(161, 109, 14);
 }
 h2 {
-    font-size: 16px;
+    font-size: 26px;
     color: var(--h1);
     font-weight: 900;
     text-align: center;
@@ -391,10 +391,14 @@ a {
   .icon-title h2{
     font-size: 16px;
   }
+
+  h2 {
+    font-size: 16px;
+    
+}
   .grid-box {
       padding: 10px;
   }
- 
   .skills {
       height: 100%;
   }
