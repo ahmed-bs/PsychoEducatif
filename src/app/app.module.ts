@@ -19,6 +19,8 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NavbarHomeComponent } from './shared/navbar-home/navbar-home.component';
+import { NavbarDashboardComponent } from './shared/navbar-dashboard/navbar-dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { NavbarHomeComponent } from './shared/navbar-home/navbar-home.component'
     PublicLayoutComponent,
     DashboardLayoutComponent,
     FooterComponent,
+    NavbarDashboardComponent
   ],
   imports: [
     RouterModule,
@@ -35,6 +38,7 @@ import { NavbarHomeComponent } from './shared/navbar-home/navbar-home.component'
     BrowserModule,
     AppRoutingModule,
     CommonModule,
+    BrowserAnimationsModule,
     //material
     MatToolbarModule,
     MatButtonModule,

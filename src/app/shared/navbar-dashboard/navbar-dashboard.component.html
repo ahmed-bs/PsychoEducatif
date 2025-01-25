@@ -1,3 +1,71 @@
-<p>
-  navbar-dashboard works!
-</p>
+<div class="body">
+  <header class="header" data-header>
+    <div class="container">
+
+      <a href="#" class="logo">
+        <img src="./assets/images/logo-light.svg" width="74" height="24" alt="Adex home" class="logo-light">
+        <img src="./assets/images/logo-dark.svg" width="74" height="24" alt="Adex home" class="logo-dark">
+      </a>
+
+      <nav class="navbar" data-navbar>
+        <div class="navbar-top">
+          <a href="#" class="logo">
+            <img src="./assets/images/logo-light.svg" width="74" height="24" alt="Adex home">
+          </a>
+
+          <button class="nav-close-btn" aria-label="close menu" data-nav-toggler (click)="toggleNavbar()">
+            <span><i class="ri-close-line"></i></span>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li><a href="#" class="navbar-link">Home</a></li>
+          <li><a href="#" class="navbar-link">About</a></li>
+          <li><a href="#" class="navbar-link">Projects</a></li>
+          <li><a href="#" class="navbar-link">Blog</a></li>
+          <li><a  class=" btn navbar-link" routerLink="/auth/signup">Sign Up</a></li>
+         
+        </ul>
+
+        <div class="wrapper">
+          <a href="mailto:info@email.com" class="contact-link">info"&#64;"email.com</a>
+          <a href="tel:001234567890" class="contact-link">00 (123) 456 78 90</a>
+        </div>
+
+        <ul class="social-list">
+          <li><a href="#" class="social-link"><span><i class="ri-twitter-line"></i></span></a></li>
+          <li><a href="#" class="social-link"><span><i class="ri-facebook-line"></i></span></a></li>
+          <li><a href="#" class="social-link"><span><i class="ri-dribbble-line"></i></span></a></li>
+          <li><a href="#" class="social-link"><span><i class="ri-instagram-line"></i></span></a></li>
+          <li><a href="#" class="social-link"><span><i class="ri-youtube-line"></i></span></a></li>
+          
+        </ul>
+      </nav>
+     
+       
+        <!-- From Uiverse.io by gharsh11032000 -->
+        <button class="animated-button" routerLink="/auth/signin">
+          <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+            </path>
+          </svg>
+          <span class="text">Sign In</span>
+          <span class="circle"></span>
+          <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+            </path>
+          </svg>
+        </button>
+  
+      
+
+      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler (click)="toggleNavbar()">
+        <span><i class="ri-menu-line"></i></span>
+      </button>
+
+      <div class="overlay" data-nav-toggler data-overlay></div>
+    </div>
+  </header>
+</div>
