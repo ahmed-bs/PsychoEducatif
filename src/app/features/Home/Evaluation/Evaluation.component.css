@@ -229,51 +229,6 @@ a {
   margin-inline: auto;  
 }  
 
-.header__image__card {  
-  position: absolute;  
-  padding: 0.75rem 1rem;  
-  display: flex;  
-  align-items: center;  
-  gap: 5px;  
-  font-size: 15px;  
-  font-weight: 300;  
-  color: black;  
-  background-color: white;  
-  white-space: nowrap;  
-  border-radius: 5px;  
-  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);  
-  z-index: 1;  
-}  
-
-.header__image__card span {  
-  font-size: 17px;  
-  font-weight: 400;  
-  color: rgb(79, 115, 193);  
-}  
-
-.header__image__card-1 {  
-  top: 25%;  
-  left: 0;  
-  transform: translate(-50%, -50%);  
-}  
-
-.header__image__card-2 {  
-  top: 5%;  
-  right: 2rem;  
-  transform: translateY(-50%);  
-}  
-
-.header__image__card-3 {  
-  top: 60%;  
-  left: 0;  
-  transform: translateY(-50%);  
-}  
-
-.header__image__card-4 {  
-  top: 70%;  
-  right: 0;  
-  transform: translateY(-50%);  
-}  
 
 .header__content h1 {  
   margin-bottom: 1rem;  
@@ -291,7 +246,7 @@ a {
 
 .header__content p {  
   margin-bottom: 2rem;  
-  color: var(--text-light); /* Vérifiez que cette variable est définie */  
+  color: var(--text-light);  
   line-height: 1.75rem;  
   text-align: center;  
 }  
@@ -315,51 +270,7 @@ a {
     text-align: left;
   }
   
-.header__image__card {
-    position: absolute;
-    padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: black;
-    background-color: white;
-    white-space: nowrap;
-    border-radius: 5px;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  .header__image__card span {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: rgb(79, 115, 193);
-  }
-  
-  .header__image__card-1 {
-    top: 25%;
-    left: 0;
-    transform: translate(-50%, -50%);
-  }
-  
-  .header__image__card-2 {
-    top: 14%;
-    right: 2rem;
-    transform: translateY(-50%);
-  }
-  
-  .header__image__card-3 {
-    top: 60%;
-    left: 0;
-    transform: translateY(-50%);
-  }
-  
-  .header__image__card-4 {
-    top: 70%;
-    right: 0;
-    transform: translateY(-50%);
-  }
+
   
 }
 @media (width > 1024px) {
@@ -381,12 +292,7 @@ a {
       max-width: 180px;
     }
   
-    .header__image__card {
-      padding: 0.5rem 0.75rem;
-      font-size: 12px;
-      gap: 3px;
-    }
-  
+   
     .header__image__card span {
       font-size: 14px;
     }
