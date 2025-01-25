@@ -350,31 +350,6 @@ a {
 
 
 
-
-
-
-/* Header */
-.header {
-    margin-top: 0px;
-    height: 80vh;
-    position: relative;
-}
-.header .col-1 {
-    width: 100%;
-    flex-direction: column;
-    padding: 30px;
-}
-.header .col-2 {
-    width: 100%;
-}
-.header .col-2  img {
-    max-width: 100%;
-    zoom: 1.3;
-}
-.header p {
- margin: 30px auto;
-}
-
 /* Skills */
 .title {
     text-align: center;
