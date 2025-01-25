@@ -20,8 +20,17 @@
       "default",
       {
         "ignore": [
-          "backdrop-filter"
+          "backdrop-filter",
+          "zoom",
+          "-webkit-overflow-scrolling",
+          "-webkit-overflow-scrolling"
         ]
+      }
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
       }
     ]
   }

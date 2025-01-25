@@ -34,6 +34,41 @@ body{
   --blue-crayola: hsla(219, 72%, 56%, 1);
   --black-coral: hsla(220, 12%, 43%, 1);
 
+
+  --white-color:                  #ffffff;
+  --primary-color:                #13547a;
+  --secondary-color:              #89c1eb;
+  --section-bg-color:             #f0f8ff;
+  --custom-btn-bg-color:          #80d0c7;
+  --custom-btn-bg-hover-color:    #13547a;
+  --dark-color:                   #000000;
+  --p-color:                      #717275;
+  --border-color:                 #7fffd4;
+  --link-hover-color:             #13547a;
+
+  --body-font-family:             'Open Sans', sans-serif;
+  --title-font-family:            'Montserrat', sans-serif;
+
+  --h1-font-size:                 58px;
+  --h2-font-size:                 46px;
+  --h3-font-size:                 32px;
+  --h4-font-size:                 28px;
+  --h5-font-size:                 24px;
+  --h6-font-size:                 22px;
+  --p-font-size:                  20px;
+  --menu-font-size:               14px;
+  --btn-font-size:                18px;
+  --copyright-font-size:          16px;
+
+  --border-radius-large:          100px;
+  --border-radius-medium:         20px;
+  --border-radius-small:          10px;
+
+  --font-weight-normal:           400;
+  --font-weight-medium:           500;
+  --font-weight-semibold:         600;
+  --font-weight-bold:             700;
+
   /**
    * typography
    */
