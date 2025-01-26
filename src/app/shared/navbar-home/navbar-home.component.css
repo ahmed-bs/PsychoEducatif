@@ -112,6 +112,7 @@ nav {
 }
 
 .animated-button .text {
+  white-space: nowrap;
   position: relative;
   z-index: 1;
   transform: translateX(-12px);
@@ -162,7 +163,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
   gap: 2rem;
   background-color: #a2c5e9;
   transition: 0.5s;
@@ -313,7 +314,7 @@ nav {
   }
 
   .nav__links {
-    position: absolute;
+    position: static;
     padding: 0;
     flex-direction: row;
     background-color: transparent;
