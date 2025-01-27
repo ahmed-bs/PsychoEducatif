@@ -306,6 +306,10 @@ a {
       font-size: 0.9rem;
       line-height: 1.5rem;
     }
+    .animated-header{
+        font-size: 27px;
+        position: relative;
+    }
   
     
   }
@@ -607,6 +611,9 @@ a {
 @media only screen and (max-width : 700px){
   h1 {
       font-size: 20px;
+  }
+  h2{
+    font-size: 27px;
   }
 
   /* Navbar */
