@@ -230,81 +230,19 @@ nav {
 
 
 
-
-
 @media (min-width: 768px) {
-<<<<<<< HEAD
-    
-    nav {
-        position: fixed;
-        top: 0;
-        width: 100%; 
-        z-index: 9; 
-        padding-block: 2rem 0;
-        padding-inline: 2rem;
-        margin-inline: auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2rem;
-    }
-    
-    .nav__header {
-      background-color: transparent;
-    }
-  
-    .nav__menu__btn {
-      display: none;
-    }
-  
-    .nav__links {
-      position: static;
-      padding: 0;
-      flex-direction:row;
-      background-color: transparent;
-      transform: none;
-     
-    }
-  
-    .nav__links a {
-      display: flex; 
-      align-items: center;
-      gap: 8px; 
-      padding-block: 5px; 
-      border-bottom: 4px solid transparent;
-    }
-  
-    .nav__btns {
-      display: flex;
-      flex: 1;
-      
-    }
-  
-    .nav__btns .btn {
-        padding: 14px 45px;
-      outline: none;
-      border: none;
-      font-size: 15px;
-      white-space: nowrap;
-      border-radius: 100px;
-      transition: 0.3s;
-      cursor: pointer;
-    } 
-=======
-
   nav {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 9;
-    /* padding-block: 2rem 0; */
+    padding-block: 2rem 0;
     padding-inline: 2rem;
     margin-inline: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
->>>>>>> 163da2825b67d42c6194d27292fd736344efcc01
   }
 
   .nav__header {
@@ -315,25 +253,14 @@ nav {
     display: none;
   }
 
-<<<<<<< HEAD
-    .nav__links {
-        position: absolute;
-        padding: 0;
-        flex-direction: column;
-        background-color: transparent;
-        transform: none;
-        justify-content: center;
-        margin-left: 200px;
-    }
-=======
   .nav__links {
     position: static;
-    padding: 20;
+    padding: 0;
     flex-direction: row;
     background-color: transparent;
     transform: none;
->>>>>>> 163da2825b67d42c6194d27292fd736344efcc01
-
+    justify-content: center;
+    margin-left: 200px;
   }
 
   .nav__links a {
@@ -341,12 +268,12 @@ nav {
     align-items: center;
     gap: 8px;
     padding-block: 5px;
+    border-bottom: 4px solid transparent;
   }
 
   .nav__btns {
     display: flex;
     flex: 1;
-
   }
 
   .nav__btns .btn {
@@ -360,7 +287,6 @@ nav {
     cursor: pointer;
   }
 }
-
 
 @media (min-width < 768px) {
   nav {
