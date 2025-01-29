@@ -147,7 +147,7 @@ a {
   .header__image__card span {  
     font-size: 17px;  
     font-weight: 400;  
-    color: rgb(79, 115, 193);  
+    color: rgb(0, 0, 0);  
   }  
   
   .header__image__card-1 {  
@@ -248,7 +248,7 @@ a {
     .header__image__card span {
       font-size: 1.5rem;
       font-weight: 600;
-      color: rgb(79, 115, 193);
+      
     }
     
     .header__image__card-1 {
