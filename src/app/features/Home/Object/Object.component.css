@@ -679,8 +679,9 @@ a {
   }
   
   .trust-card p {
-    font-size: 1rem;
-    color: #666;
+    font-size: 1.2rem;
+    color: #000000;
+    font-weight: 500;
   }
 
     
