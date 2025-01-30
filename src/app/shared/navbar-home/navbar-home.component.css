@@ -158,7 +158,7 @@ nav {
   top: 64px;
   left: 0;
   width: 100%;
-  padding-top: 20px;
+  padding-top: 50px;
   list-style: none;
   display: flex;
   align-items: center;
@@ -230,16 +230,13 @@ nav {
 
 
 
-
-
 @media (min-width: 768px) {
-
   nav {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 9;
-    /* padding-block: 2rem 0; */
+    padding-block: 2rem 0;
     padding-inline: 2rem;
     margin-inline: auto;
     display: flex;
@@ -258,11 +255,12 @@ nav {
 
   .nav__links {
     position: static;
-    padding: 20;
+    padding: 0;
     flex-direction: row;
     background-color: transparent;
     transform: none;
-
+    justify-content: center;
+    margin-left: 200px;
   }
 
   .nav__links a {
@@ -270,12 +268,12 @@ nav {
     align-items: center;
     gap: 8px;
     padding-block: 5px;
+    border-bottom: 4px solid transparent;
   }
 
   .nav__btns {
     display: flex;
     flex: 1;
-
   }
 
   .nav__btns .btn {
@@ -289,7 +287,6 @@ nav {
     cursor: pointer;
   }
 }
-
 
 @media (min-width < 768px) {
   nav {

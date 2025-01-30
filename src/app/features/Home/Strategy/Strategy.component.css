@@ -230,6 +230,7 @@ a {
     }
   }
   @media (max-width: 568px) {
+    
       .header__container {
         padding-block: 4rem 1rem;
         padding-inline: 0.5rem;
@@ -491,7 +492,29 @@ a {
   }
   
   .strategy-card p {
-    font-size: 1rem;
-    color: #666;
+    font-size: 1.2rem;
+    color: #000000;
+    font-weight: 500;
   }
   
+
+  
+@media only screen and (max-width : 700px){
+  .featured-section{ 
+    padding-top: 54px;
+  }
+h1 {
+    font-size: 20px;
+}
+.animated-header {
+  font-size: 19px;
+  margin-left: 5px;
+}
+
+.header__image {
+
+  margin-left: 77px;
+  margin-top: 50px;
+}
+
+}

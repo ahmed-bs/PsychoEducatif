@@ -147,7 +147,7 @@ a {
   .header__image__card span {  
     font-size: 17px;  
     font-weight: 400;  
-    color: rgb(79, 115, 193);  
+    color: rgb(0, 0, 0);  
   }  
   
   .header__image__card-1 {  
@@ -248,7 +248,7 @@ a {
     .header__image__card span {
       font-size: 1.5rem;
       font-weight: 600;
-      color: rgb(79, 115, 193);
+      
     }
     
     .header__image__card-1 {
@@ -391,7 +391,7 @@ a {
 }
 
 .cols .col {
-    width: calc(25% - 2rem);
+    width: 78%;
     margin: 1rem;
     cursor: pointer;
 
@@ -424,14 +424,12 @@ a {
     height: auto;
     border-radius: 10px;
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 .back {
-    background: #cedce7;
-    background: -webkit-linear-gradient(45deg, #cedce7 0%, #596a72 100%);
-    background: -o-linear-gradient(45deg, #cedce7 0%, #596a72 100%);
-    background: linear-gradient(45deg, #cedce7 0%, #596a72 100%);
+    background: #fff;
+   
 }
 
 .front:after {
@@ -520,6 +518,14 @@ a {
     position: relative;
     color: #cdeaff;
 }
+.back .inner p {
+  font-size: 1rem;
+  position: relative;
+  margin-bottom: 19px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-weight: 500;
+}
 
 .front .inner p:after {
     content: '';
@@ -541,24 +547,86 @@ a {
 }
 
 
-@media screen and (max-width: 64rem) {
-    .col {
-        width: calc(33.333333% - 2rem);
-    }
+@media screen and (max-width: 1024px) {
+  .col {
+    width: 320px; 
+  }
 }
 
-@media screen and (max-width: 48rem) {
-    .col {
-        width: calc(50% - 2rem);
-    }
+@media screen and (max-width: 768px) {
+    
+  h1 {
+    font-size: 20px;
+  }
+
+  .featured-section{ 
+    padding-bottom: 20px;
+}
+  .animated-header {
+    font-size: 19px;
+    margin-left: 5px;
+  }
+
+  .header__image {
+
+    margin-left: 77px;
+    margin-top: 72px;
+  }
+
+  .header__image__card {
+
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .header__image__card-1 {
+    top: 25%;
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .header__image__card-2 {
+    top: 14%;
+    right: 0rem;
+    transform: translateY(-113%);
+  }
+
+  .header__image__card-3 {
+    top: 60%;
+    left: 0;
+    transform: translate(-63%, -18%);
+  }
+
+  .header__image__card-4 {
+    top: 70%;
+    right: 0;
+    transform: translate(-5%, 3%);
+  }
+  .cols {
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .col {
+    width: 100%;
+    margin: 0 0 32px 0; 
+  }
+
+  
 }
 
-@media screen and (max-width: 32rem) {
-    .col {
-        width: 100%;
-        margin: 0 0 2rem 0;
-    }
+@media screen and (max-width: 512px) {
+  .cols {
+    flex-direction: column; /* Toujours vertical */
+    align-items: center;
+  }
+
+  .col {
+    width: 100%; /* Carte pleine largeur */
+    margin: 0 0 32px 0;
+  }
 }
+
 
 
 /* Section Styles */
@@ -611,8 +679,9 @@ a {
   }
   
   .trust-card p {
-    font-size: 1rem;
-    color: #666;
+    font-size: 1.2rem;
+    color: #000000;
+    font-weight: 500;
   }
 
     
