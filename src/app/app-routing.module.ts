@@ -5,15 +5,16 @@ import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-l
 
 
 const routes: Routes = [
-  {
-    path: '', component: PublicLayoutComponent, children: [
-      { path: '', loadChildren: () => import('./features/Home/Home.module').then(m => m.HomeModule) },
-    ]
-  },
+  // {
+  //   path: '', component: PublicLayoutComponent, children: [
+  //     { path: '', loadChildren: () => import('./features/Home/Home.module').then(m => m.HomeModule) },
+  //   ]
+  // },
   {
     path: '', component: DashboardLayoutComponent, children: [
-      { path: 'client', loadChildren: () => import('./features/Client/Client.module').then(m => m.ClientModule) },
-      { path: 'admin', loadChildren: () => import('./features/Admin/Admin.module').then(m => m.AdminModule) }
+      { path: '', loadChildren: () => import('./features/Admin/Admin.module').then(m => m.AdminModule) }
+ //     { path: 'client', loadChildren: () => import('./features/Client/Client.module').then(m => m.ClientModule) },
+
     ]
   },
   { path: 'auth', loadChildren: () => import('./features/Auth/Auth.module').then(m => m.AuthModule) }
