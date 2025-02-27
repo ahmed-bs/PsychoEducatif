@@ -1143,8 +1143,8 @@ a {
 /*---------------------------------------
   TOPICS              
 -----------------------------------------*/
-.featured-section {
-  background-image: linear-gradient(to bottom right, #84c1ff, #e4a76efb);
+.featured-section {   
+  background-image: linear-gradient(to bottom right, #ffffff, #89c5f3);
   border-radius: 0 0 100px 100px;
   padding-bottom: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
