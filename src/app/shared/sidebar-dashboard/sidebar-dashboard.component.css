@@ -1,0 +1,45 @@
+ol, ul {
+  padding-left: -2rem;
+}
+
+.icon {
+margin: 12px;
+width: 38px;
+height: 38px;
+object-fit: cover;
+border-radius: 10px;
+}
+
+/* .logo-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.logo-main {
+  display: inline-block;
+  text-align: left;
+}
+
+.logo-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bold-text {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+.logo-subtext {
+  font-size: 12px;
+  margin-top: 10px;
+} */
