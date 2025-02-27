@@ -220,7 +220,7 @@ main .recent-orders table:hover {
     box-shadow: none;
 }
 
-main table tbody td {
+main table tbody td , th {
     height: 2.8rem;
     border-bottom: 1px solid rgba(132, 139, 200, 0.18);
     color: #677483;
@@ -349,17 +349,17 @@ main .recent-orders a {
     padding: 0.6rem;
     color: #fff; /* Reemplazo de --color-white */
     border-radius: 50%;
-    background-color: #7380ec; /* Reemplazo de --color-primary */
+    background-color: #737fec9c; /* Reemplazo de --color-primary */
     display: flex;
 }
 
 /* .item.offline = va así porque esta class= item offline */
 .right .sales-analytics .item.offline .icon {
-    background-color: #ff7782; /* Reemplazo de --color-danger */
+    background-color: #ff77829f; /* Reemplazo de --color-danger */
 }
 
 .right .sales-analytics .item.customers .icon {
-    background-color: #41f1b6; /* Reemplazo de --color-success */
+    background-color: #41f1b68d; /* Reemplazo de --color-success */
 }
 
 .right .sales-analytics .add-product {

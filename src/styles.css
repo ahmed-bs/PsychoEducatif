@@ -174,14 +174,26 @@ body{
     color: var(--color-dark);
 }
 /*********************************************************/
-
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 ol, ul {
     padding-left: 0;
   }
 
+:root {
+    --light: #d6d6ff;
+    --primary: #1976D2;
+    --light-primary: #f5f5f5;
+    --grey: #eee;
+    --dark-grey: #AAAAAA;
+    --dark: #000000;
+    --danger: #D32F2F;
+	--light-danger: #FECDD3;
+    --warning: #FBC02D;
+    --light-warning: #a89c77;
+    --success: #11596d;
+    --light-success: #BBF7D0;
+}
 
 *{
     margin: 0;
@@ -212,7 +224,10 @@ body.dark{
     --dark: #fbfbfb
 }
 
-
+body{
+    background: var(--grey);
+    overflow-x: hidden;
+}
 
 .sidebar{
     position: fixed;
@@ -224,7 +239,7 @@ body.dark{
     z-index: 2000;
     overflow-x: hidden;
     scrollbar-width: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .sidebar::-webkit-scrollbar{
@@ -264,10 +279,10 @@ body.dark{
 }
 
 .sidebar .side-menu li{
-    height: 48px;
+    height: 68px;
     background: transparent;
     margin-left: 6px;
-    border-radius: 48px 0 0 48px;
+    border-radius: 18px 0 0 18px;
     padding: 4px;
 }
 
@@ -281,7 +296,7 @@ body.dark{
     position: absolute;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 30%;
     top: -40px;
     right: 0;
     box-shadow: 20px 20px 0 var(--grey);
@@ -293,7 +308,7 @@ body.dark{
     position: absolute;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 30%;
     bottom: -40px;
     right: 0;
     box-shadow: 20px -20px 0 var(--grey);
@@ -306,7 +321,7 @@ body.dark{
     background: var(--light);
     display: flex;
     align-items: center;
-    border-radius: 48px;
+    border-radius: 18px;
     font-size: 16px;
     color: var(--dark);
     white-space: nowrap;
@@ -476,8 +491,8 @@ body.dark{
 
 .content main{
     width: 100%;
-    padding: 10px 24px;
-   
+    padding: 36px 24px;
+    max-height: calc(100vh - 56px);
 }
 
 .content main .header{
@@ -791,7 +806,3 @@ body.dark{
 .mat-mdc-dialog-container {
     --mdc-dialog-container-shape: 20px;
   }
-
-
-
-  
