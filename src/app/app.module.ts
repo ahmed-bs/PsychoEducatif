@@ -21,6 +21,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { NavbarHomeComponent } from './shared/navbar-home/navbar-home.component';
 import { NavbarDashboardComponent } from './shared/navbar-dashboard/navbar-dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SidebarDashboardComponent } from './shared/sidebar-dashboard/sidebar-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PublicLayoutComponent,
     DashboardLayoutComponent,
     FooterComponent,
+    SidebarDashboardComponent,
     NavbarDashboardComponent
   ],
   imports: [
