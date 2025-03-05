@@ -1,12 +1,49 @@
-
-.container{
-    display: grid;
+/* Conteneur principal */
+.container {
+    display: flex;
     margin: 0 auto;
     gap: 1.8rem;
     grid-template-columns: 14rem auto 23rem;
+    
+}
+
+
+.image-container {
+    flex: 0 0 25%; 
+    max-width: 25%;
+}
+
+
+.text-container {
+    flex: 0 0 75%;
+    max-width: 75%;
+    padding-left: 20px; 
+}
+.card_1{
+    background: antiquewhite;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+
+.card_1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.hover-effect:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.material-symbols-sharp {
+    font-size: 36px; /* Taille de l'icône */
+    color: #007BFF; /* Couleur de l'icône */
 }
 a {
-    color: #363949; /* Reemplazo de --color-dark */
+    color: #363949;
 }
 
 img {
@@ -39,7 +76,7 @@ small {
     font-size: 0.75rem;
 }
 
-/* Imágenes de fotos redondas */
+
 .profile-photo {
     width: 2.8rem;
     height: 2.8rem;
@@ -47,33 +84,33 @@ small {
     overflow: hidden;
 }
 
-/* Texto color plomo transparente para tarjetas */
+
 .text-muted {
-    color: #7d8da1; /* Reemplazo de --color-info-dark */
+    color: #7d8da1; 
 }
 
 p {
-    color: #677483; /* Reemplazo de --color-dark-variant */
+    color: #677483; 
 }
 
 b {
-    color: #363949; /* Reemplazo de --color-dark */
+    color: #363949; 
 }
 
 .primary {
-    color: #7380ec; /* Reemplazo de --color-primary */
+    color: #7380ec; 
 }
 
 .danger {
-    color: #ff7782; /* Reemplazo de --color-danger */
+    color: #ff7782; 
 }
 
 .warning {
-    color: #ffbb55; /* Reemplazo de --color-warning */
+    color: #ffbb55; 
 }
 
 .success {
-    color: #41f1b6; /* Reemplazo de --color-success */
+    color: #41f1b6; 
 }
 
 
@@ -114,7 +151,10 @@ main .insights > div {
 }
 
 main .insights > div:hover {
-    box-shadow: none;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
 }
 
 main .insights > div span {
@@ -124,6 +164,7 @@ main .insights > div span {
     color: #fff;
     font-size: 2rem;
 }
+
 
 main .insights > div.expenses span {
     background-color: #ff7782;
@@ -197,7 +238,7 @@ main .insights small {
     display: block;
 }
 
-/* Tabla de ordenes */
+
 main .recent-orders {
     margin-top: 2rem;
 }
@@ -220,7 +261,7 @@ main .recent-orders table:hover {
     box-shadow: none;
 }
 
-main table tbody td , th {
+main table tbody td {
     height: 2.8rem;
     border-bottom: 1px solid rgba(132, 139, 200, 0.18);
     color: #677483;
@@ -237,14 +278,14 @@ main .recent-orders a {
     color: #7380ec;
 }
 
-/* Lado derecho de la página */
+
 .right {
     margin-top: 1.4rem;
 }
 
 .right .top {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 2rem;
 }
 
@@ -253,14 +294,14 @@ main .recent-orders a {
 }
 
 .right .theme-toggler {
-    background-color: rgba(132, 139, 200, 0.18); /* Reemplazo de --color-light */
+    background-color: rgba(132, 139, 200, 0.18); 
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 1.6rem;
     width: 4.2rem;
     cursor: pointer;
-    border-radius: 0.4rem; /* Reemplazo de --border-radius-1 */
+    border-radius: 0.4rem; 
 }
 
 .right .theme-toggler span {
@@ -273,12 +314,12 @@ main .recent-orders a {
 }
 
 .right .theme-toggler span.active {
-    background-color: #7380ec; /* Reemplazo de --color-primary */
+    background-color: #7380ec;
     color: white;
-    border-radius: 0.4rem; /* Reemplazo de --border-radius-1 */
+    border-radius: 0.4rem;
 }
 
-/* Recent Updates */
+
 .right .top .profile {
     display: flex;
     gap: 2rem;
@@ -294,10 +335,10 @@ main .recent-orders a {
 }
 
 .right .recent-updates .updates {
-    background-color: #fff; /* Reemplazo de --color-white */
-    padding: 1.8rem; /* Reemplazo de --card-padding */
-    border-radius: 2rem; /* Reemplazo de --card-border-radius */
-    box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18); /* Reemplazo de --box-shadow */
+    background-color: #fff; 
+    padding: 1.8rem; 
+    border-radius: 2rem; 
+    box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
     transition: all 300ms ease;
 }
 
@@ -312,7 +353,7 @@ main .recent-orders a {
     margin-bottom: 1rem;
 }
 
-/* Sales Analytics */
+
 .right .sales-analytics {
     margin-top: 2rem;
 }
@@ -322,14 +363,14 @@ main .recent-orders a {
 }
 
 .right .sales-analytics .item {
-    background-color: #fff; /* Reemplazo de --color-white */
+    background-color: #fff; 
     display: flex;
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.7rem;
-    padding: 1.4rem 1.8rem; /* Reemplazo de --card-padding */
-    border-radius: 1.2rem; /* Reemplazo de --border-radius-3 */
-    box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18); /* Reemplazo de --box-shadow */
+    padding: 1.4rem 1.8rem; 
+    border-radius: 1.2rem; 
+    box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
     transition: all 300ms ease;
 }
 
@@ -340,31 +381,30 @@ main .recent-orders a {
 .right .sales-analytics .item .right {
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: flex-start;
     margin: 0;
     width: 100%;
 }
 
 .right .sales-analytics .item .icon {
     padding: 0.6rem;
-    color: #fff; /* Reemplazo de --color-white */
+    color: #fff; 
     border-radius: 50%;
-    background-color: #737fec9c; /* Reemplazo de --color-primary */
+    background-color: #7380ec; 
     display: flex;
 }
 
-/* .item.offline = va así porque esta class= item offline */
 .right .sales-analytics .item.offline .icon {
-    background-color: #ff77829f; /* Reemplazo de --color-danger */
+    background-color: #ff7782; 
 }
 
 .right .sales-analytics .item.customers .icon {
-    background-color: #41f1b68d; /* Reemplazo de --color-success */
+    background-color: #41f1b6; 
 }
 
 .right .sales-analytics .add-product {
     background-color: transparent;
-    border: 2px dashed #7380ec; /* Reemplazo de --color-primary */
+    border: 2px dashed #7380ec; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -379,10 +419,10 @@ main .recent-orders a {
 .right .sales-analytics .add-product div h3 {
     font-weight: 600;
 }
-/* Fin Lado derecho de la página */
+
 
 /*========================== Media Queries================================*/
-/* Media Queries Big Tablets and Small Laptops */
+
 @media screen and (max-width: 1200px) {
 
     .container{
@@ -423,8 +463,6 @@ main .recent-orders a {
     main .recent-orders table{
         width:83vw;
     }
-
-    /*Remuevo la primera y ultima columna*/
     
     main table thead tr th:last-child,
     main table thead tr th:first-child {
@@ -557,48 +595,3 @@ main .recent-orders a {
 
 }
 
-/* Conteneur principal */
-.container {
-    display: flex;
-    
-}
-
-/* Conteneur de l'image (25%) */
-.image-container {
-    flex: 0 0 25%; /* Prend 25% de l'espace */
-    max-width: 25%;
-}
-
-/* Conteneur du texte (75%) */
-.text-container {
-    flex: 0 0 75%; /* Prend 75% de l'espace */
-    max-width: 75%;
-    padding-left: 20px; /* Espace entre l'image et le texte */
-}
-.card{
-    background: antiquewhite;
-    border-radius: 15px;
-    padding: 25px;
-}
-
-/* Effet de survol sur la carte */
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Effet de survol sur l'image */
-.hover-effect:hover {
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
-}
-
-
-
-
-
-.material-symbols-sharp {
-    font-size: 36px; /* Taille de l'icône */
-    color: #007BFF; /* Couleur de l'icône */
-}
