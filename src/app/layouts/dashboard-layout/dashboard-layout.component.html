@@ -1,10 +1,10 @@
-
-
 <!-- <app-footer></app-footer> -->
-<div class="sidebar" >
+<div class="sidebar" [class.close]="isSidebarClosed">
   <app-sidebar-dashboard></app-sidebar-dashboard>
 </div>
 <div class="content">
   <app-navbar-dashboard> </app-navbar-dashboard>
-  <router-outlet></router-outlet>
+
+
+    <router-outlet></router-outlet>
 </div>

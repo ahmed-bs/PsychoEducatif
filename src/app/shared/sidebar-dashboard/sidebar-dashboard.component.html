@@ -1,20 +1,24 @@
-<a class="logo .icon">
-  <img class="icon" src="assets/logo.png"alt="">
-  <div class="logo-name"><span>Evalu'</span>Action</div>
-</a>
-<ul class="side-menu">
-  <li class="active"><a routerLink="/Dashboard/admin"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-  <li><a routerLink="/Dashboard/admin/users"><i class='bx bx-group'></i>Utilisateurs</a></li>
-</ul>
 
-<ul class="side-menu">
-  <li>
-      <a  class="logout">
-          <i class='bx bx-log-out-circle'></i>
-          Déconnexion
-      </a>
-  </li>
-</ul>
+<div class="sidebar"  [class.close]="isSidebarClosed">
+
+  <a class="logo .icon">
+    <img class="icon" src="assets/logo.png"alt="">
+    <div class="logo-name"><span>Evalu'</span>Action</div>
+  </a>
+  <ul class="side-menu">
+    <li class="active"><a routerLink="/Dashboard/admin"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+    <li><a routerLink="/Dashboard/admin/users"><i class='bx bx-group'></i>Utilisateurs</a></li>
+  </ul>
+  
+  <ul class="side-menu">
+    <li>
+        <a  class="logout">
+            <i class='bx bx-log-out-circle'></i>
+            Déconnexion
+        </a>
+    </li>
+  </ul>
+  </div>
 
 
 
