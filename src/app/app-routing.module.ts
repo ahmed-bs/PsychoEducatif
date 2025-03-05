@@ -11,9 +11,9 @@ const routes: Routes = [
   //   ]
   // },
   {
-    path: '', component: DashboardLayoutComponent, children: [
-      { path: '', loadChildren: () => import('./features/Admin/Admin.module').then(m => m.AdminModule) }
- //     { path: 'client', loadChildren: () => import('./features/Client/Client.module').then(m => m.ClientModule) },
+    path: 'Dashboard', component: DashboardLayoutComponent, children: [
+      { path: 'admin', loadChildren: () => import('./features/Admin/Admin.module').then(m => m.AdminModule) },
+      { path: 'client', loadChildren: () => import('./features/Client/Client.module').then(m => m.ClientModule) },
 
     ]
   },
