@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddProfileComponent } from '../users/AddProfile/AddProfile.component';
 
 @Component({
   selector: 'app-dashboardAdmin',
@@ -7,7 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardAdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) {}
+
+  openDialog() {
+    this.dialog.open(AddProfileComponent, {
+      width: '700px',
+      // height:'400px'
+    });
+  }
 
   ngOnInit() {
   }

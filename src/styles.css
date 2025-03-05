@@ -161,3 +161,11 @@ body{
     background: var(--grey);
     overflow-x: hidden;
 }
+
+
+::ng-deep .mdc-dialog__surface {
+    position: static !important; /* Overrides position: relative */
+    border-radius: 15px;
+    height: 500px;
+  }
+  

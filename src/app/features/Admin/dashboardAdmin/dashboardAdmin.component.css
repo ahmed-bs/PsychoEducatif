@@ -408,6 +408,7 @@ main .recent-orders a {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .right .sales-analytics .add-product div {

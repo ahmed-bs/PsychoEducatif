@@ -1,0 +1,71 @@
+<div class="container">
+  <h2>Ajouter un Profil Enfant</h2>
+  <div class="form-image-container">
+    <form class="profile-form">
+      <!-- Pair 1: Nom et Prénom -->
+      <div class="input-pair">
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Nom de l'enfant</mat-label>
+          <mat-icon matPrefix class="field-icon">person</mat-icon>
+          <input matInput placeholder="Entrez le nom">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Prénom de l'enfant</mat-label>
+          <mat-icon matPrefix class="field-icon">person</mat-icon>
+          <input matInput placeholder="Entrez le prénom">
+        </mat-form-field>
+      </div>
+
+      <!-- Pair 2: Date de naissance et Genre -->
+      <div class="input-pair">
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Date de naissance</mat-label>
+          <mat-icon matPrefix class="field-icon">calendar_today</mat-icon>
+          <input matInput type="date">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Genre</mat-label>
+          <mat-select>
+            <mat-option value="masculin">Masculin</mat-option>
+            <mat-option value="féminin">Féminin</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Pair 3: Parent/Tuteur et Téléphone -->
+      <div class="input-pair">
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Parent ou Tuteur</mat-label>
+          <mat-icon matPrefix class="field-icon">supervisor_account</mat-icon>
+          <input matInput placeholder="Nom du parent ou tuteur">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Numéro de téléphone</mat-label>
+          <mat-icon matPrefix class="field-icon">phone</mat-icon>
+          <input matInput type="tel" placeholder="Entrez le numéro">
+        </mat-form-field>
+      </div>
+
+      <!-- Single field: Adresse -->
+      <mat-form-field appearance="fill" class="custom-field">
+        <mat-label>Adresse</mat-label>
+        <mat-icon matPrefix class="field-icon">home</mat-icon>
+        <input matInput placeholder="Entrez l'adresse">
+      </mat-form-field>
+
+      <!-- Boutons -->
+      <div class="button-container">
+        <button mat-button class="cancel-btn" (click)="closeDialog()">
+          <mat-icon>cancel</mat-icon> Annuler
+        </button>
+        <button mat-raised-button class="submit-btn" color="primary">
+          <mat-icon>add_circle</mat-icon> Ajouter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
