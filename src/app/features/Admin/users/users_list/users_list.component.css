@@ -119,7 +119,94 @@ body{
 .bg-soft-info {
     background-color: #d7efff;
 }
+.widget-26-job-emp-img img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
 
+.widget-26-job-title a {
+  color: #3b3f5c;
+  font-weight: 600;
+}
+
+.widget-26-job-title .employer-name {
+  color: #3b3f5c;
+  font-weight: 400;
+}
+
+.widget-26-job-title .time {
+  color: #888ea8;
+}
+
+.widget-26-job-info .type {
+  color: #3b3f5c;
+  font-weight: 600;
+}
+
+.widget-26-job-info .location {
+  color: #888ea8;
+}
+
+.widget-26-job-salary {
+  color: #3b3f5c;
+  font-weight: 600;
+}
+
+.widget-26-job-category {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.widget-26-job-category .indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.bg-soft-base {
+  background-color: rgba(94, 114, 228, 0.1);
+}
+
+.bg-base {
+  background-color: #5e72e4;
+}
+
+.bg-soft-warning {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.bg-warning {
+  background-color: #ffc107;
+}
+
+.bg-soft-success {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.bg-success {
+  background-color: #28a745;
+}
+
+.bg-soft-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.bg-danger {
+  background-color: #dc3545;
+}
+
+.bg-soft-info {
+  background-color: rgba(23, 162, 184, 0.1);
+}
+
+.bg-info {
+  background-color: #17a2b8;
+}
 
 .search-form {
   width: 80%;
