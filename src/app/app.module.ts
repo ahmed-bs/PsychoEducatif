@@ -22,15 +22,19 @@ import { NavbarHomeComponent } from './shared/navbar-home/navbar-home.component'
 import { NavbarDashboardComponent } from './shared/navbar-dashboard/navbar-dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarDashboardComponent } from './shared/sidebar-dashboard/sidebar-dashboard.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarHomeComponent,
     PublicLayoutComponent,
+    UserLayoutComponent,
     DashboardLayoutComponent,
     FooterComponent,
     SidebarDashboardComponent,
+    SidebarClientComponent,
     NavbarDashboardComponent
   ],
   imports: [
