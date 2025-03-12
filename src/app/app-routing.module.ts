@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 
 
 const routes: Routes = [
@@ -11,8 +12,17 @@ const routes: Routes = [
   //   ]
   // },
   {
-    path: 'Dashboard', component: DashboardLayoutComponent, children: [
-      { path: 'admin', loadChildren: () => import('./features/Admin/Admin.module').then(m => m.AdminModule) },
+    path: '', component: UserLayoutComponent
+  },
+  {
+    path: 'Dashboard-client', component: UserLayoutComponent, children: [
+   
+      { path: 'client', loadChildren: () => import('./features/Client/Client.module').then(m => m.ClientModule) },
+
+    ]
+  },
+  {
+    path: 'Dashboard', component: DashboardLayoutComponent, children: [ 
       { path: 'client', loadChildren: () => import('./features/Client/Client.module').then(m => m.ClientModule) },
 
     ]
