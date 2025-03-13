@@ -109,7 +109,7 @@
     --main-color: #2b2b2b;
     
     /* Set the background image */
-    background-image: url('assets\images\card-bg.jpg');
+    background-image: url('src/assets/img/Accompagnement.gif');
     
     /* Make sure the background image covers the entire card */
     background-size: cover;
