@@ -24,6 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarDashboardComponent } from './shared/sidebar-dashboard/sidebar-dashboard.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.component';
+import { MatCardModule } from '@angular/material/card';
+import { Pick_profileComponent } from './shared/pick_profile/pick_profile.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.c
     DashboardLayoutComponent,
     FooterComponent,
     SidebarDashboardComponent,
-    SidebarClientComponent,
+    SidebarClientComponent, 
+    Pick_profileComponent,
     NavbarDashboardComponent
   ],
   imports: [
@@ -52,6 +55,7 @@ import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.c
     MatInputModule,
     MatCheckboxModule,
     MatIconModule,
+    MatCardModule
     //primeng
 
 

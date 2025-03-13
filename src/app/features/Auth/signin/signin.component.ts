@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -9,9 +10,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 export class SigninComponent implements OnInit {
   hide = true; // Contrôle de la visibilité du mot de passe
   rememberMe = false; // Valeur du checkbox "Se souvenir de moi"
+  constructor(private router: Router) {}
 
-  constructor() {}
-
+  goToPickProfile() {
+    this.router.navigate(['/pick_profileComponent']);
+  }
   ngOnInit() {}
 
   togglePasswordVisibility() {

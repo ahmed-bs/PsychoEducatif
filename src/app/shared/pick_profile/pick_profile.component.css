@@ -1,0 +1,151 @@
+
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.hero-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 32px;
+    margin:  16px auto;
+    text-align: center;
+}
+
+/* Grid Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(227px, 1fr));
+    gap: 24px;
+    padding:  16px;
+}
+
+/* Card Styling */
+.card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    padding: 24px;
+    transition: all  0.4s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+.card:hover {
+    transform: perspective(1000px) rotateX(3deg) translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Light Effect */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(rgba(74, 144, 226, 0.2), transparent);
+    transform: rotate(30deg);
+    transition: opacity  0.4s;
+    opacity: 0;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+/* Image Style */
+.card__image {
+    width: 60%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform  0.4s;
+}
+
+.card:hover .card__image {
+    transform: scale(1.05);
+}
+
+/* Title & Info */
+.card__name {
+    font-size: 1.6rem;
+    margin:  16px 0 8px;
+    color: #2d3548;
+    font-weight: 700;
+}
+
+.card__info {
+    font-size: 1rem;
+    color: #777;
+    padding-bottom: 8px;
+}
+
+/* Add Card */
+.card--add {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--secondary-color);
+    cursor: pointer;
+    border: 2px dashed var(--primary-color);
+    transition: all  0.4s;
+}
+
+.card--add:hover {
+    background: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.card__plus {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    transition: color  0.4s;
+}
+
+.card--add:hover .card__plus,
+.card--add:hover .card__name {
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap:  16px;
+    }
+
+    .card__name {
+        font-size: 1.4rem;
+    }
+
+    .card__info {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding:  16px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+}
