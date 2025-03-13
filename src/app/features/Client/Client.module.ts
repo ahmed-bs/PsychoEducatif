@@ -12,7 +12,7 @@ import { Kids_profilesComponent } from './kids_profiles/kids_profiles.component'
     ClientRoutes,
 
   ],
-  declarations: [ClientComponent,DashboardClientComponent,ExploreComponent,Kids_profilesComponent
+  declarations: [ClientComponent,ExploreComponent
 ]
 })
 export class ClientModule { }
