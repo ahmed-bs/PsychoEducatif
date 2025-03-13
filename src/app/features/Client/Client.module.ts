@@ -10,7 +10,6 @@ import { Kids_profilesComponent } from './kids_profiles/kids_profiles.component'
   imports: [
     CommonModule,
     ClientRoutes,
-    Kids_profilesComponent
 
   ],
   declarations: [ClientComponent,ExploreComponent
