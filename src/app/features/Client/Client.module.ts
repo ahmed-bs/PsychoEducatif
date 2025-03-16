@@ -5,6 +5,7 @@ import { DashboardClientComponent } from './dashboardClient/dashboardClient.comp
 import { ClientRoutes } from './Client.routing';
 import { ExploreComponent } from './explore/explore.component';
 import { Kids_profilesComponent } from './kids_profiles/kids_profiles.component';
+import { EvaluationsComponent } from './evaluations/evaluations.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { Kids_profilesComponent } from './kids_profiles/kids_profiles.component'
     ClientRoutes,
 
   ],
-  declarations: [ClientComponent,ExploreComponent
+  declarations: [ClientComponent,ExploreComponent,EvaluationsComponent
 ]
 })
 export class ClientModule { }
