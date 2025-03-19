@@ -1,14 +1,21 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { CompetenceService } from 'src/app/core/services/Competence.service';
+
+
+
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.css']
+  styleUrls: ['./explore.component.css'],
+ 
 })
 export class ExploreComponent implements OnInit {
 
 
   ngOnInit() {
+    this.competences = this.competenceService.getCompetences();
   }
   activeIndex = 0;
   @ViewChild('carousel', { static: false }) carousel!: ElementRef;
@@ -45,12 +52,23 @@ export class ExploreComponent implements OnInit {
   cardsPerView = 8; // Adjust this for more/less visible cards
   startIndex = 0;
 
-  constructor() {
+  constructor(private competenceService: CompetenceService, private router: Router) {
     this.updateVisibleCards();
   }
 
   updateVisibleCards() {
     this.visibleCards = this.cards.slice(this.startIndex, this.startIndex + this.cardsPerView);
+  }
+
+
+  competences: any[] = [];
+
+  
+
+
+
+  naviguerVersQuiz(categorie: string) {
+    this.router.navigate(['/Dashboard-client/client/quiz', categorie]);
   }
 
 }

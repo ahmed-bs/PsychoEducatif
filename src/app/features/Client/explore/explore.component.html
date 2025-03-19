@@ -4,257 +4,206 @@
     <div class="col-md-12">
       <h3 class="box-title">Suivi des Enfants</h3>
 
+
+
       <!-- Communication -->
       <h4>Communication</h4>
       <div class="shell">
         <div class="container">
           <div class="row">
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
+            <div class="col-md-4" *ngFor="let competence of competences" (click)="naviguerVersQuiz(competence.categorie)">
+              <div class="card competence-card">
+                <div class="card-img-top">
                   <img
-                    src="https://img.freepik.com/free-vector/communication-skills-concept-illustration_114360-16139.jpg"
-                    alt="Communication" class="img-responsive" />
+                    src="assets/img/{{ competence.categorie | lowercase | replaceSpaces }}.gif"
+                    alt="{{ competence.categorie }}"
+                    class="img-fluid"
+                    onerror="this.src='assets/img/autisme.jpg'" 
+                  />
                 </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Verbal</span></div>
-                  <div class="title-product">
-                    <h3>Express Yourself</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">80%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
-                  </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ competence.categorie }}</h5>
+                  <p class="card-text">
+                    Évaluez les compétences de {{ competence.categorie | lowercase }} pour mieux comprendre les progrès.
+                  </p>
+                </div>
+                <div class="card-footer">
+                  <span class="status-info">Cliquez pour commencer</span>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img
-                    src="https://img.freepik.com/free-vector/nonverbal-communication-concept-illustration_114360-1934.jpg"
-                    alt="Nonverbal" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Nonverbal</span></div>
-                  <div class="title-product">
-                    <h3>Body Language</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">65%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img
-                    src="https://img.freepik.com/free-vector/communication-skills-concept-illustration_114360-16139.jpg"
-                    alt="Communication" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Verbal</span></div>
-                  <div class="title-product">
-                    <h3>Express Yourself</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">80%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+          </div>
+
+          </div>
+
+          <!-- Socialization -->
+          <h4>Socialization</h4>
+          <div class="shell">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+                      <img
+                        src="https://img.freepik.com/free-vector/social-development-concept-illustration_114360-5270.jpg"
+                        alt="Socialization" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Friendship</span></div>
+                      <div class="title-product">
+                        <h3>Building Connections</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">75%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img
-                    src="https://img.freepik.com/free-vector/nonverbal-communication-concept-illustration_114360-1934.jpg"
-                    alt="Nonverbal" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Nonverbal</span></div>
-                  <div class="title-product">
-                    <h3>Body Language</h3>
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+                      <img src="https://img.freepik.com/free-vector/teamwork-concept-illustration_114360-677.jpg"
+                        alt="Collaboration" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Collaboration</span></div>
+                      <div class="title-product">
+                        <h3>Teamwork Matters</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">70%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">65%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                </div>
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+                      <img
+                        src="https://img.freepik.com/free-vector/social-development-concept-illustration_114360-5270.jpg"
+                        alt="Socialization" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Friendship</span></div>
+                      <div class="title-product">
+                        <h3>Building Connections</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">75%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+                      <img src="https://img.freepik.com/free-vector/teamwork-concept-illustration_114360-677.jpg"
+                        alt="Collaboration" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Collaboration</span></div>
+                      <div class="title-product">
+                        <h3>Teamwork Matters</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">70%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Socialization -->
-      <h4>Socialization</h4>
-      <div class="shell">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img src="https://img.freepik.com/free-vector/social-development-concept-illustration_114360-5270.jpg"
-                    alt="Socialization" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Friendship</span></div>
-                  <div class="title-product">
-                    <h3>Building Connections</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">75%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img src="https://img.freepik.com/free-vector/teamwork-concept-illustration_114360-677.jpg"
-                    alt="Collaboration" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Collaboration</span></div>
-                  <div class="title-product">
-                    <h3>Teamwork Matters</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">70%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+          <!-- Motor Skills -->
+          <h4>Motricité</h4>
+          <div class="shell">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+                      <img src="https://img.freepik.com/free-vector/kids-exercise-concept-illustration_114360-7899.jpg"
+                        alt="Motor Skills" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Fine Motor</span></div>
+                      <div class="title-product">
+                        <h3>Precision & Grip</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">85%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img src="https://img.freepik.com/free-vector/social-development-concept-illustration_114360-5270.jpg"
-                    alt="Socialization" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Friendship</span></div>
-                  <div class="title-product">
-                    <h3>Building Connections</h3>
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+
+                      <img
+                        src="https://img.freepik.com/free-vector/social-development-abstract-concept-vector-illustration-children-learn-social-skills-competence-positive-impact-successful-communication-career-success-education-abstract-metaphor_335657-1426.jpg"
+                        alt="Gross Motor" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Gross Motor</span></div>
+                      <div class="title-product">
+                        <h3>Active Movements</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">90%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">75%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                </div>
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+                      <img src="https://img.freepik.com/free-vector/kids-exercise-concept-illustration_114360-7899.jpg"
+                        alt="Motor Skills" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Fine Motor</span></div>
+                      <div class="title-product">
+                        <h3>Precision & Grip</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">85%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img src="https://img.freepik.com/free-vector/teamwork-concept-illustration_114360-677.jpg"
-                    alt="Collaboration" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Collaboration</span></div>
-                  <div class="title-product">
-                    <h3>Teamwork Matters</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">70%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                <div class="col-md-3">
+                  <div class="wsk-cp-product">
+                    <div class="wsk-cp-img">
+
+                      <img
+                        src="https://img.freepik.com/free-vector/social-development-abstract-concept-vector-illustration-children-learn-social-skills-competence-positive-impact-successful-communication-career-success-education-abstract-metaphor_335657-1426.jpg"
+                        alt="Gross Motor" class="img-responsive" />
+                    </div>
+                    <div class="wsk-cp-text">
+                      <div class="category"><span>Gross Motor</span></div>
+                      <div class="title-product">
+                        <h3>Active Movements</h3>
+                      </div>
+                      <div class="card-footer">
+                        <div class="wcf-left"><span class="price">90%</span></div>
+                        <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
-
-      <!-- Motor Skills -->
-      <h4>Motricité</h4>
-      <div class="shell">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img src="https://img.freepik.com/free-vector/kids-exercise-concept-illustration_114360-7899.jpg"
-                    alt="Motor Skills" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Fine Motor</span></div>
-                  <div class="title-product">
-                    <h3>Precision & Grip</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">85%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-
-                  <img
-                    src="https://img.freepik.com/free-vector/social-development-abstract-concept-vector-illustration-children-learn-social-skills-competence-positive-impact-successful-communication-career-success-education-abstract-metaphor_335657-1426.jpg"
-                    alt="Gross Motor" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Gross Motor</span></div>
-                  <div class="title-product">
-                    <h3>Active Movements</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">90%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-                  <img src="https://img.freepik.com/free-vector/kids-exercise-concept-illustration_114360-7899.jpg"
-                    alt="Motor Skills" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Fine Motor</span></div>
-                  <div class="title-product">
-                    <h3>Precision & Grip</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">85%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="wsk-cp-product">
-                <div class="wsk-cp-img">
-
-                  <img
-                    src="https://img.freepik.com/free-vector/social-development-abstract-concept-vector-illustration-children-learn-social-skills-competence-positive-impact-successful-communication-career-success-education-abstract-metaphor_335657-1426.jpg"
-                    alt="Gross Motor" class="img-responsive" />
-                </div>
-                <div class="wsk-cp-text">
-                  <div class="category"><span>Gross Motor</span></div>
-                  <div class="title-product">
-                    <h3>Active Movements</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="wcf-left"><span class="price">90%</span></div>
-                    <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa fa-heart"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
-</div>
