@@ -57,7 +57,7 @@
         </thead>
         <tbody>
             <ng-container *ngFor="let competence of competences">
-              <tr>
+              <tr *ngIf="competence.categorie === categorie">
                 <td>{{ competence.categorie }}</td>
                 <td>
                   <ul class="list-unstyled">

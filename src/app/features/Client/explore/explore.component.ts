@@ -68,6 +68,7 @@ export class ExploreComponent implements OnInit {
 
 
   naviguerVersQuiz(categorie: string) {
+    console.log(categorie);
     this.router.navigate(['/Dashboard-client/client/quiz', categorie]);
   }
 

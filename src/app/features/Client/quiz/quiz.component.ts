@@ -46,13 +46,11 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  soumettreQuiz() {
+  soumettreQuiz(categorie: string) {
     this.sousCompetences.forEach(sousCompetence => {
       this.competenceService.updateSousCompetence(this.categorie, sousCompetence);
     });
-    this.router.navigate(['/Dashboard-client/client/evaluations'], {
-      queryParams: { categorie: this.categorie }
-    });
+    this.router.navigate(['/Dashboard-client/client/evaluations',categorie]);
   }
 
 }

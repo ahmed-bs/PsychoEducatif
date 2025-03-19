@@ -296,14 +296,12 @@
         text-transform: capitalize; /* Première lettre en majuscule */
         font-weight: bold;
         background: linear-gradient(to right, #1976d2, #42a5f5); /* Dégradé bleu */
-        -webkit-background-clip: text;
         background-clip: text;
         color: transparent; /* Effet de texte en dégradé */
       }
   
       .card-text {
         color: #0277bd; /* Bleu profond */
-        font-family: 'Comic Sans MS', cursive;
         font-size: 1rem;
         line-height: 1.4; /* Espacement pour lisibilité */
         margin: 0;
@@ -319,7 +317,6 @@
   
       .status-info {
         color: #1976d2; /* Bleu vif */
-        font-family: 'Comic Sans MS', cursive;
         font-size: 0.95rem;
         font-weight: bold;
         display: inline-block;

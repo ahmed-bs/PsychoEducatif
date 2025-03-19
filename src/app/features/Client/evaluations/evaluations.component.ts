@@ -24,6 +24,7 @@ export class EvaluationsComponent implements OnInit {
   ngOnInit(): void {
     this.competences = this.competenceService.getCompetences();
     this.categorie = this.route.snapshot.paramMap.get('categorie') || '';
+    console.log("hello:",this.categorie);
   }
 
   // constructor() { }

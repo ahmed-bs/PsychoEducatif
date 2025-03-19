@@ -9,7 +9,7 @@ const routes: Routes = [
   { path:'',component:DashboardClientComponent },
   { path:'explore',component:ExploreComponent },
   { path:'Kids_profiles',component:Kids_profilesComponent },
-  { path:'evaluations',component:EvaluationsComponent },
+  { path:'evaluations/:categorie',component:EvaluationsComponent },
   { path: 'quiz/:categorie', component: QuizComponent },
 ];
 
