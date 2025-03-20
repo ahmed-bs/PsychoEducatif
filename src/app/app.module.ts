@@ -25,7 +25,7 @@ import { SidebarDashboardComponent } from './shared/sidebar-dashboard/sidebar-da
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.component';
 import { MatCardModule } from '@angular/material/card';
-import { Pick_profileComponent } from './shared/pick_profile/pick_profile.component';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +37,6 @@ import { Pick_profileComponent } from './shared/pick_profile/pick_profile.compon
     FooterComponent,
     SidebarDashboardComponent,
     SidebarClientComponent, 
-    Pick_profileComponent,
     NavbarDashboardComponent
   ],
   imports: [

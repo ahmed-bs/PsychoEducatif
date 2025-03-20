@@ -1,14 +1,15 @@
 
 export class Child {
-    id: number;
-    parentId: number; // Référence au parent
-    name: string; // Nom de l'enfant
-    age: number; // Âge de l'enfant
-    diagnosisDate: Date; // Date du diagnostic d'autisme
-    evaluationScore: number; // Score d'évaluation des compétences
-    objectives: string[]; // Objectifs d'apprentissage
-    progress: string; // Évolution globale (ex: "En progrès", "Stable", "Besoin d'attention")
-    recommendedStrategies: string[]; // Stratégies comportementales suggérées
+  id: number;
+  parentId: number; // Référence au parent
+  name: string; // Nom de l'enfant
+  age: number; // Âge de l'enfant
+  diagnosisDate: Date; // Date du diagnostic d'autisme
+  evaluationScore: number; // Score d'évaluation des compétences
+  objectives: string[]; // Objectifs d'apprentissage
+  progress: string; // Évolution globale (ex: "En progrès", "Stable", "Besoin d'attention")
+  recommendedStrategies: string[]; // Stratégies comportementales suggérées
+  imageUrl: string;// Stratégies comportementales suggérées
   
     constructor(
       id: number,
@@ -19,7 +20,8 @@ export class Child {
       evaluationScore: number,
       objectives: string[],
       progress: string,
-      recommendedStrategies: string[]
+      recommendedStrategies: string[],
+      imageUrl: string
     ) {
       this.id = id;
       this.parentId = parentId;
@@ -30,6 +32,7 @@ export class Child {
       this.objectives = objectives;
       this.progress = progress;
       this.recommendedStrategies = recommendedStrategies;
+      this.imageUrl=imageUrl;
     }
   }
   

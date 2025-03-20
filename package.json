@@ -23,8 +23,9 @@
     "@angular/platform-browser-dynamic": "~17.3.12",
     "@angular/router": "~17.3.12",
     "primeicons": "^7.0.0",
-    "primeng": "^17.18.11",
+    "primeng": "^17.18.15",
     "rxjs": "^7.8.1",
+    "sweetalert2": "^11.17.2",
     "tslib": "^2.3.0",
     "zone.js": "^0.15.0"
   },

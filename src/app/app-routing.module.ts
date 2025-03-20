@@ -17,15 +17,12 @@ const routes: Routes = [
   },
   {
     path: 'Dashboard-client', component: UserLayoutComponent, children: [
-   
       { path: 'client', loadChildren: () => import('./features/Client/Client.module').then(m => m.ClientModule) },
-
     ]
   },
   {
     path: 'Dashboard', component: DashboardLayoutComponent, children: [ 
       { path: 'admin', loadChildren: () => import('./features/Admin/Admin.module').then(m => m.AdminModule) },
-
     ]
   },
   { path: 'auth', loadChildren: () => import('./features/Auth/Auth.module').then(m => m.AuthModule) }
