@@ -43,6 +43,7 @@ body {
     position: relative;
     overflow: hidden;
     transform: perspective(1000px) rotateX(0deg);
+    cursor: pointer;
 }
 
 .card:hover {
@@ -75,6 +76,7 @@ body {
     object-fit: cover;
     border-radius: 12px;
     transition: transform  0.4s;
+    margin-left: 48px;
 }
 
 .card:hover .card__image {
@@ -149,3 +151,232 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+
+
+
+/* Conteneur des actions (boutons) */
+.card__actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+/* Style des boutons */
+:host ::ng-deep .p-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+:host ::ng-deep .p-button-secondary {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+:host ::ng-deep .p-button-secondary:hover {
+    background: #5c636a;
+    border-color: #5c636a;
+}
+
+:host ::ng-deep .p-button-danger {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+:host ::ng-deep .p-button-danger:hover {
+    background: #c82333;
+    border-color: #c82333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%;
+        margin: 0.5rem;
+    }
+    
+    .card__actions {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+
+/* Style général du dialogue */
+:host ::ng-deep .p-dialog {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style du header */
+:host ::ng-deep .p-dialog-header {
+    padding: 1rem 1.5rem;
+    background: #6366f1; /* Couleur de fond violette */
+    color: white; /* Texte blanc pour contraste */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtile séparation */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    justify-content: center;
+}
+
+
+/* Style spécifique pour l'icône de fermeture */
+:host ::ng-deep .p-dialog-header .p-dialog-header-icon {
+    color: white; /* Assurez-vous que l'icône reste blanche */
+    background: transparent; /* Évitez que le fond du header s'applique */
+    border: none; /* Supprime toute bordure indésirable */
+    padding: 0.25rem;
+    transition: color 0.2s;
+}
+
+:host ::ng-deep .p-dialog-header .p-dialog-header-icon:hover {
+    color: #e2e8f0; /* Légère variation au survol pour feedback */
+}
+
+/* Contenu du dialogue */
+.dialog-content {
+    padding: 1rem;
+}
+
+/* Style des champs */
+.field {
+    margin-bottom: 1.5rem;
+}
+
+/* Labels */
+.field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Inputs */
+:host ::ng-deep .field .p-inputtext {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+:host ::ng-deep .field .p-inputtext:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Placeholder */
+:host ::ng-deep .field .p-inputtext::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Footer (boutons) */
+:host ::ng-deep .p-dialog-footer {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Boutons */
+:host ::ng-deep .p-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+:host ::ng-deep .p-button.p-button-text {
+    color: #6c757d;
+}
+
+:host ::ng-deep .p-button.p-button-text:hover {
+    background: #e9ecef;
+}
+
+:host ::ng-deep .p-button.p-button-primary {
+    background: #6366f1;
+    border-color: #6366f1;
+}
+
+:host ::ng-deep .p-button.p-button-primary:hover {
+    background: #4f46e5;
+    border-color: #4f46e5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    :host ::ng-deep .p-dialog {
+        width: 90vw !important;
+    }
+    
+    :host ::ng-deep .p-dialog-header {
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .dialog-content {
+        padding: 0.75rem;
+    }
+}
+
+
+.welcome-message {
+    position: relative; /* Permet de superposer le contenu sur l'image */
+    text-align: center;
+    padding: 2rem 1rem;
+    border-bottom: 1px solid #e9ecef;
+    overflow: hidden; /* Évite les débordements */
+  }
+  
+  .welcome-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assure que l'image couvre tout le conteneur */
+    opacity: 0.5; /* Ajustez l'opacité ici (0 à 1) */
+    z-index: -1; /* Place l'image derrière le texte */
+  }
+  
+  .welcome-content {
+    position: relative; /* Assure que le texte reste au-dessus de l'image */
+    z-index: 1; /* Place le contenu devant l'image */
+  }
+  
+  .welcome-content h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .welcome-content p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .welcome-message {
+      padding: 1.5rem 0.5rem;
+    }
+    
+    .welcome-content h1 {
+      font-size: 1.5rem;
+    }
+    
+    .welcome-content p {
+      font-size: 1rem;
+    }
+  }
