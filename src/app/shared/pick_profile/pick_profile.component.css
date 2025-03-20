@@ -43,6 +43,7 @@ body {
     position: relative;
     overflow: hidden;
     transform: perspective(1000px) rotateX(0deg);
+    cursor: pointer;
 }
 
 .card:hover {
