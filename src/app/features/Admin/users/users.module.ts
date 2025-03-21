@@ -7,10 +7,24 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+// import { ColumnFilterModule } from 'primeng/columnfilter';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 
 @NgModule({
   imports: [
-    CommonModule,UsersRoutes,MatDialogModule,MatButtonModule,NgClass,
+    CommonModule,
+    UsersRoutes,
+    MatDialogModule,
+    MatButtonModule,
+    NgClass,
+    FormsModule,
+    TableModule,
+    InputTextModule,
+    IconFieldModule,
+    InputIconModule,
     FormsModule,
   ],
   declarations: [UsersComponent,Users_listComponent]

@@ -1,103 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-users_list',
   templateUrl: './users_list.component.html',
-  styleUrls: ['./users_list.component.css']
+  styleUrls: ['./users_list.component.css'],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class Users_listComponent implements OnInit {
-  parents: any[] = [];
-  constructor() { }
+  users: any[] = [];
+  loading: boolean = true;
 
   ngOnInit() {
-    this.parents = [
-        {
-          image: 'https://bootdey.com/img/Content/avatar/avatar5.png',
-          name: 'Sophie Martin',
-          role: 'Mère',
-          children: [
-            {
-              name: 'Léo Martin',
-              age: 6,
-              progress: 'Amélioration continue',
-              evaluationFrequency: 'Hebdomadaire',
-              supportStrategies: 'Renforcement positif, routines structurées'
-            }
-          ],
-          category: 'Accompagnement parental actif',
-          categoryClass: 'bg-soft-base',
-          indicatorClass: 'bg-base'
-        },
-        {
-          image: 'https://bootdey.com/img/Content/avatar/avatar2.png',
-          name: 'Marc Dubois',
-          role: 'Père',
-          children: [
-            {
-              name: 'Emma Dubois',
-              age: 4,
-              progress: 'Besoin d’adaptation',
-              evaluationFrequency: 'Mensuelle',
-              supportStrategies: 'Communication visuelle, gestion du stress'
-            }
-          ],
-          category: 'Soutien modéré',
-          categoryClass: 'bg-soft-warning',
-          indicatorClass: 'bg-warning'
-        },
-        {
-          image: 'https://bootdey.com/img/Content/avatar/avatar3.png',
-          name: 'Nadia Lefevre',
-          role: 'Mère',
-          children: [
-            {
-              name: 'Tom Lefevre',
-              age: 5,
-              progress: 'Grandes améliorations',
-              evaluationFrequency: 'Bihebdomadaire',
-              supportStrategies: 'Activités sociales encadrées, imitation guidée'
-            }
-          ],
-          category: 'Parent engagé',
-          categoryClass: 'bg-soft-success',
-          indicatorClass: 'bg-success'
-        },
-        {
-          image: 'https://bootdey.com/img/Content/avatar/avatar4.png',
-          name: 'David Morel',
-          role: 'Tuteur',
-          children: [
-            {
-              name: 'Lucas Morel',
-              age: 7,
-              progress: 'Progrès variables',
-              evaluationFrequency: 'Quotidienne',
-              supportStrategies: 'Thérapie ABA, structuration des tâches'
-            }
-          ],
-          category: 'Accompagnement structuré',
-          categoryClass: 'bg-soft-danger',
-          indicatorClass: 'bg-danger'
-        },
-        {
-          image: 'https://bootdey.com/img/Content/avatar/avatar5.png',
-          name: 'Caroline Petit',
-          role: 'Mère',
-          children: [
-            {
-              name: 'Mia Petit',
-              age: 3,
-              progress: 'Premiers apprentissages',
-              evaluationFrequency: 'Hebdomadaire',
-              supportStrategies: 'Stimulation sensorielle, jeux interactifs'
-            }
-          ],
-          category: 'Nouveau suivi',
-          categoryClass: 'bg-soft-info',
-          indicatorClass: 'bg-info'
-        }
-      ];
-
+    // Example data
+    this.users = [
+      {
+        id: 1,
+        username: 'John Doe',
+        address: '123 Main St, New York',
+        phone: '+1 123-456-7890',
+        email: 'john.doe@example.com',
+        registerDate: new Date('2023-01-12'),
+        profilesNumber: 3,
+      },
+      {
+        id: 2,
+        username: 'Jane Smith',
+        address: '456 Park Ave, London',
+        phone: '+44 20 7946 0958',
+        email: 'jane.smith@example.com',
+        registerDate: new Date('2022-11-05'),
+        profilesNumber: 5,
+      },
+      {
+        id: 3,
+        username: 'Ahmed Ali',
+        address: 'Avenue Habib Bourguiba, Tunis',
+        phone: '+216 55 000 000',
+        email: 'ahmed.ali@example.com',
+        registerDate: new Date('2024-02-20'),
+        profilesNumber: 2,
+      },
+    ];
+    this.loading = false;
   }
 
 }
