@@ -7,10 +7,34 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.ShadowDom
 })
 export class Users_listComponent implements OnInit {
+addNewUser() {
+throw new Error('Method not implemented.');
+}
   users: any[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
+  displayAddUserDialog = false;
 
+  newUser = {
+    username: '',
+    address: '',
+    phone: '',
+    email: '',
+    registerDate: new Date(),
+    profilesNumber: 1
+  };
+  showAddUserDialog() {
+    // this.newUser = { username: '', address: '', phone: '', email: '', registerDate: new Date(), profilesNumber: 1 };
+    this.displayAddUserDialog = true;
+  }
+
+  addUser() {
+    if (this.newUser.username && this.newUser.email) {
+      const newUserEntry = { ...this.newUser, id: this.users.length + 1, imageUrl: 'https://via.placeholder.com/50' };
+      this.users.push(newUserEntry);
+      this.displayAddUserDialog = false;
+    }
+  }
   toggleFilters() {
     this.showFilters = !this.showFilters;
   }

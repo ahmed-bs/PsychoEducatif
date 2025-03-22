@@ -7,6 +7,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.ShadowDom
 })
 export class Profiles_listComponent implements OnInit {
+onAddNew() {
+throw new Error('Method not implemented.');
+}
+onShare(_t42: any) {
+throw new Error('Method not implemented.');
+}
   users: any[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
@@ -24,7 +30,41 @@ export class Profiles_listComponent implements OnInit {
     // Show confirmation dialog and remove from array if confirmed
   }
   
-  
+  displayAddUserDialog: boolean = false;
+
+  newUser: { id: number | null; name: string; age: number | null; birthDate: Date | null; diagnostic: string; progress: number | null; imageUrl: string } = {
+    id: null,
+    name: '',
+    age: null,
+    birthDate: null,
+    diagnostic: '',
+    progress: null,
+    imageUrl: ''
+  };
+
+  // Open the Add User Dialog
+  showAddUserDialog() {
+    this.displayAddUserDialog = true;
+  }
+  addUser() {
+    const newId = Math.floor(Math.random() * 1000); // Simulating user id generation
+    this.newUser.id = newId;
+    
+    // Add the new user to your user list (you can replace this with an actual data service call)
+    console.log('New User Added:', this.newUser);
+
+    // Reset form fields and close dialog
+    this.newUser = {
+      id: null,
+      name: '',
+      age: null,
+      birthDate: null,
+      diagnostic: '',
+      progress: null,
+      imageUrl: ''
+    };
+    this.displayAddUserDialog = false;
+  }
   
   ngOnInit() {
    
