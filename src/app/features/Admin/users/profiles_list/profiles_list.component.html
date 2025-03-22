@@ -1,3 +1,90 @@
-<p>
-  profiles_list works!
-</p>
+<div class="card">
+  <div class="flex justify-end mb-2">
+    <button pButton [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" (click)="toggleFilters()">
+    </button>
+
+  </div>
+  <br>
+
+  <p-table [style]="{ zoom: '0.7' }" #dt2 [value]="users" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading" [paginator]="true" [globalFilterFields]="['username', 'address', 'phone', 'email']"
+    [tableStyle]="{ 'min-width': '75rem' }">
+    <!-- <ng-template #caption>
+                            <div class="flex">
+                              <p-iconfield iconPosition="left" class="ml-auto">
+                                <p-inputicon>
+                                  <i class="pi pi-search"></i>
+                                </p-inputicon>
+                                <input
+                                  pInputText
+                                  type="text"
+                                  (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                                  placeholder="Search keyword"
+                                />
+                              </p-iconfield>
+                            </div>
+                          </ng-template> -->
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Photo</th>
+        <th>Nom / Prénom</th>
+        <th>Âge</th>
+        <th>Date de naissance</th>
+        <th>Diagnostic / trouble(s)</th>
+        <th>Progress</th>
+        <th>Actions</th>
+      </tr>
+      <tr *ngIf="showFilters" style="zoom: 80%;">
+        <th></th>
+        <th>
+          <p-columnFilter type="text" field="name" placeholder="Nom / Prénom"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="numeric" field="age" placeholder="Âge"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="date" field="birthDate" placeholder="Date de naissance"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="diagnostic" placeholder="Diagnostic"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="numeric" field="progress" placeholder="Progress %"></p-columnFilter>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+      <tr>
+        <td>
+          <img [src]="user.imageUrl" alt="User photo" width="50" height="50" style="border-radius: 50%" />
+        </td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.birthDate | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ user.diagnostic }}</td>
+        <td>
+          <p-progressBar [value]="user.progress" [showValue]="true" styleClass="w-full" />
+        </td>
+        <td>
+          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-info"
+            (click)="onEdit(user)"></button>
+          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
+            (click)="onDelete(user)"></button>
+        </td>
+
+      </tr>
+    </ng-template>
+
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="7">Aucun utilisateur trouvé.</td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>
