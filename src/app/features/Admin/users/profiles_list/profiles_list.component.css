@@ -3,3 +3,16 @@
 @import "primeicons/primeicons.css";
 
 /* Custom styling for this isolated component */
+.p-dialog {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .p-dialog-header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+  }
+    .p-dialog-content {
+        background-color: #f5f7fa;
+        padding: 1.5rem;
+    }  

@@ -1,83 +1,127 @@
-<div class="card">
-  <div class="flex justify-end mb-2">
-    <button 
-      pButton 
-      [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" 
-      (click)="toggleFilters()" >
-      <!-- label="{{ showFilters ? 'Masquer les filtres' : 'Afficher les filtres' }}" -->
-    </button>
+  <div class="card p-4 shadow-lg rounded-2xl bg-white">
+    <div class="row justify-content-between align-items-center mb-4">
+      <h2 class="text-xl font-semibold col-auto">Liste des utilisateurs</h2>
+    <p-toolbar styleClass="mb-4">
+      <ng-template pTemplate="left">
+        <div class="d-flex align-items-center">
+          <button pButton [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" (click)="toggleFilters()">
+          </button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div>
+          <button pButton icon="pi pi-plus" label="Add New" class="p-button-success" (click)="showAddUserDialog()">
+          </button>
+        </div>
+      </ng-template>
+    </p-toolbar>
   </div>
-  <br>
+    <br>
+    <p-table  #dt2 class="rounded-2xl overflow-hidden shadow-md" [value]="users" dataKey="id"
+      [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
+      [globalFilterFields]="['username', 'address', 'phone', 'email']" [tableStyle]="{ 'min-width': '75rem' }">
 
-  <p-table [style]="{ zoom: '0.7' }"
-    #dt2
-    [value]="users"
-    dataKey="id"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [loading]="loading"
-    [paginator]="true"
-    [globalFilterFields]="['username', 'address', 'phone', 'email']"
-    [tableStyle]="{ 'min-width': '75rem' }"
-  >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Image</th>
+          <th>Nom / Prénom</th>
+          <th>Adresse</th>
+          <th>Téléphone</th>
+          <th>Email</th>
+          <th>Date d’inscription</th>
+          <th>Nombre de profils</th>
+          <th>Actions</th>
+        </tr>
+        <tr *ngIf="showFilters" style="zoom: 80%;">
+          <th></th>
+          <th>
+            <p-columnFilter type="text" field="username" placeholder="Recherche nom/prénom" showFilterMenu="false"></p-columnFilter>
+          </th>
+          <th>
+            <p-columnFilter type="text" field="address" placeholder="Recherche adresse" showFilterMenu="false"></p-columnFilter>
+          </th>
+          <th>
+            <p-columnFilter type="text" field="phone" placeholder="Recherche téléphone" showFilterMenu="false"></p-columnFilter>
+          </th>
+          <th>
+            <p-columnFilter type="text" field="email" placeholder="Recherche email" showFilterMenu="false"></p-columnFilter>
+          </th>
+          <th>
+            <p-columnFilter type="date" field="registerDate" placeholder="Recherche date" showFilterMenu="false"></p-columnFilter>
+          </th>
+          <th>
+            <p-columnFilter type="numeric" field="profilesNumber" placeholder="Recherche profils" showFilterMenu="false"></p-columnFilter>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
 
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Image</th>
-        <th>Nom / Prénom</th>
-        <th>Adresse</th>
-        <th>Téléphone</th>
-        <th>Email</th>
-        <th>Date d’inscription</th>
-        <th>Nombre de profils</th>
-        <th>Actions</th>
-      </tr>
-      <tr *ngIf="showFilters" style="zoom: 80%;">
-        <th></th>
-        <th>
-          <p-columnFilter type="text" field="username" placeholder="Recherche nom/prénom"></p-columnFilter>
-        </th>
-        <th>
-          <p-columnFilter type="text" field="address" placeholder="Recherche adresse"></p-columnFilter>
-        </th>
-        <th>
-          <p-columnFilter type="text" field="phone" placeholder="Recherche téléphone"></p-columnFilter>
-        </th>
-        <th>
-          <p-columnFilter type="text" field="email" placeholder="Recherche email"></p-columnFilter>
-        </th>
-        <th>
-          <p-columnFilter type="date" field="registerDate" placeholder="Recherche date"></p-columnFilter>
-        </th>
-        <th>
-          <p-columnFilter type="numeric" field="profilesNumber" placeholder="Recherche profils"></p-columnFilter>
-        </th>
-        <th></th>
-      </tr>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>
+            <img [src]="user.imageUrl" alt="Image utilisateur" width="50" height="50" style="border-radius: 50%;" />
+          </td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.registerDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ user.profilesNumber }}</td>
+          <td>
+            <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm"
+              (click)="editUser(user)" title="Modifier"></button>
+            <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm ml-2"
+              (click)="deleteUser(user.id)" title="Supprimer"></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="8">Aucun utilisateur trouvé.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <p-dialog header="Ajouter un utilisateur" [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '30vw' ,zoom:'90%'}" [dismissableMask]="true">
+    <div class="p-fluid">
+      <!-- Username field -->
+      <div class="p-field">
+        <label for="username">Nom / Prénom</label>
+        <input id="username" pInputText [(ngModel)]="newUser.username" />
+      </div>
+  
+      <!-- Address field -->
+      <div class="p-field">
+        <label for="address">Adresse</label>
+        <input id="address" pInputText [(ngModel)]="newUser.address" />
+      </div>
+  
+      <!-- Phone field -->
+      <div class="p-field">
+        <label for="phone">Téléphone</label>
+        <input id="phone" pInputText [(ngModel)]="newUser.phone" />
+      </div>
+  
+      <!-- Email field -->
+      <div class="p-field">
+        <label for="email">Email</label>
+        <input id="email" pInputText type="email" [(ngModel)]="newUser.email" />
+      </div>
+  
+      <!-- Registration Date field -->
+      <div class="p-field">
+        <label for="registerDate">Date d’inscription</label>
+        <p-calendar id="registerDate" [(ngModel)]="newUser.registerDate" dateFormat="dd/mm/yy"></p-calendar>
+      </div>
+    </div>
+  
+    <!-- Dialog footer -->
+    <ng-template pTemplate="footer">
+      <button pButton label="Annuler" icon="pi pi-times" class="p-button-text"
+        (click)="displayAddUserDialog = false"></button>
+      <button pButton label="Ajouter" icon="pi pi-check" class="p-button-success" (click)="addUser()"></button>
     </ng-template>
-
-    <ng-template pTemplate="body" let-user>
-      <tr>
-        <td>
-          <img [src]="user.imageUrl" alt="Image utilisateur" width="50" height="50" style="border-radius: 50%;" />
-        </td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.address }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.registerDate | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ user.profilesNumber }}</td>
-        <td>
-          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" (click)="editUser(user)" title="Modifier"></button>
-          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm ml-2" (click)="deleteUser(user.id)" title="Supprimer"></button>
-        </td>
-      </tr>
-    </ng-template>
-
-    <ng-template #emptymessage>
-      <tr>
-        <td colspan="8">Aucun utilisateur trouvé.</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+  </p-dialog>
+  

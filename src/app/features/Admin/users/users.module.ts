@@ -15,7 +15,9 @@ import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { Profiles_listComponent } from './profiles_list/profiles_list.component';
 import { ProgressBarModule } from 'primeng/progressbar';
-
+import { DialogModule } from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
+import { ToolbarModule } from 'primeng/toolbar';
 @NgModule({
   imports: [
     CommonModule,
@@ -30,7 +32,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
     InputIconModule,
     FormsModule,
     ProgressBarModule,
-    ButtonModule
+    DialogModule,
+    ButtonModule,
+    CalendarModule,
+    ToolbarModule
   ],
   declarations: [UsersComponent,Users_listComponent,Profiles_listComponent]
 })
