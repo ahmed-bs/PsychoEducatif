@@ -12,6 +12,9 @@ import { InputTextModule } from 'primeng/inputtext';
 // import { ColumnFilterModule } from 'primeng/columnfilter';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { ButtonModule } from 'primeng/button';
+import { Profiles_listComponent } from './profiles_list/profiles_list.component';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   imports: [
@@ -26,7 +29,9 @@ import { InputIconModule } from 'primeng/inputicon';
     IconFieldModule,
     InputIconModule,
     FormsModule,
+    ProgressBarModule,
+    ButtonModule
   ],
-  declarations: [UsersComponent,Users_listComponent]
+  declarations: [UsersComponent,Users_listComponent,Profiles_listComponent]
 })
 export class UsersModule { }

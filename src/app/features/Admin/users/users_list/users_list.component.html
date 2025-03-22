@@ -1,85 +1,83 @@
+<div class="card">
+  <div class="flex justify-end mb-2">
+    <button 
+      pButton 
+      [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" 
+      (click)="toggleFilters()" >
+      <!-- label="{{ showFilters ? 'Masquer les filtres' : 'Afficher les filtres' }}" -->
+    </button>
+  </div>
+  <br>
 
-                    <div class="card">
-                        <p-table
-                          #dt2
-                          [value]="users"
-                          dataKey="id"
-                          [rows]="10"
-                          [rowsPerPageOptions]="[10, 25, 50]"
-                          [loading]="loading"
-                          [paginator]="true"
-                          [globalFilterFields]="['username', 'address', 'phone', 'email']"
-                          [tableStyle]="{ 'min-width': '75rem' }"
-                        >
-                          <!-- <ng-template #caption>
-                            <div class="flex">
-                              <p-iconfield iconPosition="left" class="ml-auto">
-                                <p-inputicon>
-                                  <i class="pi pi-search"></i>
-                                </p-inputicon>
-                                <input
-                                  pInputText
-                                  type="text"
-                                  (input)="dt2.filterGlobal($event.target.value, 'contains')"
-                                  placeholder="Search keyword"
-                                />
-                              </p-iconfield>
-                            </div>
-                          </ng-template> -->
-                      
-                          <ng-template  pTemplate="header">
-                            <tr>
-                              <th>Username</th>
-                              <th>Address</th>
-                              <th>Phone</th>
-                              <th>Email</th>
-                              <th>Register Date</th>
-                              <th>Profiles Number</th>
-                            </tr>
-                            <tr>
-                              <th>
-                                <p-columnFilter type="text" field="username" placeholder="Search username"></p-columnFilter>
-                              </th>
-                              <th>
-                                <p-columnFilter type="text" field="address" placeholder="Search address"></p-columnFilter>
-                              </th>
-                              <th>
-                                <p-columnFilter type="text" field="phone" placeholder="Search phone"></p-columnFilter>
-                              </th>
-                              <th>
-                                <p-columnFilter type="text" field="email" placeholder="Search email"></p-columnFilter>
-                              </th>
-                              <th>
-                                <p-columnFilter type="date" field="registerDate" placeholder="Search date"></p-columnFilter>
-                              </th>
-                              <th>
-                                <p-columnFilter type="numeric" field="profilesNumber" placeholder="Search profiles"></p-columnFilter>
-                              </th>
-                            </tr>
-                          </ng-template>
-                      
-                          <ng-template  pTemplate="body" let-user>
-                            <tr>
-                              <td>{{ user.username }}</td>
-                              <td>{{ user.address }}</td>
-                              <td>{{ user.phone }}</td>
-                              <td>{{ user.email }}</td>
-                              <td>{{ user.registerDate | date: 'dd/MM/yyyy' }}</td>
-                              <td>{{ user.profilesNumber }}</td>
-                            </tr>
-                          </ng-template>
-                      
-                          <ng-template #emptymessage>
-                            <tr>
-                              <td colspan="6">No users found.</td>
-                            </tr>
-                          </ng-template>
-                        </p-table>
-                      </div>
-                      
+  <p-table [style]="{ zoom: '0.7' }"
+    #dt2
+    [value]="users"
+    dataKey="id"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    [globalFilterFields]="['username', 'address', 'phone', 'email']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+  >
 
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Image</th>
+        <th>Nom / Prénom</th>
+        <th>Adresse</th>
+        <th>Téléphone</th>
+        <th>Email</th>
+        <th>Date d’inscription</th>
+        <th>Nombre de profils</th>
+        <th>Actions</th>
+      </tr>
+      <tr *ngIf="showFilters" style="zoom: 80%;">
+        <th></th>
+        <th>
+          <p-columnFilter type="text" field="username" placeholder="Recherche nom/prénom"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="address" placeholder="Recherche adresse"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="phone" placeholder="Recherche téléphone"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="email" placeholder="Recherche email"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="date" field="registerDate" placeholder="Recherche date"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="numeric" field="profilesNumber" placeholder="Recherche profils"></p-columnFilter>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
 
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <img [src]="user.imageUrl" alt="Image utilisateur" width="50" height="50" style="border-radius: 50%;" />
+        </td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.address }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.registerDate | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ user.profilesNumber }}</td>
+        <td>
+          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" (click)="editUser(user)" title="Modifier"></button>
+          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm ml-2" (click)="deleteUser(user.id)" title="Supprimer"></button>
+        </td>
+      </tr>
+    </ng-template>
 
-
-
-
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="8">Aucun utilisateur trouvé.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
