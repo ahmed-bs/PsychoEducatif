@@ -8,7 +8,7 @@ import { QuizComponent } from './quiz/quiz.component';
 const routes: Routes = [
   { path:'',component:DashboardClientComponent },
   { path:'explore',component:ExploreComponent },
-  { path:'Kids_profiles',component:Kids_profilesComponent },
+  { path:'Kids_profiles/:childId',component:Kids_profilesComponent },
   { path:'evaluations/:categorie',component:EvaluationsComponent },
   { path: 'quiz/:categorie', component: QuizComponent },
 ];

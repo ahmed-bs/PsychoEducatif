@@ -1,3 +1,4 @@
+
 <div class="container-custom">
 
     <!-- Main Content -->
@@ -23,7 +24,7 @@
             <!-- Conteneur avec scroll pour les cartes -->
             <div class="cards-container">
                 <!-- Liste des cartes dynamiques -->
-                <div class="course-card" *ngFor="let child of filteredChildren">
+                <div class="course-card" *ngFor="let child of filteredChildren" (click)="selectChild(child)">
                     <div class="course-content">
                         <svg class="circle-chart" viewBox="0 0 33.83 33.83" width="80" height="80">
                             <defs>
@@ -69,33 +70,43 @@
             <!-- Profile Card -->
             <div class="row">
                 <div class="col-md-6">
-                    <div class="card profile-card mb-3">
+                    <div class="card profile-card mb-3" *ngIf="selectedChild">
                         <div class="profile-header" style="position: relative;">
-                           
-                            <a href="#" class="edit-icon" style="position: absolute; top: 10px; right: 10px;" >
-                              <i class="fa fa-pencil" aria-hidden="true" style="color: #4da5d8; font-size: 20px;"></i>
+                            <a href="#" class="edit-icon" style="position: absolute; top: 10px; right: 10px;">
+                                <i class="fa fa-pencil" aria-hidden="true" style="color: #4da5d8; font-size: 20px;"></i>
                             </a>
-                          </div>
+ <!-- Icône de partage -->
+<a  class="share-icon"  style="position: absolute; top: 10px; right: 50px;">
+    <i class="pi pi-share-alt" style="color: #a01717; font-size: 20px;"></i>
+</a>
+
+
+                        </div>
                         <div class="profile-avatar">
                             <img src="assets/image_client/jeune-homme-souriant-aux-lunettes_1308-174373.avif"
                                 alt="Avatar de Lucas">
                         </div>
+                        <!-- <div class="profile-avatar">
+                            <img [src]="selectedChild.image" alt="Avatar de {{ selectedChild.name }}">
+                        </div> -->
                         <div class="profile-info">
-                            <h3><a href="#" class="text-dark">Lucas, 5 ans</a></h3>
-                            <p><i class="fa fa-map-marker" aria-hidden="true"></i> Paris, FRA</p>
+                            <h3><a href="#" class="text-dark">{{ selectedChild.name }}, {{ selectedChild.age }} ans</a>
+                            </h3>
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ selectedChild.location }}</p>
                             <div class="profile-stats">
                                 <div class="stat-card">
                                     <i class="fa fa-check-circle"></i>
-                                    <h4>10</h4>
+                                    <h4>{{ selectedChild.objectives.length }}</h4>
                                     <p>Compétences acquises</p>
                                 </div>
                                 <div class="stat-card">
                                     <i class="fa fa-bullseye"></i>
-                                    <h4>3</h4>
-                                    <p>Objectifs actifs</p>
+                                    <h4>{{ selectedChild.evaluationScore }}%</h4>
+                                    <p>Évaluation</p>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -252,80 +263,94 @@
 <!-- Popup pour ajouter un enfant -->
 <p-dialog header="Ajouter un enfant" [(visible)]="displayDialog" [modal]="true" [style]="{ width: '40vw' }">
     <div class="dialog-content">
-      <div class="field">
-        <label for="name">Nom</label>
-        <input pInputText id="name" [(ngModel)]="newChild.name" placeholder="Nom" required />
-      </div>
-      <div class="field">
-        <label for="age">Âge</label>
-        <input pInputText id="age" type="number" [(ngModel)]="newChild.age" placeholder="Âge" required />
-      </div>
-      <div class="field">
-        <label for="diagnosisDate">Date de diagnostic</label>
-        <input pInputText id="diagnosisDate" type="date" [(ngModel)]="newChild.diagnosisDate" />
-      </div>
-      <div class="field">
-        <label for="evaluationScore">Score d'évaluation</label>
-        <input pInputText id="evaluationScore" type="number" [(ngModel)]="newChild.evaluationScore" placeholder="Score (0-100)" />
-      </div>
-      <div class="field">
-        <label for="objectives">Objectifs (séparés par des virgules)</label>
-        <input pInputText id="objectives" [(ngModel)]="newChild.objectives" (ngModelChange)="newChild.objectives = $event.split(',')" placeholder="Ex: Communication, Autonomie" />
-      </div>
-      <div class="field">
-        <label for="progress">Progrès</label>
-        <input pInputText id="progress" [(ngModel)]="newChild.progress" placeholder="Ex: En progrès" />
-      </div>
-      <div class="field">
-        <label for="strategies">Stratégies (séparées par des virgules)</label>
-        <input pInputText id="strategies" [(ngModel)]="newChild.recommendedStrategies" (ngModelChange)="newChild.recommendedStrategies = $event.split(',')" placeholder="Ex: Renforcement positif" />
-      </div>
-      <div class="field">
-        <label for="imageUrl">URL de l'image</label>
-        <input pInputText id="imageUrl" [(ngModel)]="newChild.imageUrl" placeholder="URL de l'image (optionnel)" />
-      </div>
+        <div class="field">
+            <label for="name">Nom</label>
+            <input pInputText id="name" [(ngModel)]="newChild.name" placeholder="Nom" required />
+        </div>
+        <div class="field">
+            <label for="age">Âge</label>
+            <input pInputText id="age" type="number" [(ngModel)]="newChild.age" placeholder="Âge" required />
+        </div>
+        <div class="field">
+            <label for="diagnosisDate">Date de diagnostic</label>
+            <input pInputText id="diagnosisDate" type="date" [(ngModel)]="newChild.diagnosisDate" />
+        </div>
+        <div class="field">
+            <label for="evaluationScore">Score d'évaluation</label>
+            <input pInputText id="evaluationScore" type="number" [(ngModel)]="newChild.evaluationScore"
+                placeholder="Score (0-100)" />
+        </div>
+        <div class="field">
+            <label for="objectives">Objectifs (séparés par des virgules)</label>
+            <input pInputText id="objectives" [(ngModel)]="newChild.objectives"
+                (ngModelChange)="newChild.objectives = $event.split(',')" placeholder="Ex: Communication, Autonomie" />
+        </div>
+        <div class="field">
+            <label for="progress">Progrès</label>
+            <input pInputText id="progress" [(ngModel)]="newChild.progress" placeholder="Ex: En progrès" />
+        </div>
+        <div class="field">
+            <label for="strategies">Stratégies (séparées par des virgules)</label>
+            <input pInputText id="strategies" [(ngModel)]="newChild.recommendedStrategies"
+                (ngModelChange)="newChild.recommendedStrategies = $event.split(',')"
+                placeholder="Ex: Renforcement positif" />
+        </div>
+        <div class="field">
+            <label for="imageUrl">URL de l'image</label>
+            <input pInputText id="imageUrl" [(ngModel)]="newChild.imageUrl" placeholder="URL de l'image (optionnel)" />
+        </div>
     </div>
     <ng-template pTemplate="footer">
-      <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-      <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"></p-button>
+        <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
+        <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"></p-button>
     </ng-template>
-  </p-dialog>
+</p-dialog>
 
 
 
-  <p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+<p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
     <div class="p-fluid">
-      <div class="p-field">
-        <label for="name">Nom</label>
-        <input pInputText id="name" [(ngModel)]="selectedChild.name" type="text" />
-      </div>
-      <div class="p-field">
-        <label for="age">Âge</label>
-        <input pInputText id="age" [(ngModel)]="selectedChild.age" type="number" />
-      </div>
-      <div class="p-field">
-        <label for="diagnosisDate">Date de diagnostic</label>
-        <input pInputText id="diagnosisDate" [(ngModel)]="selectedChild.diagnosisDate" type="date" />
-      </div>
-      <div class="p-field">
-        <label for="evaluationScore">Score d'évaluation</label>
-        <input pInputText id="evaluationScore" [(ngModel)]="selectedChild.evaluationScore" type="number" />
-      </div>
-      <div class="p-field">
-        <label for="objectives">Objectifs (séparés par des virgules)</label>
-        <input pInputText id="objectives" [(ngModel)]="selectedChild.objectives" (ngModelChange)="selectedChild.objectives = $event.split(',')" type="text" />
-      </div>
-      <div class="p-field">
-        <label for="progress">Progrès</label>
-        <input pInputText id="progress" [(ngModel)]="selectedChild.progress" type="text" />
-      </div>
-      <div class="p-field">
-        <label for="recommendedStrategies">Stratégies recommandées (séparées par des virgules)</label>
-        <input pInputText id="recommendedStrategies" [(ngModel)]="selectedChild.recommendedStrategies" (ngModelChange)="selectedChild.recommendedStrategies = $event.split(',')" type="text" />
-      </div>
+        <div class="p-field">
+            <label for="name">Nom</label>
+            <input pInputText id="name" [(ngModel)]="selectedChild.name" type="text" />
+        </div>
+        <div class="p-field">
+            <label for="age">Âge</label>
+            <input pInputText id="age" [(ngModel)]="selectedChild.age" type="number" />
+        </div>
+        <div class="p-field">
+            <label for="diagnosisDate">Date de diagnostic</label>
+            <input pInputText id="diagnosisDate" [(ngModel)]="selectedChild.diagnosisDate" type="date" />
+        </div>
+        <div class="p-field">
+            <label for="evaluationScore">Score d'évaluation</label>
+            <input pInputText id="evaluationScore" [(ngModel)]="selectedChild.evaluationScore" type="number" />
+        </div>
+        <div class="p-field">
+            <label for="objectives">Objectifs (séparés par des virgules)</label>
+            <input pInputText id="objectives" [(ngModel)]="selectedChild.objectives"
+                (ngModelChange)="selectedChild.objectives = $event.split(',')" type="text" />
+        </div>
+        <div class="p-field">
+            <label for="progress">Progrès</label>
+            <input pInputText id="progress" [(ngModel)]="selectedChild.progress" type="text" />
+        </div>
+        <div class="p-field">
+            <label for="recommendedStrategies">Stratégies recommandées (séparées par des virgules)</label>
+            <input pInputText id="recommendedStrategies" [(ngModel)]="selectedChild.recommendedStrategies"
+                (ngModelChange)="selectedChild.recommendedStrategies = $event.split(',')" type="text" />
+        </div>
     </div>
     <p-footer>
-      <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancelEdit()"></button>
-      <button pButton type="button" label="Enregistrer" class="p-button-primary" (click)="saveChild()"></button>
+        <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancelEdit()"></button>
+        <button pButton type="button" label="Enregistrer" class="p-button-primary" (click)="saveChild()"></button>
     </p-footer>
-  </p-dialog>
+</p-dialog>
+
+
+
+
+
+
+

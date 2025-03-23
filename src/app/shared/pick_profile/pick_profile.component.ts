@@ -57,14 +57,30 @@ export class Pick_profileComponent implements OnInit {
       progress: 'Stable',
       recommendedStrategies: ['Routines visuelles', 'Temps calme'],
       imageUrl: 'assets/image_client/jeune-homme-souriant-aux-lunettes_1308-174373.avif'
+    },
+    {
+      id: 4,
+      parentId: 101,
+      name: 'Lucas Martin',
+      age: 8,
+      diagnosisDate: new Date('2019-08-20'),
+      evaluationScore: 82,
+      objectives: ['Augmenter l’autonomie', 'Gérer les émotions'],
+      progress: 'Stable',
+      recommendedStrategies: ['Routines visuelles', 'Temps calme'],
+      imageUrl: 'assets/image_client/jeune-homme-souriant-aux-lunettes_1308-174373.avif'
     }
 
   ];
+
+  filteredChildren: Child[] = []; // Liste filtrée
+  searchTerm: string = '';
 
   // Propriétés pour le dialog
   displayDialog: boolean = false;
   displayEditDialog: boolean = false; // Contrôle le dialogue de modification
   selectedChild: any = {};
+  selectedChildid: Child | null = null;
   newChild: Child = {
     id: 0, // Sera généré dynamiquement ou via un service
     parentId: 0, // À définir selon le contexte (ex: ID du parent connecté)
@@ -83,8 +99,19 @@ export class Pick_profileComponent implements OnInit {
 
   ngOnInit() {
     // Initialisation si nécessaire
+    this.filteredChildren = [...this.children];
   }
 
+  // Filtrer les enfants en fonction du terme de recherche
+  filterChildren() {
+    if (!this.searchTerm) {
+      this.filteredChildren = [...this.children]; // Réinitialise si vide
+    } else {
+      this.filteredChildren = this.children.filter(child =>
+        child.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  }
   // Ouvrir le dialog
   showDialog() {
     this.displayDialog = true;
@@ -103,6 +130,7 @@ export class Pick_profileComponent implements OnInit {
         recommendedStrategies: this.newChild.recommendedStrategies.length ? this.newChild.recommendedStrategies : ['À définir']
       });
       this.resetNewChild();
+      this.filteredChildren = [...this.children];
       this.displayDialog = false;
     }
   }
@@ -142,11 +170,13 @@ export class Pick_profileComponent implements OnInit {
   }
 
 
+
   // Enregistre les modifications
   saveChild() {
-    const index = this.children.findIndex(c => c.name === this.selectedChild.name); // Exemple de recherche par nom
+    const index = this.children.findIndex(c => c.id === this.selectedChild.id); // Recherche par ID
     if (index !== -1) {
-      this.children[index] = { ...this.selectedChild }; // Met à jour l'enfant dans la liste
+      this.children[index] = { ...this.selectedChild };
+      this.filteredChildren = [...this.children]; // Met à jour la liste filtrée
     }
     this.displayEditDialog = false;
   }
@@ -181,7 +211,9 @@ export class Pick_profileComponent implements OnInit {
   });
 }
 
-  navigateToClient() {
-    this.router.navigate(['/Dashboard-client/client']);
-  }
+navigateToClient(childId: any) {
+  this.selectedChildid=childId;
+ console.log( this.selectedChildid);
+  this.router.navigate(['/Dashboard-client/client/Kids_profiles',childId]); // Redirection avec l'ID dans l'URL
+}
 }
