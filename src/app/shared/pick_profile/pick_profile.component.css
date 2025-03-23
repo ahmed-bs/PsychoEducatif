@@ -107,6 +107,7 @@ body {
     cursor: pointer;
     border: 2px dashed var(--primary-color);
     transition: all  0.4s;
+    margin-left: 300px;
 }
 
 .card--add:hover {
@@ -327,7 +328,131 @@ body {
         padding: 0.75rem;
     }
 }
+.cards-container {
+    width: 820px;
+    overflow-x: auto; /* Scroll horizontal */
+    overflow-y: hidden; /* Pas de scroll vertical */
+    padding-bottom: 0.5rem; /* Padding en bas au lieu de droite */
+    position: relative; /* Pour le positionnement du message */
+    display: flex; /* Ajout de flex pour aligner les cartes horizontalement */
+    white-space: nowrap; /* Empêche le retour à la ligne */
+    gap: 1rem; /* Espace entre les cartes, ajustable */
+}
 
+.no-children-message {
+    text-align: center;
+    padding: 2rem;
+    color: #64748b; /* Gris moyen du thème */
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+/* Style optionnel pour améliorer le visuel */
+.no-children-message p {
+    margin: 0;
+    background-color: #f8fafc; /* Fond légèrement gris */
+    border-radius: 0.375rem;
+    padding: 1rem;
+}
+
+/* Style de la scrollbar (optionnel, compatible avec Webkit) */
+.cards-container::-webkit-scrollbar {
+    height: 8px; /* Hauteur de la scrollbar horizontale */
+}
+
+.cards-container::-webkit-scrollbar-track {
+    background: #f1f5f9; /* Fond de la piste */
+    border-radius: 4px;
+}
+
+.cards-container::-webkit-scrollbar-thumb {
+    background: rgb(77, 165, 216); /* Corail du thème */
+    border-radius: 4px;
+}
+
+.cards-container::-webkit-scrollbar-thumb:hover {
+    background: rgb(77, 165, 216); /* Corail plus foncé au survol */
+}
+
+
+/***************search-bar*******************/
+.search-bar {
+    margin-bottom: 1.5rem;
+    width: 100%; /* Assure que la barre prend toute la largeur disponible */
+  }
+  
+  /* Conteneur avec icône */
+  :host ::ng-deep .p-input-icon-left {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Style de l’icône */
+  :host ::ng-deep .p-input-icon-left > i {
+    color: #64748b; /* Gris moyen du thème */
+    font-size: 1.1rem; /* Légère augmentation pour visibilité */
+    position: absolute;
+    left: 0.75rem; /* Positionnement à gauche */
+    top: 50%;
+    transform: translateY(-50%); /* Centrage vertical */
+  }
+  
+  /* Style du champ de saisie */
+  :host ::ng-deep .p-input-icon-left > .search-input {
+    width: 100%;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* Padding à gauche pour l’icône */
+    border-radius: 0.375rem;
+    border: 1px solid #e5e7eb;
+    font-size: 1rem;
+    color: #1e3a8a; /* Bleu profond du thème */
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* État focus */
+  :host ::ng-deep .p-input-icon-left > .search-input:focus {
+    border-color: #fb7185; /* Corail du thème */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.2); /* Halo corail */
+  }
+  
+  /* Placeholder */
+  :host ::ng-deep .p-input-icon-left > .search-input::placeholder {
+    color: #94a3b8; /* Gris bleuté pour le placeholder */
+    font-style: italic;
+  }
+  
+  /* Hover (optionnel) */
+  :host ::ng-deep .p-input-icon-left > .search-input:hover {
+    border-color: #cbd5e1; /* Gris clair au survol */
+  }
+  
+  /* Responsivité */
+  @media (max-width: 768px) {
+    .search-bar {
+      margin-bottom: 1rem;
+    }
+  
+    :host ::ng-deep .p-input-icon-left > .search-input {
+      font-size: 0.95rem;
+      padding: 0.65rem 0.65rem 0.65rem 2.25rem;
+    }
+  
+    :host ::ng-deep .p-input-icon-left > i {
+      font-size: 1rem;
+      left: 0.65rem;
+    }
+  }
+/****************************************/
+
+/* Assurez-vous que les cartes ne s'étirent pas */
+.card {
+    flex: 0 0 auto; /* Taille fixe, pas d'étirement */
+    width: 250px; /* Ajustez selon vos besoins */
+    /* Vos autres styles existants pour .card */
+}
 
 .welcome-message {
     position: relative; /* Permet de superposer le contenu sur l'image */

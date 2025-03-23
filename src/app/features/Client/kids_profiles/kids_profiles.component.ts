@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Child } from 'src/app/core/models/child';
 import Swal from 'sweetalert2';
 
@@ -9,6 +9,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   standalone:true,
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './kids_profiles.component.html',
   styleUrls: ['./kids_profiles.component.css'],
   imports: [DialogModule, ButtonModule, InputTextModule, FormsModule, CommonModule],
+  providers: [MessageService] 
 })
 export class Kids_profilesComponent implements OnInit {
 
@@ -59,8 +61,11 @@ export class Kids_profilesComponent implements OnInit {
 
   ];
 
+
+
   filteredChildren: Child[] = []; // Liste filtrée
   searchTerm: string = '';
+  childId: any | null = null;
 
   // Propriétés pour le dialog
   displayDialog: boolean = false;
@@ -80,11 +85,23 @@ export class Kids_profilesComponent implements OnInit {
   };
 
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private route: ActivatedRoute,private messageService: MessageService) {}
 
   ngOnInit() {
-    // Initialisation si nécessaire
-    this.filteredChildren = [...this.children];
+    this.childId = this.route.snapshot.paramMap.get('childId'); // Récupère l'ID de l'URL
+  console.log('Enfant sélectionné ID:', this.childId);
+
+  // Convertir l'ID en nombre (Angular récupère souvent des chaînes)
+  const parsedId = this.childId ? parseInt(this.childId, 10) : null;
+
+  // Charger les enfants
+  this.filteredChildren = [...this.children]; 
+
+  if (parsedId) {
+    this.selectedChild = this.filteredChildren.find(child => child.id === parsedId);
+    console.log('Données de l’enfant sélectionné:', this.selectedChild);
+  }
+ 
   }
 
   // Filtrer les enfants en fonction du terme de recherche
@@ -97,6 +114,11 @@ export class Kids_profilesComponent implements OnInit {
       );
     }
   }
+    // Fonction pour sélectionner un enfant et mettre à jour le profil
+    selectChild(child: Child) {
+      this.selectedChild = child;
+    }
+  
 
   // Ouvrir le dialog
   showDialog() {

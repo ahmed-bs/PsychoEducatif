@@ -836,3 +836,9 @@
         transform: none;
     }
 }
+
+
+/* Style de la share-popup */
+.share-icon {
+    cursor: pointer;
+}
