@@ -24,20 +24,31 @@
 </div>
 <div class="container">
     <main>
-        <div class="insights">
-            <div class="sales" *ngFor="let insight of insights">
-                <span class="material-symbols-sharp">{{ insight.categoryIcon }}</span>
-                <div class="middle">
-                    <div class="left">
-                        <h2>{{ insight.title }}</h2>
-                        <h3>Créé le : {{ insight.createdDate }}</h3>
-                    </div>
-                </div>
-                <small class="text-muted">Nombre des items : {{ insight.itemsCount }}</small>
-                <small class="text-muted">Nombre des domaines : {{ insight.domainsCount }}</small>
-                <br>
-            </div>
-        </div>
+    <div class="insights">
+      <div class="sales" *ngFor="let insight of insights">
+          <!-- Top Right Button -->
+          <button class="btn top-right" (click)="editcontent(insight)">✏️</button>
+          <span class="material-symbols-sharp">{{ insight.categoryIcon }}</span>
+
+          <div class="middle">
+              <div class="left">
+                  <h2>{{ insight.title }}</h2>
+                  <h3>Créé le : {{ insight.createdDate }}</h3>
+              </div>
+          </div>
+
+          <small class="text-muted">Nombre des items : {{ insight.itemsCount }}</small>
+          <small class="text-muted">Nombre des domaines : {{ insight.domainsCount }}</small>
+          <br>
+          
+          <!-- Bottom Buttons -->
+          <div class="buttons">
+              <button class="btn delete" (click)="deleteInsight(insight)">🗑</button>
+              <button class="btn edit" (click)="topRightAction(insight)">⚙️</button>
+          </div>
+      </div>
+  </div>
+  
     </main>
 </div>
 <!-- <p-dialog header="Ajouter une profile" [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '30vw' ,zoom:'90%'}" [dismissableMask]="true">

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -7,10 +8,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.ShadowDom
 })
 export class CategoriesComponent implements OnInit {
+  displayAddUserDialog!: boolean;
+
 
   showFilters: boolean = false;
-  displayAddUserDialog: boolean = false;
-  constructor() { }
+  constructor(private router: Router) { }
 
    insights: Insight[] = [
     {
@@ -75,6 +77,15 @@ export class CategoriesComponent implements OnInit {
   showAddUserDialog() {
     this.displayAddUserDialog = true;
   }
+  topRightAction(_t23: Insight) {
+    throw new Error('Method not implemented.');
+    }
+    editcontent(insight: any) {
+      this.router.navigate(['Dashboard/admin/evaluations_configurations/items']); 
+    }
+    deleteInsight(_t23: Insight) {
+    throw new Error('Method not implemented.');
+    }
 }
 interface Insight {
   categoryIcon: string;

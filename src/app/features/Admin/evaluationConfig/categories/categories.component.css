@@ -196,3 +196,45 @@ main .insights>div:hover {
         grid-template-columns: 1fr;
     }
 }
+
+
+.buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.btn {
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.delete {
+    background-color: #ee7474;
+    color: white;
+}
+
+.edit {
+    background-color: #50c254;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+/* Top Right Button */
+.top-right {
+    position: absolute;
+    top: 20px;
+    right: 8px;
+    background-color: #97c2f1;
+    color: white;
+}

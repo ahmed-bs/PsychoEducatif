@@ -17,6 +17,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { CategoriesComponent } from './categories/categories.component';
 import { EvaluationConfigRoutes } from './evaluationConfig.routing';
+import { ItemsComponent } from './items/items.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -39,6 +40,6 @@ import { EvaluationConfigRoutes } from './evaluationConfig.routing';
     DropdownModule, 
     InputTextModule
   ],
-  declarations: [EvaluationConfigComponent,CategoriesComponent]
+  declarations: [EvaluationConfigComponent,CategoriesComponent,ItemsComponent]
 })
 export class EvaluationConfigModule { }
