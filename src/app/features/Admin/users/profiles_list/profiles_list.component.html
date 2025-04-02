@@ -71,7 +71,7 @@
             (click)="onEdit(user)"></button>
           <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
             (click)="onDelete(user)"></button>
-          <button pButton icon="pi pi-share-alt" class="p-button-rounded p-button-text p-button-success"
+          <button pButton icon="pi pi-user-plus" class="p-button-rounded p-button-text p-button-success"
             (click)="onShare(user)"></button>
         </td>
 
@@ -108,11 +108,27 @@
       <input id="imageUrl" pInputText [(ngModel)]="newUser.imageUrl" />
     </div>
   </div>
-
   <!-- Dialog footer -->
   <ng-template pTemplate="footer">
     <button pButton label="Annuler" icon="pi pi-times" class="p-button-text"
       (click)="displayAddUserDialog = false"></button>
     <button pButton label="Ajouter" icon="pi pi-check" class="p-button-success" (click)="addUser()"></button>
   </ng-template>
+</p-dialog>
+
+
+<!-- Dialog Popup -->
+<p-dialog header="Share User Access" [(visible)]="showPopup" [modal]="true" [style]="{width: '400px'}">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-8">
+      <input pInputText placeholder="Filter user..." [(ngModel)]="userFilter" />
+    </div>
+    <div class="p-field p-col-4">
+      <p-dropdown [options]="accessOptions" [(ngModel)]="selectedAccess" placeholder="Access" optionLabel="label"></p-dropdown>
+    </div>
+  </div>
+  <p-footer>
+    <button pButton label="Share" icon="pi pi-check" (click)="onShare(userFilter)" class="p-button-success"></button>
+    <button pButton label="Cancel" icon="pi pi-times" (click)="showPopup = false" class="p-button-secondary"></button>
+  </p-footer>
 </p-dialog>
