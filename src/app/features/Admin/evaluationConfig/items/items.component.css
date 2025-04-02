@@ -1,0 +1,59 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.min.css";
+@import "primeicons/primeicons.css";
+
+.back-button {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+}
+.custom-add-button {
+    background-color: #007bff !important; /* Blue shade */
+    border-radius: 20px !important; /* Rounded edges */
+    padding: 8px 16px; /* Spacing */
+    font-weight: bold; /* Bold text */
+    color: white !important; /* Text color */
+    border: none;
+  }
+  
+  .custom-add-button .pi {
+    font-size: 1.2rem !important; /* Bold & bigger icon */
+    font-weight: bold;
+  }
+  
+  .custom-add-button:hover {
+    background-color: #6c9ccf !important; /* Darker blue on hover */
+  }
+  
+
+.container {
+    background-color: #ffffff; /* White background */
+    border-radius: 12px; /* Rounded edges */
+    padding: 20px; /* Spacing inside */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+p-table .p-datatable .p-datatable-table td,th{
+    padding: 0 ;
+  }
+
+  .category-container {
+    padding: 10px;
+    border-left: 4px solid #007bff;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }

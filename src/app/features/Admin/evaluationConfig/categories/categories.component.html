@@ -1,0 +1,95 @@
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
+
+<div class="card p-4 shadow-lg rounded-2xl bg-white">
+    <div class="row justify-content-between align-items-center mb-4">
+        <h2 class="text-xl font-semibold col-auto">Liste des Evalutations</h2>
+        <p-toolbar styleClass="mb-4">
+            <ng-template pTemplate="left">
+                <div class="d-flex align-items-center">
+                    <button pButton [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" (click)="toggleFilters()">
+                    </button>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="right">
+                <div>
+                    <button pButton icon="pi pi-plus" label="Add New" class="p-button-success"
+                        (click)="showAddUserDialog()">
+                    </button>
+                </div>
+            </ng-template>
+        </p-toolbar>
+    </div>
+    <br>
+
+</div>
+<div class="container">
+    <main>
+    <div class="insights">
+      <div class="sales" *ngFor="let insight of insights">
+          <!-- Top Right Button -->
+          <button class="btn top-right" (click)="editcontent(insight)">✏️</button>
+          <span class="material-symbols-sharp">{{ insight.categoryIcon }}</span>
+
+          <div class="middle">
+              <div class="left">
+                  <h2>{{ insight.title }}</h2>
+                  <h3>Créé le : {{ insight.createdDate }}</h3>
+              </div>
+          </div>
+
+          <small class="text-muted">Nombre des items : {{ insight.itemsCount }}</small>
+          <small class="text-muted">Nombre des domaines : {{ insight.domainsCount }}</small>
+          <br>
+          
+          <!-- Bottom Buttons -->
+          <div class="buttons">
+              <button class="btn delete" (click)="deleteInsight(insight)">🗑</button>
+              <button class="btn edit" (click)="topRightAction(insight)">⚙️</button>
+          </div>
+      </div>
+  </div>
+  
+    </main>
+</div>
+<!-- <p-dialog header="Ajouter une profile" [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '30vw' ,zoom:'90%'}" [dismissableMask]="true">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="name">Nom / Prénom</label>
+        <input id="name" pInputText [(ngModel)]="newUser.name" />
+      </div>
+      <div class="p-field">
+        <label for="birthDate">Date de naissance</label>
+        <p-calendar id="birthDate" [(ngModel)]="newUser.birthDate" dateFormat="dd/mm/yy"></p-calendar>
+      </div>
+      <div class="p-field">
+        <label for="diagnostic">Diagnostic / trouble(s)</label>
+        <input id="diagnostic" pInputText [(ngModel)]="newUser.diagnostic" />
+      </div>
+      <div class="p-field">
+        <label for="imageUrl">Image URL</label>
+        <input id="imageUrl" pInputText [(ngModel)]="newUser.imageUrl" />
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton label="Annuler" icon="pi pi-times" class="p-button-text"
+        (click)="displayAddUserDialog = false"></button>
+      <button pButton label="Ajouter" icon="pi pi-check" class="p-button-success" (click)="addUser()"></button>
+    </ng-template>
+  </p-dialog> -->
+
+
+<!-- Dialog Popup -->
+<!-- <p-dialog header="Share User Access" [(visible)]="showPopup" [modal]="true" [style]="{width: '400px'}">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-8">
+        <input pInputText placeholder="Filter user..." [(ngModel)]="userFilter" />
+      </div>
+      <div class="p-field p-col-4">
+        <p-dropdown [options]="accessOptions" [(ngModel)]="selectedAccess" placeholder="Access" optionLabel="label"></p-dropdown>
+      </div>
+    </div>
+    <p-footer>
+      <button pButton label="Share" icon="pi pi-check" (click)="onShare(userFilter)" class="p-button-success"></button>
+      <button pButton label="Cancel" icon="pi pi-times" (click)="showPopup = false" class="p-button-secondary"></button>
+    </p-footer>
+  </p-dialog> -->

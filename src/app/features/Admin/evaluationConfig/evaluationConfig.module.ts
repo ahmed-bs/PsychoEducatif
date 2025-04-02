@@ -1,8 +1,6 @@
+import { EvaluationConfigComponent } from './evaluationConfig.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-import { UsersComponent } from './users.component';
-import { Users_listComponent } from './users_list/users_list.component';
-import { UsersRoutes } from './users.routing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -12,18 +10,20 @@ import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
-import { Profiles_listComponent } from './profiles_list/profiles_list.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
+import { CategoriesComponent } from './categories/categories.component';
+import { EvaluationConfigRoutes } from './evaluationConfig.routing';
+import { ItemsComponent } from './items/items.component';
 @NgModule({
   imports: [
     CommonModule,
-    UsersRoutes,
     MatDialogModule,
     MatButtonModule,
+    EvaluationConfigRoutes,
     NgClass,
     FormsModule,
     TableModule,
@@ -40,6 +40,6 @@ import { DropdownModule } from 'primeng/dropdown';
     DropdownModule, 
     InputTextModule
   ],
-  declarations: [UsersComponent,Users_listComponent,Profiles_listComponent]
+  declarations: [EvaluationConfigComponent,CategoriesComponent,ItemsComponent]
 })
-export class UsersModule { }
+export class EvaluationConfigModule { }

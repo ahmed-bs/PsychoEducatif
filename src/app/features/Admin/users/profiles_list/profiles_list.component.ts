@@ -10,13 +10,22 @@ export class Profiles_listComponent implements OnInit {
 onAddNew() {
 throw new Error('Method not implemented.');
 }
-onShare(_t42: any) {
-throw new Error('Method not implemented.');
+onShare(user: string) {
+  console.log('User:', user);
+  this.showPopup = true;
 }
   users: any[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
-
+  showPopup = false;
+  userFilter = '';
+  selectedAccess: any;
+  
+  accessOptions = [
+    { label: 'Lecture seule', value: 'lecture' },
+    { label: 'Ecriture', value: 'ecriture' },
+    { label: 'All', value: 'all' }
+  ];
   toggleFilters() {
     this.showFilters = !this.showFilters;
   }
@@ -67,7 +76,6 @@ throw new Error('Method not implemented.');
   }
   
   ngOnInit() {
-   
     this.users = [
       {
         id: 1,
@@ -160,8 +168,6 @@ throw new Error('Method not implemented.');
         imageUrl: 'https://randomuser.me/api/portraits/women/10.jpg',
       }
     ];
-    
-    
     this.loading = false;
   }
 
