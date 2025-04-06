@@ -7,6 +7,9 @@ import Swal from 'sweetalert2';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -16,7 +19,7 @@ import { MessageService } from 'primeng/api';
   selector: 'app-kids_profiles',
   templateUrl: './kids_profiles.component.html',
   styleUrls: ['./kids_profiles.component.css'],
-  imports: [DialogModule, ButtonModule, InputTextModule, FormsModule, CommonModule],
+  imports: [DialogModule, ButtonModule, InputTextModule, FormsModule, CommonModule, DropdownModule],
   providers: [MessageService] 
 })
 export class Kids_profilesComponent implements OnInit {
@@ -68,6 +71,7 @@ export class Kids_profilesComponent implements OnInit {
   childId: any | null = null;
 
   // Propriétés pour le dialog
+
   displayDialog: boolean = false;
   displayEditDialog: boolean = false; // Contrôle le dialogue de modification
   selectedChild: any = {};
@@ -83,9 +87,11 @@ export class Kids_profilesComponent implements OnInit {
     recommendedStrategies: [],
     imageUrl: ''
   };
+ 
 
-
-  constructor(private router: Router,private route: ActivatedRoute,private messageService: MessageService) {}
+  constructor(private router: Router,private route: ActivatedRoute,private messageService: MessageService) {
+    this.accesSelectionne = this.optionsAcces[0];
+  }
 
   ngOnInit() {
     this.childId = this.route.snapshot.paramMap.get('childId'); // Récupère l'ID de l'URL
@@ -119,6 +125,45 @@ export class Kids_profilesComponent implements OnInit {
       this.selectedChild = child;
     }
   
+   
+  
+    afficherBoiteDialoguePartage: boolean = false;
+  
+    // Champ pour saisir un email
+    saisieEmail: string = '';
+    
+    // Accès sélectionné pour le partage
+    accesSelectionne: any;
+    
+    // Options d'accès disponibles
+    optionsAcces: any[] = [
+      { libelle: 'Limité', valeur: 'limite' },
+      { libelle: 'Tout le monde', valeur: 'tous' }
+    ];
+    
+    // Lien de partage (exemple)
+    lienPartage: string = 'https://classroom.google.com/lien-partage';
+  
+   
+  
+    // Fonction pour copier le lien dans le presse-papiers
+    copierLien() {
+      navigator.clipboard.writeText(this.lienPartage).then(() => {
+        this.messageService.add({ 
+          severity: 'success', 
+          summary: 'Succès', 
+          detail: 'Lien copié dans le presse-papiers !' 
+        });
+      });
+    }
+  
+    // Fonction pour afficher la boîte de dialogue
+    showShareDialog() {
+      this.afficherBoiteDialoguePartage = true;
+    }
+
+
+
 
   // Ouvrir le dialog
   showDialog() {

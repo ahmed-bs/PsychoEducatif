@@ -75,8 +75,8 @@
                             <a href="#" class="edit-icon" style="position: absolute; top: 10px; right: 10px;">
                                 <i class="fa fa-pencil" aria-hidden="true" style="color: #4da5d8; font-size: 20px;"></i>
                             </a>
- <!-- Icône de partage -->
-<a  class="share-icon"  style="position: absolute; top: 10px; right: 50px;">
+<!-- Icône de partage -->
+<a class="share-icon" style="position: absolute; top: 10px; right: 50px;" (click)="showShareDialog()">
     <i class="pi pi-share-alt" style="color: #a01717; font-size: 20px;"></i>
 </a>
 
@@ -308,8 +308,7 @@
 
 
 
-<p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}"
-    [draggable]="false" [resizable]="false">
+<p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
     <div class="p-fluid">
         <div class="p-field">
             <label for="name">Nom</label>
@@ -354,3 +353,52 @@
 
 
 
+
+
+<!-- Popup de partage -->
+<p-dialog [(visible)]="afficherBoiteDialoguePartage" [modal]="true"  [style]="{width: '500px'}" class="beautiful-dialog" >
+    <div class="p-fluid">
+        <!-- Section pour ajouter des personnes, groupes ou événements -->
+        <div class="p-mb-3">
+            <span class="p-float-label">
+                <input pInputText type="text" id="ajoutPersonne" placeholder=" " [(ngModel)]="saisieEmail" class="p-inputtext-lg custom-input" style="width: 100%;">
+                <label for="ajoutPersonne">Ajouter des personnes, des groupes et des événements d'agenda</label>
+            </span>
+        </div>
+
+        <!-- Section des utilisateurs avec accès -->
+        <div class="p-mb-3">
+            <p class="section-title">Utilisateurs avec accès</p>
+            <div class="p-d-flex p-ai-center p-mb-2 user-access">
+                <img src="assets/profile.png" alt="profile" width="30" class="p-mr-2 user-avatar">
+                <div class="p-d-flex p-jc-between" style="width: 100%;">
+                    <div>
+                        <span class="user-name">Bellakhal Rania (vous)</span><br>
+                        <small class="user-email">bellakhalrania12gmail.com</small>
+                    </div>
+                    <span class="owner-label">Propriétaire</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section d'accès général -->
+        <div class="p-mb-3">
+            <p class="section-title">Accès général</p>
+            <div class="p-d-flex p-ai-center access-section">
+                <i class="pi pi-lock p-mr-2 access-icon"></i>
+                <p-dropdown [options]="optionsAcces" [(ngModel)]="accesSelectionne" optionLabel="libelle" placeholder="Sélectionner un accès" styleClass="custom-dropdown"></p-dropdown>
+            </div>
+            <small class="access-info">Seules les personnes avec accès peuvent l'ouvrir à l'aide du lien</small>
+        </div>
+
+        <!-- Section pour copier le lien -->
+        <div class="p-mb-3">
+            <button pButton label="Copier le lien" icon="pi pi-copy" class="p-button-outlined custom-button" (click)="copierLien()"></button>
+        </div>
+    </div>
+
+    <!-- Pied de page avec boutons -->
+    <ng-template pTemplate="footer">
+        <button pButton label="OK" icon="pi pi-check" class="p-button-success custom-ok-button" (click)="afficherBoiteDialoguePartage=false"></button>
+    </ng-template>
+</p-dialog>

@@ -1,4 +1,5 @@
-import { Child } from "./Child";
+import { Child } from "./child";
+
 
 export class Parent {
     id: number;
