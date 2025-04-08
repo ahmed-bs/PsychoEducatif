@@ -12,9 +12,8 @@ import { ReplaceSpacesPipe } from 'src/app/shared/replace-spaces.pipe';
   imports: [
     CommonModule,
     ClientRoutes,
-
   ],
-  declarations: [ClientComponent,ExploreComponent,ReplaceSpacesPipe
+  declarations: [ClientComponent,ExploreComponent,ReplaceSpacesPipe,
 ]
 })
 export class ClientModule { }

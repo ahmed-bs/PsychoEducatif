@@ -33,6 +33,8 @@
         class="form-control"
         id="fullName"
         placeholder="Entrez votre nom et prénom"
+        [(ngModel)]="fullName"
+        name="fullName"
         required>
       <span class="input-group-text">
         <i class="bi bi-person"></i>
@@ -49,6 +51,8 @@
         class="form-control"
         id="password"
         placeholder="Mot de passe obligatoire pour se connecter !"
+        [(ngModel)]="password"
+        name="password"
         required>
       <button
         type="button"

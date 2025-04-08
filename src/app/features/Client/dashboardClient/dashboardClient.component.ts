@@ -15,7 +15,34 @@ export class DashboardClientComponent implements OnInit {
   currentDate: Date = new Date();
   weeks: (Date | null)[][] = [];
   selectedDate: Date | null = null;
-
+  currentMonth: string = 'January';
+  weekDays: string[] = (() => {
+    const today = new Date();
+    const days = [];
+    for (let i = -3; i <= 3; i++) {
+      const day = new Date(today);
+      day.setDate(today.getDate() + i);
+      days.push(day.toLocaleString('default', { weekday: 'short' }));
+    }
+    return days;
+  })();
+  firstWeekDays: number[] = (() => {
+    const today = new Date();
+    const days = [];
+    for (let i = -3; i <= 3; i++) {
+      const day = new Date(today);
+      day.setDate(today.getDate() + i);
+      days.push(day.getDate());
+    }
+    return days;
+  })();
+  currentDay: number = new Date().getDate(); // Get today's day number
+  currentDaystr: string = new Date().toLocaleString('default', { weekday: 'short' });
+  // Combine both weekDays and firstWeekDays into a single array of objects
+  days = this.weekDays.map((weekday, index) => ({
+    weekday: weekday,
+    day: this.firstWeekDays[index]
+  }));
   ngOnInit() {
     this.generateCalendar();
   }

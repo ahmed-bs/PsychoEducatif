@@ -1,0 +1,159 @@
+.full-calendar {
+    border-radius: 25px;
+    overflow: hidden;
+    padding: 10px;
+  }
+  .btn {
+    background-color: #e0e0e0;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #c7c7c7;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .p-5 {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .full-calendar {
+    flex: 2;
+  }
+  
+  .sidebar {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+
+  .plan-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .plan-time {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .sidebar {
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    width: 250px;
+    margin-left: 20px;
+  }
+  
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+  }
+  
+  .plans-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .plan-card {
+    background: #ebf2ff;
+    border: 1px solid #b2c7ff;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.1);
+  }
+  
+  .plan-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1e3a8a;
+  }
+  
+  .plan-time {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #cde0ff;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .progress {
+    height: 100%;
+    background: #1e3a8a;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .progress-text {
+    font-size: 12px;
+    font-weight: bold;
+    color: #1e3a8a;
+    text-align: right;
+    margin-top: 5px;
+  }
+  
+  .no-plans {
+    text-align: center;
+    color: gray;
+    font-size: 14px;
+  }
+  
