@@ -10,10 +10,16 @@ import { Router } from '@angular/router';
 export class SigninComponent implements OnInit {
   hide = true; // Contrôle de la visibilité du mot de passe
   rememberMe = false; // Valeur du checkbox "Se souvenir de moi"
+password: any;
+fullName: any;
   constructor(private router: Router) {}
 
   goToPickProfile() {
-    this.router.navigate(['/pick_profileComponent']);
+    if (this.fullName === 'admin' && this.password === 'admin') {
+      this.router.navigate(['/Dashboard/admin']);
+    } else {
+      this.router.navigate(['/pick_profileComponent']);
+    }
   }
   ngOnInit() {}
 

@@ -1,0 +1,27 @@
+<div class="p-5 flex">
+  <!-- Calendar Section -->
+  <div class="bg-white shadow-lg rounded-2xl p-4 full-calendar flex-1">
+    <h2 class="text-xl font-bold mb-3">📅 Calendrier</h2>
+    <div class="mb-4 flex flex-col space-y-2"></div>
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+  </div>
+<!-- Sidebar (Today's Plans) -->
+<div class="sidebar">
+  <h2 class="title">📌 Aujourd'hui</h2>
+  <div *ngIf="todayPlans.length > 0; else noPlans" class="plans-list">
+    <div *ngFor="let plan of todayPlans" class="plan-card">
+      <h3 class="plan-title">{{ plan.title }}</h3>
+      <p class="plan-time">{{ plan.time }}</p>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="plan.progress"></div>
+      </div>
+      <p class="progress-text">{{ plan.progress }}%</p>
+    </div>
+  </div>
+  <ng-template #noPlans>
+    <p class="no-plans">Aucun plan pour aujourd'hui.</p>
+  </ng-template>
+</div>
+
+
+</div>
