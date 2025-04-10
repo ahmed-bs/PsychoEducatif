@@ -1,150 +1,145 @@
+/* === Container Principal === */
 .summary-container {
-    max-width: 1000px; /* Limite la largeur pour une meilleure lisibilité */
-    margin: 30px auto; /* Centre le conteneur avec une marge extérieure */
-    padding: 20px;
-    background-color: #e3f2fd; /* "Bleu ciel pâle" chaleureux */
-    border-radius: 15px; /* Coins plus arrondis pour un look doux */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Ombre légèrement plus prononcée */
-  }
-  
-  h2 {
-    color: #1976d2; /* "Bleu vif" pour attirer l’attention des enfants */
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 25px;
-    text-transform: uppercase; /* Majuscules pour un look structuré */
-    letter-spacing: 1.5px; /* Espacement des lettres */
-    border-bottom: 3px solid #42a5f5; /* "Bleu clair vif" en dessous */
-    padding-bottom: 8px;
-    display: inline-block;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+}
 
-  }
-  
-  .table-responsive {
-    border-radius: 10px;
-    overflow: hidden; /* Coins arrondis appliqués au contenu */
-  }
-  
-  .table {
-    margin-bottom: 0; /* Supprime la marge par défaut */
-    background-color: #ffffff; /* Fond blanc pour contraste */
-    border-collapse: separate; /* Permet des bordures arrondies */
-    border-spacing: 0;
-  }
-  
-  .table-dark {
-    background-color: #ffffff; /* "Bleu moyen vif" pour l’en-tête, couleur joyeuse */
-    th {
-      color: #ffffff; /* Texte blanc */
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 12px 15px; /* Espacement confortable */
-      border-bottom: 3px solid #42a5f5; /* "Bleu clair vif" */
-      
-    }
-  }
-  
-  .table-striped {
-    tbody tr:nth-of-type(odd) {
-      background-color: #bbdefb; /* "Bleu très clair" pour les lignes impaires */
-    }
-  }
-  
-  .table-bordered {
-    td, th {
-      border: 2px solid #ffffff; /* "Bleu éclatant" pour un look amusant */
-    }
-  }
-  
+.summary-container h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* === Tableau PrimeNG === */
+.p-datatable {
+  font-size: 16px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: #3498db;
+  color: white;
+  font-weight: 600;
+  padding: 15px;
+  border: none;
+  position: sticky;
+  top: 0;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0;
+  vertical-align: top;
+  border: 1px solid #e0e0e0;
+}
+
+/* === Lignes Alternées === */
+.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f5f9fc;
+}
+
+/* === Items de Ligne === */
+.row-item {
+  padding: 12px 15px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px dashed #e0e0e0;
+  transition: background-color 0.2s;
+}
+
+.row-item:last-child {
+  border-bottom: none;
+}
+
+/* Effet de survol */
+.p-datatable .p-datatable-tbody > tr:hover .row-item {
+  background-color: #ebf5fb;
+}
+
+/* === Statuts === */
+.statut-acquise {
+  color: #27ae60;
  
-  
+  padding: 6px 12px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
 
+.statut-non-acquise {
+  color: #e74c3c;
+ 
+  padding: 6px 12px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.statut-non-evalue {
+  color: #7f8c8d;
   
-    td {
-        vertical-align: middle;
-        padding: 15px;
-        color: #d81b60; /* Rose foncé */
-        font-size: 1.1rem;
-       
-      
-        ul.list-unstyled {
-          margin: 0;
-          padding: 0;
-      
-          li {
-            padding: 10px 0;
-            border-bottom: 1px dashed #ffeb3b; /* Jaune vif */
-            &:last-child {
-              border-bottom: none;
-            }
-      
-            .statut-acquise {
-                color: #28a745; /* Vert vif pour "acquise" */
-                font-weight: bold;
-                background-color: #d4edda; /* Fond vert clair */
-                padding: 2px 8px;
-                border-radius: 5px;
-                position: relative; /* Pour positionner le ::before */
-                display: inline-block;
-        
-                &::before {
-                  content: "✓ "; /* Coche pour "acquise" */
-                  color: #28a745; /* Vert vif, assorti au texte */
-                  font-weight: bold;
-                  margin-right: 5px; /* Espacement avant le texte */
-                }
-              }
-        
-              .statut-non-acquise {
-                color: #dc3545; /* Rouge vif pour "non acquise" */
-                font-weight: bold;
-                background-color: #f8d7da; /* Fond rouge clair */
-                padding: 2px 8px;
-                border-radius: 5px;
-                position: relative;
-                display: inline-block;
-        
-                &::before {
-                  content: "✓ "; /* Coche pour "non acquise" */
-                  color: #dc3545; /* Rouge vif, assorti au texte */
-                  font-weight: bold;
-                  margin-right: 5px;
-                }
-              }
-        
-              .statut-en-cours {
-                color: #ff9800; /* Orange vif pour "en cours d’acquisition" */
-                font-weight: bold;
-                background-color: #fff3cd; /* Fond jaune-orangé clair */
-                padding: 2px 8px;
-                border-radius: 5px;
-                position: relative;
-                display: inline-block;
-        
-                &::before {
-                  content: "✓ "; /* Coche pour "en cours d’acquisition" */
-                  color: #ff9800; /* Orange vif, assorti au texte */
-                  font-weight: bold;
-                  margin-right: 5px;
-                }
-              }
-        
-              .statut-non-evalue {
-                color: #6c757d; /* Gris pour "Non évalué" */
-                font-style: italic;
-                background-color: #e9ecef; /* Fond gris clair */
-                padding: 2px 8px;
-                border-radius: 5px;
-                position: relative;
-                display: inline-block;
-        
-                &::before {
-                  content: "✓ "; /* Coche pour "Non évalué" */
-                  color: #6c757d; /* Gris, assorti au texte */
-                  font-weight: bold;
-                  margin-right: 5px;
-                }
-              }
-            }
-          }}
+  padding: 6px 12px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+/* === Commentaires === */
+.comment-bubble {
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.4;
+  border-left: 3px solid #3498db;
+}
+
+.text-muted {
+  color: #95a5a6;
+  font-style: italic;
+}
+
+/* === Indicateurs Visuels === */
+.row-item:before {
+  content: "•";
+  color: #3498db;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .p-datatable {
+    font-size: 14px;
+  }
+  
+  .row-item {
+    padding: 10px 12px;
+    min-height: 40px;
+  }
+  
+  .comment-bubble {
+    font-size: 13px;
+  }
+}
+
+/* === Accessibilité === */
+.p-datatable .p-datatable-tbody > tr:focus-within {
+  outline: 3px solid #9b59b6;
+  outline-offset: -2px;
+}
+
+.row-item:focus-within {
+  background-color: #e3f2fd !important;
+}

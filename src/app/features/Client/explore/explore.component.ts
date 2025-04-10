@@ -13,63 +13,44 @@ import { CompetenceService } from 'src/app/core/services/Competence.service';
 })
 export class ExploreComponent implements OnInit {
 
+  @ViewChild('scroller') scroller!: ElementRef;
+  competences: any[] = [];
+  currentIndex = 0;
+  cardsToShow = 3;
+
+  constructor(private competenceService: CompetenceService, private router: Router) {}
 
   ngOnInit() {
     this.competences = this.competenceService.getCompetences();
   }
-  activeIndex = 0;
-  @ViewChild('carousel', { static: false }) carousel!: ElementRef;
-
-  cards = [
-    { title: 'Video 1', description: 'Description 1', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 2', description: 'Description 2', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 3', description: 'Description 3', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 4', description: 'Description 4', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 5', description: 'Description 5', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 6', description: 'Description 6', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 3', description: 'Description 3', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 4', description: 'Description 4', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 5', description: 'Description 5', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 6', description: 'Description 6', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 3', description: 'Description 3', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 4', description: 'Description 4', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 5', description: 'Description 5', image: 'https://via.placeholder.com/300x200' },
-    { title: 'Video 6', description: 'Description 6', image: 'https://via.placeholder.com/300x200' },
-  ];
-
-  scrollAmount = 200; // Adjust scrolling speed
-
-  prev() {
-    this.carousel.nativeElement.scrollBy({ left: -this.scrollAmount, behavior: 'smooth' });
-  }
-
-  next() {
-    this.carousel.nativeElement.scrollBy({ left: this.scrollAmount, behavior: 'smooth' });
-  }
-
-
-  visibleCards:any[] = [];
-  cardsPerView = 8; // Adjust this for more/less visible cards
-  startIndex = 0;
-
-  constructor(private competenceService: CompetenceService, private router: Router) {
-    this.updateVisibleCards();
-  }
-
-  updateVisibleCards() {
-    this.visibleCards = this.cards.slice(this.startIndex, this.startIndex + this.cardsPerView);
-  }
-
-
-  competences: any[] = [];
-
-  
-
-
 
   naviguerVersQuiz(categorie: string) {
     console.log(categorie);
     this.router.navigate(['/Dashboard-client/client/quiz', categorie]);
+  }
+
+  scrollLeft() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.scrollToCurrentIndex();
+    }
+  }
+
+  scrollRight() {
+    if (this.currentIndex < this.competences.length - this.cardsToShow) {
+      this.currentIndex++;
+      this.scrollToCurrentIndex();
+    }
+  }
+
+  private scrollToCurrentIndex() {
+    const cardWidth = this.scroller.nativeElement.querySelector('.col-md-4').offsetWidth;
+    const scrollPosition = this.currentIndex * cardWidth;
+    
+    this.scroller.nativeElement.scrollTo({
+      left: scrollPosition,
+      behavior: 'smooth'
+    });
   }
 
 }

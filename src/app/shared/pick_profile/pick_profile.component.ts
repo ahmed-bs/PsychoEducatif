@@ -215,6 +215,7 @@ export class Pick_profileComponent implements OnInit {
 navigateToClient(childId: any) {
   this.selectedChildid=childId;
  console.log( this.selectedChildid);
+ localStorage.setItem('selectedChildId', childId);
   this.router.navigate(['/Dashboard-client/client/Kids_profiles',childId]); // Redirection avec l'ID dans l'URL
 }
 }

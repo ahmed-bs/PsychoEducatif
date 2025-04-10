@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompetenceService } from 'src/app/core/services/Competence.service';
+import { TableModule } from 'primeng/table';
 
 @Component({
   standalone:true,
   selector: 'app-evaluations',
   templateUrl: './evaluations.component.html',
   styleUrls: ['./evaluations.component.css'],
-  imports:[CommonModule,FormsModule],
+  imports:[CommonModule,FormsModule,TableModule],
 })
 export class EvaluationsComponent implements OnInit {
 

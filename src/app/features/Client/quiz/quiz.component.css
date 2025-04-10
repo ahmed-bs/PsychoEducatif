@@ -1,109 +1,228 @@
+/* === BASE STYLES === */
+:root {
+  --primary: #3498db;       /* Calm blue */
+  --success: #2ecc71;       /* Soothing green */
+  --danger: #e74c3c;        /* Clear red (not overwhelming) */
+  --background: #f5f7fa;    /* Soft, neutral background */
+  --text: #2c3e50;          /* High-contrast, readable text */
+  --border: #bdc3c7;        /* Subtle borders */
+  --focus-ring: #9b59b6;    /* Purple focus indicator (autism-friendly) */
+  --button-text: white;     /* Clear button labels */
+}
+
+body {
+  background-color: var(--background);
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif; /* Rounded fonts are softer */
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+  padding: 20px;
+}
+
+/* === QUIZ CONTAINER === */
 .quiz-container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid var(--border);
+}
+
+h2 {
+  color: var(--primary);
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* === PROGRESS INDICATOR === */
+.progress-indicator {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+/* === SKILL DESCRIPTION === */
+.skill-description {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 25px;
+  line-height: 1.5;
+  padding: 10px;
+  background-color: #f0f4f8; /* Soft highlight for focus */
+  border-left: 4px solid var(--primary); /* Visual cue */
+  border-radius: 0 8px 8px 0;
+}
+
+/* === BUTTON GROUP (Acquired/Not Acquired) === */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap; /* Wrap on small screens */
+}
+
+.btn-outline-success, 
+.btn-outline-danger {
+  font-size: 18px;
+  padding: 12px 25px;
+  border-width: 2px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-weight: bold;
+  min-width: 120px; /* Consistent button sizes */
+}
+
+.btn-outline-success {
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.btn-outline-success:hover, 
+.btn-outline-success:active, 
+.btn-outline-success:focus {
+  background-color: #1E88E5;
+  color: white;
+}
+
+.btn-outline-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.btn-outline-danger:hover, 
+.btn-outline-danger:active, 
+.btn-outline-danger:focus {
+  background-color: var(--danger);
+  color: white;
+}
+
+/* === COMMENT SECTION === */
+.comment-section {
+  margin-top: 25px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  background-color: white;
+  resize: vertical; /* Allow vertical resize for comfort */
+  border: solid;
+  border-color: #e2caab
+}
+
+.form-control:focus {
+  border-color: var(--focus-ring);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2); /* Soft focus glow */
+}
+
+/* === NAVIGATION BUTTONS === */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+.btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: bold;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #7f8c8d;
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-secondary:disabled {
+  background-color: #dfe6e9;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* === AUTISM-FRIENDLY INTERACTIONS === */
+/* Visual feedback for buttons (no sudden flashes) */
+.btn:active {
+  transform: translateY(1px) !important; /* Pressed effect */
+}
+
+/* Focus indicators (important for keyboard navigation) */
+.btn:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none !important;
   }
-  
-  h2 {
-    color: #2c3e50;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+}
+
+/* High-contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --background: white;
+    --text: black;
+    --border: black;
   }
-  
-  .progress-indicator {
-    text-align: center;
-    margin-bottom: 20px;
-    p {
-      color: #34495e;
-      font-size: 1rem;
-      font-weight: 500;
-      background-color: #e9ecef;
-      display: inline-block;
-      padding: 5px 15px;
-      border-radius: 20px;
-    }
+
+  .btn-outline-success, 
+  .btn-outline-danger {
+    border-width: 3px;
   }
-  
-  .sub-skill {
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
-  
-    p {
-      margin: 0 0 10px 0;
-      color: #34495e;
-      font-size: 1.1rem;
-    }
+
+  .form-control {
+    border-width: 3px;
   }
-  
-  .btn-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .btn-outline-primary {
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    &:hover {
-      background-color: #007bff;
-      color: #fff;
-    }
-  }
-  
-  .btn-check:checked + .btn-outline-primary {
-    background-color: #28a745;
-    color: #fff;
-    border-color: #28a745;
-  }
-  
-  .navigation-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  
-    .btn-secondary {
-      padding: 10px 20px;
-      border-radius: 6px;
-      background-color: #6c757d;
-      border: none;
-      transition: background-color 0.3s ease;
-  
-      &:hover {
-        background-color: #5a6268;
-      }
-  
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-    }
-  
-    .btn-primary {
-      padding: 10px 20px;
-      border-radius: 6px;
-      background-color: #007bff;
-      border: none;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-  
-      &:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-      }
-    }
-  }
+}
+
+/* === EXTRA: PICTURE SUPPORT (Optional) === */
+/* If you add visual cues (like icons) */
+.icon-hint {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
+}

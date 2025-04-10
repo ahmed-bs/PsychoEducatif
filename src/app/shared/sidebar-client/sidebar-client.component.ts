@@ -64,6 +64,8 @@ export class SidebarClientComponent implements OnInit {
     });
   }
 
-
+  getChildId() {
+    return localStorage.getItem('selectedChildId') || 'default';
+  }
 
 }

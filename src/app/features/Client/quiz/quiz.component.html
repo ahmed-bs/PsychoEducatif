@@ -5,7 +5,8 @@
   </div>
   <form #quizForm="ngForm">
     <div class="sub-skill mb-3">
-      <p>{{ sousCompetences[currentIndex].description }}</p>
+      <p class="skill-description">{{ sousCompetences[currentIndex].description }}</p>
+      
       <div class="btn-group" role="group">
         <input
           type="radio"
@@ -16,7 +17,7 @@
           [name]="sousCompetences[currentIndex].description"
         />
         <label
-          class="btn btn-outline-primary"
+          class="btn btn-outline-success"
           for="{{ sousCompetences[currentIndex].description }}-acquise"
         >Acquise</label>
 
@@ -29,22 +30,23 @@
           [name]="sousCompetences[currentIndex].description"
         />
         <label
-          class="btn btn-outline-primary"
+          class="btn btn-outline-danger"
           for="{{ sousCompetences[currentIndex].description }}-non-acquise"
         >Non acquise</label>
 
-        <input
-          type="radio"
-          class="btn-check"
-          id="{{ sousCompetences[currentIndex].description }}-en-cours"
-          value="en cours d’acquisition"
-          [(ngModel)]="sousCompetences[currentIndex].statut"
-          [name]="sousCompetences[currentIndex].description"
-        />
-        <label
-          class="btn btn-outline-primary"
-          for="{{ sousCompetences[currentIndex].description }}-en-cours"
-        >En cours d’acquisition</label>
+      
+      </div>
+
+      <!-- Champ de commentaire ajouté -->
+      <div class="comment-section mt-3">
+        <label for="comment-{{currentIndex}}" class="form-label">Observations :</label>
+        <textarea 
+          class="form-control" 
+          id="comment-{{currentIndex}}" 
+          rows="3"
+          [(ngModel)]="sousCompetences[currentIndex].commentaire"
+          [name]="'comment-'+currentIndex"
+          placeholder="Notes complémentaires sur cette compétence..."></textarea>
       </div>
     </div>
 
