@@ -1,0 +1,198 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.min.css";
+@import "primeicons/primeicons.css";
+
+/* Custom styling for this isolated component */
+.p-dialog {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.p-dialog-header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+}
+
+.p-dialog-content {
+    background-color: #f5f7fa;
+    padding: 1.5rem;
+}
+
+main .insights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit 1fr);
+    gap: 1.6rem;
+}
+
+main .insights>div {
+    background-color: #e1eaf9 !important;
+    padding: 1.8rem;
+    border-radius: 2rem;
+    margin: 1rem;
+    box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
+    transition: all 300ms ease;
+}
+
+main .insights {
+    display: grid;
+    gap: 1.6rem;
+}
+h1 {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+}
+
+h3 {
+    font-size: 0.87rem;
+}
+
+h4 {
+    font-size: 0.8rem;
+}
+
+h5 {
+    font-size: 0.77rem;
+}
+
+small {
+    font-size: 0.75rem;
+}
+@media (min-width: 1024px) {
+    main .insights {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    main .insights {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    main .insights {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    main .insights {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+
+main .insights>div span {
+    background-color: #7380ec;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 2rem;
+}
+
+
+main .insights>div.expenses span {
+    background-color: #ff7782;
+}
+
+main .insights>div.income span {
+    background-color: #41f1b6;
+}
+
+main .insights>div .middle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+main .insights h3 {
+    margin: 1rem 0 0.6rem;
+    font-size: 1rem;
+}
+
+main .insights .progress {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+}
+
+main .insights svg {
+    width: 7rem;
+    height: 7rem;
+}
+
+main .insights svg circle {
+    fill: none;
+    stroke: #7380ec;
+    stroke-width: 14;
+    stroke-linecap: round;
+    transform: translate(5px, 5px);
+    stroke-dasharray: 110;
+    stroke-dashoffset: 92;
+}
+
+main .insights .sales svg circle {
+    stroke-dasharray: 200;
+    stroke-dashoffset: -30;
+}
+
+main .insights .expenses svg circle {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 20;
+}
+
+main .insights .income svg circle {
+    stroke-dasharray: 110;
+    stroke-dashoffset: 35;
+}
+
+main .insights .progress .number {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main .insights small {
+    margin-top: 1.6rem;
+    margin-bottom: -1.6rem;
+    display: block;
+}
+.container {
+    display: flex;
+    margin: 0 auto;
+    gap: 1.8rem;
+    grid-template-columns: 14rem auto 23rem;
+
+}
+main .insights>div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    .container {
+        grid-template-columns: 7rem auto 23rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+}

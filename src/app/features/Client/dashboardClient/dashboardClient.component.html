@@ -3,6 +3,7 @@
     <main>
         <h1>Bienvenue sur le Tableau de Bord</h1>
 
+
         <div class="card_1">
             <div class="container">
                 <div class="image-container">
@@ -16,7 +17,19 @@
                 </div>
             </div>
         </div>
+<br>
+        <div class="card">
+            <div class="month">{{ currentMonth }}</div>
 
+            <div class="days">
+                <div class="day" *ngFor="let day of days; let i = index"
+                    [class.selected]="day.day === currentDay && day.weekday === currentDaystr">
+                    <div class="weekday">{{ day.weekday }}</div>
+                    <div class="day-number">{{ day.day }}</div>
+                </div>
+            </div>
+        </div>
+        <br>
         <div class="insights">
             <!-- Progression des Activités -->
             <div class="progress-card">
@@ -73,8 +86,7 @@
                     </div>
                     <div class="weeks">
                         <div *ngFor="let week of weeks" class="week">
-                            <span
-                                *ngFor="let date of week"
+                            <span *ngFor="let date of week"
                                 [class.selected]="date && date.toDateString() === selectedDate?.toDateString()"
                                 (click)="selectDate(date)">
                                 {{ date?.getDate() || '' }}

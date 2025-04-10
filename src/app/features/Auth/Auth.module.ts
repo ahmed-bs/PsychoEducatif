@@ -12,11 +12,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthRoutes } from './Auth.routing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -26,6 +27,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     CommonModule,
     AuthRoutes,
     FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     //material
     MatToolbarModule,
     MatButtonModule,
