@@ -241,94 +241,261 @@
     justify-content: center; /* Centre les cartes dans la colonne */
   }
   
-  .competence-card {
-    width: 100%;
-    max-width: 320px; /* Largeur maximale pour une taille uniforme */
-    background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%); /* Dégradé blanc à bleu pâle */
-    border: 3px solid #2196f3; /* Bordure bleu éclatant */
-    border-radius: 15px; /* Coins arrondis pour un look doux */
-    overflow: hidden; /* Assure que le contenu reste dans les bordures arrondies */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre légère */
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Animations fluides */
-    cursor: pointer; /* Indique que c’est cliquable */
-  
-    &:hover {
-      transform: translateY(-8px); /* Élévation plus marquée au survol */
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
-      border-color: #42a5f5; /* Bleu clair vif au survol */
-    }
-  
-    .card-img-top {
-      position: relative;
-      overflow: hidden;
-  
-      img {
-        width: 100%;
-        height: 180px; /* Hauteur fixe pour uniformité */
-        object-fit: cover; /* Remplit l’espace sans déformation */
-        transition: opacity 0.3s ease; /* Transition pour l’opacité */
-      }
-  
-      &:hover img {
-        opacity: 0.85; /* Légère transparence au survol */
-      }
-  
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(33, 150, 243, 0.1); /* Voile bleu léger */
-        pointer-events: none; /* Ne bloque pas les clics */
-      }
-    }
-  
-    .card-body {
-      padding: 15px;
-      text-align: center;
-  
-      .card-title {
-        color: #0288d1; /* Bleu moyen vif */
-        font-size: 1.6rem; /* Taille augmentée pour attirer l’œil */
-        margin-bottom: 10px;
-        text-transform: capitalize; /* Première lettre en majuscule */
-        font-weight: bold;
-        background: linear-gradient(to right, #1976d2, #42a5f5); /* Dégradé bleu */
-        background-clip: text;
-        color: transparent; /* Effet de texte en dégradé */
-      }
-  
-      .card-text {
-        color: #0277bd; /* Bleu profond */
-        font-size: 1rem;
-        line-height: 1.4; /* Espacement pour lisibilité */
-        margin: 0;
-        padding: 0 10px; /* Évite que le texte touche les bords */
-      }
-    }
-  
-    .card-footer {
-      background-color: #b3e5fc; /* Bleu pâle */
-      padding: 10px;
-      border-top: 2px dashed #42a5f5; /* Ligne pointillée bleu clair */
-      text-align: center;
-  
-      .status-info {
-        color: #1976d2; /* Bleu vif */
-        font-size: 0.95rem;
-        font-weight: bold;
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 20px; /* Coins arrondis pour un effet "bouton" */
-        background-color: #e3f2fd; /* Fond bleu ciel pâle */
-        transition: background-color 0.3s ease;
-  
-        &:hover {
-          background-color: #42a5f5; /* Bleu clair vif au survol */
-          color: #ffffff; /* Texte blanc */
-        }
-      }
-    }
+
+
+  /* Base styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f5ff;
+  color: #333333;
+  line-height: 1.6;
+}
+
+h4 {
+  text-align: center;
+  font-size: 28px;
+  color: #4F86C6;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+h4:after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #6ECEB2;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+} */
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px;
+  justify-content: center;
+}
+
+.col-md-4 {
+  flex: 0 0 calc(33.333% - 30px);
+  max-width: calc(33.333% - 30px);
+  padding: 15px;
+  margin-bottom: 30px;
+}
+
+/* Card styles */
+.competence-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.competence-card:hover, 
+.competence-card:focus {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.competence-card:active {
+  transform: translateY(0);
+}
+
+.card-img-top {
+  overflow: hidden;
+  height: 180px;
+  background-color: #e9f5ff;
+}
+
+.card-img-top img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.competence-card:hover .card-img-top img {
+  transform: scale(1.05);
+}
+
+.card-body {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.card-title {
+  color: #4F86C6;
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.card-text {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.card-footer {
+  background-color: #F8F9FA;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.status-info {
+  display: inline-block;
+  background-color: #FFD166;
+  color: #333;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.competence-card:hover .status-info {
+  background-color: #6ECEB2;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .col-md-4 {
+    flex: 0 0 calc(50% - 30px);
+    max-width: calc(50% - 30px);
   }
+}
+
+@media (max-width: 576px) {
+  .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .card-img-top {
+    height: 160px;
+  }
+}
+
+/* Accessibility */
+.competence-card:focus {
+  outline: 3px solid #FFD166;
+}
+
+/* Animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.competence-card:hover {
+  animation: pulse 2s infinite;
+}
+
+
+
+
+/* Conteneur principal */
+.communication-section {
+  position: relative;
+  padding: 0 40px; /* Espace pour les boutons */
+}
+
+.scroller-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Boutons de navigation */
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.scroll-button:hover:not(:disabled) {
+  background-color: #2980b9;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-button:focus {
+  outline: 3px solid #9b59b6;
+}
+
+.scroll-button.left {
+  left: -20px;
+}
+
+.scroll-button.right {
+  right: -20px;
+}
+
+.scroll-button i {
+  font-size: 20px;
+}
+
+/* Style pour boutons désactivés */
+.scroll-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #95a5a6;
+}
+
+/* Zone de défilement */
+.horizontal-scroller {
+  flex-grow: 1;
+  overflow-x: hidden; /* Changé de 'auto' à 'hidden' */
+  padding: 10px 0;
+  width: 100%;
+}
+
+/* Conteneur des cartes */
+.container {
+  display: flex;
+  transition: transform 0.5s ease;
+ 
+}
+
+.row.flex-nowrap {
+  display: flex;
+  gap: 6px;
+  margin-left: 124px;
+}
+
+.col-md-4 {
+  flex: 0 0 calc(33.333% - 10px); /* 3 cartes visibles */
+  min-width: 0; /* Empêche le débordement */
+}
+
+/* Cacher la barre de scroll native */
+.horizontal-scroller::-webkit-scrollbar {
+  display: none;
+}

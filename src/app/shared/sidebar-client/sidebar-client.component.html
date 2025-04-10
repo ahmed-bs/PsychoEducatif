@@ -8,14 +8,16 @@
   <ul class="side-menu">
     <li class="active"><a routerLink="/Dashboard-client/client"><i class='bx bxs-dashboard'></i>Accueil</a></li>
     <li><a routerLink="/Dashboard-client/client/explore"><i class='bx bx-search'></i>Explorer</a></li>
-    <li><a routerLink="/Dashboard-client/client/Kids_profiles"><i class='bx bx-user'></i>Profiles</a></li>
+
+    <li><a [routerLink]="['/Dashboard-client/client/Kids_profiles', getChildId()]"><i class='bx bx-user'></i>Profiles</a></li>
     <li><a routerLink="/Dashboard-client/client/evaluations_configurations"><i class='bx bx-target-lock'></i>Objectifs</a></li>
     <li><a routerLink="/Dashboard-client/client/calendar"><i class='bx bx-calendar'></i>Calendrier</a></li>
+
   </ul>
   
   <ul class="side-menu">
     <li>
-        <a  class="logout">
+        <a  class="logout" routerLink="/auth/signin">
             <i class='bx bx-log-out-circle'></i>
             Déconnexion
         </a>
