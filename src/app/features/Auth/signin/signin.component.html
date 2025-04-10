@@ -2,74 +2,74 @@
   <div class="form-v6-content">
     <div class="form-left">
       <button class="cssbuttons-io-button" routerLink="/">
-       <a> Retour </a>
+        <a> Retour </a>
         <div class="icon">
-          <svg
-            height="24"
-            width="24"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 0h24v24H0z" fill="none"></path>
-            <path
-              d="M15 19l-7-7 7-7M5 12h14"
-              fill="currentColor"
-            ></path>
+            <path d="M15 19l-7-7 7-7M5 12h14" fill="currentColor"></path>
           </svg>
         </div>
       </button>
       <img src="assets/img/Kids reading.gif" alt="form">
     </div>
-    <form class="form-detail" action="#" method="post">
+    
+    <form class="form-detail" [formGroup]="loginForm" (ngSubmit)="login()">
       <h1 class="custom-h1">Bienvenue!</h1>
       <p class="custom-p">Vous connecter pour continuer</p>
 
-  <!-- Champ Nom et Prénom -->
-  <div class="mb-3">
-    <label for="fullName" class="form-label">Nom et Prénom</label>
-    <div class="input-group">
-      <input
-        type="text"
-        class="form-control"
-        id="fullName"
-        placeholder="Entrez votre nom et prénom"
-        [(ngModel)]="fullName"
-        name="fullName"
-        required>
-      <span class="input-group-text">
-        <i class="bi bi-person"></i>
-      </span>
-    </div>
-  </div>
+      <!-- Email Field -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            placeholder="Entrez votre email"
+            [ngClass]="{'is-invalid': email?.touched && email?.errors}">
+          <span class="input-group-text">
+            <i class="bi bi-envelope"></i>
+          </span>
+        </div>
+        <div *ngIf="email?.touched && email?.errors" class="invalid-feedback d-block">
+          <div *ngIf="email?.errors?.['required']">Email is required</div>
+          <!-- <div *ngIf="email?.errors?.['email']">Please enter a valid email</div> -->
+        </div>
+      </div>
 
-  <!-- Champ Mot de Passe -->
-  <div class="mb-3">
-    <label for="password" class="form-label">Mot de passe</label>
-    <div class="input-group">
-      <input
-        [type]="hide ? 'password' : 'text'"
-        class="form-control"
-        id="password"
-        placeholder="Mot de passe obligatoire pour se connecter !"
-        [(ngModel)]="password"
-        name="password"
-        required>
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        (click)="togglePasswordVisibility()">
-        <i [ngClass]="hide ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-      </button>
-    </div>
-  </div>
+      <!-- Password Field -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <div class="input-group">
+          <input
+            [type]="hide ? 'password' : 'text'"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="Mot de passe obligatoire pour se connecter !"
+            [ngClass]="{'is-invalid': password?.touched && password?.errors}">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="togglePasswordVisibility()">
+            <i [ngClass]="hide ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+        <div *ngIf="password?.touched && password?.errors" class="invalid-feedback d-block">
+          <div *ngIf="password?.errors?.['required']">Password is required</div>
+        </div>
+      </div>
 
-      <!-- Bouton de soumission -->
+      <!-- Remember Me & Submit Button -->
       <div class="form-row align-items">
-        <mat-checkbox name="rememberMe" class="checkbox">Se souvenir de moi</mat-checkbox>
-        <button  type="submit" class="submit-button" (click)="goToPickProfile()">
-          Se connecter
+        <mat-checkbox formControlName="rememberMe" class="checkbox">Se souvenir de moi</mat-checkbox>
+        <button type="submit" class="submit-button" [disabled]="isLoading || loginForm.invalid">
+          <span *ngIf="!isLoading">Se connecter</span>
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
       </div>
+
       <div class="text-centre">
         <p>Pas encore de compte? <a routerLink="/auth/signup" class="create-account-link">Créer un compte</a></p>
       </div>
@@ -80,8 +80,6 @@
         <a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 30px; color: #25D366;"></i></a>
         <a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 30px; color: #0A66C2;"></i></a>
       </div>
-      
-      
     </form>
   </div>
 </div>

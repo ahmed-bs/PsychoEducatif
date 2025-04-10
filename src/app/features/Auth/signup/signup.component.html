@@ -1,24 +1,15 @@
-<div class="page-content">
- 
+<div class="page-content" style="zoom: 80%;">
   <div class="form-v6-content">
     <div class="social-sidebar">
-    <button class="cssbuttons-io-button" routerLink="/">
-      <a> Retour </a>
-       <div class="icon">
-         <svg
-           height="24"
-           width="24"
-           viewBox="0 0 24 24"
-           xmlns="http://www.w3.org/2000/svg"
-         >
-           <path d="M0 0h24v24H0z" fill="none"></path>
-           <path
-             d="M15 19l-7-7 7-7M5 12h14"
-             fill="currentColor"
-           ></path>
-         </svg>
-       </div>
-     </button>
+      <button class="cssbuttons-io-button" routerLink="/">
+        <a> Retour </a>
+        <div class="icon">
+          <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M15 19l-7-7 7-7M5 12h14" fill="currentColor"></path>
+          </svg>
+        </div>
+      </button>
    
       <ul class="social-icons">
         <li><a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 40px; color: #4267B2;"></i></a></li>
@@ -29,103 +20,142 @@
     </div>
     
     <div class="form-left">
-    
       <img src="assets/img/Innovation.gif" alt="form">
     </div>
-    <form class="form-detail" #signupForm="ngForm">
+    
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-detail">
       <h1 class="custom-h1">Créer un compte</h1>
       <p class="custom-p">Remplissez les champs pour créer un nouveau compte</p>
 
-         <!-- Champ Nom et Prénom -->
-         <div class="mb-3">
-          <label for="fullName" class="form-label">Nom et Prénom</label>
-          <div class="input-group">
-            <input 
-              type="text" 
-              id="fullName" 
-              class="form-control" 
-              placeholder="Entrez votre nom et prénom" 
-              required 
-              [(ngModel)]="fullName" 
-              name="fullName">
-            <span class="input-group-text">
-              <i class="bi bi-person"></i>
-            </span>
-          </div>
+      <!-- Full Name Field -->
+      <div class="mb-3">
+        <label for="fullName" class="form-label">Nom et Prénom</label>
+        <div class="input-group">
+          <input 
+            type="text" 
+            id="fullName" 
+            class="form-control" 
+            placeholder="Entrez votre nom et prénom"
+            formControlName="username">
+          <span class="input-group-text">
+            <i class="bi bi-person"></i>
+          </span>
         </div>
-  
-        <!-- Champ Adresse Email -->
-        <div class="mb-3">
-          <label for="email" class="form-label">Adresse Email</label>
-          <div class="input-group">
-            <input 
-              type="email" 
-              id="email" 
-              class="form-control" 
-              placeholder="Entrez votre adresse email" 
-              required 
-              [(ngModel)]="email" 
-              name="email">
-            <span class="input-group-text">
-              <i class="bi bi-envelope"></i>
-            </span>
-          </div>
+        <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="text-danger">
+          <small *ngIf="username?.errors?.['required']">Ce champ est obligatoire</small>
+          <small *ngIf="username?.errors?.['minlength']">Minimum 3 caractères</small>
         </div>
-  
-        <!-- Champ Mot de Passe -->
-        <div class="mb-3">
-          <label for="password" class="form-label">Mot de Passe</label>
-          <div class="input-group">
-            <input 
-              [type]="hidePassword ? 'password' : 'text'" 
-              id="password" 
-              class="form-control" 
-              placeholder="Entrez un mot de passe sécurisé" 
-              required 
-              [(ngModel)]="password" 
-              name="password">
-            <button 
-              class="btn btn-outline-secondary" 
-              type="button" 
-              (click)="hidePassword = !hidePassword">
-              <i [class]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-            </button>
-          </div>
-        </div>
-  
-        <!-- Champ Confirmer le Mot de Passe -->
-        <div class="mb-3">
-          <label for="confirmPassword" class="form-label">Confirmer le Mot de Passe</label>
-          <div class="input-group">
-            <input 
-              [type]="hideConfirmPassword ? 'password' : 'text'" 
-              id="confirmPassword" 
-              class="form-control" 
-              placeholder="Confirmez votre mot de passe" 
-              required 
-              [(ngModel)]="confirmPassword" 
-              name="confirmPassword">
-            <button 
-              class="btn btn-outline-secondary" 
-              type="button" 
-              (click)="hideConfirmPassword = !hideConfirmPassword">
-              <i [class]="hideConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-            </button>
-          </div>
-        </div>
+      </div>
 
+      <!-- User Type Field -->
+      <div class="mb-3">
+        <label for="userType" class="form-label">Type d'utilisateur</label>
+        <div class="input-group">
+          <select
+            id="userType"
+            class="form-control"
+            formControlName="user_type"
+          >
+            <option value="" disabled selected>Choisissez votre type d'utilisateur</option>
+            <option *ngFor="let type of userTypes" [value]="type.value">
+              {{ type.label }}
+            </option>
+          </select>
+          <span class="input-group-text">
+            <i class="bi bi-people"></i>
+          </span>
+        </div>
+        <div *ngIf="user_type?.invalid && (user_type?.dirty || user_type?.touched)" class="text-danger">
+          <small *ngIf="user_type?.errors?.['required']">Veuillez sélectionner un type d'utilisateur</small>
+        </div>
+      </div>
 
-      <!-- Message d'erreur -->
+      <!-- Email Field -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Adresse Email</label>
+        <div class="input-group">
+          <input 
+            type="email" 
+            id="email" 
+            class="form-control" 
+            placeholder="Entrez votre adresse email"
+            formControlName="email">
+          <span class="input-group-text">
+            <i class="bi bi-envelope"></i>
+          </span>
+        </div>
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
+          <small *ngIf="email?.errors?.['required']">Ce champ est obligatoire</small>
+          <small *ngIf="email?.errors?.['email']">Veuillez entrer une adresse email valide</small>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de Passe</label>
+        <div class="input-group">
+          <input 
+            [type]="hidePassword ? 'password' : 'text'" 
+            id="password" 
+            class="form-control" 
+            placeholder="Entrez un mot de passe sécurisé"
+            formControlName="password">
+          <button 
+            class="btn btn-outline-secondary" 
+            type="button" 
+            (click)="hidePassword = !hidePassword">
+            <i [class]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="text-danger">
+          <small *ngIf="password?.errors?.['required']">Ce champ est obligatoire</small>
+          <small *ngIf="password?.errors?.['minlength']">Minimum 8 caractères</small>
+          <small *ngIf="password?.errors?.['passwordStrength']">
+            Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial
+          </small>
+        </div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirmer le Mot de Passe</label>
+        <div class="input-group">
+          <input 
+            [type]="hideConfirmPassword ? 'password' : 'text'" 
+            id="confirmPassword" 
+            class="form-control" 
+            placeholder="Confirmez votre mot de passe"
+            formControlName="confirm_password">
+          <button 
+            class="btn btn-outline-secondary" 
+            type="button" 
+            (click)="hideConfirmPassword = !hideConfirmPassword">
+            <i [class]="hideConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+        <div *ngIf="confirm_password?.invalid && (confirm_password?.dirty || confirm_password?.touched)" class="text-danger">
+          <small *ngIf="confirm_password?.errors?.['required']">Ce champ est obligatoire</small>
+        </div>
+        <div *ngIf="signupForm.errors?.['passwordMismatch'] && (confirm_password?.dirty || confirm_password?.touched)" class="text-danger">
+          <small>Les mots de passe ne correspondent pas</small>
+        </div>
+      </div>
+
+      <!-- Error Message -->
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
       </div>
 
-      <!-- Bouton de soumission -->
+      <!-- Terms Checkbox and Submit Button -->
       <div class="form-row align-items">
-        <mat-checkbox name="terms" class="checkbox" required>
+        <mat-checkbox formControlName="accepte_conditions" class="checkbox">
           J'accepte les <a href="#" target="_blank">termes et conditions</a>
         </mat-checkbox>
-        <button type="submit" class="submit-button" [disabled]="!signupForm.form.valid">
+        <div *ngIf="accepte_conditions?.invalid && accepte_conditions?.touched" class="text-danger">
+          <small>Vous devez accepter les termes et conditions</small>
+        </div>
+        
+        <button type="submit" class="submit-button" [disabled]="signupForm.invalid">
           S'inscrire
         </button>
       </div>
