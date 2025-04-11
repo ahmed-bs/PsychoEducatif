@@ -130,7 +130,6 @@ h2 {
 }
 
 .form-control:focus {
-  border-color: var(--focus-ring);
   outline: none;
   box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2); /* Soft focus glow */
 }

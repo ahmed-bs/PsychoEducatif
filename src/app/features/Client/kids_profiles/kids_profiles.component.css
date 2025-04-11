@@ -593,6 +593,7 @@
 :host ::ng-deep .p-button.p-button-primary {
     background: #6366f1;
     border-color: #6366f1;
+    border-radius: 27px;
 }
 
 :host ::ng-deep .p-button.p-button-primary:hover {
@@ -842,6 +843,7 @@
 .share-icon {
     cursor: pointer;
 }
+
 
 
 

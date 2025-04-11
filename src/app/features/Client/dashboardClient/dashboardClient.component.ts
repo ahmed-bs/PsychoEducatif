@@ -1,17 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
-
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
 declare const ScrollReveal: any;
+interface Content {
+  name: string;
+  code: string;
+}
+
 @Component({
   standalone: true,
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
-    imports: [CommonModule],
+    imports: [CommonModule,FormsModule,DropdownModule ],
 
 })
 export class DashboardClientComponent implements OnInit {
- 
+
+  contents: Content[] | undefined;
+
+  selectedContent: Content | undefined;
+
+
   currentDate: Date = new Date();
   weeks: (Date | null)[][] = [];
   selectedDate: Date | null = null;
@@ -44,6 +55,11 @@ export class DashboardClientComponent implements OnInit {
     day: this.firstWeekDays[index]
   }));
   ngOnInit() {
+    this.contents= [
+      { name: 'Close', code: 'NY' },
+      { name: 'Progress', code: 'RM' },
+      { name: 'Panding', code: 'LDN' },
+  ];
     this.generateCalendar();
   }
 
@@ -73,4 +89,11 @@ export class DashboardClientComponent implements OnInit {
   selectDate(date: Date | null) {
     this.selectedDate = date;
   }
+
+
+
+
+
+
+ 
 }

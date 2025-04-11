@@ -3,34 +3,37 @@
     overflow: hidden;
     padding: 10px;
   }
-  .btn {
-    background-color: #e0e0e0;
-    color: black;
-    padding: 10px;
-    border-radius: 8px;
-    width: 100%;
-    text-align: center;
-    cursor: pointer;
+  :host ::ng-deep .fc {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #333;
+  }
+  :host ::ng-deep .fc a {
+    color: #1e3a8a;
+    text-decoration: none;
   }
   
-  .btn:hover {
-    background-color: #c7c7c7;
-  }
+:host ::ng-deep .fc-button {
+  background: linear-gradient(to right, #ffffff, #ffffff) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  margin: 2px;
+  color: black !important;
+  font-weight: bold !important;
+}
+
+:host ::ng-deep .fc-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+
+:host ::ng-deep .fc .fc-toolbar-title {
+  font-size: 1.75em;
+  margin: 0 30px;
+}
   
-  .btn-primary {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    width: 100%;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
 
 
 
@@ -57,7 +60,9 @@
 
 
 
-
+.fc{
+  display: flex;
+}
 
 
   .p-5 {

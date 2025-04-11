@@ -1,3 +1,5 @@
+
+/*========================== Style de la page ==========================*/
 /* Conteneur principal */
 .container {
     display: flex;
@@ -700,55 +702,323 @@ main .recent-orders a {
 
 
 
-
-
-
-
-
-  .card {
+/* Styles pour le composant calendrier */
+.card {
+    background-color: #ffffff;
+    border-radius: 44px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 13px;
     max-width: 100%;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    overflow: hidden;
   }
   
   .month {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #222;
-  }
-  
-  .weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
     text-align: center;
     margin-bottom: 10px;
-    font-weight: bold;
-    color: #555;
+    text-transform: capitalize;
   }
   
   .days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  
+   
+    scrollbar-width: thin;
+  }
+  
+  .days::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .days::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 10px;
   }
   
   .day {
-    padding: 8px;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 80px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
   }
   
   .day:hover {
-    background-color: #f0f0f0;
-    cursor: pointer;
+    background-color: #f5f7fd;
   }
   
-  .selected {
-    background-color: #007bff;
+  .day.selected {
+    background-color: #4a6cf7;
     color: white;
-    font-weight: bold;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(74, 108, 247, 0.25);
   }
   
+  .weekday {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  
+  .day-number {
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  /* Pour une mise en page responsive */
+  @media screen and (max-width: 576px) {
+    .day {
+      width: 50px;
+      height: 70px;
+    }
+    
+    .day-number {
+      font-size: 18px;
+    }
+    
+    .weekday {
+      font-size: 10px;
+    }
+  }
+  
+  /* Conteneur principal */
+  .container-cours {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* En-tête */
+  .header-cours {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2b2d42;
+    letter-spacing: -0.5px;
+  }
+  
+  /* Dropdown modernisé */
+  .dropdown {
+    position: relative;
+  }
+
+   .dropdown ::ng-deep .p-dropdown ul{
+  padding-left: 0;
+   }
+  .dropdown ::ng-deep .p-dropdown {
+    width: 100%;
+    min-width: 280px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    padding: 10px;
+  }
+  
+  .dropdown ::ng-deep .p-dropdown:hover {
+    border-color: #4361ee;
+  }
+  
+  .dropdown ::ng-deep .p-dropdown.p-focus {
+    border-color: #4361ee;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+  }
+  
+  .dropdown ::ng-deep .p-dropdown-items-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+  
+  .dropdown ::ng-deep .p-dropdown-item {
+    padding: 0.8rem 1.5rem;
+    color: #4a4e69;
+    transition: all 0.3s ease;
+  }
+  
+  .dropdown ::ng-deep .p-dropdown-item:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+    color: #4361ee;
+  }
+  
+  .dropdown ::ng-deep .p-dropdown-item.p-highlight {
+    background-color: #4361ee;
+    color: white;
+  }
+  
+  /* Cartes de cours modernisées */
+  .course-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+  }
+  
+  .course-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    border-color: rgba(67, 97, 238, 0.2);
+  }
+  
+  .course-info {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  
+  .course-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .course-card:hover .course-icon {
+    transform: scale(1.05);
+  }
+  
+  .course-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+  
+  .course-details h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2b2d42;
+    margin-bottom: 0.5rem;
+  }
+  
+  .course-details p {
+    font-size: 0.9rem;
+    color: #8e9aaf;
+    line-height: 1.5;
+  }
+  
+  .course-status {
+    text-align: right;
+  }
+  
+  .course-status .status {
+    font-size: 0.85rem;
+    color: #8e9aaf;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .course-status .time {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2b2d42;
+  }
+  
+  /* Cercle de progression */
+  .progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .progress-circle {
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  
+  .progress-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  
+  .progress-circle circle {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+  
+  .progress-circle .bg {
+    stroke: rgba(0, 0, 0, 0.05);
+  }
+  
+  .progress-circle .progress {
+    stroke: #4ade80;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  
+  .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2b2d42;
+  }
+  
+  /* Styles spécifiques aux icônes */
+  .icon-informatic {
+    background: linear-gradient(135deg, #e9f5fe 0%, #d6ebff 100%);
+  }
+  
+  .icon-drawing {
+    background: linear-gradient(135deg, #fff5e9 0%, #ffe8d6 100%);
+  }
+  
+  .icon-art {
+    background: linear-gradient(135deg, #ffeaef 0%, #ffd6e0 100%);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-cours {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .course-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    
+    .course-status {
+      text-align: left;
+      width: 100%;
+    }
+    
+    .progress-container {
+      justify-content: space-between;
+      width: 100%;
+    }
+  }

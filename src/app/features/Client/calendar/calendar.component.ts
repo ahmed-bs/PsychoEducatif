@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
-import frLocale from '@fullcalendar/core/locales/fr'; // ✅ Import French locale
-
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
+import frLocale from '@fullcalendar/core/locales/fr';
+import { createEventId, INITIAL_EVENTS } from 'src/app/core/models/event';
+import Swal from 'sweetalert2';
+encapsulation: ViewEncapsulation.None
 @Component({
   standalone: true,
   selector: 'app-calendar',
@@ -16,15 +20,25 @@ import frLocale from '@fullcalendar/core/locales/fr'; // ✅ Import French local
 })
 export class CalendarComponent implements OnInit {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
-
-  calendarOptions = {
+  currentEvents: EventApi[] = [];
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
+    locale: frLocale,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    locale: frLocale, 
-    events: [
-      { title: 'Réunion', date: '2025-04-10' },
-      { title: 'Conférence', date: '2025-04-15' }
-    ]
+    initialEvents: INITIAL_EVENTS,
+    weekends: true,
+    editable: true,
+    selectable: true,
+    selectMirror: true,
+    dayMaxEvents: true,
+    select: this.handleDateSelect.bind(this),
+    eventClick: this.handleEventClick.bind(this),
+    eventsSet: this.handleEvents.bind(this)
   };
   currentMonth: string = new Date().toLocaleString('default', { month: 'long' });
 
@@ -38,12 +52,61 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit() {}
 
-  planifierEvent() {
-    alert('Planifier button clicked!');
+  // planifierEvent() {
+  //   alert('Planifier button clicked!');
+  // }
+
+  // changeView(view: string) {
+  //   const calendarApi = this.calendarComponent.getApi();
+  //   calendarApi.changeView(view);
+  // }
+
+  
+  handleDateSelect(selectInfo: DateSelectArg) {
+    Swal.fire({
+      title: 'Créer un nouvel événement',
+      input: 'text',
+      inputLabel: 'Titre de l’événement',
+      inputPlaceholder: 'Entrez un titre',
+      showCancelButton: true,
+      confirmButtonText: 'Ajouter',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const calendarApi = selectInfo.view.calendar;
+        calendarApi.unselect();
+        calendarApi.addEvent({
+          id: createEventId(),
+          title: result.value,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          allDay: selectInfo.allDay
+        });
+      }
+    });
+  }
+  
+  handleEventClick(clickInfo: EventClickArg) {
+    Swal.fire({
+      title: 'Supprimer un événement',
+      text: `Voulez-vous vraiment supprimer l'événement "${clickInfo.event.title}" ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clickInfo.event.remove();
+      }
+    });
   }
 
-  changeView(view: string) {
-    const calendarApi = this.calendarComponent.getApi();
-    calendarApi.changeView(view);
+  handleEvents(events: EventApi[]) {
+    this.currentEvents = events;
   }
+
+
+
 }
