@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
-  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class CategoriesComponent implements OnInit {
   displayAddUserDialog!: boolean;

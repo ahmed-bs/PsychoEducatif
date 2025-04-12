@@ -168,6 +168,85 @@ body{
 }
 
 
+
+/* Styles pour l'en-tête du tableau de bord */
+.head-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 2px 24px;
+  }
+  
+  .head-title .left {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .head-title h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .breadcrumb li {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+  }
+  
+  .breadcrumb li a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .breadcrumb li a:hover {
+    color: #3C91E6;
+  }
+  
+  .breadcrumb li a.active {
+    color: #3C91E6;
+    font-weight: 500;
+  }
+  
+  .breadcrumb li i {
+    font-size: 12px;
+    margin: 0 8px;
+    color: #999;
+  }
+  
+  .head-title .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  /* Pour une mise en page responsive */
+  @media screen and (max-width: 768px) {
+    .head-title {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .head-title .right {
+      margin-top: 12px;
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+
+
 ::ng-deep .mdc-dialog__surface {
     position: static !important; /* Overrides position: relative */
     border-radius: 15px;

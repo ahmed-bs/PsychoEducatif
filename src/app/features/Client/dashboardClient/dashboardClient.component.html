@@ -1,7 +1,24 @@
 <div class="container">
     <!-- ================== Start OF MAIN ================== -->
     <main>
-        <h1>Bienvenue sur le Tableau de Bord</h1>
+        <div class="head-title">
+            <div class="left">
+                <h1>Bienvenue sur le Tableau de Bord</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="#">Tableau de bord</a>
+                    </li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li>
+                        <a class="active" href="#">Tableau de Bord</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+
+            </div>
+        </div>
+
 
 
         <div class="card_1">
@@ -17,7 +34,7 @@
                 </div>
             </div>
         </div>
-<br>
+        <br>
         <div class="card">
             <div class="month">{{ currentMonth }}</div>
 
@@ -67,7 +84,108 @@
                 <small class="text-muted">Cette semaine</small>
             </div>
         </div>
+
+        <div class="container-cours">
+            <div class="header-cours">
+                <h1>Évaluation des Compétences</h1>
+                <div class="dropdown">
+                    <p-dropdown [options]="contents" [(ngModel)]="selectedContent" optionLabel="name"
+                        placeholder="Choisissez une compétence" />
+                </div>
+            </div>
+        
+            <div class="course-card">
+                <div class="course-info">
+                    <div class="course-icon icon-informatic">
+                        <img src="..." alt="Communication Expressive">
+                    </div>
+                    <div class="course-details">
+                        <h3>Communication Expressive</h3>
+                        <p>Évaluez les compétences de la communication expressive pour mieux comprendre les progrès.</p>
+                    </div>
+                </div>
+                <div class="course-status">
+                    <div class="status">en cours</div>
+                    <div class="progress-container">
+                        <div class="progress-circle">
+                            <svg viewBox="0 0 36 36">
+                                <circle class="bg" cx="18" cy="18" r="15.5" stroke-dasharray="97" stroke-dashoffset="0"></circle>
+                                <circle class="progress" cx="18" cy="18" r="15.5" stroke-dasharray="97" stroke-dashoffset="24.25"></circle>
+                            </svg>
+                            <div class="progress-text">75%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        
+            <div class="course-card">
+                <div class="course-info">
+                    <div class="course-icon icon-art">
+                        <img src="..." alt="Partage de jouets">
+                    </div>
+                    <div class="course-details">
+                        <h3>Partage et Tour de Rôle</h3>
+                        <p>Développe la capacité à partager des jouets et attendre son tour pendant les jeux.</p>
+                    </div>
+                </div>
+                <div class="course-status">
+                    <div class="status">en cours</div>
+                    <div class="time">65%</div>
+                </div>
+            </div>
+        
+            <div class="course-card">
+                <div class="course-info">
+                    <div class="course-icon icon-art">
+                        <img src="..." alt="Jeu en groupe">
+                    </div>
+                    <div class="course-details">
+                        <h3>Interaction avec les Pairs</h3>
+                        <p>Améliore les compétences pour initier et maintenir des interactions avec d'autres enfants.</p>
+                    </div>
+                </div>
+                <div class="course-status">
+                    <div class="status">en cours</div>
+                    <div class="time">65%</div>
+                </div>
+            </div>
+        
+            <div class="course-card">
+                <div class="course-info">
+                    <div class="course-icon icon-art">
+                        <img src="..." alt="Reconnaissance des émotions">
+                    </div>
+                    <div class="course-details">
+                        <h3>Reconnaissance des Émotions</h3>
+                        <p>Apprend à identifier et exprimer les émotions de base (joie, tristesse, colère).</p>
+                    </div>
+                </div>
+                <div class="course-status">
+                    <div class="status">en cours</div>
+                    <div class="time">65%</div>
+                </div>
+            </div>
+        
+            <div class="course-card">
+                <div class="course-info">
+                    <div class="course-icon icon-art">
+                        <img src="..." alt="Motricité fine">
+                    </div>
+                    <div class="course-details">
+                        <h3>Motricité Fine</h3>
+                        <p>Développe la précision des petits mouvements (tenir un crayon, boutonner un vêtement).</p>
+                    </div>
+                </div>
+                <div class="course-status">
+                    <div class="status">en cours</div>
+                    <div class="time">65%</div>
+                </div>
+            </div>
+        </div>
+        
     </main>
+
 
     <!-- ================== Start of Right Side ================== -->
     <div class="right">

@@ -1,9 +1,31 @@
+<div class="head-title">
+  <div class="left">
+      <h1>📅 Calendrier</h1>
+      <ul class="breadcrumb">
+          <li>
+              <a href="#">Tableau de bord</a>
+          </li>
+          <li><i class="bx bx-chevron-right"></i></li>
+          <li>
+              <a class="active" href="#">📅 Calendrier</a>
+          </li>
+      </ul>
+  </div>
+  <div class="right">
+
+  </div>
+</div>
 <div class="p-5 flex">
+
   <!-- Calendar Section -->
   <div class="bg-white shadow-lg rounded-2xl p-4 full-calendar flex-1">
-    <h2 class="text-xl font-bold mb-3">📅 Calendrier</h2>
+   
     <div class="mb-4 flex flex-col space-y-2"></div>
-    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    <div class='demo-app-main'>
+      <full-calendar
+        [options]='calendarOptions'
+      ></full-calendar>
+    </div>
   </div>
 <!-- Sidebar (Today's Plans) -->
 <div class="sidebar">
