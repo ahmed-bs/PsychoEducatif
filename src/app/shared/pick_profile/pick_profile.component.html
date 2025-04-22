@@ -20,19 +20,30 @@
     <!-- Conteneur avec scroll pour les cartes -->
     <div class="cards-container">
       <!-- Liste des enfants -->
-      <div class="card" *ngFor="let child of filteredChildren" >
+      <div class="card" *ngFor="let child of filteredChildren">
         <div (click)="navigateToClient(child.id)">
-        <img [src]="child.imageUrl" alt="Enfant" class="card__image" >
-        <h2 class="card__name">{{ child.name }}</h2>
-        <p class="card__info">Âge: {{ child.age }} ans<br>Progrès: {{ child.progress }}</p>
-        <div class="card__actions">
-          <button pButton label="Modifier" class="p-button-secondary"
-            (click)="showEditDialog(child); $event.stopPropagation()"></button>
-          <button pButton label="Désactiver" class="p-button-danger"
-            (click)="disableChild(child); $event.stopPropagation()"></button>
+            <!-- <div class="status-badge" [ngClass]="{'active': child.active, 'inactive': !child.active}">
+                {{ child.active ? 'Active' : 'Inactive' }}
+            </div> -->
+            <img [src]="child.imageUrl || 'https://source.unsplash.com/random/300x300/?child,portrait'" alt="Child" class="card__image">
+            <h2 class="card__name">{{ child.name }}</h2>
+            <!-- <p class="card__info">Âge: {{ child.age }} ans</p> -->
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" [style.width]="child.progress + '%'">
+                    {{ child.progress }}%
+                </div>
+            </div>
+            
+            <div class="card__actions">
+              <button pButton label="Modifier" class="custom-edit-btn rounded-btn"
+                  (click)="showEditDialog(child); $event.stopPropagation()"></button>
+              <button pButton label="Désactiver" class="custom-disable-btn rounded-btn"
+                  (click)="disableChild(child); $event.stopPropagation()"></button>
+          </div>
         </div>
-      </div>
-      </div>
+    </div>
        <!-- Message si la liste est vide -->
        <div class="no-children-message" *ngIf="filteredChildren.length === 0">
         <p>Vous n'avez pas d'enfant.</p>
