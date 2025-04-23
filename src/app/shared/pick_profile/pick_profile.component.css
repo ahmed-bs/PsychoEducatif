@@ -46,55 +46,148 @@ body {
     cursor: pointer;
 }
 
+/* Grid Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 16px;
+}
+
+/* Card Styling */
+.card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+}
+
 .card:hover {
-    transform: perspective(1000px) rotateX(3deg) translateY(-5px);
+    transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* Light Effect */
-.card::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(rgba(74, 144, 226, 0.2), transparent);
-    transform: rotate(30deg);
-    transition: opacity  0.4s;
-    opacity: 0;
-}
-
-.card:hover::before {
-    opacity: 1;
 }
 
 /* Image Style */
 .card__image {
-    width: 60%;
-    height: 160px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
-    border-radius: 12px;
-    transition: transform  0.4s;
-    margin-left: 48px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto 16px;
+    display: block;
+    transition: all 0.3s ease;
 }
 
 .card:hover .card__image {
     transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Title & Info */
 .card__name {
-    font-size: 1.6rem;
-    margin:  16px 0 8px;
+    font-size: 1.4rem;
+    margin: 0 0 8px;
     color: #2d3548;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .card__info {
-    font-size: 1rem;
-    color: #777;
-    padding-bottom: 8px;
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin: 12px 0;
+    height: 12px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #4a90e2, #4a90e2 50%, #e0e0e0 50%, #e0e0e0);
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 5px;
+    color: white;
+    font-size: 8px;
+    font-weight: bold;
+}
+
+/* Card Actions */
+.card__actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.card__actions button {
+    flex: 1;
+    max-width: 120px;
+    font-size: 0.85rem;
+    padding: 8px 12px;
+}
+/* Custom Edit Button (Secondary) */
+.custom-edit-btn {
+    border-radius: 20px !important;
+    background-color: #4c87afdd !important; /* Green */
+    border: 1px solid #4c77af !important;
+}
+
+.custom-edit-btn:hover {
+    background-color: #4e45a0 !important;
+}
+
+/* Custom Disable Button (Danger) */
+.custom-disable-btn {
+    border-radius: 20px !important;
+    background-color: #f45936ce !important; /* Red */
+    border: 1px solid #f44336 !important;
+}
+
+.custom-disable-btn:hover {
+    background-color: #d32f2f !important;
+}
+/* Status Badge */
+.status-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #5cb85c;
+    color: white;
+    border-radius: 12px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Add Card */
@@ -505,3 +598,12 @@ body {
       font-size: 1rem;
     }
   }
+
+  .rounded-btn {
+    border-radius: 20px !important; /* Adjust the value to change the roundness */
+}
+
+/* Or if you want to target all buttons in card__actions */
+.card__actions button {
+    border-radius: 20px !important;
+}
