@@ -1,266 +1,249 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Child } from 'src/app/core/models/child';
 import Swal from 'sweetalert2';
-
-//primeng module
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
-
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Child } from 'src/app/core/models/profile.model';
+import { ProfileService } from 'src/app/core/services/profile.service';
 
 @Component({
-  standalone:true,
+  standalone: true,
   selector: 'app-kids_profiles',
   templateUrl: './kids_profiles.component.html',
   styleUrls: ['./kids_profiles.component.css'],
   imports: [DialogModule, ButtonModule, InputTextModule, FormsModule, CommonModule, DropdownModule],
-  providers: [MessageService] 
+  providers: [MessageService]
 })
-export class Kids_profilesComponent implements OnInit {
-
-  children: Child[] = [
-    {
-      id: 1,
-      parentId: 100,
-      name: 'Emma Dubois',
-      age: 6,
-      diagnosisDate: new Date('2020-05-15'),
-      evaluationScore: 75,
-      objectives: ['Améliorer la communication', 'Développer les compétences sociales'],
-      progress: 'En progrès',
-      recommendedStrategies: ['Renforcement positif', 'Jeux structurés'],
-      imageUrl: 'assets/image_client/homme-lunettes-chemise-bleue-sourit_905719-6916.avif'
-    },
-    {
-      id: 2,
-      parentId: 101,
-      name: 'Lucas Martin',
-      age: 8,
-      diagnosisDate: new Date('2019-08-20'),
-      evaluationScore: 82,
-      objectives: ['Augmenter l’autonomie', 'Gérer les émotions'],
-      progress: 'Stable',
-      recommendedStrategies: ['Routines visuelles', 'Temps calme'],
-      imageUrl: 'assets/image_client/téléchargement.jpeg'
-    },
-    {
-      id: 3,
-      parentId: 101,
-      name: 'Lucas Martin',
-      age: 8,
-      diagnosisDate: new Date('2019-08-20'),
-      evaluationScore: 82,
-      objectives: ['Augmenter l’autonomie', 'Gérer les émotions'],
-      progress: 'Stable',
-      recommendedStrategies: ['Routines visuelles', 'Temps calme'],
-      imageUrl: 'assets/image_client/jeune-homme-souriant-aux-lunettes_1308-174373.avif'
-    }
-
-  ];
-
-
-
-  filteredChildren: Child[] = []; // Liste filtrée
+export class KidsProfilesComponent implements OnInit {
+  children: Child[] = [];
+  filteredChildren: Child[] = [];
   searchTerm: string = '';
-  childId: any | null = null;
-
-  // Propriétés pour le dialog
+  selectedChild: Child | null = null;
+  childId: string | null = null;
 
   displayDialog: boolean = false;
-  displayEditDialog: boolean = false; // Contrôle le dialogue de modification
-  selectedChild: any = {};
-  newChild: Child = {
-    id: 0, // Sera généré dynamiquement ou via un service
-    parentId: 0, // À définir selon le contexte (ex: ID du parent connecté)
-    name: '',
-    age: 0,
-    diagnosisDate: new Date(),
-    evaluationScore: 0,
-    objectives: [],
-    progress: 'En progrès',
-    recommendedStrategies: [],
-    imageUrl: ''
-  };
- 
+  displayEditDialog: boolean = false;
+  afficherBoiteDialoguePartage: boolean = false;
 
-  constructor(private router: Router,private route: ActivatedRoute,private messageService: MessageService) {
+  newChild: Child = this.resetChild();
+  saisieEmail: string = '';
+  accesSelectionne: any;
+  optionsAcces: any[] = [
+    { libelle: 'Lecture seule', valeur: 'read_only' },
+    { libelle: 'Lecture et modification', valeur: 'read_write' }
+  ];
+  sharePermissions: any = {
+    can_read: true,
+    can_write: false,
+    can_update: false,
+    can_delete: false
+  };
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private profileService: ProfileService,
+    private messageService: MessageService
+  ) {
     this.accesSelectionne = this.optionsAcces[0];
   }
 
   ngOnInit() {
-    this.childId = this.route.snapshot.paramMap.get('childId'); // Récupère l'ID de l'URL
-  console.log('Enfant sélectionné ID:', this.childId);
-
-  // Convertir l'ID en nombre (Angular récupère souvent des chaînes)
-  const parsedId = this.childId ? parseInt(this.childId, 10) : null;
-
-  // Charger les enfants
-  this.filteredChildren = [...this.children]; 
-
-  if (parsedId) {
-    this.selectedChild = this.filteredChildren.find(child => child.id === parsedId);
-    console.log('Données de l’enfant sélectionné:', this.selectedChild);
-  }
- 
+    this.childId = this.route.snapshot.paramMap.get('childId');
+    this.loadChildren();
+    if (this.childId) {
+      this.loadChild(parseInt(this.childId, 10));
+    }
   }
 
-  // Filtrer les enfants en fonction du terme de recherche
+  loadChildren() {
+    this.profileService.getChildren().subscribe({
+      next: (children) => {
+        this.children = children.map(child => ({
+          ...child,
+          image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+        }));
+        this.filteredChildren = [...this.children];
+        if (this.childId) {
+          this.selectedChild = this.children.find(child => child.id === parseInt(this.childId!, 10)) || null;
+        }
+      },
+      error: (err) => {
+        Swal.fire('Erreur', 'Impossible de charger les profils.', 'error');
+      }
+    });
+  }
+
+  loadChild(childId: number) {
+    this.profileService.getChild(childId).subscribe({
+      next: (child) => {
+        this.selectedChild = {
+          ...child,
+          image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+        };
+      },
+      error: (err) => {
+        Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
+      }
+    });
+  }
+
   filterChildren() {
     if (!this.searchTerm) {
-      this.filteredChildren = [...this.children]; // Réinitialise si vide
+      this.filteredChildren = [...this.children];
     } else {
       this.filteredChildren = this.children.filter(child =>
-        child.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        `${child.first_name} ${child.last_name}`.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
   }
-    // Fonction pour sélectionner un enfant et mettre à jour le profil
-    selectChild(child: Child) {
-      this.selectedChild = child;
-    }
-  
-   
-  
-    afficherBoiteDialoguePartage: boolean = false;
-  
-    // Champ pour saisir un email
-    saisieEmail: string = '';
-    
-    // Accès sélectionné pour le partage
-    accesSelectionne: any;
-    
-    // Options d'accès disponibles
-    optionsAcces: any[] = [
-      { libelle: 'Limité', valeur: 'limite' },
-      { libelle: 'Tout le monde', valeur: 'tous' }
-    ];
-    
-    // Lien de partage (exemple)
-    lienPartage: string = 'https://classroom.google.com/lien-partage';
-  
-   
-  
-    // Fonction pour copier le lien dans le presse-papiers
-    copierLien() {
-      navigator.clipboard.writeText(this.lienPartage).then(() => {
-        this.messageService.add({ 
-          severity: 'success', 
-          summary: 'Succès', 
-          detail: 'Lien copié dans le presse-papiers !' 
-        });
-      });
-    }
-  
-    // Fonction pour afficher la boîte de dialogue
-    showShareDialog() {
-      this.afficherBoiteDialoguePartage = true;
-    }
 
+  selectChild(child: Child) {
+    this.selectedChild = child;
+    this.router.navigate(['/Dashboard-client/client/Kids_profiles', child.id]);
+  }
 
-
-
-  // Ouvrir le dialog
   showDialog() {
+    this.newChild = this.resetChild();
     this.displayDialog = true;
   }
 
-  // Ajouter un enfant et fermer le dialog
-  addChild() {
-    if (this.newChild.name && this.newChild.age) {
-      const newId = this.children.length + 1; // Simple génération d'ID (remplacez par un service si besoin)
-      this.children.push({
-        ...this.newChild,
-        id: newId,
-        parentId: 100, // Exemple statique, à adapter
-        imageUrl: 'assets/image_client/default-image.avif',
-        objectives: this.newChild.objectives.length ? this.newChild.objectives : ['À définir'],
-        recommendedStrategies: this.newChild.recommendedStrategies.length ? this.newChild.recommendedStrategies : ['À définir']
-      });
-      this.resetNewChild();
-      this.filteredChildren = [...this.children];
-      this.displayDialog = false;
+  showEditDialog() {
+    if (this.selectedChild) {
+      this.displayEditDialog = true;
     }
   }
 
-  // Réinitialiser le modèle
-  resetNewChild() {
-    this.newChild = {
-      id: 0,
-      parentId: 0,
-      name: '',
-      age: 0,
-      diagnosisDate: new Date(),
-      evaluationScore: 0,
-      objectives: [],
-      progress: 'En progrès',
-      recommendedStrategies: [],
-      imageUrl: ''
-    };
+  showShareDialog() {
+    this.saisieEmail = '';
+    this.sharePermissions = { can_read: true, can_write: false, can_update: false, can_delete: false };
+    this.accesSelectionne = this.optionsAcces[0];
+    this.afficherBoiteDialoguePartage = true;
   }
 
-  // Annuler et fermer le dialog
+  addChild() {
+    if (this.newChild.first_name && this.newChild.last_name && this.newChild.birth_date) {
+      this.profileService.createChild(this.newChild).subscribe({
+        next: (child) => {
+          this.children.push({
+            ...child,
+            image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+          });
+          this.filteredChildren = [...this.children];
+          this.displayDialog = false;
+          Swal.fire('Succès', 'Profil ajouté avec succès.', 'success');
+        },
+        error: (err) => {
+          Swal.fire('Erreur', 'Impossible d’ajouter le profil.', 'error');
+        }
+      });
+    } else {
+      Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'warning');
+    }
+  }
+
+  saveChild() {
+    if (this.selectedChild) {
+      this.profileService.updateChild(this.selectedChild).subscribe({
+        next: (updatedChild) => {
+          const index = this.children.findIndex(c => c.id === updatedChild.id);
+          if (index !== -1) {
+            this.children[index] = { ...updatedChild, image_url: this.children[index].image_url };
+            this.filteredChildren = [...this.children];
+          }
+          this.displayEditDialog = false;
+          Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
+        },
+        error: (err) => {
+          Swal.fire('Erreur', 'Impossible de mettre à jour le profil.', 'error');
+        }
+      });
+    }
+  }
+
+  disableChild(child: Child) {
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: `Voulez-vous vraiment désactiver ${child.first_name} ${child.last_name} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Oui, désactiver',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.profileService.deleteChild(child.id!).subscribe({
+          next: () => {
+            this.children = this.children.filter(c => c.id !== child.id);
+            this.filteredChildren = [...this.children];
+            if (this.selectedChild?.id === child.id) {
+              this.selectedChild = null;
+            }
+            Swal.fire('Désactivé', `${child.first_name} ${child.last_name} a été désactivé.`, 'success');
+          },
+          error: (err) => {
+            Swal.fire('Erreur', 'Impossible de désactiver le profil.', 'error');
+          }
+        });
+      }
+    });
+  }
+
+  shareProfile() {
+    if (!this.selectedChild || !this.saisieEmail) {
+      Swal.fire('Erreur', 'Veuillez sélectionner un profil et entrer un email.', 'warning');
+      return;
+    }
+
+    // For simplicity, assume saisieEmail is the ID of the parent to share with
+    // In a real app, you'd need to resolve the email to a user ID via an API
+    const sharedWithParentId = parseInt(this.saisieEmail, 10); // Replace with actual logic
+    this.sharePermissions = {
+      can_read: true,
+      can_write: this.accesSelectionne.valeur === 'read_write',
+      can_update: this.accesSelectionne.valeur === 'read_write',
+      can_delete: false
+    };
+
+    this.profileService.shareChildProfile(this.selectedChild.id!, sharedWithParentId, this.sharePermissions).subscribe({
+      next: (response) => {
+        this.afficherBoiteDialoguePartage = false;
+        Swal.fire('Succès', 'Profil partagé avec succès.', 'success');
+      },
+      error: (err) => {
+        Swal.fire('Erreur', 'Impossible de partager le profil.', 'error');
+      }
+    });
+  }
+
   cancel() {
-    this.resetNewChild();
+    this.newChild = this.resetChild();
     this.displayDialog = false;
   }
 
-
-  // Ouvre le dialogue de modification avec les données de l'enfant
-  showEditDialog(child: any) {
-    this.selectedChild = { ...child }; // Crée une copie pour éviter de modifier directement l'original
-    this.displayEditDialog = true;
-  }
-
-  // Ferme le dialogue de modification
   cancelEdit() {
     this.displayEditDialog = false;
   }
 
-
-  // Enregistre les modifications
-  saveChild() {
-    const index = this.children.findIndex(c => c.id === this.selectedChild.id); // Recherche par ID
-    if (index !== -1) {
-      this.children[index] = { ...this.selectedChild };
-      this.filteredChildren = [...this.children]; // Met à jour la liste filtrée
-    }
-    this.displayEditDialog = false;
+  resetChild(): Child {
+    return {
+      first_name: '',
+      last_name: '',
+      birth_date: '',
+      diagnosis: '',
+      notes: '',
+      evaluation_score: 0,
+      objectives: [],
+      progress: 'En progrès',
+      recommended_strategies: [],
+      image_url: '',
+      is_active: true
+    };
   }
-
- // Désactive un enfant avec confirmation SweetAlert2
- disableChild(child: any) {
-  Swal.fire({
-    title: 'Êtes-vous sûr ?',
-    text: `Voulez-vous vraiment désactiver ${child.name} ?`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#dc3545', // Rouge pour le bouton de confirmation
-    cancelButtonColor: '#6c757d', // Gris pour le bouton d'annulation
-    confirmButtonText: 'Oui, désactiver',
-    cancelButtonText: 'Annuler'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // Logique de désactivation ici
-      console.log('Désactiver:', child);
-      // Exemple : Supprimer l'enfant de la liste (ou marquer comme désactivé)
-      const index = this.children.indexOf(child);
-      if (index !== -1) {
-        this.children.splice(index, 1); // Supprime l'enfant
-        // Ou mettez à jour un statut : child.isActive = false;
-      }
-      Swal.fire(
-        'Désactivé !',
-        `${child.name} a été désactivé avec succès.`,
-        'success'
-      );
-    }
-  });
-}
-
 }
