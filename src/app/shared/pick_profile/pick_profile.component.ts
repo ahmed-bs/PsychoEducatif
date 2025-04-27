@@ -1,59 +1,78 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-// PrimeNG modules
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { CommonModule } from '@angular/common';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import Swal from 'sweetalert2';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { Profile } from 'src/app/core/models/profile.model';
-import { HttpClientModule } from '@angular/common/http';
+import { CreateProfileRequest, UpdateProfileRequest } from 'src/app/core/models/createprofile.model';
 
 @Component({
   standalone: true,
-  providers: [],
   selector: 'app-pick_profile',
   templateUrl: './pick_profile.component.html',
   styleUrls: ['./pick_profile.component.css'],
-  imports: [DialogModule, ButtonModule, InputTextModule, FormsModule, CommonModule,HttpClientModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    ButtonModule,
+    DialogModule,
+    InputTextModule,
+    CalendarModule,
+    DropdownModule,
+    InputTextareaModule
+  ]
 })
 export class PickProfileComponent implements OnInit {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
-
-  // Dialog properties
   displayDialog: boolean = false;
-  displayEditDialog: boolean = false;
-  selectedChild: Profile = this.resetChild();
-  newChild: Profile = this.resetChild();
-  parentId!: number;
-  constructor(private profileService: ProfileService, private router: Router) {
+  isEditMode: boolean = false;
+  selectedChild: Profile | null = null;
+  profileForm: CreateProfileRequest | UpdateProfileRequest = {
+    first_name: '',
+    last_name: '',
+    birth_date: '',
+    gender: 'M' ,
+    diagnosis: '',
+    notes: ''
+  };
+  birthDate: Date | null = null;
+  genderOptions = [
+    { label: 'Male', value: 'M' },
+    { label: 'Female', value: 'F' }
+  ];
+  parentId: number = 0;
+  error: string | null = null;
 
+  constructor(private profileService: ProfileService, private router: Router) {
     const user = localStorage.getItem('user');
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
-}
-
-  ngOnInit() {
-    this.loadChildren();
-
-    if (!this.parentId) {
-      Swal.fire('Erreur', 'Impossible de charger les informations de l’utilisateur.', 'error');
-      return;
-    }
-    console.log('Parent ID:', this.parentId); // Debugging line
   }
 
+  ngOnInit() {
+    if (!this.parentId) {
+      Swal.fire('Erreur', "Impossible de charger les informations de l'utilisateur.", 'error');
+      return;
+    }
+    this.loadChildren();
+  }
 
   loadChildren() {
     this.profileService.getProfilesByParent(this.parentId).subscribe({
       next: (children) => {
         this.children = children.map(child => ({
           ...child,
-          imageUrl: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+          image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
         }));
         this.filteredChildren = [...this.children];
       },
@@ -63,70 +82,99 @@ export class PickProfileComponent implements OnInit {
     });
   }
 
-  // Filter children based on search term
   filterChildren() {
     if (!this.searchTerm) {
       this.filteredChildren = [...this.children];
     } else {
       this.filteredChildren = this.children.filter(child =>
-        `${child.first_name} ${child.last_name}`.toLowerCase().includes(this.searchTerm.toLowerCase())
+        `${child.first_name} ${child.last_name}`
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase())
       );
     }
   }
 
-  // Open dialog to add a new child
   showDialog() {
-    this.newChild = this.resetChild();
+    this.isEditMode = false;
+    this.profileForm = {
+      first_name: '',
+      last_name: '',
+      birth_date: '',
+      gender: 'M',
+      diagnosis: '',
+      notes: ''
+    };
+    this.birthDate = null;
     this.displayDialog = true;
+    this.error = null;
   }
 
-  // Add a new child
-  addChild() {
-    if (this.newChild.first_name && this.newChild.last_name && this.newChild.birth_date) {
-      this.profileService.createChild(this.newChild).subscribe({
-        next: (child) => {
+  showEditDialog(child: Profile) {
+    this.isEditMode = true;
+    this.selectedChild = child;
+    this.profileForm = {
+      first_name: child.first_name,
+      last_name: child.last_name,
+      birth_date: child.birth_date,
+      gender: child.gender,
+      diagnosis: child.diagnosis || '',
+      notes: child.notes || ''
+    };
+    this.birthDate = new Date(child.birth_date);
+    this.displayDialog = true;
+    this.error = null;
+  }
+
+  saveProfile() {
+    if (!this.profileForm.first_name || !this.profileForm.last_name || !this.birthDate) {
+      this.error = 'Prénom, nom de famille et date de naissance sont obligatoires.';
+      return;
+    }
+
+    // Format birth_date to YYYY-MM-DD
+    const formattedBirthDate = this.birthDate.toISOString().split('T')[0];
+    this.profileForm.birth_date = formattedBirthDate;
+
+    if (this.isEditMode && this.selectedChild?.id) {
+      const updateData: UpdateProfileRequest = { ...this.profileForm };
+      this.profileService.updateChildProfile(this.selectedChild).subscribe({
+        next: (updatedChild) => {
+          const index = this.children.findIndex(c => c.id === updatedChild.id);
+          if (index !== -1) {
+            this.children[index] = {
+              ...updatedChild,
+              image_url: this.children[index].image_url // Preserve image_url
+            };
+            this.filteredChildren = [...this.children];
+          }
+console.log('Updated child:', updatedChild);
+
+          this.displayDialog = false;
+          Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
+        },
+        error: (err) => {
+          this.error = err.message;
+        }
+      });
+    } else {
+      const createData: CreateProfileRequest = this.profileForm as CreateProfileRequest;
+      this.profileService.createChildProfile(createData).subscribe({
+        next: (newChild) => {
           this.children.push({
-            ...child,
-            image_url: child.image_url || 'assets/image_client/default-image.avif'
+            ...newChild,
+            image_url: newChild.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
           });
           this.filteredChildren = [...this.children];
           this.displayDialog = false;
           Swal.fire('Succès', 'Profil ajouté avec succès.', 'success');
         },
         error: (err) => {
-          Swal.fire('Erreur', 'Impossible d’ajouter le profil.', 'error');
+          this.error = err.message;
         }
       });
-    } else {
-      Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'warning');
     }
   }
 
-  // Open dialog to edit a child
-  showEditDialog(child: Profile) {
-    this.selectedChild = { ...child };
-    this.displayEditDialog = true;
-  }
-
-  // Save changes to a child
-  saveChild() {
-    this.profileService.updateChild(this.selectedChild).subscribe({
-      next: (updatedChild) => {
-        const index = this.children.findIndex(c => c.id === updatedChild.id);
-        if (index !== -1) {
-          this.children[index] = { ...updatedChild, image_url: this.children[index].image_url };
-          this.filteredChildren = [...this.children];
-        }
-        this.displayEditDialog = false;
-        Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
-      },
-      error: (err) => {
-        Swal.fire('Erreur', 'Impossible de mettre à jour le profil.', 'error');
-      }
-    });
-  }
-
-  // Disable (delete) a child with confirmation
   disableChild(child: Profile) {
     Swal.fire({
       title: 'Êtes-vous sûr ?',
@@ -138,8 +186,8 @@ export class PickProfileComponent implements OnInit {
       confirmButtonText: 'Oui, désactiver',
       cancelButtonText: 'Annuler'
     }).then((result) => {
-      if (result.isConfirmed) {
-        this.profileService.deleteChild(child.id!).subscribe({
+      if (result.isConfirmed && child.id) {
+        this.profileService.deleteChildProfile(child.id).subscribe({
           next: () => {
             this.children = this.children.filter(c => c.id !== child.id);
             this.filteredChildren = [...this.children];
@@ -153,31 +201,13 @@ export class PickProfileComponent implements OnInit {
     });
   }
 
-  // Navigate to child dashboard
   navigateToClient(childId: number) {
     localStorage.setItem('selectedChildId', childId.toString());
     this.router.navigate(['/Dashboard-client/client/profiles/', childId]);
   }
 
-  // Cancel and close dialogs
   cancel() {
-    this.newChild = this.resetChild();
     this.displayDialog = false;
-  }
-
-  cancelEdit() {
-    this.displayEditDialog = false;
-  }
-
-  // Reset child model
-  private resetChild(): Profile {
-    return {
-      first_name: '',
-      last_name: '',
-      birth_date: '',
-      diagnosis: '',
-      notes: '',
-      is_active: true
-    };
+    this.error = null;
   }
 }

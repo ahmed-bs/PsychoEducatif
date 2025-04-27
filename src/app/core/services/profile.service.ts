@@ -1,81 +1,113 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Profile } from '../models/profile.model';
 import { environment } from 'src/environments/environment';
+import { ApiResponse, CreateProfileRequest, ShareProfileRequest, UpdateProfileRequest } from '../models/createprofile.model';
 
 @Injectable({
   providedIn: 'any'
 })
 export class ProfileService {
-  private apiUrl = environment.apiUrl + 'profiles/'; // Adjust to your Django API base URL
+  private apiUrl = environment.apiUrl + 'profiles/' ; // Adjust to your Django API base URL
   private token: string;
 
   constructor(private http: HttpClient) {
     this.token = localStorage.getItem('token') || '';
   }
+// Create a child profile
+createChildProfile(profileData: CreateProfileRequest): Observable<Profile> {
+  return this.http
+    .post<ApiResponse<Profile>>(`${this.apiUrl}create-child/`, profileData)
+    .pipe(
+      map(response => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.data!;
+      }),
+      catchError(this.handleError)
+    );
+}
 
-  // Get all children for the authenticated parent
-  getChildren(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.apiUrl}my-children/`);
-  }
+// Get profiles by parent ID
+getProfilesByParent(parentId: number): Observable<Profile[]> {
+  return this.http
+    .get<Profile[]>(`${this.apiUrl}parent/${parentId}/`)
+    .pipe(catchError(this.handleError));
+}
 
-  // Get a specific child by ID
-  getChild(childId: number): Observable<Profile> {
-    return this.http.get<Profile>(`${this.apiUrl}${childId}/`);
-  }
+// Update a child profile
+updateChildProfile(profile: Profile
+): Observable<Profile> {
+  return this.http
+    .put<ApiResponse<Profile>>(`${this.apiUrl}${profile.id}/update/`, profile)
+    .pipe(
+      map(response => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.data!;
+      }),
+      catchError(this.handleError)
+    );
+}
 
-  // Create a new child profile
-  createChild(child: Profile): Observable<Profile> {
-    return this.http.post<Profile>(`${this.apiUrl}create-children/`, child);
-  }
+// Share a child profile
+shareChildProfile(profileId: number, shareData: ShareProfileRequest): Observable<string> {
+  return this.http
+    .post<ApiResponse<never>>(`${this.apiUrl}${profileId}/share/`, shareData)
+    .pipe(
+      map(response => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.message!;
+      }),
+      catchError(this.handleError)
+    );
+}
 
-  // Update an existing child profile
-  updateChild(child: Profile): Observable<Profile> {
-    return this.http.put<Profile>(`${this.apiUrl}${child.id}/`, child);
-  }
+// Delete a child profile
+deleteChildProfile(profileId: number): Observable<string> {
+  return this.http
+    .delete<ApiResponse<never>>(`${this.apiUrl}${profileId}/delete/`)
+    .pipe(
+      map(response => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.message!;
+      }),
+      catchError(this.handleError)
+    );
+}
 
-  // Delete a child profile
-  deleteChild(childId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${childId}/`);
-  }
-
-  getProfilesByParent(parentId: number): Observable<Profile[]> {
-    const url = `${this.apiUrl}by-parent/${parentId}/`;
-    return this.http
-      .get<Profile[]>(url)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+// List all profiles (admin only)
+listAllProfiles(): Observable<Profile[]> {
+  return this.http
+    .get<ApiResponse<Profile[]>>(`${this.apiUrl}list-all/`)
+    .pipe(
+      map(response => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.data!;
+      }),
+      catchError(this.handleError)
+    );
+}
 
 // Error handling
 private handleError(error: any): Observable<never> {
   let errorMessage = 'An error occurred';
   if (error.error instanceof ErrorEvent) {
     // Client-side error
-    errorMessage = `Error: ${error.error.message}`;
+    errorMessage = error.error.message;
   } else {
     // Server-side error
-    errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    if (error.status === 403) {
-      errorMessage = 'Forbidden: You are not authorized to view these profiles';
-    } else if (error.status === 404) {
-      errorMessage = 'Parent not found';
-    }
+    errorMessage = error.error?.error || `Error Code: ${error.status}\nMessage: ${error.message}`;
   }
-  console.error(errorMessage);
   return throwError(() => new Error(errorMessage));
 }
-  // Share a child profile
-  shareChildProfile(childId: number, sharedWithParentId: number, permissions: any): Observable<any> {
-    const payload = {
-      shared_with_parent_id: sharedWithParentId,
-      can_read: permissions.can_read || false,
-      can_write: permissions.can_write || false,
-      can_update: permissions.can_update || false,
-      can_delete: permissions.can_delete || false
-    };
-    return this.http.post(`${this.apiUrl}share-profile/${childId}/`, payload);
-  }
 }

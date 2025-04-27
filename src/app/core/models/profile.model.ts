@@ -6,6 +6,7 @@ export interface Profile {
   birth_date: string; // ISO date string (e.g., "2020-05-15")
   diagnosis?: string;
   notes?: string;
+  gender?: 'M' | 'F' ;
   evaluation_score?: number;
   objectives?: string[];
   progress?: string;
@@ -13,4 +14,5 @@ export interface Profile {
   image_url?: string;
   is_active?: boolean;
   created_at?: string;
+  category?: string;
 }
