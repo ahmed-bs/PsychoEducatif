@@ -1,5 +1,5 @@
 <section class="hero-section">
-  <!-- Message de bienvenue avec image dans le HTML -->
+  <!-- Welcome message with background image -->
   <div class="welcome-message">
     <img src="assets/image_client/bg-5.png" alt="Background" class="welcome-background">
     <div class="welcome-content">
@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <!-- Champ de recherche -->
+  <!-- Search bar -->
   <div class="search-bar">
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
@@ -16,82 +16,58 @@
         (input)="filterChildren()" class="search-input" />
     </span>
   </div>
+
   <div class="card-grid">
-    <!-- Conteneur avec scroll pour les cartes -->
+    <!-- Container with scroll for cards -->
     <div class="cards-container">
-      <!-- Liste des enfants -->
+      <!-- List of children -->
       <div class="card" *ngFor="let child of filteredChildren">
-        <div (click)="navigateToClient(child.id)">
-            <!-- <div class="status-badge" [ngClass]="{'active': child.active, 'inactive': !child.active}">
-                {{ child.active ? 'Active' : 'Inactive' }}
-            </div> -->
-            <img [src]="child.imageUrl || 'https://source.unsplash.com/random/300x300/?child,portrait'" alt="Child" class="card__image">
-            <h2 class="card__name">{{ child.name }}</h2>
-            <!-- <p class="card__info">Âge: {{ child.age }} ans</p> -->
-            
-            <!-- Progress Bar -->
-            <div class="progress-container">
-                <div class="progress-bar" [style.width]="child.progress + '%'">
-                    {{ child.progress }}%
-                </div>
-            </div>
-            
-            <div class="card__actions">
-              <button pButton label="Modifier" class="custom-edit-btn rounded-btn"
-                  (click)="showEditDialog(child); $event.stopPropagation()"></button>
-              <button pButton label="Désactiver" class="custom-disable-btn rounded-btn"
-                  (click)="disableChild(child); $event.stopPropagation()"></button>
+        <div (click)="navigateToClient(child.id!)">
+          <img [src]="child.image_url" alt="Child" class="card__image">
+          <h2 class="card__name">{{ child.first_name }} {{ child.last_name }}</h2>
+          <div class="card__actions">
+            <button pButton label="Modifier" class="custom-edit-btn rounded-btn"
+              (click)="showEditDialog(child); $event.stopPropagation()"></button>
+            <button pButton label="Désactiver" class="custom-disable-btn rounded-btn"
+              (click)="disableChild(child); $event.stopPropagation()"></button>
           </div>
         </div>
-    </div>
-       <!-- Message si la liste est vide -->
-       <div class="no-children-message" *ngIf="filteredChildren.length === 0">
+      </div>
+      <!-- Message if list is empty -->
+      <div class="no-children-message" *ngIf="filteredChildren.length === 0">
         <p>Vous n'avez pas d'enfant.</p>
       </div>
-
     </div>
 
-    <!-- Carte pour ouvrir le dialog d'ajout -->
+    <!-- Card to open add dialog -->
     <div class="card card--add" (click)="showDialog()">
       <span class="card__plus">+</span>
       <h2 class="card__name">Ajouter un enfant</h2>
     </div>
-
   </div>
 
-  <!-- Dialog PrimeNG pour ajouter un profil -->
+  <!-- Dialog to add a profile -->
   <p-dialog header="Ajouter un enfant" [(visible)]="displayDialog" [modal]="true" [style]="{ width: '40vw' }">
     <div class="dialog-content">
       <div class="field">
-        <label for="name">Nom</label>
-        <input pInputText id="name" [(ngModel)]="newChild.name" placeholder="Nom" required />
+        <label for="firstName">Prénom</label>
+        <input pInputText id="firstName" [(ngModel)]="newChild.first_name" placeholder="Prénom" required />
       </div>
       <div class="field">
-        <label for="age">Âge</label>
-        <input pInputText id="age" type="number" [(ngModel)]="newChild.age" placeholder="Âge" required />
+        <label for="lastName">Nom</label>
+        <input pInputText id="lastName" [(ngModel)]="newChild.last_name" placeholder="Nom" required />
       </div>
       <div class="field">
-        <label for="diagnosisDate">Date de diagnostic</label>
-        <input pInputText id="diagnosisDate" type="date" [(ngModel)]="newChild.diagnosisDate" />
+        <label for="birthDate">Date de naissance</label>
+        <input pInputText id="birthDate" type="date" [(ngModel)]="newChild.birth_date" required />
       </div>
       <div class="field">
-        <label for="evaluationScore">Score d'évaluation</label>
-        <input pInputText id="evaluationScore" type="number" [(ngModel)]="newChild.evaluationScore"
-          placeholder="Score (0-100)" />
+        <label for="diagnosis">Diagnostic</label>
+        <input pInputText id="diagnosis" [(ngModel)]="newChild.diagnosis" placeholder="Diagnostic" />
       </div>
       <div class="field">
-        <label for="objectives">Objectifs (séparés par des virgules)</label>
-        <input pInputText id="objectives" [(ngModel)]="newChild.objectives"
-          (ngModelChange)="newChild.objectives = $event.split(',')" placeholder="Ex: Communication, Autonomie" />
-      </div>
-      <div class="field">
-        <label for="progress">Progrès</label>
-        <input pInputText id="progress" [(ngModel)]="newChild.progress" placeholder="Ex: En progrès" />
-      </div>
-      <div class="field">
-        <label for="strategies">Stratégies (séparées par des virgules)</label>
-        <input pInputText id="strategies" [(ngModel)]="newChild.recommendedStrategies"
-          (ngModelChange)="newChild.recommendedStrategies = $event.split(',')" placeholder="Ex: Renforcement positif" />
+        <label for="notes">Notes</label>
+        <input pInputText id="notes" [(ngModel)]="newChild.notes" placeholder="Notes" />
       </div>
     </div>
     <ng-template pTemplate="footer">
@@ -100,40 +76,28 @@
     </ng-template>
   </p-dialog>
 
-  <!-- Dialog PrimeNG pour modifier un profil -->
+  <!-- Dialog to edit a profile -->
   <p-dialog header="Modifier un enfant" [(visible)]="displayEditDialog" [modal]="true" [style]="{ width: '40vw' }">
     <div class="dialog-content">
       <div class="field">
-        <label for="editName">Nom</label>
-        <input pInputText id="editName" [(ngModel)]="selectedChild.name" placeholder="Nom" required />
+        <label for="editFirstName">Prénom</label>
+        <input pInputText id="editFirstName" [(ngModel)]="selectedChild.first_name" placeholder="Prénom" required />
       </div>
       <div class="field">
-        <label for="editAge">Âge</label>
-        <input pInputText id="editAge" type="number" [(ngModel)]="selectedChild.age" placeholder="Âge" required />
+        <label for="editLastName">Nom</label>
+        <input pInputText id="editLastName" [(ngModel)]="selectedChild.last_name" placeholder="Nom" required />
       </div>
       <div class="field">
-        <label for="editDiagnosisDate">Date de diagnostic</label>
-        <input pInputText id="editDiagnosisDate" type="date" [(ngModel)]="selectedChild.diagnosisDate" />
+        <label for="editBirthDate">Date de naissance</label>
+        <input pInputText id="editBirthDate" type="date" [(ngModel)]="selectedChild.birth_date" required />
       </div>
       <div class="field">
-        <label for="editEvaluationScore">Score d'évaluation</label>
-        <input pInputText id="editEvaluationScore" type="number" [(ngModel)]="selectedChild.evaluationScore"
-          placeholder="Score (0-100)" />
+        <label for="editDiagnosis">Diagnostic</label>
+        <input pInputText id="editDiagnosis" [(ngModel)]="selectedChild.diagnosis" placeholder="Diagnostic" />
       </div>
       <div class="field">
-        <label for="editObjectives">Objectifs (séparés par des virgules)</label>
-        <input pInputText id="editObjectives" [(ngModel)]="selectedChild.objectives"
-          (ngModelChange)="selectedChild.objectives = $event.split(',')" placeholder="Ex: Communication, Autonomie" />
-      </div>
-      <div class="field">
-        <label for="editProgress">Progrès</label>
-        <input pInputText id="editProgress" [(ngModel)]="selectedChild.progress" placeholder="Ex: En progrès" />
-      </div>
-      <div class="field">
-        <label for="editStrategies">Stratégies (séparées par des virgules)</label>
-        <input pInputText id="editStrategies" [(ngModel)]="selectedChild.recommendedStrategies"
-          (ngModelChange)="selectedChild.recommendedStrategies = $event.split(',')"
-          placeholder="Ex: Renforcement positif" />
+        <label for="editNotes">Notes</label>
+        <input pInputText id="editNotes" [(ngModel)]="selectedChild.notes" placeholder="Notes" />
       </div>
     </div>
     <ng-template pTemplate="footer">
