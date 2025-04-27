@@ -165,28 +165,12 @@
                             <div class="text-xs text-gray-500">6 ans • Autisme niveau 2</div>
                         </div>
                     </div>
-                    <div class="dropdown-item">
-                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-child text-green-600"></i>
-                        </div>
-                        <div>
-                            <div class="font-medium">Thomas M.</div>
-                            <div class="text-xs text-gray-500">4 ans • Autisme niveau 1</div>
-                        </div>
-                    </div>
-                    <div class="dropdown-item">
-                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-child text-purple-600"></i>
-                        </div>
-                        <div>
-                            <div class="font-medium">Emma R.</div>
-                            <div class="text-xs text-gray-500">7 ans • Autisme niveau 3</div>
-                        </div>
-                    </div>
+                   
+                    
                     <div class="border-t border-gray-200"></div>
                     <div class="dropdown-item">
                         <i class="fas fa-plus-circle text-indigo-600 mr-3"></i>
-                        <div class="font-medium text-indigo-600" styleClass="'displayDialog()">Ajouter un nouveau profil</div>
+                        <div class="font-medium text-indigo-600"  (click)="showDialog()">Ajouter un nouveau profil</div>
                     </div>
                 </div>
           
@@ -232,23 +216,7 @@
                   </div>
 
                   <!-- Tabs -->
-                  <!-- <div class="mt-6 border-b border-gray-200">
-                    
-                      <ul class="flex flex-wrap -mb-px" id="tabs">
-                          <li class="mr-2">
-                              <button class="inline-block p-4 border-b-2 border-indigo-600 rounded-t-lg text-indigo-600 font-medium active" data-tab="skills">Compétences</button>
-                          </li>
-                          <li class="mr-2">
-                              <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-medium" data-tab="goals">Objectifs</button>
-                          </li>
-                          <li class="mr-2">
-                              <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-medium" data-tab="strategies">Stratégies</button>
-                          </li>
-                          <li>
-                              <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-medium" data-tab="notes">Notes</button>
-                          </li>
-                      </ul>
-                  </div> -->
+                  
                   <div class="border-b border-gray-200">
                     <ul class="flex flex-wrap -mb-px">
                       <li class="mr-2" *ngFor="let tab of tabs">
@@ -597,65 +565,65 @@
       <label for="strategies">Stratégies (séparées par des virgules)</label>
       <input pInputText id="strategies" [(ngModel)]="newChild.recommended_strategies" (ngModelChange)="newChild.recommended_strategies = $event ? $event.split(',') : []" placeholder="Ex: Renforcement positif" />
     </div>
-    <div class="field">
+    <!-- <div class="field">
       <label for="imageUrl">URL de l'image</label>
       <input pInputText id="imageUrl" [(ngModel)]="newChild.image_url" placeholder="URL de l'image (optionnel)" />
-    </div>
+    </div> -->
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-    <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"></p-button>
+    <p-button label="Ajouter" styleClass="p-button-primary"  (click)="addChild()" [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>
 
 <p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
   <div class="dialog-content">
   <div class="p-fluid">
-    <div class="p-field">
+    <div class="field">
       <label for="firstName">Prénom</label>
       <input pInputText id="firstName" [(ngModel)]="selectedChild!.first_name!" type="text" required />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="lastName">Nom</label>
       <input pInputText id="lastName" [(ngModel)]="selectedChild!.last_name!" type="text" required />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="birthDate">Date de naissance</label>
       <input pInputText id="birthDate" [(ngModel)]="selectedChild!.birth_date" type="date" required />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="diagnosis">Diagnostic</label>
       <input pInputText id="diagnosis" [(ngModel)]="selectedChild!.diagnosis" type="text" />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="notes">Notes</label>
       <input pInputText id="notes" [(ngModel)]="selectedChild!.notes" type="text" />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="evaluationScore">Score d'évaluation</label>
       <input pInputText id="evaluationScore" [(ngModel)]="selectedChild!.evaluation_score" type="number" />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="objectives">Objectifs (séparés par des virgules)</label>
       <input pInputText id="objectives" [(ngModel)]="selectedChild!.objectives" (ngModelChange)="selectedChild!.objectives = $event ? $event.split(',') : []" type="text" />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="progress">Progrès</label>
       <input pInputText id="progress" [(ngModel)]="selectedChild!.progress" type="text" />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="recommendedStrategies">Stratégies recommandées (séparées par des virgules)</label>
       <input pInputText id="recommendedStrategies" [(ngModel)]="selectedChild!.recommended_strategies" (ngModelChange)="selectedChild!.recommended_strategies = $event ? $event.split(',') : []" type="text" />
     </div>
-    <div class="p-field">
+    <!-- <div class="field">
       <label for="imageUrl">URL de l'image</label>
       <input pInputText id="imageUrl" [(ngModel)]="selectedChild!.image_url" type="text" />
-    </div>
+    </div> -->
   </div>
 </div>
 <ng-template pTemplate="footer">
     <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancelEdit()"></button>
-    <button pButton type="button" label="Enregistrer" class="p-button-primary" (click)="saveChild()"></button>
+    <button pButton type="button" label="Enregistrer" class="p-button-primary" style="color: white;" (click)="saveChild()"></button>
   </ng-template>
   
 </p-dialog>
@@ -663,11 +631,11 @@
 <p-dialog header="Partager le profil" [(visible)]="afficherBoiteDialoguePartage" [modal]="true" [style]="{width: '500px'}">
   <div class="dialog-content">
   <div class="p-fluid">
-    <div class="p-field">
+    <div class="field">
       <label for="email">Email du parent</label>
       <input pInputText id="email" [(ngModel)]="saisieEmail" placeholder="Entrez l'email du parent" />
     </div>
-    <div class="p-field">
+    <div class="field">
       <label for="access">Niveau d'accès</label>
       <p-dropdown id="access" [options]="optionsAcces" [(ngModel)]="accesSelectionne" optionLabel="libelle" placeholder="Sélectionner un accès"></p-dropdown>
     </div>
@@ -675,7 +643,7 @@
 </div>
 <ng-template pTemplate="footer">
     <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="afficherBoiteDialoguePartage = false"></button>
-    <button pButton type="button" label="Partager" class="p-button-primary" (click)="shareProfile()"></button>
+    <button pButton type="button" label="Partager" class="p-button-primary" style="color: white;" (click)="shareProfile()"></button>
   </ng-template>
  
 </p-dialog>
