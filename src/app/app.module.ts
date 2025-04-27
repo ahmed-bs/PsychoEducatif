@@ -25,8 +25,8 @@ import { SidebarDashboardComponent } from './shared/sidebar-dashboard/sidebar-da
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.component';
 import { MatCardModule } from '@angular/material/card';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from './core/interceptors/auth.interceptor';
 
 
 @NgModule({
@@ -46,6 +46,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     RouterLink,
     FormsModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
@@ -63,7 +64,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: TokenInterceptor,
       multi: true }
   ],
   bootstrap: [AppComponent]

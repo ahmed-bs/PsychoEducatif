@@ -15,53 +15,35 @@ export class ProfileService {
     this.token = localStorage.getItem('token') || '';
   }
 
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Authorization': `Token ${this.token}`,
-      'Content-Type': 'application/json'
-    });
-  }
-
   // Get all children for the authenticated parent
   getChildren(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.apiUrl}my-children/`, { headers: this.getHeaders() });
+    return this.http.get<Profile[]>(`${this.apiUrl}my-children/`);
   }
 
   // Get a specific child by ID
   getChild(childId: number): Observable<Profile> {
-    return this.http.get<Profile>(`${this.apiUrl}${childId}/`, { headers: this.getHeaders() });
+    return this.http.get<Profile>(`${this.apiUrl}${childId}/`);
   }
 
   // Create a new child profile
   createChild(child: Profile): Observable<Profile> {
-    return this.http.post<Profile>(`${this.apiUrl}create-children/`, child, { headers: this.getHeaders() });
+    return this.http.post<Profile>(`${this.apiUrl}create-children/`, child);
   }
 
   // Update an existing child profile
   updateChild(child: Profile): Observable<Profile> {
-    return this.http.put<Profile>(`${this.apiUrl}${child.id}/`, child, { headers: this.getHeaders() });
+    return this.http.put<Profile>(`${this.apiUrl}${child.id}/`, child);
   }
-// Helper method to get HTTP headers with Bearer token
-private getAuthHeaders(): HttpHeaders {
-  const token = localStorage.getItem('token'); // Ensure the key matches where the token is stored
-  return new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': `token ${token}` // Use 'Token' instead of 'Bearer'
-  });
-}
+
   // Delete a child profile
   deleteChild(childId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${childId}/`, { headers: this.getHeaders() });
+    return this.http.delete<void>(`${this.apiUrl}${childId}/`);
   }
 
   getProfilesByParent(parentId: number): Observable<Profile[]> {
-    const token = localStorage.getItem('token'); // Adjust based on how you store the token
-    // const headers = new HttpHeaders({
-    //   Authorization: `Token ${token}`, // Token authentication
-    // });
     const url = `${this.apiUrl}by-parent/${parentId}/`;
     return this.http
-      .get<Profile[]>(url, { headers: this.getAuthHeaders() })
+      .get<Profile[]>(url)
       .pipe(
         catchError(this.handleError)
       );
@@ -94,6 +76,6 @@ private handleError(error: any): Observable<never> {
       can_update: permissions.can_update || false,
       can_delete: permissions.can_delete || false
     };
-    return this.http.post(`${this.apiUrl}share-profile/${childId}/`, payload, { headers: this.getHeaders() });
+    return this.http.post(`${this.apiUrl}share-profile/${childId}/`, payload);
   }
 }

@@ -27,7 +27,9 @@ export class AuthService {
         })
       );
     }
-
+    getToken() {
+      return localStorage.getItem('token'); // Ensure the key matches where the token is stored
+    }
     login(username_or_email: string, password: string): Observable<LoginResponse> {
         return this.http.post<LoginResponse>(`${this.apiUrl}login/`, { username_or_email, password }).pipe(
           catchError((error) => {
