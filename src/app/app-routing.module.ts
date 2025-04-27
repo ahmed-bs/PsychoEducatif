@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
-import { Pick_profileComponent } from './shared/pick_profile/pick_profile.component';
+import { PickProfileComponent } from './shared/pick_profile/pick_profile.component';
 
 
 const routes: Routes = [
@@ -13,7 +13,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'pick_profileComponent', component: Pick_profileComponent
+    path: 'pick_profileComponent', component: PickProfileComponent
   },
   {
     path: 'Dashboard-client', component: UserLayoutComponent, children: [
