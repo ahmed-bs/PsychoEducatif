@@ -156,7 +156,7 @@ export class PickProfileComponent implements OnInit {
   // Navigate to child dashboard
   navigateToClient(childId: number) {
     localStorage.setItem('selectedChildId', childId.toString());
-    this.router.navigate(['/Dashboard-client/client/Kids_profiles', childId]);
+    this.router.navigate(['/Dashboard-client/client/profiles/', childId]);
   }
 
   // Cancel and close dialogs

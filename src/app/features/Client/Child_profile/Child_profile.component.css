@@ -1,0 +1,245 @@
+
+  .tab-content {
+    display: none;
+    padding: 20px 0;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  .progress-bar {
+    height: 4px;
+    background-color: #e5e7eb;
+    margin: 10px 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background-color: #4f46e5; /* indigo-600 */
+    transition: width 0.3s ease;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 0.5rem;
+    background-color: white;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown-item {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.dropdown-item:hover {
+    background-color: #f3f4f6;
+}
+.dropdown-item.active {
+    background-color: #e5e7eb;
+}
+
+/* =============== CONTENT PADDING =============== */
+
+/* Variables pour une gestion cohérente des couleurs et espacements */
+:host {
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --text-color: #333;
+    --text-light: #6c757d;
+    --border-color: #ced4da;
+    --hover-bg: #e9ecef;
+    --focus-shadow: rgba(99, 102, 241, 0.2);
+    --white: #ffffff;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --transition: all 0.2s ease-in-out;
+  }
+  
+  /* Reset et styles de base */
+  :host ::ng-deep .p-dialog {
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  }
+  
+  /* Header - Version améliorée */
+  :host ::ng-deep .p-dialog-header {
+    padding: 1.25rem 1.5rem;
+    background: var(--primary-color);
+    color: var(--white);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Icône de fermeture - Version améliorée */
+  :host ::ng-deep .p-dialog-header .p-dialog-header-icon {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+  }
+  
+  :host ::ng-deep .p-dialog-header .p-dialog-header-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+  }
+  
+  :host ::ng-deep .p-dialog-header .p-dialog-header-icon:focus {
+    box-shadow: 0 0 0 2px var(--white);
+  }
+  
+  /* Contenu du dialogue */
+  .dialog-content {
+    padding: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  /* Champs de formulaire - Version améliorée */
+  .field {
+    margin-bottom: 1.5rem;
+  }
+  
+  .field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.925rem;
+  }
+  
+  /* Inputs - Version améliorée */
+  :host ::ng-deep .field .p-inputtext {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: var(--transition);
+    color: var(--text-color);
+    background-color: var(--white);
+  }
+  
+  :host ::ng-deep .field .p-inputtext:hover {
+    border-color: var(--primary-color);
+  }
+  
+  :host ::ng-deep .field .p-inputtext:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--focus-shadow);
+  }
+  
+  :host ::ng-deep .field .p-inputtext::placeholder {
+    color: var(--text-light);
+    opacity: 0.7;
+  }
+  
+  /* Footer - Version améliorée */
+  :host ::ng-deep .p-dialog-footer {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    background: #f8f9fa;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+  }
+  
+  /* Boutons - Version améliorée */
+  :host ::ng-deep .p-button {
+    padding: 0.625rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    transition: var(--transition);
+    min-width: 80px;
+    text-align: center;
+  }
+  
+  :host ::ng-deep .p-button.p-button-text {
+    color: var(--text-light);
+    background: transparent;
+  }
+  
+  :host ::ng-deep .p-button.p-button-text:hover {
+    background: var(--hover-bg);
+    color: var(--text-color);
+  }
+  
+  :host ::ng-deep .p-button.p-button-primary {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  :host ::ng-deep .p-button.p-button-primary:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+  
+  :host ::ng-deep .p-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Animation d'ouverture */
+  :host ::ng-deep .p-dialog-mask.p-component-overlay {
+    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Responsive - Version améliorée */
+  @media (max-width: 768px) {
+    :host ::ng-deep .p-dialog {
+      width: 95vw !important;
+      max-width: 95vw !important;
+      margin: 0.5rem;
+    }
+    
+    .dialog-content {
+      padding: 1rem;
+    }
+    
+    :host ::ng-deep .p-dialog-footer {
+      flex-wrap: wrap;
+    }
+    
+    :host ::ng-deep .p-button {
+      flex: 1 1 45%;
+      margin: 0.25rem;
+    }
+  }
+  
+  /* Amélioration pour les états de validation */
+  :host ::ng-deep .ng-invalid.ng-touched .p-inputtext {
+    border-color: #e53e3e;
+  }
+  
+  :host ::ng-deep .field .p-error {
+    color: #e53e3e;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+  }
