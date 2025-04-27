@@ -8,7 +8,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Child } from 'src/app/core/models/profile.model';
+import { Profile } from 'src/app/core/models/profile.model';
 import { ProfileService } from 'src/app/core/services/profile.service';
 
 @Component({
@@ -20,17 +20,17 @@ import { ProfileService } from 'src/app/core/services/profile.service';
   providers: [MessageService]
 })
 export class KidsProfilesComponent implements OnInit {
-  children: Child[] = [];
-  filteredChildren: Child[] = [];
+  children: Profile[] = [];
+  filteredChildren: Profile[] = [];
   searchTerm: string = '';
-  selectedChild: Child | null = null;
+  selectedChild: Profile | null = null;
   childId: string | null = null;
 
   displayDialog: boolean = false;
   displayEditDialog: boolean = false;
   afficherBoiteDialoguePartage: boolean = false;
 
-  newChild: Child = this.resetChild();
+  newChild: Profile = this.resetChild();
   saisieEmail: string = '';
   accesSelectionne: any;
   optionsAcces: any[] = [
@@ -103,7 +103,7 @@ export class KidsProfilesComponent implements OnInit {
     }
   }
 
-  selectChild(child: Child) {
+  selectChild(child: Profile) {
     this.selectedChild = child;
     this.router.navigate(['/Dashboard-client/client/Kids_profiles', child.id]);
   }
@@ -166,7 +166,7 @@ export class KidsProfilesComponent implements OnInit {
     }
   }
 
-  disableChild(child: Child) {
+  disableChild(child: Profile) {
     Swal.fire({
       title: 'Êtes-vous sûr ?',
       text: `Voulez-vous vraiment désactiver ${child.first_name} ${child.last_name} ?`,
@@ -231,7 +231,7 @@ export class KidsProfilesComponent implements OnInit {
     this.displayEditDialog = false;
   }
 
-  resetChild(): Child {
+  resetChild(): Profile {
     return {
       first_name: '',
       last_name: '',
