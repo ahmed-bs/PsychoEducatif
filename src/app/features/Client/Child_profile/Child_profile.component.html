@@ -135,386 +135,386 @@
 
 <body class="bg-gray-50 font-sans">
   <div class="container mx-auto px-4 py-8 max-w-6xl">
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-8">
-          <h1 class="text-3xl font-bold text-indigo-800">Profil</h1>
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-indigo-800">Profil</h1>
 
-          <div class="flex items-center space-x-4">
-            <!-- Dropdown for child profiles -->
-            <div class="dropdown relative">
-                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center">
-                    <i class="fas fa-user-circle mr-2"></i> Profils Enfants
-                    <i class="fas fa-chevron-down ml-2 text-sm"></i>
-                </button>
-                <div class="dropdown-content mt-1">
-                    <div class="dropdown-item active">
-                        <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-child text-indigo-600"></i>
-                        </div>
-                        <div>
-                            <div class="font-medium">Jean D.</div>
-                            <div class="text-xs text-gray-500">5 ans • Autisme niveau 1</div>
-                        </div>
-                    </div>
-                    <div class="dropdown-item">
-                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-child text-blue-600"></i>
-                        </div>
-                        <div>
-                            <div class="font-medium">Sophie L.</div>
-                            <div class="text-xs text-gray-500">6 ans • Autisme niveau 2</div>
-                        </div>
-                    </div>
-                   
-                    
-                    <div class="border-t border-gray-200"></div>
-                    <div class="dropdown-item">
-                        <i class="fas fa-plus-circle text-indigo-600 mr-3"></i>
-                        <div class="font-medium text-indigo-600"  (click)="showDialog()">Ajouter un nouveau profil</div>
-                    </div>
-                </div>
-          
-            </div>
-          <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center">
-              <i class="fas fa-file-pdf mr-2"></i> Exporter PDF
+      <div class="flex items-center space-x-4">
+        <!-- Dropdown for child profiles -->
+        <div class="dropdown relative">
+          <button
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center">
+            <i class="fas fa-user-circle mr-2"></i> Profils Enfants
+            <i class="fas fa-chevron-down ml-2 text-sm"></i>
           </button>
+          <div class="dropdown-content mt-1">
+            <div *ngFor="let child of filteredChildren" class="dropdown-item" [class.active]="child.id === selectedChild?.id">
+              <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                <i class="fas fa-child text-indigo-600"></i>
+              </div>
+              <div>
+                <div class="font-medium">{{ child.first_name }} {{ child.last_name }}</div>
+                <div class="text-xs text-gray-500">{{ calculateAge(child.birth_date) }} • {{ child.diagnosis || 'Non spécifié' }}</div>
+              </div>
+            </div>
+            <div class="border-t border-gray-200"></div>
+            <div class="dropdown-item">
+              <i class="fas fa-plus-circle text-indigo-600 mr-3"></i>
+              <div class="font-medium text-indigo-600" (click)="showDialog()">Ajouter un nouveau profil</div>
+            </div>
+          </div>
 
+        </div>
+        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center">
+          <i class="fas fa-file-pdf mr-2"></i> Exporter PDF
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+      <div class="md:flex">
+        <div class="md:w-1/4 bg-indigo-100 p-6 flex flex-col items-center justify-center">
+          <div class="w-32 h-32 rounded-full bg-indigo-200 flex items-center justify-center mb-4">
+            <i class="fas fa-child text-6xl text-indigo-600"></i>
+          </div>
+          <button class="text-indigo-600 hover:text-indigo-800 flex items-center">
+            <i class="fas fa-camera mr-2"></i> Ajouter photo
+          </button>
+        </div>
+        <div class="md:w-3/4 p-6" *ngIf="selectedChild">
+          <div class="flex justify-between items-start">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800">{{ selectedChild.first_name }} {{ selectedChild.last_name }}
+              </h2>
+              <div class="flex items-center mt-2">
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded mr-2">{{ calculateAge(selectedChild.birth_date) }}</span>
+                <span class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded">{{
+                  selectedChild.diagnosis }}</span>
+              </div>
+              <p class="text-gray-600 mt-2"><i class="fas fa-calendar-alt mr-2 text-indigo-500"></i> Dernière
+                évaluation: 15/06/2023</p>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button (click)="showEditDialog()"
+                class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
+                <i class="fas fa-edit mr-2"></i> Modifier profil
+              </button>
+              <button (click)="showShareDialog()"
+                class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
+                <i class="pi pi-share-alt" style="color: #a01717; font-size: 20px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+
+          <div class="border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px">
+              <li class="mr-2" *ngFor="let tab of tabs">
+                <button class="inline-block p-4 border-b-2 rounded-t-lg font-medium"
+                  [class.border-indigo-600]="isTabActive(tab.id)" [class.text-indigo-600]="isTabActive(tab.id)"
+                  [class.border-transparent]="!isTabActive(tab.id)" [class.hover:text-gray-600]="!isTabActive(tab.id)"
+                  [class.hover:border-gray-300]="!isTabActive(tab.id)" (click)="switchTab(tab.id)">
+                  {{tab.label}}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="tab-contents">
+      <!-- Skills Tab -->
+      <div class="tab-content active" id="skills-content" class="tab-content" [class.active]="isTabActive('skills')">
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Communication Skills -->
+          <div class="bg-white rounded-xl shadow overflow-hidden">
+            <div class="bg-indigo-600 px-4 py-3 flex justify-between items-center">
+              <h3 class="text-lg font-medium text-white">Communication (5 compétences)</h3>
+              <button class="text-white hover:text-indigo-200">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="p-4">
+              <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-3">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="font-medium text-indigo-800">Utilisation de pictogrammes pour exprimer des besoins</h4>
+                  <div class="flex space-x-2">
+                    <button class="text-indigo-600 hover:text-indigo-800">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="text-red-600 hover:text-red-800">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <span class="text-sm font-medium text-gray-700">Progrès: 75%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width]="selectedChild?.progress || '0%'"></div>
+                </div>
+                <div class="mt-3 flex justify-between text-sm text-gray-600">
+                  <span>Début: 12/03/2023</span>
+                  <span>Dernière éval: 10/06/2023</span>
+                </div>
+              </div>
+
+              <button
+                class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
+              </button>
+            </div>
+          </div>
+
+          <!-- Socialization Skills -->
+          <div class="bg-white rounded-xl shadow overflow-hidden">
+            <div class="bg-purple-600 px-4 py-3 flex justify-between items-center">
+              <h3 class="text-lg font-medium text-white">Socialisation (4 compétences)</h3>
+              <button class="text-white hover:text-purple-200">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="p-4">
+              <div class="skill-card bg-purple-50 p-4 rounded-lg mb-3">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="font-medium text-purple-800">Participation à des jeux tour-by-turn</h4>
+                  <div class="flex space-x-2">
+                    <button class="text-purple-600 hover:text-purple-800">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="text-red-600 hover:text-red-800">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <span class="text-sm font-medium text-gray-700">Progrès: 60%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 60%; background-color: #8b5cf6;"></div>
+                </div>
+                <div class="mt-3 flex justify-between text-sm text-gray-600">
+                  <span>Début: 20/02/2023</span>
+                  <span>Dernière éval: 05/06/2023</span>
+                </div>
+              </div>
+
+              <button
+                class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-purple-600 hover:border-purple-300 transition flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Profile Card -->
-      <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-          <div class="md:flex">
-              <div class="md:w-1/4 bg-indigo-100 p-6 flex flex-col items-center justify-center">
-                  <div class="w-32 h-32 rounded-full bg-indigo-200 flex items-center justify-center mb-4">
-                      <i class="fas fa-child text-6xl text-indigo-600"></i>
+      <!-- Goals Tab -->
+      <div class="tab-content" id="goals-content" class="tab-content" [class.active]="isTabActive('goals')">
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+          <div class="bg-blue-600 px-4 py-3">
+            <h3 class="text-lg font-medium text-white">Objectifs de travail</h3>
+          </div>
+          <div class="p-4">
+            <div class="mb-6">
+              <div class="flex items-start mb-4">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800">
+                    <i class="fas fa-bullseye text-sm"></i>
                   </div>
-                  <button class="text-indigo-600 hover:text-indigo-800 flex items-center">
-                      <i class="fas fa-camera mr-2"></i> Ajouter photo
-                  </button>
+                </div>
+                <div class="ml-3">
+                  <h4 class="text-lg font-medium text-gray-800">Développer la communication non verbale</h4>
+                  <p class="mt-1 text-gray-600">Objectif principal pour les 6 prochains mois. Priorité élevée.</p>
+                  <div class="mt-2 flex items-center text-sm text-gray-500">
+                    <i class="fas fa-calendar-alt mr-2"></i> Date cible: 15/12/2023
+                  </div>
+                </div>
               </div>
-              <div class="md:w-3/4 p-6" *ngIf="selectedChild">
-                  <div class="flex justify-between items-start">
-                      <div>
-                          <h2 class="text-2xl font-bold text-gray-800">{{ selectedChild.first_name }} {{ selectedChild.last_name }}</h2>
-                          <div class="flex items-center mt-2">
-                              <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded mr-2">5 ans</span>
-                              <span class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded">Autisme niveau 1</span>
-                          </div>
-                          <p class="text-gray-600 mt-2"><i class="fas fa-calendar-alt mr-2 text-indigo-500"></i> Dernière évaluation: 15/06/2023</p>
+
+              <div class="border-l-4 border-blue-200 pl-4 ml-3">
+                <h5 class="font-medium text-gray-700 mb-2">Sous-objectifs:</h5>
+                <ul class="space-y-2">
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                      <div class="flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800">
+                        <i class="fas fa-check text-xs"></i>
                       </div>
-                      <div class="flex items-center space-x-4">
-                      <button 
-                      (click)="showEditDialog()" class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
-                          <i class="fas fa-edit mr-2"></i> Modifier profil
-                      </button>
-                      <button 
-                      (click)="showShareDialog()" class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
-                          <i class="pi pi-share-alt" style="color: #a01717; font-size: 20px;"></i>
-                      </button>
                     </div>
-                  </div>
-
-                  <!-- Tabs -->
-                  
-                  <div class="border-b border-gray-200">
-                    <ul class="flex flex-wrap -mb-px">
-                      <li class="mr-2" *ngFor="let tab of tabs">
-                        <button 
-                          class="inline-block p-4 border-b-2 rounded-t-lg font-medium"
-                          [class.border-indigo-600]="isTabActive(tab.id)"
-                          [class.text-indigo-600]="isTabActive(tab.id)"
-                          [class.border-transparent]="!isTabActive(tab.id)"
-                          [class.hover:text-gray-600]="!isTabActive(tab.id)"
-                          [class.hover:border-gray-300]="!isTabActive(tab.id)"
-                          (click)="switchTab(tab.id)"
-                        >
-                          {{tab.label}}
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
+                    <div class="ml-2">
+                      <span class="text-gray-700">Utiliser des pictogrammes pour exprimer 5 besoins différents</span>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                      <div class="flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800">
+                        <i class="fas fa-spinner text-xs"></i>
+                      </div>
+                    </div>
+                    <div class="ml-2">
+                      <span class="text-gray-700">Répondre par oui/non à des questions simples</span>
+                    </div>
+                  </li>
+                </ul>
               </div>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800">
+                    <i class="fas fa-bullseye text-sm"></i>
+                  </div>
+                </div>
+                <div class="ml-3">
+                  <h4 class="text-lg font-medium text-gray-800">Améliorer les interactions sociales avec les pairs</h4>
+                  <p class="mt-1 text-gray-600">Objectif à moyen terme. Priorité moyenne.</p>
+                  <div class="mt-2 flex items-center text-sm text-gray-500">
+                    <i class="fas fa-calendar-alt mr-2"></i> Date cible: 15/03/2024
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-blue-600 hover:border-blue-300 transition flex items-center justify-center">
+              <i class="fas fa-plus mr-2"></i> Ajouter un nouvel objectif
+            </button>
           </div>
+        </div>
       </div>
 
-      <!-- Tab Contents -->
-      <div id="tab-contents">
-          <!-- Skills Tab -->
-          <div class="tab-content active"  id="skills-content" class="tab-content" [class.active]="isTabActive('skills')">
-              <div class="grid md:grid-cols-2 gap-6">
-                  <!-- Communication Skills -->
-                  <div class="bg-white rounded-xl shadow overflow-hidden">
-                      <div class="bg-indigo-600 px-4 py-3 flex justify-between items-center">
-                          <h3 class="text-lg font-medium text-white">Communication (5 compétences)</h3>
-                          <button class="text-white hover:text-indigo-200">
-                              <i class="fas fa-plus"></i>
-                          </button>
-                      </div>
-                      <div class="p-4">
-                          <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-3">
-                              <div class="flex justify-between items-center mb-2">
-                                  <h4 class="font-medium text-indigo-800">Utilisation de pictogrammes pour exprimer des besoins</h4>
-                                  <div class="flex space-x-2">
-                                      <button class="text-indigo-600 hover:text-indigo-800">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="text-red-600 hover:text-red-800">
-                                          <i class="fas fa-trash"></i>
-                                      </button>
-                                  </div>
-                              </div>
-                              <div class="mb-2">
-                                  <span class="text-sm font-medium text-gray-700">Progrès: 75%</span>
-                              </div>
-                              <div class="progress-bar">
-                                  <div class="progress-fill" style="width: 75%"></div>
-                              </div>
-                              <div class="mt-3 flex justify-between text-sm text-gray-600">
-                                  <span>Début: 12/03/2023</span>
-                                  <span>Dernière éval: 10/06/2023</span>
-                              </div>
-                          </div>
-                          
-                          <button class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition flex items-center justify-center">
-                              <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
-                          </button>
-                      </div>
-                  </div>
-                  
-                  <!-- Socialization Skills -->
-                  <div class="bg-white rounded-xl shadow overflow-hidden">
-                      <div class="bg-purple-600 px-4 py-3 flex justify-between items-center">
-                          <h3 class="text-lg font-medium text-white">Socialisation (4 compétences)</h3>
-                          <button class="text-white hover:text-purple-200">
-                              <i class="fas fa-plus"></i>
-                          </button>
-                      </div>
-                      <div class="p-4">
-                          <div class="skill-card bg-purple-50 p-4 rounded-lg mb-3">
-                              <div class="flex justify-between items-center mb-2">
-                                  <h4 class="font-medium text-purple-800">Participation à des jeux tour-by-turn</h4>
-                                  <div class="flex space-x-2">
-                                      <button class="text-purple-600 hover:text-purple-800">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="text-red-600 hover:text-red-800">
-                                          <i class="fas fa-trash"></i>
-                                      </button>
-                                  </div>
-                              </div>
-                              <div class="mb-2">
-                                  <span class="text-sm font-medium text-gray-700">Progrès: 60%</span>
-                              </div>
-                              <div class="progress-bar">
-                                  <div class="progress-fill" style="width: 60%; background-color: #8b5cf6;"></div>
-                              </div>
-                              <div class="mt-3 flex justify-between text-sm text-gray-600">
-                                  <span>Début: 20/02/2023</span>
-                                  <span>Dernière éval: 05/06/2023</span>
-                              </div>
-                          </div>
-                          
-                          <button class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-purple-600 hover:border-purple-300 transition flex items-center justify-center">
-                              <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
-                          </button>
-                      </div>
-                  </div>
-              </div>
+      <!-- Strategies Tab -->
+      <div class="tab-content" id="strategies-content" class="tab-content" [class.active]="isTabActive('strategies')">
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+          <div class="bg-green-600 px-4 py-3">
+            <h3 class="text-lg font-medium text-white">Stratégies comportementales</h3>
           </div>
-          
-          <!-- Goals Tab -->
-          <div class="tab-content" id="goals-content" class="tab-content" [class.active]="isTabActive('goals')">
-              <div class="bg-white rounded-xl shadow overflow-hidden">
-                  <div class="bg-blue-600 px-4 py-3">
-                      <h3 class="text-lg font-medium text-white">Objectifs de travail</h3>
+          <div class="p-4">
+            <div class="mb-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-green-100 text-green-800">
+                    <i class="fas fa-lightbulb text-sm"></i>
                   </div>
-                  <div class="p-4">
-                      <div class="mb-6">
-                          <div class="flex items-start mb-4">
-                              <div class="flex-shrink-0 mt-1">
-                                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800">
-                                      <i class="fas fa-bullseye text-sm"></i>
-                                  </div>
-                              </div>
-                              <div class="ml-3">
-                                  <h4 class="text-lg font-medium text-gray-800">Développer la communication non verbale</h4>
-                                  <p class="mt-1 text-gray-600">Objectif principal pour les 6 prochains mois. Priorité élevée.</p>
-                                  <div class="mt-2 flex items-center text-sm text-gray-500">
-                                      <i class="fas fa-calendar-alt mr-2"></i> Date cible: 15/12/2023
-                                  </div>
-                              </div>
-                          </div>
-                          
-                          <div class="border-l-4 border-blue-200 pl-4 ml-3">
-                              <h5 class="font-medium text-gray-700 mb-2">Sous-objectifs:</h5>
-                              <ul class="space-y-2">
-                                  <li class="flex items-start">
-                                      <div class="flex-shrink-0 mt-1">
-                                          <div class="flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800">
-                                              <i class="fas fa-check text-xs"></i>
-                                          </div>
-                                      </div>
-                                      <div class="ml-2">
-                                          <span class="text-gray-700">Utiliser des pictogrammes pour exprimer 5 besoins différents</span>
-                                      </div>
-                                  </li>
-                                  <li class="flex items-start">
-                                      <div class="flex-shrink-0 mt-1">
-                                          <div class="flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800">
-                                              <i class="fas fa-spinner text-xs"></i>
-                                          </div>
-                                      </div>
-                                      <div class="ml-2">
-                                          <span class="text-gray-700">Répondre par oui/non à des questions simples</span>
-                                      </div>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                      
-                      <div class="mb-6">
-                          <div class="flex items-start">
-                              <div class="flex-shrink-0 mt-1">
-                                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800">
-                                      <i class="fas fa-bullseye text-sm"></i>
-                                  </div>
-                              </div>
-                              <div class="ml-3">
-                                  <h4 class="text-lg font-medium text-gray-800">Améliorer les interactions sociales avec les pairs</h4>
-                                  <p class="mt-1 text-gray-600">Objectif à moyen terme. Priorité moyenne.</p>
-                                  <div class="mt-2 flex items-center text-sm text-gray-500">
-                                      <i class="fas fa-calendar-alt mr-2"></i> Date cible: 15/03/2024
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      
-                      <button class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-blue-600 hover:border-blue-300 transition flex items-center justify-center">
-                          <i class="fas fa-plus mr-2"></i> Ajouter un nouvel objectif
-                      </button>
+                </div>
+                <div class="ml-3">
+                  <h4 class="text-lg font-medium text-gray-800">Utilisation de renforcements positifs</h4>
+                  <p class="mt-1 text-gray-600">Système de récompenses immédiates pour les comportements souhaités.
+                    Utiliser des renforçateurs variés (jouets préférés, autocollants, activités spéciales).</p>
+                  <div class="mt-3">
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mr-2">
+                      <i class="fas fa-check-circle mr-1"></i> Actif
+                    </span>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                      <i class="fas fa-user mr-1"></i> Tous les intervenants
+                    </span>
                   </div>
+                </div>
               </div>
-          </div>
-          
-          <!-- Strategies Tab -->
-          <div class="tab-content"  id="strategies-content" class="tab-content" [class.active]="isTabActive('strategies')">
-              <div class="bg-white rounded-xl shadow overflow-hidden">
-                  <div class="bg-green-600 px-4 py-3">
-                      <h3 class="text-lg font-medium text-white">Stratégies comportementales</h3>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-green-100 text-green-800">
+                    <i class="fas fa-lightbulb text-sm"></i>
                   </div>
-                  <div class="p-4">
-                      <div class="mb-6">
-                          <div class="flex items-start">
-                              <div class="flex-shrink-0 mt-1">
-                                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-green-100 text-green-800">
-                                      <i class="fas fa-lightbulb text-sm"></i>
-                                  </div>
-                              </div>
-                              <div class="ml-3">
-                                  <h4 class="text-lg font-medium text-gray-800">Utilisation de renforcements positifs</h4>
-                                  <p class="mt-1 text-gray-600">Système de récompenses immédiates pour les comportements souhaités. Utiliser des renforçateurs variés (jouets préférés, autocollants, activités spéciales).</p>
-                                  <div class="mt-3">
-                                      <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mr-2">
-                                          <i class="fas fa-check-circle mr-1"></i> Actif
-                                      </span>
-                                      <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                                          <i class="fas fa-user mr-1"></i> Tous les intervenants
-                                      </span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      
-                      <div class="mb-6">
-                          <div class="flex items-start">
-                              <div class="flex-shrink-0 mt-1">
-                                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-green-100 text-green-800">
-                                      <i class="fas fa-lightbulb text-sm"></i>
-                                  </div>
-                              </div>
-                              <div class="ml-3">
-                                  <h4 class="text-lg font-medium text-gray-800">Scénarios sociaux pour les situations quotidiennes</h4>
-                                  <p class="mt-1 text-gray-600">Création d'histoires sociales illustrées pour préparer Jean aux situations nouvelles ou difficiles (visite chez le médecin, anniversaire, etc.).</p>
-                                  <div class="mt-3">
-                                      <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mr-2">
-                                          <i class="fas fa-check-circle mr-1"></i> Actif
-                                      </span>
-                                      <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
-                                          <i class="fas fa-user mr-1"></i> Éducateur spécialisé
-                                      </span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      
-                      <button class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-green-600 hover:border-green-300 transition flex items-center justify-center">
-                          <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle stratégie
-                      </button>
+                </div>
+                <div class="ml-3">
+                  <h4 class="text-lg font-medium text-gray-800">Scénarios sociaux pour les situations quotidiennes</h4>
+                  <p class="mt-1 text-gray-600">Création d'histoires sociales illustrées pour préparer Jean aux
+                    situations nouvelles ou difficiles (visite chez le médecin, anniversaire, etc.).</p>
+                  <div class="mt-3">
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mr-2">
+                      <i class="fas fa-check-circle mr-1"></i> Actif
+                    </span>
+                    <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
+                      <i class="fas fa-user mr-1"></i> Éducateur spécialisé
+                    </span>
                   </div>
+                </div>
               </div>
+            </div>
+
+            <button
+              class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-green-600 hover:border-green-300 transition flex items-center justify-center">
+              <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle stratégie
+            </button>
           </div>
-          
-          <!-- Notes Tab -->
-          <div class="tab-content" id="notes-content" class="tab-content" [class.active]="isTabActive('notes')">
-              <div class="bg-white rounded-xl shadow overflow-hidden">
-                  <div class="bg-yellow-600 px-4 py-3">
-                      <h3 class="text-lg font-medium text-white">Notes et observations</h3>
-                  </div>
-                  <div class="p-4">
-                      <div class="mb-6">
-                          <div class="flex items-start">
-                              <div class="flex-shrink-0 mt-1">
-                                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-yellow-100 text-yellow-800">
-                                      <i class="fas fa-pencil-alt text-sm"></i>
-                                  </div>
-                              </div>
-                              <div class="ml-3">
-                                  <div class="flex justify-between items-center">
-                                      <h4 class="text-lg font-medium text-gray-800">Observation du 10/06/2023</h4>
-                                      <span class="text-sm text-gray-500">Par Dr. Martin</span>
-                                  </div>
-                                  <p class="mt-2 text-gray-600">Jean a montré un intérêt accru pour les interactions avec ses pairs lors de la séance de groupe. Il a initié un contact visuel à plusieurs reprises et a partagé un jouet sans incitation. Progrès notable dans le domaine de la socialisation.</p>
-                              </div>
-                          </div>
-                      </div>
-                      
-                      <div class="mb-6">
-                          <div class="flex items-start">
-                              <div class="flex-shrink-0 mt-1">
-                                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-yellow-100 text-yellow-800">
-                                      <i class="fas fa-pencil-alt text-sm"></i>
-                                  </div>
-                              </div>
-                              <div class="ml-3">
-                                  <div class="flex justify-between items-center">
-                                      <h4 class="text-lg font-medium text-gray-800">Note du 05/06/2023</h4>
-                                      <span class="text-sm text-gray-500">Par Éducatrice Sophie</span>
-                                  </div>
-                                  <p class="mt-2 text-gray-600">Jean utilise maintenant régulièrement son classeur de pictogrammes pour exprimer ses besoins fondamentaux (manger, boire, toilettes). Nous devrions maintenant travailler sur l'expression d'émotions et de préférences.</p>
-                              </div>
-                          </div>
-                      </div>
-                      
-                      <div class="border-2 border-gray-200 rounded-lg p-4">
-                          <h4 class="font-medium text-gray-800 mb-3">Ajouter une nouvelle note</h4>
-                          <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" rows="4" placeholder="Écrivez vos observations ici..."></textarea>
-                          <div class="mt-3 flex justify-between items-center">
-                              <div>
-                                  <label class="inline-flex items-center">
-                                      <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600">
-                                      <span class="ml-2 text-gray-700">Note importante</span>
-                                  </label>
-                              </div>
-                              <button class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition">
-                                  Enregistrer
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+        </div>
       </div>
+
+      <!-- Notes Tab -->
+      <div class="tab-content" id="notes-content" class="tab-content" [class.active]="isTabActive('notes')">
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+          <div class="bg-yellow-600 px-4 py-3">
+            <h3 class="text-lg font-medium text-white">Notes et observations</h3>
+          </div>
+          <div class="p-4">
+            <div class="mb-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-yellow-100 text-yellow-800">
+                    <i class="fas fa-pencil-alt text-sm"></i>
+                  </div>
+                </div>
+                <div class="ml-3">
+                  <div class="flex justify-between items-center">
+                    <h4 class="text-lg font-medium text-gray-800">Observation du 10/06/2023</h4>
+                    <span class="text-sm text-gray-500">Par Dr. Martin</span>
+                  </div>
+                  <p class="mt-2 text-gray-600">Jean a montré un intérêt accru pour les interactions avec ses pairs lors
+                    de la séance de groupe. Il a initié un contact visuel à plusieurs reprises et a partagé un jouet
+                    sans incitation. Progrès notable dans le domaine de la socialisation.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="flex items-center justify-center h-6 w-6 rounded-full bg-yellow-100 text-yellow-800">
+                    <i class="fas fa-pencil-alt text-sm"></i>
+                  </div>
+                </div>
+                <div class="ml-3">
+                  <div class="flex justify-between items-center">
+                    <h4 class="text-lg font-medium text-gray-800">Note du 05/06/2023</h4>
+                    <span class="text-sm text-gray-500">Par Éducatrice Sophie</span>
+                  </div>
+                  <p class="mt-2 text-gray-600">Jean utilise maintenant régulièrement son classeur de pictogrammes pour
+                    exprimer ses besoins fondamentaux (manger, boire, toilettes). Nous devrions maintenant travailler
+                    sur l'expression d'émotions et de préférences.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-2 border-gray-200 rounded-lg p-4">
+              <h4 class="font-medium text-gray-800 mb-3">Ajouter une nouvelle note</h4>
+              <textarea
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                rows="4" placeholder="Écrivez vos observations ici..."></textarea>
+              <div class="mt-3 flex justify-between items-center">
+                <div>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600">
+                    <span class="ml-2 text-gray-700">Note importante</span>
+                  </label>
+                </div>
+                <button class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition">
+                  Enregistrer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
@@ -551,11 +551,14 @@
     </div>
     <div class="field">
       <label for="evaluationScore">Score d'évaluation</label>
-      <input pInputText id="evaluationScore" type="number" [(ngModel)]="newChild.evaluation_score" placeholder="Score (0-100)" />
+      <input pInputText id="evaluationScore" type="number" [(ngModel)]="newChild.evaluation_score"
+        placeholder="Score (0-100)" />
     </div>
     <div class="field">
       <label for="objectives">Objectifs (séparés par des virgules)</label>
-      <input pInputText id="objectives" [(ngModel)]="newChild.objectives" (ngModelChange)="newChild.objectives = $event ? $event.split(',') : []" placeholder="Ex: Communication, Autonomie" />
+      <input pInputText id="objectives" [(ngModel)]="newChild.objectives"
+        (ngModelChange)="newChild.objectives = $event ? $event.split(',') : []"
+        placeholder="Ex: Communication, Autonomie" />
     </div>
     <div class="field">
       <label for="progress">Progrès</label>
@@ -563,7 +566,9 @@
     </div>
     <div class="field">
       <label for="strategies">Stratégies (séparées par des virgules)</label>
-      <input pInputText id="strategies" [(ngModel)]="newChild.recommended_strategies" (ngModelChange)="newChild.recommended_strategies = $event ? $event.split(',') : []" placeholder="Ex: Renforcement positif" />
+      <input pInputText id="strategies" [(ngModel)]="newChild.recommended_strategies"
+        (ngModelChange)="newChild.recommended_strategies = $event ? $event.split(',') : []"
+        placeholder="Ex: Renforcement positif" />
     </div>
     <!-- <div class="field">
       <label for="imageUrl">URL de l'image</label>
@@ -572,78 +577,69 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-    <p-button label="Ajouter" styleClass="p-button-primary"  (click)="addChild()" [style]="{ color: 'white' }"></p-button>
+    <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"
+      [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>
 
-<p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+<p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}"
+  [draggable]="false" [resizable]="false">
   <div class="dialog-content">
-  <div class="p-fluid">
-    <div class="field">
-      <label for="firstName">Prénom</label>
-      <input pInputText id="firstName" [(ngModel)]="selectedChild!.first_name!" type="text" required />
-    </div>
-    <div class="field">
-      <label for="lastName">Nom</label>
-      <input pInputText id="lastName" [(ngModel)]="selectedChild!.last_name!" type="text" required />
-    </div>
-    <div class="field">
-      <label for="birthDate">Date de naissance</label>
-      <input pInputText id="birthDate" [(ngModel)]="selectedChild!.birth_date" type="date" required />
-    </div>
-    <div class="field">
-      <label for="diagnosis">Diagnostic</label>
-      <input pInputText id="diagnosis" [(ngModel)]="selectedChild!.diagnosis" type="text" />
-    </div>
-    <div class="field">
-      <label for="notes">Notes</label>
-      <input pInputText id="notes" [(ngModel)]="selectedChild!.notes" type="text" />
-    </div>
-    <div class="field">
-      <label for="evaluationScore">Score d'évaluation</label>
-      <input pInputText id="evaluationScore" [(ngModel)]="selectedChild!.evaluation_score" type="number" />
-    </div>
-    <div class="field">
-      <label for="objectives">Objectifs (séparés par des virgules)</label>
-      <input pInputText id="objectives" [(ngModel)]="selectedChild!.objectives" (ngModelChange)="selectedChild!.objectives = $event ? $event.split(',') : []" type="text" />
-    </div>
-    <div class="field">
-      <label for="progress">Progrès</label>
-      <input pInputText id="progress" [(ngModel)]="selectedChild!.progress" type="text" />
-    </div>
-    <div class="field">
-      <label for="recommendedStrategies">Stratégies recommandées (séparées par des virgules)</label>
-      <input pInputText id="recommendedStrategies" [(ngModel)]="selectedChild!.recommended_strategies" (ngModelChange)="selectedChild!.recommended_strategies = $event ? $event.split(',') : []" type="text" />
-    </div>
-    <!-- <div class="field">
+    <div class="p-fluid">
+      <div class="field">
+        <label for="firstName">Prénom</label>
+        <input pInputText id="firstName" [(ngModel)]="selectedChild!.first_name!" type="text" required />
+      </div>
+      <div class="field">
+        <label for="lastName">Nom</label>
+        <input pInputText id="lastName" [(ngModel)]="selectedChild!.last_name!" type="text" required />
+      </div>
+      <div class="field">
+        <label for="birthDate">Date de naissance</label>
+        <input pInputText id="birthDate" [(ngModel)]="selectedChild!.birth_date" type="date" required />
+      </div>
+      <div class="field">
+        <label for="diagnosis">Diagnostic</label>
+        <input pInputText id="diagnosis" [(ngModel)]="selectedChild!.diagnosis" type="text" />
+      </div>
+      <div class="field">
+        <label for="notes">Notes</label>
+        <input pInputText id="notes" [(ngModel)]="selectedChild!.notes" type="text" />
+      </div>
+      <!-- <div class="field">
       <label for="imageUrl">URL de l'image</label>
       <input pInputText id="imageUrl" [(ngModel)]="selectedChild!.image_url" type="text" />
     </div> -->
+    </div>
   </div>
-</div>
-<ng-template pTemplate="footer">
+  <ng-template pTemplate="footer">
     <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancelEdit()"></button>
-    <button pButton type="button" label="Enregistrer" class="p-button-primary" style="color: white;" (click)="saveChild()"></button>
+    <button pButton type="button" label="Enregistrer" class="p-button-primary" style="color: white;"
+      (click)="saveChild()"></button>
   </ng-template>
-  
+
 </p-dialog>
 
-<p-dialog header="Partager le profil" [(visible)]="afficherBoiteDialoguePartage" [modal]="true" [style]="{width: '500px'}">
+<p-dialog header="Partager le profil" [(visible)]="afficherBoiteDialoguePartage" [modal]="true"
+  [style]="{width: '500px'}">
   <div class="dialog-content">
-  <div class="p-fluid">
-    <div class="field">
-      <label for="email">Email du parent</label>
-      <input pInputText id="email" [(ngModel)]="saisieEmail" placeholder="Entrez l'email du parent" />
-    </div>
-    <div class="field">
-      <label for="access">Niveau d'accès</label>
-      <p-dropdown id="access" [options]="optionsAcces" [(ngModel)]="accesSelectionne" optionLabel="libelle" placeholder="Sélectionner un accès"></p-dropdown>
+    <div class="p-fluid">
+      <div class="field">
+        <label for="email">Email du parent</label>
+        <input pInputText id="email" [(ngModel)]="saisieEmail" placeholder="Entrez l'email du parent" />
+      </div>
+      <div class="field">
+        <label for="access">Niveau d'accès</label>
+        <p-dropdown id="access" [options]="optionsAcces" [(ngModel)]="accesSelectionne" optionLabel="libelle"
+          placeholder="Sélectionner un accès"></p-dropdown>
+      </div>
     </div>
   </div>
-</div>
-<ng-template pTemplate="footer">
-    <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="afficherBoiteDialoguePartage = false"></button>
-    <button pButton type="button" label="Partager" class="p-button-primary" style="color: white;" (click)="shareProfile()"></button>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Annuler" class="p-button-secondary"
+      (click)="afficherBoiteDialoguePartage = false"></button>
+    <button pButton type="button" label="Partager" class="p-button-primary" style="color: white;"
+      (click)="shareProfile()"></button>
   </ng-template>
- 
+
 </p-dialog>

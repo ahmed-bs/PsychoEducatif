@@ -16,3 +16,7 @@ export interface Profile {
   created_at?: string;
   category?: string;
 }
+export interface ProfileResponse {
+  message: string;
+  data: Profile;
+}
