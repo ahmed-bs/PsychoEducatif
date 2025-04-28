@@ -42,12 +42,12 @@
           <div class="progress-container">
             <svg class="progress-circle" width="60" height="60">
               <circle class="progress-circle-bg" cx="30" cy="30" r="28" stroke="#e0e0e0" stroke-width="4" fill="none"/>
-              <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
-                      [style.strokeDasharray]="188" [style.strokeDashoffset]="188 - (188 * ( 74  / 100))"/>
-                      <!-- <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
-                      [style.strokeDasharray]="188" [style.strokeDashoffset]="188 - (188 * (child.evaluation_score || 0 / 100))"/> -->
+              <!-- <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
+                      [style.strokeDasharray]="188" [style.strokeDashoffset]="188 - (188 * ( 74  / 100))"/> -->
+                      <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
+                      [style.strokeDasharray]="188" [style.strokeDashoffset]="188 - (188 * (child.evaluation_score || 0 / 100))"/>
             </svg>
-            <span class="progress-value">{{ 74 }}%</span>
+            <span class="progress-value">{{ child.evaluation_score }}%</span>
             <!-- <span class="progress-value">{{ 74 }}%</span> -->
           </div>
       

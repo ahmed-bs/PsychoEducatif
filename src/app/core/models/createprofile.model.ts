@@ -18,7 +18,7 @@ export interface CreateProfileRequest {
   }
   
   export interface ShareProfileRequest {
-    shared_with_username: string;
+    shared_with_id: number;
     permissions: ('view' | 'edit' | 'share')[];
   }
   
