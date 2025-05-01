@@ -31,7 +31,7 @@ export class ProfileService {
   // Get profiles by parent ID
   getProfilesByParent(parentId: number): Observable<Profile[]> {
     return this.http
-      .get<Profile[]>(`${this.apiUrl}parent/${parentId}/`)
+      .get<Profile[]>(`${this.apiUrl}user/${parentId}/`)
       .pipe(catchError(this.handleError));
   }
 
