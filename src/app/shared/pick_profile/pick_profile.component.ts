@@ -36,8 +36,17 @@ export class PickProfileComponent implements OnInit {
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
   displayDialog: boolean = false;
+  updatedisplayDialog: boolean = false;
   isEditMode: boolean = false;
-  selectedChild: Profile | null = null;
+  newChild: Profile = this.resetChild();
+  selectedChild: Profile = {
+    first_name: '',
+    last_name: '',
+    birth_date: '',
+    gender: 'M' ,
+    diagnosis: '',
+    notes: ''
+  };
   profileForm: CreateProfileRequest | UpdateProfileRequest = {
     first_name: '',
     last_name: '',
@@ -66,7 +75,21 @@ export class PickProfileComponent implements OnInit {
     }
     this.loadChildren();
   }
-
+  resetChild(): Profile {
+    return {
+      first_name: '',
+      last_name: '',
+      birth_date: '',
+      diagnosis: '',
+      notes: '',
+      evaluation_score: 0,
+      objectives: [],
+      progress: 'En progrès',
+      recommended_strategies: [],
+      image_url: '',
+      is_active: true
+    };
+  }
   loadChildren() {
     this.profileService.getProfilesByParent(this.parentId).subscribe({
       next: (children) => {
@@ -111,8 +134,7 @@ export class PickProfileComponent implements OnInit {
 
   showEditDialog(child: Profile) {
     this.isEditMode = true;
-    this.selectedChild = child;
-    this.profileForm = {
+    this.selectedChild = {
       first_name: child.first_name,
       last_name: child.last_name,
       birth_date: child.birth_date,
@@ -121,10 +143,48 @@ export class PickProfileComponent implements OnInit {
       notes: child.notes || ''
     };
     this.birthDate = new Date(child.birth_date);
-    this.displayDialog = true;
+    this.updatedisplayDialog = true;
     this.error = null;
   }
+  addChild() {
+    if (this.newChild.first_name && this.newChild.last_name && this.newChild.birth_date) {
+      this.profileService.createChildProfile(this.newChild).subscribe({
+        next: (child) => {
+          this.children.push({
+            ...child,
+            image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+          });
+          this.filteredChildren = [...this.children];
+          this.displayDialog = false;
+          Swal.fire('Succès', 'Profil ajouté avec succès.', 'success');
+        },
+        error: (err) => {
+          Swal.fire('Erreur', 'Impossible d’ajouter le profil.', 'error');
+        }
+      });
+    } else {
+      Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'warning');
+    }
+  }
 
+  saveChild() {
+    if (this.selectedChild) {
+      this.profileService.updateChildProfile(this.selectedChild).subscribe({
+        next: (updatedChild) => {
+          const index = this.children.findIndex(c => c.id === updatedChild.id);
+          if (index !== -1) {
+            this.children[index] = { ...updatedChild, image_url: this.children[index].image_url };
+            this.filteredChildren = [...this.children];
+          }
+          this.displayDialog = false;
+          Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
+        },
+        error: (err) => {
+          Swal.fire('Erreur', 'Impossible de mettre à jour le profil.', 'error');
+        }
+      });
+    }
+  }
   saveProfile() {
     if (!this.profileForm.first_name || !this.profileForm.last_name || !this.birthDate) {
       this.error = 'Prénom, nom de famille et date de naissance sont obligatoires.';
