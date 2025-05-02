@@ -16,6 +16,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { CategoriesComponent } from './categories/categories.component';
+import { ToastModule } from 'primeng/toast';
 import { EvaluationConfigRoutes } from './evaluationConfig.routing';
 import { ItemsComponent } from './items/items.component';
 @NgModule({
@@ -38,7 +39,8 @@ import { ItemsComponent } from './items/items.component';
     ToolbarModule,
     DialogModule, 
     DropdownModule, 
-    InputTextModule
+    InputTextModule,
+    ToastModule,
   ],
   declarations: [EvaluationConfigComponent,CategoriesComponent,ItemsComponent]
 })

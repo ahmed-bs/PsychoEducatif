@@ -115,6 +115,19 @@ export class Child_profileComponent implements OnInit {
     });
   }
 
+  loadparmail(childId: number) {
+    this.profileService.getProfileById(childId).subscribe({
+      next: (child) => {
+        this.selectedChild = {
+          ...child,
+        };
+      },
+      error: (err) => {
+        Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
+      }
+    });
+  }
+
   loadChild(childId: number) {
     this.profileService.getProfileById(childId).subscribe({
       next: (child) => {
@@ -238,7 +251,6 @@ export class Child_profileComponent implements OnInit {
     }
 
 
-    const sharedWithId = parseInt(this.saisieEmail, 5); 
 
     // Map permissions
     const permissions: ('view' | 'edit' | 'share')[] = ['view'];
@@ -248,7 +260,7 @@ export class Child_profileComponent implements OnInit {
 
     // Create ShareProfileRequest
     const shareData: ShareProfileRequest = {
-      shared_with_id: 5,
+      shared_with: this.saisieEmail,
       permissions
     };
 

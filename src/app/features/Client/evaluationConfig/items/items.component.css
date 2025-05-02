@@ -57,3 +57,37 @@ p-table .p-datatable .p-datatable-table td,th{
     background-color: #f8f9fa;
     border-radius: 8px;
   }
+
+  .back-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .card {
+    margin-bottom: 2rem;
+  }
+  
+  .category-container, .container-custom {
+    margin: 1rem 0;
+  }
+  
+  .custom-add-button {
+    background-color: #6366F1;
+    border-color: #6366F1;
+  }
+  
+  .custom-add-button:hover {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+  }
+  
+  .p-table {
+    width: 100%;
+  }
+  
+  .p-toolbar {
+    background: none;
+    border: none;
+  }

@@ -34,6 +34,11 @@ export class ProfileService {
       .get<Profile[]>(`${this.apiUrl}user/${parentId}/`)
       .pipe(catchError(this.handleError));
   }
+  shareProfile(profileId: number, data: ShareProfileRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}${profileId}/share/`, data)
+        .pipe(catchError(this.handleError));
+}
+
 
   // Update a child profile
   updateChildProfile(profile: Profile
