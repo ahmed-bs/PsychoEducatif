@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/core/services/authService.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signin',
@@ -12,15 +12,14 @@ import { AuthService } from 'src/app/core/services/authService.service';
 })
 export class SigninComponent implements OnInit {
   hide = true;
-  rememberMe = false;
   isLoading = false;
+  showErrors = false;
   loginForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService,
-    private snackBar: MatSnackBar
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -32,8 +31,8 @@ export class SigninComponent implements OnInit {
   ngOnInit() {}
 
   login() {
+    this.showErrors = true;
     if (this.loginForm.invalid) {
-      this.markFormGroupTouched(this.loginForm);
       return;
     }
 
@@ -46,13 +45,24 @@ export class SigninComponent implements OnInit {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
         
-        // Navigate based on user role or to default page
-        this.router.navigate(['/pick_profileComponent']);
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès',
+          text: 'Connexion réussie ! Vous serez redirigé.',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          this.router.navigate(['/pick_profileComponent']);
+        });
       },
       error: (error) => {
         this.isLoading = false;
-        this.snackBar.open('Login failed. Please check your credentials.', 'Close', {
-          duration: 3000
+        const errorMessage = error.error?.message || 'Erreur connexion';
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: errorMessage,
+          confirmButtonColor: '#f44336'
         });
         console.error('Login error:', error);
       }
@@ -61,16 +71,6 @@ export class SigninComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.hide = !this.hide;
-  }
-
-  private markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
-    });
   }
 
   get email() {

@@ -15,7 +15,20 @@
   overflow: hidden;
   padding: 0 60px;
 }
+.error-placeholder {
+  min-height: 20px;
+  visibility: hidden;
+}
 
+.error-placeholder small {
+  visibility: visible;
+}
+
+.asterisk-placeholder {
+  display: inline-block;
+  width: 10px;
+  text-align: center;
+}
 .form-left {
   width: 50%;
 }

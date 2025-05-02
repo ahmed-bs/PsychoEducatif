@@ -19,36 +19,43 @@
 
       <!-- Email Field -->
       <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label">
+          Email
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && email?.errors?.['required']" class="text-danger">*</span>
+          </span>
+        </label>
         <div class="input-group">
           <input
             type="email"
             class="form-control"
             id="email"
             formControlName="email"
-            placeholder="Entrez votre email"
-            [ngClass]="{'is-invalid': email?.touched && email?.errors}">
+            placeholder="Entrez votre email">
           <span class="input-group-text">
             <i class="bi bi-envelope"></i>
           </span>
         </div>
-        <div *ngIf="email?.touched && email?.errors" class="invalid-feedback d-block">
-          <div *ngIf="email?.errors?.['required']">Email is required</div>
-          <!-- <div *ngIf="email?.errors?.['email']">Please enter a valid email</div> -->
+        <div class="error-placeholder">
+          <small *ngIf="showErrors && email?.errors?.['email']" class="text-danger">Email invalide</small>
         </div>
       </div>
 
       <!-- Password Field -->
       <div class="mb-3">
-        <label for="password" class="form-label">Mot de passe</label>
+        <label for="password" class="form-label">
+          Mot de passe
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && password?.errors?.['required']" class="text-danger">*</span>
+          </span>
+        </label>
         <div class="input-group">
           <input
             [type]="hide ? 'password' : 'text'"
             class="form-control"
             id="password"
             formControlName="password"
-            placeholder="Mot de passe obligatoire pour se connecter !"
-            [ngClass]="{'is-invalid': password?.touched && password?.errors}">
+            placeholder="Mot de passe obligatoire pour se connecter !">
           <button
             type="button"
             class="btn btn-outline-secondary"
@@ -56,17 +63,17 @@
             <i [ngClass]="hide ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </button>
         </div>
-        <div *ngIf="password?.touched && password?.errors" class="invalid-feedback d-block">
-          <div *ngIf="password?.errors?.['required']">Password is required</div>
+        <div class="error-placeholder">
+          <small *ngIf="showErrors && password?.errors?.['minlength']" class="text-danger">Trop court</small>
         </div>
       </div>
 
       <!-- Remember Me & Submit Button -->
       <div class="form-row align-items">
         <mat-checkbox formControlName="rememberMe" class="checkbox">Se souvenir de moi</mat-checkbox>
-        <button type="submit" class="submit-button" [disabled]="isLoading || loginForm.invalid">
-          <span *ngIf="!isLoading">Se connecter</span>
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <button type="submit" class="submit-button" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Se connecter
         </button>
       </div>
 
@@ -76,7 +83,7 @@
 
       <div class="social-icons">
         <a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 30px; color: #4267B2;"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 30px; color: #C13584;"></i></a>
+        <a href="#" target="_blank"><i class="fab-insta" style="font-size: 30px; color: #C13584;"></i></a>
         <a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 30px; color: #25D366;"></i></a>
         <a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 30px; color: #0A66C2;"></i></a>
       </div>

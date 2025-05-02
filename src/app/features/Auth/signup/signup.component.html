@@ -1,4 +1,4 @@
-<div class="page-content" style="zoom: 80%;">
+<div class="page-content">
   <div class="form-v6-content">
     <div class="social-sidebar">
       <button class="cssbuttons-io-button" routerLink="/">
@@ -10,7 +10,6 @@
           </svg>
         </div>
       </button>
-   
       <ul class="social-icons">
         <li><a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 40px; color: #4267B2;"></i></a></li>
         <li><a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 40px; color: #C13584;"></i></a></li>
@@ -29,7 +28,12 @@
 
       <!-- Full Name Field -->
       <div class="mb-3">
-        <label for="fullName" class="form-label">Nom et Prénom</label>
+        <label for="fullName" class="form-label">
+          Nom et Prénom
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && username?.errors?.['required']" class="text-danger">*</span>
+          </span>
+        </label>
         <div class="input-group">
           <input 
             type="text" 
@@ -41,15 +45,19 @@
             <i class="bi bi-person"></i>
           </span>
         </div>
-        <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="text-danger">
-          <small *ngIf="username?.errors?.['required']">Ce champ est obligatoire</small>
-          <small *ngIf="username?.errors?.['minlength']">Minimum 3 caractères</small>
+        <div class="error-placeholder">
+          <small *ngIf="showErrors && username?.errors?.['minlength']" class="text-danger">Trop court</small>
         </div>
       </div>
 
       <!-- User Type Field -->
       <div class="mb-3">
-        <label for="userType" class="form-label">Type d'utilisateur</label>
+        <label for="userType" class="form-label">
+          Type d'utilisateur
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && user_type?.errors?.['required']" class="text-danger">*</span>
+          </span>
+        </label>
         <div class="input-group">
           <select
             id="userType"
@@ -65,14 +73,17 @@
             <i class="bi bi-people"></i>
           </span>
         </div>
-        <div *ngIf="user_type?.invalid && (user_type?.dirty || user_type?.touched)" class="text-danger">
-          <small *ngIf="user_type?.errors?.['required']">Veuillez sélectionner un type d'utilisateur</small>
-        </div>
+        <div class="error-placeholder"></div>
       </div>
 
       <!-- Email Field -->
       <div class="mb-3">
-        <label for="email" class="form-label">Adresse Email</label>
+        <label for="email" class="form-label">
+          Adresse Email
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && email?.errors?.['required']" class="text-danger">*</span>
+          </span>
+        </label>
         <div class="input-group">
           <input 
             type="email" 
@@ -84,15 +95,19 @@
             <i class="bi bi-envelope"></i>
           </span>
         </div>
-        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
-          <small *ngIf="email?.errors?.['required']">Ce champ est obligatoire</small>
-          <small *ngIf="email?.errors?.['email']">Veuillez entrer une adresse email valide</small>
+        <div class="error-placeholder">
+          <small *ngIf="showErrors && email?.errors?.['email']" class="text-danger">Email invalide</small>
         </div>
       </div>
 
       <!-- Password Field -->
       <div class="mb-3">
-        <label for="password" class="form-label">Mot de Passe</label>
+        <label for="password" class="form-label">
+          Mot de Passe
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && password?.errors?.['required']" class="text-danger">*</span>
+          </span>
+        </label>
         <div class="input-group">
           <input 
             [type]="hidePassword ? 'password' : 'text'" 
@@ -107,18 +122,20 @@
             <i [class]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </button>
         </div>
-        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="text-danger">
-          <small *ngIf="password?.errors?.['required']">Ce champ est obligatoire</small>
-          <small *ngIf="password?.errors?.['minlength']">Minimum 8 caractères</small>
-          <small *ngIf="password?.errors?.['passwordStrength']">
-            Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial
-          </small>
+        <div class="error-placeholder">
+          <small *ngIf="showErrors && password?.errors?.['minlength']" class="text-danger">Trop court</small>
+          <small *ngIf="showErrors && password?.errors?.['passwordStrength']" class="text-danger">Mot de passe faible</small>
         </div>
       </div>
 
       <!-- Confirm Password Field -->
       <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirmer le Mot de Passe</label>
+        <label for="confirmPassword" class="form-label">
+          Confirmer le Mot de Passe
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && confirm_password?.errors?.['required']" class="text-danger">*</span>
+          </span>
+        </label>
         <div class="input-group">
           <input 
             [type]="hideConfirmPassword ? 'password' : 'text'" 
@@ -133,29 +150,22 @@
             <i [class]="hideConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </button>
         </div>
-        <div *ngIf="confirm_password?.invalid && (confirm_password?.dirty || confirm_password?.touched)" class="text-danger">
-          <small *ngIf="confirm_password?.errors?.['required']">Ce champ est obligatoire</small>
+        <div class="error-placeholder">
+          <small *ngIf="showErrors && signupForm.errors?.['passwordMismatch']" class="text-danger">Mots de passe différents</small>
         </div>
-        <div *ngIf="signupForm.errors?.['passwordMismatch'] && (confirm_password?.dirty || confirm_password?.touched)" class="text-danger">
-          <small>Les mots de passe ne correspondent pas</small>
-        </div>
-      </div>
-
-      <!-- Error Message -->
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
       </div>
 
       <!-- Terms Checkbox and Submit Button -->
       <div class="form-row align-items">
         <mat-checkbox formControlName="accepte_conditions" class="checkbox">
           J'accepte les <a href="#" target="_blank">termes et conditions</a>
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && accepte_conditions?.invalid" class="text-danger ms-2">*</span>
+          </span>
         </mat-checkbox>
-        <div *ngIf="accepte_conditions?.invalid && accepte_conditions?.touched" class="text-danger">
-          <small>Vous devez accepter les termes et conditions</small>
-        </div>
         
-        <button type="submit" class="submit-button" [disabled]="signupForm.invalid">
+        <button type="submit" class="submit-button" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           S'inscrire
         </button>
       </div>
