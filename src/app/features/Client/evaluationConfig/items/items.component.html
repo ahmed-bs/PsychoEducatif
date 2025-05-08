@@ -1,186 +1,217 @@
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
+
 <div class="back-button" (click)="goBack()">
   <span class="material-symbols-sharp">arrow_back</span>
 </div>
-<br> <br>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
+<br><br>
 
-<div class="card p-4 shadow-lg rounded-2xl bg-white">
+<p-toast></p-toast>
+
+<div class="card p-4 shadow-lg rounded-2xl bg-white" *ngIf="category">
   <div class="row justify-content-between align-items-center mb-4">
-    <h2 class="text-xl font-semibold col-auto">Categories details</h2>
+    <h2 class="text-xl font-semibold col-auto">Category Details</h2>
   </div>
   <br>
   <div class="category-container">
-    <h3 class="category-title"><strong>Title:</strong>Autonomie</h3>
-    <p><strong>Code:</strong> C03</p>
-    <p><strong>Description:</strong>Catégorie sur l'indépendance dans les tâches quotidiennes.</p>
+    <h3 class="category-title"><strong>Title:</strong> {{ category.name }}</h3>
+    <p><strong>Code:</strong> C01</p>
+    <p><strong>Description:</strong> {{ category.description }}</p>
   </div>
 </div>
+
 <div class="container-custom">
-  <!-- Main Content -->
   <div class="row">
     <div class="col-md-12">
-
-
-      <!-- Communication -->
-      <h3>Domaines</h3>
+      <h3>Domains</h3>
       <div class="container">
         <div class="card p-4 shadow-lg rounded-2xl bg-white">
           <div class="row justify-content-between align-items-center mb-4">
             <p-toolbar styleClass="mb-4">
               <ng-template pTemplate="left">
                 <div class="d-flex align-items-center">
-                  <button pButton [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" (click)="toggleFilters()">
-                  </button>
+                  <button pButton [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" (click)="toggleFilters()"></button>
                 </div>
               </ng-template>
               <ng-template pTemplate="right">
-                <div>
-                  <button pButton icon="pi pi-plus" label="Add New" class="custom-add-button"
-                    (click)="showAddUserDialog()">
-                  </button>
-                </div>
+                <button pButton icon="pi pi-plus" label="Add New Domain" class="custom-add-button" (click)="showAddDomainDialog()"></button>
               </ng-template>
             </p-toolbar>
           </div>
           <br>
-          <p-table #dt2 class="rounded-2xl overflow-hidden shadow-md" [value]="domaines" dataKey="id" [rows]="10"
+          <p-table #dt1 class="rounded-2xl overflow-hidden shadow-md" [value]="domaines" dataKey="id" [rows]="10"
             [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" [scrollable]="true"
-            [scrollHeight]="'200px'" [globalFilterFields]="['title', 'description', 'code']"
+            [scrollHeight]="'200px'" [globalFilterFields]="['name', 'description', 'code']"
             [tableStyle]="{ 'min-width': '75rem' }">
-
             <ng-template pTemplate="header">
               <tr>
                 <th>Code</th>
-                <th>Title</th>
+                <th>Name</th>
                 <th>Description</th>
+                <th>Level</th>
                 <th>Actions</th>
               </tr>
               <tr *ngIf="showFilters" style="zoom: 80%;">
-                <th>
-                  <p-columnFilter type="text" field="code" placeholder="Rechercher code"
-                    showFilterMenu="false"></p-columnFilter>
-                </th>
-                <th>
-                  <p-columnFilter type="text" field="title" placeholder="Rechercher titre"
-                    showFilterMenu="false"></p-columnFilter>
-                </th>
-                <th>
-                  <p-columnFilter type="text" field="description" placeholder="Rechercher description"
-                    showFilterMenu="false"></p-columnFilter>
-                </th>
+                <th><p-columnFilter type="text" field="code" placeholder="Search code" showFilterMenu="false"></p-columnFilter></th>
+                <th><p-columnFilter type="text" field="name" placeholder="Search name" showFilterMenu="false"></p-columnFilter></th>
+                <th><p-columnFilter type="text" field="description" placeholder="Search description" showFilterMenu="false"></p-columnFilter></th>
+                <th><p-columnFilter type="text" field="level" placeholder="Search level" showFilterMenu="false"></p-columnFilter></th>
                 <th></th>
               </tr>
             </ng-template>
-
             <ng-template pTemplate="body" let-domaine>
               <tr>
-                <td>{{ domaine.code }}</td>
-                <td>{{ domaine.title }}</td>
+                <td>{{ domaine.code || 'N/A' }}</td>
+                <td>{{ domaine.name }}</td>
                 <td>{{ domaine.description }}</td>
+                <td>{{ domaine.level }}</td>
                 <td>
-                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-info"
-                    (click)="editDomaine(domaine)"></button>
-                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
-                    (click)="deleteDomaine(domaine)"></button>
+                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-info" (click)="editDomaine(domaine)"></button>
+                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteDomaine(domaine)"></button>
                 </td>
               </tr>
             </ng-template>
-
-            <ng-template #emptymessage>
+            <ng-template pTemplate="emptymessage">
               <tr>
-                <td colspan="4">Aucun domaine trouvé.</td>
+                <td colspan="5">No domains found.</td>
               </tr>
             </ng-template>
           </p-table>
-
         </div>
-        <!-- 
-        <p-dialog header="Ajouter un utilisateur" [(visible)]="displayAddUserDialog" [modal]="true"
-          [style]="{ width: '30vw' ,zoom:'90%'}" [dismissableMask]="true">
-          <div class="p-fluid">
-            <div class="p-field">
-              <label for="username">Nom / Prénom</label>
-              <input id="username" pInputText [(ngModel)]="newDomaine.username" />
-            </div>
-
-
-            <div class="p-field">
-              <label for="address">Adresse</label>
-              <input id="address" pInputText [(ngModel)]="newDomaine.address" />
-            </div>
-   
-          <ng-template pTemplate="footer">
-            <button pButton label="Annuler" icon="pi pi-times" class="p-button-text"
-              (click)="displayAddUserDialog = false"></button>
-            <button pButton label="Ajouter" icon="pi pi-check" class="p-button-success" (click)="addUser()"></button>
-
-          </ng-template>
-        </p-dialog> -->
-
       </div>
+
       <h3>Items</h3>
-      @for (domaine of domaines; track $index) {
-      <div class="container">
+      <div class="container" *ngFor="let domaine of domaines">
         <div class="card p-4 shadow-lg rounded-2xl bg-white">
           <div class="row justify-content-between align-items-center mb-4">
             <p-toolbar styleClass="mb-4">
               <ng-template pTemplate="left">
-              
-       
-                <p ><strong>Domaine:</strong> {{ domaine.title}}</p> <br>
-                <!-- <p><strong>Code:</strong>  {{ domaine.code}}</p><br>
-                <p><strong>Description:</strong> {{ domaine.description}}.</p> -->
+                <p><strong>Domain:</strong> {{ domaine.name }}</p>
+                <p><strong>Level:</strong> {{ domaine.level }}</p>
               </ng-template>
               <ng-template pTemplate="right">
-                <div>
-                  <button pButton icon="pi pi-plus" label="Add New" class="custom-add-button"
-                    (click)="showAddUserDialog()">
-                  </button>
-                </div>
+                <button pButton icon="pi pi-plus" label="Add New Item" class="custom-add-button" (click)="showAddItemDialog(domaine)"></button>
               </ng-template>
             </p-toolbar>
           </div>
           <br>
-          <p-table #dt2 class="rounded-2xl overflow-hidden shadow-md" [value]="domaine.items" dataKey="id" [rows]="10"
+          <p-table #dt2 class="rounded-2xl overflow-hidden shadow-md" [value]="domaine.items ?? []" dataKey="id" [rows]="10"
             [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" [scrollable]="true"
-            [scrollHeight]="'200px'" [globalFilterFields]="['title', 'description', 'code']"
+            [scrollHeight]="'200px'" [globalFilterFields]="['name', 'description', 'code']"
             [tableStyle]="{ 'min-width': '75rem' }">
-
             <ng-template pTemplate="header">
               <tr>
                 <th>Code</th>
-                <th>Title</th>
+                <th>Name</th>
                 <th>Description</th>
                 <th>Actions</th>
               </tr>
-
             </ng-template>
-
-            <ng-template pTemplate="body" let-domaine>
+            <ng-template pTemplate="body" let-item>
               <tr>
-                <td>{{ domaine.code }}</td>
-                <td>{{ domaine.title }}</td>
-                <td>{{ domaine.description }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
                 <td>
-                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-info"
-                    (click)="editDomaine(domaine)"></button>
-                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
-                    (click)="deleteDomaine(domaine)"></button>
+                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-info" (click)="editDomaine(item)"></button>
+                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteDomaine(item)"></button>
                 </td>
               </tr>
             </ng-template>
-
-            <ng-template #emptymessage>
+            <ng-template pTemplate="emptymessage">
               <tr>
-                <td colspan="4">Aucun domaine trouvé.</td>
+                <td colspan="4">No items found.</td>
               </tr>
             </ng-template>
           </p-table>
-
         </div>
       </div>
-      <br>
-      }
     </div>
-
   </div>
+</div>
+
+<p-dialog header="Add Domain" [(visible)]="displayAddDomainDialog" [modal]="true" [style]="{ width: '30vw', zoom: '90%' }" [dismissableMask]="true">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="domain-name">Name</label>
+      <input id="domain-name" pInputText [(ngModel)]="newDomain.name" />
+    </div>
+    <div class="p-field">
+      <label for="domain-code">Code</label>
+      <input id="domain-code" pInputText [(ngModel)]="newDomain.code" />
+    </div>
+    <div class="p-field">
+      <label for="domain-level">Level</label>
+      <p-dropdown id="domain-level" [options]="[{label: 'Niveau 1', value: 'Niveau 1'}, {label: 'Niveau 2', value: 'Niveau 2'}, {label: 'Niveau 3', value: 'Niveau 3'}, {label: 'Niveau 4', value: 'Niveau 4'}]"
+        [(ngModel)]="newDomain.level" placeholder="Select a level"></p-dropdown>
+    </div>
+    <div class="p-field">
+      <label for="domain-description">Description</label>
+      <textarea id="domain-description" pInputTextarea [(ngModel)]="newDomain.description"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayAddDomainDialog = false"></button>
+    <button pButton label="Add" icon="pi pi-check" class="p-button-success" (click)="addDomain()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Add Item" [(visible)]="displayAddItemDialog" [modal]="true" [style]="{ width: '30vw', zoom: '90%' }" [dismissableMask]="true">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="item-name">Name</label>
+      <input id="item-name" pInputText [(ngModel)]="newItem.name" />
+    </div>
+    <div class="p-field">
+      <label for="item-code">Code</label>
+      <input id="item-code" pInputText [(ngModel)]="newItem.code" />
+    </div>
+    <div class="p-field">
+      <label for="item-description">Description</label>
+      <textarea id="item-description" pInputTextarea [(ngModel)]="newItem.description"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayAddItemDialog = false"></button>
+    <button pButton label="Add" icon="pi pi-check" class="p-button-success" (click)="addItem()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [header]="editMode === 'domain' ? 'Edit Domain' : 'Edit Item'" [(visible)]="displayEditDialog" [modal]="true" [style]="{ width: '30vw', zoom: '90%' }" [dismissableMask]="true">
+  <div class="p-fluid" *ngIf="editMode === 'domain'">
+    <div class="p-field">
+      <label for="edit-domain-name">Name</label>
+      <input id="edit-domain-name" pInputText [(ngModel)]="newDomain.name" />
+    </div>
+    <div class="p-field">
+      <label for="edit-domain-code">Code</label>
+      <input id="edit-domain-code" pInputText [(ngModel)]="newDomain.code" />
+    </div>
+    <div class="p-field">
+      <label for="edit-domain-level">Level</label>
+      <p-dropdown id="edit-domain-level" [options]="[{label: 'Niveau 1', value: 'Niveau 1'}, {label: 'Niveau 2', value: 'Niveau 2'}, {label: 'Niveau 3', value: 'Niveau 3'}, {label: 'Niveau 4', value: 'Niveau 4'}]"
+        [(ngModel)]="newDomain.level" placeholder="Select a level"></p-dropdown>
+    </div>
+    <div class="p-field">
+      <label for="edit-domain-description">Description</label>
+      <textarea id="edit-domain-description" pInputTextarea [(ngModel)]="newDomain.description"></textarea>
+    </div>
+  </div>
+  <div class="p-fluid" *ngIf="editMode === 'item'">
+    <div class="p-field">
+      <label for="edit-item-name">Name</label>
+      <input id="edit-item-name" pInputText [(ngModel)]="newItem.name" />
+    </div>
+    <div class="p-field">
+      <label for="edit-item-code">Code</label>
+      <input id="edit-item-code" pInputText [(ngModel)]="newItem.code" />
+    </div>
+    <div class="p-field">
+      <label for="edit-item-description">Description</label>
+      <textarea id="edit-item-description" pInputTextarea [(ngModel)]="newItem.description"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayEditDialog = false"></button>
+    <button pButton label="Save" icon="pi pi-check" class="p-button-success" (click)="updateEntity()"></button>
+  </ng-template>
+</p-dialog>

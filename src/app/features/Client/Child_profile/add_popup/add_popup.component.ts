@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 
+
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-add_popup',
+  templateUrl: './add_popup.component.html',
+  styleUrls: ['./add_popup.component.css']
 })
-export class SigninComponent implements OnInit {
+export class Add_popupComponent implements OnInit {
   hide = true;
   isLoading = false;
   showErrors = false;
@@ -19,7 +20,8 @@ export class SigninComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public dialogRef: MatDialogRef<Add_popupComponent>
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,6 +54,7 @@ export class SigninComponent implements OnInit {
           timer: 2000,
           showConfirmButton: false
         }).then(() => {
+          this.dialogRef.close();
           this.router.navigate(['/pick_profileComponent']);
         });
       },
@@ -71,6 +74,10 @@ export class SigninComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.hide = !this.hide;
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
   get email() {

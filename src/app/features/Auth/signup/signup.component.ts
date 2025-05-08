@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authService.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -13,14 +14,18 @@ export class SignupComponent implements OnInit {
   hidePassword = true;
   hideConfirmPassword = true;
   isLoading: boolean = false;
-  errorMessage: string = '';
+  showErrors: boolean = false;
   userTypes = [
     { value: 'professional', label: 'Professional' },
     { value: 'parent', label: 'Parent' },
     { value: 'other', label: 'Other' },
   ];
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router, 
+    private authService: AuthService
+  ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       user_type: ['', Validators.required],
@@ -36,7 +41,6 @@ export class SignupComponent implements OnInit {
     }, { validator: this.passwordMatchValidator });
   }
 
-  // Custom password validator
   private passwordValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     if (!value) {
@@ -71,11 +75,10 @@ export class SignupComponent implements OnInit {
   get bio() { return this.signupForm.get('bio'); }
 
   onSubmit() {
+    this.showErrors = true;
     if (this.signupForm.valid) {
       this.isLoading = true;
-      this.errorMessage = '';
   
-      // Transform form data to match Parent class structure
       const formData = {
         username: this.signupForm.value.username,
         email: this.signupForm.value.email,
@@ -90,21 +93,28 @@ export class SignupComponent implements OnInit {
         next: (response) => {
           console.log('Registration successful:', response);
           this.isLoading = false;
-          this.router.navigate(['/dashboard']);
+          Swal.fire({
+            icon: 'success',
+            title: 'Succès',
+            text: 'Compte créé avec succès ! Vous serez redirigé vers la page de connexion.',
+            timer: 2000,
+            showConfirmButton: false
+          }).then(() => {
+            this.router.navigate(['/auth/signin']);
+          });
         },
         error: (error) => {
           console.error('Registration error:', error);
           this.isLoading = false;
-          if (error.error && error.error.message) {
-            this.errorMessage = error.error.message;
-          } else {
-            this.errorMessage = 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.';
-          }
+          const errorMessage = error.error?.message || 'Erreur inscription';
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: errorMessage,
+            confirmButtonColor: '#f44336'
+          });
         }
       });
-    } else {
-      this.signupForm.markAllAsTouched();
-      this.errorMessage = 'Veuillez corriger les erreurs dans le formulaire.';
     }
   }
 }

@@ -1,0 +1,318 @@
+.form-v6-content {
+    display: flex;
+    background: #ffffff;
+    box-shadow: 4px 4px 10px 10px rgba(187, 223, 251, 0.43);
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 0 30px;
+    max-width: 900px;
+  }
+  
+  .error-placeholder {
+    min-height: 16px;
+    visibility: hidden;
+  }
+  
+  .error-placeholder small {
+    visibility: visible;
+    font-size: 0.75rem;
+  }
+  
+  .asterisk-placeholder {
+    display: inline-block;
+    width: 8px;
+    text-align: center;
+  }
+  
+  .form-left {
+    width: 50%;
+  }
+  
+  .form-left img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+    margin-top: 50px;
+  }
+  
+  .form-detail {
+    padding: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  
+  .input {
+    border: 2px solid rgb(159, 157, 157);
+    border-radius: 4px;
+    padding: 6px;
+    margin: 8px 0;
+    color: rgb(184, 184, 182);
+    height: 40px;
+  }
+  
+  .custom-h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: rgb(77, 165, 216);
+    margin-bottom: 0;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+  }
+  
+  .custom-p {
+    font-size: 0.9rem;
+    color: black;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .label {
+    color: black;
+  }
+  
+  .form-row.align-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 12px;
+  }
+  
+  .checkbox {
+    font-size: 0.8rem;
+    color: black;
+  }
+  
+  .submit-button {
+    background-color: rgb(77, 165, 216);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-button:hover {
+    background-color: rgb(98, 170, 211);
+    color: #ffffff;
+  }
+  
+  .create-account-link {
+    color: rgb(77, 165, 216);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .text-centre {
+    text-align: center;
+  }
+  
+  .create-account-link:hover {
+    text-decoration: underline;
+    color: rgb(48, 112, 169);
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .cssbuttons-io-button {
+    background: rgb(77, 165, 216);
+    color: white;
+    font-family: inherit;
+    padding: 0.3em;
+    margin-top: 15px;
+    padding-left: 1em;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 0.8em;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 1.4em #6d9bdb;
+    overflow: hidden;
+    position: relative;
+    height: 2.5em;
+    padding-right: 3em;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .cssbuttons-io-button .icon {
+    background: white;
+    margin-left: 0.8em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.8em;
+    width: 1.8em;
+    border-radius: 0.6em;
+    box-shadow: 0.1em 0.1em 0.5em 0.2em #84c1ff;
+    right: 0.3em;
+    transition: all 0.3s;
+  }
+  
+  .cssbuttons-io-button:hover .icon {
+    width: calc(100% - 0.6em);
+  }
+  
+  .cssbuttons-io-button .icon svg {
+    width: 1em;
+    transition: transform 0.3s;
+    color: #84c1ff;
+  }
+  
+  .cssbuttons-io-button:hover .icon svg {
+    transform: translateX(0.1em);
+  }
+  
+  .cssbuttons-io-button:active .icon {
+    transform: scale(0.95);
+  }
+  
+  .cssbuttons-io-button:active {
+    box-shadow: 0.1em 0.1em 0.5em 0.2em #84c1ff;
+    transform: scale(0.98);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 1024px) {
+    .form-v6-content {
+      flex-direction: column;
+      padding: 15px;
+    }
+  
+    .form-left,
+    .form-detail {
+      width: 100%;
+    }
+  
+    .form-left img {
+      height: auto;
+      margin-top: 15px;
+    }
+  
+    .custom-h1 {
+      font-size: 32px;
+    }
+  
+    .custom-p {
+      font-size: 0.85rem;
+      margin-bottom: 25px;
+    }
+  
+    .input {
+      height: 38px;
+      margin: 6px 0;
+    }
+  
+    .submit-button {
+      padding: 9px 16px;
+      font-size: 14px;
+    }
+  
+    .form-row.align-items {
+      gap: 8px;
+      margin: 10px;
+    }
+  
+    .checkbox {
+      font-size: 0.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .custom-h1 {
+      font-size: 28px;
+    }
+  
+    .custom-p {
+      font-size: 0.8rem;
+      margin-bottom: 20px;
+    }
+  
+    .form-detail {
+      padding: 10px;
+    }
+  
+    .input {
+      height: 36px;
+      padding: 5px;
+    }
+  
+    .submit-button {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+  
+    .cssbuttons-io-button {
+      padding: 20px;
+      background: #ffffff;
+    }
+  
+    .cssbuttons-io-button a {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .custom-h1 {
+      font-size: 24px;
+    }
+  
+    .custom-p {
+      font-size: 0.75rem;
+      margin-bottom: 15px;
+    }
+  
+    .form-row.align-items {
+      gap: 5px;
+    }
+  
+    .submit-button {
+      font-size: 12px;
+      padding: 7px 10px;
+    }
+  
+    .cssbuttons-io-button {
+      padding: 15px;
+      background: #ffffff;
+    }
+  
+    .cssbuttons-io-button a {
+      display: none;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

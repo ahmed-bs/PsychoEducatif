@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class AuthService {
       }
   
     register(data: Parent): Observable<any> {
-      return this.http.post(`${this.apiUrl}register/`, data).pipe(
+      return this.http.post(`${this.apiUrl}register/`, data,{ headers: this.getNoAuthHeaders() }).pipe(
         catchError((error) => {
           console.error(error);
           throw error;
@@ -30,6 +30,14 @@ export class AuthService {
     getToken() {
       return localStorage.getItem('token'); // Ensure the key matches where the token is stored
     }
+
+
+
+    private getNoAuthHeaders(): HttpHeaders {
+      return new HttpHeaders({
+          'Content-Type': 'application/json'
+      });
+  }
     login(username_or_email: string, password: string): Observable<LoginResponse> {
         return this.http.post<LoginResponse>(`${this.apiUrl}login/`, { username_or_email, password }).pipe(
           catchError((error) => {

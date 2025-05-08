@@ -1,91 +1,210 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { MessageService } from 'primeng/api';
+import { Category, Domain, Item, ProfileDataService } from 'src/app/core/services/profileData.service';
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
-  encapsulation: ViewEncapsulation.ShadowDom
+  providers: [MessageService]
 })
 export class ItemsComponent implements OnInit {
-showAddUserDialog() {
-throw new Error('Method not implemented.');
-}
-  constructor(private location: Location) { }
-  domaines: any[] = [];
+  category: Category | null = null;
+  domaines: Domain[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
-  displayAddDomaineDialog = false;
-  
-  newDomaine = {
-    title: '',
+  displayAddDomainDialog: boolean = false;
+  displayAddItemDialog: boolean = false;
+  displayEditDialog: boolean = false;
+  editMode: 'domain' | 'item' | null = null;
+
+  newDomain: Partial<Domain> = {
+    name: '',
+    description: '',
+    level: 'Niveau 1',
+    code: ''
+  };
+
+  newItem: Partial<Item> = {
+    name: '',
     description: '',
     code: ''
   };
-  
-  showAddDomaineDialog() {
-    this.displayAddDomaineDialog = true;
+
+  selectedDomain: Domain | null = null;
+  selectedItem: Item | null = null;
+
+  constructor(
+    private location: Location,
+    private profileDataService: ProfileDataService,
+    private messageService: MessageService
+  ) {}
+
+  ngOnInit() {
+    this.loadData();
   }
-  
-  addDomaine() {
-    if (this.newDomaine.title && this.newDomaine.code) {
-      const newDomaineEntry = { ...this.newDomaine, id: this.domaines.length + 1 };
-      this.domaines.push(newDomaineEntry);
-      this.displayAddDomaineDialog = false;
-    }
+
+  loadData() {
+    this.loading = true;
+    this.profileDataService.getCategories().subscribe({
+      next: (categories) => {
+        const targetCategory = categories.find(c => c.name === 'Grille évaluation tout petit 1 à 5ans');
+        if (targetCategory) {
+          this.category = targetCategory;
+          this.profileDataService.getDomainsByCategory(targetCategory.id).subscribe({
+            next: (domains) => {
+              this.domaines = domains;
+              // Fetch items for each domain
+              domains.forEach(domain => {
+                this.profileDataService.getItemsByDomain(domain.id).subscribe({
+                  next: (items) => {
+                    domain.items = items;
+                    this.domaines = [...this.domaines]; // Trigger change detection
+                  },
+                  error: () => this.showError('Failed to load items')
+                });
+              });
+              this.loading = false;
+            },
+            error: () => {
+              this.showError('Failed to load domains');
+              this.loading = false;
+            }
+          });
+        } else {
+          this.showError('Category not found');
+          this.loading = false;
+        }
+      },
+      error: () => {
+        this.showError('Failed to load category');
+        this.loading = false;
+      }
+    });
   }
-  
+
+  goBack() {
+    this.location.back();
+  }
+
   toggleFilters() {
     this.showFilters = !this.showFilters;
   }
-  
-  editDomaine(domaine: any) {
-    // Add your edit logic here (navigate to edit page or open dialog)
-    console.log('Edit domaine:', domaine);
+
+  showAddDomainDialog() {
+    this.newDomain = { name: '', description: '', level: 'Niveau 1', code: '' };
+    this.displayAddDomainDialog = true;
   }
-  
-  deleteDomaine(id: number) {
-    // Add your delete logic here (confirmation and delete)
-    console.log('Delete domaine with ID:', id);
+
+  showAddItemDialog(domain: Domain) {
+    this.selectedDomain = domain;
+    this.newItem = { name: '', description: '', code: '' };
+    this.displayAddItemDialog = true;
   }
-  
-  ngOnInit() {
-    this.domaines = [
-      {
-        title: "Hygiène corporelle",
- description: 'Assurer l\'hygiène et le bien-être du corps', code: 'HYG-001',
-        items: [
-          { code: "HC01", title: "Se laver les mains", description: "L'enfant doit se laver les mains avant et après les repas." },
-          { code: "HC02", title: "Se brosser les dents", description: "L'enfant apprend à se brosser les dents après les repas." }
-        ]
-      },
-      {
-        title: "Propreté", description: 'Maintenir la propreté des lieux et des objets', code: 'PRO-002',
-        items: [
-          { code: "P01", title: "Utiliser les toilettes", description: "L'enfant doit être capable d'utiliser les toilettes de manière autonome." },
-          { code: "P02", title: "Jeter les déchets", description: "L'enfant doit jeter ses déchets dans la poubelle." }
-        ]
-      },
-      {
-        title: "Habillage/Déshabillage",description: 'Savoir s\'habiller et se déshabiller correctement', code: 'HAB-003' ,
-        items: [
-          { code: "HD01", title: "Mettre ses chaussures", description: "L'enfant apprend à mettre et enlever ses chaussures." },
-          { code: "HD02", title: "S'habiller seul", description: "L'enfant doit être capable de s'habiller sans aide." }
-        ]
-      },
-      {
-        title: "Prise des repas", description: 'Apprendre à manger de manière autonome', code: 'REP-004',
-        items: [
-          { code: "PR01", title: "Utiliser les couverts", description: "L'enfant doit savoir utiliser une cuillère et une fourchette." },
-          { code: "PR02", title: "Boire sans renverser", description: "L'enfant apprend à boire proprement." }
-        ]
+
+  addDomain() {
+    if (this.newDomain.name && this.newDomain.code && this.category) {
+      this.newDomain.template_category = this.category.id;
+      this.profileDataService.createDomain(this.newDomain).subscribe({
+        next: (domain) => {
+          domain.items = [];
+          this.domaines.push(domain);
+          this.displayAddDomainDialog = false;
+          this.showSuccess('Domain added successfully');
+        },
+        error: () => this.showError('Failed to add domain')
+      });
+    }
+  }
+
+  addItem() {
+    if (this.newItem.name && this.newItem.code && this.selectedDomain) {
+      this.newItem.template_domain = this.selectedDomain.id;
+      this.profileDataService.createItem(this.newItem).subscribe({
+        next: (item) => {
+          if (!this.selectedDomain!.items) {
+            this.selectedDomain!.items = [];
+          }
+          this.selectedDomain!.items.push(item);
+          this.domaines = [...this.domaines]; // Trigger change detection
+          this.displayAddItemDialog = false;
+          this.showSuccess('Item added successfully');
+        },
+        error: () => this.showError('Failed to add item')
+      });
+    }
+  }
+
+  editDomaine(entity: Domain | Item) {
+    this.editMode = 'domain' in entity ? 'item' : 'domain';
+    if (this.editMode === 'domain') {
+      this.selectedDomain = entity as Domain;
+      this.newDomain = { ...entity };
+    } else {
+      this.selectedItem = entity as Item;
+      this.newItem = { ...entity };
+    }
+    this.displayEditDialog = true;
+  }
+
+  updateEntity() {
+    if (this.editMode === 'domain' && this.selectedDomain) {
+      this.profileDataService.updateDomain(this.selectedDomain.id, this.newDomain).subscribe({
+        next: (updatedDomain) => {
+          const index = this.domaines.findIndex(d => d.id === updatedDomain.id);
+          this.domaines[index] = updatedDomain;
+          this.displayEditDialog = false;
+          this.showSuccess('Domain updated successfully');
+        },
+        error: () => this.showError('Failed to update domain')
+      });
+    } else if (this.editMode === 'item' && this.selectedItem && this.selectedDomain) {
+      this.profileDataService.updateItem(this.selectedItem.id, this.newItem).subscribe({
+        next: (updatedItem) => {
+          const domainIndex = this.domaines.findIndex(d => d.id === this.selectedDomain!.id);
+          const itemIndex = this.domaines[domainIndex].items!.findIndex(i => i.id === updatedItem.id);
+          this.domaines[domainIndex].items![itemIndex] = updatedItem;
+          this.domaines = [...this.domaines]; // Trigger change detection
+          this.displayEditDialog = false;
+          this.showSuccess('Item updated successfully');
+        },
+        error: () => this.showError('Failed to update item')
+      });
+    }
+  }
+
+  deleteDomaine(entity: Domain | Item) {
+    const isDomain = 'items' in entity;
+    if (isDomain) {
+      this.profileDataService.deleteDomain((entity as Domain).id).subscribe({
+        next: () => {
+          this.domaines = this.domaines.filter(d => d.id !== (entity as Domain).id);
+          this.showSuccess('Domain deleted successfully');
+        },
+        error: () => this.showError('Failed to delete domain')
+      });
+    } else {
+      const item = entity as Item;
+      const domain = this.domaines.find(d => d.items?.some(i => i.id === item.id));
+      if (domain) {
+        this.profileDataService.deleteItem(item.id).subscribe({
+          next: () => {
+            domain.items = domain.items!.filter(i => i.id !== item.id);
+            this.domaines = [...this.domaines]; // Trigger change detection
+            this.showSuccess('Item deleted successfully');
+          },
+          error: () => this.showError('Failed to delete item')
+        });
       }
-    ];
-    
-    
-this.loading = false;
+    }
   }
-  goBack() {
-    this.location.back();
+
+  showSuccess(message: string) {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+  }
+
+  showError(message: string) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
   }
 }

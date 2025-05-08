@@ -6,10 +6,11 @@
     background: var(--light);
     width: 230px;
     height: 100%;
-    z-index: 2000;
+    z-index: 1000;
     overflow-x: hidden;
     scrollbar-width: none;
     transition: all 0.2s ease;
+    position: sticky;
 }
 
 .sidebar::-webkit-scrollbar{
@@ -266,7 +267,7 @@ li{
 .content main{
     width: 100%;
     padding: 36px 24px;
-    max-height: calc(100vh - 56px);
+    max-height: fit-content;
 }
 
 .content main .header{

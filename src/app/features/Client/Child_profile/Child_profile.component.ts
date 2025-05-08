@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +13,7 @@ import { Parent } from 'src/app/core/models/parent';
 import { Profile } from 'src/app/core/models/profile.model';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import Swal from 'sweetalert2';
+import { Add_popupComponent } from './add_popup/add_popup.component';
 
 @Component({
   selector: 'app-Child_profile',
@@ -60,7 +62,19 @@ export class Child_profileComponent implements OnInit {
     { id: 'progress2', width: '50%' },
     { id: 'progress3', width: '90%' }
   ];
+
+  openSigninDialog() {
+    this.dialog.open(Add_popupComponent, {
+      width: '900px',
+      maxWidth: '95vw',
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'custom-backdrop',
+      disableClose: false
+    });
+  } 
+
   constructor(
+    private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private profileService: ProfileService,
@@ -111,6 +125,19 @@ export class Child_profileComponent implements OnInit {
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger les profils.', 'error');
+      }
+    });
+  }
+
+  loadparmail(childId: number) {
+    this.profileService.getProfileById(childId).subscribe({
+      next: (child) => {
+        this.selectedChild = {
+          ...child,
+        };
+      },
+      error: (err) => {
+        Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
       }
     });
   }
@@ -238,7 +265,6 @@ export class Child_profileComponent implements OnInit {
     }
 
 
-    const sharedWithId = parseInt(this.saisieEmail, 5); 
 
     // Map permissions
     const permissions: ('view' | 'edit' | 'share')[] = ['view'];
@@ -248,7 +274,7 @@ export class Child_profileComponent implements OnInit {
 
     // Create ShareProfileRequest
     const shareData: ShareProfileRequest = {
-      shared_with_id: 5,
+      shared_with: this.saisieEmail,
       permissions
     };
 

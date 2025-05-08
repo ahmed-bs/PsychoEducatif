@@ -1,0 +1,90 @@
+<div class="form-v6-content">
+  <div class="form-left">
+    <button class="cssbuttons-io-button" (click)="closeDialog()">
+      <a> Retour </a>
+      <div class="icon">
+        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M15 19l-7-7 7-7M5 12h14" fill="currentColor"></path>
+        </svg>
+      </div>
+    </button>
+    <img src="assets/img/Kids reading.gif" alt="form">
+  </div>
+  
+  <form class="form-detail" [formGroup]="loginForm" (ngSubmit)="login()">
+    <h1 class="custom-h1">Bienvenue!</h1>
+    <p class="custom-p">Vous connecter pour continuer</p>
+
+    <!-- Email Field -->
+    <div class="mb-3">
+      <label for="email" class="form-label">
+        Email
+        <span class="asterisk-placeholder">
+          <span *ngIf="showErrors && email?.errors?.['required']" class="text-danger">*</span>
+        </span>
+      </label>
+      <div class="input-group">
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          placeholder="Entrez votre email">
+        <span class="input-group-text">
+          <i class="bi bi-envelope"></i>
+        </span>
+      </div>
+      <div class="error-placeholder">
+        <small *ngIf="showErrors && email?.errors?.['email']" class="text-danger">Email invalide</small>
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="mb-3">
+      <label for="password" class="form-label">
+        Mot de passe
+        <span class="asterisk-placeholder">
+          <span *ngIf="showErrors && password?.errors?.['required']" class="text-danger">*</span>
+        </span>
+      </label>
+      <div class="input-group">
+        <input
+          [type]="hide ? 'password' : 'text'"
+          class="form-control"
+          id="password"
+          formControlName="password"
+          placeholder="Mot de passe obligatoire pour se connecter !">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="togglePasswordVisibility()">
+          <i [ngClass]="hide ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+        </button>
+      </div>
+      <div class="error-placeholder">
+        <small *ngIf="showErrors && password?.errors?.['minlength']" class="text-danger">Trop court</small>
+      </div>
+    </div>
+
+    <!-- Remember Me & Submit Button -->
+    <div class="form-row align-items">
+      <mat-checkbox formControlName="rememberMe" class="checkbox">Se souvenir de moi</mat-checkbox>
+      <button type="submit" class="submit-button" [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        <span *ngIf="!isLoading">Se connecter</span>
+      </button>
+    </div>
+
+    <div class="text-centre">
+      <p>Pas encore de compte? <a routerLink="/auth/signup" class="create-account-link">Créer un compte</a></p>
+    </div>
+
+    <div class="social-icons">
+      <a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 30px; color: #4267B2;"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 30px; color: #C13584;"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 30px; color: #25D366;"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 30px; color: #0A66C2;"></i></a>
+    </div>
+  </form>
+</div>
