@@ -81,7 +81,8 @@
 
 </section>
 
-<p-dialog [(visible)]="displayDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
+<p-dialog [(visible)]="displayDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false"
+  [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
       <h2>Ajouter un enfant</h2>
@@ -105,8 +106,18 @@
       <input pInputText id="diagnosis" [(ngModel)]="newChild.diagnosis" placeholder="Diagnostic" />
     </div>
     <div class="field">
-      <label for="gender">Genre</label>
-      <p-dropdown id="gender" [options]="genderOptions" [(ngModel)]="newChild.gender" placeholder="Sélectionner un genre" [showClear]="true"></p-dropdown>
+      <label>Genre</label>
+      <div class="gender-selector">
+        <!-- Male Option (M) -->
+        <div class="gender-option" [class.selected]="newChild.gender === 'M'" (click)="newChild.gender = 'M'">
+          ♂ Male
+        </div>
+
+        <!-- Female Option (F) -->
+        <div class="gender-option" [class.selected]="newChild.gender === 'F'" (click)="newChild.gender = 'F'">
+          ♀ Female
+        </div>
+      </div>
     </div>
     <div class="field">
       <label for="notes">Notes</label>
@@ -115,11 +126,13 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-    <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()" [style]="{ color: 'white' }"></p-button>
+    <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"
+      [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="updatedisplayDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
+<p-dialog [(visible)]="updatedisplayDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false"
+  [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
       <h2>Modifier un enfant</h2>
@@ -143,8 +156,18 @@
       <input pInputText id="editDiagnosis" [(ngModel)]="selectedChild.diagnosis" placeholder="Diagnostic" />
     </div>
     <div class="field">
-      <label for="editGender">Genre</label>
-      <p-dropdown id="editGender" [options]="genderOptions" [(ngModel)]="selectedChild.gender" placeholder="Sélectionner un genre" [showClear]="true"></p-dropdown>
+      <label>Genre</label>
+      <div class="gender-selector">
+        <!-- Male Option (M) -->
+        <div class="gender-option" [class.selected]="selectedChild.gender === 'M'" (click)="selectedChild.gender = 'M'">
+          ♂ Male
+        </div>
+
+        <!-- Female Option (F) -->
+        <div class="gender-option" [class.selected]="selectedChild.gender === 'F'" (click)="selectedChild.gender = 'F'">
+          ♀ Female
+        </div>
+      </div>
     </div>
     <div class="field">
       <label for="editNotes">Notes</label>
@@ -153,6 +176,7 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-    <p-button label="Enregistrer" styleClass="p-button-primary" (click)="saveChild()" [style]="{ color: 'white' }"></p-button>
+    <p-button label="Enregistrer" styleClass="p-button-primary" (click)="saveChild()"
+      [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>

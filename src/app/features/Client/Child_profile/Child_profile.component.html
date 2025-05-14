@@ -541,6 +541,20 @@
       <label for="birthDate">Date de naissance</label>
       <input pInputText id="birthDate" type="date" [(ngModel)]="newChild.birth_date" required />
     </div>
+      <div class="field">
+      <label>Genre</label>
+      <div class="gender-selector">
+        <!-- Male Option (M) -->
+        <div class="gender-option" [class.selected]="selectedChild!.gender === 'M'" (click)="selectedChild!.gender = 'M'">
+          ♂ Male
+        </div>
+
+        <!-- Female Option (F) -->
+        <div class="gender-option" [class.selected]="selectedChild!.gender === 'F'" (click)="selectedChild!.gender = 'F'">
+          ♀ Female
+        </div>
+      </div>
+    </div>
     <div class="field">
       <label for="diagnosis">Diagnostic</label>
       <input pInputText id="diagnosis" [(ngModel)]="newChild.diagnosis" placeholder="Diagnostic" />
@@ -554,22 +568,7 @@
       <input pInputText id="evaluationScore" type="number" [(ngModel)]="newChild.evaluation_score"
         placeholder="Score (0-100)" />
     </div>
-    <div class="field">
-      <label for="objectives">Objectifs (séparés par des virgules)</label>
-      <input pInputText id="objectives" [(ngModel)]="newChild.objectives"
-        (ngModelChange)="newChild.objectives = $event ? $event.split(',') : []"
-        placeholder="Ex: Communication, Autonomie" />
-    </div>
-    <div class="field">
-      <label for="progress">Progrès</label>
-      <input pInputText id="progress" [(ngModel)]="newChild.progress" placeholder="Ex: En progrès" />
-    </div>
-    <div class="field">
-      <label for="strategies">Stratégies (séparées par des virgules)</label>
-      <input pInputText id="strategies" [(ngModel)]="newChild.recommended_strategies"
-        (ngModelChange)="newChild.recommended_strategies = $event ? $event.split(',') : []"
-        placeholder="Ex: Renforcement positif" />
-    </div>
+
     <!-- <div class="field">
       <label for="imageUrl">URL de l'image</label>
       <input pInputText id="imageUrl" [(ngModel)]="newChild.image_url" placeholder="URL de l'image (optionnel)" />
@@ -598,6 +597,20 @@
         <label for="birthDate">Date de naissance</label>
         <input pInputText id="birthDate" [(ngModel)]="selectedChild!.birth_date" type="date" required />
       </div>
+      <div class="field">
+      <label>Genre</label>
+      <div class="gender-selector">
+        <!-- Male Option (M) -->
+        <div class="gender-option" [class.selected]="selectedChild!.gender === 'M'" (click)="selectedChild!.gender = 'M'">
+          ♂ Male
+        </div>
+
+        <!-- Female Option (F) -->
+        <div class="gender-option" [class.selected]="selectedChild!.gender === 'F'" (click)="selectedChild!.gender = 'F'">
+          ♀ Female
+        </div>
+      </div>
+    </div>
       <div class="field">
         <label for="diagnosis">Diagnostic</label>
         <input pInputText id="diagnosis" [(ngModel)]="selectedChild!.diagnosis" type="text" />
