@@ -132,98 +132,49 @@
   </div>
 </div>
 
-<p-dialog header="Add Domain" [(visible)]="displayAddDomainDialog" [modal]="true" [style]="{ width: '30vw', zoom: '90%' }" [dismissableMask]="true">
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="domain-name">Name</label>
-      <input id="domain-name" pInputText [(ngModel)]="newDomain.name" required />
+<p-dialog [(visible)]="displayAddDomainDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <div class="custom-dialog-header">
+      <h2>Ajouter Domain</h2>
     </div>
-    <div class="p-field">
-      <label for="domain-description">Description</label>
-      <textarea id="domain-description" pInputTextarea [(ngModel)]="newDomain.description"></textarea>
+  </ng-template>
+  <div class="dialog-content">
+    <div class="field">
+      <label for="firstName">Titre</label>
+      <input pInputText id="firstName" [(ngModel)]="newDomain.name" placeholder="Titre" required />
+    </div>
+    <div class="field">
+      <label for="lastName">Description</label>
+      <input pInputText id="lastName" [(ngModel)]="newDomain.description" placeholder="Description" required />
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayAddDomainDialog = false"></button>
-    <button pButton label="Add" icon="pi pi-check" class="p-button-success" (click)="addDomain()" [disabled]="!newDomain.name"></button>
+    <p-button label="Annuler" styleClass="p-button-text" (click)="displayAddDomainDialog = false"></p-button>
+    <p-button  [label]="newDomain.id ? 'Modifier' : 'Ajouter'"  styleClass="p-button-primary" (click)="newDomain.id ? updateDomain() : addDomain()" [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>
 
-<p-dialog header="Add Item" [(visible)]="displayAddItemDialog" [modal]="true" [style]="{ width: '30vw', zoom: '90%' }" [dismissableMask]="true">
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="item-name">Name</label>
-      <input id="item-name" pInputText [(ngModel)]="newItem.name" required />
+
+
+<p-dialog [(visible)]="displayAddItemDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <div class="custom-dialog-header">
+      <h2>Ajouter Item</h2>
     </div>
-    <div class="p-field">
-      <label for="item-description">Description</label>
-      <textarea id="item-description" pInputTextarea [(ngModel)]="newItem.description"></textarea>
+  </ng-template>
+  <div class="dialog-content">
+    <div class="field">
+      <label for="firstName">Titre</label>
+      <input pInputText id="firstName" [(ngModel)]="newItem.name" placeholder="Titre" required />
     </div>
-    <div class="p-field">
-      <label for="item-etat">État</label>
-      <p-dropdown
-        id="item-etat"
-        [options]="[
-          { label: 'Acquis', value: 'ACQUIS' },
-          { label: 'Partiel', value: 'PARTIEL' },
-          { label: 'Non Acquis', value: 'NON_ACQUIS' },
-          { label: 'Non Coté', value: 'NON_COTE' }
-        ]"
-        [(ngModel)]="newItem.etat"
-        placeholder="Select an état"
-      ></p-dropdown>
+    <div class="field">
+      <label for="lastName">Description</label>
+      <input pInputText id="lastName" [(ngModel)]="newItem.description" placeholder="Description" required />
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayAddItemDialog = false"></button>
-    <button pButton label="Add" icon="pi pi-check" class="p-button-success" (click)="addItem()" [disabled]="!newItem.name"></button>
+    <p-button label="Annuler" styleClass="p-button-text" (click)="displayAddItemDialog = false"></p-button>
+    <p-button [label]="newItem.id ? 'Modifier' : 'Ajouter'" styleClass="p-button-primary" (click)="newItem.id ? updateItem() : addItem()" [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>
 
-<p-dialog header="Edit Domain" [(visible)]="displayEditDomainDialog" [modal]="true" [style]="{ width: '30vw', zoom: '90%' }" [dismissableMask]="true">
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="edit-domain-name">Name</label>
-      <input id="edit-domain-name" pInputText [(ngModel)]="newDomain.name"  />
-    </div>
-    <div class="p-field">
-      <label for="edit-domain-description">Description</label>
-      <textarea id="edit-domain-description" pInputTextarea [(ngModel)]="newDomain.description"></textarea>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayEditDomainDialog = false"></button>
-    <button pButton label="Save" icon="pi pi-check" class="p-button-success" (click)="updateDomain()" [disabled]="!newDomain.name"></button>
-  </ng-template>
-</p-dialog>
-
-<p-dialog header="Edit Item" [(visible)]="displayEditItemDialog" [modal]="true" [style]="{ width: '30vw', zoom: '90%' }" [dismissableMask]="true">
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="edit-item-name">Name</label>
-      <input id="edit-item-name" pInputText [(ngModel)]="newItem.name" required />
-    </div>
-    <div class="p-field">
-      <label for="edit-item-description">Description</label>
-      <textarea id="edit-item-description" pInputTextarea [(ngModel)]="newItem.description"></textarea>
-    </div>
-    <div class="p-field">
-      <label for="edit-item-etat">État</label>
-      <p-dropdown
-        id="edit-item-etat"
-        [options]="[
-          { label: 'Acquis', value: 'ACQUIS' },
-          { label: 'Partiel', value: 'PARTIEL' },
-          { label: 'Non Acquis', value: 'NON_ACQUIS' },
-          { label: 'Non Coté', value: 'NON_COTE' }
-        ]"
-        [(ngModel)]="newItem.etat"
-        placeholder="Select an état"
-      ></p-dropdown>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayEditItemDialog = false"></button>
-    <button pButton label="Save" icon="pi pi-check" class="p-button-success" (click)="updateItem()" [disabled]="!newItem.name"></button>
-  </ng-template>
-</p-dialog>

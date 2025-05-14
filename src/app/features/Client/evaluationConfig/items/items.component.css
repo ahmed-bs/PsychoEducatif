@@ -91,3 +91,144 @@ p-table .p-datatable .p-datatable-table td,th{
     background: none;
     border: none;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Style général du dialogue */
+:host ::ng-deep .p-dialog {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style du header */
+:host ::ng-deep .p-dialog-header {
+    padding: 1rem 1.5rem;
+    background: #6366f1; /* Couleur de fond violette */
+    color: white; /* Texte blanc pour contraste */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtile séparation */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    justify-content: center;
+}
+
+
+/* Style spécifique pour l'icône de fermeture */
+:host ::ng-deep .p-dialog-header .p-dialog-header-icon {
+    color: white; /* Assurez-vous que l'icône reste blanche */
+    background: transparent; /* Évitez que le fond du header s'applique */
+    border: none; /* Supprime toute bordure indésirable */
+    padding: 0.25rem;
+    transition: color 0.2s;
+}
+
+:host ::ng-deep .p-dialog-header .p-dialog-header-icon:hover {
+    color: #e2e8f0; /* Légère variation au survol pour feedback */
+}
+
+/* Contenu du dialogue */
+.dialog-content {
+    padding: 1rem;
+}
+
+/* Style des champs */
+.field {
+    margin-bottom: 1.5rem;
+}
+
+/* Labels */
+.field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Inputs */
+:host ::ng-deep .field .p-inputtext {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+:host ::ng-deep .field .p-inputtext:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    :host ::ng-deep .p-dialog {
+        width: 90vw !important;
+    }
+    
+    :host ::ng-deep .p-dialog-header {
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .dialog-content {
+        padding: 0.75rem;
+    }
+}
+
+/* Placeholder */
+:host ::ng-deep .field .p-inputtext::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Footer (boutons) */
+:host ::ng-deep .p-dialog-footer {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Boutons */
+:host ::ng-deep .p-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+:host ::ng-deep .p-button.p-button-text {
+    color: #6c757d;
+}
+
+:host ::ng-deep .p-button.p-button-text:hover {
+    background: #e9ecef;
+}
+
+:host ::ng-deep .p-button.p-button-primary {
+    background: #6366f1;
+    border-color: #6366f1;
+}
+
+:host ::ng-deep .p-button.p-button-primary:hover {
+    background: #4f46e5;
+    border-color: #4f46e5;
+}

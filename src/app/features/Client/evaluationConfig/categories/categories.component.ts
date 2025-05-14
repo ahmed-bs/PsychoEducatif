@@ -2,7 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Category, ProfileDataService } from 'src/app/core/services/profileData.service';
+import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
+import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 
 @Component({
   selector: 'app-categories',
@@ -13,15 +14,15 @@ import { Category, ProfileDataService } from 'src/app/core/services/profileData.
 export class CategoriesComponent implements OnInit {
   displayAddUserDialog: boolean = false;
   showFilters: boolean = false;
-  categories: Category[] = [];
-  newCategory: Partial<Category> = { name: '', description: '' };
+  categories: ProfileCategory[] = [];
+  newCategory: Partial<ProfileCategory> = { name: '', description: '' };
   profileId: number = 1; // Default profile ID; make dynamic if needed
   loading: boolean = true;
   isEditMode: boolean = false; // Track if dialog is for editing
 
   constructor(
     private router: Router,
-    private profileDataService: ProfileDataService,
+    private profileCategoryService: ProfileCategoryService,
     private messageService: MessageService
   ) {}
 
@@ -31,7 +32,7 @@ export class CategoriesComponent implements OnInit {
 
   loadCategories() {
     this.loading = true;
-    this.profileDataService.getCategories(this.profileId).subscribe({
+    this.profileCategoryService.getCategories(this.profileId).subscribe({
       next: (categories) => {
         this.categories = categories;
         this.loading = false;
@@ -53,8 +54,8 @@ export class CategoriesComponent implements OnInit {
     this.displayAddUserDialog = true;
   }
 
-  showEditDialog(category: Category) {
-    this.newCategory = { ...category };
+  showEditDialog(profileCategory: ProfileCategory) {
+    this.newCategory = { ...profileCategory };
     this.isEditMode = true;
     this.displayAddUserDialog = true;
   }
@@ -73,11 +74,11 @@ export class CategoriesComponent implements OnInit {
   }
 
   addCategory() {
-    this.profileDataService.createCategory(this.profileId, this.newCategory).subscribe({
-      next: (category) => {
-        this.categories.push(category);
+    this.profileCategoryService.create(this.profileId, this.newCategory).subscribe({
+      next: (profileCategory) => {
+        this.categories.push(profileCategory);
         this.displayAddUserDialog = false;
-        this.showSuccess('Category added successfully');
+        this.showSuccess('ProfileCategory added successfully');
       },
       error: (error) => this.showError(error.message),
     });
@@ -85,36 +86,36 @@ export class CategoriesComponent implements OnInit {
 
   updateCategory() {
     if (this.newCategory.id) {
-      this.profileDataService.updateCategory(this.newCategory.id, this.newCategory).subscribe({
+      this.profileCategoryService.update(this.newCategory.id, this.newCategory).subscribe({
         next: (updatedCategory) => {
           const index = this.categories.findIndex((c) => c.id === updatedCategory.id);
           if (index !== -1) {
             this.categories[index] = updatedCategory;
           }
           this.displayAddUserDialog = false;
-          this.showSuccess('Category updated successfully');
+          this.showSuccess('ProfileCategory updated successfully');
         },
         error: (error) => this.showError(error.message),
       });
     }
   }
 
-  deleteCategory(category: Category) {
-    if (confirm(`Are you sure you want to delete ${category.name}?`)) {
-      this.profileDataService.deleteCategory(category.id).subscribe({
+  deleteCategory(profileCategory: ProfileCategory) {
+    if (confirm(`Are you sure you want to delete ${profileCategory.name}?`)) {
+      this.profileCategoryService.destroy(profileCategory.id!).subscribe({
         next: () => {
-          this.categories = this.categories.filter((c) => c.id !== category.id);
-          this.showSuccess('Category deleted successfully');
+          this.categories = this.categories.filter((c) => c.id !== profileCategory.id);
+          this.showSuccess('ProfileCategory deleted successfully');
         },
         error: (error) => this.showError(error.message),
       });
     }
   }
 
-  navigateToDomains(category: Category) {
-    // Navigate to a domains page for this category
+  navigateToDomains(profileCategory: ProfileCategory) {
+    // Navigate to a domains page for this profileCategory
     this.router.navigate(['Dashboard-client/client/evaluations_configurations/items'], {
-      queryParams: { categoryId: category.id },
+      queryParams: { categoryId: profileCategory.id },
     });
   }
 

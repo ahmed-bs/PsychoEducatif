@@ -3,8 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Category, Item,Domain, ProfileDataService } from 'src/app/core/services/profileData.service';
 import { catchError, forkJoin, of, switchMap, tap } from 'rxjs';
+import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
+import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
+import { ProfileItem } from 'src/app/core/models/ProfileItem';
+import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
+import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
+import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 
 @Component({
   selector: 'app-items',
@@ -13,27 +18,27 @@ import { catchError, forkJoin, of, switchMap, tap } from 'rxjs';
   providers: [MessageService],
 })
 export class ItemsComponent implements OnInit {
-  category: Category | null = null;
-  domains: Domain[] = [];
+  category: ProfileCategory | null = null;
+  domains: ProfileDomain[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
   displayAddDomainDialog: boolean = false;
   displayAddItemDialog: boolean = false;
-  displayEditDomainDialog: boolean = false;
-  displayEditItemDialog: boolean = false;
 
-  newDomain: Partial<Domain> = { name: '', description: '' };
-  newItem: Partial<Item> = { name: '', description: '', etat: 'NON_COTE' };
-  selectedDomain: Domain | null = null;
-  selectedItem: Item | null = null;
+  newDomain: Partial<ProfileDomain> = { name: '', description: '' };
+  newItem: Partial<ProfileItem> = { name: '', description: '', etat: 'NON_COTE' };
+  selectedDomain: ProfileDomain | null = null;
+  selectedItem: ProfileItem | null = null;
   categoryId: number | null = null;
   profileId: number = 1; // Default profile ID; make dynamic if needed
-  itemsByDomain: { [domainId: number]: Item[] } = {}; // Store items for each domain
+  itemsByDomain: { [domainId: number]: ProfileItem[] } = {}; // Store items for each domain
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private profileDataService: ProfileDataService,
+    private profileCategoryService: ProfileCategoryService,
+    private profileDomainService: ProfileDomainService,
+    private profileItemService: ProfileItemService,
     private messageService: MessageService
   ) {}
 
@@ -55,16 +60,16 @@ loadData() {
   this.loading = true;
   
   // Using RxJS operators for better async handling
-  this.profileDataService.getCategory(this.categoryId!).pipe(
+  this.profileCategoryService.retrieve(this.categoryId!).pipe(
     switchMap(category => {
       this.category = category;
-      console.log('Category loaded:', category);
-      return this.profileDataService.getDomainsByCategory(this.categoryId!);
+      console.log('ProfileCategory loaded:', category);
+      return this.profileDomainService.getDomains(this.categoryId!);
     }),
     switchMap(domains => {
       this.domains = domains;
       const itemRequests = domains.map(domain => 
-        this.profileDataService.getItemsByDomain(domain.id).pipe(
+        this.profileItemService.getItems(domain.id).pipe(
           tap(items => {
             this.itemsByDomain[domain.id] = items;
           }),
@@ -87,6 +92,7 @@ loadData() {
       this.loading = false;
     }
   });
+  this.loading = false;
 }
 
   goBack() {
@@ -102,23 +108,23 @@ loadData() {
     this.displayAddDomainDialog = true;
   }
 
-  showAddItemDialog(domain: Domain) {
+  showAddItemDialog(domain: ProfileDomain) {
     this.selectedDomain = domain;
     this.newItem = { name: '', description: '', etat: 'NON_COTE' };
     this.displayAddItemDialog = true;
   }
 
-  showEditDomainDialog(domain: Domain) {
+  showEditDomainDialog(domain: ProfileDomain) {
     this.selectedDomain = domain;
     this.newDomain = { ...domain };
-    this.displayEditDomainDialog = true;
+    this.displayAddDomainDialog = true;
   }
 
-  showEditItemDialog(item: Item, domain: Domain) {
+  showEditItemDialog(item: ProfileItem, domain: ProfileDomain) {
     this.selectedDomain = domain;
     this.selectedItem = item;
     this.newItem = { ...item };
-    this.displayEditItemDialog = true;
+    this.displayAddItemDialog = true;
   }
 
   addDomain() {
@@ -128,12 +134,12 @@ loadData() {
       this.showError('Name is required');
       return;
     }
-    this.profileDataService.createDomain(this.category.id, this.newDomain).subscribe({
+    this.profileDomainService.create(this.category.id!, this.newDomain).subscribe({
       next: (domain) => {
         this.domains.push(domain);
         this.itemsByDomain[domain.id] = [];
         this.displayAddDomainDialog = false;
-        this.showSuccess('Domain added successfully');
+        this.showSuccess('ProfileDomain added successfully');
       },
       error: (error) => this.showError(error.message),
     });
@@ -144,7 +150,7 @@ loadData() {
       this.showError('Name is required');
       return;
     }
-    this.profileDataService.createItem(this.selectedDomain.id, this.newItem).subscribe({
+    this.profileItemService.create(this.selectedDomain.id, this.newItem).subscribe({
       next: (item) => {
         if (!this.itemsByDomain[this.selectedDomain!.id]) {
           this.itemsByDomain[this.selectedDomain!.id] = [];
@@ -152,7 +158,7 @@ loadData() {
         this.itemsByDomain[this.selectedDomain!.id].push(item);
         this.domains = [...this.domains]; // Trigger change detection
         this.displayAddItemDialog = false;
-        this.showSuccess('Item added successfully');
+        this.showSuccess('ProfileItem added successfully');
       },
       error: (error) => this.showError(error.message),
     });
@@ -163,12 +169,12 @@ loadData() {
       this.showError('Name is required');
       return;
     }
-    this.profileDataService.updateDomain(this.selectedDomain.id, this.newDomain).subscribe({
+    this.profileDomainService.update(this.selectedDomain.id, this.newDomain).subscribe({
       next: (updatedDomain) => {
         const index = this.domains.findIndex((d) => d.id === updatedDomain.id);
         this.domains[index] = updatedDomain;
-        this.displayEditDomainDialog = false;
-        this.showSuccess('Domain updated successfully');
+        this.displayAddDomainDialog = false;
+        this.showSuccess('ProfileDomain updated successfully');
       },
       error: (error) => this.showError(error.message),
     });
@@ -179,38 +185,38 @@ loadData() {
       this.showError('Name is required');
       return;
     }
-    this.profileDataService.updateItem(this.selectedItem.id, this.newItem).subscribe({
+    this.profileItemService.update(this.selectedItem.id, this.newItem).subscribe({
       next: (updatedItem) => {
         const itemIndex = this.itemsByDomain[this.selectedDomain!.id].findIndex((i) => i.id === updatedItem.id);
         this.itemsByDomain[this.selectedDomain!.id][itemIndex] = updatedItem;
         this.domains = [...this.domains]; // Trigger change detection
-        this.displayEditItemDialog = false;
-        this.showSuccess('Item updated successfully');
+        this.displayAddItemDialog = false;
+        this.showSuccess('ProfileItem updated successfully');
       },
       error: (error) => this.showError(error.message),
     });
   }
 
-  deleteDomain(domain: Domain) {
+  deleteDomain(domain: ProfileDomain) {
     if (confirm(`Are you sure you want to delete ${domain.name}?`)) {
-      this.profileDataService.deleteDomain(domain.id).subscribe({
+      this.profileDomainService.destroy(domain.id).subscribe({
         next: () => {
           this.domains = this.domains.filter((d) => d.id !== domain.id);
           delete this.itemsByDomain[domain.id];
-          this.showSuccess('Domain deleted successfully');
+          this.showSuccess('ProfileDomain deleted successfully');
         },
         error: (error) => this.showError(error.message),
       });
     }
   }
 
-  deleteItem(item: Item, domain: Domain) {
+  deleteItem(item: ProfileItem, domain: ProfileDomain) {
     if (confirm(`Are you sure you want to delete ${item.name}?`)) {
-      this.profileDataService.deleteItem(item.id).subscribe({
+      this.profileItemService.destroy(item.id).subscribe({
         next: () => {
           this.itemsByDomain[domain.id] = this.itemsByDomain[domain.id].filter((i) => i.id !== item.id);
           this.domains = [...this.domains]; // Trigger change detection
-          this.showSuccess('Item deleted successfully');
+          this.showSuccess('ProfileItem deleted successfully');
         },
         error: (error) => this.showError(error.message),
       });
