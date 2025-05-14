@@ -63,7 +63,7 @@
     <div class="domain-header" (click)="toggleDomain(domain)">
       <span class="material-symbols-sharp">{{ domain.expanded ? 'expand_less' : 'expand_more' }}</span>
       <span class="domain-title">{{ domain.name }}</span>
-      <span class="item-count">{{ itemsByDomain[domain.id]?.length || 0 }} items</span>
+      <span class="item-count">{{ itemsByDomain[domain.id]!.length || 0 }} items</span>
     </div>
 
     <div class="item-list" *ngIf="domain.expanded">

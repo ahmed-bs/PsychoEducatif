@@ -10,25 +10,19 @@ import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
+import { Competence } from 'src/app/core/models/Competence';
 
 type ItemStatus = ProfileItem['etat'];
 
-interface Competence {
+interface NewDomain {
   id?: number;
   name: string;
-  status: string;
-  notes: string;
-}
-
-interface Domain {
-  id: number;
-  name: string;
   description: string;
-  expanded?: boolean;
-  competences?: Competence[];
 }
 
-type NewDomain = Partial<Domain>;
+interface DomainWithUI extends ProfileDomain {
+  expanded?: boolean;
+}
 
 @Component({
   selector: 'app-items',
@@ -39,7 +33,7 @@ type NewDomain = Partial<Domain>;
 })
 export class ItemsComponent implements OnInit {
   category: ProfileCategory | null = null;
-  domains: Domain[] = [];
+  domains: DomainWithUI[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
   displayAddDomainDialog = false;
@@ -58,16 +52,17 @@ export class ItemsComponent implements OnInit {
     etat: 'NON_COTE' 
   };
   
-  selectedDomain: Domain | null = null;
+  selectedDomain: DomainWithUI | null = null;
   selectedItem: ProfileItem | null = null;
   categoryId: number | null = null;
   profileId: number = 1;
   itemsByDomain: Record<number, ProfileItem[]> = {};
 
   newCompetence: Competence = {
-    name: '',
-    status: '',
-    notes: ''
+    id: '',
+    categorie: '',
+    sousCompetences: [],
+    statut: ''
   };
 
   statusOptions = [
@@ -108,7 +103,7 @@ export class ItemsComponent implements OnInit {
         return this.profileDomainService.getDomains(this.categoryId!);
       }),
       switchMap(domains => {
-        this.domains = domains as Domain[];
+        this.domains = domains as DomainWithUI[];
         const itemRequests = domains.map(domain => 
           this.profileItemService.getItems(domain.id).pipe(
             tap(items => {
@@ -142,7 +137,7 @@ export class ItemsComponent implements OnInit {
 
     this.profileDomainService.create(this.categoryId, this.newDomain).subscribe({
       next: (domain) => {
-        this.domains.push(domain as Domain);
+        this.domains.push(domain as DomainWithUI);
         this.itemsByDomain[domain.id] = [];
         this.displayAddDomainDialog = false;
         this.showSuccess('Domain added successfully');
@@ -184,7 +179,7 @@ export class ItemsComponent implements OnInit {
       next: (updatedDomain) => {
         const index = this.domains.findIndex((d) => d.id === updatedDomain.id);
         if (index !== -1) {
-          this.domains[index] = updatedDomain as Domain;
+          this.domains[index] = updatedDomain as DomainWithUI;
         }
         this.displayAddDomainDialog = false;
         this.showSuccess('Domain updated successfully');
@@ -217,7 +212,7 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  deleteDomain(domain: Domain) {
+  deleteDomain(domain: DomainWithUI) {
     if (!domain.id || !confirm(`Are you sure you want to delete ${domain.name}?`)) {
       return;
     }
@@ -233,7 +228,7 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  deleteItem(item: ProfileItem, domain: Domain) {
+  deleteItem(item: ProfileItem, domain: DomainWithUI) {
     if (!item.id || !domain.id || !confirm(`Are you sure you want to delete ${item.name}?`)) {
       return;
     }
@@ -254,7 +249,7 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  toggleDomain(domain: Domain) {
+  toggleDomain(domain: DomainWithUI) {
     domain.expanded = !domain.expanded;
   }
 
@@ -296,19 +291,19 @@ export class ItemsComponent implements OnInit {
     this.displayAddDomainDialog = true;
   }
 
-  showAddItemDialog(domain: Domain) {
+  showAddItemDialog(domain: DomainWithUI) {
     this.selectedDomain = domain;
     this.resetNewItem();
     this.displayAddItemDialog = true;
   }
 
-  showEditDomainDialog(domain: Domain) {
+  showEditDomainDialog(domain: DomainWithUI) {
     this.selectedDomain = domain;
     this.newDomain = { ...domain };
     this.displayAddDomainDialog = true;
   }
 
-  showEditItemDialog(item: ProfileItem, domain: Domain) {
+  showEditItemDialog(item: ProfileItem, domain: DomainWithUI) {
     this.selectedDomain = domain;
     this.selectedItem = item;
     this.newItem = { ...item };

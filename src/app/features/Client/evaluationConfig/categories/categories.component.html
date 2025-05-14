@@ -43,26 +43,28 @@
       <!-- Display image if no categories -->
       <div *ngIf="!categories || categories.length === 0" class="no-data">
         <img src="/assets/image/nodatafound.png" alt="No Data Available" class="no-data-image" />
-        <p>No categories available.</p>
+        <p>Aucune catégorie disponible.</p>
       </div>
       <!-- Display categories if available -->
-      <div class="sales" *ngFor="let category of categories">
-        <button class="btn top-right" (click)="showEditDialog(category)">✏️</button>
-        <span class="material-symbols-sharp">category</span>
-        <div class="middle">
-          <div class="left">
-            <h2>{{ category.name }}</h2>
-            <h3>Créé le : {{ category.created_at | date: 'dd/MM/yyyy' }}</h3>
+      <ng-container *ngIf="categories && categories.length > 0">
+        <div class="sales" *ngFor="let category of categories">
+          <button class="btn top-right" (click)="showEditDialog(category)">✏️</button>
+          <span class="material-symbols-sharp">category</span>
+          <div class="middle">
+            <div class="left">
+              <h2>{{ category.name }}</h2>
+              <h3>Créé le : {{ category.created_at | date: 'dd/MM/yyyy' }}</h3>
+            </div>
+          </div>
+          <small class="text-muted">Nombre des items : {{ category.items_count || 0 }}</small>
+          <small class="text-muted">Nombre des domaines : {{ category.domains_count || 0 }}</small>
+          <br />
+          <div class="buttons">
+            <button class="btn delete" (click)="deleteCategory(category)">🗑</button>
+            <button class="btn edit" (click)="navigateToDomains(category)">⚙️</button>
           </div>
         </div>
-        <small class="text-muted">Nombre des items : {{ category.items_count || 0 }}</small>
-        <small class="text-muted">Nombre des domaines : {{ category.domains_count || 0 }}</small>
-        <br />
-        <div class="buttons">
-          <button class="btn delete" (click)="deleteCategory(category)">🗑</button>
-          <button class="btn edit" (click)="navigateToDomains(category)">⚙️</button>
-        </div>
-      </div>
+      </ng-container>
     </div>
   </main>
 </div>

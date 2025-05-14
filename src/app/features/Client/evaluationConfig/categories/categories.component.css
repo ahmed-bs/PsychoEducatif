@@ -43,6 +43,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 25px;
+    min-height: 400px;
   }
   
   /* Card Design */
@@ -468,4 +469,29 @@
 :host ::ng-deep .p-button.p-button-primary:hover {
     background: #4f46e5;
     border-color: #4f46e5;
+}
+
+/* No Data Styles */
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.no-data-image {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1.5rem;
+  object-fit: contain;
+}
+
+.no-data p {
+  color: #6B7280;
+  font-size: 1.1rem;
+  margin: 0;
 }
