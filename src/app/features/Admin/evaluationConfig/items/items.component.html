@@ -4,182 +4,76 @@
 <br> <br>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
 
-<div class="card p-4 shadow-lg rounded-2xl bg-white">
-  <div class="row justify-content-between align-items-center mb-4">
-    <h2 class="text-xl font-semibold col-auto">Categories details</h2>
-  </div>
-  <br>
-  <div class="category-container">
-    <h3 class="category-title"><strong>Title:</strong>Autonomie</h3>
-    <p><strong>Code:</strong> C03</p>
-    <p><strong>Description:</strong>Catégorie sur l'indépendance dans les tâches quotidiennes.</p>
-  </div>
-</div>
 <div class="container-custom">
-  <!-- Main Content -->
-  <div class="row">
-    <div class="col-md-12">
-
-
-      <!-- Communication -->
-      <h3>Domaines</h3>
-      <div class="container">
-        <div class="card p-4 shadow-lg rounded-2xl bg-white">
-          <div class="row justify-content-between align-items-center mb-4">
-            <p-toolbar styleClass="mb-4">
-              <ng-template pTemplate="left">
-                <div class="d-flex align-items-center">
-                  <button pButton [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" (click)="toggleFilters()">
-                  </button>
-                </div>
-              </ng-template>
-              <ng-template pTemplate="right">
-                <div>
-                  <button pButton icon="pi pi-plus" label="Add New" class="custom-add-button"
-                    (click)="showAddUserDialog()">
-                  </button>
-                </div>
-              </ng-template>
-            </p-toolbar>
-          </div>
-          <br>
-          <p-table #dt2 class="rounded-2xl overflow-hidden shadow-md" [value]="domaines" dataKey="id" [rows]="10"
-            [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" [scrollable]="true"
-            [scrollHeight]="'200px'" [globalFilterFields]="['title', 'description', 'code']"
-            [tableStyle]="{ 'min-width': '75rem' }">
-
-            <ng-template pTemplate="header">
-              <tr>
-                <th>Code</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Actions</th>
-              </tr>
-              <tr *ngIf="showFilters" style="zoom: 80%;">
-                <th>
-                  <p-columnFilter type="text" field="code" placeholder="Rechercher code"
-                    showFilterMenu="false"></p-columnFilter>
-                </th>
-                <th>
-                  <p-columnFilter type="text" field="title" placeholder="Rechercher titre"
-                    showFilterMenu="false"></p-columnFilter>
-                </th>
-                <th>
-                  <p-columnFilter type="text" field="description" placeholder="Rechercher description"
-                    showFilterMenu="false"></p-columnFilter>
-                </th>
-                <th></th>
-              </tr>
-            </ng-template>
-
-            <ng-template pTemplate="body" let-domaine>
-              <tr>
-                <td>{{ domaine.code }}</td>
-                <td>{{ domaine.title }}</td>
-                <td>{{ domaine.description }}</td>
-                <td>
-                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-info"
-                    (click)="editDomaine(domaine)"></button>
-                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
-                    (click)="deleteDomaine(domaine)"></button>
-                </td>
-              </tr>
-            </ng-template>
-
-            <ng-template #emptymessage>
-              <tr>
-                <td colspan="4">Aucun domaine trouvé.</td>
-              </tr>
-            </ng-template>
-          </p-table>
-
-        </div>
-        <!-- 
-        <p-dialog header="Ajouter un utilisateur" [(visible)]="displayAddUserDialog" [modal]="true"
-          [style]="{ width: '30vw' ,zoom:'90%'}" [dismissableMask]="true">
-          <div class="p-fluid">
-            <div class="p-field">
-              <label for="username">Nom / Prénom</label>
-              <input id="username" pInputText [(ngModel)]="newDomaine.username" />
-            </div>
-
-
-            <div class="p-field">
-              <label for="address">Adresse</label>
-              <input id="address" pInputText [(ngModel)]="newDomaine.address" />
-            </div>
-   
-          <ng-template pTemplate="footer">
-            <button pButton label="Annuler" icon="pi pi-times" class="p-button-text"
-              (click)="displayAddUserDialog = false"></button>
-            <button pButton label="Ajouter" icon="pi pi-check" class="p-button-success" (click)="addUser()"></button>
-
-          </ng-template>
-        </p-dialog> -->
-
+  <!-- Add Item Form -->
+  <div class="card p-4 shadow-lg rounded-2xl bg-white mb-4">
+    <h3 class="text-xl font-semibold mb-4">Ajouter un item</h3>
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="grid-form">
+      <div class="form-group">
+        <label for="domain">Domaine</label>
+        <p-dropdown id="domain" [options]="domaines" formControlName="domainId" optionLabel="title" optionValue="id" 
+          placeholder="Sélectionner un domaine" [style]="{'width':'100%'}"></p-dropdown>
       </div>
-      <h3>Items</h3>
-      @for (domaine of domaines; track $index) {
-      <div class="container">
-        <div class="card p-4 shadow-lg rounded-2xl bg-white">
-          <div class="row justify-content-between align-items-center mb-4">
-            <p-toolbar styleClass="mb-4">
-              <ng-template pTemplate="left">
-                <!-- <div class="d-flex align-items-center">
-                  <button pButton [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'" (click)="toggleFilters()">
-                  </button>
-                </div> -->
-              </ng-template>
-              <ng-template pTemplate="right">
-                <div>
-                  <button pButton icon="pi pi-plus" label="Add New" class="custom-add-button"
-                    (click)="showAddUserDialog()">
-                  </button>
-                </div>
-              </ng-template>
-            </p-toolbar>
-          </div>
-          <br>
-          <p-table #dt2 class="rounded-2xl overflow-hidden shadow-md" [value]="domaine.items" dataKey="id" [rows]="10"
-            [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" [scrollable]="true"
-            [scrollHeight]="'200px'" [globalFilterFields]="['title', 'description', 'code']"
-            [tableStyle]="{ 'min-width': '75rem' }">
-
-            <ng-template pTemplate="header">
-              <tr>
-                <th>Code</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Actions</th>
-              </tr>
-
-            </ng-template>
-
-            <ng-template pTemplate="body" let-domaine>
-              <tr>
-                <td>{{ domaine.code }}</td>
-                <td>{{ domaine.title }}</td>
-                <td>{{ domaine.description }}</td>
-                <td>
-                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-info"
-                    (click)="editDomaine(domaine)"></button>
-                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
-                    (click)="deleteDomaine(domaine)"></button>
-                </td>
-              </tr>
-            </ng-template>
-
-            <ng-template #emptymessage>
-              <tr>
-                <td colspan="4">Aucun domaine trouvé.</td>
-              </tr>
-            </ng-template>
-          </p-table>
-
-        </div>
+      
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input pInputText id="description" type="text" formControlName="description" 
+          placeholder="Description de l'item" class="w-full">
       </div>
-      <br>
+
+      <div class="form-group">
+        <label for="status">État</label>
+        <p-dropdown id="status" [options]="statusOptions" formControlName="status" optionLabel="label" optionValue="value"
+          placeholder="Sélectionner un état" [style]="{'width':'100%'}"></p-dropdown>
+      </div>
+
+      <div class="form-actions">
+        <button pButton type="submit" label="Ajouter" icon="pi pi-plus" 
+          [disabled]="!itemForm.valid" class="p-button-success"></button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Domains and Items List -->
+  <div class="domains-container">
+    @for (domaine of domaines; track domaine.id) {
+    <div class="card p-4 shadow-lg rounded-2xl bg-white mb-4">
+      <div class="domain-header" (click)="toggleDomain(domaine)">
+        <div class="domain-info">
+          <h3 class="domain-title">{{domaine.title}}</h3>
+          <span class="domain-code">{{domaine.code}}</span>
+          <span class="items-count">({{domaine.items.length || 0}} items)</span>
+        </div>
+        <span class="material-symbols-sharp">
+          {{domaine.expanded ? 'expand_less' : 'expand_more'}}
+        </span>
+      </div>
+
+      @if (domaine.expanded) {
+      <div class="items-list mt-4">
+        @if (domaine.items.length) {
+        @for (item of domaine.items; track item.id) {
+        <div class="item-row">
+          <div class="item-content">
+            <p class="item-description">{{item.description}}</p>
+            <span class="status-badge" [class]="'status-' + item.status.toLowerCase().replace('_', '-')">
+              {{getStatusLabel(item.status)}}
+            </span>
+          </div>
+          <div class="item-actions">
+            <button pButton icon="pi pi-pencil" class="p-button-text p-button-rounded p-button-info"
+              (click)="editItem(item)"></button>
+            <button pButton icon="pi pi-trash" class="p-button-text p-button-rounded p-button-danger"
+              (click)="deleteItem(item)"></button>
+          </div>
+        </div>
+        }
+        } @else {
+        <p class="no-items">Aucun item dans ce domaine</p>
+        }
+      </div>
       }
     </div>
-
+    }
   </div>
+</div>

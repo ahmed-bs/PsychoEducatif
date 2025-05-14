@@ -1,90 +1,127 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+type ItemStatus = 'NON_COTE' | 'ACQUIS' | 'EN_COURS' | 'NON_ACQUIS';
+
+interface Item {
+  id: number;
+  description: string;
+  status: ItemStatus;
+  domainId: number;
+}
+
+interface Domain {
+  id: number;
+  title: string;
+  description: string;
+  code: string;
+  items: Item[];
+  expanded?: boolean;
+}
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css'],
-  encapsulation: ViewEncapsulation.ShadowDom
+  styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
-showAddUserDialog() {
-throw new Error('Method not implemented.');
-}
-  constructor(private location: Location) { }
-  domaines: any[] = [];
+  domaines: Domain[] = [];
   loading: boolean = true;
-  showFilters: boolean = false;
-  displayAddDomaineDialog = false;
+  itemForm: FormGroup;
   
-  newDomaine = {
-    title: '',
-    description: '',
-    code: ''
-  };
-  
-  showAddDomaineDialog() {
-    this.displayAddDomaineDialog = true;
+  statusOptions = [
+    { label: 'Non coté', value: 'NON_COTE' as ItemStatus },
+    { label: 'Acquis', value: 'ACQUIS' as ItemStatus },
+    { label: 'En cours', value: 'EN_COURS' as ItemStatus },
+    { label: 'Non acquis', value: 'NON_ACQUIS' as ItemStatus }
+  ];
+
+  constructor(
+    private location: Location,
+    private fb: FormBuilder
+  ) {
+    this.itemForm = this.fb.group({
+      domainId: ['', Validators.required],
+      description: ['', Validators.required],
+      status: ['NON_COTE', Validators.required]
+    });
   }
-  
-  addDomaine() {
-    if (this.newDomaine.title && this.newDomaine.code) {
-      const newDomaineEntry = { ...this.newDomaine, id: this.domaines.length + 1 };
-      this.domaines.push(newDomaineEntry);
-      this.displayAddDomaineDialog = false;
-    }
-  }
-  
-  toggleFilters() {
-    this.showFilters = !this.showFilters;
-  }
-  
-  editDomaine(domaine: any) {
-    // Add your edit logic here (navigate to edit page or open dialog)
-    console.log('Edit domaine:', domaine);
-  }
-  
-  deleteDomaine(id: number) {
-    // Add your delete logic here (confirmation and delete)
-    console.log('Delete domaine with ID:', id);
-  }
-  
+
   ngOnInit() {
     this.domaines = [
       {
+        id: 1,
         title: "Hygiène corporelle",
- description: 'Assurer l\'hygiène et le bien-être du corps', code: 'HYG-001',
+        description: 'Assurer l\'hygiène et le bien-être du corps',
+        code: 'HYG-001',
         items: [
-          { code: "HC01", title: "Se laver les mains", description: "L'enfant doit se laver les mains avant et après les repas." },
-          { code: "HC02", title: "Se brosser les dents", description: "L'enfant apprend à se brosser les dents après les repas." }
+          { id: 1, description: "Se laver les mains", status: "ACQUIS", domainId: 1 },
+          { id: 2, description: "Se brosser les dents", status: "EN_COURS", domainId: 1 }
         ]
       },
       {
-        title: "Propreté", description: 'Maintenir la propreté des lieux et des objets', code: 'PRO-002',
+        id: 2,
+        title: "Propreté",
+        description: 'Maintenir la propreté des lieux et des objets',
+        code: 'PRO-002',
         items: [
-          { code: "P01", title: "Utiliser les toilettes", description: "L'enfant doit être capable d'utiliser les toilettes de manière autonome." },
-          { code: "P02", title: "Jeter les déchets", description: "L'enfant doit jeter ses déchets dans la poubelle." }
-        ]
-      },
-      {
-        title: "Habillage/Déshabillage",description: 'Savoir s\'habiller et se déshabiller correctement', code: 'HAB-003' ,
-        items: [
-          { code: "HD01", title: "Mettre ses chaussures", description: "L'enfant apprend à mettre et enlever ses chaussures." },
-          { code: "HD02", title: "S'habiller seul", description: "L'enfant doit être capable de s'habiller sans aide." }
-        ]
-      },
-      {
-        title: "Prise des repas", description: 'Apprendre à manger de manière autonome', code: 'REP-004',
-        items: [
-          { code: "PR01", title: "Utiliser les couverts", description: "L'enfant doit savoir utiliser une cuillère et une fourchette." },
-          { code: "PR02", title: "Boire sans renverser", description: "L'enfant apprend à boire proprement." }
+          { id: 3, description: "Utiliser les toilettes", status: "ACQUIS", domainId: 2 },
+          { id: 4, description: "Jeter les déchets", status: "NON_ACQUIS", domainId: 2 }
         ]
       }
     ];
-    
-    
-this.loading = false;
+    this.loading = false;
   }
+
+  toggleDomain(domain: Domain) {
+    domain.expanded = !domain.expanded;
+  }
+
+  onSubmit() {
+    if (this.itemForm.valid) {
+      const formValue = this.itemForm.value;
+      const domain = this.domaines.find(d => d.id === formValue.domainId);
+      
+      if (domain) {
+        const newItem: Item = {
+          id: Math.max(0, ...domain.items.map(i => i.id)) + 1,
+          description: formValue.description,
+          status: formValue.status,
+          domainId: formValue.domainId
+        };
+        
+        domain.items.push(newItem);
+        this.itemForm.reset({
+          status: 'NON_COTE'
+        });
+      }
+    }
+  }
+
+  editItem(item: Item) {
+    const domain = this.domaines.find(d => d.id === item.domainId);
+    if (domain) {
+      this.itemForm.patchValue({
+        domainId: item.domainId,
+        description: item.description,
+        status: item.status
+      });
+    }
+  }
+
+  deleteItem(item: Item) {
+    const domain = this.domaines.find(d => d.id === item.domainId);
+    if (domain) {
+      domain.items = domain.items.filter(i => i.id !== item.id);
+    }
+  }
+
+  getStatusLabel(status: ItemStatus): string {
+    const option = this.statusOptions.find(opt => opt.value === status);
+    return option ? option.label : status;
+  }
+
   goBack() {
     this.location.back();
   }

@@ -2,233 +2,282 @@
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
 
+/* Layout & General Styles */
+.container-custom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Back Button */
 .back-button {
-    position: absolute;
-    top: 70px;
-    left: 20px;
-    cursor: pointer;
-    background-color: #f0f0f0;
-    border-radius: 50%;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 70px;
+  left: 20px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .back-button:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
-.custom-add-button {
-    background-color: #007bff !important; /* Blue shade */
-    border-radius: 20px !important; /* Rounded edges */
-    padding: 8px 16px; /* Spacing */
-    font-weight: bold; /* Bold text */
-    color: white !important; /* Text color */
-    border: none;
-  }
-  
-  .custom-add-button .pi {
-    font-size: 1.2rem !important; /* Bold & bigger icon */
-    font-weight: bold;
-  }
-  
-  .custom-add-button:hover {
-    background-color: #6c9ccf !important; /* Darker blue on hover */
-  }
-  
 
-.container {
-    background-color: #ffffff; /* White background */
-    border-radius: 12px; /* Rounded edges */
-    padding: 20px; /* Spacing inside */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+/* Form Styles */
+.add-item-section {
+  margin-bottom: 2rem;
 }
-p-table .p-datatable .p-datatable-table td,th{
-    padding: 0 ;
-  }
 
-  .category-container {
-    padding: 10px;
-    border-left: 4px solid #007bff;
-    margin-bottom: 15px;
-    background-color: #f8f9fa;
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1.5fr auto;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.item-input {
+  flex: 2;
+}
+
+/* Domain Section Styles */
+.domain-section {
+  margin-bottom: 16px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.domain-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: #F9FAFB;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.domain-header:hover {
+  background-color: #F3F4F6;
+}
+
+.domain-title {
+  font-weight: 600;
+  margin-left: 8px;
+  flex: 1;
+}
+
+.item-count {
+  color: #6B7280;
+  font-size: 14px;
+  margin-left: auto;
+  margin-right: 16px;
+}
+
+/* Item List Styles */
+.item-list {
+  padding: 16px;
+}
+
+.item-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr 100px;
+  gap: 16px;
+  padding: 8px 16px;
+  background-color: #F3F4F6;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #4B5563;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr 100px;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #E5E7EB;
+  align-items: center;
+}
+
+.item-row:last-child {
+  border-bottom: none;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+}
+
+.status-non_cote {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.status-acquis {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-partiel {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-non_acquis {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Button Styles */
+.add-domain-btn {
+  background-color: #6366F1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.add-domain-btn:hover {
+  background-color: #4F46E5;
+}
+
+.add-item-btn {
+  background-color: #6366F1 !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  height: 42px;
+  white-space: nowrap;
+}
+
+.add-item-btn:hover {
+  background-color: #4F46E5 !important;
+}
+
+/* PrimeNG Component Styles */
+:host ::ng-deep {
+  /* Dropdown Styles */
+  .p-dropdown {
+    width: 100%;
+    min-height: 42px;
     border-radius: 8px;
   }
 
-  .back-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .card {
-    margin-bottom: 2rem;
-  }
-  
-  .category-container, .container-custom {
-    margin: 1rem 0;
-  }
-  
-  .custom-add-button {
-    background-color: #6366F1;
+  .p-dropdown:not(.p-disabled).p-focus {
     border-color: #6366F1;
-  }
-  
-  .custom-add-button:hover {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
-  }
-  
-  .p-table {
-    width: 100%;
-  }
-  
-  .p-toolbar {
-    background: none;
-    border: none;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Style général du dialogue */
-:host ::ng-deep .p-dialog {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Style du header */
-:host ::ng-deep .p-dialog-header {
-    padding: 1rem 1.5rem;
-    background: #6366f1; /* Couleur de fond violette */
-    color: white; /* Texte blanc pour contraste */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtile séparation */
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    font-size: 1.25rem;
-    font-weight: 600;
-    justify-content: center;
-}
-
-
-/* Style spécifique pour l'icône de fermeture */
-:host ::ng-deep .p-dialog-header .p-dialog-header-icon {
-    color: white; /* Assurez-vous que l'icône reste blanche */
-    background: transparent; /* Évitez que le fond du header s'applique */
-    border: none; /* Supprime toute bordure indésirable */
-    padding: 0.25rem;
-    transition: color 0.2s;
-}
-
-:host ::ng-deep .p-dialog-header .p-dialog-header-icon:hover {
-    color: #e2e8f0; /* Légère variation au survol pour feedback */
-}
-
-/* Contenu du dialogue */
-.dialog-content {
-    padding: 1rem;
-}
-
-/* Style des champs */
-.field {
-    margin-bottom: 1.5rem;
-}
-
-/* Labels */
-.field label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #333;
-}
-
-/* Inputs */
-:host ::ng-deep .field .p-inputtext {
-    width: 100%;
+  .p-dropdown .p-dropdown-label {
     padding: 0.75rem;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 0.875rem;
+  }
+
+  .p-dropdown-panel .p-dropdown-items {
+    padding: 0.5rem 0;
+  }
+
+  .p-dropdown-panel .p-dropdown-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Input Styles */
+  .p-inputtext {
+    width: 100%;
+    min-height: 42px;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .p-inputtext:enabled:focus {
+    border-color: #6366F1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  }
+
+  /* Dialog Styles */
+  .p-dialog {
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .p-dialog .p-dialog-header {
+    padding: 1.5rem;
+    background-color: #F3F4F6;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  .p-dialog .p-dialog-content {
+    padding: 2rem;
+  }
+
+  .p-dialog .p-dialog-footer {
+    padding: 1.5rem;
+    background-color: #F9FAFB;
+    border-top: 1px solid #E5E7EB;
+  }
 }
 
-:host ::ng-deep .field .p-inputtext:focus {
-    outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .add-item-btn {
+    grid-column: 2;
+    justify-self: end;
+  }
 }
 
-
-
-/* Responsive */
 @media (max-width: 768px) {
-    :host ::ng-deep .p-dialog {
-        width: 90vw !important;
-    }
-    
-    :host ::ng-deep .p-dialog-header {
-        padding: 0.75rem 1rem;
-        font-size: 1.1rem;
-    }
-    
-    .dialog-content {
-        padding: 0.75rem;
-    }
-}
-
-/* Placeholder */
-:host ::ng-deep .field .p-inputtext::placeholder {
-    color: #6c757d;
-    font-style: italic;
-}
-
-/* Footer (boutons) */
-:host ::ng-deep .p-dialog-footer {
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    background: #f8f9fa;
-    border-top: 1px solid #e9ecef;
-}
-
-/* Boutons */
-:host ::ng-deep .p-button {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-}
-
-:host ::ng-deep .p-button.p-button-text {
-    color: #6c757d;
-}
-
-:host ::ng-deep .p-button.p-button-text:hover {
-    background: #e9ecef;
-}
-
-:host ::ng-deep .p-button.p-button-primary {
-    background: #6366f1;
-    border-color: #6366f1;
-}
-
-:host ::ng-deep .p-button.p-button-primary:hover {
-    background: #4f46e5;
-    border-color: #4f46e5;
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .add-item-btn {
+    grid-column: 1;
+    justify-self: stretch;
+  }
 }

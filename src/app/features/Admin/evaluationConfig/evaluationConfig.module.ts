@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 // import { ColumnFilterModule } from 'primeng/columnfilter';
@@ -26,11 +26,11 @@ import { ItemsComponent } from './items/items.component';
     EvaluationConfigRoutes,
     NgClass,
     FormsModule,
+    ReactiveFormsModule,
     TableModule,
     InputTextModule,
     IconFieldModule,
     InputIconModule,
-    FormsModule,
     ProgressBarModule,
     DialogModule,
     ButtonModule,
