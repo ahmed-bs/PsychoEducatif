@@ -1,56 +1,138 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { CompetenceService } from 'src/app/core/services/Competence.service';
+import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
+import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
+import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
+import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
+import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
+import { ProfileItem } from 'src/app/core/models/ProfileItem';
+import { forkJoin } from 'rxjs';
 
-
-
+interface CategoryWithDomains extends ProfileCategory {
+  domains?: ProfileDomain[];
+  items?: ProfileItem[];
+}
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.css'],
- 
 })
 export class ExploreComponent implements OnInit {
-
-  @ViewChild('scroller') scroller!: ElementRef;
-  competences: any[] = [];
+  @ViewChild('cardContainer') cardContainer!: ElementRef;
+  categories: CategoryWithDomains[] = [];
   currentIndex = 0;
   cardsToShow = 3;
+  cardWidth = 300; // Updated to match new CSS
+  gapWidth = 20; // Gap between cards
+  profileId = 1;
 
-  constructor(private competenceService: CompetenceService, private router: Router) {}
+  constructor(
+    private profileCategoryService: ProfileCategoryService,
+    private profileDomainService: ProfileDomainService,
+    private profileItemService: ProfileItemService,
+    private router: Router,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit() {
-    this.competences = this.competenceService.getCompetences();
+    this.loadCategories();
   }
 
-  naviguerVersQuiz(categorie: string) {
-    console.log(categorie);
-    this.router.navigate(['/Dashboard-client/client/quiz', categorie]);
-  }
-
-  scrollLeft() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-      this.scrollToCurrentIndex();
-    }
-  }
-
-  scrollRight() {
-    if (this.currentIndex < this.competences.length - this.cardsToShow) {
-      this.currentIndex++;
-      this.scrollToCurrentIndex();
-    }
-  }
-
-  private scrollToCurrentIndex() {
-    const cardWidth = this.scroller.nativeElement.querySelector('.col-md-4').offsetWidth;
-    const scrollPosition = this.currentIndex * cardWidth;
-    
-    this.scroller.nativeElement.scrollTo({
-      left: scrollPosition,
-      behavior: 'smooth'
+  loadCategories() {
+    this.profileCategoryService.getCategories(this.profileId).subscribe({
+      next: (categories) => {
+        this.categories = categories;
+        categories.forEach(category => {
+          if (category.id) {
+            this.loadDomainsForCategory(category);
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error loading categories:', error);
+      }
     });
   }
 
+  loadDomainsForCategory(category: CategoryWithDomains) {
+    if (!category.id) return;
+
+    this.profileDomainService.getDomains(category.id).subscribe({
+      next: (domains) => {
+        category.domains = domains;
+        domains.forEach(domain => {
+          if (domain.id) {
+            this.loadItemsForDomain(domain, category);
+          }
+        });
+      },
+      error: (error) => {
+        console.error(`Error loading domains for category ${category.id}:`, error);
+      }
+    });
+  }
+
+  loadItemsForDomain(domain: ProfileDomain, category: CategoryWithDomains) {
+    if (!domain.id) return;
+
+    this.profileItemService.getItems(domain.id).subscribe({
+      next: (items) => {
+        if (!category.items) {
+          category.items = [];
+        }
+        category.items = [...category.items, ...items];
+      },
+      error: (error) => {
+        console.error(`Error loading items for domain ${domain.id}:`, error);
+      }
+    });
+  }
+
+  naviguerVersQuiz(categoryId: number | undefined) {
+    if (categoryId) {
+      this.router.navigate(['/Dashboard-client/client/quiz', categoryId]);
+    }
+  }
+
+  scrollLeft(category: CategoryWithDomains, container: HTMLElement) {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.updateScroll(container);
+    }
+  }
+
+  scrollRight(category: CategoryWithDomains, container: HTMLElement) {
+    if (category.domains && this.currentIndex < category.domains.length - this.cardsToShow) {
+      this.currentIndex++;
+      this.updateScroll(container);
+    }
+  }
+
+  private updateScroll(container: HTMLElement) {
+    const scrollAmount = -(this.currentIndex * (this.cardWidth + this.gapWidth));
+    this.renderer.setStyle(
+      container,
+      'transform',
+      `translateX(${scrollAmount}px)`
+    );
+  }
+
+  calculateProgress(category: CategoryWithDomains): number {
+    if (!category.items || category.items.length === 0) return 0;
+    
+    const acquiredItems = category.items.filter(item => item.etat === 'ACQUIS').length;
+    const totalItems = category.items.length;
+    return (acquiredItems / totalItems) * 100;
+  }
+
+  canScrollLeft(): boolean {
+    return this.currentIndex > 0;
+  }
+
+  canScrollRight(category: CategoryWithDomains): boolean {
+    return category.domains ? 
+      this.currentIndex < category.domains.length - this.cardsToShow : 
+      false;
+  }
 }

@@ -1,4 +1,3 @@
-
 .box-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -301,6 +300,8 @@ h4:after {
   display: flex;
   flex-direction: column;
   border: none;
+  margin: 10px;
+  min-width: 300px;
 }
 
 .competence-card:hover, 
@@ -314,19 +315,39 @@ h4:after {
 }
 
 .card-img-top {
-  overflow: hidden;
+  width: 100%;
   height: 180px;
-  background-color: #e9f5ff;
+  overflow: hidden;
+  position: relative;
 }
 
 .card-img-top img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s;
 }
 
-.competence-card:hover .card-img-top img {
+.item-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.count-badge {
+  background-color: rgba(79, 134, 198, 0.9); /* Using the same blue as buttons but with transparency */
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.competence-card:hover .count-badge {
+  background-color: rgba(110, 206, 178, 0.9); /* Using the green color on hover */
   transform: scale(1.05);
 }
 
@@ -417,8 +438,7 @@ h4:after {
 
 .scroller-container {
   position: relative;
-  display: flex;
-  align-items: center;
+  padding: 0 40px;
 }
 
 /* Boutons de navigation */
@@ -429,7 +449,7 @@ h4:after {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #3498db;
+  background-color: #4F86C6;
   color: white;
   border: none;
   cursor: pointer;
@@ -438,11 +458,10 @@ h4:after {
   justify-content: center;
   z-index: 10;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .scroll-button:hover:not(:disabled) {
-  background-color: #2980b9;
+  background-color: #3a6da8;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -451,11 +470,11 @@ h4:after {
 }
 
 .scroll-button.left {
-  left: -20px;
+  left: 0;
 }
 
 .scroll-button.right {
-  right: -20px;
+  right: 0;
 }
 
 .scroll-button i {
@@ -464,38 +483,203 @@ h4:after {
 
 /* Style pour boutons désactivés */
 .scroll-button:disabled {
-  opacity: 0.5;
+  background-color: #ccc;
   cursor: not-allowed;
-  background-color: #95a5a6;
+  opacity: 0.7;
 }
 
 /* Zone de défilement */
 .horizontal-scroller {
-  flex-grow: 1;
-  overflow-x: hidden; /* Changé de 'auto' à 'hidden' */
+  position: relative;
+  width: 100%;
+  overflow: hidden;
   padding: 10px 0;
+}
+
+.cards-wrapper {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.3s ease;
+  padding: 0 10px;
   width: 100%;
 }
 
-/* Conteneur des cartes */
-.container {
-  display: flex;
-  transition: transform 0.5s ease;
- 
-}
-
-.row.flex-nowrap {
-  display: flex;
-  gap: 6px;
-  margin-left: 124px;
-}
-
 .col-md-4 {
-  flex: 0 0 calc(33.333% - 10px); /* 3 cartes visibles */
-  min-width: 0; /* Empêche le débordement */
+  flex: 0 0 300px;
+  width: 300px;
+  min-width: 300px;
+  padding: 0;
 }
 
-/* Cacher la barre de scroll native */
-.horizontal-scroller::-webkit-scrollbar {
-  display: none;
+.competence-card {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
+
+.card-body {
+  flex: 1;
+  padding: 1.25rem;
+  width: 100%;
+}
+
+.card-footer {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.competence-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Scroller container styles */
+.scroller-container {
+  position: relative;
+  padding: 0 40px;
+  overflow: hidden;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* Navigation buttons */
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4F86C6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.scroll-button:hover:not(:disabled) {
+  background-color: #3a6da8;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-button.left {
+  left: 0;
+}
+
+.scroll-button.right {
+  right: 0;
+}
+
+.scroll-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Category section styles */
+.category-section {
+  margin-bottom: 40px;
+  padding: 0;
+  width: 100%;
+}
+
+/* Shell container */
+.shell {
+  width: 100%;
+  position: relative;
+  padding: 0 0;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+/* Card masking effect */
+.horizontal-scroller {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 40px,
+    black calc(100% - 40px),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 40px,
+    black calc(100% - 40px),
+    transparent
+  );
+}
+
+/* Progress bar styles */
+.progress {
+  height: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  background-color: #6ECEB2;
+  transition: width 0.3s ease;
+}
+
+.status-info {
+  display: inline-block;
+  background-color: #FFD166;
+  color: #333;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.competence-card:hover .status-info {
+  background-color: #6ECEB2;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .col-md-4 {
+    flex: 0 0 280px;
+    width: 280px;
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 992px) {
+  .col-md-4 {
+    flex: 0 0 260px;
+    width: 260px;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-md-4 {
+    flex: 0 0 240px;
+    width: 240px;
+    min-width: 240px;
+  }
+  
+  .scroll-button {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* ... rest of your existing styles ... */
