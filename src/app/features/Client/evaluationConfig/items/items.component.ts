@@ -1,87 +1,281 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/items/items.component.ts
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Category, Domain, Item, ProfileDataService } from 'src/app/core/services/profileData.service';
+import { catchError, forkJoin, of, switchMap, tap } from 'rxjs';
+import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
+import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
+import { ProfileItem } from 'src/app/core/models/ProfileItem';
+import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
+import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
+import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
+import { Competence } from 'src/app/core/models/Competence';
+
+type ItemStatus = ProfileItem['etat'];
+
+interface NewDomain {
+  id?: number;
+  name: string;
+  description: string;
+}
+
+interface DomainWithUI extends ProfileDomain {
+  expanded?: boolean;
+}
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
-  providers: [MessageService]
+  providers: [MessageService],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ItemsComponent implements OnInit {
-  category: Category | null = null;
-  domaines: Domain[] = [];
+  category: ProfileCategory | null = null;
+  domains: DomainWithUI[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
-  displayAddDomainDialog: boolean = false;
-  displayAddItemDialog: boolean = false;
-  displayEditDialog: boolean = false;
-  editMode: 'domain' | 'item' | null = null;
-
-  newDomain: Partial<Domain> = {
+  displayAddDomainDialog = false;
+  displayAddItemDialog = false;
+  displayAddCompetenceDialog = false;
+  editingCompetence = false;
+  
+  newDomain: NewDomain = {
     name: '',
-    description: '',
-    level: 'Niveau 1',
-    code: ''
+    description: ''
   };
 
-  newItem: Partial<Item> = {
-    name: '',
-    description: '',
-    code: ''
+  newItem: Partial<ProfileItem> = { 
+    name: '', 
+    description: '', 
+    etat: 'NON_COTE' 
+  };
+  
+  selectedDomain: DomainWithUI | null = null;
+  selectedItem: ProfileItem | null = null;
+  categoryId: number | null = null;
+  profileId: number = 1;
+  itemsByDomain: Record<number, ProfileItem[]> = {};
+
+  newCompetence: Competence = {
+    id: '',
+    categorie: '',
+    sousCompetences: [],
+    statut: ''
   };
 
-  selectedDomain: Domain | null = null;
-  selectedItem: Item | null = null;
+  statusOptions = [
+    { label: 'Non coté', value: 'NON_COTE' as ItemStatus },
+    { label: 'Acquis', value: 'ACQUIS' as ItemStatus },
+    { label: 'Partiel', value: 'PARTIEL' as ItemStatus },
+    { label: 'Non acquis', value: 'NON_ACQUIS' as ItemStatus }
+  ];
 
   constructor(
     private location: Location,
-    private profileDataService: ProfileDataService,
+    private route: ActivatedRoute,
+    private profileCategoryService: ProfileCategoryService,
+    private profileDomainService: ProfileDomainService,
+    private profileItemService: ProfileItemService,
     private messageService: MessageService
   ) {}
 
   ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    this.loading = true;
-    this.profileDataService.getCategories().subscribe({
-      next: (categories) => {
-        const targetCategory = categories.find(c => c.name === 'Grille évaluation tout petit 1 à 5ans');
-        if (targetCategory) {
-          this.category = targetCategory;
-          this.profileDataService.getDomainsByCategory(targetCategory.id).subscribe({
-            next: (domains) => {
-              this.domaines = domains;
-              // Fetch items for each domain
-              domains.forEach(domain => {
-                this.profileDataService.getItemsByDomain(domain.id).subscribe({
-                  next: (items) => {
-                    domain.items = items;
-                    this.domaines = [...this.domaines]; // Trigger change detection
-                  },
-                  error: () => this.showError('Failed to load items')
-                });
-              });
-              this.loading = false;
-            },
-            error: () => {
-              this.showError('Failed to load domains');
-              this.loading = false;
-            }
-          });
-        } else {
-          this.showError('Category not found');
-          this.loading = false;
-        }
-      },
-      error: () => {
-        this.showError('Failed to load category');
+    this.route.queryParams.subscribe((params) => {
+      this.categoryId = +params['categoryId'] || null;
+      if (this.categoryId) {
+        this.loadData();
+      } else {
+        this.showError('No category ID provided');
         this.loading = false;
       }
     });
+  }
+
+  loadData() {
+    if (!this.categoryId) return;
+    
+    this.loading = true;
+    this.profileCategoryService.retrieve(this.categoryId).pipe(
+      switchMap(category => {
+        this.category = category;
+        return this.profileDomainService.getDomains(this.categoryId!);
+      }),
+      switchMap(domains => {
+        this.domains = domains as DomainWithUI[];
+        const itemRequests = domains.map(domain => 
+          this.profileItemService.getItems(domain.id).pipe(
+            tap(items => {
+              this.itemsByDomain[domain.id] = items;
+            }),
+            catchError(error => {
+              console.error(`Error loading items for domain ${domain.id}`, error);
+              return of([]);
+            })
+          )
+        );
+        return forkJoin(itemRequests);
+      })
+    ).subscribe({
+      next: () => {
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading data:', error);
+        this.showError('Failed to load data');
+        this.loading = false;
+      }
+    });
+  }
+
+  addDomain() {
+    if (!this.newDomain.name || !this.categoryId) {
+      this.showError('Name and category are required');
+      return;
+    }
+
+    this.profileDomainService.create(this.categoryId, this.newDomain).subscribe({
+      next: (domain) => {
+        this.domains.push(domain as DomainWithUI);
+        this.itemsByDomain[domain.id] = [];
+        this.displayAddDomainDialog = false;
+        this.showSuccess('Domain added successfully');
+        this.newDomain = { name: '', description: '' };
+      },
+      error: (error) => this.showError(error.message)
+    });
+  }
+
+  addItem() {
+    if (!this.selectedDomain?.id || !this.newItem.name) {
+      this.showError('Name and domain are required');
+      return;
+    }
+
+    const domainId = this.selectedDomain.id;
+    this.profileItemService.create(domainId, this.newItem).subscribe({
+      next: (item) => {
+        if (!this.itemsByDomain[domainId]) {
+          this.itemsByDomain[domainId] = [];
+        }
+        this.itemsByDomain[domainId].push(item);
+        this.displayAddItemDialog = false;
+        this.showSuccess('Item added successfully');
+        this.resetNewItem();
+      },
+      error: (error) => this.showError(error.message)
+    });
+  }
+
+  updateDomain() {
+    if (!this.selectedDomain?.id || !this.newDomain.name) {
+      this.showError('Name and domain are required');
+      return;
+    }
+
+    const domainId = this.selectedDomain.id;
+    this.profileDomainService.update(domainId, this.newDomain).subscribe({
+      next: (updatedDomain) => {
+        const index = this.domains.findIndex((d) => d.id === updatedDomain.id);
+        if (index !== -1) {
+          this.domains[index] = updatedDomain as DomainWithUI;
+        }
+        this.displayAddDomainDialog = false;
+        this.showSuccess('Domain updated successfully');
+      },
+      error: (error) => this.showError(error.message)
+    });
+  }
+
+  updateItem() {
+    if (!this.selectedDomain?.id || !this.selectedItem?.id || !this.newItem.name) {
+      this.showError('Name, item, and domain are required');
+      return;
+    }
+
+    const domainId = this.selectedDomain.id;
+    const itemId = this.selectedItem.id;
+
+    this.profileItemService.update(itemId, this.newItem).subscribe({
+      next: (updatedItem) => {
+        const items = this.itemsByDomain[domainId] || [];
+        const itemIndex = items.findIndex((i: ProfileItem) => i.id === updatedItem.id);
+        if (itemIndex !== -1) {
+          this.itemsByDomain[domainId][itemIndex] = updatedItem;
+        }
+        this.displayAddItemDialog = false;
+        this.showSuccess('Item updated successfully');
+        this.resetNewItem();
+      },
+      error: (error) => this.showError(error.message)
+    });
+  }
+
+  deleteDomain(domain: DomainWithUI) {
+    if (!domain.id || !confirm(`Are you sure you want to delete ${domain.name}?`)) {
+      return;
+    }
+
+    const domainId = domain.id;
+    this.profileDomainService.destroy(domainId).subscribe({
+      next: () => {
+        this.domains = this.domains.filter((d) => d.id !== domainId);
+        delete this.itemsByDomain[domainId];
+        this.showSuccess('Domain deleted successfully');
+      },
+      error: (error) => this.showError(error.message)
+    });
+  }
+
+  deleteItem(item: ProfileItem, domain: DomainWithUI) {
+    if (!item.id || !domain.id || !confirm(`Are you sure you want to delete ${item.name}?`)) {
+      return;
+    }
+
+    const domainId = domain.id;
+    const itemId = item.id;
+
+    this.profileItemService.destroy(itemId).subscribe({
+      next: () => {
+        if (this.itemsByDomain[domainId]) {
+          this.itemsByDomain[domainId] = this.itemsByDomain[domainId].filter(
+            (i: ProfileItem) => i.id !== itemId
+          );
+        }
+        this.showSuccess('Item deleted successfully');
+      },
+      error: (error) => this.showError(error.message)
+    });
+  }
+
+  toggleDomain(domain: DomainWithUI) {
+    domain.expanded = !domain.expanded;
+  }
+
+  editCompetence(competence: Competence) {
+    this.editingCompetence = true;
+    this.newCompetence = { ...competence };
+    this.displayAddCompetenceDialog = true;
+  }
+
+  deleteCompetence(competence: Competence) {
+    // Implement delete logic
+    console.log('Delete competence:', competence);
+  }
+
+  saveCompetence() {
+    // Implement save/update logic
+    this.displayAddCompetenceDialog = false;
+    this.editingCompetence = false;
+  }
+
+  showSuccess(message: string) {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+  }
+
+  showError(message: string) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
   }
 
   goBack() {
@@ -93,118 +287,35 @@ export class ItemsComponent implements OnInit {
   }
 
   showAddDomainDialog() {
-    this.newDomain = { name: '', description: '', level: 'Niveau 1', code: '' };
+    this.newDomain = { name: '', description: '' };
     this.displayAddDomainDialog = true;
   }
 
-  showAddItemDialog(domain: Domain) {
+  showAddItemDialog(domain: DomainWithUI) {
     this.selectedDomain = domain;
-    this.newItem = { name: '', description: '', code: '' };
+    this.resetNewItem();
     this.displayAddItemDialog = true;
   }
 
-  addDomain() {
-    if (this.newDomain.name && this.newDomain.code && this.category) {
-      this.newDomain.template_category = this.category.id;
-      this.profileDataService.createDomain(this.newDomain).subscribe({
-        next: (domain) => {
-          domain.items = [];
-          this.domaines.push(domain);
-          this.displayAddDomainDialog = false;
-          this.showSuccess('Domain added successfully');
-        },
-        error: () => this.showError('Failed to add domain')
-      });
-    }
+  showEditDomainDialog(domain: DomainWithUI) {
+    this.selectedDomain = domain;
+    this.newDomain = { ...domain };
+    this.displayAddDomainDialog = true;
   }
 
-  addItem() {
-    if (this.newItem.name && this.newItem.code && this.selectedDomain) {
-      this.newItem.template_domain = this.selectedDomain.id;
-      this.profileDataService.createItem(this.newItem).subscribe({
-        next: (item) => {
-          if (!this.selectedDomain!.items) {
-            this.selectedDomain!.items = [];
-          }
-          this.selectedDomain!.items.push(item);
-          this.domaines = [...this.domaines]; // Trigger change detection
-          this.displayAddItemDialog = false;
-          this.showSuccess('Item added successfully');
-        },
-        error: () => this.showError('Failed to add item')
-      });
-    }
+  showEditItemDialog(item: ProfileItem, domain: DomainWithUI) {
+    this.selectedDomain = domain;
+    this.selectedItem = item;
+    this.newItem = { ...item };
+    this.displayAddItemDialog = true;
   }
 
-  editDomaine(entity: Domain | Item) {
-    this.editMode = 'domain' in entity ? 'item' : 'domain';
-    if (this.editMode === 'domain') {
-      this.selectedDomain = entity as Domain;
-      this.newDomain = { ...entity };
-    } else {
-      this.selectedItem = entity as Item;
-      this.newItem = { ...entity };
-    }
-    this.displayEditDialog = true;
-  }
-
-  updateEntity() {
-    if (this.editMode === 'domain' && this.selectedDomain) {
-      this.profileDataService.updateDomain(this.selectedDomain.id, this.newDomain).subscribe({
-        next: (updatedDomain) => {
-          const index = this.domaines.findIndex(d => d.id === updatedDomain.id);
-          this.domaines[index] = updatedDomain;
-          this.displayEditDialog = false;
-          this.showSuccess('Domain updated successfully');
-        },
-        error: () => this.showError('Failed to update domain')
-      });
-    } else if (this.editMode === 'item' && this.selectedItem && this.selectedDomain) {
-      this.profileDataService.updateItem(this.selectedItem.id, this.newItem).subscribe({
-        next: (updatedItem) => {
-          const domainIndex = this.domaines.findIndex(d => d.id === this.selectedDomain!.id);
-          const itemIndex = this.domaines[domainIndex].items!.findIndex(i => i.id === updatedItem.id);
-          this.domaines[domainIndex].items![itemIndex] = updatedItem;
-          this.domaines = [...this.domaines]; // Trigger change detection
-          this.displayEditDialog = false;
-          this.showSuccess('Item updated successfully');
-        },
-        error: () => this.showError('Failed to update item')
-      });
-    }
-  }
-
-  deleteDomaine(entity: Domain | Item) {
-    const isDomain = 'items' in entity;
-    if (isDomain) {
-      this.profileDataService.deleteDomain((entity as Domain).id).subscribe({
-        next: () => {
-          this.domaines = this.domaines.filter(d => d.id !== (entity as Domain).id);
-          this.showSuccess('Domain deleted successfully');
-        },
-        error: () => this.showError('Failed to delete domain')
-      });
-    } else {
-      const item = entity as Item;
-      const domain = this.domaines.find(d => d.items?.some(i => i.id === item.id));
-      if (domain) {
-        this.profileDataService.deleteItem(item.id).subscribe({
-          next: () => {
-            domain.items = domain.items!.filter(i => i.id !== item.id);
-            this.domaines = [...this.domaines]; // Trigger change detection
-            this.showSuccess('Item deleted successfully');
-          },
-          error: () => this.showError('Failed to delete item')
-        });
-      }
-    }
-  }
-
-  showSuccess(message: string) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
-  }
-
-  showError(message: string) {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
+  private resetNewItem() {
+    this.newItem = { 
+      name: '', 
+      description: '', 
+      etat: 'NON_COTE' 
+    };
+    this.selectedItem = null;
   }
 }
