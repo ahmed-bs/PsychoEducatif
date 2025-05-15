@@ -2,6 +2,7 @@
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
 
+
 /* Layout & General Styles */
 .container-custom {
   max-width: 1200px;
@@ -221,7 +222,7 @@
   }
 
   /* Input Styles */
-  .p-inputtext {
+  /* .p-inputtext {
     width: 100%;
     min-height: 42px;
     border-radius: 8px;
@@ -232,30 +233,7 @@
   .p-inputtext:enabled:focus {
     border-color: #6366F1;
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-  }
-
-  /* Dialog Styles */
-  .p-dialog {
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .p-dialog .p-dialog-header {
-    padding: 1.5rem;
-    background-color: #F3F4F6;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-  }
-
-  .p-dialog .p-dialog-content {
-    padding: 2rem;
-  }
-
-  .p-dialog .p-dialog-footer {
-    padding: 1.5rem;
-    background-color: #F9FAFB;
-    border-top: 1px solid #E5E7EB;
-  }
+  } */
 }
 
 /* Responsive Styles */

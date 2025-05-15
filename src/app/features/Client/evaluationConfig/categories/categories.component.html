@@ -72,7 +72,7 @@
 <p-dialog [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
-      <h2>Ajouter ou Modifier une Compétence</h2>
+      <h2>{{ newCategory.id ? 'Modifier' : 'Ajouter' }} une Compétence</h2>
     </div>
   </ng-template>
   <div class="dialog-content">
