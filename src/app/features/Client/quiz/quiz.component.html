@@ -1,81 +1,109 @@
 <div class="quiz-container">
-  <h2>{{ categorie }}</h2>
-  <div class="progress-indicator">
-    <p>Sous-compétence {{ currentIndex + 1 }} sur {{ sousCompetences.length }}</p>
+  <h2>Évaluation des compétences</h2>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading" class="text-center my-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p>Chargement des questions...</p>
   </div>
-  <form #quizForm="ngForm">
-    <div class="sub-skill mb-3">
-      <p class="skill-description">{{ sousCompetences[currentIndex].description }}</p>
-      
-      <div class="btn-group" role="group">
-        <input
-          type="radio"
-          class="btn-check"
-          id="{{ sousCompetences[currentIndex].description }}-acquise"
-          value="acquise"
-          [(ngModel)]="sousCompetences[currentIndex].statut"
-          [name]="sousCompetences[currentIndex].description"
-        />
-        <label
-          class="btn btn-outline-success"
-          for="{{ sousCompetences[currentIndex].description }}-acquise"
-        >Acquise</label>
 
-        <input
-          type="radio"
-          class="btn-check"
-          id="{{ sousCompetences[currentIndex].description }}-non-acquise"
-          value="non acquise"
-          [(ngModel)]="sousCompetences[currentIndex].statut"
-          [name]="sousCompetences[currentIndex].description"
-        />
-        <label
-          class="btn btn-outline-danger"
-          for="{{ sousCompetences[currentIndex].description }}-non-acquise"
-        >Non acquise</label>
+  <!-- Error message -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
 
-      
+  <!-- Quiz content -->
+  <div *ngIf="!isLoading && !error && items.length > 0">
+    <div class="progress-indicator">
+      <p>Item {{ currentIndex + 1 }} sur {{ items.length }}</p>
+    </div>
+    <form #quizForm="ngForm">
+      <div class="sub-skill mb-3">
+        <p class="skill-description">{{ items[currentIndex].name }}</p>
+        <p class="skill-details">{{ items[currentIndex].description }}</p>
+        
+        <div class="btn-group" role="group">
+          <input
+            type="radio"
+            class="btn-check"
+            id="{{ items[currentIndex].id }}-acquis"
+            value="ACQUIS"
+            [(ngModel)]="items[currentIndex].etat"
+            [name]="'etat-'+items[currentIndex].id"
+          />
+          <label
+            class="btn btn-outline-success"
+            [for]="items[currentIndex].id + '-acquis'"
+          >Acquis</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            id="{{ items[currentIndex].id }}-partiel"
+            value="PARTIEL"
+            [(ngModel)]="items[currentIndex].etat"
+            [name]="'etat-'+items[currentIndex].id"
+          />
+          <label
+            class="btn btn-outline-warning"
+            [for]="items[currentIndex].id + '-partiel'"
+          >Partiel</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            id="{{ items[currentIndex].id }}-non-acquis"
+            value="NON_ACQUIS"
+            [(ngModel)]="items[currentIndex].etat"
+            [name]="'etat-'+items[currentIndex].id"
+          />
+          <label
+            class="btn btn-outline-danger"
+            [for]="items[currentIndex].id + '-non-acquis'"
+          >Non acquis</label>
+        </div>
+
+        <div class="comment-section mt-3">
+          <label [for]="'comment-'+currentIndex" class="form-label">Observations :</label>
+          <textarea 
+            class="form-control" 
+            [id]="'comment-'+currentIndex" 
+            rows="3"
+            [(ngModel)]="items[currentIndex].description"
+            [name]="'comment-'+currentIndex"
+            placeholder="Notes complémentaires sur cette compétence..."></textarea>
+        </div>
       </div>
 
-      <!-- Champ de commentaire ajouté -->
-      <div class="comment-section mt-3">
-        <label for="comment-{{currentIndex}}" class="form-label">Observations :</label>
-        <textarea 
-          class="form-control" 
-          id="comment-{{currentIndex}}" 
-          rows="3"
-          [(ngModel)]="sousCompetences[currentIndex].commentaire"
-          [name]="'comment-'+currentIndex"
-          placeholder="Notes complémentaires sur cette compétence..."></textarea>
+      <div class="navigation-buttons">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="precedent()"
+          [disabled]="currentIndex === 0"
+        >
+          Précédent
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="suivant()"
+          [disabled]="currentIndex === items.length - 1"
+          *ngIf="currentIndex < items.length - 1"
+        >
+          Suivant
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="soumettreQuiz()"
+          *ngIf="currentIndex === items.length - 1"
+        >
+          Soumettre
+        </button>
       </div>
-    </div>
-
-    <div class="navigation-buttons">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="precedent()"
-        [disabled]="currentIndex === 0"
-      >
-        Précédent
-      </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="suivant()"
-        [disabled]="currentIndex === sousCompetences.length - 1"
-        *ngIf="currentIndex < sousCompetences.length - 1"
-      >
-        Suivant
-      </button>
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="soumettreQuiz(categorie)"
-        *ngIf="currentIndex === sousCompetences.length - 1"
-      >
-        Soumettre
-      </button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

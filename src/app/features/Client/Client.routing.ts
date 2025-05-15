@@ -15,9 +15,9 @@ const routes: Routes = [
   { path:'calendar',component:CalendarComponent },
   { path:'Kids_profiles/:childId',component:PickProfileComponent },
   { path:'profiles/:childId',component:Child_profileComponent },
-  { path:'evaluations/:categorie',component:EvaluationsComponent },
+  { path:'evaluations/:categoryId',component:EvaluationsComponent },
   { path: 'evaluations_configurations', loadChildren: () => import('./evaluationConfig/evaluationConfig.module').then(m => m.EvaluationConfigModule) },
-  { path: 'quiz/:categorie', component: QuizComponent },
+  { path: 'quiz/:categoryId', component: QuizComponent },
 ];
 
 export const ClientRoutes = RouterModule.forChild(routes);
