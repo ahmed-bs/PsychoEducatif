@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
-
+import { Location } from '@angular/common';
 @Component({
   standalone: true,
   selector: 'app-quiz',
@@ -25,6 +25,7 @@ export class QuizComponent implements OnInit {
   error: string | null = null;
   
   constructor(
+     private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private profileItemService: ProfileItemService,
@@ -32,7 +33,7 @@ export class QuizComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const categoryIdParam = this.route.snapshot.paramMap.get('categoryId');
+    const categoryIdParam = this.route.snapshot.paramMap.get('domainId');
 console.log('categoryIdParam:', categoryIdParam);
 
     if (categoryIdParam) {
@@ -48,12 +49,12 @@ console.log('categoryIdParam:', categoryIdParam);
     this.error = null;
 
     // First get the domain for this category
-    this.profileDomainService.getDomains(this.categoryId).subscribe({
-      next: (domains) => {
-        if (domains && domains.length > 0) {
-          this.domainId = domains[0].id;
+    // this.profileDomainService.getDomains(this.categoryId).subscribe({
+      // next: (domains) => {
+        // if (domains && domains.length > 0) {
+        //   this.domainId = domains[0].id;
           // Then get the items for this domain
-          this.profileItemService.getItems(this.domainId).subscribe({
+          this.profileItemService.getItems(this.categoryId).subscribe({
             next: (items) => {
               this.items = items;
               if (items.length === 0) {
@@ -67,17 +68,17 @@ console.log('categoryIdParam:', categoryIdParam);
               this.isLoading = false;
             }
           });
-        } else {
-          this.error = "No domains found for this category";
-          this.isLoading = false;
-        }
-      },
-      error: (error) => {
-        console.error('Error loading domains:', error);
-        this.error = "Failed to load domain information. Please try again later.";
-        this.isLoading = false;
-      }
-    });
+        // } else {
+        //   this.error = "No domains found for this category";
+        //   this.isLoading = false;
+        // }
+      // },
+      // error: (error) => {
+      //   console.error('Error loading domains:', error);
+      //   this.error = "Failed to load domain information. Please try again later.";
+      //   this.isLoading = false;
+      // }
+    // });
   }
 
   precedent() {
@@ -92,6 +93,9 @@ console.log('categoryIdParam:', categoryIdParam);
     }
   }
 
+  goBack() {
+    this.location.back();
+  }
   soumettreQuiz() {
     // Update all items
     const updatePromises = this.items.map(item => {

@@ -12,7 +12,9 @@ interface CategoryWithDomains extends ProfileCategory {
   domains?: ProfileDomain[];
   items?: ProfileItem[];
 }
-
+interface DomainWithItems extends ProfileDomain {
+  items?: ProfileItem[];
+}
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
@@ -23,9 +25,9 @@ export class ExploreComponent implements OnInit {
   categories: CategoryWithDomains[] = [];
   currentIndex = 0;
   cardsToShow = 3;
-  cardWidth = 300; // Updated to match new CSS
-  gapWidth = 20; // Gap between cards
-  profileId = 1;
+  cardWidth = 300; 
+  gapWidth = 20; 
+  profileId!: number ; 
 
   constructor(
     private profileCategoryService: ProfileCategoryService,
@@ -40,6 +42,7 @@ export class ExploreComponent implements OnInit {
   }
 
   loadCategories() {
+    this.profileId = parseInt(localStorage.getItem('selectedChildId')!, 0);
     this.profileCategoryService.getCategories(this.profileId).subscribe({
       next: (categories) => {
         this.categories = categories;
@@ -89,9 +92,9 @@ export class ExploreComponent implements OnInit {
     });
   }
 
-  naviguerVersQuiz(categoryId: number | undefined) {
-    if (categoryId) {
-      this.router.navigate(['/Dashboard-client/client/quiz', categoryId]);
+  naviguerVersQuiz(domainId: number | undefined) {
+    if (domainId) {
+      this.router.navigate(['/Dashboard-client/client/quiz', domainId]);
     }
   }
 
@@ -118,11 +121,11 @@ export class ExploreComponent implements OnInit {
     );
   }
 
-  calculateProgress(category: CategoryWithDomains): number {
-    if (!category.items || category.items.length === 0) return 0;
+  calculateProgress(domain: DomainWithItems): number {
+    if (!domain.items || domain.items.length === 0) return 0;
     
-    const acquiredItems = category.items.filter(item => item.etat === 'ACQUIS').length;
-    const totalItems = category.items.length;
+    const acquiredItems = domain.items.filter(item => item.etat === 'ACQUIS').length;
+    const totalItems = domain.items.length;
     return (acquiredItems / totalItems) * 100;
   }
 

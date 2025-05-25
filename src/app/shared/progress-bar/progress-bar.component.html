@@ -1,0 +1,11 @@
+<div class="progressbar" 
+     role="progressbar"
+     [attr.aria-valuenow]="acquisPercentage"
+     [attr.aria-busy]="!isComplete"
+     [style.--progress]="acquisPercentage + '%'">
+     
+  <div class="progress-content">
+    <span *ngIf="!isComplete">{{ acquisPercentage }}%</span>
+    <span *ngIf="isComplete" class="checkmark">✓</span>
+  </div>
+</div>

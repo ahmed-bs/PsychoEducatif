@@ -1,18 +1,18 @@
 /* === BASE STYLES === */
 :root {
-  --primary: #3498db;       /* Calm blue */
-  --success: #2ecc71;       /* Soothing green */
-  --danger: #e74c3c;        /* Clear red (not overwhelming) */
-  --background: #f5f7fa;    /* Soft, neutral background */
-  --text: #2c3e50;          /* High-contrast, readable text */
-  --border: #bdc3c7;        /* Subtle borders */
-  --focus-ring: #9b59b6;    /* Purple focus indicator (autism-friendly) */
+  --primary: #1e8fff99;       /* Brighter, lively blue */
+  --success: #00cc66ab;       /* Vibrant green */
+  --danger: #ff444495;        /* Bright, energetic red */
+  --background: #e6f0fa;    /* Lighter, more cheerful background */
+  --text: #1a2a44;          /* Slightly darker for contrast */
+  --border: #a3bffa;        /* Softer, lively border */
+  --focus-ring: #ff69b4;    /* Hot pink for focus, more engaging */
   --button-text: white;     /* Clear button labels */
 }
 
 body {
   background-color: var(--background);
-  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif; /* Rounded fonts are softer */
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
   line-height: 1.6;
   color: var(--text);
   margin: 0;
@@ -54,29 +54,30 @@ h2 {
   margin-bottom: 25px;
   line-height: 1.5;
   padding: 10px;
-  background-color: #f0f4f8; /* Soft highlight for focus */
-  border-left: 4px solid var(--primary); /* Visual cue */
+  background-color: #e6f0fa; /* Matching lively background */
+  border-left: 4px solid var(--primary);
   border-radius: 0 8px 8px 0;
 }
 
-/* === BUTTON GROUP (Acquired/Not Acquired) === */
+/* === BUTTON GROUP (Acquired/Not Acquired/Partiel) === */
 .btn-group {
   display: flex;
   justify-content: center;
   gap: 15px;
   margin-bottom: 25px;
-  flex-wrap: wrap; /* Wrap on small screens */
+  flex-wrap: wrap;
 }
 
 .btn-outline-success, 
-.btn-outline-danger {
+.btn-outline-danger,
+.btn-outline-warning {
   font-size: 18px;
   padding: 12px 25px;
   border-width: 2px;
-  border-radius: 8px;
+  border-radius: 50px; /* Circular edges */
   transition: all 0.2s ease;
   font-weight: bold;
-  min-width: 120px; /* Consistent button sizes */
+  min-width: 120px;
 }
 
 .btn-outline-success {
@@ -87,7 +88,19 @@ h2 {
 .btn-outline-success:hover, 
 .btn-outline-success:active, 
 .btn-outline-success:focus {
-  background-color: #1E88E5;
+  background-color: var(--success);
+  color: white;
+}
+
+.btn-outline-warning {
+  color: #ffaa00; /* Bright amber for Partiel */
+  border-color: #ffaa00;
+}
+
+.btn-outline-warning:hover, 
+.btn-outline-warning:active, 
+.btn-outline-warning:focus {
+  background-color: #ffaa00;
   color: white;
 }
 
@@ -124,14 +137,14 @@ h2 {
   font-size: 16px;
   transition: border-color 0.3s ease;
   background-color: white;
-  resize: vertical; /* Allow vertical resize for comfort */
+  resize: vertical;
   border: solid;
-  border-color: #e2caab
+  border-color: #e2caab;
 }
 
 .form-control:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2); /* Soft focus glow */
+  box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.2); /* Matching hot pink focus */
 }
 
 /* === NAVIGATION BUTTONS === */
@@ -145,7 +158,7 @@ h2 {
 .btn {
   padding: 12px 24px;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 50px; /* Circular edges */
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: bold;
@@ -153,13 +166,13 @@ h2 {
 }
 
 .btn-secondary {
-  background-color: #95a5a6;
+  background-color: #6c757d; /* Slightly darker for contrast */
   color: white;
 }
 
 .btn-secondary:hover {
-  background-color: #7f8c8d;
-  transform: translateY(-2px); /* Slight lift effect */
+  background-color: #5a6268;
+  transform: translateY(-2px);
 }
 
 .btn-secondary:disabled {
@@ -174,17 +187,16 @@ h2 {
 }
 
 .btn-primary:hover {
-  background-color: #2980b9;
+  background-color: #1c86ee; /* Slightly darker blue on hover */
   transform: translateY(-2px);
 }
 
 /* === AUTISM-FRIENDLY INTERACTIONS === */
-/* Visual feedback for buttons (no sudden flashes) */
 .btn:active {
-  transform: translateY(1px) !important; /* Pressed effect */
+  transform: translateY(1px) !important;
 }
 
-/* Focus indicators (important for keyboard navigation) */
+/* Focus indicators */
 .btn:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
@@ -208,6 +220,7 @@ textarea:focus-visible {
   }
 
   .btn-outline-success, 
+  .btn-outline-warning,
   .btn-outline-danger {
     border-width: 3px;
   }
@@ -218,10 +231,31 @@ textarea:focus-visible {
 }
 
 /* === EXTRA: PICTURE SUPPORT (Optional) === */
-/* If you add visual cues (like icons) */
 .icon-hint {
   width: 24px;
   height: 24px;
   margin-right: 8px;
   vertical-align: middle;
+}
+
+
+/* Back Button */
+.back-button {
+  position: absolute;
+  top: 70px;
+  left: 20px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
 }

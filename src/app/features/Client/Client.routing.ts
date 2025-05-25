@@ -17,7 +17,7 @@ const routes: Routes = [
   { path:'profiles/:childId',component:Child_profileComponent },
   { path:'evaluations/:categoryId',component:EvaluationsComponent },
   { path: 'evaluations_configurations', loadChildren: () => import('./evaluationConfig/evaluationConfig.module').then(m => m.EvaluationConfigModule) },
-  { path: 'quiz/:categoryId', component: QuizComponent },
+  { path: 'quiz/:domainId', component: QuizComponent },
 ];
 
 export const ClientRoutes = RouterModule.forChild(routes);

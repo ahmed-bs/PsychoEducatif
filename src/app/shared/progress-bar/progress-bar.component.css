@@ -1,0 +1,71 @@
+.progressbar {
+  --size: 100px; /* Reduced from 132px */
+  --bar-width: 15px; /* Reduced from 20px */
+  --color-dark: #1e88e5; /* Blue 600 */
+  --color-dark-glare: #bbdefb; /* Blue 100 */
+  --color-success: #4fc3f7; /* Light Blue 300 */
+  --color-success-dark: #01579b; /* Blue 900 */
+
+  font-size: 1.5rem; /* Reduced from 2rem */
+  width: var(--size);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  background: conic-gradient(
+    var(--color-dark),
+    var(--color-dark) var(--progress),
+    var(--color-dark-glare) 0%
+  );
+  border-radius: 50vmax;
+  display: grid;
+  place-items: center;
+  transition: --progress 500ms linear;
+}
+
+.progress-content {
+  background: white;
+  width: calc(100% - var(--bar-width));
+  aspect-ratio: 1;
+  border-radius: inherit;
+  display: grid;
+  place-items: center;
+}
+
+.checkmark {
+  color: var(--color-dark);
+}
+
+.progressbar[aria-valuenow="100"] .progress-content {
+  background: var(--color-success);
+  animation: progressComplete 0.5s ease-out;
+}
+
+@keyframes progressComplete {
+  from { 
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  to { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fallback for browsers without conic-gradient support */
+@supports not (background: conic-gradient(red, red 0%, red 0%)) {
+  .progressbar {
+    background: var(--color-dark-glare);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .progressbar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--progress);
+    background: var(--color-dark);
+    transition: width 500ms linear;
+  }
+}

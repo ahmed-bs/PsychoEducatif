@@ -23,9 +23,9 @@
   <p-table [value]="items" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
     <ng-template pTemplate="header">
       <tr>
-        <th>Catégorie</th>
+        <th>Compétences</th>
         <th>Domaine</th>
-        <th>Sous-compétences</th>
+        <th>Items</th>
         <th>Statuts</th>
         <th>Commentaires</th>
       </tr>
@@ -49,10 +49,10 @@
           </span>
         </td>
         <td class="align-middle">
-          <div *ngIf="item.description && item.description !== item.name" class="comment-bubble">
-            {{ item.description }}
+          <div *ngIf="item.commentaire && item.commentaire !== item.name" class="comment-bubble">
+            {{ item.commentaire }}
           </div>
-          <div *ngIf="!item.description || item.description === item.name" class="text-muted">
+          <div *ngIf="!item.commentaire || item.commentaire === item.name" class="text-muted">
             -
           </div>
         </td>

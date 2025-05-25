@@ -43,7 +43,7 @@ export class PickProfileComponent implements OnInit {
     first_name: '',
     last_name: '',
     birth_date: '',
-    gender: 'M' ,
+    gender: 'M',
     diagnosis: '',
     notes: ''
   };
@@ -51,10 +51,11 @@ export class PickProfileComponent implements OnInit {
     first_name: '',
     last_name: '',
     birth_date: '',
-    gender: 'M' ,
+    gender: 'M',
     diagnosis: '',
     notes: ''
   };
+  isLoading: boolean = false;
   birthDate: Date | null = null;
   genderOptions = [
     { label: 'Male', value: 'M' },
@@ -148,6 +149,7 @@ export class PickProfileComponent implements OnInit {
   }
   addChild() {
     if (this.newChild.first_name && this.newChild.last_name && this.newChild.birth_date) {
+      this.isLoading = true; // Set loading to true
       this.profileService.createChildProfile(this.newChild).subscribe({
         next: (child) => {
           this.children.push({
@@ -156,15 +158,18 @@ export class PickProfileComponent implements OnInit {
           });
           this.filteredChildren = [...this.children];
           this.displayDialog = false;
+          this.isLoading = false; // Set loading to false
           Swal.fire('Succès', 'Profil ajouté avec succès.', 'success');
         },
         error: (err) => {
+          this.isLoading = false; // Set loading to false
           Swal.fire('Erreur', 'Impossible d’ajouter le profil.', 'error');
         }
       });
     } else {
       Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'warning');
     }
+
   }
 
   saveChild() {
@@ -207,7 +212,7 @@ export class PickProfileComponent implements OnInit {
             };
             this.filteredChildren = [...this.children];
           }
-console.log('Updated child:', updatedChild);
+          console.log('Updated child:', updatedChild);
 
           this.displayDialog = false;
           Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
