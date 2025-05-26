@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ProfileDomain } from '../models/ProfileDomain';
+import { DomainsResponse, ProfileDomain } from '../models/ProfileDomain';
 
 // Interface for API response
 interface ApiResponse<T> {
@@ -30,6 +30,15 @@ export class ProfileDomainService {
         return throwError(() => new Error(errorMessage));
     }
 
+
+
+  getDomainsWithSpecificItems(categoryId: number): Observable<ProfileDomain[]> {
+
+    return this.http.get<ApiResponse<ProfileDomain[]>>(`${this.baseUrl}specific-items/?category_id=${categoryId}`).pipe(
+            map(response => response.data || []),
+            catchError(this.handleError)
+    );
+  }
     // List domains for a category
     getDomains(categoryId: number): Observable<ProfileDomain[]> {
         const url = `${this.baseUrl}?category_id=${categoryId}`;

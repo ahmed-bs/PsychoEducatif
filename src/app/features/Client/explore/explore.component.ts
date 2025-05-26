@@ -15,6 +15,7 @@ interface CategoryWithDomains extends ProfileCategory {
 interface DomainWithItems extends ProfileDomain {
   items?: ProfileItem[];
 }
+
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
@@ -25,9 +26,10 @@ export class ExploreComponent implements OnInit {
   categories: CategoryWithDomains[] = [];
   currentIndex = 0;
   cardsToShow = 3;
-  cardWidth = 300; 
-  gapWidth = 20; 
-  profileId!: number ; 
+  cardWidth = 300;
+  gapWidth = 20;
+  profileId!: number;
+  statusFilter: string = 'all'; // Default to show all domains
 
   constructor(
     private profileCategoryService: ProfileCategoryService,
@@ -106,7 +108,7 @@ export class ExploreComponent implements OnInit {
   }
 
   scrollRight(category: CategoryWithDomains, container: HTMLElement) {
-    if (category.domains && this.currentIndex < category.domains.length - this.cardsToShow) {
+    if (this.getFilteredDomains(category) && this.currentIndex < this.getFilteredDomains(category).length - this.cardsToShow) {
       this.currentIndex++;
       this.updateScroll(container);
     }
@@ -134,8 +136,38 @@ export class ExploreComponent implements OnInit {
   }
 
   canScrollRight(category: CategoryWithDomains): boolean {
-    return category.domains ? 
-      this.currentIndex < category.domains.length - this.cardsToShow : 
+    return this.getFilteredDomains(category) ? 
+      this.currentIndex < this.getFilteredDomains(category).length - this.cardsToShow : 
       false;
+  }
+
+  getFilteredDomains(category: CategoryWithDomains): ProfileDomain[] {
+    if (!category.domains) return [];
+
+    if (this.statusFilter === 'all') {
+      return category.domains;
+    }
+
+    return category.domains.filter(domain => {
+      const percentage = domain.acquis_percentage || 0;
+      if (this.statusFilter === 'completed') {
+        return percentage === 100;
+      } else if (this.statusFilter === 'en_cours') {
+        return percentage > 0 && percentage < 100;
+      } else if (this.statusFilter === 'not_started') {
+        return percentage === 0;
+      }
+      return true;
+    });
+  }
+
+  applyFilter() {
+    this.currentIndex = 0; // Reset scroll position when filter changes
+    this.categories.forEach(category => {
+      const container = document.querySelector(`.cards-wrapper`) as HTMLElement;
+      if (container) {
+        this.updateScroll(container); // Reset scroll position
+      }
+    });
   }
 }

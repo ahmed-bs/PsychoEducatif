@@ -9,11 +9,14 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ShareProfileRequest } from 'src/app/core/models/createprofile.model';
-import { Parent } from 'src/app/core/models/parent';
 import { Profile } from 'src/app/core/models/profile.model';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import Swal from 'sweetalert2';
 import { Add_popupComponent } from './add_popup/add_popup.component';
+import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
+import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
+import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
+import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 
 @Component({
   selector: 'app-Child_profile',
@@ -24,14 +27,14 @@ import { Add_popupComponent } from './add_popup/add_popup.component';
   providers: [MessageService]
 })
 export class Child_profileComponent implements OnInit {
-
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
   selectedChild: Profile | null = null;
   childId: string | null = null;
   parentId!: number;
-
+  categories: ProfileCategory[] = [];
+  domains: { [categoryId: number]: ProfileDomain[] } = {};
   displayDialog: boolean = false;
   displayEditDialog: boolean = false;
   afficherBoiteDialoguePartage: boolean = false;
@@ -63,22 +66,14 @@ export class Child_profileComponent implements OnInit {
     { id: 'progress3', width: '90%' }
   ];
 
-  openSigninDialog() {
-    this.dialog.open(Add_popupComponent, {
-      width: '900px',
-      maxWidth: '95vw',
-      panelClass: 'custom-dialog-container',
-      backdropClass: 'custom-backdrop',
-      disableClose: false
-    });
-  } 
-
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private profileService: ProfileService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private categoryService: ProfileCategoryService, 
+    private domainService: ProfileDomainService
   ) {
     this.accesSelectionne = this.optionsAcces[0];
   }
@@ -86,8 +81,7 @@ export class Child_profileComponent implements OnInit {
   ngOnInit() {
     const user = localStorage.getItem('user');
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
-     this.childId = this.route.snapshot.paramMap.get('childId');
-   //  this.parent = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+    this.childId = this.route.snapshot.paramMap.get('childId');
     this.loadChildren();
     if (this.childId) {
       this.loadChild(parseInt(this.childId));
@@ -101,6 +95,42 @@ export class Child_profileComponent implements OnInit {
         }, 100);
       });
     }, 300);
+  }
+
+  // Computed property to filter categories with domains
+  get filteredCategories(): ProfileCategory[] {
+    return this.categories.filter(category => (this.domains[category.id!] || []).length > 0);
+  }
+
+  loadCategories(profileId: number) {
+    this.categoryService.getCategories(profileId).subscribe({
+      next: (categories) => {
+        this.categories = categories;
+        // Load domains for each category
+        categories.forEach((category) => {
+          this.loadDomains(category.id!);
+        });
+      },
+      error: (err) => {
+        Swal.fire('Erreur', 'Impossible de charger les catégories.', 'error');
+      }
+    });
+  }
+
+  loadDomains(categoryId: number) {
+    this.domainService.getDomainsWithSpecificItems(categoryId).subscribe({
+      next: (domains) => {
+        this.domains[categoryId] = domains.map((domain) => ({
+          ...domain,
+          progress: domain.acquis_percentage || 0,
+          start_date: domain.start_date || new Date().toISOString().split('T')[0],
+          last_eval_date: domain.last_eval_date || new Date().toISOString().split('T')[0]
+        }));
+      },
+      error: (err) => {
+        Swal.fire('Erreur', 'Impossible de charger les domaines.', 'error');
+      }
+    });
   }
 
   switchTab(tabId: string): void {
@@ -132,9 +162,7 @@ export class Child_profileComponent implements OnInit {
   loadparmail(childId: number) {
     this.profileService.getProfileById(childId).subscribe({
       next: (child) => {
-        this.selectedChild = {
-          ...child,
-        };
+        this.selectedChild = { ...child };
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
@@ -147,8 +175,8 @@ export class Child_profileComponent implements OnInit {
       next: (child) => {
         this.selectedChild = {
           ...child,
-          // image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
         };
+        this.loadCategories(childId);
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
@@ -164,11 +192,6 @@ export class Child_profileComponent implements OnInit {
         `${child.first_name} ${child.last_name}`.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-  }
-
-  selectChild(child: Profile) {
-    this.selectedChild = child;
-    this.router.navigate(['/Dashboard-client/client/Kids_profiles', child.id]);
   }
 
   showDialog() {
@@ -264,15 +287,11 @@ export class Child_profileComponent implements OnInit {
       return;
     }
 
-
-
-    // Map permissions
     const permissions: ('view' | 'edit' | 'share')[] = ['view'];
     if (this.accesSelectionne.valeur === 'read_write') {
       permissions.push('edit');
     }
 
-    // Create ShareProfileRequest
     const shareData: ShareProfileRequest = {
       shared_with: this.saisieEmail,
       permissions
@@ -297,6 +316,15 @@ export class Child_profileComponent implements OnInit {
   cancelEdit() {
     this.displayEditDialog = false;
   }
+  openSigninDialog() {
+    this.dialog.open(Add_popupComponent, {
+      width: '900px',
+      maxWidth: '95vw',
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'custom-backdrop',
+      disableClose: false
+    });
+  } 
   calculateAge(birthDate: string): string {
     if (!birthDate) return 'Âge inconnu';
     const today = new Date();
@@ -308,6 +336,7 @@ export class Child_profileComponent implements OnInit {
     }
     return `${age} ans`;
   }
+
   resetChild(): Profile {
     return {
       first_name: '',
@@ -323,5 +352,4 @@ export class Child_profileComponent implements OnInit {
       is_active: true
     };
   }
-
 }

@@ -11,7 +11,14 @@
       </li>
     </ul>
   </div>
-  <div class="right"></div>
+  <div class="right">
+    <select [(ngModel)]="statusFilter" (change)="applyFilter()" class="status-dropdown">
+      <option value="all">Tous</option>
+      <option value="completed">Terminé</option>
+      <option value="en_cours">En cours</option>
+      <option value="not_started">Non commencé</option>
+    </select>
+  </div>
 </div>
 
 <!-- Main Content -->
@@ -21,8 +28,8 @@
       <!-- Dynamic Categories Section -->
       <div *ngFor="let category of categories" class="category-section">
         <!-- Only show category if it has domains -->
-        <ng-container *ngIf="category.domains && category.domains.length > 0">
-         <h4>{{ category.name }} <span class="count">{{category.domains_count}}</span></h4>
+        <ng-container *ngIf="getFilteredDomains(category).length > 0">
+          <h4>{{ category.name }} <span class="count">{{ getFilteredDomains(category).length }}</span></h4>
           <div class="shell">
             <div class="scroller-container">
               <button class="scroll-button left" (click)="scrollLeft(category, cardsWrapper)" 
@@ -33,7 +40,7 @@
 
               <div class="horizontal-scroller">
                 <div class="cards-wrapper" #cardsWrapper>
-                  <div class="col-md-4" *ngFor="let domain of category.domains">
+                  <div class="col-md-4" *ngFor="let domain of getFilteredDomains(category)">
                     <div class="competence-card" (click)="naviguerVersQuiz(domain.id)">
                       <div class="card-img-top">
                         <div class="item-count">
@@ -43,13 +50,10 @@
                           [alt]="domain.name" class="img-fluid" onerror="this.src='assets/img/autisme.jpg'" />
                       </div>
                       <div class="card-footer">
-                      <app-progress-bar [acquisPercentage]="domain.acquis_percentage"></app-progress-bar>
+                        <app-progress-bar [acquisPercentage]="domain.acquis_percentage"></app-progress-bar>
                       </div>
                       <div class="card-body">
                         <h5 class="card-title">{{ domain.name }}</h5>
-                        <!-- <p class="card-text">
-                          {{ domain.description || 'Évaluez les compétences pour mieux comprendre les progrès.' }}
-                        </p> -->
                       </div>
                       <div class="card-footer">
                         <span class="status-info">Cliquez pour commencer</span>
