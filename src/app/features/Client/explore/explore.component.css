@@ -9,7 +9,47 @@
     max-width: 1200px;
     margin: 0 auto;
 }
+.status-circles {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
 
+.circle {
+  width: 62px; /* Slightly increased to accommodate label */
+  height: 50px; /* Slightly increased to accommodate label */
+  border-radius: 40%;
+  display: flex;
+  flex-direction: column; /* Stack label and number vertically */
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px; /* Smaller font to fit both label and number */
+  font-weight: bold;
+}
+
+.circle.acquis {
+  background-color: #3bc72678; /* Green for Acquis */
+}
+
+.circle.non-acquis {
+  background-color: #dc3546bb; /* Red for Non Acquis */
+}
+
+.circle.en-cours {
+  background-color: #ffc107ca; /* Yellow for En Cours */
+}
+
+.status-label {
+  font-size: 10px; /* Smaller font for the label */
+  line-height: 1.2; /* Adjust line height for better spacing */
+}
+
+.status-count {
+  font-size: 14px; /* Slightly larger for the number */
+  line-height: 1.2;
+}
 /* Count number styling */
 .category-section h4 span.count {
   background-color: #98ebf6;

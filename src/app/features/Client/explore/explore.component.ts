@@ -12,8 +12,12 @@ interface CategoryWithDomains extends ProfileCategory {
   domains?: ProfileDomain[];
   items?: ProfileItem[];
 }
+
 interface DomainWithItems extends ProfileDomain {
   items?: ProfileItem[];
+  acquis_count?: number; // Add count for Acquis items
+  non_acquis_count?: number; // Add count for Non Acquis items
+  en_cours_count?: number; // Add count for En Cours items
 }
 
 @Component({
@@ -78,11 +82,17 @@ export class ExploreComponent implements OnInit {
     });
   }
 
-  loadItemsForDomain(domain: ProfileDomain, category: CategoryWithDomains) {
+  loadItemsForDomain(domain: DomainWithItems, category: CategoryWithDomains) {
     if (!domain.id) return;
 
     this.profileItemService.getItems(domain.id).subscribe({
       next: (items) => {
+        domain.items = items;
+        // Calculate counts for Acquis, Non Acquis, and En Cours
+        domain.acquis_count = items.filter(item => item.etat === 'ACQUIS').length;
+        domain.non_acquis_count = items.filter(item => item.etat === 'NON_ACQUIS').length;
+        domain.en_cours_count = items.filter(item => item.etat === 'PARTIEL').length;
+
         if (!category.items) {
           category.items = [];
         }

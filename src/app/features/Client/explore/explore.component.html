@@ -20,7 +20,6 @@
     </select>
   </div>
 </div>
-
 <!-- Main Content -->
 <div class="container-custom">
   <div class="row">
@@ -54,6 +53,21 @@
                       </div>
                       <div class="card-body">
                         <h5 class="card-title">{{ domain.name }}</h5>
+                        <!-- Updated row for status circles with labels -->
+                        <div class="status-circles">
+                          <div class="circle acquis" title="Acquis">
+                            <span class="status-label">Acquis</span>
+                            <span class="status-count">{{ domain.acquis_count || 0 }}</span>
+                          </div>
+                          <div class="circle non-acquis" title="Non Acquis">
+                            <span class="status-label">NonAcquis</span>
+                            <span class="status-count">{{ domain.non_acquis_count || 0 }}</span>
+                          </div>
+                          <div class="circle en-cours" title="En Cours">
+                            <span class="status-label">En Cours</span>
+                            <span class="status-count">{{ domain.en_cours_count || 0 }}</span>
+                          </div>
+                        </div>
                       </div>
                       <div class="card-footer">
                         <span class="status-info">Cliquez pour commencer</span>
