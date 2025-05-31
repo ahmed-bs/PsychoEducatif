@@ -16,7 +16,7 @@ export class CategoriesComponent implements OnInit {
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
   newCategory: Partial<ProfileCategory> = { name: '', description: '' };
-  profileId: number = 1; // Default profile ID; make dynamic if needed
+  profileId!: number ; 
   loading: boolean = true;
   isEditMode: boolean = false; // Track if dialog is for editing
 
@@ -32,6 +32,7 @@ export class CategoriesComponent implements OnInit {
 
   loadCategories() {
     this.loading = true;
+    this.profileId = parseInt(localStorage.getItem('selectedChildId')!, 0);
     this.profileCategoryService.getCategories(this.profileId).subscribe({
       next: (categories) => {
         this.categories = categories;

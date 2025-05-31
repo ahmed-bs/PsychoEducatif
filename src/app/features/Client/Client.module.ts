@@ -16,6 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Add_popupComponent } from './Child_profile/add_popup/add_popup.component';
+import { AppModule } from "../../app.module";
+import { ProgressBarComponent } from 'src/app/shared/progress-bar/progress-bar.component';
 
 @NgModule({
   imports: [
@@ -31,11 +33,12 @@ import { Add_popupComponent } from './Child_profile/add_popup/add_popup.componen
     MatCheckboxModule,
     MatIconModule,
     //primeng
-    InputGroupModule ,
+    InputGroupModule,
     InputGroupAddonModule,
-    ClientRoutes,
-  ],
-  declarations: [ClientComponent,Add_popupComponent,ExploreComponent,ReplaceSpacesPipe,
-]
+    ClientRoutes
+],
+  declarations: [ClientComponent,Add_popupComponent,ExploreComponent,ReplaceSpacesPipe,ProgressBarComponent 
+],
+  exports: [ProgressBarComponent]
 })
 export class ClientModule { }

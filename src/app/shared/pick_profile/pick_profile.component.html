@@ -126,8 +126,9 @@
   </div>
   <ng-template pTemplate="footer">
     <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-    <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"
-      [style]="{ color: 'white' }"></p-button>
+   <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"
+      [style]="{ color: 'white' }" [disabled]="isLoading"></p-button>
+
   </ng-template>
 </p-dialog>
 
@@ -177,6 +178,6 @@
   <ng-template pTemplate="footer">
     <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
     <p-button label="Enregistrer" styleClass="p-button-primary" (click)="saveChild()"
-      [style]="{ color: 'white' }"></p-button>
+      [style]="{ color: 'white' }" ></p-button>
   </ng-template>
 </p-dialog>

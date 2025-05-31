@@ -229,89 +229,50 @@
     <!-- Tab Contents -->
     <div id="tab-contents">
       <!-- Skills Tab -->
-      <div class="tab-content active" id="skills-content" class="tab-content" [class.active]="isTabActive('skills')">
-        <div class="grid md:grid-cols-2 gap-6">
-          <!-- Communication Skills -->
-          <div class="bg-white rounded-xl shadow overflow-hidden">
-            <div class="bg-indigo-600 px-4 py-3 flex justify-between items-center">
-              <h3 class="text-lg font-medium text-white">Communication (5 compétences)</h3>
-              <button class="text-white hover:text-indigo-200">
-                <i class="fas fa-plus"></i>
+<div class="tab-content active" id="skills-content" [class.active]="isTabActive('skills')">
+  <div class="grid md:grid-cols-2 gap-6">
+    <!-- Loop through filtered categories -->
+    <div *ngFor="let category of filteredCategories" class="bg-white rounded-xl shadow overflow-hidden">
+      <div class="bg-indigo-600 px-4 py-3 flex justify-between items-center">
+        <h3 class="text-lg font-medium text-white">{{ category.name }} ({{ (domains[category.id!] || []).length }} compétences)</h3>
+        <!-- <button class="text-white hover:text-indigo-200" (click)="openAddDomainDialog(category.id!)">
+          <i class="fas fa-plus"></i>
+        </button> -->
+      </div>
+      <div class="p-4">
+        <!-- Loop through domains for this category -->
+        <div *ngFor="let domain of domains[category.id!]" class="skill-card bg-indigo-50 p-4 rounded-lg mb-3">
+          <div class="flex justify-between items-center mb-2">
+            <h4 class="font-medium text-indigo-800">{{ domain.name }}</h4>
+            <div class="flex space-x-2">
+              <!-- <button class="text-indigo-600 hover:text-indigo-800" (click)="openEditDomainDialog(domain)">
+                <i class="fas fa-edit"></i>
               </button>
-            </div>
-            <div class="p-4">
-              <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-3">
-                <div class="flex justify-between items-center mb-2">
-                  <h4 class="font-medium text-indigo-800">Utilisation de pictogrammes pour exprimer des besoins</h4>
-                  <div class="flex space-x-2">
-                    <button class="text-indigo-600 hover:text-indigo-800">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="text-red-600 hover:text-red-800">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="mb-2">
-                  <span class="text-sm font-medium text-gray-700">Progrès: 75%</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-fill" [style.width]="selectedChild?.progress || '0%'"></div>
-                </div>
-                <div class="mt-3 flex justify-between text-sm text-gray-600">
-                  <span>Début: 12/03/2023</span>
-                  <span>Dernière éval: 10/06/2023</span>
-                </div>
-              </div>
-
-              <button
-                class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition flex items-center justify-center">
-                <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
-              </button>
+              <button class="text-red-600 hover:text-red-800" (click)="deleteDomain(category.id!, domain.id!)">
+                <i class="fas fa-trash"></i>
+              </button> -->
             </div>
           </div>
-
-          <!-- Socialization Skills -->
-          <div class="bg-white rounded-xl shadow overflow-hidden">
-            <div class="bg-purple-600 px-4 py-3 flex justify-between items-center">
-              <h3 class="text-lg font-medium text-white">Socialisation (4 compétences)</h3>
-              <button class="text-white hover:text-purple-200">
-                <i class="fas fa-plus"></i>
-              </button>
-            </div>
-            <div class="p-4">
-              <div class="skill-card bg-purple-50 p-4 rounded-lg mb-3">
-                <div class="flex justify-between items-center mb-2">
-                  <h4 class="font-medium text-purple-800">Participation à des jeux tour-by-turn</h4>
-                  <div class="flex space-x-2">
-                    <button class="text-purple-600 hover:text-purple-800">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="text-red-600 hover:text-red-800">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="mb-2">
-                  <span class="text-sm font-medium text-gray-700">Progrès: 60%</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 60%; background-color: #8b5cf6;"></div>
-                </div>
-                <div class="mt-3 flex justify-between text-sm text-gray-600">
-                  <span>Début: 20/02/2023</span>
-                  <span>Dernière éval: 05/06/2023</span>
-                </div>
-              </div>
-
-              <button
-                class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-purple-600 hover:border-purple-300 transition flex items-center justify-center">
-                <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
-              </button>
-            </div>
+          <div class="mb-2">
+            <span class="text-sm font-medium text-gray-700">Progrès: {{ domain.acquis_percentage }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width]="domain.acquis_percentage + '%'"></div>
+          </div>
+          <div class="mt-3 flex justify-between text-sm text-gray-600">
+            <span>Début: {{ domain.start_date }}</span>
+            <span>Dernière éval: {{ domain.last_eval_date }}</span>
           </div>
         </div>
+        <!-- <button
+          class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition flex items-center justify-center"
+          (click)="openAddDomainDialog(category.id!)">
+          <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
+        </button> -->
       </div>
+    </div>
+  </div>
+</div>
 
       <!-- Goals Tab -->
       <div class="tab-content" id="goals-content" class="tab-content" [class.active]="isTabActive('goals')">

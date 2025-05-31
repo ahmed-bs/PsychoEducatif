@@ -6,4 +6,5 @@ export interface ProfileItem {
   profile_domain: number;
   is_modified: boolean;
   modified_at: string;
+  commentaire?: string; // New field
 }

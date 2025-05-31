@@ -7,48 +7,56 @@
       </li>
       <li><i class="bx bx-chevron-right"></i></li>
       <li>
-        <a class="active" href="#">Résumé des compétences </a>
+        <a class="active" href="#">Résumé des compétences</a>
       </li>
     </ul>
   </div>
   <div class="right"></div>
 </div>
 <div class="summary-container">
-  
-  <p-table [value]="competences" [paginator]="true" [rows]="10" 
-           [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
+  <div *ngIf="isLoading" class="text-center">
+    <p>Loading...</p>
+  </div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <p-table [value]="items" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
     <ng-template pTemplate="header">
       <tr>
-        <th>Sous-compétences</th>
+        <th>Compétences</th>
+        <th>Domaine</th>
+        <th>Items</th>
         <th>Statuts</th>
         <th>Commentaires</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-competence>
-      <ng-container *ngFor="let sousCompetence of competence.sousCompetences">
-        <tr *ngIf="competence.categorie === categorie">
-          <td class="align-middle">
-            {{ sousCompetence.description }}
-          </td>
-          <td class="align-middle">
-            <span [ngClass]="{
-              'statut-badge statut-acquise': sousCompetence.statut === 'acquise',
-              'statut-badge statut-non-acquise': sousCompetence.statut === 'non acquise',
-              'statut-badge statut-non-evalue': !sousCompetence.statut
-            }">
-              {{ sousCompetence.statut || 'Non évalué' }}
-            </span>
-          </td>
-          <td class="align-middle">
-            <div *ngIf="sousCompetence.commentaire" class="comment-bubble">
-              {{ sousCompetence.commentaire }}
-            </div>
-            <div *ngIf="!sousCompetence.commentaire" class="text-muted">
-              -
-            </div>
-          </td>
-        </tr>
-      </ng-container>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="align-middle">{{ getCategoryNameForItem(item) }}</td>
+        <td class="align-middle">{{ getDomainNameForItem(item) }}</td>
+        <td class="align-middle">{{ item.description || item.name }}</td>
+        <td class="align-middle">
+          <span [ngClass]="{
+            'statut-badge statut-acquise': item.etat === 'ACQUIS',
+            'statut-badge statut-non-acquise': item.etat === 'NON_ACQUIS',
+            'statut-badge statut-non-evalue': item.etat === 'NON_COTE',
+            'statut-badge statut-partiel': item.etat === 'PARTIEL'
+          }">
+            {{ item.etat === 'ACQUIS' ? 'Acquise' : 
+               item.etat === 'NON_ACQUIS' ? 'Non acquise' : 
+               item.etat === 'PARTIEL' ? 'Partielle' : 
+               'Non évalué' }}
+          </span>
+        </td>
+        <td class="align-middle">
+          <div *ngIf="item.commentaire && item.commentaire !== item.name" class="comment-bubble">
+            {{ item.commentaire }}
+          </div>
+          <div *ngIf="!item.commentaire || item.commentaire === item.name" class="text-muted">
+            -
+          </div>
+        </td>
+      </tr>
     </ng-template>
   </p-table>
 </div>
