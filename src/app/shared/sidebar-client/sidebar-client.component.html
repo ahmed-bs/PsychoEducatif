@@ -6,7 +6,7 @@
     <div class="logo-name"><span>Evalu'</span>Action</div>
   </a>
   <ul class="side-menu">
-    <li class="active"><a routerLink="/Dashboard-client/client"><i class='bx bxs-dashboard'></i>Accueil</a></li>
+    <li class="active"><a [routerLink]="['/Dashboard-client/client/', getChildId()]"><i class='bx bxs-dashboard'></i>Accueil</a></li>
     <li><a routerLink="/Dashboard-client/client/explore"><i class='bx bx-search'></i>Explorer</a></li>
 
     <li><a [routerLink]="['/Dashboard-client/client/profiles/', getChildId()]"><i class='bx bx-user'></i>Profiles</a></li>

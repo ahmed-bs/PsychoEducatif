@@ -10,7 +10,7 @@ import { Child_profileComponent } from './Child_profile/Child_profile.component'
 
 
 const routes: Routes = [
-  { path:'',component:DashboardClientComponent },
+
   { path:'explore',component:ExploreComponent },
   { path:'calendar',component:CalendarComponent },
   { path:'Kids_profiles/:childId',component:PickProfileComponent },
@@ -18,6 +18,7 @@ const routes: Routes = [
   { path:'evaluations/:categoryId',component:EvaluationsComponent },
   { path: 'evaluations_configurations', loadChildren: () => import('./evaluationConfig/evaluationConfig.module').then(m => m.EvaluationConfigModule) },
   { path: 'quiz/:domainId', component: QuizComponent },
+  { path:':childId',component:DashboardClientComponent },
 ];
 
 export const ClientRoutes = RouterModule.forChild(routes);
