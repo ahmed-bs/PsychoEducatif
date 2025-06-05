@@ -17,33 +17,7 @@
   font-weight: 600;
 }
 
-/* === Tableau PrimeNG === */
-.p-datatable {
-  font-size: 16px;
-  border-collapse: separate;
-  border-spacing: 0;
-}
 
-.p-datatable .p-datatable-thead > tr > th {
-  background-color: #3498db;
-  color: white;
-  font-weight: 600;
-  padding: 15px;
-  border: none;
-  position: sticky;
-  top: 0;
-}
-
-.p-datatable .p-datatable-tbody > tr > td {
-  padding: 0;
-  vertical-align: top;
-  border: 1px solid #e0e0e0;
-}
-
-/* === Lignes Alternées === */
-.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
-  background-color: #f5f9fc;
-}
 
 /* === Items de Ligne === */
 .row-item {
@@ -161,8 +135,6 @@
 
 
 
-
-
 .head-title {
   display: flex;
   justify-content: space-between;
@@ -204,7 +176,7 @@
   font-size: 1.75rem;
   margin: 0 0 10px 0;
   padding: 10px;
-  background-color: rgba(0, 123, 255, 0.05); /* Light blue transparent background */
+  background-color: rgba(0, 123, 255, 0.05);
   border: 1px solid rgba(0, 123, 255, 0.2);
   border-radius: 4px;
   color: #333;
@@ -214,7 +186,7 @@
   font-size: 1.25rem;
   margin: 0 0 10px 0;
   padding: 8px;
-  background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent gray background */
+  background-color: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   color: #333;
@@ -263,4 +235,161 @@
 
 .text-muted {
   color: #6c757d;
+}
+
+
+
+
+/* === Button Container === */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px; /* Space between buttons */
+  padding: 12px 16px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 8px 8px 0 0; /* Rounded top corners to match table */
+}
+
+/* === Base Button Styles === */
+.p-button {
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and label */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* === Excel Button (p-button-success) === */
+.p-button-success {
+  background-color: #28a745; /* Green for Excel */
+  border: 1px solid #28a745;
+  color: white;
+}
+
+.p-button-success:hover {
+  background-color: #218838; /* Darker green on hover */
+  border-color: #1e7e34;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.p-button-success .pi-file-excel {
+  font-size: 16px; /* Icon size */
+}
+
+/* === PDF Button (p-button-warning) === */
+.p-button-warning {
+  background-color: #ff9800; /* Orange for PDF */
+  border: 1px solid #ff9800;
+  color: white;
+}
+
+.p-button-warning:hover {
+  background-color: #e68900; /* Darker orange on hover */
+  border-color: #d67d00;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.p-button-warning .pi-file-pdf {
+  font-size: 16px; /* Icon size */
+}
+
+/* === Disabled State === */
+.p-button:disabled {
+  background-color: #d3d3d3;
+  border-color: #d3d3d3;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+/* === Ripple Effect (PrimeNG pRipple) === */
+.p-ripple .p-ink {
+  background: rgba(255, 255, 255, 0.3); /* Subtle ripple effect */
+}
+
+/* === Responsive Design === */
+@media (max-width: 768px) {
+  .button-container {
+    justify-content: center; /* Center buttons on smaller screens */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .p-button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .p-button .pi {
+    font-size: 14px; /* Smaller icon size on mobile */
+  }
+}
+
+/* === Accessibility === */
+.p-button:focus {
+  outline: 3px solid #9b59b6;
+  outline-offset: 2px;
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.5);
+}
+
+
+
+
+
+
+
+
+/* === Tableau PrimeNG === */
+:host ::ng-deep .p-datatable {
+  font-size: 16px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background-color: #3498db;
+  color: white;
+  font-weight: 600;
+  padding: 8px 15px;
+  border: none;
+  position: sticky;
+  top: 0;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 8px 15px;
+  vertical-align: top;
+  border: 1px solid #dee2e6;
+}
+
+:host ::ng-deep .p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f5f9fc;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #ebf5fb;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  :host ::ng-deep .p-datatable {
+    font-size: 14px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    padding: 6px 12px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    padding: 6px 12px;
+  }
 }
