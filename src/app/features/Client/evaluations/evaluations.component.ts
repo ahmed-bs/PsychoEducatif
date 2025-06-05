@@ -18,7 +18,8 @@ export class EvaluationsComponent implements OnInit {
   items: ProfileItem[] = [];
   isLoading: boolean = false;
   error: string | null = null;
-
+  profileCategoryName: string | null = null;
+  profileDomainName: string | null = null;
   constructor(
     private profileItemService: ProfileItemService,
     private route: ActivatedRoute,
@@ -40,7 +41,6 @@ export class EvaluationsComponent implements OnInit {
       }
     });
   }
-
   loadItems(): void {
     this.isLoading = true;
     this.error = null;
@@ -50,6 +50,10 @@ export class EvaluationsComponent implements OnInit {
         this.items = items;
         if (items.length === 0) {
           this.error = 'No items found for this domain';
+        } else {
+          // Extract profile_category_name and profile_domain_name from the first item
+          this.profileCategoryName = items[0]?.profile_category_name || 'Unknown Category';
+          this.profileDomainName = items[0]?.profile_domain_name || 'Unknown Domain';
         }
         this.isLoading = false;
       },

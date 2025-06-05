@@ -84,7 +84,15 @@
   align-items: center;
   font-weight: 600;
 }
-
+.statut-partiel{
+  color: #ccff00;
+ 
+  padding: 6px 12px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
 .statut-non-evalue {
   color: #7f8c8d;
   
@@ -144,3 +152,115 @@
   background-color: #e3f2fd !important;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+.head-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.head-title .left h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.breadcrumb {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb li {
+  margin-right: 5px;
+}
+
+.breadcrumb li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.breadcrumb li a.active {
+  color: #6c757d;
+}
+
+.summary-container {
+  padding: 20px;
+}
+
+.category-header {
+  font-size: 1.75rem;
+  margin: 0 0 10px 0;
+  padding: 10px;
+  background-color: rgba(0, 123, 255, 0.05); /* Light blue transparent background */
+  border: 1px solid rgba(0, 123, 255, 0.2);
+  border-radius: 4px;
+  color: #333;
+}
+
+.domain-header {
+  font-size: 1.25rem;
+  margin: 0 0 10px 0;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent gray background */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  color: #333;
+}
+
+.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.p-datatable-gridlines .p-datatable-tbody > tr > td {
+  border: 1px solid #dee2e6;
+}
+
+.statut-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.9em;
+}
+
+.statut-acquise {
+  background-color: #28a745;
+  color: white;
+}
+
+.statut-non-acquise {
+  background-color: #dc3545;
+  color: white;
+}
+
+.statut-non-evalue {
+  background-color: #6c757d;
+  color: white;
+}
+
+.statut-partiel {
+  background-color: #ffc107;
+  color: white;
+}
+
+.comment-bubble {
+  background-color: #e9ecef;
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.text-muted {
+  color: #6c757d;
+}

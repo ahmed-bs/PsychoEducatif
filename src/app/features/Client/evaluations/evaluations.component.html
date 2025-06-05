@@ -20,11 +20,13 @@
   <div *ngIf="error" class="alert alert-danger">
     {{ error }}
   </div>
+  <div *ngIf="items.length > 0" class="mb-4">
+    <h2 class="category-header">{{ profileCategoryName }}</h2>
+    <h3 class="domain-header">{{ profileDomainName }}</h3>
+  </div>
   <p-table [value]="items" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
     <ng-template pTemplate="header">
       <tr>
-        <th>Compétences</th>
-        <th>Domaine</th>
         <th>Items</th>
         <th>Statuts</th>
         <th>Commentaires</th>
@@ -32,8 +34,6 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td class="align-middle">{{ item.profile_category_name }}</td>
-        <td class="align-middle">{{ item.profile_domain_name }}</td>
         <td class="align-middle">{{ item.description || item.name }}</td>
         <td class="align-middle">
           <span [ngClass]="{
