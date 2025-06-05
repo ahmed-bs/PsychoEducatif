@@ -32,8 +32,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td class="align-middle">{{ getCategoryNameForItem(item) }}</td>
-        <td class="align-middle">{{ getDomainNameForItem(item) }}</td>
+        <td class="align-middle">{{ item.profile_category_name }}</td>
+        <td class="align-middle">{{ item.profile_domain_name }}</td>
         <td class="align-middle">{{ item.description || item.name }}</td>
         <td class="align-middle">
           <span [ngClass]="{

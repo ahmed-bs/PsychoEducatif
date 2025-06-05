@@ -15,7 +15,7 @@ const routes: Routes = [
   { path:'calendar',component:CalendarComponent },
   { path:'Kids_profiles/:childId',component:PickProfileComponent },
   { path:'profiles/:childId',component:Child_profileComponent },
-  { path:'evaluations/:categoryId',component:EvaluationsComponent },
+  { path:'evaluations/:domainId',component:EvaluationsComponent },
   { path: 'evaluations_configurations', loadChildren: () => import('./evaluationConfig/evaluationConfig.module').then(m => m.EvaluationConfigModule) },
   { path: 'quiz/:domainId', component: QuizComponent },
   { path:':childId',component:DashboardClientComponent },
