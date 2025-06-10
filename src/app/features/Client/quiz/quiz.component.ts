@@ -17,7 +17,6 @@ import { Location } from '@angular/common';
   ]
 })
 export class QuizComponent implements OnInit {
-  categoryId: number = 0;
   domainId: number = 0;
   items: ProfileItem[] = [];
   currentIndex: number = 0;
@@ -37,7 +36,7 @@ export class QuizComponent implements OnInit {
 console.log('categoryIdParam:', categoryIdParam);
 
     if (categoryIdParam) {
-      this.categoryId = +categoryIdParam;
+      this.domainId =  parseInt(categoryIdParam);
       this.loadItems();
     } else {
       this.error = "Category ID is required";
@@ -47,14 +46,7 @@ console.log('categoryIdParam:', categoryIdParam);
   loadItems() {
     this.isLoading = true;
     this.error = null;
-
-    // First get the domain for this category
-    // this.profileDomainService.getDomains(this.categoryId).subscribe({
-      // next: (domains) => {
-        // if (domains && domains.length > 0) {
-        //   this.domainId = domains[0].id;
-          // Then get the items for this domain
-          this.profileItemService.getItems(this.categoryId).subscribe({
+          this.profileItemService.getItems(this.domainId).subscribe({
             next: (items) => {
               this.items = items;
               if (items.length === 0) {
@@ -68,17 +60,6 @@ console.log('categoryIdParam:', categoryIdParam);
               this.isLoading = false;
             }
           });
-        // } else {
-        //   this.error = "No domains found for this category";
-        //   this.isLoading = false;
-        // }
-      // },
-      // error: (error) => {
-      //   console.error('Error loading domains:', error);
-      //   this.error = "Failed to load domain information. Please try again later.";
-      //   this.isLoading = false;
-      // }
-    // });
   }
 
   precedent() {
@@ -110,7 +91,7 @@ console.log('categoryIdParam:', categoryIdParam);
 
     Promise.all(updatePromises)
       .then(() => {
-        this.router.navigate(['/Dashboard-client/client/evaluations', this.categoryId]);
+        this.router.navigate(['/Dashboard-client/client/evaluations', this.domainId]);
       })
       .catch(error => {
         console.error('Error updating items:', error);

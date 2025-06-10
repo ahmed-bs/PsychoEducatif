@@ -3,7 +3,7 @@
     <main>
         <div class="head-title">
             <div class="left">
-                <h1>Bienvenue sur le Tableau de Bord</h1>
+                <h1>🏠 Bienvenue sur le Tableau de Bord</h1>
                 <ul class="breadcrumb">
                     <li>
                         <a href="#">Tableau de bord</a>
@@ -19,236 +19,548 @@
             </div>
         </div>
 
+        <body class="bg-gray-50 font-sans">
+            <div class="container mx-auto px-4 py-8 max-w-6xl">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-3xl font-bold text-indigo-800"></h1>
 
+                    <div class="flex items-center space-x-4">
+                        <!-- Dropdown for child profiles -->
+                        <div class="dropdown relative">
+                            <!-- <button
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center">
+            <i class="fas fa-user-circle mr-2"></i> Profils Enfants
+            <i class="fas fa-chevron-down ml-2 text-sm"></i>
+          </button> -->
+                            <div class="dropdown-content mt-1">
+                                <div *ngFor="let child of filteredChildren" class="dropdown-item"
+                                    [class.active]="child.id === selectedChild?.id">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-child text-indigo-600"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">{{ child.first_name }} {{ child.last_name }}</div>
+                                        <div class="text-xs text-gray-500">{{ calculateAge(child.birth_date) }} • {{
+                                            child.diagnosis || 'Non spécifié' }}</div>
+                                    </div>
+                                </div>
+                                <div class="border-t border-gray-200"></div>
+                                <div class="dropdown-item">
+                                    <i class="fas fa-plus-circle text-indigo-600 mr-3"></i>
+                                    <div class="font-medium text-indigo-600" (click)="showDialog()">Ajouter un nouveau
+                                        profil</div>
+                                </div>
+                            </div>
 
-        <div class="card_1">
-            <div class="container">
-                <div class="image-container">
-                    <img src="assets/img/Autism-amico.png" alt="Illustration d'enfant heureux" class="hover-effect">
-                </div>
-                <div class="text-container">
-                    <h2>Bonjour, Parent de Lucas ! 👋</h2>
-                    <p class="text-dark mb-0 fs-16">
-                        🎉 Lucas a réalisé **3 nouvelles activités** cette semaine ! Continuez à l’encourager. 💙
-                    </p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="card">
-            <div class="month">{{ currentMonth }}</div>
+                        </div>
+                        <button
+                            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center">
+                            <i class="fas fa-file-pdf mr-2"></i> Exporter PDF
+                        </button>
 
-            <div class="days">
-                <div class="day" *ngFor="let day of days; let i = index"
-                    [class.selected]="day.day === currentDay && day.weekday === currentDaystr">
-                    <div class="weekday">{{ day.weekday }}</div>
-                    <div class="day-number">{{ day.day }}</div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="insights">
-            <!-- Progression des Activités -->
-            <div class="progress-card">
-                <span class="material-symbols-sharp">task_alt</span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Activités Réalisées</h3>
-                        <h1>12</h1>
                     </div>
                 </div>
-                <small class="text-muted">Cette semaine</small>
-            </div>
 
-            <!-- Objectifs Atteints -->
-            <div class="progress-card">
-                <span class="material-symbols-sharp">emoji_events</span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Objectifs Atteints</h3>
-                        <h1>8</h1>
-                    </div>
-                </div>
-                <small class="text-muted">Depuis le début</small>
-            </div>
+                <!-- Profile Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                    <div class="md:flex">
+                        <div class="md:w-1/4 bg-indigo-100 p-6 flex flex-col items-center justify-center">
+                            <div class="w-32 h-32 rounded-full bg-indigo-200 flex items-center justify-center mb-4">
+                                <i class="fas fa-child text-6xl text-indigo-600"></i>
+                            </div>
+                            <button class="text-indigo-600 hover:text-indigo-800 flex items-center">
+                                <i class="fas fa-camera mr-2"></i> Ajouter photo
+                            </button>
+                        </div>
+                        <div class="md:w-3/4 p-6" *ngIf="selectedChild">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-2xl font-bold text-gray-800">{{ selectedChild.first_name }} {{
+                                        selectedChild.last_name }}
+                                    </h2>
+                                    <div class="flex items-center mt-2">
+                                        <span
+                                            class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded mr-2">{{
+                                            calculateAge(selectedChild.birth_date) }}</span>
+                                        <span
+                                            class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded">{{
+                                            selectedChild.diagnosis }}</span>
+                                    </div>
+                                    <p class="text-gray-600 mt-2"><i
+                                            class="fas fa-calendar-alt mr-2 text-indigo-500"></i> Dernière
+                                        évaluation: 15/06/2023</p>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <!-- <button (click)="showEditDialog()"
+                class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
+                <i class="fas fa-edit mr-2"></i> Modifier profil
+              </button> -->
+                                    <!-- <button (click)="showShareDialog()"
+                class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
+                <i class="pi pi-share-alt" style="color: #a01717; font-size: 20px;"></i>
+              </button> -->
+                                </div>
+                            </div>
 
-            <!-- Nouvelles Compétences -->
-            <div class="progress-card">
-                <span class="material-symbols-sharp">school</span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Nouvelles Compétences</h3>
-                        <h1>3</h1>
-                    </div>
-                </div>
-                <small class="text-muted">Cette semaine</small>
-            </div>
-        </div>
+                            <!-- Tabs -->
 
-        <div class="container-cours">
-            <div class="header-cours">
-                <h1>Évaluation des Compétences</h1>
-                <div class="dropdown">
-                    <p-dropdown [options]="contents" [(ngModel)]="selectedContent" optionLabel="name"
-                        placeholder="Choisissez une compétence" />
-                </div>
-            </div>
-        
-            <div class="course-card">
-                <div class="course-info">
-                    <div class="course-icon icon-informatic">
-                        <img src="..." alt="Communication Expressive">
+                            <div class="border-b border-gray-200">
+                                <ul class="flex flex-wrap -mb-px">
+                                    <li class="mr-2" *ngFor="let tab of tabs">
+                                        <button class="inline-block p-4 border-b-2 rounded-t-lg font-medium"
+                                            [class.border-indigo-600]="isTabActive(tab.id)"
+                                            [class.text-indigo-600]="isTabActive(tab.id)"
+                                            [class.border-transparent]="!isTabActive(tab.id)"
+                                            [class.hover:text-gray-600]="!isTabActive(tab.id)"
+                                            [class.hover:border-gray-300]="!isTabActive(tab.id)"
+                                            (click)="switchTab(tab.id)">
+                                            {{tab.label}}
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="course-details">
-                        <h3>Communication Expressive</h3>
-                        <p>Évaluez les compétences de la communication expressive pour mieux comprendre les progrès.</p>
-                    </div>
                 </div>
-                <div class="course-status">
-                    <div class="status">en cours</div>
-                    <div class="progress-container">
-                        <div class="progress-circle">
-                            <svg viewBox="0 0 36 36">
-                                <circle class="bg" cx="18" cy="18" r="15.5" stroke-dasharray="97" stroke-dashoffset="0"></circle>
-                                <circle class="progress" cx="18" cy="18" r="15.5" stroke-dasharray="97" stroke-dashoffset="24.25"></circle>
-                            </svg>
-                            <div class="progress-text">75%</div>
+
+                <!-- Tab Contents -->
+                <div id="tab-contents">
+                    <!-- Skills Tab -->
+                    <div class="tab-content active" id="skills-content" [class.active]="isTabActive('skills')">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Loop through filtered categories -->
+                            <div *ngFor="let category of filteredCategories"
+                                class="bg-white rounded-xl shadow overflow-hidden">
+                                <div class="bg-indigo-600 px-4 py-3 flex justify-between items-center">
+                                    <h3 class="text-lg font-medium text-white">{{ category.name }} ({{
+                                        (domains[category.id!] || []).length }} compétences)</h3>
+                                    <!-- <button class="text-white hover:text-indigo-200" (click)="openAddDomainDialog(category.id!)">
+          <i class="fas fa-plus"></i>
+        </button> -->
+                                </div>
+                                <div class="p-4">
+                                    <!-- Loop through domains for this category -->
+                                    <div *ngFor="let domain of domains[category.id!]"
+                                        class="skill-card bg-indigo-50 p-4 rounded-lg mb-3">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <h4 class="font-medium text-indigo-800">{{ domain.name }}</h4>
+                                            <div class="flex space-x-2">
+                                                <!-- <button class="text-indigo-600 hover:text-indigo-800" (click)="openEditDomainDialog(domain)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="text-red-600 hover:text-red-800" (click)="deleteDomain(category.id!, domain.id!)">
+                <i class="fas fa-trash"></i>
+              </button> -->
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-sm font-medium text-gray-700">Progrès: {{
+                                                domain.acquis_percentage }}%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" [style.width]="domain.acquis_percentage + '%'">
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 flex justify-between text-sm text-gray-600">
+                                            <span>Début: {{ domain.start_date }}</span>
+                                            <span>Dernière éval: {{ domain.last_eval_date }}</span>
+                                        </div>
+                                    </div>
+                                    <!-- <button
+          class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition flex items-center justify-center"
+          (click)="openAddDomainDialog(category.id!)">
+          <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
+        </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Goals Tab -->
+                    <div class="tab-content" id="goals-content" class="tab-content"
+                        [class.active]="isTabActive('goals')">
+                        <div class="bg-white rounded-xl shadow overflow-hidden">
+                            <div class="bg-blue-600 px-4 py-3">
+                                <h3 class="text-lg font-medium text-white">Objectifs de travail</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="mb-6">
+                                    <div class="flex items-start mb-4">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <div
+                                                class="flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800">
+                                                <i class="fas fa-bullseye text-sm"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="text-lg font-medium text-gray-800">Développer la communication
+                                                non verbale</h4>
+                                            <p class="mt-1 text-gray-600">Objectif principal pour les 6 prochains mois.
+                                                Priorité élevée.</p>
+                                            <div class="mt-2 flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-calendar-alt mr-2"></i> Date cible: 15/12/2023
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-l-4 border-blue-200 pl-4 ml-3">
+                                        <h5 class="font-medium text-gray-700 mb-2">Sous-objectifs:</h5>
+                                        <ul class="space-y-2">
+                                            <li class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <div
+                                                        class="flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800">
+                                                        <i class="fas fa-check text-xs"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-2">
+                                                    <span class="text-gray-700">Utiliser des pictogrammes pour exprimer
+                                                        5 besoins différents</span>
+                                                </div>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <div
+                                                        class="flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800">
+                                                        <i class="fas fa-spinner text-xs"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-2">
+                                                    <span class="text-gray-700">Répondre par oui/non à des questions
+                                                        simples</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <div
+                                                class="flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800">
+                                                <i class="fas fa-bullseye text-sm"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="text-lg font-medium text-gray-800">Améliorer les interactions
+                                                sociales avec les pairs</h4>
+                                            <p class="mt-1 text-gray-600">Objectif à moyen terme. Priorité moyenne.</p>
+                                            <div class="mt-2 flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-calendar-alt mr-2"></i> Date cible: 15/03/2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button
+                                    class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-blue-600 hover:border-blue-300 transition flex items-center justify-center">
+                                    <i class="fas fa-plus mr-2"></i> Ajouter un nouvel objectif
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strategies Tab -->
+                    <div class="tab-content" id="strategies-content" class="tab-content"
+                        [class.active]="isTabActive('strategies')">
+                        <div class="bg-white rounded-xl shadow overflow-hidden">
+                            <div class="bg-green-600 px-4 py-3">
+                                <h3 class="text-lg font-medium text-white">Stratégies comportementales</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="mb-6">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <div
+                                                class="flex items-center justify-center h-6 w-6 rounded-full bg-green-100 text-green-800">
+                                                <i class="fas fa-lightbulb text-sm"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="text-lg font-medium text-gray-800">Utilisation de renforcements
+                                                positifs</h4>
+                                            <p class="mt-1 text-gray-600">Système de récompenses immédiates pour les
+                                                comportements souhaités.
+                                                Utiliser des renforçateurs variés (jouets préférés, autocollants,
+                                                activités spéciales).</p>
+                                            <div class="mt-3">
+                                                <span
+                                                    class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mr-2">
+                                                    <i class="fas fa-check-circle mr-1"></i> Actif
+                                                </span>
+                                                <span
+                                                    class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                                                    <i class="fas fa-user mr-1"></i> Tous les intervenants
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <div
+                                                class="flex items-center justify-center h-6 w-6 rounded-full bg-green-100 text-green-800">
+                                                <i class="fas fa-lightbulb text-sm"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="text-lg font-medium text-gray-800">Scénarios sociaux pour les
+                                                situations quotidiennes</h4>
+                                            <p class="mt-1 text-gray-600">Création d'histoires sociales illustrées pour
+                                                préparer Jean aux
+                                                situations nouvelles ou difficiles (visite chez le médecin,
+                                                anniversaire, etc.).</p>
+                                            <div class="mt-3">
+                                                <span
+                                                    class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mr-2">
+                                                    <i class="fas fa-check-circle mr-1"></i> Actif
+                                                </span>
+                                                <span
+                                                    class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
+                                                    <i class="fas fa-user mr-1"></i> Éducateur spécialisé
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button
+                                    class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-green-600 hover:border-green-300 transition flex items-center justify-center"
+                                    (click)="openSigninDialog()">
+                                    <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle stratégie
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Tab -->
+                    <div class="tab-content" id="notes-content" class="tab-content"
+                        [class.active]="isTabActive('notes')">
+                        <div class="bg-white rounded-xl shadow overflow-hidden">
+                            <div class="bg-yellow-600 px-4 py-3">
+                                <h3 class="text-lg font-medium text-white">Notes et observations</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="mb-6">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <div
+                                                class="flex items-center justify-center h-6 w-6 rounded-full bg-yellow-100 text-yellow-800">
+                                                <i class="fas fa-pencil-alt text-sm"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="flex justify-between items-center">
+                                                <h4 class="text-lg font-medium text-gray-800">Observation du 10/06/2023
+                                                </h4>
+                                                <span class="text-sm text-gray-500">Par Dr. Martin</span>
+                                            </div>
+                                            <p class="mt-2 text-gray-600">Jean a montré un intérêt accru pour les
+                                                interactions avec ses pairs lors
+                                                de la séance de groupe. Il a initié un contact visuel à plusieurs
+                                                reprises et a partagé un jouet
+                                                sans incitation. Progrès notable dans le domaine de la socialisation.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <div
+                                                class="flex items-center justify-center h-6 w-6 rounded-full bg-yellow-100 text-yellow-800">
+                                                <i class="fas fa-pencil-alt text-sm"></i>
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="flex justify-between items-center">
+                                                <h4 class="text-lg font-medium text-gray-800">Note du 05/06/2023</h4>
+                                                <span class="text-sm text-gray-500">Par Éducatrice Sophie</span>
+                                            </div>
+                                            <p class="mt-2 text-gray-600">Jean utilise maintenant régulièrement son
+                                                classeur de pictogrammes pour
+                                                exprimer ses besoins fondamentaux (manger, boire, toilettes). Nous
+                                                devrions maintenant travailler
+                                                sur l'expression d'émotions et de préférences.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="border-2 border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-medium text-gray-800 mb-3">Ajouter une nouvelle note</h4>
+                                    <textarea
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                        rows="4" placeholder="Écrivez vos observations ici..."></textarea>
+                                    <div class="mt-3 flex justify-between items-center">
+                                        <div>
+                                            <label class="inline-flex items-center">
+                                                <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600">
+                                                <span class="ml-2 text-gray-700">Note importante</span>
+                                            </label>
+                                        </div>
+                                        <button
+                                            class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition">
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-        
-            <div class="course-card">
-                <div class="course-info">
-                    <div class="course-icon icon-art">
-                        <img src="..." alt="Partage de jouets">
-                    </div>
-                    <div class="course-details">
-                        <h3>Partage et Tour de Rôle</h3>
-                        <p>Développe la capacité à partager des jouets et attendre son tour pendant les jeux.</p>
+        </body>
+
+
+
+
+
+
+
+
+
+
+        <p-dialog header="Ajouter un enfant" [(visible)]="displayDialog" [modal]="true" [style]="{ width: '40vw' }">
+            <div class="dialog-content">
+                <div class="field">
+                    <label for="firstName">Prénom</label>
+                    <input pInputText id="firstName" [(ngModel)]="newChild.first_name" placeholder="Prénom" required />
+                </div>
+                <div class="field">
+                    <label for="lastName">Nom</label>
+                    <input pInputText id="lastName" [(ngModel)]="newChild.last_name" placeholder="Nom" required />
+                </div>
+                <div class="field">
+                    <label for="birthDate">Date de naissance</label>
+                    <input pInputText id="birthDate" type="date" [(ngModel)]="newChild.birth_date" required />
+                </div>
+                <div class="field">
+                    <label>Genre</label>
+                    <div class="gender-selector">
+                        <!-- Male Option (M) -->
+                        <div class="gender-option" [class.selected]="selectedChild!.gender === 'M'"
+                            (click)="selectedChild!.gender = 'M'">
+                            ♂ Male
+                        </div>
+
+                        <!-- Female Option (F) -->
+                        <div class="gender-option" [class.selected]="selectedChild!.gender === 'F'"
+                            (click)="selectedChild!.gender = 'F'">
+                            ♀ Female
+                        </div>
                     </div>
                 </div>
-                <div class="course-status">
-                    <div class="status">en cours</div>
-                    <div class="time">65%</div>
+                <div class="field">
+                    <label for="diagnosis">Diagnostic</label>
+                    <input pInputText id="diagnosis" [(ngModel)]="newChild.diagnosis" placeholder="Diagnostic" />
+                </div>
+                <div class="field">
+                    <label for="notes">Notes</label>
+                    <input pInputText id="notes" [(ngModel)]="newChild.notes" placeholder="Notes" />
+                </div>
+                <div class="field">
+                    <label for="evaluationScore">Score d'évaluation</label>
+                    <input pInputText id="evaluationScore" type="number" [(ngModel)]="newChild.evaluation_score"
+                        placeholder="Score (0-100)" />
+                </div>
+
+                <!-- <div class="field">
+      <label for="imageUrl">URL de l'image</label>
+      <input pInputText id="imageUrl" [(ngModel)]="newChild.image_url" placeholder="URL de l'image (optionnel)" />
+    </div> -->
+            </div>
+            <ng-template pTemplate="footer">
+                <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
+                <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"
+                    [style]="{ color: 'white' }"></p-button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog header="Modifier le profil" [(visible)]="displayEditDialog" [modal]="true" [style]="{width: '50vw'}"
+            [draggable]="false" [resizable]="false">
+            <div class="dialog-content">
+                <div class="p-fluid">
+                    <div class="field">
+                        <label for="firstName">Prénom</label>
+                        <input pInputText id="firstName" [(ngModel)]="selectedChild!.first_name!" type="text"
+                            required />
+                    </div>
+                    <div class="field">
+                        <label for="lastName">Nom</label>
+                        <input pInputText id="lastName" [(ngModel)]="selectedChild!.last_name!" type="text" required />
+                    </div>
+                    <div class="field">
+                        <label for="birthDate">Date de naissance</label>
+                        <input pInputText id="birthDate" [(ngModel)]="selectedChild!.birth_date" type="date" required />
+                    </div>
+                    <div class="field">
+                        <label>Genre</label>
+                        <div class="gender-selector">
+                            <!-- Male Option (M) -->
+                            <div class="gender-option" [class.selected]="selectedChild!.gender === 'M'"
+                                (click)="selectedChild!.gender = 'M'">
+                                ♂ Male
+                            </div>
+
+                            <!-- Female Option (F) -->
+                            <div class="gender-option" [class.selected]="selectedChild!.gender === 'F'"
+                                (click)="selectedChild!.gender = 'F'">
+                                ♀ Female
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="diagnosis">Diagnostic</label>
+                        <input pInputText id="diagnosis" [(ngModel)]="selectedChild!.diagnosis" type="text" />
+                    </div>
+                    <div class="field">
+                        <label for="notes">Notes</label>
+                        <input pInputText id="notes" [(ngModel)]="selectedChild!.notes" type="text" />
+                    </div>
+                    <!-- <div class="field">
+      <label for="imageUrl">URL de l'image</label>
+      <input pInputText id="imageUrl" [(ngModel)]="selectedChild!.image_url" type="text" />
+    </div> -->
                 </div>
             </div>
-        
-            <div class="course-card">
-                <div class="course-info">
-                    <div class="course-icon icon-art">
-                        <img src="..." alt="Jeu en groupe">
+            <ng-template pTemplate="footer">
+                <button pButton type="button" label="Annuler" class="p-button-secondary"
+                    (click)="cancelEdit()"></button>
+                <button pButton type="button" label="Enregistrer" class="p-button-primary" style="color: white;"
+                    (click)="saveChild()"></button>
+            </ng-template>
+
+        </p-dialog>
+
+        <p-dialog header="Partager le profil" [(visible)]="afficherBoiteDialoguePartage" [modal]="true"
+            [style]="{width: '500px'}">
+            <div class="dialog-content">
+                <div class="p-fluid">
+                    <div class="field">
+                        <label for="email">Email du parent</label>
+                        <input pInputText id="email" [(ngModel)]="saisieEmail" placeholder="Entrez l'email du parent" />
                     </div>
-                    <div class="course-details">
-                        <h3>Interaction avec les Pairs</h3>
-                        <p>Améliore les compétences pour initier et maintenir des interactions avec d'autres enfants.</p>
+                    <div class="field">
+                        <label for="access">Niveau d'accès</label>
+                        <p-dropdown id="access" [options]="optionsAcces" [(ngModel)]="accesSelectionne"
+                            optionLabel="libelle" placeholder="Sélectionner un accès"></p-dropdown>
                     </div>
-                </div>
-                <div class="course-status">
-                    <div class="status">en cours</div>
-                    <div class="time">65%</div>
                 </div>
             </div>
-        
-            <div class="course-card">
-                <div class="course-info">
-                    <div class="course-icon icon-art">
-                        <img src="..." alt="Reconnaissance des émotions">
-                    </div>
-                    <div class="course-details">
-                        <h3>Reconnaissance des Émotions</h3>
-                        <p>Apprend à identifier et exprimer les émotions de base (joie, tristesse, colère).</p>
-                    </div>
-                </div>
-                <div class="course-status">
-                    <div class="status">en cours</div>
-                    <div class="time">65%</div>
-                </div>
-            </div>
-        
-            <div class="course-card">
-                <div class="course-info">
-                    <div class="course-icon icon-art">
-                        <img src="..." alt="Motricité fine">
-                    </div>
-                    <div class="course-details">
-                        <h3>Motricité Fine</h3>
-                        <p>Développe la précision des petits mouvements (tenir un crayon, boutonner un vêtement).</p>
-                    </div>
-                </div>
-                <div class="course-status">
-                    <div class="status">en cours</div>
-                    <div class="time">65%</div>
-                </div>
-            </div>
-        </div>
-        
+            <ng-template pTemplate="footer">
+                <button pButton type="button" label="Annuler" class="p-button-secondary"
+                    (click)="afficherBoiteDialoguePartage = false"></button>
+                <button pButton type="button" label="Partager" class="p-button-primary" style="color: white;"
+                    (click)="shareProfile()"></button>
+            </ng-template>
+
+        </p-dialog>
+
     </main>
-
-
-    <!-- ================== Start of Right Side ================== -->
-    <div class="right">
-        <div class="sales-analytics">
-            <!-- Calendrier d'activités -->
-            <div class="calendar">
-                <div class="calendar-header">
-                    <button (click)="changeMonth(-1)">&#8249;</button>
-                    <span>{{ currentDate | date: 'MMMM yyyy' }}</span>
-                    <button (click)="changeMonth(1)">&#8250;</button>
-                </div>
-
-                <div class="calendar-body">
-                    <div class="week-days">
-                        <span *ngFor="let day of ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']">{{ day }}</span>
-                    </div>
-                    <div class="weeks">
-                        <div *ngFor="let week of weeks" class="week">
-                            <span *ngFor="let date of week"
-                                [class.selected]="date && date.toDateString() === selectedDate?.toDateString()"
-                                (click)="selectDate(date)">
-                                {{ date?.getDate() || '' }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dernières mises à jour -->
-        <div class="recent-updates">
-            <h2>Dernières Mises à Jour</h2>
-            <div class="updates">
-                <div class="update">
-                    <div class="profile-photo">
-                        <img src="assets/image_client/image.png" alt="Éducateur">
-                    </div>
-                    <div class="message">
-                        <p><b>Éducateur Sophie</b> a ajouté une nouvelle activité pour Lucas.</p>
-                        <small class="text-muted">Il y a 10 minutes</small>
-                    </div>
-                </div>
-
-                <div class="update">
-                    <div class="profile-photo">
-                        <img src="assets/image_client/image.png" alt="Psychologue">
-                    </div>
-                    <div class="message">
-                        <p><b>Dr. Martin</b> a mis à jour le programme personnalisé de Lucas.</p>
-                        <small class="text-muted">Il y a 30 minutes</small>
-                    </div>
-                </div>
-
-                <div class="update">
-                    <div class="profile-photo">
-                        <img src="assets/image_client/image.png" alt="Parent">
-                    </div>
-                    <div class="message">
-                        <p><b>Vous</b> avez validé l'activité "Jeu des émotions".</p>
-                        <small class="text-muted">Il y a 1 heure</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

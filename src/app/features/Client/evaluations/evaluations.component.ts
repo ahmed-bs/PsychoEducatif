@@ -1,133 +1,122 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
-import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
-import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
+import { ButtonModule } from 'primeng/button';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
-import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
-import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
+import * as FileSaver from 'file-saver';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'; // Import autoTable explicitly
 
 @Component({
   standalone: true,
   selector: 'app-evaluations',
   templateUrl: './evaluations.component.html',
   styleUrls: ['./evaluations.component.css'],
-  imports: [CommonModule, FormsModule, TableModule],
+  imports: [CommonModule, FormsModule, TableModule, ButtonModule],
 })
 export class EvaluationsComponent implements OnInit {
-  profileId: number | null = null;
-  categories: ProfileCategory[] = [];
-  domains: ProfileDomain[] = [];
+  domainId: number | null = null;
   items: ProfileItem[] = [];
+  profileCategoryName: string | null = null;
+  profileDomainName: string | null = null;
   isLoading: boolean = false;
   error: string | null = null;
 
   constructor(
-    private profileCategoryService: ProfileCategoryService,
-    private profileDomainService: ProfileDomainService,
     private profileItemService: ProfileItemService,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    // Get profileId from localStorage
-    const storedProfileId = localStorage.getItem('selectedChildId');
-    this.profileId = storedProfileId ? +storedProfileId : null;
-    console.log('Profile ID:', this.profileId);
+    this.route.paramMap.subscribe((params) => {
+      const domainId = params.get('domainId');
+      this.domainId = domainId ? +domainId : null;
+      console.log('Domain ID:', this.domainId);
 
-    if (this.profileId) {
-      this.loadCategoriesDomainsAndItems();
-    } else {
-      this.error = 'Profile ID is missing in localStorage';
-    }
+      if (this.domainId) {
+        this.loadItems();
+      } else {
+        this.error = 'Domain ID is missing in the route';
+        this.isLoading = false;
+      }
+    });
   }
 
-  loadCategoriesDomainsAndItems(): void {
+  loadItems(): void {
     this.isLoading = true;
     this.error = null;
 
-    // Step 1: Fetch categories for the profile
-    this.profileCategoryService.getCategories(this.profileId!).subscribe({
-      next: (categories) => {
-        this.categories = categories;
-        if (categories && categories.length > 0) {
-          // Step 2: Fetch domains for all categories
-          this.loadDomainsForCategories(categories);
+    this.profileItemService.getItems(this.domainId!).subscribe({
+      next: (items) => {
+        this.items = items;
+        if (items.length === 0) {
+          this.error = 'No items found for this domain';
         } else {
-          this.error = 'No categories found for this profile';
-          this.isLoading = false;
+          this.profileCategoryName = items[0]?.profile_category_name || 'Unknown Category';
+          this.profileDomainName = items[0]?.profile_domain_name || 'Unknown Domain';
         }
+        this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Error loading categories:', err);
-        this.error = 'Failed to load categories. Please try again later.';
+      error: (error) => {
+        console.error('Error loading items:', error);
+        this.error = 'Failed to load items. Please try again later.';
         this.isLoading = false;
       },
     });
   }
 
-  loadDomainsForCategories(categories: ProfileCategory[]): void {
-    const domainRequests = categories.map((category) =>
-      this.profileDomainService.getDomains(category.id!).toPromise()
-    );
-
-    Promise.all(domainRequests)
-      .then((results) => {
-        // Flatten the array of ProfileDomain arrays
-        this.domains = results.flat().filter((domain): domain is ProfileDomain => !!domain);
-        if (this.domains.length > 0) {
-          // Step 3: Fetch items for all domains
-          const domainIds = this.domains.map((domain) => domain.id);
-          this.loadItemsForDomains(domainIds);
-        } else {
-          this.error = 'No domains found for the categories';
-          this.isLoading = false;
-        }
-      })
-      .catch((err) => {
-        console.error('Error loading domains:', err);
-        this.error = 'Failed to load domains. Please try again later.';
-        this.isLoading = false;
-      });
+  exportExcel(): void {
+    import('xlsx').then((xlsx) => {
+      const exportData = [
+        { 'Category': this.profileCategoryName || 'Unknown Category' },
+        { 'Domain': this.profileDomainName || 'Unknown Domain' },
+        {},
+        ...this.items.map((item) => ({
+          'Items': item.description || item.name,
+          'Statuts': item.etat === 'ACQUIS' ? 'Acquise' :
+                     item.etat === 'NON_ACQUIS' ? 'Non acquise' :
+                     item.etat === 'PARTIEL' ? 'Partielle' : 'Non évalué',
+          'Commentaires': item.commentaire && item.commentaire !== item.name ? item.commentaire : '-',
+        })),
+      ];
+      const worksheet = xlsx.utils.json_to_sheet(exportData);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'evaluations');
+    });
   }
 
-  loadItemsForDomains(domainIds: number[]): void {
-    const itemRequests = domainIds.map((domainId) =>
-      this.profileItemService.getItems(domainId).toPromise()
-    );
-
-    Promise.all(itemRequests)
-      .then((results) => {
-        // Flatten the array of ProfileItem arrays
-        this.items = results.flat().filter((item): item is ProfileItem => !!item);
-        if (this.items.length === 0) {
-          this.error = 'No items found for the domains';
-        }
-        this.isLoading = false;
-      })
-      .catch((err) => {
-        console.error('Error loading items:', err);
-        this.error = 'Failed to load items. Please try again later.';
-        this.isLoading = false;
-      });
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
-  // Helper method to get category name for an item
-  getCategoryNameForItem(item: ProfileItem): string {
-    const domain = this.domains.find((d) => d.id === item.profile_domain);
-    if (domain) {
-      const category = this.categories.find((c) => c.id === domain.profile_category);
-      return category ? category.name : 'Unknown Category';
-    }
-    return 'Unknown Category';
-  }
+  exportPdf(): void {
+    const doc = new jsPDF('p', 'pt');
+    doc.text(`Category: ${this.profileCategoryName || 'Unknown Category'}`, 40, 20);
+    doc.text(`Domain: ${this.profileDomainName || 'Unknown Domain'}`, 40, 40);
 
-  // Helper method to get domain name for an item
-  getDomainNameForItem(item: ProfileItem): string {
-    const domain = this.domains.find((d) => d.id === item.profile_domain);
-    return domain ? domain.name : 'Unknown Domain';
+    // Apply autoTable to the jsPDF instance
+    autoTable(doc, {
+      startY: 60,
+      head: [['Items', 'Statuts', 'Commentaires']],
+      body: this.items.map((item) => [
+        item.description || item.name,
+        item.etat === 'ACQUIS' ? 'Acquise' :
+        item.etat === 'NON_ACQUIS' ? 'Non acquise' :
+        item.etat === 'PARTIEL' ? 'Partielle' : 'Non évalué',
+        item.commentaire && item.commentaire !== item.name ? item.commentaire : '-',
+      ]),
+      theme: 'striped',
+      headStyles: { fillColor: [0, 123, 255] },
+      margin: { top: 60 },
+    });
+
+    doc.save('evaluations.pdf');
   }
 }

@@ -268,7 +268,7 @@ export class PickProfileComponent implements OnInit {
 
   navigateToClient(childId: number) {
     localStorage.setItem('selectedChildId', childId.toString());
-    this.router.navigate(['/Dashboard-client/client/profiles/', childId]);
+    this.router.navigate(['/Dashboard-client/client/', childId]);
   }
 
   cancel() {

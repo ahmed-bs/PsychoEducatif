@@ -1,6 +1,6 @@
 <div class="head-title">
   <div class="left">
-    <h1>Bienvenue sur le Tableau de Bord</h1>
+    <h1>Résumé des Compétences 📊</h1>
     <ul class="breadcrumb">
       <li>
         <a href="#">Tableau de bord</a>
@@ -11,6 +11,10 @@
       </li>
     </ul>
   </div>
+
+<div class="left">
+
+</div>
   <div class="right"></div>
 </div>
 <div class="summary-container">
@@ -20,11 +24,19 @@
   <div *ngIf="error" class="alert alert-danger">
     {{ error }}
   </div>
+  <div *ngIf="items.length > 0" class="mb-4">
+    <h2 class="category-header">{{ profileCategoryName }}</h2>
+    <h3 class="domain-header">{{ profileDomainName }}</h3>
+  </div>
   <p-table [value]="items" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+      <div class="button-container">
+        <button pButton pRipple type="button" icon="pi pi-file-excel" label="Export Excel" class="p-button-success mr-2" (click)="exportExcel()" [disabled]="items.length === 0"></button>
+        <button pButton pRipple type="button" icon="pi pi-file-pdf" label="Export PDF" class="p-button-warning mr-2" (click)="exportPdf()" [disabled]="items.length === 0"></button>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>Compétences</th>
-        <th>Domaine</th>
         <th>Items</th>
         <th>Statuts</th>
         <th>Commentaires</th>
@@ -32,8 +44,6 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td class="align-middle">{{ getCategoryNameForItem(item) }}</td>
-        <td class="align-middle">{{ getDomainNameForItem(item) }}</td>
         <td class="align-middle">{{ item.description || item.name }}</td>
         <td class="align-middle">
           <span [ngClass]="{
