@@ -79,7 +79,7 @@ export class EvaluationsComponent implements OnInit {
           'Statuts': item.etat === 'ACQUIS' ? 'Acquise' :
                      item.etat === 'NON_ACQUIS' ? 'Non acquise' :
                      item.etat === 'PARTIEL' ? 'Partielle' : 'Non évalué',
-          'Commentaires': item.commentaire && item.commentaire !== item.name ? item.commentaire : '-',
+          'Commentaires': item.comentaire && item.comentaire !== item.name ? item.comentaire : '-',
         })),
       ];
       const worksheet = xlsx.utils.json_to_sheet(exportData);
@@ -110,7 +110,7 @@ export class EvaluationsComponent implements OnInit {
         item.etat === 'ACQUIS' ? 'Acquise' :
         item.etat === 'NON_ACQUIS' ? 'Non acquise' :
         item.etat === 'PARTIEL' ? 'Partielle' : 'Non évalué',
-        item.commentaire && item.commentaire !== item.name ? item.commentaire : '-',
+        item.comentaire && item.comentaire !== item.name ? item.comentaire : '-',
       ]),
       theme: 'striped',
       headStyles: { fillColor: [0, 123, 255] },

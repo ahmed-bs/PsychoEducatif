@@ -8,5 +8,5 @@ export interface ProfileItem {
   profile_category_name: string; // Added field for category name
   is_modified: boolean;
   modified_at: string;
-  commentaire?: string;
+  comentaire?: string;
 }

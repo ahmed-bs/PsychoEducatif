@@ -48,7 +48,8 @@ export class ProfileItemService {
         const body = {
             name: itemData.name,
             description: itemData.description || '',
-            etat: itemData.etat || 'NON_COTE'
+            etat: itemData.etat || 'NON_COTE',
+            comentaire: itemData.comentaire || '-'
         };
         return this.http.post<ApiResponse<ProfileItem>>(url, body).pipe(
             map(response => response.data!),
@@ -62,6 +63,7 @@ export class ProfileItemService {
         const body: any = {};
         if (itemData.name) body.name = itemData.name;
         if (itemData.description) body.description = itemData.description;
+        if (itemData.comentaire) body.comentaire = itemData.comentaire;
         if (itemData.etat) {
             const validEtats = ['ACQUIS', 'PARTIEL', 'NON_ACQUIS', 'NON_COTE'];
             if (!validEtats.includes(itemData.etat)) {
