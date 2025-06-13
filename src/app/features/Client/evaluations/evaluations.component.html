@@ -59,10 +59,10 @@
           </span>
         </td>
         <td class="align-middle">
-          <div *ngIf="item.commentaire && item.commentaire !== item.name" class="comment-bubble">
-            {{ item.commentaire }}
+          <div *ngIf="item.comentaire" class="comment-bubble">
+            {{ item.comentaire }}
           </div>
-          <div *ngIf="!item.commentaire || item.commentaire === item.name" class="text-muted">
+          <div *ngIf="!item.comentaire" class="text-muted">
             -
           </div>
         </td>

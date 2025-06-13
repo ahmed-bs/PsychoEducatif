@@ -83,7 +83,8 @@ console.log('categoryIdParam:', categoryIdParam);
       if (item.id) {
         return this.profileItemService.update(item.id, {
           etat: item.etat,
-          description: item.description
+          description: item.description,
+          comentaire: item.comentaire
         }).toPromise();
       }
       return Promise.resolve();
