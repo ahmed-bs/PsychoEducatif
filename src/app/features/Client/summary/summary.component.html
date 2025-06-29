@@ -1,0 +1,78 @@
+<div class="head-title">
+  <div class="left">
+    <h1>Résumé des Compétences 📊</h1>
+    <ul class="breadcrumb">
+      <li>
+        <a href="#">Tableau de bord</a>
+      </li>
+      <li><i class="bx bx-chevron-right"></i></li>
+      <li>
+        <a class="active" href="#">Résumé des compétences</a>
+      </li>
+    </ul>
+  </div>
+
+<div class="left">
+
+</div>
+  <div class="right"></div>
+</div>
+<div class="summary-container">
+  <div *ngIf="isLoading" class="text-center">
+    <p>Loading...</p>
+  </div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <div *ngIf="summaryData.length > 0" class="mb-4">
+    <h2 class="category-header">Vue d'ensemble des compétences</h2>
+    <h3 class="domain-header">Résumé par catégorie et domaine</h3>
+  </div>
+  <p-table [value]="summaryData" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+      <div class="button-container">
+        <button pButton pRipple type="button" icon="pi pi-file-excel" label="Export Excel" class="p-button-success mr-2" (click)="exportExcel()" [disabled]="summaryData.length === 0"></button>
+        <button pButton pRipple type="button" icon="pi pi-file-pdf" label="Export PDF" class="p-button-warning mr-2" (click)="exportPdf()" [disabled]="summaryData.length === 0"></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Catégorie</th>
+        <th>Domaine</th>
+        <th>Total Items</th>
+        <th>Acquises</th>
+        <th>Partielles</th>
+        <th>Non Acquises</th>
+        <th>Non Évaluées</th>
+        <th>Progression</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="align-middle">{{ item.category }}</td>
+        <td class="align-middle">{{ item.domain }}</td>
+        <td class="align-middle">{{ item.totalItems }}</td>
+        <td class="align-middle">
+          <span class="statut-badge statut-acquise">{{ item.acquired }}</span>
+        </td>
+        <td class="align-middle">
+          <span class="statut-badge statut-partiel">{{ item.partial }}</span>
+        </td>
+        <td class="align-middle">
+          <span class="statut-badge statut-non-acquise">{{ item.notAcquired }}</span>
+        </td>
+        <td class="align-middle">
+          <span class="statut-badge statut-non-evalue">{{ item.notEvaluated }}</span>
+        </td>
+        <td class="align-middle">
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="item.progressPercentage"></div>
+            </div>
+            <span class="progress-text">{{ item.progressPercentage }}%</span>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div> 

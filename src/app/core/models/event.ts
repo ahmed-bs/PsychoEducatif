@@ -18,3 +18,11 @@ export const INITIAL_EVENTS: EventInput[] = [
 export function createEventId() {
   return String(eventGuid++);
 }
+
+export interface Event {
+  id?: number;
+  title: string;
+  start: string;
+  end: string;
+  allDay: boolean;
+}

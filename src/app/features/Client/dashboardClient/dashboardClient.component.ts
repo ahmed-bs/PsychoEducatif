@@ -16,15 +16,16 @@ import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule],
+  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule],
   providers: [MessageService]
-
 })
 export class DashboardClientComponent implements OnInit {
  children: Profile[] = [];
@@ -65,6 +66,285 @@ export class DashboardClientComponent implements OnInit {
     { id: 'progress2', width: '50%' },
     { id: 'progress3', width: '90%' }
   ];
+
+  // Chart data for skills per domain (doughnut)
+  skillsChartData: ChartConfiguration<'doughnut'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [
+          '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD',
+          '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9', '#F8C471', '#82E0AA'
+        ],
+        borderWidth: 3,
+        borderColor: '#ffffff',
+        hoverBorderWidth: 5,
+        hoverBorderColor: '#ffffff',
+      },
+    ],
+  };
+  skillsChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { 
+          color: '#374151', 
+          font: { size: 12, weight: '500' },
+          padding: 20,
+          usePointStyle: true,
+          pointStyle: 'circle'
+        },
+      },
+      title: {
+        display: true,
+        text: 'Répartition des Compétences',
+        color: '#1F2937',
+        font: { size: 16, weight: 'bold' },
+        padding: { top: 10, bottom: 20 }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        callbacks: {
+          label: function(context) {
+            const label = context.label || '';
+            const value = context.parsed;
+            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+            const percentage = ((value / total) * 100).toFixed(1);
+            return `${label}: ${value} compétences (${percentage}%)`;
+          }
+        }
+      }
+    },
+    cutout: '60%',
+    radius: '90%'
+  };
+
+  // Chart data for progress comparison (bar chart)
+  progressChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        label: 'Progrès Actuel',
+        data: [],
+        backgroundColor: 'rgba(99, 102, 241, 0.8)',
+        borderColor: 'rgba(99, 102, 241, 1)',
+        borderWidth: 2,
+        borderRadius: 8,
+        borderSkipped: false,
+      },
+      {
+        label: 'Objectif',
+        data: [],
+        backgroundColor: 'rgba(34, 197, 94, 0.6)',
+        borderColor: 'rgba(34, 197, 94, 1)',
+        borderWidth: 2,
+        borderRadius: 8,
+        borderSkipped: false,
+      }
+    ],
+  };
+  progressChartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { 
+          color: '#374151', 
+          font: { size: 12, weight: '500' },
+          usePointStyle: true,
+          pointStyle: 'rect'
+        },
+      },
+      title: {
+        display: true,
+        text: 'Progrès par Domaine',
+        color: '#1F2937',
+        font: { size: 16, weight: 'bold' },
+        padding: { top: 10, bottom: 20 }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        cornerRadius: 8,
+        callbacks: {
+          label: function(context) {
+            return `${context.dataset.label}: ${context.parsed.y}%`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: { 
+        ticks: { color: '#6B7280', font: { size: 11 } },
+        grid: { color: 'rgba(107, 114, 128, 0.1)' }
+      },
+      y: { 
+        ticks: { color: '#6B7280', font: { size: 11 } },
+        grid: { color: 'rgba(107, 114, 128, 0.1)' },
+        beginAtZero: true, 
+        max: 100 
+      },
+    },
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    }
+  };
+
+  // Chart data for skill assessment (radar chart)
+  radarChartData: ChartConfiguration<'radar'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        label: 'Niveau Actuel',
+        data: [],
+        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+        borderColor: 'rgba(99, 102, 241, 1)',
+        borderWidth: 3,
+        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 2,
+        pointRadius: 6,
+        pointHoverRadius: 8,
+      }
+    ],
+  };
+  radarChartOptions: ChartConfiguration<'radar'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { 
+          color: '#374151', 
+          font: { size: 12, weight: '500' }
+        },
+      },
+      title: {
+        display: true,
+        text: 'Évaluation des Compétences',
+        color: '#1F2937',
+        font: { size: 16, weight: 'bold' },
+        padding: { top: 10, bottom: 20 }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        cornerRadius: 8,
+        callbacks: {
+          label: function(context) {
+            return `${context.dataset.label}: ${context.parsed.r}%`;
+          }
+        }
+      }
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          color: '#6B7280',
+          font: { size: 11 },
+          stepSize: 20
+        },
+        grid: {
+          color: 'rgba(107, 114, 128, 0.1)'
+        },
+        pointLabels: {
+          color: '#374151',
+          font: { size: 11, weight: '500' }
+        }
+      }
+    }
+  };
+
+  // Chart data for domain overview (polar area chart)
+  polarChartData: ChartConfiguration<'polarArea'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [
+          'rgba(255, 107, 107, 0.7)',
+          'rgba(78, 205, 196, 0.7)',
+          'rgba(69, 183, 209, 0.7)',
+          'rgba(150, 206, 180, 0.7)',
+          'rgba(255, 234, 167, 0.7)',
+          'rgba(221, 160, 221, 0.7)',
+          'rgba(152, 216, 200, 0.7)',
+          'rgba(247, 220, 111, 0.7)'
+        ],
+        borderWidth: 2,
+        borderColor: '#ffffff',
+      },
+    ],
+  };
+  polarChartOptions: ChartConfiguration<'polarArea'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { 
+          color: '#374151', 
+          font: { size: 11, weight: '500' },
+          padding: 15,
+          usePointStyle: true,
+          pointStyle: 'circle'
+        },
+      },
+      title: {
+        display: true,
+        text: 'Vue d\'Ensemble des Domaines',
+        color: '#1F2937',
+        font: { size: 16, weight: 'bold' },
+        padding: { top: 10, bottom: 20 }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        cornerRadius: 8,
+        callbacks: {
+          label: function(context) {
+            const label = context.label || '';
+            const value = context.parsed.r;
+            return `${label}: ${value} compétences`;
+          }
+        }
+      }
+    },
+    scales: {
+      r: {
+        ticks: {
+          color: '#6B7280',
+          font: { size: 10 },
+          stepSize: 1
+        },
+        grid: {
+          color: 'rgba(107, 114, 128, 0.1)'
+        }
+      }
+    }
+  };
 
   constructor(
     private dialog: MatDialog,
@@ -110,6 +390,8 @@ export class DashboardClientComponent implements OnInit {
         categories.forEach((category) => {
           this.loadDomains(category.id!);
         });
+        // Update chart data for skills
+        this.updateSkillsChart();
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger les catégories.', 'error');
@@ -126,6 +408,8 @@ export class DashboardClientComponent implements OnInit {
           start_date: domain.start_date || new Date().toISOString().split('T')[0],
           last_eval_date: domain.last_eval_date || new Date().toISOString().split('T')[0]
         }));
+        // Update all chart data
+        this.updateSkillsChart();
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger les domaines.', 'error');
@@ -225,7 +509,7 @@ export class DashboardClientComponent implements OnInit {
           Swal.fire('Succès', 'Profil ajouté avec succès.', 'success');
         },
         error: (err) => {
-          Swal.fire('Erreur', 'Impossible d’ajouter le profil.', 'error');
+          Swal.fire('Erreur', 'Impossible d\'ajouter le profil.', 'error');
         }
       });
     } else {
@@ -351,5 +635,110 @@ export class DashboardClientComponent implements OnInit {
       image_url: '',
       is_active: true
     };
+  }
+
+  updateSkillsChart() {
+    // Aggregate number of skills per domain for doughnut chart
+    const labels: string[] = [];
+    const data: number[] = [];
+    for (const cat of this.filteredCategories) {
+      labels.push(cat.name);
+      data.push((this.domains[cat.id!] || []).length);
+    }
+    this.skillsChartData = {
+      ...this.skillsChartData,
+      labels,
+      datasets: [{ ...this.skillsChartData.datasets[0], data }],
+    };
+    
+    // Update progress chart (bar chart)
+    this.updateProgressChart();
+    
+    // Update radar chart
+    this.updateRadarChart();
+    
+    // Update polar area chart
+    this.updatePolarChart();
+  }
+
+  updateProgressChart() {
+    const labels: string[] = [];
+    const currentProgress: number[] = [];
+    const targetProgress: number[] = [];
+    
+    for (const cat of this.filteredCategories) {
+      labels.push(cat.name);
+      const domains = this.domains[cat.id!] || [];
+      const avgProgress = domains.length > 0 
+        ? domains.reduce((sum, domain) => sum + (domain.acquis_percentage || 0), 0) / domains.length
+        : 0;
+      currentProgress.push(Math.round(avgProgress));
+      targetProgress.push(85); // Target of 85% for all domains
+    }
+    
+    this.progressChartData = {
+      ...this.progressChartData,
+      labels,
+      datasets: [
+        { ...this.progressChartData.datasets[0], data: currentProgress },
+        { ...this.progressChartData.datasets[1], data: targetProgress }
+      ],
+    };
+  }
+
+  updateRadarChart() {
+    const labels: string[] = [];
+    const data: number[] = [];
+    
+    // Use first 6 domains for radar chart (or all if less than 6)
+    let domainCount = 0;
+    for (const cat of this.filteredCategories) {
+      if (domainCount >= 6) break;
+      for (const domain of this.domains[cat.id!] || []) {
+        if (domainCount >= 6) break;
+        labels.push(domain.name);
+        data.push(domain.acquis_percentage || 0);
+        domainCount++;
+      }
+    }
+    
+    this.radarChartData = {
+      ...this.radarChartData,
+      labels,
+      datasets: [{ ...this.radarChartData.datasets[0], data }],
+    };
+  }
+
+  updatePolarChart() {
+    const labels: string[] = [];
+    const data: number[] = [];
+    
+    for (const cat of this.filteredCategories) {
+      labels.push(cat.name);
+      data.push((this.domains[cat.id!] || []).length);
+    }
+    
+    this.polarChartData = {
+      ...this.polarChartData,
+      labels,
+      datasets: [{ ...this.polarChartData.datasets[0], data }],
+    };
+  }
+
+  getCategoryProgress(categoryId: number): number {
+    const domains = this.domains[categoryId] || [];
+    if (domains.length === 0) return 0;
+    
+    const totalProgress = domains.reduce((sum, domain) => sum + (domain.acquis_percentage || 0), 0);
+    return Math.round(totalProgress / domains.length);
+  }
+
+  getLastUpdateDate(): string {
+    const today = new Date();
+    return today.toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
   }
 }
