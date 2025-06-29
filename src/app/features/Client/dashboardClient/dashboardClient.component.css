@@ -1,250 +1,428 @@
+.tab-content {
+  display: none;
+  padding: 20px 0;
+}
 
-  .tab-content {
-    display: none;
-    padding: 20px 0;
-  }
-  
-  .tab-content.active {
-    display: block;
-  }
-  
-  .progress-bar {
-    height: 4px;
-    background-color: #e5e7eb;
-    margin: 10px 0;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  
-  .progress-fill {
-    height: 100%;
-    background-color: #4f46e5; /* indigo-600 */
-    transition: width 0.3s ease;
-  }
+.tab-content.active {
+  display: block;
+}
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    min-width: 220px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 0.5rem;
-    background-color: white;
+.progress-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  min-width: 220px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 0.5rem;
+  background-color: white;
 }
 .dropdown:hover .dropdown-content {
-    display: block;
+  display: block;
 }
 .dropdown-item {
-    padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 .dropdown-item:hover {
-    background-color: #f3f4f6;
+  background-color: #f3f4f6;
 }
 .dropdown-item.active {
-    background-color: #e5e7eb;
+  background-color: #e5e7eb;
 }
 
 /* =============== CONTENT PADDING =============== */
 
 /* Variables pour une gestion cohérente des couleurs et espacements */
 :host {
-    --primary-color: #6366f1;
-    --primary-hover: #4f46e5;
-    --text-color: #333;
-    --text-light: #6c757d;
-    --border-color: #ced4da;
-    --hover-bg: #e9ecef;
-    --focus-shadow: rgba(99, 102, 241, 0.2);
-    --white: #ffffff;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --transition: all 0.2s ease-in-out;
-  }
-  
-  /* Reset et styles de base */
+  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --text-color: #333;
+  --text-light: #6c757d;
+  --border-color: #ced4da;
+  --hover-bg: #e9ecef;
+  --focus-shadow: rgba(99, 102, 241, 0.2);
+  --white: #ffffff;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --transition: all 0.2s ease-in-out;
+}
+
+/* Reset et styles de base */
+:host ::ng-deep .p-dialog {
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+/* Header - Version améliorée */
+:host ::ng-deep .p-dialog-header {
+  padding: 1.25rem 1.5rem;
+  background: var(--primary-color);
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Icône de fermeture - Version améliorée */
+:host ::ng-deep .p-dialog-header .p-dialog-header-icon {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+:host ::ng-deep .p-dialog-header .p-dialog-header-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+}
+
+:host ::ng-deep .p-dialog-header .p-dialog-header-icon:focus {
+  box-shadow: 0 0 0 2px var(--white);
+}
+
+/* Contenu du dialogue */
+.dialog-content {
+  padding: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Champs de formulaire - Version améliorée */
+.field {
+  margin-bottom: 1.5rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.925rem;
+}
+
+/* Inputs - Version améliorée */
+:host ::ng-deep .field .p-inputtext {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: var(--transition);
+  color: var(--text-color);
+  background-color: var(--white);
+}
+
+:host ::ng-deep .field .p-inputtext:hover {
+  border-color: var(--primary-color);
+}
+
+:host ::ng-deep .field .p-inputtext:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--focus-shadow);
+}
+
+:host ::ng-deep .field .p-inputtext::placeholder {
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+/* Footer - Version améliorée */
+:host ::ng-deep .p-dialog-footer {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: #f8f9fa;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
+/* Boutons - Version améliorée */
+:host ::ng-deep .p-button {
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: var(--transition);
+  min-width: 80px;
+  text-align: center;
+}
+
+:host ::ng-deep .p-button.p-button-text {
+  color: var(--text-light);
+  background: transparent;
+}
+
+:host ::ng-deep .p-button.p-button-text:hover {
+  background: var(--hover-bg);
+  color: var(--text-color);
+}
+
+:host ::ng-deep .p-button.p-button-primary {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+:host ::ng-deep .p-button.p-button-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+:host ::ng-deep .p-button:active {
+  transform: translateY(0);
+}
+
+/* Animation d'ouverture */
+:host ::ng-deep .p-dialog-mask.p-component-overlay {
+  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive - Version améliorée */
+@media (max-width: 768px) {
   :host ::ng-deep .p-dialog {
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    width: 95vw !important;
+    max-width: 95vw !important;
+    margin: 0.5rem;
   }
   
-  /* Header - Version améliorée */
-  :host ::ng-deep .p-dialog-header {
-    padding: 1.25rem 1.5rem;
-    background: var(--primary-color);
-    color: var(--white);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    border-top-left-radius: var(--radius-md);
-    border-top-right-radius: var(--radius-md);
-    font-size: 1.25rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  /* Icône de fermeture - Version améliorée */
-  :host ::ng-deep .p-dialog-header .p-dialog-header-icon {
-    color: var(--white);
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-  }
-  
-  :host ::ng-deep .p-dialog-header .p-dialog-header-icon:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--white);
-  }
-  
-  :host ::ng-deep .p-dialog-header .p-dialog-header-icon:focus {
-    box-shadow: 0 0 0 2px var(--white);
-  }
-  
-  /* Contenu du dialogue */
   .dialog-content {
-    padding: 1.5rem;
-    line-height: 1.6;
+    padding: 1rem;
   }
   
-  /* Champs de formulaire - Version améliorée */
-  .field {
-    margin-bottom: 1.5rem;
-  }
-  
-  .field label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 0.925rem;
-  }
-  
-  /* Inputs - Version améliorée */
-  :host ::ng-deep .field .p-inputtext {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    font-size: 1rem;
-    transition: var(--transition);
-    color: var(--text-color);
-    background-color: var(--white);
-  }
-  
-  :host ::ng-deep .field .p-inputtext:hover {
-    border-color: var(--primary-color);
-  }
-  
-  :host ::ng-deep .field .p-inputtext:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--focus-shadow);
-  }
-  
-  :host ::ng-deep .field .p-inputtext::placeholder {
-    color: var(--text-light);
-    opacity: 0.7;
-  }
-  
-  /* Footer - Version améliorée */
   :host ::ng-deep .p-dialog-footer {
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-    background: #f8f9fa;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    border-bottom-left-radius: var(--radius-md);
-    border-bottom-right-radius: var(--radius-md);
+    flex-wrap: wrap;
   }
   
-  /* Boutons - Version améliorée */
   :host ::ng-deep .p-button {
-    padding: 0.625rem 1.25rem;
-    border-radius: var(--radius-sm);
-    font-weight: 500;
-    transition: var(--transition);
-    min-width: 80px;
-    text-align: center;
+    flex: 1 1 45%;
+    margin: 0.25rem;
   }
-  
-  :host ::ng-deep .p-button.p-button-text {
-    color: var(--text-light);
-    background: transparent;
-  }
-  
-  :host ::ng-deep .p-button.p-button-text:hover {
-    background: var(--hover-bg);
-    color: var(--text-color);
-  }
-  
-  :host ::ng-deep .p-button.p-button-primary {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-  
-  :host ::ng-deep .p-button.p-button-primary:hover {
-    background: var(--primary-hover);
-    border-color: var(--primary-hover);
-    transform: translateY(-1px);
-  }
-  
-  :host ::ng-deep .p-button:active {
-    transform: translateY(0);
-  }
-  
-  /* Animation d'ouverture */
-  :host ::ng-deep .p-dialog-mask.p-component-overlay {
-    backdrop-filter: blur(2px);
-    background: rgba(0, 0, 0, 0.25);
-  }
-  
-  /* Responsive - Version améliorée */
-  @media (max-width: 768px) {
-    :host ::ng-deep .p-dialog {
-      width: 95vw !important;
-      max-width: 95vw !important;
-      margin: 0.5rem;
-    }
-    
-    .dialog-content {
-      padding: 1rem;
-    }
-    
-    :host ::ng-deep .p-dialog-footer {
-      flex-wrap: wrap;
-    }
-    
-    :host ::ng-deep .p-button {
-      flex: 1 1 45%;
-      margin: 0.25rem;
-    }
-  }
-  
-  /* Amélioration pour les états de validation */
-  :host ::ng-deep .ng-invalid.ng-touched .p-inputtext {
-    border-color: #e53e3e;
-  }
-  
-  :host ::ng-deep .field .p-error {
-    color: #e53e3e;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    display: block;
-  }
+}
 
+/* Amélioration pour les états de validation */
+:host ::ng-deep .ng-invalid.ng-touched .p-inputtext {
+  border-color: #e53e3e;
+}
 
+:host ::ng-deep .field .p-error {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
 
+/* === Beautiful Card & Chart Enhancements === */
+.chart-card, .bg-white.rounded-xl.shadow-md, .bg-white.rounded-xl.shadow {
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  border-radius: 1.25rem;
+  background: #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.chart-card:hover, .bg-white.rounded-xl.shadow-md:hover, .bg-white.rounded-xl.shadow:hover {
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.13), 0 3px 12px rgba(0,0,0,0.07);
+  transform: translateY(-2px) scale(1.01);
+}
 
+canvas {
+  background: #f8fafc;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.04);
+}
+
+/* Chart section grid spacing for mobile */
+@media (max-width: 768px) {
+  .grid.md\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Enhanced Chart Styles */
+.chart-container {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Chart Cards Enhancement */
+.bg-white.rounded-xl.shadow-md {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.bg-white.rounded-xl.shadow-md:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+/* Activity Feed Enhancement */
+.activity-item {
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.activity-item:hover {
+  background-color: #f8fafc;
+  transform: translateX(4px);
+}
+
+/* Chart Grid Responsive */
+@media (max-width: 1024px) {
+  .grid.lg\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid.md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid.lg\:grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Chart Loading Animation */
+.chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Enhanced Tooltips */
+.chart-tooltip {
+  background: rgba(0, 0, 0, 0.9) !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Chart Legend Enhancement */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* Category Progress Cards */
+.category-progress-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.category-progress-card:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+/* Recent Activity Enhancement */
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.activity-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
   

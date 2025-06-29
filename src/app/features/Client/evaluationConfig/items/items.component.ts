@@ -10,7 +10,6 @@ import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
-import { Competence } from 'src/app/core/models/Competence';
 
 type ItemStatus = ProfileItem['etat'];
 
@@ -58,12 +57,7 @@ export class ItemsComponent implements OnInit {
   profileId: number = 1;
   itemsByDomain: Record<number, ProfileItem[]> = {};
 
-  newCompetence: Competence = {
-    id: '',
-    categorie: '',
-    sousCompetences: [],
-    statut: ''
-  };
+
 
   statusOptions = [
     { label: 'Non coté', value: 'NON_COTE' as ItemStatus },
@@ -253,16 +247,6 @@ export class ItemsComponent implements OnInit {
     domain.expanded = !domain.expanded;
   }
 
-  editCompetence(competence: Competence) {
-    this.editingCompetence = true;
-    this.newCompetence = { ...competence };
-    this.displayAddCompetenceDialog = true;
-  }
-
-  deleteCompetence(competence: Competence) {
-    // Implement delete logic
-    console.log('Delete competence:', competence);
-  }
 
   saveCompetence() {
     // Implement save/update logic
