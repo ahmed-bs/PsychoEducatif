@@ -18,17 +18,24 @@ import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.servic
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
+import { GoalsComponent } from "./tabs/goals/goals.component";
+import { AddGoalModalComponent } from "./modals/add-goal-modal/add-goal-modal.component";
+import { GoalService } from 'src/app/core/services/goal.service';
+import { AuthService } from 'src/app/core/services/authService.service';
 
 @Component({
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule],
+  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent],
   providers: [MessageService]
 })
+
+
+
 export class DashboardClientComponent implements OnInit {
- children: Profile[] = [];
+  children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
   selectedChild: Profile | null = null;
@@ -41,12 +48,16 @@ export class DashboardClientComponent implements OnInit {
   afficherBoiteDialoguePartage: boolean = false;
 
   newChild: Profile = this.resetChild();
+
   saisieEmail: string = '';
+
   accesSelectionne: any;
+
   optionsAcces: any[] = [
     { libelle: 'Lecture seule', valeur: 'read_only' },
     { libelle: 'Lecture et modification', valeur: 'read_write' }
   ];
+
   sharePermissions: any = {
     can_read: true,
     can_write: false,
@@ -55,12 +66,16 @@ export class DashboardClientComponent implements OnInit {
   };
 
   activeTab: string = 'skills'; // Default active tab
+  
+  showGoalFormModal = false;
+
   tabs = [
     { id: 'skills', label: 'Compétences' },
     { id: 'goals', label: 'Objectifs' },
     { id: 'strategies', label: 'Stratégies' },
     { id: 'notes', label: 'Notes' }
   ];
+
   progressBars = [
     { id: 'progress1', width: '75%' },
     { id: 'progress2', width: '50%' },
@@ -346,6 +361,13 @@ export class DashboardClientComponent implements OnInit {
     }
   };
 
+  goals: any[] = [];
+
+  goalToEdit: any | null = null;
+
+  currentProfileIdForModal: number | null = null;
+
+
   constructor(
     private dialog: MatDialog,
     private router: Router,
@@ -353,7 +375,9 @@ export class DashboardClientComponent implements OnInit {
     private profileService: ProfileService,
     private messageService: MessageService,
     private categoryService: ProfileCategoryService, 
-    private domainService: ProfileDomainService
+    private domainService: ProfileDomainService,
+    private goalService: GoalService, 
+    private authService: AuthService
   ) {
     this.accesSelectionne = this.optionsAcces[0];
   }
@@ -361,11 +385,19 @@ export class DashboardClientComponent implements OnInit {
   ngOnInit() {
     const user = localStorage.getItem('user');
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
+
     this.childId = this.route.snapshot.paramMap.get('childId');
-    this.loadChildren();
+
     if (this.childId) {
       this.loadChild(parseInt(this.childId));
+      this.currentProfileIdForModal = parseInt(this.childId);
+    } else {
+      this.currentProfileIdForModal = this.parentId;
     }
+
+    this.loadChildren();
+    this.loadGoals();
+
     setTimeout(() => {
       this.progressBars.forEach(bar => {
         const currentWidth = bar.width;
@@ -375,6 +407,98 @@ export class DashboardClientComponent implements OnInit {
         }, 100);
       });
     }, 300);
+  }
+
+  loadGoals(): void {
+    if (this.authService.currentUserValue) {
+      this.goalService.getGoals().subscribe({
+        next: (data) => {
+          this.goals = data;
+        },
+        error: (error) => {
+          console.error('Error loading goals:', error);
+          if (error.status === 401) {
+            console.error('Unauthorized: Could not load goals. Please log in again.');
+          }
+        }
+      });
+    } else {
+      console.warn('User not logged in. Cannot load goals.');
+    }
+  }
+
+  openAddGoalModal(): void {
+    this.goalToEdit = null;
+    this.showGoalFormModal = true;
+  }
+
+  openEditGoalModal(goal: any): void {
+    this.goalToEdit = { ...goal };
+    this.showGoalFormModal = true;
+  }
+
+  closeGoalFormModal(): void {
+    this.showGoalFormModal = false;
+    this.goalToEdit = null;
+  }
+
+  onGoalSaved(savedGoal: any): void {
+    console.log('Goal saved (new or updated) received by DashboardClientComponent:', savedGoal);
+
+    const index = this.goals.findIndex(g => g.id === savedGoal.id);
+
+    if (index !== -1) {
+      this.goals[index] = savedGoal;
+    } else {
+      this.goals.push(savedGoal);
+    }
+    this.closeGoalFormModal();
+  }
+
+  onToggleSubObjective({ goalId, subObjectiveId, newStatus }: { goalId: number; subObjectiveId: number; newStatus: boolean }): void {
+    const goalIndex = this.goals.findIndex(g => g.id === goalId);
+
+    if (goalIndex !== -1) {
+      const goalToUpdate = { ...this.goals[goalIndex] };
+
+      const subObjectiveIndex = goalToUpdate.sub_objectives.findIndex((sub: any) => sub.id === subObjectiveId);
+
+      if (subObjectiveIndex !== -1) {
+        goalToUpdate.sub_objectives[subObjectiveIndex] = {
+          ...goalToUpdate.sub_objectives[subObjectiveIndex],
+          is_completed: newStatus
+        };
+
+        this.goals[goalIndex] = goalToUpdate;
+
+        this.goalService.updateGoal(goalToUpdate.id, goalToUpdate).subscribe({
+          next: (response) => {
+            console.log('Sub-objective status updated successfully on backend:', response);
+          },
+          error: (error) => {
+            console.error('Error updating sub-objective status:', error);
+            this.loadGoals();
+            console.error('Failed to update sub-objective. Please try again.');
+          }
+        });
+      } else {
+        console.warn(`Sub-objective with ID ${subObjectiveId} not found in goal ${goalId}.`);
+      }
+    } else {
+      console.warn(`Goal with ID ${goalId} not found.`);
+    }
+  }
+  
+  onDeleteGoal(goalId: number): void {
+    this.goalService.deleteGoal(goalId).subscribe({
+      next: () => {
+        console.log(`Goal with ID ${goalId} deleted successfully.`);
+        this.goals = this.goals.filter(goal => goal.id !== goalId);
+      },
+      error: (error) => {
+        console.error(`Error deleting goal with ID ${goalId}:`, error);
+      }
+    });
   }
 
   // Computed property to filter categories with domains
@@ -457,10 +581,9 @@ export class DashboardClientComponent implements OnInit {
   loadChild(childId: number) {
     this.profileService.getProfileById(childId).subscribe({
       next: (child) => {
-        this.selectedChild = {
-          ...child,
-        };
+        this.selectedChild = { ...child };
         this.loadCategories(childId);
+        this.currentProfileIdForModal = childId;
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
@@ -600,6 +723,7 @@ export class DashboardClientComponent implements OnInit {
   cancelEdit() {
     this.displayEditDialog = false;
   }
+
   openSigninDialog() {
     // this.dialog.open(Add_popupComponent, {
     //   width: '900px',
@@ -609,6 +733,7 @@ export class DashboardClientComponent implements OnInit {
     //   disableClose: false
     // });
   } 
+
   calculateAge(birthDate: string): string {
     if (!birthDate) return 'Âge inconnu';
     const today = new Date();

@@ -33,7 +33,6 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
     const categoryIdParam = this.route.snapshot.paramMap.get('domainId');
-console.log('categoryIdParam:', categoryIdParam);
 
     if (categoryIdParam) {
       this.domainId =  parseInt(categoryIdParam);

@@ -1,0 +1,135 @@
+<div *ngIf="isVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+  (click)="onCloseModal()">
+  <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl mx-auto overflow-hidden
+              transform transition-all duration-300 scale-100 h-[97vh]
+              flex flex-col"
+    (click)="$event.stopPropagation()">
+
+    <div class="p-6 pb-2 flex justify-between items-center flex-shrink-0">
+      <h2 class="text-2xl font-semibold text-gray-800">
+        {{ isEditMode ? 'Modifier l\'objectif' : 'Ajouter un nouvel objectif' }}
+      </h2>
+      <button (click)="onCloseModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <div class="px-6 flex-grow overflow-y-auto custom-scrollbar">
+      <form [formGroup]="goalForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Titre de l'objectif:</label>
+          <input id="title" type="text" formControlName="title"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            [class.border-red-500]="goalForm.get('title')?.invalid && goalForm.get('title')?.touched"
+            placeholder="Ex: Maîtriser de nouvelles compétences">
+          <p *ngIf="goalForm.get('title')?.invalid && goalForm.get('title')?.touched" class="text-red-500 text-xs italic">
+            Le titre est requis.
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+          <textarea id="description" formControlName="description" rows="3"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
+            [class.border-red-500]="goalForm.get('description')?.invalid && goalForm.get('description')?.touched"
+            placeholder="Décrivez votre objectif en détail."></textarea>
+          <p *ngIf="goalForm.get('description')?.invalid && goalForm.get('description')?.touched" class="text-red-500 text-xs italic">
+            La description est requise.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label for="target_date" class="block text-gray-700 text-sm font-bold mb-2">Date cible:</label>
+            <input id="target_date" type="date" formControlName="target_date"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              [class.border-red-500]="goalForm.get('target_date')?.invalid && goalForm.get('target_date')?.touched">
+            <p *ngIf="goalForm.get('target_date')?.invalid && goalForm.get('target_date')?.touched" class="text-red-500 text-xs italic">
+              La date cible est requise.
+            </p>
+          </div>
+          <div>
+            <label for="priority" class="block text-gray-700 text-sm font-bold mb-2">Priorité:</label>
+            <select id="priority" formControlName="priority"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              [class.border-red-500]="goalForm.get('priority')?.invalid && goalForm.get('priority')?.touched">
+              <option *ngFor="let p of priorities" [value]="p">{{ p | titlecase }}</option>
+            </select>
+            <p *ngIf="goalForm.get('priority')?.invalid && goalForm.get('priority')?.touched" class="text-red-500 text-xs italic">
+              La priorité est requise.
+            </p>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Catégorie:</label>
+          <select id="category" formControlName="category_id"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            [class.border-red-500]="goalForm.get('category_id')?.invalid && goalForm.get('category_id')?.touched">
+            <option [ngValue]="null" disabled>Sélectionner une catégorie</option>
+            <option *ngFor="let category of availableCategories" [value]="category.id">{{ category.name }}</option>
+          </select>
+          <p *ngIf="goalForm.get('category_id')?.invalid && goalForm.get('category_id')?.touched" class="text-red-500 text-xs italic">
+            La catégorie est requise.
+          </p>
+          <p *ngIf="availableCategories.length === 0 && goalForm.get('category_id')?.touched" class="text-sm text-gray-500 mt-1">
+            Aucune catégorie disponible. Assurez-vous d'avoir des catégories associées à votre profil.
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label for="domain" class="block text-gray-700 text-sm font-bold mb-2">Domaine:</label>
+          <select id="domain" formControlName="domain_id"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            [class.border-red-500]="goalForm.get('domain_id')?.invalid && goalForm.get('domain_id')?.touched"
+            [disabled]="!goalForm.get('category_id')?.value || availableDomains.length === 0">
+            <option [ngValue]="null" disabled>Sélectionner un domaine</option>
+            <option *ngFor="let domain of availableDomains" [value]="domain.id">{{ domain.name }}</option>
+          </select>
+          <p *ngIf="goalForm.get('domain_id')?.invalid && goalForm.get('domain_id')?.touched" class="text-red-500 text-xs italic">
+            Le domaine est requis.
+          </p>
+          <p *ngIf="!goalForm.get('category_id')?.value" class="text-sm text-gray-500 mt-1">
+              Veuillez d'abord sélectionner une catégorie.
+          </p>
+          <p *ngIf="goalForm.get('category_id')?.value && availableDomains.length === 0 && goalForm.get('category_id')?.touched" class="text-sm text-gray-500 mt-1">
+            Aucun domaine disponible pour la catégorie sélectionnée.
+          </p>
+        </div>
+
+        <div class="mb-4 p-4 border border-gray-200 rounded-lg">
+          <h3 class="text-lg font-semibold text-gray-800 mb-3">Sous-objectifs:</h3>
+          <div class="max-h-36 overflow-y-auto pr-2 custom-scrollbar" formArrayName="sub_objectives">
+            <div *ngFor="let subObjectiveGroup of subObjectives.controls; let i = index" [formGroupName]="i"
+              class="flex items-center mb-3">
+              <input type="text" formControlName="description"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                [class.border-red-500]="subObjectiveGroup.get('description')?.invalid && subObjectiveGroup.get('description')?.touched"
+                placeholder="Description du sous-objectif">
+              <button type="button" (click)="removeSubObjective(i)"
+                class="text-red-600 hover:text-red-800 text-lg p-1">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+          <button type="button" (click)="addSubObjective()"
+            class="mt-2 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition flex items-center">
+            <i class="fas fa-plus mr-2"></i> Ajouter un sous-objectif
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="p-6 pt-0 flex justify-end gap-3 flex-shrink-0">
+      <button type="button" (click)="onCloseModal()"
+        class="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition">
+        Annuler
+      </button>
+      <button type="submit" (click)="onSubmit()"
+        class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
+        [disabled]="!goalForm.valid">
+        <i class="fas fa-save mr-2"></i> {{ isEditMode ? 'Enregistrer les modifications' : 'Créer l\'objectif' }}
+      </button>
+    </div>
+  </div>
+</div>

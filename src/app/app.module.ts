@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //material module
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,6 +51,7 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     //material
     MatToolbarModule,
     MatButtonModule,

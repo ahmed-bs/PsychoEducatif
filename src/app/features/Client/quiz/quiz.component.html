@@ -1,92 +1,106 @@
-
-
 <div class="back-button" (click)="goBack()">
   <span class="material-symbols-sharp">arrow_back</span>
 </div>
-<br><br>
-<div class="quiz-container">
-  <h2>Évaluation des compétences</h2>
+<br /><br />
+<div class="quiz-container mx-auto p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+    Évaluation des compétences
+  </h2>
 
-  <!-- Loading spinner -->
-  <div *ngIf="isLoading" class="text-center my-4">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Chargement...</span>
+  <div *ngIf="isLoading" class="text-center my-8">
+    <div
+      class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto"
+      role="status"
+    >
+      <span class="sr-only">Chargement...</span>
     </div>
-    <p>Chargement des questions...</p>
+    <p class="text-gray-600 mt-3">Chargement des questions...</p>
   </div>
 
-  <!-- Error message -->
-  <div *ngIf="error" class="alert alert-danger" role="alert">
-    {{ error }}
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-4" role="alert">
+    <strong class="font-bold">Erreur!</strong>
+    <span class="block sm:inline">{{ error }}</span>
   </div>
 
-  <!-- Quiz content -->
-  <div *ngIf="!isLoading && !error && items.length > 0">
-    <div class="progress-indicator">
-      <p>Item {{ currentIndex + 1 }} sur {{ items.length }}</p>
+  <div *ngIf="!isLoading && !error && items.length > 0" class="max-w-3xl mx-auto">
+    <div class="progress-indicator text-center mb-6">
+      <p class="text-lg font-medium text-gray-700">
+        Item <span class="font-bold text-blue-600">{{ currentIndex + 1 }}</span> sur
+        <span class="font-bold text-blue-600">{{ items.length }}</span>
+      </p>
+      <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+        <div class="bg-blue-600 h-2.5 rounded-full" [style.width]="(currentIndex + 1) / items.length * 100 + '%'"></div>
+      </div>
     </div>
-    <form #quizForm="ngForm">
-      <div class="sub-skill mb-3">
-        <!-- <p class="skill-description">{{ items[currentIndex].name }}</p> -->
-        <p class="skill-description">{{ items[currentIndex].description }}</p>
-        
-        <div class="btn-group" role="group">
-          <input
-            type="radio"
-            class="btn-check"
-            id="{{ items[currentIndex].id }}-acquis"
-            value="ACQUIS"
-            [(ngModel)]="items[currentIndex].etat"
-            [name]="'etat-'+items[currentIndex].id"
-          />
-          <label
-            class="btn btn-outline-success"
-            [for]="items[currentIndex].id + '-acquis'"
-          >Acquis</label>
 
-          <input
-            type="radio"
-            class="btn-check"
-            id="{{ items[currentIndex].id }}-partiel"
-            value="PARTIEL"
-            [(ngModel)]="items[currentIndex].etat"
-            [name]="'etat-'+items[currentIndex].id"
-          />
-          <label
-            class="btn btn-outline-warning"
-            [for]="items[currentIndex].id + '-partiel'"
-          >Partiel</label>
+    <form #quizForm="ngForm" class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
+      <div class="sub-skill mb-6">
+        <p class="text-lg font-semibold text-gray-600 mb-2">
+          Compétence: {{ items[currentIndex].name }}
+        </p>
 
-          <input
-            type="radio"
-            class="btn-check"
-            id="{{ items[currentIndex].id }}-non-acquis"
-            value="NON_ACQUIS"
-            [(ngModel)]="items[currentIndex].etat"
-            [name]="'etat-'+items[currentIndex].id"
-          />
-          <label
-            class="btn btn-outline-danger"
-            [for]="items[currentIndex].id + '-non-acquis'"
-          >Non acquis</label>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md mb-6">
+          <p class="text-xl font-bold text-blue-800 leading-relaxed">
+            {{ items[currentIndex].description }}
+          </p>
         </div>
 
-        <div class="comment-section mt-3">
-          <label [for]="'comment-'+currentIndex" class="form-label">Observations :</label>
-          <textarea 
-            class="form-control" 
-            [id]="'comment-'+currentIndex" 
-            rows="3"
+        <label class="block text-gray-700 text-sm font-bold mb-3">Statut de la compétence :</label>
+        <div class="flex flex-wrap gap-3 mb-6">
+          <label class="inline-flex items-center">
+            <input
+              type="radio"
+              class="form-radio h-5 w-5 text-green-600"
+              id="{{ items[currentIndex].id }}-acquis"
+              value="ACQUIS"
+              [(ngModel)]="items[currentIndex].etat"
+              [name]="'etat-' + items[currentIndex].id"
+            />
+            <span class="ml-2 text-green-700 font-medium">Acquis</span>
+          </label>
+
+          <label class="inline-flex items-center">
+            <input
+              type="radio"
+              class="form-radio h-5 w-5 text-yellow-500"
+              id="{{ items[currentIndex].id }}-partiel"
+              value="PARTIEL"
+              [(ngModel)]="items[currentIndex].etat"
+              [name]="'etat-' + items[currentIndex].id"
+            />
+            <span class="ml-2 text-yellow-700 font-medium">Partiel</span>
+          </label>
+
+          <label class="inline-flex items-center">
+            <input
+              type="radio"
+              class="form-radio h-5 w-5 text-red-600"
+              id="{{ items[currentIndex].id }}-non-acquis"
+              value="NON_ACQUIS"
+              [(ngModel)]="items[currentIndex].etat"
+              [name]="'etat-' + items[currentIndex].id"
+            />
+            <span class="ml-2 text-red-700 font-medium">Non acquis</span>
+          </label>
+        </div>
+
+        <div class="comment-section mb-6">
+          <label [for]="'comment-' + currentIndex" class="block text-gray-700 text-sm font-bold mb-2">Observations :</label>
+          <textarea
+            class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            [id]="'comment-' + currentIndex"
+            rows="4"
             [(ngModel)]="items[currentIndex].comentaire"
-            [name]="'comment-'+currentIndex"
-            placeholder="Notes complémentaires sur cette compétence..."></textarea>
+            [name]="'comment-' + currentIndex"
+            placeholder="Notes complémentaires sur cette compétence..."
+          ></textarea>
         </div>
       </div>
 
-      <div class="navigation-buttons">
+      <div class="navigation-buttons flex justify-between pt-4 border-t border-gray-200">
         <button
           type="button"
-          class="btn btn-secondary"
+          class="px-5 py-2.5 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
           (click)="precedent()"
           [disabled]="currentIndex === 0"
         >
@@ -94,7 +108,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-secondary"
+          class="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
           (click)="suivant()"
           [disabled]="currentIndex === items.length - 1"
           *ngIf="currentIndex < items.length - 1"
@@ -103,7 +117,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-primary"
+          class="px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
           (click)="soumettreQuiz()"
           *ngIf="currentIndex === items.length - 1"
         >
