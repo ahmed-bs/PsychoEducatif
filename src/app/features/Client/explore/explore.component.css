@@ -748,4 +748,65 @@ h4:after {
   }
 }
 
+@media (max-width: 600px) {
+  .container-custom {
+    padding: 0 4px;
+  }
+  .row {
+    margin: -4px;
+  }
+  .category-section h4 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .status-dropdown {
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .col-md-4 {
+    flex: 0 0 180px;
+    width: 180px;
+    min-width: 180px;
+    padding: 0 2px;
+  }
+  .competence-card {
+    min-width: 160px;
+    font-size: 13px;
+    padding: 0;
+  }
+  .card-img-top {
+    height: 100px;
+  }
+  .card-title {
+    font-size: 15px;
+  }
+  .card-body {
+    padding: 10px;
+  }
+  .card-footer {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+  .scroll-button {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+  .status-circles {
+    gap: 6px;
+  }
+  .circle {
+    width: 40px;
+    height: 36px;
+    font-size: 10px;
+  }
+  .status-label {
+    font-size: 8px;
+  }
+  .status-count {
+    font-size: 11px;
+  }
+}
+
 /* ... rest of your existing styles ... */
