@@ -33,8 +33,6 @@ import { NotesComponent } from "./tabs/notes/notes.component";
   providers: [MessageService]
 })
 
-
-
 export class DashboardClientComponent implements OnInit {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
@@ -368,6 +366,8 @@ export class DashboardClientComponent implements OnInit {
 
   currentProfileIdForModal: number | null = null;
 
+  isEmailValid: boolean = false;
+  loadingShare: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -689,11 +689,18 @@ export class DashboardClientComponent implements OnInit {
     });
   }
 
+  validateEmail() {
+    // Simple email regex
+    this.isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.saisieEmail);
+  }
+
   shareProfile() {
     if (!this.selectedChild || !this.saisieEmail) {
       Swal.fire('Erreur', 'Veuillez sélectionner un profil et entrer un email.', 'warning');
       return;
     }
+
+    this.loadingShare = true;
 
     const permissions: ('view' | 'edit' | 'share')[] = ['view'];
     if (this.accesSelectionne.valeur === 'read_write') {
@@ -708,9 +715,11 @@ export class DashboardClientComponent implements OnInit {
     this.profileService.shareChildProfile(this.selectedChild.id!, shareData).subscribe({
       next: (message) => {
         this.afficherBoiteDialoguePartage = false;
+        this.loadingShare = false;
         Swal.fire('Succès', message || 'Profil partagé avec succès.', 'success');
       },
       error: (err) => {
+        this.loadingShare = false;
         Swal.fire('Erreur', err.message || 'Impossible de partager le profil.', 'error');
       }
     });
