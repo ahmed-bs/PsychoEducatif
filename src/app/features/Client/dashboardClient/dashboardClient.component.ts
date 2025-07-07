@@ -22,13 +22,14 @@ import { GoalsComponent } from "./tabs/goals/goals.component";
 import { AddGoalModalComponent } from "./modals/add-goal-modal/add-goal-modal.component";
 import { GoalService } from 'src/app/core/services/goal.service';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { NotesComponent } from "./tabs/notes/notes.component";
 
 @Component({
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent],
+  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent],
   providers: [MessageService]
 })
 
@@ -65,7 +66,7 @@ export class DashboardClientComponent implements OnInit {
     can_delete: false
   };
 
-  activeTab: string = 'skills'; // Default active tab
+  activeTab: string = 'skills';
   
   showGoalFormModal = false;
 

@@ -17,7 +17,7 @@ const routes: Routes = [
   { path:'profiles/:childId',component:Child_profileComponent },
   { path:'evaluations/:domainId',component:EvaluationsComponent },
   { path: 'evaluations_configurations', loadChildren: () => import('./evaluationConfig/evaluationConfig.module').then(m => m.EvaluationConfigModule) },
-  { path: 'summary', loadChildren: () => import('./summary/summary.module').then(m => m.SummaryModule) },
+  { path: 'summary/:childId', loadChildren: () => import('./summary/summary.module').then(m => m.SummaryModule) },
   { path: 'quiz/:domainId', component: QuizComponent },
   { path:':childId',component:DashboardClientComponent },
 ];

@@ -27,8 +27,6 @@ import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.c
 import { MatCardModule } from '@angular/material/card';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptors/auth.interceptor';
-import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
-
 
 @NgModule({
   declarations: [
@@ -40,7 +38,7 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
     FooterComponent,
     SidebarDashboardComponent,
     SidebarClientComponent, 
-    NavbarDashboardComponent,
+    NavbarDashboardComponent
   ],
   imports: [
     RouterModule,

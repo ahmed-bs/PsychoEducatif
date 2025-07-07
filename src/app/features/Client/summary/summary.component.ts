@@ -101,7 +101,7 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('profileId');
+      const id = params.get('childId');
       if (id) {
         this.profileId = +id;
       }

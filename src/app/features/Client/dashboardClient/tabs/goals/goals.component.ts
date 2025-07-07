@@ -38,6 +38,13 @@ export class GoalsComponent implements OnInit {
     return today.getTime() >= targetDate.getTime();
   }
 
+  getSubObjectiveTooltip(goal: any): string {
+    if (!this.isQuizAvailable(goal)) {
+      return `Vous ne pouvez pas modifier le sous-objectif avant le ${this.formatDate(goal.target_date)}`;
+    }
+    return '';
+  }
+
   getQuizAvailabilityMessage(goal: any): string {
     if (this.isQuizAvailable(goal)) {
       return 'Cliquez pour passer le quiz.';
