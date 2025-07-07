@@ -121,109 +121,8 @@
 
                 <!-- Tab Contents -->
                 <div id="tab-contents">
-                    <!-- Skills Tab -->
+                    <!-- Compétences Tab -->
                     <div class="tab-content active" id="skills-content" [class.active]="isTabActive('skills')">
-                        <!-- Chart Section: Multiple Chart Types -->
-                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                          <!-- Doughnut Chart: Skills Distribution -->
-                          <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                            <div class="w-full h-64">
-                              <canvas baseChart
-                                [data]="skillsChartData"
-                                [options]="skillsChartOptions"
-                                [type]="'doughnut'">
-                              </canvas>
-                            </div>
-                          </div>
-                          
-                          <!-- Bar Chart: Progress Comparison -->
-                          <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                            <div class="w-full h-64">
-                              <canvas baseChart
-                                [data]="progressChartData"
-                                [options]="progressChartOptions"
-                                [type]="'bar'">
-                              </canvas>
-                            </div>
-                          </div>
-                          
-                          <!-- Radar Chart: Skill Assessment -->
-                          <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                            <div class="w-full h-64">
-                              <canvas baseChart
-                                [data]="radarChartData"
-                                [options]="radarChartOptions"
-                                [type]="'radar'">
-                              </canvas>
-                            </div>
-                          </div>
-                          
-                          <!-- Polar Area Chart: Domain Overview -->
-                          <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                            <div class="w-full h-64">
-                              <canvas baseChart
-                                [data]="polarChartData"
-                                [options]="polarChartOptions"
-                                [type]="'polarArea'">
-                              </canvas>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Additional Charts Section -->
-                        <div class="grid md:grid-cols-2 gap-6 mb-8">
-                          <!-- Skills Progress Overview -->
-                          <div class="bg-white rounded-xl shadow-md p-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                              <i class="fas fa-chart-line text-indigo-600 mr-2"></i>
-                              Aperçu des Progrès
-                            </h3>
-                            <div class="space-y-4">
-                              <div *ngFor="let category of filteredCategories" class="category-progress-card">
-                                <div class="flex justify-between items-center mb-2">
-                                  <span class="font-medium text-gray-700">{{ category.name }}</span>
-                                  <span class="text-sm text-gray-500">{{ (domains[category.id!] || []).length }} compétences</span>
-                                </div>
-                                <div class="progress-bar">
-                                  <div class="progress-fill"
-                                       [style.width]="getCategoryProgress(category.id!) + '%'">
-                                  </div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500 mt-1">
-                                  <span>Progrès: {{ getCategoryProgress(category.id!) }}%</span>
-                                  <span>Objectif: 85%</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!-- Recent Activity -->
-                          <div class="bg-white rounded-xl shadow-md p-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                              <i class="fas fa-clock text-green-600 mr-2"></i>
-                              Activité Récente
-                            </h3>
-                            <div class="space-y-4">
-                              <div *ngFor="let category of filteredCategories.slice(0, 3)" class="activity-item">
-                                <div class="flex items-start space-x-3">
-                                  <div class="flex-shrink-0">
-                                    <div class="activity-icon">
-                                      <i class="fas fa-star text-sm"></i>
-                                    </div>
-                                  </div>
-                                  <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-gray-900">{{ category.name }}</p>
-                                    <p class="text-sm text-gray-500">
-                                      {{ (domains[category.id!] || []).length }} compétences évaluées
-                                    </p>
-                                    <p class="text-xs text-gray-400">Dernière mise à jour: {{ getLastUpdateDate() }}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
                         <!-- Existing category grid below -->
                         <div class="grid md:grid-cols-2 gap-6">
                             <!-- Loop through filtered categories -->
@@ -257,9 +156,109 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Statistiques Tab -->
+                    <div class="tab-content" id="stats-content" [class.active]="isTabActive('stats')">
+                        <!-- First row: 1 card full width -->
+                        <div class="grid grid-cols-1 mb-6">
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="skillsChartData"
+                                        [options]="skillsChartOptions"
+                                        [type]="'doughnut'">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Second row: 2 cards side by side -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="progressChartData"
+                                        [options]="progressChartOptions"
+                                        [type]="'bar'">
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="lineChartData"
+                                        [options]="lineChartOptions"
+                                        [type]="'line'">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Third row: 1 card full width -->
+                        <div class="grid grid-cols-1 mb-8">
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="polarChartData"
+                                        [options]="polarChartOptions"
+                                        [type]="'polarArea'">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Additional Charts Section -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <!-- Skills Progress Overview -->
+                            <div class="bg-white rounded-xl shadow-md p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                    <i class="fas fa-chart-line text-indigo-600 mr-2"></i>
+                                    Aperçu des Progrès
+                                </h3>
+                                <div class="space-y-4">
+                                    <div *ngFor="let category of filteredCategories" class="category-progress-card">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-medium text-gray-700">{{ category.name }}</span>
+                                            <span class="text-sm text-gray-500">{{ (domains[category.id!] || []).length }} compétences</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill"
+                                                [style.width]="getCategoryProgress(category.id!) + '%'">
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                            <span>Progrès: {{ getCategoryProgress(category.id!) }}%</span>
+                                            <span>Objectif: 85%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Recent Activity -->
+                            <div class="bg-white rounded-xl shadow-md p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                    <i class="fas fa-clock text-green-600 mr-2"></i>
+                                    Activité Récente
+                                </h3>
+                                <div class="space-y-4">
+                                    <div *ngFor="let category of filteredCategories.slice(0, 3)" class="activity-item">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="flex-shrink-0">
+                                                <div class="activity-icon">
+                                                    <i class="fas fa-star text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900">{{ category.name }}</p>
+                                                <p class="text-sm text-gray-500">
+                                                    {{ (domains[category.id!] || []).length }} compétences évaluées
+                                                </p>
+                                                <p class="text-xs text-gray-400">Dernière mise à jour: {{ getLastUpdateDate() }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Goals Tab -->
-                     <div class="tab-content" id="goals-content" [class.active]="isTabActive('goals')">
+                    <div class="tab-content" id="goals-content" [class.active]="isTabActive('goals')">
                         <app-goals 
                         [goals]="goals" 
                         (addGoalClicked)="openAddGoalModal()" 
