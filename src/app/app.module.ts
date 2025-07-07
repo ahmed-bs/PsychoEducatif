@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //material module
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,8 +27,6 @@ import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.c
 import { MatCardModule } from '@angular/material/card';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptors/auth.interceptor';
-import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
-
 
 @NgModule({
   declarations: [
@@ -40,7 +38,7 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
     FooterComponent,
     SidebarDashboardComponent,
     SidebarClientComponent, 
-    NavbarDashboardComponent,
+    NavbarDashboardComponent
   ],
   imports: [
     RouterModule,
@@ -51,6 +49,7 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     //material
     MatToolbarModule,
     MatButtonModule,

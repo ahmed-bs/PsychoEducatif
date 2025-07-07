@@ -30,15 +30,13 @@ export class ProfileDomainService {
         return throwError(() => new Error(errorMessage));
     }
 
+    getDomainsWithSpecificItems(categoryId: number): Observable<ProfileDomain[]> {
 
-
-  getDomainsWithSpecificItems(categoryId: number): Observable<ProfileDomain[]> {
-
-    return this.http.get<ApiResponse<ProfileDomain[]>>(`${this.baseUrl}specific-items/?category_id=${categoryId}`).pipe(
-            map(response => response.data || []),
-            catchError(this.handleError)
-    );
-  }
+        return this.http.get<ApiResponse<ProfileDomain[]>>(`${this.baseUrl}specific-items/?category_id=${categoryId}`).pipe(
+                map(response => response.data || []),
+                catchError(this.handleError)
+        );
+    }
     // List domains for a category
     getDomains(categoryId: number): Observable<ProfileDomain[]> {
         const url = `${this.baseUrl}?category_id=${categoryId}`;

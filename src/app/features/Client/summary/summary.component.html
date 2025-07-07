@@ -11,68 +11,192 @@
       </li>
     </ul>
   </div>
-
-<div class="left">
-
 </div>
-  <div class="right"></div>
-</div>
+
 <div class="summary-container">
   <div *ngIf="isLoading" class="text-center">
-    <p>Loading...</p>
+    <p>Chargement...</p>
   </div>
   <div *ngIf="error" class="alert alert-danger">
     {{ error }}
   </div>
-  <div *ngIf="summaryData.length > 0" class="mb-4">
-    <h2 class="category-header">Vue d'ensemble des compétences</h2>
-    <h3 class="domain-header">Résumé par catégorie et domaine</h3>
+
+  <div class="button-container p-mb-3">
+    <button
+      pButton
+      type="button"
+      label="Exporter"
+      icon="pi pi-download"
+      (click)="toggleMenu($event)"
+      [disabled]="categoryDataForTable.length === 0"
+      class="export-button"
+    ></button>
+    <p-menu #exportMenu [model]="exportItems" [popup]="true"></p-menu>
   </div>
-  <p-table [value]="summaryData" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
-    <ng-template pTemplate="caption">
-      <div class="button-container">
-        <button pButton pRipple type="button" icon="pi pi-file-excel" label="Export Excel" class="p-button-success mr-2" (click)="exportExcel()" [disabled]="summaryData.length === 0"></button>
-        <button pButton pRipple type="button" icon="pi pi-file-pdf" label="Export PDF" class="p-button-warning mr-2" (click)="exportPdf()" [disabled]="summaryData.length === 0"></button>
-      </div>
-    </ng-template>
+
+  <div class="filter-container">
+    <label for="status-filter">Filtrer par Statut des Items :</label>
+    <p-dropdown
+      id="status-filter"
+      [options]="filterStatuses"
+      [(ngModel)]="selectedFilterStatus"
+      optionLabel="label"
+      optionValue="value"
+      (onChange)="applyFilter()"
+      placeholder="Sélectionner un statut"
+      styleClass="filter-dropdown"
+    ></p-dropdown>
+    </div>
+
+
+  <p-table
+    [value]="categoryDataForTable"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 20, 50]"
+    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    styleClass="p-datatable-sm p-datatable-striped"
+    [expandedRowKeys]="expandedCategories"
+    dataKey="category"
+  >
     <ng-template pTemplate="header">
       <tr>
-        <th>Catégorie</th>
-        <th>Domaine</th>
-        <th>Total Items</th>
-        <th>Acquises</th>
-        <th>Partielles</th>
-        <th>Non Acquises</th>
-        <th>Non Évaluées</th>
-        <th>Progression</th>
+        <th style="width: 3rem"></th>
+        <th pSortableColumn="category">Catégorie <p-sortIcon field="category"></p-sortIcon></th>
+        <th pSortableColumn="totalDomains">Total Domaines <p-sortIcon field="totalDomains"></p-sortIcon></th>
+        <th pSortableColumn="totalItemsOverall">Total Items <p-sortIcon field="totalItemsOverall"></p-sortIcon></th>
+        <th pSortableColumn="overallProgress">Progression Globale <p-sortIcon field="overallProgress"></p-sortIcon></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item>
+    <ng-template pTemplate="body" let-categoryData let-expanded="expanded">
       <tr>
-        <td class="align-middle">{{ item.category }}</td>
-        <td class="align-middle">{{ item.domain }}</td>
-        <td class="align-middle">{{ item.totalItems }}</td>
-        <td class="align-middle">
-          <span class="statut-badge statut-acquise">{{ item.acquired }}</span>
+        <td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            [pRowToggler]="categoryData"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></button>
         </td>
-        <td class="align-middle">
-          <span class="statut-badge statut-partiel">{{ item.partial }}</span>
-        </td>
-        <td class="align-middle">
-          <span class="statut-badge statut-non-acquise">{{ item.notAcquired }}</span>
-        </td>
-        <td class="align-middle">
-          <span class="statut-badge statut-non-evalue">{{ item.notEvaluated }}</span>
-        </td>
-        <td class="align-middle">
-          <div class="progress-container">
-            <div class="progress-bar">
-              <div class="progress-fill" [style.width.%]="item.progressPercentage"></div>
-            </div>
-            <span class="progress-text">{{ item.progressPercentage }}%</span>
+        <td>{{ categoryData.category }}</td>
+        <td>{{ categoryData.totalDomains }}</td>
+        <td>{{ categoryData.totalItemsOverall }}</td>
+        <td>
+          <div class="progress-container-table">
+            <p-progressBar
+              [value]="categoryData.overallProgress"
+              [showValue]="false"
+              styleClass="custom-progress"
+            ></p-progressBar>
+            <span class="progress-text-table">{{ categoryData.overallProgress }}%</span>
           </div>
         </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="rowexpansion" let-categoryData>
+      <tr>
+        <td [attr.colspan]="5">
+          <div class="p-3">
+            <h5>Domaines de la catégorie "{{ categoryData.category }}" :</h5>
+            <p-table [value]="categoryData.domains" dataKey="domain" styleClass="p-datatable-sm p-datatable-gridlines nested-table">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="domain">Domaine <p-sortIcon field="domain"></p-sortIcon></th>
+                  <th pSortableColumn="totalItems">Total Items <p-sortIcon field="totalItems"></p-sortIcon></th>
+                  <th pSortableColumn="acquired">Acquises <p-sortIcon field="acquired"></p-sortIcon></th>
+                  <th pSortableColumn="partial">Partielles <p-sortIcon field="partial"></p-sortIcon></th>
+                  <th pSortableColumn="notAcquired">Non Acquises <p-sortIcon field="notAcquired"></p-sortIcon></th>
+                  <th pSortableColumn="notEvaluated">Non Évaluées <p-sortIcon field="notEvaluated"></p-sortIcon></th>
+                  <th pSortableColumn="progressPercentage">Progression <p-sortIcon field="progressPercentage"></p-sortIcon></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-domainData>
+                <tr>
+                  <td>{{ domainData.domain }}</td>
+                  <td>{{ domainData.totalItems }}</td>
+                  <td>
+                    <span class="statut-badge statut-acquise">{{ domainData.acquired }}</span>
+                  </td>
+                  <td>
+                    <span class="statut-badge statut-partiel">{{ domainData.partial }}</span>
+                  </td>
+                  <td>
+                    <span class="statut-badge statut-non-acquise">{{ domainData.notAcquired }}</span>
+                  </td>
+                  <td>
+                    <span class="statut-badge statut-non-evalue">{{ domainData.notEvaluated }}</span>
+                  </td>
+                  <td>
+                    <div class="progress-container-table">
+                      <p-progressBar
+                        [value]="domainData.progressPercentage"
+                        [showValue]="false"
+                        styleClass="custom-progress"
+                      ></p-progressBar>
+                      <span class="progress-text-table">{{ domainData.progressPercentage }}%</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="domain-items-detail-row">
+                  <td [attr.colspan]="7" class="p-0">
+                    <div class="bg-blue-50 border-l-4 border-blue-600 pl-6 pr-4 py-4 ml-8"> <div class="flex items-center justify-between mb-4">
+                        <h6 class="text-lg font-semibold text-blue-700 leading-none m-0">Items pour le domaine "{{ domainData.domain }}" (Statut filtré: {{ getEtatLabel(selectedFilterStatus) }}) :</h6>
+                        <p-toggleButton
+                          [(ngModel)]="domainItemsVisibility[domainData.domain]"
+                          onIcon="pi pi-eye-slash"
+                          offIcon="pi pi-eye"
+                          onLabel="Masquer les items"
+                          offLabel="Afficher les items"
+                          [style]="{ 'width': '10em' }"
+                          styleClass="p-button-sm p-button-outlined item-toggle-button"
+                        ></p-toggleButton>
+                      </div>
+
+                      <div *ngIf="isDomainItemsVisible(domainData.domain)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div *ngFor="let item of domainData.profileItems" class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                          <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-gray-900 text-lg">{{ item.name }}</span>
+                            <span class="statut-badge text-xs font-semibold px-2.5 py-0.5 rounded-full" [ngClass]="{
+                                'statut-acquise': item.etat === 'ACQUIS',
+                                'statut-partiel': item.etat === 'PARTIEL',
+                                'statut-non-acquise': item.etat === 'NON_ACQUIS',
+                                'statut-non-evalue': item.etat === 'NON_COTE'
+                            }">{{ getEtatLabel(item.etat) }}</span>
+                          </div>
+                          <p *ngIf="item.commentaire" class="text-gray-600 text-sm mt-1">
+                            **Commentaire:** {{ item.commentaire }}
+                          </p>
+                          <p *ngIf="!item.commentaire" class="text-gray-400 text-sm italic mt-1">
+                            Aucun commentaire disponible.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div *ngIf="domainData.profileItems.length === 0" class="no-items-message">
+                          Aucun item trouvé avec le statut "{{ selectedFilterStatus }}" pour ce domaine.
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="7" class="text-center">Aucun domaine trouvé pour cette catégorie.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center">Aucune catégorie de compétence trouvée.</td>
+      </tr>
+    </ng-template>
   </p-table>
-</div> 
+</div>
