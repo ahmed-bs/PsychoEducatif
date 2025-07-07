@@ -4,7 +4,7 @@
     <img src="assets/image_client/bg-5.png" alt="Background" class="welcome-background">
     <div class="welcome-content">
       <h1>Bienvenue !</h1>
-      <p>Veuillez sélectionner le profil d’un de vos enfants ci-dessous.</p>
+      <p>Veuillez sélectionner le profil d'un de vos enfants ci-dessous.</p>
     </div>
   </div>
 
@@ -72,13 +72,14 @@
       </div>
     </div>
 
-    <!-- Card to open add dialog -->
-    <div class="card card--add" (click)="showDialog()">
+    <!-- Card to open add dialog (desktop/tablet only) -->
+    <div class="card card--add ajout-card-desktop" (click)="showDialog()">
       <span class="card__plus">+</span>
       <h2 class="card__name">Ajouter un enfant</h2>
     </div>
   </div>
-
+  <!-- Add button for mobile only -->
+  <button class="ajout-btn-mobile" (click)="showDialog()">+ Ajouter un enfant</button>
 </section>
 
 <p-dialog [(visible)]="displayDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false"

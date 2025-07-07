@@ -20,14 +20,13 @@
         </div>
 
         <body class="bg-gray-50 font-sans">
-            <div class="container mx-auto px-4 py-8 max-w-6xl">
+            <div class="container mx-auto px-2 sm:px-4 md:px-8 py-4 max-w-6xl">
                 <!-- Header -->
-                <div class="flex justify-between items-center mb-8">
-                    <h1 class="text-3xl font-bold text-indigo-800"></h1>
-
-                    <div class="flex items-center space-x-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <h1 class="text-2xl md:text-3xl font-bold text-indigo-800"></h1>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
                         <!-- Dropdown for child profiles -->
-                        <div class="dropdown relative">
+                        <div class="dropdown relative w-full sm:w-auto">
                             <div class="dropdown-content mt-1">
                                 <div *ngFor="let child of filteredChildren" class="dropdown-item"
                                     [class.active]="child.id === selectedChild?.id">
@@ -51,7 +50,7 @@
 
                         </div>
                         <button
-                            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center">
+                            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center w-full sm:w-auto">
                             <i class="fas fa-file-pdf mr-2"></i> Exporter PDF
                         </button>
 
@@ -60,50 +59,46 @@
 
                 <!-- Profile Card -->
                 <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-                    <div class="md:flex">
+                    <div class="flex flex-col md:flex-row">
                         <div class="md:w-1/4 bg-indigo-100 p-6 flex flex-col items-center justify-center">
-                            <div class="w-32 h-32 rounded-full bg-indigo-200 flex items-center justify-center mb-4">
-                                <i class="fas fa-child text-6xl text-indigo-600"></i>
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-indigo-200 flex items-center justify-center mb-4">
+                                <i class="fas fa-child text-4xl md:text-6xl text-indigo-600"></i>
                             </div>
                             <button class="text-indigo-600 hover:text-indigo-800 flex items-center">
                                 <i class="fas fa-camera mr-2"></i> Ajouter photo
                             </button>
                         </div>
-                        <div class="md:w-3/4 p-6" *ngIf="selectedChild">
-                            <div class="flex justify-between items-start">
+                        <div class="md:w-3/4 p-4 md:p-6" *ngIf="selectedChild">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                                 <div>
-                                    <h2 class="text-2xl font-bold text-gray-800">{{ selectedChild.first_name }} {{
+                                    <h2 class="text-xl md:text-2xl font-bold text-gray-800">{{ selectedChild.first_name }} {{
                                         selectedChild.last_name }}
                                     </h2>
-                                    <div class="flex items-center mt-2">
+                                    <div class="flex flex-wrap items-center mt-2 gap-2">
                                         <span
-                                            class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded mr-2">{{
+                                            class="bg-blue-100 text-blue-800 text-xs md:text-sm font-medium px-2.5 py-0.5 rounded">{{
                                             calculateAge(selectedChild.birth_date) }}</span>
                                         <span
-                                            class="bg-purple-100 text-purple-800 text-sm font-medium px-2.5 py-0.5 rounded">{{
-                                            selectedChild.diagnosis }}</span>
+                                            class="bg-purple-100 text-purple-800 text-xs md:text-sm font-medium px-2.5 py-0.5 rounded">{{
+                                            selectedChild.gender === 'M' ? '♂ Male' : '♀ Female' }}</span>
                                     </div>
-                                    <p class="text-gray-600 mt-2"><i
+                                    <p class="text-gray-600 mt-2 text-xs md:text-base"><i
                                             class="fas fa-calendar-alt mr-2 text-indigo-500"></i> Dernière
                                         évaluation: 15/06/2023</p>
                                 </div>
-                                <div class="flex items-center space-x-4">
-                                    <!-- <button (click)="showEditDialog()"
-                                        class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
-                                        <i class="fas fa-edit mr-2"></i> Modifier profil
-                                    </button> -->
-                                    <!-- <button (click)="showShareDialog()"
-                                        class="bg-white border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition flex items-center">
-                                        <i class="pi pi-share-alt" style="color: #a01717; font-size: 20px;"></i>
-                                    </button> -->
+                                <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                                    <button (click)="showShareDialog()"
+                                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center w-full sm:w-auto">
+                                        <i class="fas fa-share-alt mr-2"></i> Partager le profil
+                                    </button>
                                 </div>
                             </div>
 
                             <!-- Tabs -->
-                            <div class="border-b border-gray-200">
-                                <ul class="flex flex-wrap -mb-px">
+                            <div class="border-b border-gray-200 mt-4">
+                                <ul class="flex flex-wrap -mb-px overflow-x-auto md:overflow-visible">
                                     <li class="mr-2" *ngFor="let tab of tabs">
-                                        <button class="inline-block p-4 border-b-2 rounded-t-lg font-medium"
+                                        <button class="inline-block p-2 md:p-4 border-b-2 rounded-t-lg font-medium text-xs md:text-base"
                                             [class.border-indigo-600]="isTabActive(tab.id)"
                                             [class.text-indigo-600]="isTabActive(tab.id)"
                                             [class.border-transparent]="!isTabActive(tab.id)"
@@ -119,111 +114,11 @@
                     </div>
                 </div>
 
-                <!-- Chart Section: Multiple Chart Types -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  <!-- Doughnut Chart: Skills Distribution -->
-                  <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                    <div class="w-full h-64">
-                      <canvas baseChart
-                        [data]="skillsChartData"
-                        [options]="skillsChartOptions"
-                        [type]="'doughnut'">
-                      </canvas>
-                    </div>
-                  </div>
-                  
-                  <!-- Bar Chart: Progress Comparison -->
-                  <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                    <div class="w-full h-64">
-                      <canvas baseChart
-                        [data]="progressChartData"
-                        [options]="progressChartOptions"
-                        [type]="'bar'">
-                      </canvas>
-                    </div>
-                  </div>
-                  
-                  <!-- Radar Chart: Skill Assessment -->
-                  <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                    <div class="w-full h-64">
-                      <canvas baseChart
-                        [data]="radarChartData"
-                        [options]="radarChartOptions"
-                        [type]="'radar'">
-                      </canvas>
-                    </div>
-                  </div>
-                  
-                  <!-- Polar Area Chart: Domain Overview -->
-                  <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                    <div class="w-full h-64">
-                      <canvas baseChart
-                        [data]="polarChartData"
-                        [options]="polarChartOptions"
-                        [type]="'polarArea'">
-                      </canvas>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Additional Charts Section -->
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
-                  <!-- Skills Progress Overview -->
-                  <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                      <i class="fas fa-chart-line text-indigo-600 mr-2"></i>
-                      Aperçu des Progrès
-                    </h3>
-                    <div class="space-y-4">
-                      <div *ngFor="let category of filteredCategories" class="category-progress-card">
-                        <div class="flex justify-between items-center mb-2">
-                          <span class="font-medium text-gray-700">{{ category.name }}</span>
-                          <span class="text-sm text-gray-500">{{ (domains[category.id!] || []).length }} compétences</span>
-                        </div>
-                        <div class="progress-bar">
-                          <div class="progress-fill"
-                               [style.width]="getCategoryProgress(category.id!) + '%'">
-                          </div>
-                        </div>
-                        <div class="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>Progrès: {{ getCategoryProgress(category.id!) }}%</span>
-                          <span>Objectif: 85%</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Recent Activity -->
-                  <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                      <i class="fas fa-clock text-green-600 mr-2"></i>
-                      Activité Récente
-                    </h3>
-                    <div class="space-y-4">
-                      <div *ngFor="let category of filteredCategories.slice(0, 3)" class="activity-item">
-                        <div class="flex items-start space-x-3">
-                          <div class="flex-shrink-0">
-                            <div class="activity-icon">
-                              <i class="fas fa-star text-sm"></i>
-                            </div>
-                          </div>
-                          <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900">{{ category.name }}</p>
-                            <p class="text-sm text-gray-500">
-                              {{ (domains[category.id!] || []).length }} compétences évaluées
-                            </p>
-                            <p class="text-xs text-gray-400">Dernière mise à jour: {{ getLastUpdateDate() }}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- Tab Contents -->
                 <div id="tab-contents">
-                    <!-- Skills Tab -->
+                    <!-- Compétences Tab -->
                     <div class="tab-content active" id="skills-content" [class.active]="isTabActive('skills')">
+                        <!-- Existing category grid below -->
                         <div class="grid md:grid-cols-2 gap-6">
                             <!-- Loop through filtered categories -->
                             <div *ngFor="let category of filteredCategories"
@@ -231,9 +126,6 @@
                                 <div class="bg-indigo-600 px-4 py-3 flex justify-between items-center">
                                     <h3 class="text-lg font-medium text-white">{{ category.name }} ({{
                                         (domains[category.id!] || []).length }} compétences)</h3>
-                                    <!-- <button class="text-white hover:text-indigo-200" (click)="openAddDomainDialog(category.id!)">
-          <i class="fas fa-plus"></i>
-        </button> -->
                                 </div>
                                 <div class="p-4">
                                     <!-- Loop through domains for this category -->
@@ -241,14 +133,6 @@
                                         class="skill-card bg-indigo-50 p-4 rounded-lg mb-3">
                                         <div class="flex justify-between items-center mb-2">
                                             <h4 class="font-medium text-indigo-800">{{ domain.name }}</h4>
-                                            <div class="flex space-x-2">
-                                                <!-- <button class="text-indigo-600 hover:text-indigo-800" (click)="openEditDomainDialog(domain)">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="text-red-600 hover:text-red-800" (click)="deleteDomain(category.id!, domain.id!)">
-                <i class="fas fa-trash"></i>
-              </button> -->
-                                            </div>
                                         </div>
                                         <div class="mb-2">
                                             <span class="text-sm font-medium text-gray-700">Progrès: {{
@@ -263,18 +147,113 @@
                                             <span>Dernière éval: {{ domain.last_eval_date }}</span>
                                         </div>
                                     </div>
-                                    <!-- <button
-          class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition flex items-center justify-center"
-          (click)="openAddDomainDialog(category.id!)">
-          <i class="fas fa-plus mr-2"></i> Ajouter une nouvelle compétence
-        </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Statistiques Tab -->
+                    <div class="tab-content" id="stats-content" [class.active]="isTabActive('stats')">
+                        <!-- First row: 1 card full width -->
+                        <div class="grid grid-cols-1 mb-6">
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="skillsChartData"
+                                        [options]="skillsChartOptions"
+                                        [type]="'doughnut'">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Second row: 2 cards side by side -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="progressChartData"
+                                        [options]="progressChartOptions"
+                                        [type]="'bar'">
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="lineChartData"
+                                        [options]="lineChartOptions"
+                                        [type]="'line'">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Third row: 1 card full width -->
+                        <div class="grid grid-cols-1 mb-8">
+                            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
+                                <div class="w-full h-64">
+                                    <canvas baseChart
+                                        [data]="polarChartData"
+                                        [options]="polarChartOptions"
+                                        [type]="'polarArea'">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Additional Charts Section -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <!-- Skills Progress Overview -->
+                            <div class="bg-white rounded-xl shadow-md p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                    <i class="fas fa-chart-line text-indigo-600 mr-2"></i>
+                                    Aperçu des Progrès
+                                </h3>
+                                <div class="space-y-4">
+                                    <div *ngFor="let category of filteredCategories" class="category-progress-card">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-medium text-gray-700">{{ category.name }}</span>
+                                            <span class="text-sm text-gray-500">{{ (domains[category.id!] || []).length }} compétences</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill"
+                                                [style.width]="getCategoryProgress(category.id!) + '%'">
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                            <span>Progrès: {{ getCategoryProgress(category.id!) }}%</span>
+                                            <span>Objectif: 85%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Recent Activity -->
+                            <div class="bg-white rounded-xl shadow-md p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                    <i class="fas fa-clock text-green-600 mr-2"></i>
+                                    Activité Récente
+                                </h3>
+                                <div class="space-y-4">
+                                    <div *ngFor="let category of filteredCategories.slice(0, 3)" class="activity-item">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="flex-shrink-0">
+                                                <div class="activity-icon">
+                                                    <i class="fas fa-star text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900">{{ category.name }}</p>
+                                                <p class="text-sm text-gray-500">
+                                                    {{ (domains[category.id!] || []).length }} compétences évaluées
+                                                </p>
+                                                <p class="text-xs text-gray-400">Dernière mise à jour: {{ getLastUpdateDate() }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Goals Tab -->
-                     <div class="tab-content" id="goals-content" [class.active]="isTabActive('goals')">
+                    <div class="tab-content" id="goals-content" [class.active]="isTabActive('goals')">
                         <app-goals 
                         [goals]="goals" 
                         (addGoalClicked)="openAddGoalModal()" 
@@ -494,8 +473,9 @@
                 <div class="p-fluid">
                     <div class="field">
                         <label for="email">Email du parent</label>
-                        <input pInputText id="email" [(ngModel)]="saisieEmail" placeholder="Entrez l'email du parent" />
+                        <input pInputText id="email" [(ngModel)]="saisieEmail" placeholder="Entrez l'email du parent" (ngModelChange)="validateEmail()" />
                     </div>
+                    <div *ngIf="saisieEmail && !isEmailValid" class="text-red-500 text-xs mt-1">Adresse email invalide.</div>
                     <div class="field">
                         <label for="access">Niveau d'accès</label>
                         <p-dropdown id="access" [options]="optionsAcces" [(ngModel)]="accesSelectionne"
@@ -507,7 +487,12 @@
                 <button pButton type="button" label="Annuler" class="p-button-secondary"
                     (click)="afficherBoiteDialoguePartage = false"></button>
                 <button pButton type="button" label="Partager" class="p-button-primary" style="color: white;"
-                    (click)="shareProfile()"></button>
+                    (click)="shareProfile()" [disabled]="!isEmailValid || loadingShare">
+                    <ng-container *ngIf="loadingShare">
+                      <i class="pi pi-spin pi-spinner mr-2"></i>
+                    </ng-container>
+                    Partager
+                </button>
             </ng-template>
 
         </p-dialog>

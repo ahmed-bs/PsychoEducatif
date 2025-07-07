@@ -33,8 +33,6 @@ import { NotesComponent } from "./tabs/notes/notes.component";
   providers: [MessageService]
 })
 
-
-
 export class DashboardClientComponent implements OnInit {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
@@ -74,7 +72,8 @@ export class DashboardClientComponent implements OnInit {
     { id: 'skills', label: 'Compétences' },
     { id: 'goals', label: 'Objectifs' },
     { id: 'strategies', label: 'Stratégies' },
-    { id: 'notes', label: 'Notes' }
+    { id: 'notes', label: 'Notes' },
+    { id: 'stats', label: 'Statistiques' }
   ];
 
   progressBars = [
@@ -220,16 +219,17 @@ export class DashboardClientComponent implements OnInit {
     }
   };
 
-  // Chart data for skill assessment (radar chart)
-  radarChartData: ChartConfiguration<'radar'>['data'] = {
+  // Chart data for skill assessment (line chart replacing radar)
+  lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: [],
     datasets: [
       {
         label: 'Niveau Actuel',
         data: [],
-        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+        fill: false,
         borderColor: 'rgba(99, 102, 241, 1)',
-        borderWidth: 3,
+        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+        tension: 0.4,
         pointBackgroundColor: 'rgba(99, 102, 241, 1)',
         pointBorderColor: '#ffffff',
         pointBorderWidth: 2,
@@ -238,7 +238,7 @@ export class DashboardClientComponent implements OnInit {
       }
     ],
   };
-  radarChartOptions: ChartConfiguration<'radar'>['options'] = {
+  lineChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -265,27 +265,21 @@ export class DashboardClientComponent implements OnInit {
         cornerRadius: 8,
         callbacks: {
           label: function(context) {
-            return `${context.dataset.label}: ${context.parsed.r}%`;
+            return `${context.dataset.label}: ${context.parsed.y}%`;
           }
         }
       }
     },
     scales: {
-      r: {
+      x: {
+        ticks: { color: '#6B7280', font: { size: 11 } },
+        grid: { color: 'rgba(107, 114, 128, 0.1)' }
+      },
+      y: {
         beginAtZero: true,
         max: 100,
-        ticks: {
-          color: '#6B7280',
-          font: { size: 11 },
-          stepSize: 20
-        },
-        grid: {
-          color: 'rgba(107, 114, 128, 0.1)'
-        },
-        pointLabels: {
-          color: '#374151',
-          font: { size: 11, weight: '500' }
-        }
+        ticks: { color: '#6B7280', font: { size: 11 } },
+        grid: { color: 'rgba(107, 114, 128, 0.1)' }
       }
     }
   };
@@ -368,6 +362,8 @@ export class DashboardClientComponent implements OnInit {
 
   currentProfileIdForModal: number | null = null;
 
+  isEmailValid: boolean = false;
+  loadingShare: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -689,11 +685,18 @@ export class DashboardClientComponent implements OnInit {
     });
   }
 
+  validateEmail() {
+    // Simple email regex
+    this.isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.saisieEmail);
+  }
+
   shareProfile() {
     if (!this.selectedChild || !this.saisieEmail) {
       Swal.fire('Erreur', 'Veuillez sélectionner un profil et entrer un email.', 'warning');
       return;
     }
+
+    this.loadingShare = true;
 
     const permissions: ('view' | 'edit' | 'share')[] = ['view'];
     if (this.accesSelectionne.valeur === 'read_write') {
@@ -708,9 +711,11 @@ export class DashboardClientComponent implements OnInit {
     this.profileService.shareChildProfile(this.selectedChild.id!, shareData).subscribe({
       next: (message) => {
         this.afficherBoiteDialoguePartage = false;
+        this.loadingShare = false;
         Swal.fire('Succès', message || 'Profil partagé avec succès.', 'success');
       },
       error: (err) => {
+        this.loadingShare = false;
         Swal.fire('Erreur', err.message || 'Impossible de partager le profil.', 'error');
       }
     });
@@ -780,8 +785,8 @@ export class DashboardClientComponent implements OnInit {
     // Update progress chart (bar chart)
     this.updateProgressChart();
     
-    // Update radar chart
-    this.updateRadarChart();
+    // Update line chart
+    this.updateLineChart();
     
     // Update polar area chart
     this.updatePolarChart();
@@ -812,11 +817,10 @@ export class DashboardClientComponent implements OnInit {
     };
   }
 
-  updateRadarChart() {
+  updateLineChart() {
     const labels: string[] = [];
     const data: number[] = [];
-    
-    // Use first 6 domains for radar chart (or all if less than 6)
+    // Use first 6 domains for line chart (or all if less than 6)
     let domainCount = 0;
     for (const cat of this.filteredCategories) {
       if (domainCount >= 6) break;
@@ -827,11 +831,10 @@ export class DashboardClientComponent implements OnInit {
         domainCount++;
       }
     }
-    
-    this.radarChartData = {
-      ...this.radarChartData,
+    this.lineChartData = {
+      ...this.lineChartData,
       labels,
-      datasets: [{ ...this.radarChartData.datasets[0], data }],
+      datasets: [{ ...this.lineChartData.datasets[0], data }],
     };
   }
 
