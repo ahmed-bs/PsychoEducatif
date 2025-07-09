@@ -1,7 +1,8 @@
 .full-calendar {
     border-radius: 25px;
     overflow: hidden;
-    padding: 10px;
+    /* Remove padding to fix border misalignment */
+    padding: 0;
   }
   :host ::ng-deep .fc {
     font-family: 'Poppins', sans-serif;
@@ -134,10 +135,9 @@
   }
   
   .progress-bar {
-    width: 100%;
-    height: 6px;
-    background: #cde0ff;
-    border-radius: 3px;
+    height: 8px;
+    background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-radius: 4px;
     overflow: hidden;
     position: relative;
   }
@@ -163,10 +163,12 @@
   }
   
 .calendar-container {
-  padding: 1.5rem;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* FullCalendar customization */
@@ -216,5 +218,68 @@
   .fc-day-past {
     background-color: #f9fafb;
   }
+}
+  
+.progress-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+  
+:host ::ng-deep .fc {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 25px !important; /* match your card */
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .fc-daygrid-body, 
+:host ::ng-deep .fc-scrollgrid {
+  width: 100% !important;
+  border-radius: 25px !important;
+  overflow: hidden !important;
+}
+
+:host ::ng-deep .fc-scrollgrid {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .fc-daygrid-day:last-child,
+:host ::ng-deep .fc-col-header-cell:last-child {
+  border-right: 1px solid #e5e7eb !important;
+}
+
+/* Remove extra padding from calendar container if any */
+.full-calendar, .calendar-container {
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
 }
   
