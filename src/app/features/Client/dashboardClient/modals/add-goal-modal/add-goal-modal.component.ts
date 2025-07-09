@@ -1,5 +1,3 @@
-
-
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormArray, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -22,6 +20,7 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
   @Input() isVisible: boolean = false;
   @Input() goalToEdit: any | null = null;
   @Input() currentProfileId: number | null = null;
+  @Input() selectedDate: string | null = null;
 
   @Output() close = new EventEmitter<void>();
   @Output() goalSaved = new EventEmitter<any>();
@@ -89,6 +88,10 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
         this.availableDomains = [];
         this.goalForm.get('category_id')?.setValue(null, { emitEvent: false });
         this.goalForm.get('domain_id')?.setValue(null, { emitEvent: false });
+      }
+
+      if (!this.isEditMode && this.selectedDate) {
+        this.goalForm.get('target_date')?.setValue(this.selectedDate);
       }
     }
 

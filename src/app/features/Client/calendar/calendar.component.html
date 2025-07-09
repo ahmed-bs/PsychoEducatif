@@ -19,29 +19,50 @@
 
   <!-- Calendar Section -->
   <div class="bg-white shadow-lg rounded-2xl p-4 full-calendar flex-1">
-   
     <div class="mb-4 flex flex-col space-y-2"></div>
     <div class="calendar-container">
       <full-calendar [options]="calendarOptions"></full-calendar>
     </div>
   </div>
-<!-- Sidebar (Today's Plans) -->
+<!-- Sidebar (In Progress Domains) -->
 <div class="sidebar">
-  <h2 class="title">📌 Aujourd'hui</h2>
-  <div *ngIf="todayPlans.length > 0; else noPlans" class="plans-list">
-    <div *ngFor="let plan of todayPlans" class="plan-card">
-      <h3 class="plan-title">{{ plan.title }}</h3>
-      <p class="plan-time">{{ plan.time }}</p>
-      <div class="progress-bar">
-        <div class="progress" [style.width.%]="plan.progress"></div>
-      </div>
-      <p class="progress-text">{{ plan.progress }}%</p>
-    </div>
+  <h2 class="title">📌 Domaines en cours</h2>
+  <div *ngIf="inProgressDomainsList.length > 0; else noDomains" class="plans-list">
+    <ng-container *ngFor="let category of filteredCategories">
+      <ng-container *ngIf="hasInProgressDomains(category.id!)">
+        <ng-container *ngFor="let domain of getInProgressDomains(category.id!)">
+          <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-3">
+            <div class="flex justify-between items-center mb-2">
+              <h4 class="font-medium text-indigo-800">{{ domain.name }}</h4>
+            </div>
+            <div class="mb-2">
+              <span class="text-sm font-medium text-gray-700">Progrès: {{ domain.acquis_percentage }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width]="domain.acquis_percentage + '%'">
+              </div>
+            </div>
+            <div class="mt-3 flex justify-between text-sm text-gray-600">
+              <span>Début: {{ domain.start_date }}</span>
+              <span>Dernière éval: {{ domain.last_eval_date }}</span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
   </div>
-  <ng-template #noPlans>
-    <p class="no-plans">Aucun plan pour aujourd'hui.</p>
+  <ng-template #noDomains>
+    <p class="no-plans">Aucun domaine en cours.</p>
   </ng-template>
 </div>
 
+<app-add-goal-modal
+  *ngIf="showGoalFormModal"
+  [isVisible]="showGoalFormModal"
+  [selectedDate]="selectedGoalDate"
+  [currentProfileId]="currentProfileId"
+  (close)="onGoalModalClose()"
+  (goalSaved)="onGoalModalSaved($event)">
+</app-add-goal-modal>
 
 </div>

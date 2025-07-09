@@ -12,7 +12,7 @@ import { Child_profileComponent } from './Child_profile/Child_profile.component'
 const routes: Routes = [
 
   { path:'explore',component:ExploreComponent },
-  { path:'calendar',component:CalendarComponent },
+  { path:'calendar/:childId',component:CalendarComponent },
   { path:'Kids_profiles/:childId',component:PickProfileComponent },
   { path:'profiles/:childId',component:Child_profileComponent },
   { path:'evaluations/:domainId',component:EvaluationsComponent },
