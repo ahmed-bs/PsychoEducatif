@@ -252,3 +252,34 @@
   100% { transform: translateX(100%); }
 }
   
+:host ::ng-deep .fc {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 25px !important; /* match your card */
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .fc-daygrid-body, 
+:host ::ng-deep .fc-scrollgrid {
+  width: 100% !important;
+  border-radius: 25px !important;
+  overflow: hidden !important;
+}
+
+:host ::ng-deep .fc-scrollgrid {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .fc-daygrid-day:last-child,
+:host ::ng-deep .fc-col-header-cell:last-child {
+  border-right: 1px solid #e5e7eb !important;
+}
+
+/* Remove extra padding from calendar container if any */
+.full-calendar, .calendar-container {
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+}
+  
