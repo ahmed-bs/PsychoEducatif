@@ -10,7 +10,7 @@
     overflow-x: hidden;
     scrollbar-width: none;
     transition: all 0.2s ease;
-    position: sticky;
+    /* position: sticky; */
 }
 
 .sidebar::-webkit-scrollbar{
@@ -122,14 +122,14 @@
 
 .content{
     position: relative;
-    width: calc(100% - 230px);
-    left: 230px;
+    /* left: 230px; */
+    /* width: calc(100% - 230px); */
     transition: all 0.3s ease;
 }
 /**  look1 **/
 .sidebar.close~.content{
     width: calc(100% - 60px);
-    left: 60px;
+    /* left: 60px; */
 }
 .bx{
     font-size: 1.7rem;
@@ -517,7 +517,7 @@ li{
    margin-bottom: 0;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     .sidebar{
         width: 200px;
     }
@@ -527,7 +527,7 @@ li{
         left: 200px;
     }
 
-}
+} */
 
 @media screen and (max-width: 576px) {
     

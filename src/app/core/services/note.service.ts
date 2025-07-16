@@ -8,13 +8,17 @@ import { NoteFilterParams } from '../models/noteFiltesParams';
 @Injectable({
   providedIn: 'root'
 })
+
 export class NoteService {
   private apiUrl = `${environment.apiUrl}notes/`;
 
   constructor(private http: HttpClient) { }
 
-  getNotes(filters?: NoteFilterParams): Observable<Note[]> {
+  getNotes(profileId: number, filters?: NoteFilterParams): Observable<Note[]> {
     let params = new HttpParams();
+
+    // Add profile_id to the query parameters
+    params = params.set('profile_id', profileId.toString());
 
     if (filters) {
       if (filters.search) {
@@ -36,15 +40,16 @@ export class NoteService {
 
     return this.http.get<Note[]>(this.apiUrl, { params: params });
   }
-  
-  createNote(note: { content: string, is_important: boolean }): Observable<Note> {
-    return this.http.post<Note>(this.apiUrl, note);
+
+  createNote(profileId: number, note: { content: string, is_important: boolean }): Observable<Note> {
+    const noteWithProfile = { ...note, profile_id: profileId };
+    return this.http.post<Note>(this.apiUrl, noteWithProfile);
   }
-  
+
   updateNote(id: number, note: Partial<Note>): Observable<Note> {
     return this.http.patch<Note>(`${this.apiUrl}${id}/`, note);
   }
-  
+
   deleteNote(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}${id}/`);
   }

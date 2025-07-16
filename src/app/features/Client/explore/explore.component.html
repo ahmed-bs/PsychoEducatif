@@ -1,39 +1,16 @@
 <div class="head-title">
-  <div class="left">
-    <h1>🔍 Suivi des Enfants</h1>
-    <ul class="breadcrumb">
-      <li>
-        <a href="#">Tableau de bord</a>
-      </li>
-      <li><i class="bx bx-chevron-right"></i></li>
-      <li>
-        <a class="active" href="#"> 🔍 Suivi des Enfants</a>
-      </li>
-    </ul>
   </div>
-  <div class="right">
-    <select [(ngModel)]="statusFilter" (change)="applyFilter()" class="status-dropdown">
-      <option value="all">Tous</option>
-      <option value="completed">Terminé</option>
-      <option value="en_cours">En cours</option>
-      <option value="not_started">Non commencé</option>
-    </select>
-  </div>
-</div>
-<!-- Main Content -->
+
 <div class="container-custom">
   <div class="row">
     <div class="col-md-12">
-      <!-- Dynamic Categories Section -->
-      <div *ngFor="let category of categories" class="category-section">
-        <!-- Only show category if it has domains -->
+      <div *ngFor="let category of categories" class="category-section" [attr.data-category-id]="category.id">
         <ng-container *ngIf="getFilteredDomains(category).length > 0">
           <h4>{{ category.name }} <span class="count">{{ getFilteredDomains(category).length }}</span></h4>
           <div class="shell">
             <div class="scroller-container">
               <button class="scroll-button left" (click)="scrollLeft(category, cardsWrapper)" 
-                      [disabled]="!canScrollLeft()"
-                      aria-label="Défiler vers la gauche">
+                      [disabled]="!canScrollLeft(category)" aria-label="Défiler vers la gauche">
                 <i class="fas fa-chevron-left"></i>
               </button>
 
@@ -53,7 +30,6 @@
                       </div>
                       <div class="card-body">
                         <h5 class="card-title">{{ domain.name }}</h5>
-                        <!-- Updated row for status circles with labels -->
                         <div class="status-circles">
                           <div class="circle acquis" title="Acquis">
                             <span class="status-label">Acquis</span>

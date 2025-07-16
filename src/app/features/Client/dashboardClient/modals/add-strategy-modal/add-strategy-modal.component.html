@@ -1,0 +1,64 @@
+<div *ngIf="isVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+  (click)="onClose()">
+  <div class="bg-white rounded-xl shadow-2xl w-auto max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto overflow-hidden
+              transform transition-all duration-300 scale-100 h-auto max-h-[95vh] flex flex-col"
+    (click)="$event.stopPropagation()">
+
+    <div class="bg-indigo-600 text-white px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center flex-shrink-0"> <h2 class="text-lg sm:text-xl font-semibold">{{ strategyToEdit ? 'Modifier la stratégie' : 'Ajouter une nouvelle stratégie' }}</h2> <button (click)="onClose()" class="text-white hover:text-gray-200 focus:outline-none">
+        <i class="fas fa-times text-base sm:text-lg"></i> </button>
+    </div>
+
+    <div class="p-4 sm:p-6 flex-grow overflow-y-auto custom-scrollbar"> <form (ngSubmit)="onSave()" #strategyForm="ngForm" class="space-y-4">
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Titre de la stratégie:</label>
+          <input type="text" id="title" name="title" [(ngModel)]="localStrategy.title" required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base" #title="ngModel">
+          <div *ngIf="title.invalid && (title.dirty || title.touched)" class="text-red-600 text-xs mt-1">
+            Le titre est requis.
+          </div>
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description:</label>
+          <textarea id="description" name="description" [(ngModel)]="localStrategy.description" rows="4" required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base resize-y" #description="ngModel"></textarea>
+          <div *ngIf="description.invalid && (description.dirty || description.touched)" class="text-red-600 text-xs mt-1">
+            La description est requise.
+          </div>
+        </div>
+
+        <div>
+          <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Statut:</label>
+          <select id="status" name="status" [(ngModel)]="localStrategy.status" required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base" #status="ngModel">
+            <option *ngFor="let choice of statusChoices" [value]="choice">{{ choice }}</option>
+          </select>
+          <div *ngIf="status.invalid && (status.dirty || status.touched)" class="text-red-600 text-xs mt-1">
+            Le statut est requis.
+          </div>
+        </div>
+
+        <div>
+          <label for="responsible" class="block text-sm font-medium text-gray-700 mb-1">Responsable:</label>
+          <select id="responsible" name="responsible" [(ngModel)]="localStrategy.responsible" required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base" #responsible="ngModel">
+            <option *ngFor="let choice of responsibleChoices" [value]="choice">{{ choice }}</option>
+          </select>
+          <div *ngIf="responsible.invalid && (responsible.dirty || responsible.touched)" class="text-red-600 text-xs mt-1">
+            Le responsable est requis.
+          </div>
+        </div>
+        </form>
+    </div>
+
+    <div class="px-4 py-3 sm:px-6 sm:py-4 bg-gray-50 flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 flex-shrink-0"> <button type="button" (click)="onClose()"
+        class="inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Annuler
+      </button>
+      <button type="submit" (click)="onSave()" [disabled]="strategyForm.invalid"
+        class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ strategyToEdit ? 'Modifier' : 'Enregistrer' }}
+      </button>
+    </div>
+  </div>
+</div>

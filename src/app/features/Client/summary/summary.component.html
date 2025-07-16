@@ -13,42 +13,47 @@
   </div>
 </div>
 
-<div class="summary-container">
-  <div *ngIf="isLoading" class="text-center">
+<div class="summary-container p-4 sm:p-6 lg:p-8">
+  <div *ngIf="isLoading" class="text-center my-8">
     <p>Chargement...</p>
   </div>
-  <div *ngIf="error" class="alert alert-danger">
+  <div *ngIf="error" class="alert alert-danger my-4 p-3 rounded-md">
     {{ error }}
   </div>
 
-  <div class="button-container p-mb-3">
-    <button
-      pButton
-      type="button"
-      label="Exporter"
-      icon="pi pi-download"
-      (click)="toggleMenu($event)"
-      [disabled]="categoryDataForTable.length === 0"
-      class="export-button"
-    ></button>
-    <p-menu #exportMenu [model]="exportItems" [popup]="true"></p-menu>
-  </div>
+  <div class="summary-controls-header bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
 
-  <div class="filter-container">
-    <label for="status-filter">Filtrer par Statut des Items :</label>
-    <p-dropdown
-      id="status-filter"
-      [options]="filterStatuses"
-      [(ngModel)]="selectedFilterStatus"
-      optionLabel="label"
-      optionValue="value"
-      (onChange)="applyFilter()"
-      placeholder="Sélectionner un statut"
-      styleClass="filter-dropdown"
-    ></p-dropdown>
+      <div class="filter-container flex-grow">
+        <label for="status-filter" class="block text-gray-700 text-sm font-semibold mb-2 sm:mb-0 sm:inline-block sm:mr-3">
+          Filtrer par Statut des Items :
+        </label>
+        <p-dropdown
+          id="status-filter"
+          [options]="filterStatuses"
+          [(ngModel)]="selectedFilterStatus"
+          optionLabel="label"
+          optionValue="value"
+          (onChange)="applyFilter()"
+          placeholder="Sélectionner un statut"
+          styleClass="filter-dropdown w-full sm:w-auto min-w-[200px]"
+        ></p-dropdown>
+      </div>
+
+      <div class="button-container flex-shrink-0 text-right sm:text-left">
+        <button
+          pButton
+          type="button"
+          label="Exporter"
+          icon="pi pi-download"
+          (click)="toggleMenu($event)"
+          [disabled]="categoryDataForTable.length === 0"
+          class="export-button" ></button>
+        <p-menu #exportMenu [model]="exportItems" [popup]="true"></p-menu>
+      </div>
+
     </div>
-
-
+  </div>
   <p-table
     [value]="categoryDataForTable"
     [paginator]="true"
@@ -56,7 +61,7 @@
     [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[5, 10, 20, 50]"
     currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
-    [tableStyle]="{ 'min-width': '50rem' }"
+    [responsive]="true"
     styleClass="p-datatable-sm p-datatable-striped"
     [expandedRowKeys]="expandedCategories"
     dataKey="category"
@@ -102,7 +107,10 @@
         <td [attr.colspan]="5">
           <div class="p-3">
             <h5>Domaines de la catégorie "{{ categoryData.category }}" :</h5>
-            <p-table [value]="categoryData.domains" dataKey="domain" styleClass="p-datatable-sm p-datatable-gridlines nested-table">
+            <p-table [value]="categoryData.domains" dataKey="domain" styleClass="p-datatable-sm p-datatable-gridlines nested-table"
+                     [responsive]="true"
+                     [scrollable]="true" scrollHeight="flex"
+                     [tableStyle]="{ 'min-width': '40rem' }" >
               <ng-template pTemplate="header">
                 <tr>
                   <th pSortableColumn="domain">Domaine <p-sortIcon field="domain"></p-sortIcon></th>

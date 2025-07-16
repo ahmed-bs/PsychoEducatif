@@ -9,7 +9,7 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Event } from '../../../core/models/event';
 import { EventService } from '../../../core/services/event.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'; 
 import { AddGoalModalComponent } from '../dashboardClient/modals/add-goal-modal/add-goal-modal.component';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
@@ -18,6 +18,7 @@ import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ActivatedRoute } from '@angular/router';
+import { GoalService } from 'src/app/core/services/goal.service'; 
 
 @Component({
   standalone: true,
@@ -29,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CalendarComponent implements OnInit, OnChanges {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   private eventService = inject(EventService);
+  private goalService = inject(GoalService); 
   currentEvents: EventApi[] = [];
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -47,7 +49,10 @@ export class CalendarComponent implements OnInit, OnChanges {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    firstDay: 1 // Set Monday as the first day of the week
+    firstDay: 1,
+    events: [], 
+    
+    eventContent: this.renderEventContent.bind(this)
   };
   currentMonth: string = new Date().toLocaleString('default', { month: 'long' });
   events: Event[] = [];
@@ -59,12 +64,11 @@ export class CalendarComponent implements OnInit, OnChanges {
   selectedGoalDate: string | null = null;
   categories: ProfileCategory[] = [];
   domains: { [categoryId: number]: ProfileDomain[] } = {};
-  // Computed property to filter categories with domains
+
   get filteredCategories(): ProfileCategory[] {
     return this.categories.filter(category => (this.domains[category.id!] || []).length > 0);
   }
 
-  // Get only domains in progress (acquis_percentage < 100)
   get inProgressDomainsList(): ProfileDomain[] {
     let result: ProfileDomain[] = [];
     for (const cat of this.filteredCategories) {
@@ -81,17 +85,15 @@ export class CalendarComponent implements OnInit, OnChanges {
     { title: 'Exercices sensoriels', time: '13:00 - 14:00', progress: 50 },
     { title: 'Activité artistique', time: '15:30 - 16:30', progress: 90 },
   ];
-  
+
   constructor(
     private categoryService: ProfileCategoryService,
     private domainService: ProfileDomainService,
     private itemService: ProfileItemService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.updateCalendarEvents();
-    // Get childId from route if present, else fallback to user id
     const childIdParam = this.route.snapshot.paramMap.get('childId');
     if (childIdParam) {
       this.currentProfileId = Number(childIdParam);
@@ -99,8 +101,10 @@ export class CalendarComponent implements OnInit, OnChanges {
       const user = localStorage.getItem('user');
       this.currentProfileId = user ? Number(JSON.parse(user).id) : null;
     }
+
     if (this.currentProfileId) {
       this.loadCategories(this.currentProfileId);
+      this.loadGoals(this.currentProfileId); 
     }
   }
 
@@ -110,30 +114,53 @@ export class CalendarComponent implements OnInit, OnChanges {
     }
   }
 
+  
+  loadGoals(profileId: number): void {
+    this.goalService.getGoalsByProfile(profileId).subscribe({ 
+      next: (goals: any[]) => {
+        this.goals = goals; 
+        this.updateCalendarEvents(); 
+      },
+      error: (error: any) => {
+        console.error('Error loading goals:', error);
+        Swal.fire('Erreur', 'Impossible de charger les objectifs.', 'error');
+      }
+    });
+  }
+
   updateCalendarEvents() {
     if (this.goals && this.goals.length > 0) {
       this.calendarOptions.events = this.goals.map(goal => ({
         id: goal.id?.toString() ?? '',
         title: goal.title,
-        start: goal.target_date,
-        allDay: true
+        start: goal.target_date, 
+        allDay: true,
+        
+        
       }));
     } else {
       this.calendarOptions.events = [];
     }
+    
+    if (this.calendarComponent && this.calendarComponent.getApi()) {
+      this.calendarComponent.getApi().setOption('events', this.calendarOptions.events);
+    }
   }
+
+  
+  renderEventContent(eventInfo: any) {
+    const title = eventInfo.event.title;
+    const element = document.createElement('div');
+    element.innerHTML = eventInfo.timeText + ' ' + title; 
+    element.setAttribute('title', title); 
+    return { domNodes: [element] };
+  }
+  
 
   loadEvents(): void {
     this.eventService.getEvents().subscribe({
       next: (events: Event[]) => {
         this.events = events;
-        this.calendarOptions.events = events.map((event: Event) => ({
-          id: event.id?.toString() ?? '',
-          title: event.title,
-          start: event.start,
-          end: event.end,
-          allDay: event.allDay
-        }));
       },
       error: (error: Error) => {
         console.error('Error loading events:', error);
@@ -146,19 +173,43 @@ export class CalendarComponent implements OnInit, OnChanges {
     this.showGoalFormModal = true;
     selectInfo.view.calendar.unselect();
   }
-  
+
   handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      const eventId = parseInt(clickInfo.event.id);
-      this.eventService.deleteEvent(eventId).subscribe({
-        next: () => {
-          clickInfo.event.remove();
-        },
-        error: (error: Error) => {
-          console.error('Error deleting event:', error);
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Supprimer cet objectif?',
+      text: `Voulez-vous vraiment supprimer l'objectif "${clickInfo.event.title}" ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const goalId = parseInt(clickInfo.event.id);
+        this.goalService.deleteGoal(goalId).subscribe({ 
+          next: () => {
+            clickInfo.event.remove(); 
+            Swal.fire(
+              'Supprimé!',
+              'L\'objectif a été supprimé.',
+              'success'
+            );
+            if (this.currentProfileId) {
+              this.loadGoals(this.currentProfileId); 
+            }
+          },
+          error: (error: any) => {
+            console.error('Error deleting goal:', error);
+            Swal.fire(
+              'Erreur!',
+              'Une erreur s\'est produite lors de la suppression de l\'objectif.',
+              'error'
+            );
+          }
+        });
+      }
+    });
   }
 
   handleEvents(events: EventApi[]) {
@@ -173,7 +224,17 @@ export class CalendarComponent implements OnInit, OnChanges {
   onGoalModalSaved(goal: any) {
     this.showGoalFormModal = false;
     this.selectedGoalDate = null;
-    this.goalSaved.emit();
+    this.goalSaved.emit(); 
+    if (this.currentProfileId) {
+      this.loadGoals(this.currentProfileId); 
+    }
+    Swal.fire({
+      icon: 'success',
+      title: 'Objectif enregistré!',
+      text: `L'objectif "${goal.title}" a été ajouté avec succès.`,
+      timer: 2000,
+      showConfirmButton: false
+    });
   }
 
   loadCategories(profileId: number) {
@@ -236,17 +297,14 @@ export class CalendarComponent implements OnInit, OnChanges {
     return `${age} ans`;
   }
 
-  // Helper: does this category have at least one in-progress domain?
   hasInProgressDomains(categoryId: number): boolean {
     return (this.domains[categoryId] || []).some(domain => (domain.acquis_percentage || 0) < 100);
   }
 
-  // Helper: how many in-progress domains in this category?
   getInProgressDomainsCount(categoryId: number): number {
     return (this.domains[categoryId] || []).filter(domain => (domain.acquis_percentage || 0) < 100).length;
   }
 
-  // Helper: get all in-progress domains for this category
   getInProgressDomains(categoryId: number): ProfileDomain[] {
     return (this.domains[categoryId] || []).filter(domain => (domain.acquis_percentage || 0) < 100);
   }

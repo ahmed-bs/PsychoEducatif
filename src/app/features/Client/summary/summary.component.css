@@ -1,11 +1,46 @@
 .summary-container {
-  padding: 20px;
   background-color: #f9f9f9;
 }
 
 .button-container {
-  margin-bottom: 20px;
-  text-align: right;
+  padding-right: 0;
+}
+
+.filter-container {
+  margin-bottom: 0;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+.filter-container label {
+  margin-bottom: 0;
+  width: auto;
+}
+
+:host ::ng-deep .filter-dropdown {
+    .p-dropdown-label {
+        font-weight: 500;
+        color: #495057;
+    }
+    .p-dropdown-trigger {
+        color: #007bff;
+    }
+    .p-dropdown-panel {
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .p-dropdown-item {
+        padding: 0.75rem 1rem;
+    }
+    .p-dropdown-item.p-highlight {
+        background-color: #007bff;
+        color: #ffffff;
+    }
 }
 
 :host ::ng-deep .p-datatable {
@@ -44,6 +79,62 @@
   margin-top: -1px;
 }
 
+@media screen and (max-width: 960px) {
+    :host ::ng-deep .p-datatable.p-datatable-responsive-stack .p-datatable-tbody > tr > td {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border: none;
+        padding: 0.5rem 1rem;
+    }
+
+    :host ::ng-deep .p-datatable.p-datatable-responsive-stack .p-datatable-tbody > tr > td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: inline-block;
+        min-width: 40%;
+        margin-right: 0.5rem;
+    }
+
+    :host ::ng-deep .p-datatable.p-datatable-responsive-stack .p-datatable-tbody > tr {
+        border-bottom: 1px solid #dee2e6;
+        display: block;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: #ffffff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        border-radius: 8px;
+    }
+
+    :host ::ng-deep .p-datatable.p-datatable-responsive-stack .p-datatable-thead {
+        display: none;
+    }
+}
+
+:host ::ng-deep .nested-table .p-datatable-wrapper {
+  overflow-x: auto;
+}
+
+.p-3 {
+    padding: 15px !important;
+    background-color: #f0f2f5;
+    border-top: 1px solid #e0e0e0;
+}
+
+.item-toggle-button {
+  width: 10em;
+  font-size: 0.9em;
+  padding: 0.5rem 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .item-toggle-button {
+    width: auto;
+    font-size: 0.8em;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
 .statut-badge {
   padding: 3px 8px;
   border-radius: 4px;
@@ -55,16 +146,20 @@
 }
 
 .statut-acquise {
-  background-color: #28a745;
+  background-color: #d4edda;
+  color: #155724;
 }
 .statut-partiel {
-  background-color: #ffc107;
+  background-color: #fff3cd;
+  color: #856404;
 }
 .statut-non-acquise {
-  background-color: #dc3545;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 .statut-non-evalue {
-  background-color: #6c757d;
+  background-color: #e2e3e5;
+  color: #495057;
 }
 
 .progress-container-table {
@@ -95,118 +190,105 @@
   padding: 0 !important;
 }
 
-.p-3 {
-    padding: 20px !important;
-    background-color: #f0f2f5;
-    border-top: 1px solid #e0e0e0;
-}
-
-
-
-.button-container {
-  margin-bottom: 20px; 
-  text-align: right;   
-  padding-right: 10px; 
-}
-
-
-:host ::ng-deep .export-button { 
-    
-    display: inline-flex; 
+:host ::ng-deep .export-button {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    padding: 0.75rem 1.25rem; 
-    border-width: 1px;
-    border-style: solid;
-    font-weight: 600; 
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap;
-    text-decoration: none; 
-    vertical-align: bottom; 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    z-index: 1;
 
-    
-    background: linear-gradient(45deg, #28a745, #218838); 
-    border-color: #28a745;
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+    border: 1px solid #2E7D32;
     color: #ffffff;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
-    transition: all 0.3s ease; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-:host ::ng-deep .export-button:hover {
-    background: linear-gradient(45deg, #218838, #1e7e34); 
-    border-color: #218838;
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+:host ::ng-deep .export-button .p-button-icon {
+    font-size: 1.2rem; 
+    margin-right: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
 }
 
+:host ::ng-deep .export-button:not([disabled]):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #388E3C 0%, #1B5E20 100%);
+}
+
+:host ::ng-deep .export-button:not([disabled]):active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #1B5E20 0%, #004D00 100%); 
+}
+
+:host ::ng-deep .export-button:focus-visible {
+    outline: 2px solid #64B5F6;
+    outline-offset: 2px;
+}
 
 :host ::ng-deep .export-button[disabled] {
     opacity: 0.6;
     cursor: not-allowed;
+    background: #cccccc !important;
+    border-color: #bbbbbb !important;
+    color: #888888 !important;
     box-shadow: none;
     transform: none;
-    background: #a9a9a9 !important; 
-    border-color: #a9a9a9 !important;
 }
-
-
 
 :host ::ng-deep .p-menu {
-    border-radius: 8px; 
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); 
-    border: 1px solid #c0c0c0; 
-    background-color: #ffffff; 
-    min-width: 180px; 
-    padding: 0.5rem 0; 
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    border: 1px solid #c0c0c0;
+    background-color: #ffffff;
+    min-width: 180px;
+    padding: 0.5rem 0;
 }
-
 
 :host ::ng-deep .p-menu .p-menuitem-link {
-    padding: 0.8rem 1rem; 
-    color: #495057; 
-    font-weight: 500; 
-    transition: background-color 0.2s, color 0.2s; 
-    display: flex; 
-    align-items: center; 
-    text-decoration: none; 
+    padding: 0.8rem 1rem;
+    color: #495057;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
 }
-
 
 :host ::ng-deep .p-menu .p-menuitem-link:hover {
-    background-color: #eaf2f9; 
-    color: #007bff; 
+    background-color: #eaf2f9;
+    color: #007bff;
 }
-
 
 :host ::ng-deep .p-menu .p-menuitem-icon {
-    color: #6c757d; 
-    margin-right: 0.8rem; 
-    font-size: 1.1rem; 
-    transition: color 0.2s; 
+    color: #6c757d;
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+    transition: color 0.2s;
 }
-
 
 :host ::ng-deep .p-menu .p-menuitem-link:hover .p-menuitem-icon {
-    color: #007bff; 
+    color: #007bff;
 }
-
 
 :host ::ng-deep .p-menu .p-menuitem-separator {
     border-top: 1px solid #e0e0e0;
     margin: 0.5rem 0;
 }
 
-
 .nested-table {
   width: 100%;
   border: 1px solid #d3dce6;
-  border-radius: 8px; 
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   background-color: #ffffff;
@@ -215,15 +297,15 @@
 .nested-table .p-datatable-thead > tr > th {
   background-color: #e6f0ff;
   color: #333;
-  font-size: 0.95rem; 
-  padding: 0.8rem 1rem; 
-  border-bottom: 1px solid #c7d9ed; 
+  font-size: 0.95rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #c7d9ed;
 }
 
 .nested-table .p-datatable-tbody > tr > td {
   font-size: 0.85rem;
-  padding: 0.7rem 1rem; 
-  border-bottom: 1px solid #f0f0f0; 
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .nested-table .p-datatable-tbody > tr:last-child > td {
@@ -237,152 +319,10 @@
     color: #666;
 }
 
-
-/* --- Global Filter Styles --- */
-.filter-container {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Space between label and dropdown */
-  margin-bottom: 20px; /* Space below the filter */
-  padding: 15px;
-  background-color: #eaf2f9; /* Light blue background for the filter section */
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-}
-
-.filter-container label {
-  font-weight: 600;
-  color: #333;
-  min-width: 150px; /* Ensure label has enough space */
-}
-
-/* Style for p-dropdown */
-:host ::ng-deep .filter-dropdown {
-    width: 250px; /* Adjust width as needed */
-    .p-dropdown-label {
-        font-weight: 500;
-        color: #495057;
-    }
-    .p-dropdown-trigger {
-        color: #007bff; /* Blue arrow */
-    }
-    .p-dropdown-panel {
-        border-radius: 6px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .p-dropdown-item {
-        padding: 0.75rem 1rem;
-    }
-    .p-dropdown-item.p-highlight {
-        background-color: #007bff;
-        color: #ffffff;
-    }
-}
-
-/* Style for p-selectButton (if you choose to use it) */
-:host ::ng-deep .filter-select-button {
-    .p-button {
-        background-color: #f0f2f5;
-        border-color: #dee2e6;
-        color: #495057;
-        font-weight: 500;
-        padding: 0.6rem 1rem;
-    }
-    .p-button.p-highlight {
-        background-color: #007bff; /* Primary blue for selected */
-        border-color: #007bff;
-        color: #ffffff;
-    }
-}
-
-
-/* --- Styles for Nested Profile Items List --- */
-.profile-items-cell {
-    /* No padding here as the container div will handle it */
-    padding: 0 !important;
-}
-
-.profile-items-container {
-    background-color: #f8f9fa; /* A very light background for the items list */
-    border-top: 1px solid #e0e0e0; /* Separator from domain summary */
-    padding: 15px 20px; /* Internal padding */
-}
-
-.profile-items-container h6 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #333;
-    font-weight: 600;
-}
-
-.profile-item-list {
-    list-style: none; /* Remove default bullet points */
-    padding: 0;
-    margin: 0;
-}
-
-.profile-item-entry {
-    display: flex; /* Use flexbox for item name and status badge alignment */
-    align-items: center;
-    justify-content: space-between; /* Pushes name to left, badge to right */
-    padding: 8px 0;
-    border-bottom: 1px dashed #e9ecef; /* Dashed line separator for items */
-}
-
-.profile-item-entry:last-child {
-    border-bottom: none; /* No border for the last item */
-}
-
-.item-name {
-    font-weight: 500;
-    color: #555;
-    flex-grow: 1; /* Allows name to take up available space */
-    margin-right: 15px; /* Space between name and badge */
-}
-
-/* Re-use existing statut-badge styles */
 .no-items-message {
     text-align: center;
     color: #6c757d;
     font-style: italic;
     padding: 10px 0;
+    margin-top: 1rem;
 }
-
-
-/* Ensure your statut-badge colors are defined */
-.statut-badge {
-    display: inline-block;
-    /* Tailwind classes now handle padding, font-size, border-radius */
-    /* Remove old padding, font-size, etc. if you had them here */
-}
-
-.statut-badge.statut-acquise {
-    background-color: #d4edda; /* Light green */
-    color: #155724; /* Dark green text */
-}
-
-.statut-badge.statut-partiel {
-    background-color: #fff3cd; /* Light yellow */
-    color: #856404; /* Dark yellow text */
-}
-
-.statut-badge.statut-non-acquise {
-    background-color: #f8d7da; /* Light red */
-    color: #721c24; /* Dark red text */
-}
-
-.statut-badge.statut-non-evalue {
-    background-color: #e2e3e5; /* Light grey */
-    color: #495057; /* Dark grey text */
-}
-
-/* Specific styles for the no-items message, keep this as it's not directly in Tailwind */
-.no-items-message {
-    text-align: center;
-    color: #6c757d;
-    font-style: italic;
-    padding: 10px 0;
-    margin-top: 1rem; /* Added margin-top for spacing */
-}
-

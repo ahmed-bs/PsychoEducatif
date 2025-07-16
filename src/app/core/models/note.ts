@@ -1,7 +1,10 @@
+import { Profile } from "./profile.model";
+
 export interface Note {
   id?: number;
-  user?: number;
-  user_username?: string;
+  profile_id: number;
+  profile?: Profile;
+  author_username?: string;
   content: string;
   is_important: boolean;
   created_at?: string;

@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { Profile } from 'src/app/core/models/profile.model';
 import { CreateProfileRequest, UpdateProfileRequest } from 'src/app/core/models/createprofile.model';
+import { AuthService } from 'src/app/core/services/authService.service';
 
 @Component({
   standalone: true,
@@ -63,8 +64,9 @@ export class PickProfileComponent implements OnInit {
   ];
   parentId: number = 0;
   error: string | null = null;
+  userName: String =  '';
 
-  constructor(private profileService: ProfileService, private router: Router) {
+  constructor(private auhService: AuthService, private profileService: ProfileService, private router: Router) {
     const user = localStorage.getItem('user');
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
   }
@@ -74,6 +76,7 @@ export class PickProfileComponent implements OnInit {
       Swal.fire('Erreur', "Impossible de charger les informations de l'utilisateur.", 'error');
       return;
     }
+    this.userName = this.auhService.currentUserValue.username;
     this.loadChildren();
   }
   resetChild(): Profile {

@@ -575,6 +575,7 @@ h4:after {
   width: 300px;
   min-width: 300px;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .competence-card {
@@ -768,7 +769,13 @@ h4:after {
     flex: 0 0 180px;
     width: 180px;
     min-width: 180px;
-    padding: 0 2px;
+    /* padding: 0 2px; */
+  }
+    .cards-wrapper {
+    gap: 10px;
+  }
+  .horizontal-scroller {
+    padding: 0 5px;
   }
   .competence-card {
     min-width: 160px;
@@ -808,5 +815,3 @@ h4:after {
     font-size: 11px;
   }
 }
-
-/* ... rest of your existing styles ... */

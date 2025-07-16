@@ -20,6 +20,10 @@ export class GoalService {
     return this.http.get<any[]>(`${this.baseUrl}/goals/`);
   }
 
+  getGoalsByProfile(profileId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}goals?profile_id=${profileId}`);
+  }
+
   updateGoal(goalId: number, goalData: any): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/goals/${goalId}/`, goalData);
   }
