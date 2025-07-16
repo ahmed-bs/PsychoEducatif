@@ -23,13 +23,14 @@ import { AddGoalModalComponent } from "./modals/add-goal-modal/add-goal-modal.co
 import { GoalService } from 'src/app/core/services/goal.service';
 import { AuthService } from 'src/app/core/services/authService.service';
 import { NotesComponent } from "./tabs/notes/notes.component";
+import { StrategyComponent } from './tabs/strategy/strategy.component';
 
 @Component({
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent],
+  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent, StrategyComponent],
   providers: [MessageService]
 })
 
@@ -407,8 +408,8 @@ export class DashboardClientComponent implements OnInit {
   }
 
   loadGoals(): void {
-    if (this.authService.currentUserValue) {
-      this.goalService.getGoals().subscribe({
+    if (this.currentProfileIdForModal) {
+      this.goalService.getGoalsByProfile(this.currentProfileIdForModal).subscribe({
         next: (data) => {
           this.goals = data;
         },
@@ -498,7 +499,6 @@ export class DashboardClientComponent implements OnInit {
     });
   }
 
-  // Computed property to filter categories with domains
   get filteredCategories(): ProfileCategory[] {
     return this.categories.filter(category => (this.domains[category.id!] || []).length > 0);
   }
@@ -529,13 +529,23 @@ export class DashboardClientComponent implements OnInit {
           start_date: domain.start_date || new Date().toISOString().split('T')[0],
           last_eval_date: domain.last_eval_date || new Date().toISOString().split('T')[0]
         }));
-        // Update all chart data
         this.updateSkillsChart();
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger les domaines.', 'error');
       }
     });
+  }
+
+  formatDate(dateString: string | undefined | null): string {
+    if (!dateString) return 'N/A';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('fr-FR');
+    } catch (e) {
+      console.error("Invalid date string for formatting:", dateString, e);
+      return dateString;
+    }
   }
 
   switchTab(tabId: string): void {

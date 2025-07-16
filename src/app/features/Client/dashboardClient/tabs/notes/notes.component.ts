@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core'; // Added OnChanges, SimpleChanges
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { Note } from 'src/app/core/models/note';
@@ -14,12 +14,15 @@ import { NoteService } from 'src/app/core/services/note.service';
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.css'
 })
-export class NotesComponent implements OnInit {
+
+export class NotesComponent implements OnInit, OnChanges {
+  @Input() currentProfileId: number | null = null;
+
   notes: Note[] = [];
   newNoteContent: string = '';
   isImportantNote: boolean = false;
   loadingNotes: boolean = true;
-  currentUserId: number | null = null;
+  currentLoggedInUsername: string | null = null;
 
   editingNoteId: number | null = null;
   editedNoteContent: string = '';
@@ -33,17 +36,17 @@ export class NotesComponent implements OnInit {
   private searchSubject = new Subject<string>();
   private authorSearchSubject = new Subject<string>();
 
-
-
-
   constructor(
     private notesService: NoteService,
     private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.currentUserId = this.authService.currentUserValue.id;
-    this.loadNotes();
+    this.currentLoggedInUsername = this.authService.currentUserValue?.username || null;
+
+    if (this.currentProfileId) {
+      this.loadNotes();
+    }
 
     this.searchSubject.pipe(
       debounceTime(300),
@@ -59,8 +62,21 @@ export class NotesComponent implements OnInit {
       this.loadNotes();
     });
   }
-  
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['currentProfileId'] && this.currentProfileId !== null) {
+      this.loadNotes();
+    }
+  }
+
   loadNotes(): void {
+    if (this.currentProfileId === null) {
+      console.warn('Cannot load notes: currentProfileId is null.');
+      this.notes = [];
+      this.loadingNotes = false;
+      return;
+    }
+
     this.loadingNotes = true;
     const filters: NoteFilterParams = {};
 
@@ -80,7 +96,8 @@ export class NotesComponent implements OnInit {
       filters.authorUsername = this.filterAuthorUsername;
     }
 
-    this.notesService.getNotes(filters).subscribe({
+    // --- UPDATED: Pass currentProfileId to the service ---
+    this.notesService.getNotes(this.currentProfileId, filters).subscribe({
       next: (data) => {
         this.notes = data;
         this.loadingNotes = false;
@@ -134,10 +151,13 @@ export class NotesComponent implements OnInit {
     this.loadNotes();
   }
 
-
   onSaveNote(): void {
     if (!this.newNoteContent.trim()) {
       alert('Note content cannot be empty!');
+      return;
+    }
+    if (this.currentProfileId === null) {
+      alert('Cannot save note: No profile selected.');
       return;
     }
 
@@ -146,7 +166,7 @@ export class NotesComponent implements OnInit {
       is_important: this.isImportantNote
     };
 
-    this.notesService.createNote(noteToCreate).subscribe({
+    this.notesService.createNote(this.currentProfileId, noteToCreate).subscribe({
       next: (createdNote) => {
         this.newNoteContent = '';
         this.isImportantNote = false;
@@ -156,6 +176,8 @@ export class NotesComponent implements OnInit {
         console.error('Error creating note:', error);
         if (error.status === 401) {
           alert('Authentication required. Please log in.');
+        } else if (error.status === 403) {
+          alert('You do not have permission to add notes to this profile.');
         } else {
           alert('Failed to save note. Please try again.');
         }
@@ -168,13 +190,13 @@ export class NotesComponent implements OnInit {
     this.editedNoteContent = note.content;
     this.editedIsImportant = note.is_important;
   }
-  
+
   cancelEdit(): void {
     this.editingNoteId = null;
     this.editedNoteContent = '';
     this.editedIsImportant = false;
   }
-  
+
   saveEditedNote(noteId: number | undefined): void {
     if (noteId === undefined || !this.editedNoteContent.trim()) {
       alert('Note ID is missing or content is empty!');
@@ -193,6 +215,7 @@ export class NotesComponent implements OnInit {
           this.notes[index] = { ...this.notes[index], ...response };
         }
         this.cancelEdit();
+        this.loadNotes(); // Reload to ensure data consistency and potentially update author if needed
       },
       error: (error) => {
         console.error('Error updating note:', error);
@@ -227,7 +250,8 @@ export class NotesComponent implements OnInit {
 
     const timeDifferenceMs = updatedAt.getTime() - createdAt.getTime();
 
-    const thresholdMs = 1000;
+    // Threshold to consider it updated (e.g., more than a few seconds difference)
+    const thresholdMs = 2000; // 2 seconds
 
     return timeDifferenceMs > thresholdMs;
   }
@@ -238,12 +262,15 @@ export class NotesComponent implements OnInit {
     }
     this.notesService.deleteNote(id).subscribe({
       next: () => {
-        console.log('Note deleted successfully:', id);
         this.notes = this.notes.filter(note => note.id !== id);
       },
       error: (error) => {
         console.error('Error deleting note:', error);
-        alert('Failed to delete note. Please try again.');
+        if (error.status === 403) {
+          alert('You do not have permission to delete this note.');
+        } else {
+          alert('Failed to delete note. Please try again.');
+        }
       }
     });
   }

@@ -148,12 +148,12 @@ h2 {
 }
 
 /* === NAVIGATION BUTTONS === */
-.navigation-buttons {
+/* .navigation-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
   gap: 10px;
-}
+} */
 
 .btn {
   padding: 12px 24px;

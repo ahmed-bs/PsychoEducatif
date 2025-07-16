@@ -1,179 +1,91 @@
 .full-calendar {
-    border-radius: 25px;
-    overflow: hidden;
-    /* Remove padding to fix border misalignment */
-    padding: 0;
-  }
-  :host ::ng-deep .fc {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    color: #333;
-  }
-  :host ::ng-deep .fc a {
-    color: #1e3a8a;
-    text-decoration: none;
-  }
-  
-:host ::ng-deep .fc-button {
-  background: linear-gradient(to right, #ffffff, #ffffff) !important;
-  border: none !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-  margin: 2px;
-  color: black !important;
-  font-weight: bold !important;
-}
-
-:host ::ng-deep .fc-button:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-
-:host ::ng-deep .fc .fc-toolbar-title {
-  font-size: 1.75em;
-  margin: 0 30px;
-}
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.fc{
-  display: flex;
-}
-
-
-  .p-5 {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .full-calendar {
-    flex: 2;
-  }
-  
-  .sidebar {
-    flex: 1;
-    min-width: 250px;
-  }
-  
-
-  .plan-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .plan-time {
-    font-weight: bold;
-    color: #007bff;
-  }
-  
-  .sidebar {
-    background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 255, 0.1);
-    border-radius: 15px;
-    padding: 20px;
-    width: 250px;
-    margin-left: 20px;
-  }
-  
-  .title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #1e3a8a;
-    margin-bottom: 15px;
-  }
-  
-  .plans-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .plan-card {
-    background: #ebf2ff;
-    border: 1px solid #b2c7ff;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.1);
-  }
-  
-  .plan-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #1e3a8a;
-  }
-  
-  .plan-time {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-  }
-  
-  .progress-bar {
-    height: 8px;
-    background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .progress {
-    height: 100%;
-    background: #1e3a8a;
-    transition: width 0.3s ease-in-out;
-  }
-  
-  .progress-text {
-    font-size: 12px;
-    font-weight: bold;
-    color: #1e3a8a;
-    text-align: right;
-    margin-top: 5px;
-  }
-  
-  .no-plans {
-    text-align: center;
-    color: gray;
-    font-size: 14px;
-  }
-  
-.calendar-container {
+  border-radius: 25px;
+  overflow: hidden;
   padding: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  border-radius: 0;
-  box-shadow: none;
 }
 
-/* FullCalendar customization */
+
+.sidebar {
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 255, 0.1); 
+  border-radius: 15px;
+  padding: 20px;
+  
+}
+
+.title {
+  
+  color: #1e3a8a;
+  margin-bottom: 15px;
+}
+
+.plans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.skill-card {
+  background: #ebf2ff; 
+  border: 1px solid #b2c7ff; 
+  border-radius: 12px;
+  padding: 15px; 
+  box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.05); 
+}
+
+
+.progress-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%); 
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%); 
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.no-plans {
+  
+}
+
+
 :host ::ng-deep {
   .fc {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 25px !important;
+    overflow: hidden !important;
+    background: transparent !important; 
     --fc-border-color: #e5e7eb;
     --fc-button-bg-color: #6366f1;
     --fc-button-border-color: #6366f1;
@@ -186,15 +98,33 @@
     --fc-today-bg-color: #e0e7ff;
   }
 
+  .fc a {
+    color: #1e3a8a;
+    text-decoration: none;
+  }
+
   .fc-button {
-    font-weight: 500;
+    background: linear-gradient(to right, #ffffff, #ffffff) !important; 
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    margin: 2px;
+    color: black !important;
+    font-weight: bold !important;
+    font-weight: 500; 
     text-transform: capitalize;
     padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
+    border-radius: 0.375rem; 
+  }
+
+  .fc-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
   }
 
   .fc-toolbar-title {
-    font-size: 1.25rem;
+    font-size: 1.75em; 
+    margin: 0 30px;
     font-weight: 600;
     color: #1f2937;
   }
@@ -218,68 +148,68 @@
   .fc-day-past {
     background-color: #f9fafb;
   }
-}
-  
-.progress-bar {
-  height: 8px;
-  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
+
+  .fc-daygrid-body,
+  .fc-scrollgrid {
+    width: 100% !important;
+    border-radius: 25px !important;
+    overflow: hidden !important;
+  }
+
+  .fc-scrollgrid {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .fc-daygrid-day:last-child,
+  .fc-col-header-cell:last-child {
+    border-right: 1px solid #e5e7eb !important;
+  }
 }
 
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
-  border-radius: 4px;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
 
-.progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-  
-:host ::ng-deep .fc {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 25px !important; /* match your card */
-  overflow: hidden !important;
-  background: transparent !important;
-}
-
-:host ::ng-deep .fc-daygrid-body, 
-:host ::ng-deep .fc-scrollgrid {
-  width: 100% !important;
-  border-radius: 25px !important;
-  overflow: hidden !important;
-}
-
-:host ::ng-deep .fc-scrollgrid {
-  border: none !important;
-  box-shadow: none !important;
-}
-
-:host ::ng-deep .fc-daygrid-day:last-child,
-:host ::ng-deep .fc-col-header-cell:last-child {
-  border-right: 1px solid #e5e7eb !important;
-}
-
-/* Remove extra padding from calendar container if any */
-.full-calendar, .calendar-container {
+.full-calendar,
+.calendar-container {
   padding-right: 0 !important;
   padding-bottom: 0 !important;
 }
+
+
+@media screen and (max-width: 768px) {
+  :host ::ng-deep .fc-header-toolbar,
+  :host ::ng-deep .fc-toolbar {
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+  }
+
+  :host ::ng-deep .fc-toolbar-chunk {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 5px; 
+  }
+
+  :host ::ng-deep .fc-toolbar-title {
+    font-size: 1.5em; 
+    margin: 0; 
+  }
+
   
+  :host ::ng-deep .fc-button {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.9em !important;
+  }
+
+  
+  :host ::ng-deep .fc-view-harness {
+      height: 400px; 
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :host ::ng-deep .fc-toolbar-chunk {
+    flex-direction: column; 
+    width: 100%; 
+  }
+}

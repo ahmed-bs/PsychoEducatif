@@ -36,11 +36,11 @@
     <form #quizForm="ngForm" class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
       <div class="sub-skill mb-6">
         <p class="text-lg font-semibold text-gray-600 mb-2">
-          Compétence: {{ items[currentIndex].name }}
+          Compétence: <b class="text-sm">{{ items[currentIndex].name }}</b>
         </p>
 
         <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md mb-6">
-          <p class="text-xl font-bold text-blue-800 leading-relaxed">
+          <p class="font-bold text-blue-800 leading-relaxed">
             {{ items[currentIndex].description }}
           </p>
         </div>
@@ -97,18 +97,19 @@
         </div>
       </div>
 
-      <div class="navigation-buttons flex justify-between pt-4 border-t border-gray-200">
+      <div class="flex flex-col sm:flex-row-reverse gap-3 sm:gap-4 pt-4 border-t border-gray-200">
         <button
           type="button"
-          class="px-5 py-2.5 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+          class="w-full sm:w-auto px-5 py-2.5 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
           (click)="precedent()"
           [disabled]="currentIndex === 0"
         >
           Précédent
         </button>
+
         <button
           type="button"
-          class="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+          class="w-full sm:w-auto px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
           (click)="suivant()"
           [disabled]="currentIndex === items.length - 1"
           *ngIf="currentIndex < items.length - 1"
@@ -117,7 +118,7 @@
         </button>
         <button
           type="button"
-          class="px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+          class="w-full sm:w-auto px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
           (click)="soumettreQuiz()"
           *ngIf="currentIndex === items.length - 1"
         >

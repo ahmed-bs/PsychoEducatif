@@ -1,20 +1,22 @@
+<nav class="flex items-center justify-between px-4 py-2 sm:px-6 md:px-8 bg-white shadow-sm relative z-40">
+  <i class='bx bx-menu text-2xl cursor-pointer text-gray-700' (click)="toggleSidebarState()"></i>
 
-  <nav  [class.close]="isSidebarClosed" >
-    <i class='bx bx-menu' (click)="toggleSidebar()"></i>
-    <!-- <form action="#">
-  <div class="form-input">
-      <input type="search" placeholder="Search...">
-      <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+  <div class="md:hidden flex items-center">
+    <img class="icon mr-2" src="assets/logo.png" alt="" style="width: 30px; height: 30px;">
+    <div class="logo-name text-lg font-bold text-gray-800"><span>Evalu'</span>Action</div>
   </div>
+
+  <form action="#" class="hidden md:block max-w-sm flex-grow mr-auto ml-4">
+    <div class="form-input flex items-center h-9">
+        <input type="search" placeholder="Rechercher..."
+               class="flex-grow px-4 py-2 h-full border-none bg-gray-100 rounded-l-full outline-none text-gray-700 text-sm">
+        <button class="w-16 h-full flex justify-center items-center bg-indigo-600 text-white text-lg border-none outline-none rounded-r-full cursor-pointer" type="submit">
+            <i class='bx bx-search'></i>
+        </button>
+    </div>
   </form>
-  <input type="checkbox" id="theme-toggle" hidden>
-  <label for="theme-toggle" class="theme-toggle"></label>
-  <a href="#" class="notif">
-  <i class='bx bx-bell'></i>
-  <span class="count">12</span>
-  </a> -->
-    <a class="profile">
-        <img src="assets/logo.png">
-    </a>
+
+  <a class="profile ml-auto"> <img src="assets/logo.png" alt="Profile" class="w-9 h-9 object-cover rounded-full">
+  </a>
+
   </nav>
-  

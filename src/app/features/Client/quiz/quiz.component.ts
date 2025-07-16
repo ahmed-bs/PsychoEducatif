@@ -45,20 +45,20 @@ export class QuizComponent implements OnInit {
   loadItems() {
     this.isLoading = true;
     this.error = null;
-          this.profileItemService.getItems(this.domainId).subscribe({
-            next: (items) => {
-              this.items = items;
-              if (items.length === 0) {
-                this.error = "No questions found for this domain";
-              }
-              this.isLoading = false;
-            },
-            error: (error) => {
-              console.error('Error loading items:', error);
-              this.error = "Failed to load questions. Please try again later.";
-              this.isLoading = false;
-            }
-          });
+    this.profileItemService.getItems(this.domainId).subscribe({
+      next: (items) => {
+        this.items = items;
+        if (items.length === 0) {
+          this.error = "No questions found for this domain";
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading items:', error);
+        this.error = "Failed to load questions. Please try again later.";
+        this.isLoading = false;
+      }
+    });
   }
 
   precedent() {

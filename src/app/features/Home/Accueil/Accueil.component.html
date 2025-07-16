@@ -1,48 +1,46 @@
 <div class="body">
-    <section class="featured-section">
-        <header class="header__container">
-            <div class="header__image">
-                <div class="header__image__card header__image__card-1">
-                    <span><i class="ri-user-follow-line"></i></span> <!-- Nouvelle icône -->
-                    Suivi Éducatif
+    <section class="featured-section py-8 md:py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
+        <header class="header__container flex flex-col-reverse lg:flex-row items-center justify-between mx-auto max-w-7xl">
+            <div class="header__image relative w-full lg:w-1/2 mt-8 lg:mt-0">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 absolute top-0 left-0 w-full h-full p-4">
+                    <div class="header__image__card header__image__card-1 absolute top-0 left-0 transform -translate-x-1/4 -translate-y-1/4 bg-white p-2 sm:p-3 md:p-4 rounded-lg shadow-lg text-sm sm:text-base text-center hidden sm:block"> <span><i class="ri-user-follow-line"></i></span> Suivi Éducatif
+                    </div>
+                    <div class="header__image__card header__image__card-2 absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-white p-2 sm:p-3 md:p-4 rounded-lg shadow-lg text-sm sm:text-base text-center hidden sm:block">
+                        <span><i class="ri-calendar-todo-line"></i></span> Activités Personnalisées
+                    </div>
+                    <div class="header__image__card header__image__card-3 absolute bottom-0 left-0 transform -translate-x-1/4 translate-y-1/4 bg-white p-2 sm:p-3 md:p-4 rounded-lg shadow-lg text-sm sm:text-base text-center hidden sm:block">
+                        <span><i class="ri-flag-line"></i></span> Objectifs Définis
+                    </div>
+                    <div class="header__image__card header__image__card-4 absolute bottom-0 right-0 transform translate-x-1/4 translate-y-1/4 bg-white p-2 sm:p-3 md:p-4 rounded-lg shadow-lg text-sm sm:text-base text-center hidden sm:block">
+                        <span><i class="ri-parent-line"></i></span> Guidance Parentale
+                    </div>
                 </div>
-                <div class="header__image__card header__image__card-2">
-                    <span><i class="ri-calendar-todo-line"></i></span> <!-- Nouvelle icône -->
-                    Activités Personnalisées
-                </div>
-                <div class="header__image__card header__image__card-3">
-                    <span><i class="ri-flag-line"></i></span> <!-- Nouvelle icône -->
-                    Objectifs Définis
-                </div>
-                <div class="header__image__card header__image__card-4">
-                    <span><i class="ri-parent-line"></i></span> <!-- Nouvelle icône -->
-                    Guidance Parentale
-                </div>
-                <img src="assets/img/Autism-bro.png" alt="header" />
+                <img src="assets/img/Autism-bro.png" alt="header" class="w-full h-auto max-w-md mx-auto lg:max-w-full block" />
             </div>
-            <div class="header__content">
-                <h2 class="animated-header"> Une solution<br />numérique <span></span> pour l’accompagnement des enfants
+            <div class="header__content text-center lg:text-left lg:w-1/2 mt-8 lg:mt-0">
+                <h2 class="animated-header text-3xl sm:text-4xl md:text-5xl font-bold leading-tight"> Une solution<br />numérique <span class="text-indigo-600"></span> pour l’accompagnement des enfants
                     autistes.</h2>
             </div>
         </header>
     </section>
-    <section class="faq-section section-padding" id="section_4">
-        <div class="container">
-            <div class="row">
 
-                <div class="col-lg-6 col-12">
-                    <h2 class="mb-4">🌟 À propos</h2>
+    ---
+
+    <section class="faq-section section-padding py-12 md:py-20 lg:py-28 px-4 sm:px-6 lg:px-8" id="section_4">
+        <div class="container mx-auto max-w-7xl">
+            <div class="row flex flex-col lg:flex-row items-center lg:items-start gap-8">
+
+                <div class="col-lg-6 col-12 w-full lg:w-auto">
+                    <h2 class="mb-4 text-2xl sm:text-3xl md:text-4xl font-bold">🌟 À propos</h2>
                 </div>
 
-                <div class="clearfix"></div>
-
-                <div class="col-lg-5 col-12">
-                    <img src="assets/img/Activitésinteractives.gif" class="img-fluid" alt="Activités interactives">
+                <div class="clearfix hidden lg:block"></div> <div class="col-lg-5 col-12 w-full lg:w-2/5 flex justify-center">
+                    <img src="assets/img/Activitésinteractives.gif" class="img-fluid rounded-lg shadow-lg max-w-full h-auto" alt="Activités interactives">
                 </div>
 
-                <div class="col-lg-6 col-12 m-auto">
-                    <p>
-                        <span class="highlight">PsychoÉducatif</span> est une plateforme numérique conçue pour
+                <div class="col-lg-6 col-12 m-auto w-full lg:w-3/5">
+                    <p class="text-base sm:text-lg text-gray-700 mb-6">
+                        <span class="highlight font-semibold text-indigo-600">PsychoÉducatif</span> est une plateforme numérique conçue pour
                         accompagner les
                         enfants autistes dans leur parcours de développement grâce à une approche individualisée et
                         interactive.
@@ -50,10 +48,10 @@
                         répondre
                         aux besoins spécifiques de chaque enfant.
                     </p>
-                    <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
+                    <div class="accordion space-y-4" id="accordionExample">
+                        <div class="accordion-item border rounded-lg overflow-hidden">
                             <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                <button class="accordion-button flex items-center justify-between w-full p-4 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100 transition duration-200" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     Qu'est-ce que la plateforme PsychoÉducatif ?
                                 </button>
@@ -61,7 +59,7 @@
 
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                                <div class="accordion-body p-4 text-gray-600">
                                     La plateforme PsychoÉducatif est une solution interactive et numérique qui aide les
                                     enfants autistes
                                     à progresser dans leur développement. Elle propose des évaluations des compétences,
@@ -72,9 +70,9 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item">
+                        <div class="accordion-item border rounded-lg overflow-hidden">
                             <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                <button class="accordion-button collapsed flex items-center justify-between w-full p-4 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100 transition duration-200" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     Comment cela fonctionne-t-il ?
                                 </button>
@@ -82,7 +80,7 @@
 
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                                <div class="accordion-body p-4 text-gray-600">
                                     La plateforme fonctionne grâce à des outils d'évaluation des compétences des
                                     enfants, des
                                     activités interactives, ainsi qu'à un suivi des progrès en temps réel. Elle permet
@@ -92,9 +90,9 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item">
+                        <div class="accordion-item border rounded-lg overflow-hidden">
                             <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                <button class="accordion-button collapsed flex items-center justify-between w-full p-4 text-left font-semibold text-lg bg-gray-50 hover:bg-gray-100 transition duration-200" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     Pourquoi utiliser PsychoÉducatif ?
                                 </button>
@@ -102,7 +100,7 @@
 
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                                <div class="accordion-body p-4 text-gray-600">
                                     PsychoÉducatif est conçu pour offrir une expérience unique et interactive,
                                     permettant aux
                                     enfants autistes de progresser à leur propre rythme. La plateforme s'adapte aux
@@ -120,47 +118,47 @@
         </div>
     </section>
 
+    ---
 
-
-    <section class="explore-section section-padding">
-        <div class="container">
+    <section class="explore-section section-padding py-12 md:py-20 lg:py-28">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div class="row">
-                <div class="col-12 text-center">
-                    <h2> <i class="fas fa-brain" style="color: #4e73df; margin-right: 8px;"></i>Explorer les Thèmes
+                <div class="col-12 text-center w-full">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-8"> <i class="fas fa-brain" style="color: #4e73df; margin-right: 8px;"></i>Explorer les Thèmes
                         Psychoéducatifs</h2>
                 </div>
             </div>
         </div>
 
-        <div class="container-fluid">
+        <div class="container-fluid mx-auto px-0 md:px-4 lg:px-8 max-w-7xl">
             <div class="row">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="psychology-tab" data-bs-toggle="tab"
+                <ul class="nav nav-tabs flex-nowrap overflow-x-auto whitespace-nowrap border-b border-gray-200 mb-8" id="myTab" role="tablist">
+                    <li class="nav-item flex-shrink-0" role="presentation">
+                        <button class="nav-link active inline-block p-4 border-b-2 border-transparent text-gray-600 hover:text-indigo-600 hover:border-indigo-600 transition duration-200 text-sm md:text-base font-medium" id="psychology-tab" data-bs-toggle="tab"
                             data-bs-target="#psychology-tab-pane" type="button" role="tab"
                             aria-controls="psychology-tab-pane" aria-selected="true">Psychologie</button>
                     </li>
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="behaviour-tab" data-bs-toggle="tab"
+                    <li class="nav-item flex-shrink-0" role="presentation">
+                        <button class="nav-link inline-block p-4 border-b-2 border-transparent text-gray-600 hover:text-indigo-600 hover:border-indigo-600 transition duration-200 text-sm md:text-base font-medium" id="behaviour-tab" data-bs-toggle="tab"
                             data-bs-target="#behaviour-tab-pane" type="button" role="tab"
                             aria-controls="behaviour-tab-pane" aria-selected="false">Comportement</button>
                     </li>
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="development-tab" data-bs-toggle="tab"
+                    <li class="nav-item flex-shrink-0" role="presentation">
+                        <button class="nav-link inline-block p-4 border-b-2 border-transparent text-gray-600 hover:text-indigo-600 hover:border-indigo-600 transition duration-200 text-sm md:text-base font-medium" id="development-tab" data-bs-toggle="tab"
                             data-bs-target="#development-tab-pane" type="button" role="tab"
                             aria-controls="development-tab-pane" aria-selected="false">Développement</button>
                     </li>
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="emotional-tab" data-bs-toggle="tab"
+                    <li class="nav-item flex-shrink-0" role="presentation">
+                        <button class="nav-link inline-block p-4 border-b-2 border-transparent text-gray-600 hover:text-indigo-600 hover:border-indigo-600 transition duration-200 text-sm md:text-base font-medium" id="emotional-tab" data-bs-toggle="tab"
                             data-bs-target="#emotional-tab-pane" type="button" role="tab"
                             aria-controls="emotional-tab-pane" aria-selected="false">Émotions</button>
                     </li>
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="therapy-tab" data-bs-toggle="tab"
+                    <li class="nav-item flex-shrink-0" role="presentation">
+                        <button class="nav-link inline-block p-4 border-b-2 border-transparent text-gray-600 hover:text-indigo-600 hover:border-indigo-600 transition duration-200 text-sm md:text-base font-medium" id="therapy-tab" data-bs-toggle="tab"
                             data-bs-target="#therapy-tab-pane" type="button" role="tab" aria-controls="therapy-tab-pane"
                             aria-selected="false">Thérapie</button>
                     </li>
@@ -168,321 +166,324 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="psychology-tab-pane" role="tabpanel"
-                            aria-labelledby="psychology-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Psychologie Cognitive</h5>
-                                                    <p class="mb-0">Compréhension du fonctionnement mental humain</p>
-                                                </div>
-                                                <span class="badge bg-psychology rounded-pill ms-auto">14</span>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="col-12">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="psychology-tab-pane" role="tabpanel"
+                        aria-labelledby="psychology-tab" tabindex="0">
+                        <div class="row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Psychologie Cognitive</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Compréhension du fonctionnement mental humain</p>
                                             </div>
-                                            <img src="assets/img/Accompagnement.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
+                                            <span class="badge bg-psychology rounded-full px-3 py-1 text-xs font-bold ml-auto">14</span>
+                                        </div>
+                                        <img src="assets/img/Accompagnement.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
                                 </div>
+                            </div>
 
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Psychologie du Développement</h5>
-                                                    <p class="mb-0">Évolution des compétences et des comportements</p>
-                                                </div>
-                                                <span class="badge bg-psychology rounded-pill ms-auto">75</span>
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Psychologie du Développement</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Évolution des compétences et des comportements</p>
                                             </div>
-                                            <img src="assets/img/Activitésinteractives.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
+                                            <span class="badge bg-psychology rounded-full px-3 py-1 text-xs font-bold ml-auto">75</span>
+                                        </div>
+                                        <img src="assets/img/Activitésinteractives.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
                                 </div>
+                            </div>
 
-                                <div class="col-lg-4 col-md-6 col-12">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Psychothérapie</h5>
-                                                    <p class="mb-0">Approches thérapeutiques pour l'accompagnement</p>
-                                                </div>
-                                                <span class="badge bg-psychology rounded-pill ms-auto">100</span>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Psychothérapie</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Approches thérapeutiques pour l'accompagnement</p>
                                             </div>
-                                            <img src="assets/img/Kindergarten student.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
+                                            <span class="badge bg-psychology rounded-full px-3 py-1 text-xs font-bold ml-auto">100</span>
+                                        </div>
+                                        <img src="assets/img/Kindergarten student.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="tab-pane fade" id="behaviour-tab-pane" role="tabpanel"
-                            aria-labelledby="behaviour-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Comportement Social</h5>
-                                                    <p class="mb-0">Interactions et ajustements sociaux</p>
-                                                </div>
-                                                <span class="badge bg-behaviour rounded-pill ms-auto">30</span>
-                                            </div>
-                                            <img src="assets/img/Innovation.gif" class="custom-block-image img-fluid"
-                                                alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Gestion du Stress</h5>
-                                                    <p class="mb-0">Techniques de gestion et réduction du stress</p>
-                                                </div>
-                                                <span class="badge bg-behaviour rounded-pill ms-auto">65</span>
-                                            </div>
-                                            <img src="assets/img/Autism.gif" class="custom-block-image img-fluid"
-                                                alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Développement Personnel</h5>
-                                                    <p class="mb-0">Stratégies pour améliorer les compétences
-                                                        personnelles</p>
-                                                </div>
-                                                <span class="badge bg-behaviour rounded-pill ms-auto">50</span>
-                                            </div>
-                                            <img src="assets/img/Kids reading.gif" class="custom-block-image img-fluid"
-                                                alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="development-tab-pane" role="tabpanel"
-                            aria-labelledby="development-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Développement des Compétences</h5>
-                                                    <p class="mb-0">Évolution des compétences et des capacités</p>
-                                                </div>
-                                            </div>
-                                            <img src="assets/img/Office management.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Croissance Personnelle</h5>
-                                                    <p class="mb-0">Développer une meilleure compréhension de soi et de
-                                                        ses capacités</p>
-                                                </div>
-                                            </div>
-                                            <img src="assets/img/Usability testing.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="emotional-tab-pane" role="tabpanel"
-                            aria-labelledby="emotional-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Gestion des Émotions</h5>
-                                                    <p class="mb-0">Stratégies pour comprendre et gérer les émotions</p>
-                                                </div>
-                                                <span class="badge bg-emotional rounded-pill ms-auto">40</span>
-                                            </div>
-                                            <img src="assets/img/Usability testing.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Bien-être Émotionnel</h5>
-                                                    <p class="mb-0">Techniques pour promouvoir la santé émotionnelle</p>
-                                                </div>
-                                                <span class="badge bg-emotional rounded-pill ms-auto">55</span>
-                                            </div>
-                                            <img src="assets/image/undraw_Mindfulness_re_bve5.png"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Intelligence Émotionnelle</h5>
-                                                    <p class="mb-0">Développer la conscience et la gestion des émotions
-                                                    </p>
-                                                </div>
-                                                <span class="badge bg-emotional rounded-pill ms-auto">63</span>
-                                            </div>
-                                            <img src="assets/img/Kindergarten student.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="therapy-tab-pane" role="tabpanel" aria-labelledby="therapy-tab"
-                            tabindex="0">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Thérapie Cognitivo-Comportementale</h5>
-                                                    <p class="mb-0">Approches pour traiter les troubles cognitifs et
-                                                        comportementaux</p>
-                                                </div>
-                                                <span class="badge bg-therapy rounded-pill ms-auto">85</span>
-                                            </div>
-                                            <img src="assets/image/undraw_Therapy_re_rff0.png"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Thérapie Par le Jeu</h5>
-                                                    <p class="mb-0">Utilisation du jeu dans le processus thérapeutique
-                                                    </p>
-                                                </div>
-                                                <span class="badge bg-therapy rounded-pill ms-auto">45</span>
-                                            </div>
-                                            <img src="assets/image/undraw_Playful_re_h3lz.jpg"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12">
-                                    <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Thérapie de Soutien</h5>
-                                                    <p class="mb-0">Accompagnement pour surmonter les difficultés
-                                                        émotionnelles</p>
-                                                </div>
-                                                <span class="badge bg-therapy rounded-pill ms-auto">72</span>
-                                            </div>
-                                            <img src="assets/image/undraw_therapy_re_9b0n.gif"
-                                                class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
+                    <div class="tab-pane fade" id="behaviour-tab-pane" role="tabpanel"
+                        aria-labelledby="behaviour-tab" tabindex="0">
+                        <div class="row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Comportement Social</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Interactions et ajustements sociaux</p>
+                                            </div>
+                                            <span class="badge bg-behaviour rounded-full px-3 py-1 text-xs font-bold ml-auto">30</span>
+                                        </div>
+                                        <img src="assets/img/Innovation.gif" class="custom-block-image w-full h-48 object-cover"
+                                            alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Gestion du Stress</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Techniques de gestion et réduction du stress</p>
+                                            </div>
+                                            <span class="badge bg-behaviour rounded-full px-3 py-1 text-xs font-bold ml-auto">65</span>
+                                        </div>
+                                        <img src="assets/img/Autism.gif" class="custom-block-image w-full h-48 object-cover"
+                                            alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Développement Personnel</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Stratégies pour améliorer les compétences
+                                                    personnelles</p>
+                                            </div>
+                                            <span class="badge bg-behaviour rounded-full px-3 py-1 text-xs font-bold ml-auto">50</span>
+                                        </div>
+                                        <img src="assets/img/Kids reading.gif" class="custom-block-image w-full h-48 object-cover"
+                                            alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="development-tab-pane" role="tabpanel"
+                        aria-labelledby="development-tab" tabindex="0">
+                        <div class="row grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Développement des Compétences</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Évolution des compétences et des capacités</p>
+                                            </div>
+                                        </div>
+                                        <img src="assets/img/Office management.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Croissance Personnelle</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Développer une meilleure compréhension de soi et de
+                                                    ses capacités</p>
+                                            </div>
+                                        </div>
+                                        <img src="assets/img/Usability testing.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="emotional-tab-pane" role="tabpanel"
+                        aria-labelledby="emotional-tab" tabindex="0">
+                        <div class="row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Gestion des Émotions</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Stratégies pour comprendre et gérer les émotions</p>
+                                            </div>
+                                            <span class="badge bg-emotional rounded-full px-3 py-1 text-xs font-bold ml-auto">40</span>
+                                        </div>
+                                        <img src="assets/img/Usability testing.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Bien-être Émotionnel</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Techniques pour promouvoir la santé émotionnelle</p>
+                                            </div>
+                                            <span class="badge bg-emotional rounded-full px-3 py-1 text-xs font-bold ml-auto">55</span>
+                                        </div>
+                                        <img src="assets/image/undraw_Mindfulness_re_bve5.png"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Intelligence Émotionnelle</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Développer la conscience et la gestion des émotions
+                                                </p>
+                                            </div>
+                                            <span class="badge bg-emotional rounded-full px-3 py-1 text-xs font-bold ml-auto">63</span>
+                                        </div>
+                                        <img src="assets/img/Kindergarten student.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="therapy-tab-pane" role="tabpanel" aria-labelledby="therapy-tab"
+                        tabindex="0">
+                        <div class="row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Thérapie Cognitivo-Comportementale</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Approches pour traiter les troubles cognitifs et
+                                                    comportementaux</p>
+                                            </div>
+                                            <span class="badge bg-therapy rounded-full px-3 py-1 text-xs font-bold ml-auto">85</span>
+                                        </div>
+                                        <img src="assets/image/undraw_Therapy_re_rff0.png"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Thérapie Par le Jeu</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Utilisation du jeu dans le processus thérapeutique
+                                                </p>
+                                            </div>
+                                            <span class="badge bg-therapy rounded-full px-3 py-1 text-xs font-bold ml-auto">45</span>
+                                        </div>
+                                        <img src="assets/image/undraw_Playful_re_h3lz.jpg"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <a href="topics-detail.html">
+                                        <div class="d-flex p-4 items-center">
+                                            <div class="flex-grow">
+                                                <h5 class="mb-2 text-lg font-semibold">Thérapie de Soutien</h5>
+                                                <p class="mb-0 text-sm text-gray-600">Accompagnement pour surmonter les difficultés
+                                                    émotionnelles</p>
+                                            </div>
+                                            <span class="badge bg-therapy rounded-full px-3 py-1 text-xs font-bold ml-auto">72</span>
+                                        </div>
+                                        <img src="assets/image/undraw_therapy_re_9b0n.gif"
+                                            class="custom-block-image w-full h-48 object-cover" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </section>
 
+    ---
 
+    <section class="timeline-section section-padding py-12 md:py-20 lg:py-28" id="section_3">
+        <div class="section-overlay absolute inset-0 bg-indigo-700 opacity-90"></div>
 
-    <section class="timeline-section section-padding" id="section_3">
-        <div class="section-overlay"></div>
-
-        <div class="container">
+        <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div class="row">
 
-                <div class="col-12 text-center">
-                    <h2 class="text-white mb-4">Comment cela fonctionne dans le cadre psychoéducatif</h2>
+                <div class="col-12 text-center w-full">
+                    <h2 class="text-white text-2xl sm:text-3xl md:text-4xl font-bold mb-8">Comment cela fonctionne dans le cadre psychoéducatif</h2>
                 </div>
 
-                <div class="col-lg-10 col-12 mx-auto">
-                    <div class="timeline-container">
-                        <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
-                            <div class="list-progress">
-                                <div class="inner"></div>
-                            </div>
+                <div class="col-lg-10 col-12 mx-auto w-full lg:w-5/6">
+                    <div class="timeline-container relative">
+                        <ul class="vertical-scrollable-timeline space-y-8 md:space-y-12" id="vertical-scrollable-timeline">
+                            <div class="list-progress absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-white bg-opacity-30 hidden md:block">
+                                <div class="inner h-0 w-full bg-white"></div> </div>
 
-                            <li>
-                                <h4 class="mb-3">Explorer les Thèmes Psychoéducatifs</h4>
-
-                                <p>Parcourez une large gamme de thèmes psychoéducatifs pour mieux comprendre les besoins
-                                    des enfants, des parents et des professionnels. Découvrez des informations sur le
-                                    développement psychologique, les stratégies comportementales et le bien-être
-                                    émotionnel.</p>
-
-                                <div class="icon-holder">
+                            <li class="relative md:flex md:items-center md:even:flex-row-reverse">
+                                <div class="md:w-1/2 md:p-4 md:flex md:justify-end md:even:justify-start">
+                                    <h4 class="mb-3 text-xl sm:text-2xl font-semibold text-white md:text-right md:even:text-left">Explorer les Thèmes Psychoéducatifs</h4>
+                                </div>
+                                <div class="md:w-1/2 md:p-4">
+                                    <p class="text-white text-sm sm:text-base leading-relaxed">Parcourez une large gamme de thèmes psychoéducatifs pour mieux comprendre les besoins
+                                        des enfants, des parents et des professionnels. Découvrez des informations sur le
+                                        développement psychologique, les stratégies comportementales et le bien-être
+                                        émotionnel.</p>
+                                </div>
+                                <div class="icon-holder absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-500 rounded-full w-12 h-12 flex items-center justify-center text-white text-lg ring-4 ring-white ring-opacity-50">
                                     <i class="bi-search"></i>
                                 </div>
                             </li>
 
-                            <li>
-                                <h4 class="mb-3">Suivre et Enregistrer les Progrès</h4>
-
-                                <p>Suivez les progrès émotionnels et cognitifs de l'enfant. Enregistrez l'évolution et
-                                    obtenez des informations sur les changements comportementaux grâce à un suivi
-                                    continu.</p>
-
-                                <div class="icon-holder">
+                            <li class="relative md:flex md:items-center md:even:flex-row-reverse">
+                                <div class="md:w-1/2 md:p-4 md:flex md:justify-end md:even:justify-start">
+                                    <h4 class="mb-3 text-xl sm:text-2xl font-semibold text-white md:text-right md:even:text-left">Suivre et Enregistrer les Progrès</h4>
+                                </div>
+                                <div class="md:w-1/2 md:p-4">
+                                    <p class="text-white text-sm sm:text-base leading-relaxed">Suivez les progrès émotionnels et cognitifs de l'enfant. Enregistrez l'évolution et
+                                        obtenez des informations sur les changements comportementaux grâce à un suivi
+                                        continu.</p>
+                                </div>
+                                <div class="icon-holder absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-500 rounded-full w-12 h-12 flex items-center justify-center text-white text-lg ring-4 ring-white ring-opacity-50">
                                     <i class="bi-bookmark"></i>
                                 </div>
                             </li>
 
-                            <li>
-                                <h4 class="mb-3">Apprendre et Mettre en Pratique des Stratégies</h4>
-
-                                <p>Lisez et apprenez à partir de ressources psychoéducatives qui fournissent des
-                                    stratégies pratiques pour soutenir les enfants ayant des besoins émotionnels et
-                                    développementaux. Profitez de conseils personnalisés basés sur des évaluations en
-                                    temps réel.</p>
-
-                                <div class="icon-holder">
+                            <li class="relative md:flex md:items-center md:even:flex-row-reverse">
+                                <div class="md:w-1/2 md:p-4 md:flex md:justify-end md:even:justify-start">
+                                    <h4 class="mb-3 text-xl sm:text-2xl font-semibold text-white md:text-right md:even:text-left">Apprendre et Mettre en Pratique des Stratégies</h4>
+                                </div>
+                                <div class="md:w-1/2 md:p-4">
+                                    <p class="text-white text-sm sm:text-base leading-relaxed">Lisez et apprenez à partir de ressources psychoéducatives qui fournissent des
+                                        stratégies pratiques pour soutenir les enfants ayant des besoins émotionnels et
+                                        développementaux. Profitez de conseils personnalisés basés sur des évaluations en
+                                        temps réel.</p>
+                                </div>
+                                <div class="icon-holder absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-500 rounded-full w-12 h-12 flex items-center justify-center text-white text-lg ring-4 ring-white ring-opacity-50">
                                     <i class="bi-book"></i>
                                 </div>
                             </li>
@@ -490,52 +491,51 @@
                     </div>
                 </div>
 
-                <div class="col-12 text-center mt-5">
-                    <p class="text-white">
+                <div class="col-12 text-center mt-8 w-full">
+                    <p class="text-white text-base sm:text-lg">
                         Vous souhaitez en savoir plus ?
-                        <a href="#" class="btn custom-btn custom-border-btn ms-3">Découvrez nos Ressources</a>
+                        <a href="#" class="btn custom-btn custom-border-btn ms-3 mt-4 sm:mt-0 inline-block px-6 py-3 border-2 border-white rounded-full text-white hover:bg-white hover:text-indigo-700 transition duration-300">Découvrez nos Ressources</a>
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
+    ---
 
-    <!-- Skills -->
-    <section class="skills container">
-        <div class="title">
-            <!-- <h3>MY SKILLS</h3> -->
-            <h1>🎯 Pourquoi choisir PsychoÉducatif ?</h1>
+    <section class="skills container py-12 md:py-20 lg:py-28 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div class="title text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800">🎯 Pourquoi choisir PsychoÉducatif ?</h1>
         </div>
-        <div class="grid-wrapper">
-            <div class="grid-box">
-                <div class="icon-title">
-                    <img src="assets/img/evaluation.gif" class="image" alt="">
-                    <h2>Évaluation précise et personnalisée</h2>
+        <div class="grid-wrapper grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid-box bg-white shadow-lg rounded-xl p-6 text-center flex flex-col items-center">
+                <div class="icon-title flex flex-col items-center mb-4">
+                    <img src="assets/img/evaluation.gif" class="image w-24 h-24 object-contain mb-3" alt="">
+                    <h2 class="text-xl font-semibold text-gray-800">Évaluation précise et personnalisée</h2>
                 </div>
-                <p> Un suivi détaillé basé sur des critères reconnus en psycho-éducation.</p>
+                <p class="text-gray-600 text-sm leading-relaxed"> Un suivi détaillé basé sur des critères reconnus en psycho-éducation.</p>
             </div>
-            <div class="grid-box">
-                <div class="icon-title">
-                    <img src="assets/img/Activitésinteractives.gif" class="image" alt="">
+            <div class="grid-box bg-white shadow-lg rounded-xl p-6 text-center flex flex-col items-center">
+                <div class="icon-title flex flex-col items-center mb-4">
+                    <img src="assets/img/Activitésinteractives.gif" class="image w-24 h-24 object-contain mb-3" alt="">
                     <h2>Activités interactives et ludiques</h2>
                 </div>
-                <p> Des exercices engageants pour stimuler l’apprentissage et le développement des compétences sociales.
+                <p class="text-gray-600 text-sm leading-relaxed"> Des exercices engageants pour stimuler l’apprentissage et le développement des compétences sociales.
                 </p>
             </div>
-            <div class="grid-box">
-                <div class="icon-title">
-                    <img src="assets/img/Accompagnement.gif" class="image" alt="">
+            <div class="grid-box bg-white shadow-lg rounded-xl p-6 text-center flex flex-col items-center">
+                <div class="icon-title flex flex-col items-center mb-4">
+                    <img src="assets/img/Accompagnement.gif" class="image w-24 h-24 object-contain mb-3" alt="">
                     <h2>Accompagnement des parents et professionnels</h2>
                 </div>
-                <p>Un espace dédié pour suivre les progrès et adapter les interventions.</p>
+                <p class="text-gray-600 text-sm leading-relaxed">Un espace dédié pour suivre les progrès et adapter les interventions.</p>
             </div>
-            <div class="grid-box">
-                <div class="icon-title">
-                    <img src="assets/img/Usability testing.gif" class="image" alt="">
+            <div class="grid-box bg-white shadow-lg rounded-xl p-6 text-center flex flex-col items-center">
+                <div class="icon-title flex flex-col items-center mb-4">
+                    <img src="assets/img/Usability testing.gif" class="image w-24 h-24 object-contain mb-3" alt="">
                     <h2>Accessibilité et ergonomie</h2>
                 </div>
-                <p>Une interface intuitive pensée pour une utilisation facile par les enfants et leurs accompagnateurs.
+                <p class="text-gray-600 text-sm leading-relaxed">Une interface intuitive pensée pour une utilisation facile par les enfants et leurs accompagnateurs.
                 </p>
             </div>
         </div>

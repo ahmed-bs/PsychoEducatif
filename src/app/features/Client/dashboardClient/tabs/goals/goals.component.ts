@@ -20,9 +20,7 @@ export class GoalsComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
-    console.log('GoalsComponent received goals on init:', this.goals);
-  }
+  ngOnInit(): void {}
 
   isQuizAvailable(goal: any): boolean {
     if (!goal || !goal.target_date) {

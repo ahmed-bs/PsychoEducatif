@@ -3,7 +3,7 @@
   <div class="welcome-message">
     <img src="assets/image_client/bg-5.png" alt="Background" class="welcome-background">
     <div class="welcome-content">
-      <h1>Bienvenue !</h1>
+      <h1>Bonjour, {{userName}}!</h1>
       <p>Veuillez sélectionner le profil d'un de vos enfants ci-dessous.</p>
     </div>
   </div>
@@ -45,18 +45,18 @@
           <h2 class="card__name">{{ child.first_name }} {{ child.last_name }}</h2>
 
           <!-- Circular Progress Bar for evaluations_score -->
-          <div class="progress-container">
+          <!-- <div class="progress-container">
             <svg class="progress-circle" width="60" height="60">
               <circle class="progress-circle-bg" cx="30" cy="30" r="28" stroke="#e0e0e0" stroke-width="4" fill="none" />
-              <!-- <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
-                      [style.strokeDasharray]="188" [style.strokeDashoffset]="188 - (188 * ( 74  / 100))"/> -->
+              <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
+                      [style.strokeDasharray]="188" [style.strokeDashoffset]="188 - (188 * ( 74  / 100))"/>
               <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
                 [style.strokeDasharray]="188"
                 [style.strokeDashoffset]="188 - (188 * (child.evaluation_score || 0 / 100))" />
             </svg>
             <span class="progress-value">{{ child.evaluation_score }}%</span>
-            <!-- <span class="progress-value">{{ 74 }}%</span> -->
-          </div>
+            <span class="progress-value">{{ 74 }}%</span>
+          </div> -->
 
           <div class="card__actions">
             <button pButton label="Modifier" class="custom-edit-btn rounded-btn"
