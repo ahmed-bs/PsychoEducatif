@@ -34,15 +34,15 @@ body {
 /* Card Styling */
 .card {
     background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 40px; /* More circular edges */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 24px;
-    transition: all 0.4s ease-in-out;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
     position: relative;
     overflow: hidden;
-    transform: perspective(1000px) rotateX(0deg);
     cursor: pointer;
+    border: 1px solid #e0e0e0;
 }
 
 /* Grid Cards */
@@ -137,10 +137,13 @@ body {
 }
 
 .card__actions button {
-    flex: 1;
-    max-width: 120px;
-    font-size: 0.85rem;
-    padding: 8px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 1.2rem;
 }
 
 /* Custom Edit Button (Secondary) */
@@ -525,12 +528,10 @@ body {
 :host ::ng-deep .p-input-icon-left>.search-input {
     width: 100%;
     padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-    /* Padding à gauche pour l'icône */
-    border-radius: 0.375rem;
+    border-radius: 40px; /* More circular edges */
     border: 1px solid #e5e7eb;
     font-size: 1rem;
     color: #1e3a8a;
-    /* Bleu profond du thème */
     background-color: #fff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -593,6 +594,7 @@ body {
     border-bottom: 1px solid #e9ecef;
     overflow: hidden;
     /* Évite les débordements */
+    border-radius: 40px; /* More circular edges */
 }
 
 .welcome-background {
@@ -805,13 +807,15 @@ body {
         font-size: 8px;
     }
     .card__actions {
-        flex-direction: column;
-        gap: 4px;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
     }
     .card__actions button {
-        font-size: 0.8rem;
-        padding: 6px 8px;
-        max-width: 100%;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        padding: 0;
     }
     .card--add {
         margin-left: 0;
@@ -848,6 +852,12 @@ body {
 @media (max-width: 900px) { /* For tablets and below */
     .ajout-card-desktop {
         display: none !important;
+    }
+
+    .card__actions button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
     }
 
     .ajout-btn-mobile {

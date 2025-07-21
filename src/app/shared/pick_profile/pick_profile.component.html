@@ -26,10 +26,14 @@
           <img [src]="child.image_url" (error)="setDefaultImage($event, child)" alt="Child" class="card__image">
           <h2 class="card__name">{{ child.first_name }} {{ child.last_name }}</h2>
           <div class="card__actions">
-            <button pButton label="Modifier" class="custom-edit-btn rounded-btn"
-              (click)="showEditDialog(child); $event.stopPropagation()"></button>
-            <button pButton label="Désactiver" class="custom-disable-btn rounded-btn"
-              (click)="disableChild(child); $event.stopPropagation()"></button>
+            <button pButton class="custom-edit-btn rounded-btn"
+              (click)="showEditDialog(child); $event.stopPropagation()">
+              <i class="pi pi-pencil"></i>
+            </button>
+            <button pButton class="custom-disable-btn rounded-btn"
+              (click)="disableChild(child); $event.stopPropagation()">
+              <i class="pi pi-trash"></i>
+            </button>
           </div>
         </div>
       </div>
