@@ -845,27 +845,36 @@ body {
     display: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) { /* For tablets and below */
     .ajout-card-desktop {
         display: none !important;
     }
+
     .ajout-btn-mobile {
-        display: block;
-        width: 100%;
-        margin: 16px 0 0 0;
-        padding: 14px 0;
-        font-size: 1.1rem;
-        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+        font-weight: 300;
+        border-radius: 50%;
         background: #6366f1;
-        color: #fff;
+        color: white;
         border: none;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
         cursor: pointer;
-        transition: background 0.2s;
+        transition: all 0.3s ease-in-out;
     }
+
     .ajout-btn-mobile:hover {
         background: #4f46e5;
+        transform: scale(1.05);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
     }
 }
 
@@ -978,6 +987,11 @@ body {
     :host ::ng-deep .p-dialog {
         width: 90vw !important;
     }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
 }
 
 @media (max-width: 480px) {
@@ -999,6 +1013,7 @@ body {
 .form-row {
     display: flex;
     gap: 1rem;
+    align-items: flex-start; /* Aligns items to the top */
 }
 
 .form-row .field {
@@ -1026,4 +1041,56 @@ body {
 .radio-option label {
     font-weight: 500;
     color: #4B5563;
+}
+
+.drop-zone {
+    border: 2px dashed #D1D5DB;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: #F9FAFB;
+}
+
+.drop-zone.drag-over {
+    background-color: #E5E7EB;
+    border-color: #6366f1;
+}
+
+.drop-zone-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6B7280;
+}
+
+.drop-zone-text i {
+    font-size: 2rem;
+}
+
+.drop-zone-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #1F2937;
+    font-weight: 500;
+}
+
+.drop-zone-preview i {
+    font-size: 1.5rem;
+    color: #6366f1;
+}
+
+:host ::ng-deep .p-input-icon-left > .p-inputtext {
+    padding-left: 2.5rem !important;
+}
+
+:host ::ng-deep .p-input-icon-left > i {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: #9CA3AF;
 }

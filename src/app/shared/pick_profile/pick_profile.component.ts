@@ -99,6 +99,31 @@ export class PickProfileComponent implements OnInit {
       this.selectedFile = event.target.files[0];
     }
   }
+   onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = (event.currentTarget as HTMLElement);
+    dropZone.classList.add('drag-over');
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = (event.currentTarget as HTMLElement);
+    dropZone.classList.remove('drag-over');
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = (event.currentTarget as HTMLElement);
+    dropZone.classList.remove('drag-over');
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.selectedFile = files[0];
+    }
+  }
   resetChild(): Profile {
     return {
       first_name: '',
