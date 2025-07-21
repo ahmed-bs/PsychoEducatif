@@ -215,3 +215,52 @@
 
     </main>
 </div>
+
+<!-- Share Profile Dialog/Modal -->
+<div *ngIf="afficherBoiteDialoguePartage"
+     style="position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4);">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+    <h2 class="text-lg font-bold mb-4">Partager le profil</h2>
+    <form (ngSubmit)="shareProfile()">
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email du destinataire</label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="saisieEmail"
+          name="email"
+          (input)="validateEmail()"
+          [class.border-red-500]="saisieEmail && !isEmailValid"
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-500"
+          required
+        />
+        <div *ngIf="saisieEmail && !isEmailValid" class="text-red-500 text-xs mt-1">Email invalide</div>
+      </div>
+      <div class="mb-4">
+        <label for="access" class="block text-sm font-medium text-gray-700 mb-1">Type d'accès</label>
+        <select
+          id="access"
+          [(ngModel)]="accesSelectionne"
+          name="access"
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-500"
+          required
+        >
+          <option *ngFor="let option of optionsAcces" [ngValue]="option">{{ option.libelle }}</option>
+        </select>
+      </div>
+      <div class="flex justify-end space-x-2 mt-6">
+        <button
+          type="button"
+          (click)="afficherBoiteDialoguePartage = false"
+          class="px-4 py-2 rounded bg-gray-300 text-gray-700 hover:bg-gray-400"
+        >Annuler</button>
+        <button
+          type="submit"
+          [disabled]="!isEmailValid || loadingShare"
+          class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+        >{{ loadingShare ? 'Partage en cours...' : 'Partager' }}</button>
+      </div>
+    </form>
+    <button (click)="afficherBoiteDialoguePartage = false" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+  </div>
+</div>

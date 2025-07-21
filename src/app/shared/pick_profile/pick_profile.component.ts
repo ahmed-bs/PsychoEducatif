@@ -14,6 +14,7 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 import { Profile } from 'src/app/core/models/profile.model';
 import { CreateProfileRequest, UpdateProfileRequest } from 'src/app/core/models/createprofile.model';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   standalone: true,
@@ -40,6 +41,7 @@ export class PickProfileComponent implements OnInit {
   updatedisplayDialog: boolean = false;
   isEditMode: boolean = false;
   newChild: Profile = this.resetChild();
+  selectedFile: File | null = null;
   selectedChild: Profile = {
     first_name: '',
     last_name: '',
@@ -79,6 +81,24 @@ export class PickProfileComponent implements OnInit {
     this.userName = this.auhService.currentUserValue.username;
     this.loadChildren();
   }
+  setDefaultImage(event: any, child: Profile) {
+    let defaultImg = '';
+    if (child.gender === 'F') {
+        if (child.category === 'Toddler') defaultImg = '/assets/image_client/image copy 2.png';
+        else if (child.category === 'Young Child') defaultImg = '/assets/image_client/image copy 6.png';
+        else if (child.category === 'Young Adult') defaultImg = '/assets/image_client/image copy 8.png';
+    } else {
+        if (child.category === 'Toddler') defaultImg = '/assets/image_client/image copy 3.png';
+        else if (child.category === 'Young Child') defaultImg = '/assets/image_client/image copy 5.png';
+        else if (child.category === 'Young Adult') defaultImg = '/assets/image_client/image copy 7.png';
+    }
+    event.target.src = defaultImg || '/assets/image_client/image copy 2.png';
+}
+  onFileSelected(event: any): void {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
   resetChild(): Profile {
     return {
       first_name: '',
@@ -97,10 +117,16 @@ export class PickProfileComponent implements OnInit {
   loadChildren() {
     this.profileService.getProfilesByParent(this.parentId).subscribe({
       next: (children) => {
-        this.children = children.map(child => ({
-          ...child,
-          image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
-        }));
+        this.children = children.map(child => {
+          let imageUrl = (child as any).image || child.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
+          return {
+            ...child,
+            image_url: imageUrl
+          };
+        });
         this.filteredChildren = [...this.children];
       },
       error: (err) => {
@@ -138,14 +164,7 @@ export class PickProfileComponent implements OnInit {
 
   showEditDialog(child: Profile) {
     this.isEditMode = true;
-    this.selectedChild = {
-      first_name: child.first_name,
-      last_name: child.last_name,
-      birth_date: child.birth_date,
-      gender: child.gender,
-      diagnosis: child.diagnosis || '',
-      notes: child.notes || ''
-    };
+    this.selectedChild = { ...child };
     this.birthDate = new Date(child.birth_date);
     this.updatedisplayDialog = true;
     this.error = null;
@@ -153,11 +172,25 @@ export class PickProfileComponent implements OnInit {
   addChild() {
     if (this.newChild.first_name && this.newChild.last_name && this.newChild.birth_date) {
       this.isLoading = true; // Set loading to true
-      this.profileService.createChildProfile(this.newChild).subscribe({
+      const formData = new FormData();
+      formData.append('first_name', this.newChild.first_name);
+      formData.append('last_name', this.newChild.last_name);
+      formData.append('birth_date', this.newChild.birth_date);
+      formData.append('gender', this.newChild.gender || 'M');
+      formData.append('diagnosis', this.newChild.diagnosis || '');
+      formData.append('notes', this.newChild.notes || '');
+       if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+      this.profileService.createChildProfile(formData).subscribe({
         next: (child) => {
+          let imageUrl = (child as any).image || child.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
           this.children.push({
             ...child,
-            image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+            image_url: imageUrl
           });
           this.filteredChildren = [...this.children];
           this.displayDialog = false;
@@ -176,15 +209,25 @@ export class PickProfileComponent implements OnInit {
   }
 
   saveChild() {
-    if (this.selectedChild) {
-      this.profileService.updateChildProfile(this.selectedChild).subscribe({
+    if (this.selectedChild && this.selectedChild.id) {
+            const formData = new FormData();
+      formData.append('first_name', this.selectedChild.first_name);
+      formData.append('last_name', this.selectedChild.last_name);
+      formData.append('birth_date', this.selectedChild.birth_date);
+      formData.append('gender', this.selectedChild.gender || 'M');
+      formData.append('diagnosis', this.selectedChild.diagnosis || '');
+      formData.append('notes', this.selectedChild.notes || '');
+       if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+      this.profileService.updateChildProfile(this.selectedChild.id, formData).subscribe({
         next: (updatedChild) => {
           const index = this.children.findIndex(c => c.id === updatedChild.id);
           if (index !== -1) {
             this.children[index] = { ...updatedChild, image_url: this.children[index].image_url };
             this.filteredChildren = [...this.children];
           }
-          this.displayDialog = false;
+          this.updatedisplayDialog = false;
           Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
         },
         error: (err) => {
@@ -205,13 +248,23 @@ export class PickProfileComponent implements OnInit {
 
     if (this.isEditMode && this.selectedChild?.id) {
       const updateData: UpdateProfileRequest = { ...this.profileForm };
-      this.profileService.updateChildProfile(this.selectedChild).subscribe({
+      const formData = new FormData();
+      formData.append('first_name', this.selectedChild.first_name);
+      formData.append('last_name', this.selectedChild.last_name);
+      formData.append('birth_date', this.selectedChild.birth_date);
+      formData.append('gender', this.selectedChild.gender || 'M');
+      formData.append('diagnosis', this.selectedChild.diagnosis || '');
+      formData.append('notes', this.selectedChild.notes || '');
+       if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+      this.profileService.updateChildProfile(this.selectedChild.id, formData).subscribe({
         next: (updatedChild) => {
           const index = this.children.findIndex(c => c.id === updatedChild.id);
           if (index !== -1) {
             this.children[index] = {
               ...updatedChild,
-              image_url: this.children[index].image_url // Preserve image_url
+              image_url: (updatedChild as any).image || this.children[index].image_url // Preserve image_url
             };
             this.filteredChildren = [...this.children];
           }
@@ -226,11 +279,25 @@ export class PickProfileComponent implements OnInit {
       });
     } else {
       const createData: CreateProfileRequest = this.profileForm as CreateProfileRequest;
-      this.profileService.createChildProfile(createData).subscribe({
+        const formData = new FormData();
+      formData.append('first_name', this.newChild.first_name);
+      formData.append('last_name', this.newChild.last_name);
+      formData.append('birth_date', this.newChild.birth_date);
+      formData.append('gender', this.newChild.gender || 'M');
+      formData.append('diagnosis', this.newChild.diagnosis || '');
+      formData.append('notes', this.newChild.notes || '');
+       if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+      this.profileService.createChildProfile(formData).subscribe({
         next: (newChild) => {
+          let imageUrl = (newChild as any).image || newChild.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
           this.children.push({
             ...newChild,
-            image_url: newChild.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+            image_url: imageUrl
           });
           this.filteredChildren = [...this.children];
           this.displayDialog = false;
