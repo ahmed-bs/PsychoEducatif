@@ -50,32 +50,6 @@
         </div>
       </div>
 
-      <!-- User Type Field -->
-      <div class="mb-3">
-        <label for="userType" class="form-label">
-          Type d'utilisateur
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && user_type?.errors?.['required']" class="text-danger">*</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <select
-            id="userType"
-            class="form-control"
-            formControlName="user_type"
-          >
-            <option value="" disabled selected>Choisissez votre type d'utilisateur</option>
-            <option *ngFor="let type of userTypes" [value]="type.value">
-              {{ type.label }}
-            </option>
-          </select>
-          <span class="input-group-text">
-            <i class="bi bi-people"></i>
-          </span>
-        </div>
-        <div class="error-placeholder"></div>
-      </div>
-
       <!-- Email Field -->
       <div class="mb-3">
         <label for="email" class="form-label">

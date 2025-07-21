@@ -28,7 +28,6 @@ export class SignupComponent implements OnInit {
   ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      user_type: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required,
@@ -67,7 +66,6 @@ export class SignupComponent implements OnInit {
   ngOnInit() {}
 
   get username() { return this.signupForm.get('username'); }
-  get user_type() { return this.signupForm.get('user_type'); }
   get email() { return this.signupForm.get('email'); }
   get password() { return this.signupForm.get('password'); }
   get confirm_password() { return this.signupForm.get('confirm_password'); }
@@ -76,15 +74,38 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     this.showErrors = true;
-    if (this.signupForm.valid) {
-      this.isLoading = true;
+    // Frontend validation error handling
+    if (!this.signupForm.valid) {
+      let errorMsg = 'Veuillez remplir tous les champs obligatoires et corriger les erreurs du formulaire.';
+      if (this.signupForm.errors?.['passwordMismatch']) {
+        errorMsg = 'Les mots de passe ne correspondent pas.';
+      } else if (this.password?.errors?.['minlength']) {
+        errorMsg = 'Le mot de passe est trop court (minimum 8 caractères).';
+      } else if (this.password?.errors?.['passwordStrength']) {
+        errorMsg = 'Le mot de passe est trop faible. Il doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.';
+      } else if (this.email?.errors?.['email']) {
+        errorMsg = 'Adresse email invalide.';
+      } else if (this.username?.errors?.['minlength']) {
+        errorMsg = 'Le nom et prénom sont trop courts.';
+      } else if (this.accepte_conditions?.invalid) {
+        errorMsg = 'Vous devez accepter les termes et conditions.';
+      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur de validation',
+        text: errorMsg,
+        confirmButtonColor: '#f44336'
+      });
+      return;
+    }
+    this.isLoading = true;
   
       const formData = {
         username: this.signupForm.value.username,
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
         confirm_password: this.signupForm.value.confirm_password,
-        user_type: this.signupForm.value.user_type,
+        user_type: 'parent', // Default value since field is removed from UI
         accepte_conditions: this.signupForm.value.accepte_conditions,
         bio: this.signupForm.value.bio || null
       };
@@ -106,7 +127,26 @@ export class SignupComponent implements OnInit {
         error: (error) => {
           console.error('Registration error:', error);
           this.isLoading = false;
-          const errorMessage = error.error?.message || 'Erreur inscription';
+
+          let errorMessage = 'Erreur inscription';
+          if (error.error) {
+            if (typeof error.error === 'object' && !Array.isArray(error.error)) {
+              // Collect all field errors into a single string
+              errorMessage = Object.entries(error.error)
+                .map(([field, messages]) => {
+                  if (Array.isArray(messages)) {
+                    return messages.map(msg => `${field}: ${msg}`).join('\n');
+                  }
+                  return `${field}: ${messages}`;
+                })
+                .join('\n');
+            } else if (typeof error.error === 'string') {
+              errorMessage = error.error;
+            } else if (error.error.message) {
+              errorMessage = error.error.message;
+            }
+          }
+
           Swal.fire({
             icon: 'error',
             title: 'Erreur',
@@ -117,4 +157,3 @@ export class SignupComponent implements OnInit {
       });
     }
   }
-}

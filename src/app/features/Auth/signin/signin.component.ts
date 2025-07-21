@@ -28,7 +28,16 @@ export class SigninComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Check if a remembered email exists
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    if (rememberedEmail) {
+      this.loginForm.patchValue({
+        email: rememberedEmail,
+        rememberMe: true
+      });
+    }
+  }
 
   login() {
     this.showErrors = true;
@@ -37,7 +46,14 @@ export class SigninComponent implements OnInit {
     }
 
     this.isLoading = true;
-    const { email, password } = this.loginForm.value;
+    const { email, password, rememberMe } = this.loginForm.value;
+
+    // Handle Remember Me
+    if (rememberMe) {
+      localStorage.setItem('rememberedEmail', email);
+    } else {
+      localStorage.removeItem('rememberedEmail');
+    }
 
     this.authService.login(email, password).subscribe({
       next: (response) => {
@@ -57,7 +73,23 @@ export class SigninComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-        const errorMessage = error.error?.message || 'Erreur connexion';
+        let errorMessage = 'Erreur connexion';
+        if (error.error) {
+          if (typeof error.error === 'object' && !Array.isArray(error.error)) {
+            errorMessage = Object.entries(error.error)
+              .map(([field, messages]) => {
+                if (Array.isArray(messages)) {
+                  return messages.map(msg => `${field}: ${msg}`).join('\n');
+                }
+                return `${field}: ${messages}`;
+              })
+              .join('\n');
+          } else if (typeof error.error === 'string') {
+            errorMessage = error.error;
+          } else if (error.error.message) {
+            errorMessage = error.error.message;
+          }
+        }
         Swal.fire({
           icon: 'error',
           title: 'Erreur',
