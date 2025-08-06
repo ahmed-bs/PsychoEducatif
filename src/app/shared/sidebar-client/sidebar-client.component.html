@@ -1,26 +1,91 @@
-<div class="sidebar"  [class.close]="isSidebarClosed">
-
+<!-- Desktop Sidebar (Old Style) - Only visible on desktop -->
+<div class="sidebar desktop-sidebar" [class.close]="isSidebarClosed" *ngIf="isDesktop()">
   <a class="logo .icon">
-    <img class="icon" src="assets/logo.png"alt="">
-    <div class="logo-name"><span>Evalu'</span>Action</div>
+    <img class="icon" src="assets/logo.png" alt="">
+    <div class="logo-name" [innerHTML]="'sidebar.logo_name' | translate"></div>
   </a>
   <ul class="side-menu">
-    <li class="active"><a [routerLink]="['/Dashboard-client/client/', getChildId()]"><i class='bx bxs-dashboard'></i>Accueil</a></li>
-    <li><a routerLink="/Dashboard-client/client/explore"><i class='bx bx-search'></i>Explorer</a></li>
-
-    <li><a [routerLink]="['/Dashboard-client/client/profiles/', getChildId()]"><i class='bx bx-user'></i>Profiles</a></li>
-    <li><a routerLink="/Dashboard-client/client/evaluations_configurations"><i class='bx bx-target-lock'></i>Objectifs</a></li>
-    <li><a [routerLink]="['/Dashboard-client/client/summary/', getChildId()]"><i class='bx bx-bar-chart-alt-2'></i>Résumé</a></li>
-    <li><a [routerLink]="['/Dashboard-client/client/calendar/', getChildId()]"><i class='bx bx-calendar'></i>Calendrier</a></li>
-
+    <li class="active"><a [routerLink]="['/Dashboard-client/client/', getChildId()]"><i class='bx bxs-dashboard'></i>{{ 'sidebar.menu.home' | translate }}</a></li>
+    <li><a routerLink="/Dashboard-client/client/explore"><i class='bx bx-search'></i>{{ 'sidebar.menu.explore' | translate }}</a></li>
+    <li><a [routerLink]="['/Dashboard-client/client/profiles/', getChildId()]"><i class='bx bx-user'></i>{{ 'sidebar.menu.profiles' | translate }}</a></li>
+    <li><a routerLink="/Dashboard-client/client/evaluations_configurations"><i class='bx bx-target-lock'></i>{{ 'sidebar.menu.objectives' | translate }}</a></li>
+    <li><a [routerLink]="['/Dashboard-client/client/summary/', getChildId()]"><i class='bx bx-bar-chart-alt-2'></i>{{ 'sidebar.menu.summary' | translate }}</a></li>
+    <li><a [routerLink]="['/Dashboard-client/client/calendar/', getChildId()]"><i class='bx bx-calendar'></i>{{ 'sidebar.menu.calendar' | translate }}</a></li>
   </ul>
-  
   <ul class="side-menu">
     <li>
-        <a  class="logout" routerLink="/auth/signin">
-            <i class='bx bx-log-out-circle'></i>
-            Déconnexion
-        </a>
+      <a class="logout" routerLink="/auth/signin">
+        <i class='bx bx-log-out-circle'></i>
+        {{ 'sidebar.menu.logout' | translate }}
+      </a>
     </li>
   </ul>
+</div>
+
+<!-- Mobile Bottom Navigation (New Style) - Only visible on mobile/tablet -->
+<div class="mobile-nav" *ngIf="!isDesktop()">
+  <div class="nav-item" routerLinkActive="active">
+    <a [routerLink]="['/Dashboard-client/client/', getChildId()]">
+      <i class='bx bxs-dashboard'></i>
+      <span>Home</span>
+    </a>
+  </div>
+  
+  <div class="nav-item" routerLinkActive="active">
+    <a routerLink="/Dashboard-client/client/explore">
+      <i class='bx bx-search'></i>
+      <span>Explore</span>
+    </a>
+  </div>
+  
+  <div class="nav-item" routerLinkActive="active">
+    <a [routerLink]="['/Dashboard-client/client/calendar/', getChildId()]">
+      <i class='bx bx-calendar'></i>
+      <span>Calendar</span>
+    </a>
+  </div>
+  
+  <div class="nav-item">
+    <a (click)="toggleMobileMenu()">
+      <i class='bx bx-menu'></i>
+      <span>More</span>
+    </a>
+  </div>
+</div>
+
+<!-- Mobile Menu Overlay (New Style) - Only visible on mobile/tablet -->
+<div class="mobile-menu-overlay" [class.active]="showMobileSidebar" *ngIf="!isDesktop()">
+  <div class="mobile-menu">
+    <div class="menu-header">
+      <div class="menu-logo">
+        <img src="assets/logo.png" alt="Logo">
+        <span>Evalu'Action</span>
+      </div>
+      <button class="menu-close" (click)="toggleMobileMenu()">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    
+    <div class="menu-items">
+      <a [routerLink]="['/Dashboard-client/client/profiles/', getChildId()]" (click)="toggleMobileMenu()">
+        <i class='bx bx-user'></i>
+        <span>Profiles</span>
+      </a>
+      
+      <a routerLink="/Dashboard-client/client/evaluations_configurations" (click)="toggleMobileMenu()">
+        <i class='bx bx-target-lock'></i>
+        <span>Objectives</span>
+      </a>
+      
+      <a [routerLink]="['/Dashboard-client/client/summary/', getChildId()]" (click)="toggleMobileMenu()">
+        <i class='bx bx-bar-chart-alt-2'></i>
+        <span>Summary</span>
+      </a>
+      
+      <a routerLink="/auth/signin" (click)="toggleMobileMenu()" class="logout-item">
+        <i class='bx bx-log-out-circle'></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </div>
 </div>

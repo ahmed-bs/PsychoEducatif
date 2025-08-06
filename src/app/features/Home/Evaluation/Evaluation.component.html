@@ -1,114 +1,92 @@
 <body>
-
   <section class="featured-section">
     <header class="header__container">
         <div class="header__image">
             <img src="assets/img/Good_team-pana-removebg-preview.png" alt="header" />
         </div>
         <div class="header__content">
-            <h2 class="animated-header">L’évaluation <br/>est une <span></span> étape clé dans l'accompagnement psycho-éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés.</h2>
+            <h2 class="animated-header" [innerHTML]="'evaluation_featured_section.header_content' | translate"></h2>
         </div>
     </header>
 </section>
 
-  <!-- Skills -->
   <section class="skills container">
     <div class="title">
-      <!-- <h3>MY SKILLS</h3> -->
-      <h1>🎯 Objectifs de l’évaluation</h1>
+      <h1>{{ 'evaluation_objectives_section.title' | translate }}</h1>
     </div>
     <div class="grid-wrapper">
       <div class="grid-box">
         <div class="icon-title">
           <img src="assets/img/evaluation.gif" class="image" alt="">
-          <h2>Identifier les forces et les faiblesses de l’enfant</h2>
+          <h2>{{ 'evaluation_objectives_section.items.strengths_and_weaknesses.title' | translate }}</h2>
         </div>
-        <p> Déterminer les compétences actuelles dans des domaines clés comme la communication, les interactions sociales, la motricité, et les comportements adaptatifs.</p>
+        <p>{{ 'evaluation_objectives_section.items.strengths_and_weaknesses.description' | translate }}</p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/Activités interactives.gif"  class="image" alt="">
-          <h2>Détecter les besoins spécifiques</h2>
+          <img src="assets/img/Activités interactives.gif" class="image" alt="">
+          <h2>{{ 'evaluation_objectives_section.items.specific_needs.title' | translate }}</h2>
         </div>
-        <p> Repérer les obstacles qui limitent l’autonomie et le développement de l’enfant.</p>
+        <p>{{ 'evaluation_objectives_section.items.specific_needs.description' | translate }}</p>
       </div>
-      
       <div class="grid-box">
         <div class="icon-title">
           <img src="assets/img/Usability testing.gif" class="image" alt="">
-          <h2>Établir une base de référence</h2>
+          <h2>{{ 'evaluation_objectives_section.items.baseline.title' | translate }}</h2>
         </div>
-        <p>Fournir des données précises qui serviront à mesurer les progrès au fil du temps.</p>
+        <p>{{ 'evaluation_objectives_section.items.baseline.description' | translate }}</p>
       </div>
     </div>
   </section>
- 
 
   <section class="skills container">
     <div class="title">
-    
-      <h1>🌟 Avantages de l’évaluation numérique</h1>
+      <h1>{{ 'digital_evaluation_advantages_section.title' | translate }}</h1>
     </div>
     <div class="grid-wrapper">
       <div class="grid-box">
         <div class="icon-title">
           <img src="assets/image/skill-1.png" alt="">
-          <h2>PsychoÉducatif</h2>
+          <h2>{{ 'digital_evaluation_advantages_section.items.psychoeducatif.title' | translate }}</h2>
         </div>
-        <p> <span class="highlight">Accessibilité :</span>  Permet une utilisation par les parents et les professionnels, sans besoin d’équipement spécialisé.
-          <br><span class="highlight">Personnalisation : </span>Les outils s’adaptent aux besoins spécifiques de chaque enfant.
-          <br><span class="highlight">Efficacité : </span> Gain de temps dans la collecte et l’analyse des données.
-          <br><span class="highlight">Suivi continu : </span>Mise à jour régulière des évaluations pour ajuster les stratégies d'accompagnement.</p>
+        <p [innerHTML]="'digital_evaluation_advantages_section.items.psychoeducatif.description' | translate"></p>
       </div>
     </div>
-  </section> 
+  </section>
 
-  <!-- Skills -->
   <section class="skills container">
     <div class="title">
-      <!-- <h3>MY SKILLS</h3> -->
-      <h1>🧑‍🏫 Méthodologie d’évaluation proposée</h1>
-
+      <h1>{{ 'evaluation_methodology_section.title' | translate }}</h1>
     </div>
     <div class="grid-wrapper2">
       <div class="grid-box">
         <div class="icon-title">
           <img src="assets/img/evaluation.gif" class="image" alt="">
-          <h2>Création du profil de l’enfant</h2>
+          <h2>{{ 'evaluation_methodology_section.items.child_profile.title' | translate }}</h2>
         </div>
-        <p>
-          Informations générales (nom, âge, diagnostic, etc.).
-          Sélection des domaines à évaluer selon les besoins spécifiques.
-        </p>
-      
+        <p [innerHTML]="'evaluation_methodology_section.items.child_profile.description' | translate"></p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/Activitésinteractives.gif"  class="image" alt="">
-          <h2>Tests et questionnaires interactifs</h2>
+          <img src="assets/img/Activitésinteractives.gif" class="image" alt="">
+          <h2>{{ 'evaluation_methodology_section.items.interactive_tests.title' | translate }}</h2>
         </div>
-        <p> Série de questions adaptées à l’âge et au niveau de développement.
-          Activités ludiques permettant d’évaluer les capacités cognitives et sociales.</p>
+        <p [innerHTML]="'evaluation_methodology_section.items.interactive_tests.description' | translate"></p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
           <img src="assets/img/Accompagnement.gif" class="image" alt="">
-          <h2>Observation et suivi en temps réel
-
-            </h2>
+          <h2>{{ 'evaluation_methodology_section.items.real_time_observation.title' | translate }}</h2>
         </div>
-        <p>Permettre aux parents et professionnels d’enregistrer des observations comportementales quotidiennes directement dans l’application.</p>
+        <p>{{ 'evaluation_methodology_section.items.real_time_observation.description' | translate }}</p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
           <img src="assets/img/Usability testing.gif" class="image" alt="">
-          <h2>Rapport détaillé généré automatiquement
-</h2>
+          <h2>{{ 'evaluation_methodology_section.items.detailed_report.title' | translate }}</h2>
         </div>
-        <p>Analyse des résultats sous forme de graphiques et de tableaux.
-          Recommandations personnalisées basées sur les résultats.</p>
+        <p [innerHTML]="'evaluation_methodology_section.items.detailed_report.description' | translate"></p>
       </div>
     </div>
   </section>
- 
 </body>

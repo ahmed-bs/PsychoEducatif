@@ -9,21 +9,18 @@ import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
-
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
-
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { forkJoin, of } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
-
 
 interface DomainTableRow {
   domain: string;
@@ -36,14 +33,13 @@ interface DomainTableRow {
   profileItems: ProfileItem[];
 }
 
-
 interface CategoryTableRow {
   category: string;
-  id: number; 
+  id: number;
   totalDomains: number;
   totalItemsOverall: number;
   overallProgress: number;
-  domains: DomainTableRow[]; 
+  domains: DomainTableRow[];
 }
 
 @Component({
@@ -60,44 +56,60 @@ interface CategoryTableRow {
     MenuModule,
     DropdownModule,
     SelectButtonModule,
-    ToggleButtonModule
-
+    ToggleButtonModule,
+    TranslateModule
   ],
 })
-
-
 export class SummaryComponent implements OnInit {
-  items: ProfileItem[] = []; 
-  categoryDataForTable: CategoryTableRow[] = []; 
+  items: ProfileItem[] = [];
+  categoryDataForTable: CategoryTableRow[] = [];
   isLoading: boolean = false;
   error: string | null = null;
   profileId: number = 1;
-
-  expandedCategories: { [key: string]: boolean } = {}; 
-
+  expandedCategories: { [key: string]: boolean } = {};
   exportItems: MenuItem[] = [];
-
   @ViewChild('exportMenu') menu: Menu | undefined;
-
-  filterStatuses: any[] = [
-    { label: 'Tous les statuts', value: 'ALL' },
-    { label: 'Acquis', value: 'ACQUIS' },
-    { label: 'Partiel', value: 'PARTIEL' },
-    { label: 'Non Acquis', value: 'NON_ACQUIS' },
-    { label: 'Non Évalué', value: 'NON_COTE' }
-  ];
+  filterStatuses: any[] = [];
   selectedFilterStatus: string = 'ALL';
-
   private originalCategoryDataForTable: CategoryTableRow[] = [];
-
   domainItemsVisibility: { [domainName: string]: boolean } = {};
 
   constructor(
     private profileItemService: ProfileItemService,
     private profileCategoryService: ProfileCategoryService,
     private profileDomainService: ProfileDomainService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private translate: TranslateService
+  ) {
+    // Initialize translation
+    this.translate.addLangs(['fr', 'ar']);
+    this.translate.setDefaultLang('ar');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+
+    // Initialize filterStatuses with translated labels
+    this.filterStatuses = [
+      { label: this.translate.instant('skills_summary.status_labels.ALL'), value: 'ALL' },
+      { label: this.translate.instant('skills_summary.status_labels.ACQUIS'), value: 'ACQUIS' },
+      { label: this.translate.instant('skills_summary.status_labels.PARTIEL'), value: 'PARTIEL' },
+      { label: this.translate.instant('skills_summary.status_labels.NON_ACQUIS'), value: 'NON_ACQUIS' },
+      { label: this.translate.instant('skills_summary.status_labels.NON_COTE'), value: 'NON_COTE' }
+    ];
+
+    // Initialize exportItems with translated labels
+    this.exportItems = [
+      {
+        label: this.translate.instant('skills_summary.export_items.excel'),
+        icon: 'pi pi-file-excel',
+        command: () => this.exportExcel()
+      },
+      {
+        label: this.translate.instant('skills_summary.export_items.pdf'),
+        icon: 'pi pi-file-pdf',
+        command: () => this.exportPdf()
+      }
+    ];
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -107,24 +119,6 @@ export class SummaryComponent implements OnInit {
       }
       this.loadSummaryData();
     });
-
-    
-    this.exportItems = [
-      {
-        label: 'Exporter en Excel', 
-        icon: 'pi pi-file-excel',
-        command: () => {
-          this.exportExcel();
-        },
-      },
-      {
-        label: 'Exporter en PDF', 
-        icon: 'pi pi-file-pdf',
-        command: () => {
-          this.exportPdf();
-        },
-      },
-    ];
   }
 
   toggleMenu(event: Event) {
@@ -142,7 +136,7 @@ export class SummaryComponent implements OnInit {
         }
 
         const categoryMap = new Map<number, string>();
-        categories.forEach((cat) => categoryMap.set(cat.id!, cat.name || 'Unknown Category'));
+        categories.forEach((cat) => categoryMap.set(cat.id!, cat.name || this.translate.instant('skills_summary.table.unknown_category')));
 
         const categoryDomainItemRequests = categories.map((category) =>
           this.profileDomainService.getDomains(category.id!).pipe(
@@ -151,7 +145,7 @@ export class SummaryComponent implements OnInit {
                 return of({ categoryId: category.id, categoryName: category.name, domains: [], items: [] });
               }
               const domainMap = new Map<number, string>();
-              domains.forEach((dom) => domainMap.set(dom.id, dom.name || 'Unknown Domain'));
+              domains.forEach((dom) => domainMap.set(dom.id, dom.name || this.translate.instant('skills_summary.table.unknown_domain')));
 
               const itemRequests = domains.map((domain) =>
                 this.profileItemService.getItems(domain.id).pipe(
@@ -188,7 +182,7 @@ export class SummaryComponent implements OnInit {
     ).subscribe({
       next: (results) => {
         this.originalCategoryDataForTable = this.processRawDataIntoTableStructure(results);
-        this.applyFilter();        
+        this.applyFilter();
         this.isLoading = false;
 
         this.originalCategoryDataForTable.forEach(category => {
@@ -199,7 +193,9 @@ export class SummaryComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading summary data:', error);
-        this.error = 'Échec du chargement des données récapitulatives. Veuillez réessayer plus tard.';
+        this.translate.get('skills_summary.load_summary_error.text').subscribe(text => {
+          this.error = text;
+        });
         this.isLoading = false;
       },
     });
@@ -209,7 +205,7 @@ export class SummaryComponent implements OnInit {
     const categoryDataMap: { [categoryName: string]: CategoryTableRow } = {};
 
     rawData.forEach(categoryResult => {
-      const categoryName = categoryResult.categoryName || 'Unknown Category';
+      const categoryName = categoryResult.categoryName || this.translate.instant('skills_summary.table.unknown_category');
       const categoryId = categoryResult.categoryId;
 
       if (!categoryDataMap[categoryName]) {
@@ -224,13 +220,13 @@ export class SummaryComponent implements OnInit {
       }
 
       const currentCategoryData = categoryDataMap[categoryName];
-      currentCategoryData.totalDomains += categoryResult.domains.length; 
+      currentCategoryData.totalDomains += categoryResult.domains.length;
 
       const domainSummaryMap: { [domainName: string]: DomainTableRow } = {};
 
       categoryResult.items.forEach((item: ProfileItem) => {
-        const domainName = item.profile_domain_name || 'Unknown Domain';
-        const domainKey = `${domainName}`; 
+        const domainName = item.profile_domain_name || this.translate.instant('skills_summary.table.unknown_domain');
+        const domainKey = `${domainName}`;
 
         if (!domainSummaryMap[domainKey]) {
           domainSummaryMap[domainKey] = {
@@ -264,7 +260,6 @@ export class SummaryComponent implements OnInit {
         }
       });
 
-      
       const domainsWithProgress = Object.values(domainSummaryMap).map(domainData => {
         const acquiredCount = domainData.acquired;
         const partialCount = domainData.partial;
@@ -275,7 +270,6 @@ export class SummaryComponent implements OnInit {
 
       currentCategoryData.domains = domainsWithProgress;
 
-      
       const categoryTotalItems = domainsWithProgress.reduce((sum, d) => sum + d.totalItems, 0);
       const categoryAcquiredItems = domainsWithProgress.reduce((sum, d) => sum + d.acquired, 0);
       const categoryPartialItems = domainsWithProgress.reduce((sum, d) => sum + d.partial, 0);
@@ -294,7 +288,7 @@ export class SummaryComponent implements OnInit {
     const allProfileItems: ProfileItem[] = [];
 
     rawData.forEach(categoryResult => {
-      const categoryName = categoryResult.categoryName || 'Unknown Category';
+      const categoryName = categoryResult.categoryName || this.translate.instant('skills_summary.table.unknown_category');
       const categoryId = categoryResult.categoryId;
 
       if (!categoryDataMap[categoryName]) {
@@ -314,7 +308,7 @@ export class SummaryComponent implements OnInit {
       const domainMapWithItems: { [domainName: string]: DomainTableRow & { rawItems: ProfileItem[] } } = {};
 
       categoryResult.items.forEach((item: ProfileItem) => {
-        const domainName = item.profile_domain_name || 'Unknown Domain';
+        const domainName = item.profile_domain_name || this.translate.instant('skills_summary.table.unknown_domain');
         const domainKey = `${domainName}`;
 
         if (!domainMapWithItems[domainKey]) {
@@ -430,64 +424,61 @@ export class SummaryComponent implements OnInit {
   }
 
   getEtatLabel(etat: string): string {
-    switch (etat) {
-      case 'ALL':
-        return 'Tous'
-      case 'ACQUIS':
-        return 'Acquis';
-      case 'PARTIEL':
-        return 'Partiel';
-      case 'NON_ACQUIS':
-        return 'Non Acquis';
-      case 'NON_COTE':
-        return 'Non Évalué';
-      default:
-        return 'Inconnu';
-    }
+    return this.translate.instant('skills_summary.status_labels.' + etat) || this.translate.instant('skills_summary.status_labels.UNKNOWN');
   }
 
-  
   exportExcel(): void {
     import('xlsx').then((xlsx) => {
       const exportData: any[] = [];
 
-      
-      exportData.push({ 'Résumé des Compétences': 'Export généré le ' + new Date().toLocaleDateString('fr-FR') });
-      exportData.push({}); 
+      this.translate.get([
+        'skills_summary.export_content.title',
+        'skills_summary.export_content.generated_on',
+        'skills_summary.export_content.category_label',
+        'skills_summary.export_content.domain_label',
+        'skills_summary.export_content.total_items_label',
+        'skills_summary.export_content.acquired_label',
+        'skills_summary.export_content.partial_label',
+        'skills_summary.export_content.not_acquired_label',
+        'skills_summary.export_content.not_evaluated_label',
+        'skills_summary.export_content.progress_label'
+      ], { date: new Date().toLocaleDateString(this.translate.currentLang) }).subscribe(translations => {
+        exportData.push({ [translations['skills_summary.export_content.title']]: translations['skills_summary.export_content.generated_on'] });
+        exportData.push({});
 
-      this.categoryDataForTable.forEach(category => {
-        
-        exportData.push({ 'Catégorie': category.category, '': '', '': '', '': '', '': '', '': '' }); 
-        exportData.push({
-          'Catégorie': '', 
-          'Domaine': 'Domaine',
-          'Total Items': 'Total Items',
-          'Acquises': 'Acquises',
-          'Partielles': 'Partielles',
-          'Non Acquises': 'Non Acquises',
-          'Non Évaluées': 'Non Évaluées',
-          'Progression (%)': 'Progression (%)'
-        }); 
-
-        category.domains.forEach(domain => {
+        this.categoryDataForTable.forEach(category => {
+          exportData.push({ [translations['skills_summary.export_content.category_label']]: category.category, '': '', '': '', '': '', '': '', '': '' });
           exportData.push({
-            'Catégorie': '', 
-            'Domaine': domain.domain,
-            'Total Items': domain.totalItems,
-            'Acquises': domain.acquired,
-            'Partielles': domain.partial,
-            'Non Acquises': domain.notAcquired,
-            'Non Évaluées': domain.notEvaluated,
-            'Progression (%)': domain.progressPercentage + '%',
+            [translations['skills_summary.export_content.category_label']]: '',
+            [translations['skills_summary.export_content.domain_label']]: translations['skills_summary.export_content.domain_label'],
+            [translations['skills_summary.export_content.total_items_label']]: translations['skills_summary.export_content.total_items_label'],
+            [translations['skills_summary.export_content.acquired_label']]: translations['skills_summary.export_content.acquired_label'],
+            [translations['skills_summary.export_content.partial_label']]: translations['skills_summary.export_content.partial_label'],
+            [translations['skills_summary.export_content.not_acquired_label']]: translations['skills_summary.export_content.not_acquired_label'],
+            [translations['skills_summary.export_content.not_evaluated_label']]: translations['skills_summary.export_content.not_evaluated_label'],
+            [translations['skills_summary.export_content.progress_label']]: translations['skills_summary.export_content.progress_label']
           });
-        });
-        exportData.push({}); 
-      });
 
-      const worksheet = xlsx.utils.json_to_sheet(exportData);
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'resume_competences');
+          category.domains.forEach(domain => {
+            exportData.push({
+              [translations['skills_summary.export_content.category_label']]: '',
+              [translations['skills_summary.export_content.domain_label']]: domain.domain,
+              [translations['skills_summary.export_content.total_items_label']]: domain.totalItems,
+              [translations['skills_summary.export_content.acquired_label']]: domain.acquired,
+              [translations['skills_summary.export_content.partial_label']]: domain.partial,
+              [translations['skills_summary.export_content.not_acquired_label']]: domain.notAcquired,
+              [translations['skills_summary.export_content.not_evaluated_label']]: domain.notEvaluated,
+              [translations['skills_summary.export_content.progress_label']]: domain.progressPercentage + '%',
+            });
+          });
+          exportData.push({});
+        });
+
+        const worksheet = xlsx.utils.json_to_sheet(exportData);
+        const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+        this.saveAsExcelFile(excelBuffer, 'resume_competences');
+      });
     });
   }
 
@@ -500,53 +491,67 @@ export class SummaryComponent implements OnInit {
 
   exportPdf(): void {
     const doc = new jsPDF('p', 'pt');
-    doc.text('Résumé des Compétences', 40, 20);
-    doc.text('Export généré le ' + new Date().toLocaleDateString('fr-FR'), 40, 40);
+    this.translate.get([
+      'skills_summary.export_content.title',
+      'skills_summary.export_content.generated_on',
+      'skills_summary.export_content.category_label',
+      'skills_summary.export_content.domain_label',
+      'skills_summary.export_content.total_items_label',
+      'skills_summary.export_content.acquired_label',
+      'skills_summary.export_content.partial_label',
+      'skills_summary.export_content.not_acquired_label',
+      'skills_summary.export_content.not_evaluated_label',
+      'skills_summary.export_content.progress_label'
+    ], { date: new Date().toLocaleDateString(this.translate.currentLang) }).subscribe(translations => {
+      doc.text(translations['skills_summary.export_content.title'], 40, 20);
+      doc.text(translations['skills_summary.export_content.generated_on'], 40, 40);
 
-    let finalBody: any[] = [];
-    this.categoryDataForTable.forEach(category => {
-        
-        
-        finalBody.push([{ content: `Catégorie: ${category.category}`, colSpan: 8, styles: { fillColor: [224, 242, 247], textColor: [0, 86, 179], fontStyle: 'bold' } }]);
+      let finalBody: any[] = [];
+      this.categoryDataForTable.forEach(category => {
+        finalBody.push([{ content: `${translations['skills_summary.export_content.category_label']}: ${category.category}`, colSpan: 8, styles: { fillColor: [224, 242, 247], textColor: [0, 86, 179], fontStyle: 'bold' } }]);
 
-        
         category.domains.forEach(domain => {
-            finalBody.push([
-                '', 
-                domain.domain,
-                domain.totalItems.toString(),
-                domain.acquired.toString(),
-                domain.partial.toString(),
-                domain.notAcquired.toString(),
-                domain.notEvaluated.toString(),
-                domain.progressPercentage + '%',
-            ]);
+          finalBody.push([
+            '',
+            domain.domain,
+            domain.totalItems.toString(),
+            domain.acquired.toString(),
+            domain.partial.toString(),
+            domain.notAcquired.toString(),
+            domain.notEvaluated.toString(),
+            domain.progressPercentage + '%',
+          ]);
         });
-        
         finalBody.push(['', '', '', '', '', '', '', '']);
-    });
+      });
 
-
-    autoTable(doc, {
+      autoTable(doc, {
         startY: 60,
-        head: [['', 'Domaine', 'Total', 'Acquises', 'Partielles', 'Non Acquises', 'Non Évaluées', 'Progression (%)']],
+        head: [[
+          '',
+          translations['skills_summary.export_content.domain_label'],
+          translations['skills_summary.export_content.total_items_label'],
+          translations['skills_summary.export_content.acquired_label'],
+          translations['skills_summary.export_content.partial_label'],
+          translations['skills_summary.export_content.not_acquired_label'],
+          translations['skills_summary.export_content.not_evaluated_label'],
+          translations['skills_summary.export_content.progress_label']
+        ]],
         body: finalBody,
         theme: 'striped',
         headStyles: { fillColor: [0, 123, 255] },
         margin: { top: 60 },
-        
         didParseCell: (data) => {
-            
-            const cellContent = (data.cell.raw as any)?.content; 
-            if (data.section === 'body' && typeof cellContent === 'string' && cellContent.startsWith('Catégorie:')) {
-                data.cell.styles.fillColor = [224, 242, 247];
-                data.cell.styles.textColor = [0, 86, 179];
-                data.cell.styles.fontStyle = 'bold';
-            }
+          const cellContent = (data.cell.raw as any)?.content;
+          if (data.section === 'body' && typeof cellContent === 'string' && cellContent.startsWith(translations['skills_summary.export_content.category_label'])) {
+            data.cell.styles.fillColor = [224, 242, 247];
+            data.cell.styles.textColor = [0, 86, 179];
+            data.cell.styles.fontStyle = 'bold';
+          }
         },
-    });
+      });
 
-    doc.save('resume_competences.pdf');
+      doc.save('resume_competences.pdf');
+    });
   }
 }
-

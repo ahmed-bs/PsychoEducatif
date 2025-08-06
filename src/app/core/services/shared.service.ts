@@ -13,19 +13,63 @@ export class SharedService {
   private mobileMenuToggleSubject = new Subject<void>();
   mobileMenuToggle$ = this.mobileMenuToggleSubject.asObservable();
 
+  // For Mobile Sidebar Menu (client layout specific)
+  private mobileSidebarToggleSubject = new Subject<void>();
+  mobileSidebarToggle$ = this.mobileSidebarToggleSubject.asObservable();
+
+  // Track current screen size
+  private currentScreenSize: 'desktop' | 'mobile' = 'desktop';
+  private lastScreenSize: 'desktop' | 'mobile' = 'desktop';
 
   constructor() {
-    // You might want to initialize the desktop sidebar state based on screen size here
-    // For simplicity, let's assume user-layout handles initial sizing based on HostListener.
+    this.updateScreenSize();
+  }
+
+  private updateScreenSize() {
+    this.lastScreenSize = this.currentScreenSize;
+    this.currentScreenSize = window.innerWidth >= 1024 ? 'desktop' : 'mobile';
+    
+    // If screen size changed, reset everything like a page refresh
+    if (this.lastScreenSize !== this.currentScreenSize) {
+      this.resetToDefaultState();
+    }
+  }
+
+  private resetToDefaultState() {
+    // Reset all service states to default (like page refresh)
+    // Force a small delay to ensure all components update
+    setTimeout(() => {
+      // Additional reset if needed
+    }, 100);
   }
 
   // Method to toggle the desktop sidebar (collapse/expand)
   toggleSidebar(): void {
-    this.sidebarToggleSubject.next();
+    this.updateScreenSize();
+    if (this.currentScreenSize === 'desktop') {
+      this.sidebarToggleSubject.next();
+    }
   }
 
   // Method to toggle the mobile off-canvas menu (show/hide)
   toggleMobileMenu(): void {
-    this.mobileMenuToggleSubject.next();
+    this.updateScreenSize();
+    if (this.currentScreenSize === 'mobile') {
+      this.mobileMenuToggleSubject.next();
+    }
+  }
+
+  // Method to toggle the mobile sidebar menu (client layout)
+  toggleMobileSidebar(): void {
+    this.updateScreenSize();
+    if (this.currentScreenSize === 'mobile') {
+      this.mobileSidebarToggleSubject.next();
+    }
+  }
+
+  // Get current screen size
+  getCurrentScreenSize(): 'desktop' | 'mobile' {
+    this.updateScreenSize();
+    return this.currentScreenSize;
   }
 }

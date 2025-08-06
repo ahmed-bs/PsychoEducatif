@@ -27,7 +27,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/locale"
             ],
             "allowedCommonJsDependencies": [
               "sweetalert2"
@@ -100,7 +101,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/locale"
             ],
             "styles": [
               "src/styles.css"

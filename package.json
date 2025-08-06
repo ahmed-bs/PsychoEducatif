@@ -30,6 +30,8 @@
     "@fullcalendar/timegrid": "^6.1.10",
     "angular-calendar": "^0.31.1",
     "calendar-utils": "^0.11.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "chart.js": "^3.9.1",
     "file-saver": "^2.0.5",
     "jspdf": "^3.0.1",

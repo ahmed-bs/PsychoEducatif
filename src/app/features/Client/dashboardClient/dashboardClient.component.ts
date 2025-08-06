@@ -25,13 +25,14 @@ import { AuthService } from 'src/app/core/services/authService.service';
 import { NotesComponent } from "./tabs/notes/notes.component";
 import { StrategyComponent } from './tabs/strategy/strategy.component';
 import { environment } from 'src/environments/environment';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent, StrategyComponent],
+  imports: [ButtonModule, DialogModule,TranslateModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent, StrategyComponent],
   providers: [MessageService]
 })
 
@@ -377,7 +378,7 @@ export class DashboardClientComponent implements OnInit {
     private categoryService: ProfileCategoryService, 
     private domainService: ProfileDomainService,
     private goalService: GoalService, 
-    private authService: AuthService
+    private authService: AuthService,    private translate: TranslateService
   ) {
     this.accesSelectionne = this.optionsAcces[0];
   }

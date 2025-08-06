@@ -8,22 +8,21 @@
     </div>
   </div>
   <ul class="nav__links" id="nav-links">
-    <li><a routerLink="/home" routerLinkActive="active-link"><i class="fas fa-home"></i> Accueil</a></li>
-    <li><a routerLink="/evaluation" routerLinkActive="active-link"><i class="fas fa-chart-line"></i> Évaluation</a></li>
-    <li><a routerLink="/object" routerLinkActive="active-link"><i class="fas fa-bullseye"></i> Objectifs</a></li>
-    <li><a routerLink="/strategy" routerLinkActive="active-link"><i class="fas fa-lightbulb"></i> Stratégies</a></li>
-
+    <li><a routerLink="/home" routerLinkActive="active-link"><i class="fas fa-home"></i> {{ 'navbar.menu.home' | translate }}</a></li>
+    <li><a routerLink="/evaluation" routerLinkActive="active-link"><i class="fas fa-chart-line"></i> {{ 'navbar.menu.evaluation' | translate }}</a></li>
+    <li><a routerLink="/object" routerLinkActive="active-link"><i class="fas fa-bullseye"></i> {{ 'navbar.menu.objectives' | translate }}</a></li>
+    <li><a routerLink="/strategy" routerLinkActive="active-link"><i class="fas fa-lightbulb"></i> {{ 'navbar.menu.strategies' | translate }}</a></li>
     <li class="nav__btns">
       <button class="btn sign__up" routerLink="/auth/signup">
-        <i class="fas fa-user-plus"></i> Sign Up
+        <i class="fas fa-user-plus"></i> {{ 'navbar.buttons.sign_up' | translate }}
       </button>
-      <button class=" animated-button" routerLink="/auth/signin">
+      <button class="animated-button" routerLink="/auth/signin">
         <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
           </path>
         </svg>
-        <span class="text">Sign In</span>
+        <span class="text">{{ 'navbar.buttons.sign_in' | translate }}</span>
         <span class="circle"></span>
         <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -31,9 +30,6 @@
           </path>
         </svg>
       </button>
-
     </li>
   </ul>
-
-
 </nav>

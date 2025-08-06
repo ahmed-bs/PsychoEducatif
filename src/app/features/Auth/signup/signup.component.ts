@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,15 +17,16 @@ export class SignupComponent implements OnInit {
   isLoading: boolean = false;
   showErrors: boolean = false;
   userTypes = [
-    { value: 'professional', label: 'Professional' },
-    { value: 'parent', label: 'Parent' },
-    { value: 'other', label: 'Other' },
+    { value: 'professional', label: 'signup_form.user_types.professional' },
+    { value: 'parent', label: 'signup_form.user_types.parent' },
+    { value: 'other', label: 'signup_form.user_types.other' },
   ];
 
   constructor(
     private fb: FormBuilder, 
     private router: Router, 
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -38,6 +40,18 @@ export class SignupComponent implements OnInit {
       accepte_conditions: [false, Validators.requiredTrue],
       bio: ['']
     }, { validator: this.passwordMatchValidator });
+
+    // Initialize translation languages
+    this.translate.addLangs(['fr', 'ar']);
+    this.translate.setDefaultLang('ar');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+
+    // Translate user type labels
+    this.userTypes = this.userTypes.map(type => ({
+      value: type.value,
+      label: this.translate.instant(type.label)
+    }));
   }
 
   private passwordValidator(control: AbstractControl): ValidationErrors | null {
@@ -76,84 +90,90 @@ export class SignupComponent implements OnInit {
     this.showErrors = true;
     // Frontend validation error handling
     if (!this.signupForm.valid) {
-      let errorMsg = 'Veuillez remplir tous les champs obligatoires et corriger les erreurs du formulaire.';
+      let errorKey = 'signup_form.error_message.validation_error';
       if (this.signupForm.errors?.['passwordMismatch']) {
-        errorMsg = 'Les mots de passe ne correspondent pas.';
+        errorKey = 'signup_form.error_message.password_mismatch';
       } else if (this.password?.errors?.['minlength']) {
-        errorMsg = 'Le mot de passe est trop court (minimum 8 caractères).';
+        errorKey = 'signup_form.error_message.password_too_short';
       } else if (this.password?.errors?.['passwordStrength']) {
-        errorMsg = 'Le mot de passe est trop faible. Il doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.';
+        errorKey = 'signup_form.error_message.password_strength';
       } else if (this.email?.errors?.['email']) {
-        errorMsg = 'Adresse email invalide.';
+        errorKey = 'signup_form.error_message.email_invalid';
       } else if (this.username?.errors?.['minlength']) {
-        errorMsg = 'Le nom et prénom sont trop courts.';
+        errorKey = 'signup_form.error_message.username_too_short';
       } else if (this.accepte_conditions?.invalid) {
-        errorMsg = 'Vous devez accepter les termes et conditions.';
+        errorKey = 'signup_form.error_message.terms_required';
       }
-      Swal.fire({
-        icon: 'error',
-        title: 'Erreur de validation',
-        text: errorMsg,
-        confirmButtonColor: '#f44336'
+
+      this.translate.get(['signup_form.error_message.title', errorKey]).subscribe(translations => {
+        Swal.fire({
+          icon: 'error',
+          title: translations['signup_form.error_message.title'],
+          text: translations[errorKey],
+          confirmButtonColor: '#f44336'
+        });
       });
       return;
     }
     this.isLoading = true;
   
-      const formData = {
-        username: this.signupForm.value.username,
-        email: this.signupForm.value.email,
-        password: this.signupForm.value.password,
-        confirm_password: this.signupForm.value.confirm_password,
-        user_type: 'parent', // Default value since field is removed from UI
-        accepte_conditions: this.signupForm.value.accepte_conditions,
-        bio: this.signupForm.value.bio || null
-      };
+    const formData = {
+      username: this.signupForm.value.username,
+      email: this.signupForm.value.email,
+      password: this.signupForm.value.password,
+      confirm_password: this.signupForm.value.confirm_password,
+      user_type: 'parent', // Default value since field is removed from UI
+      accepte_conditions: this.signupForm.value.accepte_conditions,
+      bio: this.signupForm.value.bio || null
+    };
   
-      this.authService.register(formData).subscribe({
-        next: (response) => {
-          console.log('Registration successful:', response);
-          this.isLoading = false;
+    this.authService.register(formData).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response);
+        this.isLoading = false;
+        this.translate.get(['signup_form.success_message.title', 'signup_form.success_message.text']).subscribe(translations => {
           Swal.fire({
             icon: 'success',
-            title: 'Succès',
-            text: 'Compte créé avec succès ! Vous serez redirigé vers la page de connexion.',
+            title: translations['signup_form.success_message.title'],
+            text: translations['signup_form.success_message.text'],
             timer: 2000,
             showConfirmButton: false
           }).then(() => {
             this.router.navigate(['/auth/signin']);
           });
-        },
-        error: (error) => {
-          console.error('Registration error:', error);
-          this.isLoading = false;
+        });
+      },
+      error: (error) => {
+        console.error('Registration error:', error);
+        this.isLoading = false;
 
-          let errorMessage = 'Erreur inscription';
-          if (error.error) {
-            if (typeof error.error === 'object' && !Array.isArray(error.error)) {
-              // Collect all field errors into a single string
-              errorMessage = Object.entries(error.error)
-                .map(([field, messages]) => {
-                  if (Array.isArray(messages)) {
-                    return messages.map(msg => `${field}: ${msg}`).join('\n');
-                  }
-                  return `${field}: ${messages}`;
-                })
-                .join('\n');
-            } else if (typeof error.error === 'string') {
-              errorMessage = error.error;
-            } else if (error.error.message) {
-              errorMessage = error.error.message;
-            }
+        let errorMessage = this.translate.instant('signup_form.error_message.default_text');
+        if (error.error) {
+          if (typeof error.error === 'object' && !Array.isArray(error.error)) {
+            errorMessage = Object.entries(error.error)
+              .map(([field, messages]) => {
+                if (Array.isArray(messages)) {
+                  return messages.map(msg => `${field}: ${msg}`).join('\n');
+                }
+                return `${field}: ${messages}`;
+              })
+              .join('\n');
+          } else if (typeof error.error === 'string') {
+            errorMessage = error.error;
+          } else if (error.error.message) {
+            errorMessage = error.error.message;
           }
+        }
 
+        this.translate.get('signup_form.error_message.title').subscribe(title => {
           Swal.fire({
             icon: 'error',
-            title: 'Erreur',
+            title: title,
             text: errorMessage,
             confirmButtonColor: '#f44336'
           });
-        }
-      });
-    }
+        });
+      }
+    });
   }
+}

@@ -2,11 +2,11 @@
 
 <div class="head-title">
   <div class="left">
-    <h1><span class="emoji">📝</span> Liste des Compétences</h1>
+    <h1><span class="emoji">📝</span> {{ 'categories.head_title.title' | translate }}</h1>
     <ul class="breadcrumb">
-      <li><a href="#">Tableau de bord</a></li>
+      <li><a href="#">{{ 'categories.head_title.breadcrumb.dashboard' | translate }}</a></li>
       <li><i class="bx bx-chevron-right"></i></li>
-      <li><a class="active" href="#"><span class="emoji">📝</span> Liste des Compétences</a></li>
+      <li><a class="active" href="#"><span class="emoji">📝</span> {{ 'categories.head_title.breadcrumb.skills_list' | translate }}</a></li>
     </ul>
   </div>
 </div>
@@ -27,7 +27,7 @@
       </ng-template> -->
       <ng-template pTemplate="right">
         <button pButton icon="pi pi-plus" class="p-button-success" (click)="showAddUserDialog()">
-          <span class="ml-3">Ajouter une compétence</span>
+          <span class="ml-3">{{ 'categories.toolbar.add_skill_button' | translate }}</span>
         </button>
       </ng-template>
     </p-toolbar>
@@ -39,8 +39,8 @@
     <div class="insights">
       <!-- Display image if no categories -->
       <div *ngIf="!categories || categories.length === 0" class="no-data">
-        <img src="/assets/image/nodatafound.png" alt="No Data Available" class="no-data-image" />
-        <p>Aucune catégorie disponible.</p>
+        <img src="/assets/image/nodatafound.png" [alt]="'categories.no_data.image_alt' | translate" class="no-data-image" />
+        <p>{{ 'categories.no_data.message' | translate }}</p>
       </div>
       <!-- Display categories if available -->
       <ng-container *ngIf="categories && categories.length > 0">
@@ -50,11 +50,11 @@
           <div class="middle">
             <div class="left">
               <h2>{{ category.name }}</h2>
-              <h3>Créé le : {{ category.created_at | date: 'dd/MM/yyyy' }}</h3>
+              <h3 [innerHTML]="'categories.category_card.created_at' | translate: { date: (category.created_at | date: 'dd/MM/yyyy') }"></h3>
             </div>
           </div>
-          <small class="text-muted">Nombre des items : {{ category.items_count || 0 }}</small>
-          <small class="text-muted">Nombre des domaines : {{ category.domains_count || 0 }}</small>
+          <small class="text-muted" [innerHTML]="'categories.category_card.items_count' | translate: { count: category.items_count || 0 }"></small>
+          <small class="text-muted" [innerHTML]="'categories.category_card.domains_count' | translate: { count: category.domains_count || 0 }"></small>
           <br />
           <div class="buttons">
             <button class="btn delete" (click)="deleteCategory(category)">🗑</button>
@@ -69,21 +69,21 @@
 <p-dialog [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
-      <h2>{{ newCategory.id ? 'Modifier' : 'Ajouter' }} une Compétence</h2>
+      <h2>{{ newCategory.id ? 'categories.add_category_dialog.header_edit' : 'categories.add_category_dialog.header_add' | translate }}</h2>
     </div>
   </ng-template>
   <div class="dialog-content">
     <div class="field">
-      <label for="firstName">Titre</label>
-      <input pInputText id="firstName" [(ngModel)]="newCategory.name" placeholder="Titre" required />
+      <label for="firstName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
+      <input pInputText id="firstName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" required />
     </div>
     <div class="field">
-      <label for="lastName">Description</label>
-      <input pInputText id="lastName" [(ngModel)]="newCategory.description" placeholder="Description" required />
+      <label for="lastName">{{ 'categories.add_category_dialog.labels.description' | translate }}</label>
+      <input pInputText id="lastName" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" required />
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button label="Annuler" styleClass="p-button-text" (click)="displayAddUserDialog = false"></p-button>
-    <p-button [label]="newCategory.id ? 'Modifier' : 'Ajouter'" styleClass="p-button-primary" (click)="newCategory.id ? updateCategory() : addCategory()" [style]="{ color: 'white' }"></p-button>
+    <p-button [label]="'categories.add_category_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayAddUserDialog = false"></p-button>
+    <p-button [label]="newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add' | translate" styleClass="p-button-primary" (click)="newCategory.id ? updateCategory() : addCategory()" [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>

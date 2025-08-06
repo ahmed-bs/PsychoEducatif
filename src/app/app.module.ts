@@ -13,7 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 // primeng module 
-
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 //Components
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
@@ -25,9 +26,11 @@ import { SidebarDashboardComponent } from './shared/sidebar-dashboard/sidebar-da
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { SidebarClientComponent } from './shared/sidebar-client/sidebar-client.component';
 import { MatCardModule } from '@angular/material/card';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptors/auth.interceptor';
-
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './locale/', '.json');
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,9 +60,15 @@ import { TokenInterceptor } from './core/interceptors/auth.interceptor';
     MatInputModule,
     MatCheckboxModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
     //primeng
-
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
 
   ],
   providers: [

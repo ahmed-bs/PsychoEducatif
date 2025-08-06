@@ -6,6 +6,8 @@ import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { Location } from '@angular/common';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+
 @Component({
   standalone: true,
   selector: 'app-quiz',
@@ -13,7 +15,8 @@ import { Location } from '@angular/common';
   styleUrls: ['./quiz.component.css'],
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    TranslateModule
   ]
 })
 export class QuizComponent implements OnInit {
@@ -22,23 +25,32 @@ export class QuizComponent implements OnInit {
   currentIndex: number = 0;
   isLoading: boolean = false;
   error: string | null = null;
-  
+
   constructor(
-     private location: Location,
+    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private profileItemService: ProfileItemService,
-    private profileDomainService: ProfileDomainService
-  ) {}
+    private profileDomainService: ProfileDomainService,
+    private translate: TranslateService
+  ) {
+    // Initialize translation
+    this.translate.addLangs(['fr', 'ar']);
+    this.translate.setDefaultLang('ar');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+  }
 
   ngOnInit(): void {
     const categoryIdParam = this.route.snapshot.paramMap.get('domainId');
 
     if (categoryIdParam) {
-      this.domainId =  parseInt(categoryIdParam);
+      this.domainId = parseInt(categoryIdParam);
       this.loadItems();
     } else {
-      this.error = "Category ID is required";
+      this.translate.get('skills_evaluation.error.missing_domain_id').subscribe((text) => {
+        this.error = text;
+      });
     }
   }
 
@@ -49,13 +61,17 @@ export class QuizComponent implements OnInit {
       next: (items) => {
         this.items = items;
         if (items.length === 0) {
-          this.error = "No questions found for this domain";
+          this.translate.get('skills_evaluation.error.no_questions_found').subscribe((text) => {
+            this.error = text;
+          });
         }
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Error loading items:', error);
-        this.error = "Failed to load questions. Please try again later.";
+        this.translate.get('skills_evaluation.error.load_questions_failed').subscribe((text) => {
+          this.error = text;
+        });
         this.isLoading = false;
       }
     });
@@ -76,8 +92,8 @@ export class QuizComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+
   soumettreQuiz() {
-    // Update all items
     const updatePromises = this.items.map(item => {
       if (item.id) {
         return this.profileItemService.update(item.id, {

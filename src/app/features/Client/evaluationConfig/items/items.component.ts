@@ -1,4 +1,3 @@
-// src/app/items/items.component.ts
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +9,12 @@ import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
 
 type ItemStatus = ProfileItem['etat'];
 
@@ -28,7 +33,7 @@ interface DomainWithUI extends ProfileDomain {
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
   providers: [MessageService],
-  encapsulation: ViewEncapsulation.ShadowDom
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class ItemsComponent implements OnInit {
   category: ProfileCategory | null = null;
@@ -57,13 +62,11 @@ export class ItemsComponent implements OnInit {
   profileId: number = 1;
   itemsByDomain: Record<number, ProfileItem[]> = {};
 
-
-
   statusOptions = [
-    { label: 'Non coté', value: 'NON_COTE' as ItemStatus },
-    { label: 'Acquis', value: 'ACQUIS' as ItemStatus },
-    { label: 'Partiel', value: 'PARTIEL' as ItemStatus },
-    { label: 'Non acquis', value: 'NON_ACQUIS' as ItemStatus }
+    { label: this.translate.instant('items.items_by_domain.status_labels.NON_COTE'), value: 'NON_COTE' as ItemStatus },
+    { label: this.translate.instant('items.items_by_domain.status_labels.ACQUIS'), value: 'ACQUIS' as ItemStatus },
+    { label: this.translate.instant('items.items_by_domain.status_labels.PARTIEL'), value: 'PARTIEL' as ItemStatus },
+    { label: this.translate.instant('items.items_by_domain.status_labels.NON_ACQUIS'), value: 'NON_ACQUIS' as ItemStatus }
   ];
 
   constructor(
@@ -72,8 +75,14 @@ export class ItemsComponent implements OnInit {
     private profileCategoryService: ProfileCategoryService,
     private profileDomainService: ProfileDomainService,
     private profileItemService: ProfileItemService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private translate: TranslateService
+  ) {
+    this.translate.addLangs(['fr', 'ar']);
+    this.translate.setDefaultLang('fr');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'fr');
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -81,10 +90,16 @@ export class ItemsComponent implements OnInit {
       if (this.categoryId) {
         this.loadData();
       } else {
-        this.showError('No category ID provided');
+        this.translate.get('items.messages.error.no_category_id').subscribe((text) => {
+          this.showError(text);
+        });
         this.loading = false;
       }
     });
+  }
+
+  getEtatLabel(etat: string): string {
+    return this.translate.instant('items.items_by_domain.status_labels.' + etat) || this.translate.instant('items.items_by_domain.status_labels.NON_COTE');
   }
 
   loadData() {
@@ -117,7 +132,9 @@ export class ItemsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading data:', error);
-        this.showError('Failed to load data');
+        this.translate.get('items.messages.error.load_data_failed').subscribe((text) => {
+          this.showError(text);
+        });
         this.loading = false;
       }
     });
@@ -125,7 +142,9 @@ export class ItemsComponent implements OnInit {
 
   addDomain() {
     if (!this.newDomain.name || !this.categoryId) {
-      this.showError('Name and category are required');
+      this.translate.get('items.messages.error.name_and_category_required').subscribe((text) => {
+        this.showError(text);
+      });
       return;
     }
 
@@ -134,16 +153,24 @@ export class ItemsComponent implements OnInit {
         this.domains.push(domain as DomainWithUI);
         this.itemsByDomain[domain.id] = [];
         this.displayAddDomainDialog = false;
-        this.showSuccess('Domain added successfully');
+        this.translate.get('items.messages.success.domain_added').subscribe((text) => {
+          this.showSuccess(text);
+        });
         this.newDomain = { name: '', description: '' };
       },
-      error: (error) => this.showError(error.message)
+      error: (error) => {
+        this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
+      }
     });
   }
 
   addItem() {
     if (!this.selectedDomain?.id || !this.newItem.name) {
-      this.showError('Name and domain are required');
+      this.translate.get('items.messages.error.name_and_domain_required').subscribe((text) => {
+        this.showError(text);
+      });
       return;
     }
 
@@ -155,16 +182,24 @@ export class ItemsComponent implements OnInit {
         }
         this.itemsByDomain[domainId].push(item);
         this.displayAddItemDialog = false;
-        this.showSuccess('Item added successfully');
+        this.translate.get('items.messages.success.item_added').subscribe((text) => {
+          this.showSuccess(text);
+        });
         this.resetNewItem();
       },
-      error: (error) => this.showError(error.message)
+      error: (error) => {
+        this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
+      }
     });
   }
 
   updateDomain() {
     if (!this.selectedDomain?.id || !this.newDomain.name) {
-      this.showError('Name and domain are required');
+      this.translate.get('items.messages.error.name_and_domain_required').subscribe((text) => {
+        this.showError(text);
+      });
       return;
     }
 
@@ -176,15 +211,23 @@ export class ItemsComponent implements OnInit {
           this.domains[index] = updatedDomain as DomainWithUI;
         }
         this.displayAddDomainDialog = false;
-        this.showSuccess('Domain updated successfully');
+        this.translate.get('items.messages.success.domain_updated').subscribe((text) => {
+          this.showSuccess(text);
+        });
       },
-      error: (error) => this.showError(error.message)
+      error: (error) => {
+        this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
+      }
     });
   }
 
   updateItem() {
     if (!this.selectedDomain?.id || !this.selectedItem?.id || !this.newItem.name) {
-      this.showError('Name, item, and domain are required');
+      this.translate.get('items.messages.error.name_item_domain_required').subscribe((text) => {
+        this.showError(text);
+      });
       return;
     }
 
@@ -199,47 +242,73 @@ export class ItemsComponent implements OnInit {
           this.itemsByDomain[domainId][itemIndex] = updatedItem;
         }
         this.displayAddItemDialog = false;
-        this.showSuccess('Item updated successfully');
+        this.translate.get('items.messages.success.item_updated').subscribe((text) => {
+          this.showSuccess(text);
+        });
         this.resetNewItem();
       },
-      error: (error) => this.showError(error.message)
+      error: (error) => {
+        this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
+      }
     });
   }
 
   deleteDomain(domain: DomainWithUI) {
-    if (!domain.id || !confirm(`Are you sure you want to delete ${domain.name}?`)) {
-      return;
-    }
+    if (!domain.id) return;
 
-    const domainId = domain.id;
-    this.profileDomainService.destroy(domainId).subscribe({
-      next: () => {
-        this.domains = this.domains.filter((d) => d.id !== domainId);
-        delete this.itemsByDomain[domainId];
-        this.showSuccess('Domain deleted successfully');
-      },
-      error: (error) => this.showError(error.message)
+    this.translate.get('items.messages.confirm.delete_domain', { domainName: domain.name }).subscribe((message) => {
+      if (!confirm(message)) {
+        return;
+      }
+
+      const domainId = domain.id;
+      this.profileDomainService.destroy(domainId).subscribe({
+        next: () => {
+          this.domains = this.domains.filter((d) => d.id !== domainId);
+          delete this.itemsByDomain[domainId];
+          this.translate.get('items.messages.success.domain_deleted').subscribe((text) => {
+            this.showSuccess(text);
+          });
+        },
+        error: (error) => {
+          this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+            this.showError(text);
+          });
+        }
+      });
     });
   }
 
   deleteItem(item: ProfileItem, domain: DomainWithUI) {
-    if (!item.id || !domain.id || !confirm(`Are you sure you want to delete ${item.name}?`)) {
-      return;
-    }
+    if (!item.id || !domain.id) return;
 
-    const domainId = domain.id;
-    const itemId = item.id;
+    this.translate.get('items.messages.confirm.delete_item', { itemName: item.name }).subscribe((message) => {
+      if (!confirm(message)) {
+        return;
+      }
 
-    this.profileItemService.destroy(itemId).subscribe({
-      next: () => {
-        if (this.itemsByDomain[domainId]) {
-          this.itemsByDomain[domainId] = this.itemsByDomain[domainId].filter(
-            (i: ProfileItem) => i.id !== itemId
-          );
+      const domainId = domain.id;
+      const itemId = item.id;
+
+      this.profileItemService.destroy(itemId).subscribe({
+        next: () => {
+          if (this.itemsByDomain[domainId]) {
+            this.itemsByDomain[domainId] = this.itemsByDomain[domainId].filter(
+              (i: ProfileItem) => i.id !== itemId
+            );
+          }
+          this.translate.get('items.messages.success.item_deleted').subscribe((text) => {
+            this.showSuccess(text);
+          });
+        },
+        error: (error) => {
+          this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+            this.showError(text);
+          });
         }
-        this.showSuccess('Item deleted successfully');
-      },
-      error: (error) => this.showError(error.message)
+      });
     });
   }
 
@@ -247,19 +316,17 @@ export class ItemsComponent implements OnInit {
     domain.expanded = !domain.expanded;
   }
 
-
   saveCompetence() {
-    // Implement save/update logic
     this.displayAddCompetenceDialog = false;
     this.editingCompetence = false;
   }
 
   showSuccess(message: string) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+    this.messageService.add({ severity: 'success', summary: this.translate.instant('items.messages.success.summary'), detail: message });
   }
 
   showError(message: string) {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
+    this.messageService.add({ severity: 'error', summary: this.translate.instant('items.messages.error.summary'), detail: message });
   }
 
   goBack() {

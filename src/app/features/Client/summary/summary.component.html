@@ -1,13 +1,13 @@
 <div class="head-title">
   <div class="left">
-    <h1>Résumé des Compétences 📊</h1>
+    <h1>{{ 'skills_summary.title' | translate }}</h1>
     <ul class="breadcrumb">
       <li>
-        <a href="#">Tableau de bord</a>
+        <a href="#">{{ 'skills_summary.breadcrumb.dashboard' | translate }}</a>
       </li>
       <li><i class="bx bx-chevron-right"></i></li>
       <li>
-        <a class="active" href="#">Résumé des compétences</a>
+        <a class="active" href="#">{{ 'skills_summary.breadcrumb.skills_summary' | translate }}</a>
       </li>
     </ul>
   </div>
@@ -15,27 +15,26 @@
 
 <div class="summary-container p-4 sm:p-6 lg:p-8">
   <div *ngIf="isLoading" class="text-center my-8">
-    <p>Chargement...</p>
+    <p>{{ 'skills_summary.loading' | translate }}</p>
   </div>
   <div *ngIf="error" class="alert alert-danger my-4 p-3 rounded-md">
-    {{ error }}
+    {{ 'skills_summary.error' | translate: { error: error } }}
   </div>
 
   <div class="summary-controls-header bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-
       <div class="filter-container flex-grow">
         <label for="status-filter" class="block text-gray-700 text-sm font-semibold mb-2 sm:mb-0 sm:inline-block sm:mr-3">
-          Filtrer par Statut des Items :
+          {{ 'skills_summary.filter_label' | translate }}
         </label>
         <p-dropdown
           id="status-filter"
           [options]="filterStatuses"
           [(ngModel)]="selectedFilterStatus"
-          optionLabel="label"
+          [optionLabel]="'label'| translate "
           optionValue="value"
           (onChange)="applyFilter()"
-          placeholder="Sélectionner un statut"
+          [placeholder]="'skills_summary.filter_placeholder' | translate"
           styleClass="filter-dropdown w-full sm:w-auto min-w-[200px]"
         ></p-dropdown>
       </div>
@@ -44,23 +43,24 @@
         <button
           pButton
           type="button"
-          label="Exporter"
+          [label]="'skills_summary.export_button' | translate"
           icon="pi pi-download"
           (click)="toggleMenu($event)"
           [disabled]="categoryDataForTable.length === 0"
-          class="export-button" ></button>
+          class="export-button"
+        ></button>
         <p-menu #exportMenu [model]="exportItems" [popup]="true"></p-menu>
       </div>
-
     </div>
   </div>
+
   <p-table
     [value]="categoryDataForTable"
     [paginator]="true"
     [rows]="5"
     [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[5, 10, 20, 50]"
-    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
+    [currentPageReportTemplate]="'skills_summary.table.current_page_report' | translate: { first: '{first}', last: '{last}', totalRecords: '{totalRecords}' }"
     [responsive]="true"
     styleClass="p-datatable-sm p-datatable-striped"
     [expandedRowKeys]="expandedCategories"
@@ -69,10 +69,10 @@
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 3rem"></th>
-        <th pSortableColumn="category">Catégorie <p-sortIcon field="category"></p-sortIcon></th>
-        <th pSortableColumn="totalDomains">Total Domaines <p-sortIcon field="totalDomains"></p-sortIcon></th>
-        <th pSortableColumn="totalItemsOverall">Total Items <p-sortIcon field="totalItemsOverall"></p-sortIcon></th>
-        <th pSortableColumn="overallProgress">Progression Globale <p-sortIcon field="overallProgress"></p-sortIcon></th>
+        <th pSortableColumn="category">{{ 'skills_summary.table.category' | translate }} <p-sortIcon field="category"></p-sortIcon></th>
+        <th pSortableColumn="totalDomains">{{ 'skills_summary.table.total_domains' | translate }} <p-sortIcon field="totalDomains"></p-sortIcon></th>
+        <th pSortableColumn="totalItemsOverall">{{ 'skills_summary.table.total_items_overall' | translate }} <p-sortIcon field="totalItemsOverall"></p-sortIcon></th>
+        <th pSortableColumn="overallProgress">{{ 'skills_summary.table.overall_progress' | translate }} <p-sortIcon field="overallProgress"></p-sortIcon></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-categoryData let-expanded="expanded">
@@ -106,20 +106,25 @@
       <tr>
         <td [attr.colspan]="5">
           <div class="p-3">
-            <h5>Domaines de la catégorie "{{ categoryData.category }}" :</h5>
-            <p-table [value]="categoryData.domains" dataKey="domain" styleClass="p-datatable-sm p-datatable-gridlines nested-table"
-                     [responsive]="true"
-                     [scrollable]="true" scrollHeight="flex"
-                     [tableStyle]="{ 'min-width': '40rem' }" >
+            <h5 [innerHTML]="'skills_summary.table.domains_header' | translate: { category: categoryData.category }"></h5>
+            <p-table
+              [value]="categoryData.domains"
+              dataKey="domain"
+              styleClass="p-datatable-sm p-datatable-gridlines nested-table"
+              [responsive]="true"
+              [scrollable]="true"
+              scrollHeight="flex"
+              [tableStyle]="{ 'min-width': '40rem' }"
+            >
               <ng-template pTemplate="header">
                 <tr>
-                  <th pSortableColumn="domain">Domaine <p-sortIcon field="domain"></p-sortIcon></th>
-                  <th pSortableColumn="totalItems">Total Items <p-sortIcon field="totalItems"></p-sortIcon></th>
-                  <th pSortableColumn="acquired">Acquises <p-sortIcon field="acquired"></p-sortIcon></th>
-                  <th pSortableColumn="partial">Partielles <p-sortIcon field="partial"></p-sortIcon></th>
-                  <th pSortableColumn="notAcquired">Non Acquises <p-sortIcon field="notAcquired"></p-sortIcon></th>
-                  <th pSortableColumn="notEvaluated">Non Évaluées <p-sortIcon field="notEvaluated"></p-sortIcon></th>
-                  <th pSortableColumn="progressPercentage">Progression <p-sortIcon field="progressPercentage"></p-sortIcon></th>
+                  <th pSortableColumn="domain">{{ 'skills_summary.table.domain' | translate }} <p-sortIcon field="domain"></p-sortIcon></th>
+                  <th pSortableColumn="totalItems">{{ 'skills_summary.table.total_items' | translate }} <p-sortIcon field="totalItems"></p-sortIcon></th>
+                  <th pSortableColumn="acquired">{{ 'skills_summary.table.acquired' | translate }} <p-sortIcon field="acquired"></p-sortIcon></th>
+                  <th pSortableColumn="partial">{{ 'skills_summary.table.partial' | translate }} <p-sortIcon field="partial"></p-sortIcon></th>
+                  <th pSortableColumn="notAcquired">{{ 'skills_summary.table.not_acquired' | translate }} <p-sortIcon field="notAcquired"></p-sortIcon></th>
+                  <th pSortableColumn="notEvaluated">{{ 'skills_summary.table.not_evaluated' | translate }} <p-sortIcon field="notEvaluated"></p-sortIcon></th>
+                  <th pSortableColumn="progressPercentage">{{ 'skills_summary.table.progress_percentage' | translate }} <p-sortIcon field="progressPercentage"></p-sortIcon></th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-domainData>
@@ -151,14 +156,15 @@
                 </tr>
                 <tr class="domain-items-detail-row">
                   <td [attr.colspan]="7" class="p-0">
-                    <div class="bg-blue-50 border-l-4 border-blue-600 pl-6 pr-4 py-4 ml-8"> <div class="flex items-center justify-between mb-4">
-                        <h6 class="text-lg font-semibold text-blue-700 leading-none m-0">Items pour le domaine "{{ domainData.domain }}" (Statut filtré: {{ getEtatLabel(selectedFilterStatus) }}) :</h6>
+                    <div class="bg-blue-50 border-l-4 border-blue-600 pl-6 pr-4 py-4 ml-8">
+                      <div class="flex items-center justify-between mb-4">
+                        <h6 class="text-lg font-semibold text-blue-700 leading-none m-0" [innerHTML]="'skills_summary.domain_items.header' | translate: { domain: domainData.domain, status: getEtatLabel(selectedFilterStatus) }"></h6>
                         <p-toggleButton
                           [(ngModel)]="domainItemsVisibility[domainData.domain]"
                           onIcon="pi pi-eye-slash"
                           offIcon="pi pi-eye"
-                          onLabel="Masquer les items"
-                          offLabel="Afficher les items"
+                          [onLabel]="'skills_summary.domain_items.hide_items' | translate"
+                          [offLabel]="'skills_summary.domain_items.show_items' | translate"
                           [style]="{ 'width': '10em' }"
                           styleClass="p-button-sm p-button-outlined item-toggle-button"
                         ></p-toggleButton>
@@ -173,27 +179,25 @@
                                 'statut-partiel': item.etat === 'PARTIEL',
                                 'statut-non-acquise': item.etat === 'NON_ACQUIS',
                                 'statut-non-evalue': item.etat === 'NON_COTE'
-                            }">{{ getEtatLabel(item.etat) }}</span>
+                            }">{{ 'skills_summary.status_labels.' + item.etat | translate }}</span>
                           </div>
                           <p *ngIf="item.commentaire" class="text-gray-600 text-sm mt-1">
-                            **Commentaire:** {{ item.commentaire }}
+                            {{ 'skills_summary.domain_items.comment_label' | translate }} {{ item.commentaire }}
                           </p>
                           <p *ngIf="!item.commentaire" class="text-gray-400 text-sm italic mt-1">
-                            Aucun commentaire disponible.
+                            {{ 'skills_summary.domain_items.no_comment' | translate }}
                           </p>
                         </div>
                       </div>
 
-                      <div *ngIf="domainData.profileItems.length === 0" class="no-items-message">
-                          Aucun item trouvé avec le statut "{{ selectedFilterStatus }}" pour ce domaine.
-                      </div>
+                      <div *ngIf="domainData.profileItems.length === 0" class="no-items-message" [innerHTML]="'skills_summary.domain_items.no_items_message' | translate: { status: getEtatLabel(selectedFilterStatus) }"></div>
                     </div>
                   </td>
                 </tr>
-                </ng-template>
+              </ng-template>
               <ng-template pTemplate="emptymessage">
                 <tr>
-                  <td colspan="7" class="text-center">Aucun domaine trouvé pour cette catégorie.</td>
+                  <td colspan="7" class="text-center">{{ 'skills_summary.table.no_domains_message' | translate }}</td>
                 </tr>
               </ng-template>
             </p-table>
@@ -203,7 +207,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5" class="text-center">Aucune catégorie de compétence trouvée.</td>
+        <td colspan="5" class="text-center">{{ 'skills_summary.table.no_categories_message' | translate }}</td>
       </tr>
     </ng-template>
   </p-table>

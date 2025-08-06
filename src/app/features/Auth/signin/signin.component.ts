@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,13 +20,20 @@ export class SigninComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rememberMe: [false]
     });
+
+    // Initialize translation languages
+    this.translate.addLangs(['fr', 'ar']);
+    this.translate.setDefaultLang('ar');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
   }
 
   ngOnInit() {
@@ -61,19 +69,22 @@ export class SigninComponent implements OnInit {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
         
-        Swal.fire({
-          icon: 'success',
-          title: 'Succès',
-          text: 'Connexion réussie ! Vous serez redirigé.',
-          timer: 2000,
-          showConfirmButton: false
-        }).then(() => {
-          this.router.navigate(['/pick_profileComponent']);
+        // Use translated success message
+        this.translate.get(['login_form.success_message.title', 'login_form.success_message.text']).subscribe(translations => {
+          Swal.fire({
+            icon: 'success',
+            title: translations['login_form.success_message.title'],
+            text: translations['login_form.success_message.text'],
+            timer: 2000,
+            showConfirmButton: false
+          }).then(() => {
+            this.router.navigate(['/pick_profileComponent']);
+          });
         });
       },
       error: (error) => {
         this.isLoading = false;
-        let errorMessage = 'Erreur connexion';
+        let errorMessage = this.translate.instant('login_form.error_message.default_text');
         if (error.error) {
           if (typeof error.error === 'object' && !Array.isArray(error.error)) {
             errorMessage = Object.entries(error.error)
@@ -90,11 +101,14 @@ export class SigninComponent implements OnInit {
             errorMessage = error.error.message;
           }
         }
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur',
-          text: errorMessage,
-          confirmButtonColor: '#f44336'
+        // Use translated error message
+        this.translate.get('login_form.error_message.title').subscribe(title => {
+          Swal.fire({
+            icon: 'error',
+            title: title,
+            text: errorMessage,
+            confirmButtonColor: '#f44336'
+          });
         });
         console.error('Login error:', error);
       }

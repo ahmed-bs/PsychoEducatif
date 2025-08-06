@@ -1,5 +1,5 @@
 <div class="head-title">
-  </div>
+</div>
 
 <div class="container-custom">
   <div class="row">
@@ -10,7 +10,7 @@
           <div class="shell">
             <div class="scroller-container">
               <button class="scroll-button left" (click)="scrollLeft(category, cardsWrapper)" 
-                      [disabled]="!canScrollLeft(category)" aria-label="Défiler vers la gauche">
+                      [disabled]="!canScrollLeft(category)" [attr.aria-label]="'explore.scroll_buttons.left_aria_label' | translate">
                 <i class="fas fa-chevron-left"></i>
               </button>
 
@@ -20,10 +20,11 @@
                     <div class="competence-card" (click)="naviguerVersQuiz(domain.id)">
                       <div class="card-img-top">
                         <div class="item-count">
-                          <span class="count-badge">{{domain.item_count}} items</span>
+                          <span class="count-badge" [innerHTML]="'explore.card.item_count' | translate: { count: domain.item_count }"></span>
                         </div>
                         <img [src]="'assets/img/' + domain.name.toLowerCase().replace(' ', '') + '.gif'"
-                          [alt]="domain.name" class="img-fluid" onerror="this.src='assets/img/autisme.jpg'" />
+                          [alt]="'explore.card.image_alt' | translate: { domainName: domain.name }" class="img-fluid" 
+                          onerror="this.src='assets/img/autisme.jpg'" />
                       </div>
                       <div class="card-footer">
                         <app-progress-bar [acquisPercentage]="domain.acquis_percentage"></app-progress-bar>
@@ -31,22 +32,22 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ domain.name }}</h5>
                         <div class="status-circles">
-                          <div class="circle acquis" title="Acquis">
-                            <span class="status-label">Acquis</span>
+                          <div class="circle acquis" [attr.title]="'explore.card.status_labels.acquis' | translate">
+                            <span class="status-label">{{ 'explore.card.status_labels.acquis' | translate }}</span>
                             <span class="status-count">{{ domain.acquis_count || 0 }}</span>
                           </div>
-                          <div class="circle non-acquis" title="Non Acquis">
-                            <span class="status-label">NonAcquis</span>
+                          <div class="circle non-acquis" [attr.title]="'explore.card.status_labels.non_acquis' | translate">
+                            <span class="status-label">{{ 'explore.card.status_labels.non_acquis' | translate }}</span>
                             <span class="status-count">{{ domain.non_acquis_count || 0 }}</span>
                           </div>
-                          <div class="circle en-cours" title="En Cours">
-                            <span class="status-label">En Cours</span>
+                          <div class="circle en-cours" [attr.title]="'explore.card.status_labels.en_cours' | translate">
+                            <span class="status-label">{{ 'explore.card.status_labels.en_cours' | translate }}</span>
                             <span class="status-count">{{ domain.en_cours_count || 0 }}</span>
                           </div>
                         </div>
                       </div>
                       <div class="card-footer">
-                        <span class="status-info">Cliquez pour commencer</span>
+                        <span class="status-info">{{ 'explore.card.click_to_start' | translate }}</span>
                       </div>
                     </div>
                   </div>
@@ -55,7 +56,7 @@
 
               <button class="scroll-button right" (click)="scrollRight(category, cardsWrapper)"
                       [disabled]="!canScrollRight(category)"
-                      aria-label="Défiler vers la droite">
+                      [attr.aria-label]="'explore.scroll_buttons.right_aria_label' | translate">
                 <i class="fas fa-chevron-right"></i>
               </button>
             </div>
