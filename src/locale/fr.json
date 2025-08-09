@@ -96,7 +96,8 @@
       "objectives": "Objectifs",
       "summary": "Résumé",
       "calendar": "Calendrier",
-      "logout": "Déconnexion"
+      "logout": "Déconnexion",
+      "more": "Plus"
     }
   },
   "navbar": {

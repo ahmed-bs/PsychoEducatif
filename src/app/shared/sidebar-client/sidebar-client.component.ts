@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/core/services/shared.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar-client',
@@ -13,10 +15,12 @@ export class SidebarClientComponent implements OnInit, OnDestroy {
   showMobileSidebar = false;
   private currentScreenSize: 'desktop' | 'mobile' = 'desktop';
   private lastScreenSize: 'desktop' | 'mobile' = 'desktop';
+  private languageSubscription!: Subscription;
 
   constructor(
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private translate: TranslateService
   ) {
     this.updateScreenSize();
   }
@@ -36,12 +40,24 @@ export class SidebarClientComponent implements OnInit, OnDestroy {
       }
     });
 
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+
+    // Initialize translation with current language
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
+
     // Initialize screen size
     this.updateScreenSize();
   }
 
   ngOnDestroy() {
-    // Cleanup subscriptions if needed
+    // Cleanup subscriptions
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   @HostListener('window:resize')

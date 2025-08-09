@@ -1,13 +1,13 @@
 <div class="head-title">
   <div class="left">
-    <h1>📅 Calendrier</h1>
+    <h1>{{ 'calendar.title' | translate }}</h1>
     <ul class="breadcrumb">
       <li>
-        <a href="#">Tableau de bord</a>
+        <a href="#">{{ 'calendar.breadcrumb.dashboard' | translate }}</a>
       </li>
       <li><i class="bx bx-chevron-right"></i></li>
       <li>
-        <a class="active" href="#">📅 Calendrier</a>
+        <a class="active" href="#">{{ 'calendar.breadcrumb.calendar' | translate }}</a>
       </li>
     </ul>
   </div>
@@ -25,11 +25,11 @@
   </div>
 
   <div class="sidebar bg-white shadow-lg rounded-2xl p-4 w-full lg:w-96">
-    <h2 class="title text-xl font-bold text-indigo-800 mb-4">📌 Domaines en cours</h2>
-    <div *ngIf="inProgressDomainsList.length > 0; else noDomains" class="plans-list flex flex-col gap-3">
-      <ng-container *ngFor="let category of filteredCategories">
-        <ng-container *ngIf="hasInProgressDomains(category.id!)">
-          <ng-container *ngFor="let domain of getInProgressDomains(category.id!)">
+    <h2 class="title text-xl font-bold text-indigo-800 mb-4">{{ 'calendar.sidebar.title' | translate }}</h2>
+    <div *ngIf="listeDomainesEnCours.length > 0; else noDomains" class="plans-list flex flex-col gap-3">
+      <ng-container *ngFor="let category of categoriesFiltrees">
+        <ng-container *ngIf="aDesDomainesEnCours(category.id!)">
+          <ng-container *ngFor="let domain of getDomainesEnCours(category.id!)">
             <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-0 shadow-sm">
               <div class="flex justify-between items-center mb-2">
                 <h4 class="font-medium text-indigo-800 text-base">{{ domain.name }}</h4>
@@ -40,8 +40,8 @@
                 </div>
               </div>
               <div class="mt-3 flex flex-col sm:flex-row sm:justify-between text-xs text-gray-600">
-                <span>Début: {{ domain.start_date }}</span>
-                <span>Dernière éval: {{ domain.last_eval_date }}</span>
+                <span>{{ 'calendar.domain.start_date' | translate: [domain.start_date] }}</span>
+                <span>{{ 'calendar.domain.last_eval_date' | translate: [domain.last_eval_date] }}</span>
               </div>
             </div>
           </ng-container>
@@ -49,7 +49,7 @@
       </ng-container>
     </div>
     <ng-template #noDomains>
-      <p class="no-plans text-center text-gray-500 text-sm italic py-4">Aucun domaine en cours.</p>
+      <p class="no-plans text-center text-gray-500 text-sm italic py-4">{{ 'calendar.sidebar.no_domains' | translate }}</p>
     </ng-template>
   </div>
 
@@ -58,8 +58,8 @@
     [isVisible]="showGoalFormModal"
     [selectedDate]="selectedGoalDate"
     [currentProfileId]="currentProfileId"
-    (close)="onGoalModalClose()"
-    (goalSaved)="onGoalModalSaved($event)">
+    (close)="surFermetureModaleObjectif()"
+    (goalSaved)="surSauvegardeModaleObjectif($event)">
   </app-add-goal-modal>
 
 </div>

@@ -5,12 +5,12 @@
     <div class="logo-name" [innerHTML]="'sidebar.logo_name' | translate"></div>
   </a>
   <ul class="side-menu">
-    <li class="active"><a [routerLink]="['/Dashboard-client/client/', getChildId()]"><i class='bx bxs-dashboard'></i>{{ 'sidebar.menu.home' | translate }}</a></li>
-    <li><a routerLink="/Dashboard-client/client/explore"><i class='bx bx-search'></i>{{ 'sidebar.menu.explore' | translate }}</a></li>
-    <li><a [routerLink]="['/Dashboard-client/client/profiles/', getChildId()]"><i class='bx bx-user'></i>{{ 'sidebar.menu.profiles' | translate }}</a></li>
-    <li><a routerLink="/Dashboard-client/client/evaluations_configurations"><i class='bx bx-target-lock'></i>{{ 'sidebar.menu.objectives' | translate }}</a></li>
-    <li><a [routerLink]="['/Dashboard-client/client/summary/', getChildId()]"><i class='bx bx-bar-chart-alt-2'></i>{{ 'sidebar.menu.summary' | translate }}</a></li>
-    <li><a [routerLink]="['/Dashboard-client/client/calendar/', getChildId()]"><i class='bx bx-calendar'></i>{{ 'sidebar.menu.calendar' | translate }}</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"><a [routerLink]="['/Dashboard-client/client/', getChildId()]"><i class='bx bxs-dashboard'></i>{{ 'sidebar.menu.home' | translate }}</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/Dashboard-client/client/explore"><i class='bx bx-search'></i>{{ 'sidebar.menu.explore' | translate }}</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"><a [routerLink]="['/Dashboard-client/client/profiles/', getChildId()]"><i class='bx bx-user'></i>{{ 'sidebar.menu.profiles' | translate }}</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/Dashboard-client/client/evaluations_configurations"><i class='bx bx-target-lock'></i>{{ 'sidebar.menu.objectives' | translate }}</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"><a [routerLink]="['/Dashboard-client/client/summary/', getChildId()]"><i class='bx bx-bar-chart-alt-2'></i>{{ 'sidebar.menu.summary' | translate }}</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"><a [routerLink]="['/Dashboard-client/client/calendar/', getChildId()]"><i class='bx bx-calendar'></i>{{ 'sidebar.menu.calendar' | translate }}</a></li>
   </ul>
   <ul class="side-menu">
     <li>
@@ -24,31 +24,31 @@
 
 <!-- Mobile Bottom Navigation (New Style) - Only visible on mobile/tablet -->
 <div class="mobile-nav" *ngIf="!isDesktop()">
-  <div class="nav-item" routerLinkActive="active">
+  <div class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
     <a [routerLink]="['/Dashboard-client/client/', getChildId()]">
       <i class='bx bxs-dashboard'></i>
-      <span>Home</span>
+      <span>{{ 'sidebar.menu.home' | translate }}</span>
     </a>
   </div>
   
-  <div class="nav-item" routerLinkActive="active">
+  <div class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
     <a routerLink="/Dashboard-client/client/explore">
       <i class='bx bx-search'></i>
-      <span>Explore</span>
+      <span>{{ 'sidebar.menu.explore' | translate }}</span>
     </a>
   </div>
   
-  <div class="nav-item" routerLinkActive="active">
+  <div class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
     <a [routerLink]="['/Dashboard-client/client/calendar/', getChildId()]">
       <i class='bx bx-calendar'></i>
-      <span>Calendar</span>
+      <span>{{ 'sidebar.menu.calendar' | translate }}</span>
     </a>
   </div>
   
   <div class="nav-item">
     <a (click)="toggleMobileMenu()">
       <i class='bx bx-menu'></i>
-      <span>More</span>
+      <span>{{ 'sidebar.menu.more' | translate }}</span>
     </a>
   </div>
 </div>
@@ -59,7 +59,7 @@
     <div class="menu-header">
       <div class="menu-logo">
         <img src="assets/logo.png" alt="Logo">
-        <span>Evalu'Action</span>
+        <span [innerHTML]="'sidebar.logo_name' | translate"></span>
       </div>
       <button class="menu-close" (click)="toggleMobileMenu()">
         <i class='bx bx-x'></i>
@@ -69,22 +69,22 @@
     <div class="menu-items">
       <a [routerLink]="['/Dashboard-client/client/profiles/', getChildId()]" (click)="toggleMobileMenu()">
         <i class='bx bx-user'></i>
-        <span>Profiles</span>
+        <span>{{ 'sidebar.menu.profiles' | translate }}</span>
       </a>
       
       <a routerLink="/Dashboard-client/client/evaluations_configurations" (click)="toggleMobileMenu()">
         <i class='bx bx-target-lock'></i>
-        <span>Objectives</span>
+        <span>{{ 'sidebar.menu.objectives' | translate }}</span>
       </a>
       
       <a [routerLink]="['/Dashboard-client/client/summary/', getChildId()]" (click)="toggleMobileMenu()">
         <i class='bx bx-bar-chart-alt-2'></i>
-        <span>Summary</span>
+        <span>{{ 'sidebar.menu.summary' | translate }}</span>
       </a>
       
       <a routerLink="/auth/signin" (click)="toggleMobileMenu()" class="logout-item">
         <i class='bx bx-log-out-circle'></i>
-        <span>Logout</span>
+        <span>{{ 'sidebar.menu.logout' | translate }}</span>
       </a>
     </div>
   </div>
