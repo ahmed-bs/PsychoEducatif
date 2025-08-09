@@ -1,13 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar-home',
   templateUrl: './navbar-home.component.html',
   styleUrls: ['./navbar-home.component.css']
 })
-export class NavbarHomeComponent implements OnInit {
+export class NavbarHomeComponent implements OnInit, OnDestroy {
+  currentLang: string = 'ar';
+  private languageSubscription!: Subscription;
 
-  constructor() { }
+  constructor(
+    private sharedService: SharedService,
+    private translate: TranslateService
+  ) {
+    const savedLang = localStorage.getItem('lang') || 'ar';
+    this.currentLang = savedLang;
+    this.translate.use(this.currentLang);
+  }
   
   ngOnInit(): void {
     const menuBtn = document.getElementById('menu-btn');
@@ -24,5 +36,22 @@ export class NavbarHomeComponent implements OnInit {
       navLinks?.classList.remove('open');
       menuBtnIcon?.setAttribute('class', 'ri-menu-line');
     });
+
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.currentLang = lang;
+      this.translate.use(lang);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+
+  // Language switcher method
+  switchLanguage(language: string): void {
+    this.sharedService.changeLanguage(language);
   }
 }

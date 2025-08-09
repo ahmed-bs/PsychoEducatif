@@ -1,15 +1,39 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 declare const ScrollReveal: any;
+
 @Component({
   selector: 'app-Evaluation',
   templateUrl: './Evaluation.component.html',
   styleUrls: ['./Evaluation.component.css']
 })
-export class EvaluationComponent implements OnInit ,AfterViewInit {
-  constructor(private elementRef: ElementRef) {}
+export class EvaluationComponent implements OnInit, AfterViewInit, OnDestroy {
+  private languageSubscription!: Subscription;
+
+  constructor(
+    private elementRef: ElementRef,
+    private translate: TranslateService,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit() {
-    // Ajoutez ici tout code d'initialisation nécessaire
+    // Initialize translation with current language from shared service
+    this.translate.setDefaultLang('ar');
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
+
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewInit() {

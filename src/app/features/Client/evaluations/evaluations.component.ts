@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
@@ -7,6 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -18,23 +20,25 @@ import autoTable from 'jspdf-autotable';
   styleUrls: ['./evaluations.component.css'],
   imports: [CommonModule, FormsModule, TableModule, ButtonModule, TranslateModule],
 })
-export class EvaluationsComponent implements OnInit {
+export class EvaluationsComponent implements OnInit, OnDestroy {
   domainId: number | null = null;
   items: ProfileItem[] = [];
   profileCategoryName: string | null = null;
   profileDomainName: string | null = null;
   isLoading: boolean = false;
   error: string | null = null;
+  private languageSubscription: Subscription;
 
   constructor(
     private profileItemService: ProfileItemService,
     private route: ActivatedRoute,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
-    this.translate.addLangs(['fr', 'ar']);
-    this.translate.setDefaultLang('ar');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
   }
 
   ngOnInit(): void {
@@ -52,6 +56,12 @@ export class EvaluationsComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   loadItems(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -10,6 +10,8 @@ import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.se
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -35,7 +37,7 @@ interface DomainWithUI extends ProfileDomain {
   providers: [MessageService],
   encapsulation: ViewEncapsulation.ShadowDom,
 })
-export class ItemsComponent implements OnInit {
+export class ItemsComponent implements OnInit, OnDestroy {
   category: ProfileCategory | null = null;
   domains: DomainWithUI[] = [];
   loading: boolean = true;
@@ -44,6 +46,7 @@ export class ItemsComponent implements OnInit {
   displayAddItemDialog = false;
   displayAddCompetenceDialog = false;
   editingCompetence = false;
+  private languageSubscription: Subscription;
   
   newDomain: NewDomain = {
     name: '',
@@ -76,12 +79,15 @@ export class ItemsComponent implements OnInit {
     private profileDomainService: ProfileDomainService,
     private profileItemService: ProfileItemService,
     private messageService: MessageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
-    this.translate.addLangs(['fr', 'ar']);
-    this.translate.setDefaultLang('fr');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'fr');
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+      // Update status options when language changes
+      this.updateStatusOptions();
+    });
   }
 
   ngOnInit() {
@@ -96,6 +102,21 @@ export class ItemsComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+
+  private updateStatusOptions() {
+    this.statusOptions = [
+      { label: this.translate.instant('items.items_by_domain.status_labels.NON_COTE'), value: 'NON_COTE' as ItemStatus },
+      { label: this.translate.instant('items.items_by_domain.status_labels.ACQUIS'), value: 'ACQUIS' as ItemStatus },
+      { label: this.translate.instant('items.items_by_domain.status_labels.PARTIEL'), value: 'PARTIEL' as ItemStatus },
+      { label: this.translate.instant('items.items_by_domain.status_labels.NON_ACQUIS'), value: 'NON_ACQUIS' as ItemStatus }
+    ];
   }
 
   getEtatLabel(etat: string): string {

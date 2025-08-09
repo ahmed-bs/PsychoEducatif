@@ -17,12 +17,19 @@ export class SharedService {
   private mobileSidebarToggleSubject = new Subject<void>();
   mobileSidebarToggle$ = this.mobileSidebarToggleSubject.asObservable();
 
+  // For Language Changes
+  private languageChangeSubject = new BehaviorSubject<string>('ar');
+  languageChange$ = this.languageChangeSubject.asObservable();
+
   // Track current screen size
   private currentScreenSize: 'desktop' | 'mobile' = 'desktop';
   private lastScreenSize: 'desktop' | 'mobile' = 'desktop';
 
   constructor() {
     this.updateScreenSize();
+    // Initialize with saved language
+    const savedLang = localStorage.getItem('lang') || 'ar';
+    this.languageChangeSubject.next(savedLang);
   }
 
   private updateScreenSize() {
@@ -65,6 +72,17 @@ export class SharedService {
     if (this.currentScreenSize === 'mobile') {
       this.mobileSidebarToggleSubject.next();
     }
+  }
+
+  // Method to change language globally
+  changeLanguage(language: string): void {
+    localStorage.setItem('lang', language);
+    this.languageChangeSubject.next(language);
+  }
+
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.languageChangeSubject.value;
   }
 
   // Get current screen size

@@ -1,19 +1,37 @@
-import { Component, OnInit ,HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-Accueil',
   templateUrl: './Accueil.component.html',
   styleUrls: ['./Accueil.component.css']
 })
-export class AccueilComponent implements OnInit {
+export class AccueilComponent implements OnInit, OnDestroy {
+  private languageSubscription!: Subscription;
 
-  constructor(private translate: TranslateService) { }
+  constructor(
+    private translate: TranslateService,
+    private sharedService: SharedService
+  ) { }
 
   ngOnInit() {
-    // Initialize translation
+    // Initialize translation with current language from shared service
     this.translate.setDefaultLang('ar');
-    this.translate.use('ar');
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
+
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   // Variable to track the visibility of sections

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChildren, QueryList, Renderer2, AfterViewInit, HostListener } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChildren, QueryList, Renderer2, AfterViewInit, HostListener, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
@@ -8,6 +8,8 @@ import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { forkJoin } from 'rxjs';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 
 interface CategoryWithDomains extends ProfileCategory {
   domains?: DomainWithItems[];
@@ -26,7 +28,7 @@ interface DomainWithItems extends ProfileDomain {
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.css']
 })
-export class ExploreComponent implements OnInit, AfterViewInit {
+export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('cardsWrapper') cardsWrapperQuery!: QueryList<ElementRef>;
 
   categories: CategoryWithDomains[] = [];
@@ -36,6 +38,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   private calculatedCardsPerView = 0;
   profileId!: number;
   statusFilter: string = 'all';
+  private languageSubscription: Subscription;
 
   constructor(
     private profileCategoryService: ProfileCategoryService,
@@ -43,16 +46,23 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     private profileItemService: ProfileItemService,
     private router: Router,
     private renderer: Renderer2,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
-    this.translate.addLangs(['fr', 'ar']);
-    this.translate.setDefaultLang('ar');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
   }
 
   ngOnInit() {
     this.loadCategories();
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewInit() {

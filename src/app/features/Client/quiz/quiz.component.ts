@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
@@ -7,6 +7,8 @@ import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { Location } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -19,12 +21,13 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
     TranslateModule
   ]
 })
-export class QuizComponent implements OnInit {
+export class QuizComponent implements OnInit, OnDestroy {
   domainId: number = 0;
   items: ProfileItem[] = [];
   currentIndex: number = 0;
   isLoading: boolean = false;
   error: string | null = null;
+  private languageSubscription: Subscription;
 
   constructor(
     private location: Location,
@@ -32,13 +35,13 @@ export class QuizComponent implements OnInit {
     private router: Router,
     private profileItemService: ProfileItemService,
     private profileDomainService: ProfileDomainService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
-    // Initialize translation
-    this.translate.addLangs(['fr', 'ar']);
-    this.translate.setDefaultLang('ar');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
   }
 
   ngOnInit(): void {
@@ -51,6 +54,12 @@ export class QuizComponent implements OnInit {
       this.translate.get('skills_evaluation.error.missing_domain_id').subscribe((text) => {
         this.error = text;
       });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
     }
   }
 

@@ -12,6 +12,23 @@
     <li><a routerLink="/evaluation" routerLinkActive="active-link"><i class="fas fa-chart-line"></i> {{ 'navbar.menu.evaluation' | translate }}</a></li>
     <li><a routerLink="/object" routerLinkActive="active-link"><i class="fas fa-bullseye"></i> {{ 'navbar.menu.objectives' | translate }}</a></li>
     <li><a routerLink="/strategy" routerLinkActive="active-link"><i class="fas fa-lightbulb"></i> {{ 'navbar.menu.strategies' | translate }}</a></li>
+    <li class="nav__language">
+      <!-- Language Switcher -->
+      <div class="language-switcher">
+        <button 
+          class="lang-btn" 
+          [class.active]="currentLang === 'fr'"
+          (click)="switchLanguage('fr')">
+          FR
+        </button>
+        <button 
+          class="lang-btn" 
+          [class.active]="currentLang === 'ar'"
+          (click)="switchLanguage('ar')">
+          عربي
+        </button>
+      </div>
+    </li>
     <li class="nav__btns">
       <button class="btn sign__up" routerLink="/auth/signup">
         <i class="fas fa-user-plus"></i> {{ 'navbar.buttons.sign_up' | translate }}

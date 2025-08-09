@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,9 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 import { Profile } from 'src/app/core/models/profile.model';
 import { CreateProfileRequest, UpdateProfileRequest } from 'src/app/core/models/createprofile.model';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { SharedService } from 'src/app/core/services/shared.service';
 import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -35,7 +37,7 @@ import { environment } from 'src/environments/environment';
     TranslateModule
   ]
 })
-export class PickProfileComponent implements OnInit {
+export class PickProfileComponent implements OnInit, OnDestroy {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
@@ -69,12 +71,14 @@ export class PickProfileComponent implements OnInit {
   parentId: number = 0;
   error: string | null = null;
   userName: string = '';
+  private languageSubscription!: Subscription;
 
   constructor(
     private authService: AuthService,
     private translate: TranslateService,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService
   ) {
     const user = localStorage.getItem('user');
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
@@ -82,14 +86,13 @@ export class PickProfileComponent implements OnInit {
     // Initialize translation
     this.translate.addLangs(['fr', 'ar']);
     this.translate.setDefaultLang('ar');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+    
+    // Get current language from shared service
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
 
     // Update gender options with translated labels
-    this.genderOptions = [
-      { label: this.translate.instant('add_child_dialog.male_option'), value: 'M' },
-      { label: this.translate.instant('add_child_dialog.female_option'), value: 'F' }
-    ];
+    this.updateGenderOptions();
   }
 
   ngOnInit() {
@@ -105,6 +108,25 @@ export class PickProfileComponent implements OnInit {
     }
     this.userName = this.authService.currentUserValue.username;
     this.loadChildren();
+    
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+      this.updateGenderOptions();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+
+  private updateGenderOptions() {
+    this.genderOptions = [
+      { label: this.translate.instant('add_child_dialog.male_option'), value: 'M' },
+      { label: this.translate.instant('add_child_dialog.female_option'), value: 'F' }
+    ];
   }
 
   setDefaultImage(event: any, child: Profile) {

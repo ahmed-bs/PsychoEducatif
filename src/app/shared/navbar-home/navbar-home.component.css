@@ -30,6 +30,65 @@ nav {
   border-bottom-right-radius: 20px;
 }
 
+/* Language Switcher Styles */
+.nav__language {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: rgba(162, 197, 233, 0.1);
+  border-radius: 20px;
+  padding: 0.25rem;
+}
+
+.lang-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  color: #2c3e50;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 45px;
+}
+
+.lang-btn:hover {
+  background: rgba(162, 197, 233, 0.3);
+  transform: translateY(-1px);
+}
+
+.lang-btn.active {
+  background: #a2c5e9;
+  color: white;
+  box-shadow: 0 2px 8px rgba(162, 197, 233, 0.4);
+}
+
+/* Mobile responsiveness for language switcher */
+@media (max-width: 768px) {
+  .nav__language {
+    order: -1;
+    margin: 0.5rem 0;
+  }
+  
+  .language-switcher {
+    gap: 0.25rem;
+    padding: 0.2rem;
+  }
+  
+  .lang-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    min-width: 40px;
+  }
+}
+
 
 .nav__header {
   padding: 1rem;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,6 +26,8 @@ import { NotesComponent } from "./tabs/notes/notes.component";
 import { StrategyComponent } from './tabs/strategy/strategy.component';
 import { environment } from 'src/environments/environment';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboardClient',
@@ -36,7 +38,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
   providers: [MessageService]
 })
 
-export class DashboardClientComponent implements OnInit {
+export class DashboardClientComponent implements OnInit, OnDestroy {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
@@ -368,6 +370,7 @@ export class DashboardClientComponent implements OnInit {
 
   isEmailValid: boolean = false;
   loadingShare: boolean = false;
+  private languageSubscription: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -378,9 +381,15 @@ export class DashboardClientComponent implements OnInit {
     private categoryService: ProfileCategoryService, 
     private domainService: ProfileDomainService,
     private goalService: GoalService, 
-    private authService: AuthService,    private translate: TranslateService
+    private authService: AuthService,    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
     this.accesSelectionne = this.optionsAcces[0];
+    
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
   }
 
   ngOnInit() {
@@ -408,6 +417,12 @@ export class DashboardClientComponent implements OnInit {
         }, 100);
       });
     }, 300);
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   loadGoals(): void {

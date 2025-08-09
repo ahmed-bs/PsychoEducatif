@@ -1,25 +1,44 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { SharedService } from 'src/app/core/services/shared.service';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/core/services/authService.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar-dashboard',
   templateUrl: './navbar-dashboard.component.html',
   styleUrls: ['./navbar-dashboard.component.css']
 })
-export class NavbarDashboardComponent implements OnInit {
+export class NavbarDashboardComponent implements OnInit, OnDestroy {
 
   private currentScreenSize: 'desktop' | 'mobile' = 'desktop';
   private lastScreenSize: 'desktop' | 'mobile' = 'desktop';
-  currentLanguage: 'fr' | 'ar' = 'fr';
+  currentLang: string = 'ar';
+  private languageSubscription: Subscription;
 
-  constructor(private sharedService: SharedService) { }
+  constructor(
+    private sharedService: SharedService,
+    private translate: TranslateService,
+    private authService: AuthService
+  ) {
+    const savedLang = localStorage.getItem('lang') || 'ar';
+    this.currentLang = savedLang;
+    this.translate.use(this.currentLang);
+    
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.currentLang = lang;
+      this.translate.use(lang);
+    });
+  }
 
   ngOnInit() {
     this.updateScreenSize();
-    // Load saved language preference
-    const savedLanguage = localStorage.getItem('selectedLanguage');
-    if (savedLanguage && (savedLanguage === 'fr' || savedLanguage === 'ar')) {
-      this.currentLanguage = savedLanguage;
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
     }
   }
 
@@ -52,15 +71,8 @@ export class NavbarDashboardComponent implements OnInit {
   }
 
   // Language switcher method
-  switchLanguage(lang: 'fr' | 'ar'): void {
-    this.currentLanguage = lang;
-    localStorage.setItem('selectedLanguage', lang);
-    
-    // Emit language change event (you can subscribe to this in your app component)
-    // this.sharedService.languageChanged.emit(lang);
-    
-    // Reload page to apply language changes
-    window.location.reload();
+  switchLanguage(language: string) {
+    this.sharedService.changeLanguage(language);
   }
 
   toggleSidebarState(): void {

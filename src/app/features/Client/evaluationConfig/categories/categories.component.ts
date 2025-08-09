@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
@@ -17,7 +19,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./categories.component.css'],
   providers: [MessageService],
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent implements OnInit, OnDestroy {
   displayAddUserDialog: boolean = false;
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
@@ -25,21 +27,29 @@ export class CategoriesComponent implements OnInit {
   profileId!: number;
   loading: boolean = true;
   isEditMode: boolean = false;
+  private languageSubscription: Subscription;
 
   constructor(
     private router: Router,
     private profileCategoryService: ProfileCategoryService,
     private messageService: MessageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
-    this.translate.addLangs(['fr', 'ar']);
-    this.translate.setDefaultLang('ar');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
   }
 
   ngOnInit() {
     this.loadCategories();
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   loadCategories() {
