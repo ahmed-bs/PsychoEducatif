@@ -4,13 +4,15 @@ import { Strategy } from 'src/app/core/models/strategy';
 import { AddStrategyModalComponent } from '../../modals/add-strategy-modal/add-strategy-modal.component';
 import { Subscription } from 'rxjs';
 import { StrategyService } from 'src/app/core/services/strategy.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
 
 
 
 @Component({
   selector: 'app-strategy',
   standalone: true,
-  imports: [CommonModule, AddStrategyModalComponent],
+  imports: [CommonModule, AddStrategyModalComponent, TranslateModule],
   templateUrl: './strategy.component.html',
   styleUrls: ['./strategy.component.css']
 })
@@ -25,10 +27,24 @@ export class StrategyComponent implements OnInit, OnDestroy {
   private strategiesSubscription: Subscription | undefined;
   private saveSubscription: Subscription | undefined;
   private deleteSubscription: Subscription | undefined;
+  private languageSubscription: Subscription;
 
-  constructor(private strategyService: StrategyService) { }
+  constructor(
+    private strategyService: StrategyService,
+    private translate: TranslateService,
+    private sharedService: SharedService
+  ) {
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
 
   ngOnInit(): void {
+    // Initialize translation with current language
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
+
     if (this.currentProfileId) {
       this.loadStrategies();
     } else {
@@ -40,6 +56,9 @@ export class StrategyComponent implements OnInit, OnDestroy {
     this.strategiesSubscription?.unsubscribe();
     this.saveSubscription?.unsubscribe();
     this.deleteSubscription?.unsubscribe();
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
   
   loadStrategies(): void {
@@ -107,7 +126,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette stratégie?')) {
+    if (confirm(this.translate.instant('dashboard_tabs.strategy.messages.confirm_delete'))) {
       this.deleteSubscription = this.strategyService.deleteStrategy(id).subscribe({
         next: () => {
           this.strategies = this.strategies.filter(s => s.id !== id);
@@ -115,9 +134,9 @@ export class StrategyComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error('Error deleting strategy:', error);
           if (error.status === 403) {
-            alert('Vous n\'êtes pas autorisé à supprimer cette stratégie. Seul l\'auteur peut la supprimer.');
+            alert(this.translate.instant('dashboard_tabs.strategy.messages.permission_denied'));
           } else {
-            alert('Une erreur est survenue lors de la suppression de la stratégie.');
+            alert(this.translate.instant('dashboard_tabs.strategy.messages.delete_error'));
           }
         }
       });

@@ -27,6 +27,7 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
   profileDomainName: string | null = null;
   isLoading: boolean = false;
   error: string | null = null;
+  currentView: 'table' | 'list' | 'card' = 'table';
   private languageSubscription: Subscription;
 
   constructor(
@@ -93,6 +94,10 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
 
   getEtatLabel(etat: string): string {
     return this.translate.instant('evaluations.table.status_labels.' + etat) || this.translate.instant('evaluations.table.status_labels.NON_COTE');
+  }
+
+  switchView(view: 'table' | 'list' | 'card'): void {
+    this.currentView = view;
   }
 
   exportExcel(): void {

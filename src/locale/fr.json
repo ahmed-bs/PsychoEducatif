@@ -586,12 +586,34 @@
       "next": "Suivant",
       "submit": "Soumettre"
     }
-  },  "explore": {
+  },
+  "explore": {
+    "head_title": {
+      "title": "Explorer les Compétences",
+      "breadcrumb": {
+        "dashboard": "Tableau de bord",
+        "explore": "Explorer"
+      }
+    },
+    "views": {
+      "card": "Cartes",
+      "list": "Liste",
+      "table": "Tableau"
+    },
+    "filter": {
+      "label": "Filtrer",
+      "all": "Tous",
+      "completed": "Terminé",
+      "in_progress": "En cours",
+      "not_started": "Non commencé"
+    },
     "scroll_buttons": {
       "left_aria_label": "Défiler vers la gauche",
       "right_aria_label": "Défiler vers la droite"
     },
     "card": {
+      "items": "éléments",
+      "completed": "terminé",
       "item_count": "{{count}} items",
       "image_alt": "{{domainName}}",
       "status_labels": {
@@ -601,12 +623,23 @@
       },
       "click_to_start": "Cliquez pour commencer"
     },
+    "table": {
+      "domain": "Domaine",
+      "total_items": "Total Items",
+      "progress": "Progrès",
+      "acquired": "Acquis",
+      "in_progress": "En cours",
+      "not_acquired": "Non acquis",
+      "actions": "Actions",
+      "start": "Commencer"
+    },
     "error": {
       "load_categories_failed": "Échec du chargement des catégories. Veuillez réessayer plus tard.",
       "load_domains_failed": "Échec du chargement des domaines pour la catégorie {{categoryId}}. Veuillez réessayer plus tard.",
       "load_items_failed": "Échec du chargement des items pour le domaine {{domainId}}. Veuillez réessayer plus tard."
     }
-  },"summary": {
+  },
+  "summary": {
     "head_title": {
       "title": "Résumé des Compétences 📊",
       "breadcrumb": {
@@ -652,10 +685,20 @@
       "message": "Chargement..."
     },
     "error": {
+      "title": "Erreur",
       "message": "{{error}}",
       "missing_domain_id": "L'identifiant du domaine est requis dans le chemin",
       "no_items_found": "Aucun élément trouvé pour ce domaine",
       "load_items_failed": "Échec du chargement des éléments. Veuillez réessayer plus tard."
+    },
+    "views": {
+      "table": "Tableau",
+      "list": "Liste",
+      "card": "Cartes"
+    },
+    "empty": {
+      "title": "Aucune évaluation disponible",
+      "message": "Il n'y a actuellement aucune évaluation disponible pour ce domaine."
     },
     "category_header": "{{categoryName}}",
     "domain_header": "{{domainName}}",
@@ -1061,5 +1104,133 @@
   "calendar.sidebar.title": "📌 Domaines en cours",
   "calendar.domain.start_date": "Début: {{0}}",
   "calendar.domain.last_eval_date": "Dernière éval: {{0}}",
-  "calendar.sidebar.no_domains": "Aucun domaine en cours."
+  "calendar.sidebar.no_domains": "Aucun domaine en cours.",
+  "dashboard_tabs": {
+    "goals": {
+      "title": "Objectifs de travail",
+      "no_goals_found": "Aucun objectif trouvé. Cliquez sur \"Ajouter un nouvel objectif\" pour commencer !",
+      "add_new_goal": "Ajouter un nouvel objectif",
+      "target_date": "Date cible",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "take_quiz": "Passer le Quiz",
+      "progress": "Progression",
+      "sub_objectives": "Sous-objectifs:",
+      "no_sub_objectives": "Aucun sous-objectif défini.",
+      "priority": {
+        "high": "Élevée",
+        "medium": "Moyenne",
+        "low": "Faible"
+      },
+      "messages": {
+        "quiz_not_available": "Le quiz pour cet objectif ne sera disponible qu'à partir du {{date}}.",
+        "quiz_available": "Cliquez pour passer le quiz.",
+        "cannot_navigate_quiz": "Impossible de lancer le quiz : Le domaine de l'objectif est introuvable.",
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cet objectif et tous ses sous-objectifs ?",
+        "sub_objective_disabled": "Vous ne pouvez pas modifier le sous-objectif avant le {{date}}"
+      }
+    },
+    "notes": {
+      "title": "Notes et observations",
+      "filter_title": "Filtrer les notes",
+      "search_content": "Rechercher par contenu",
+      "search_placeholder": "Rechercher...",
+      "importance_filter": "Importance",
+      "importance_options": {
+        "all": "Toutes les notes",
+        "important": "Notes importantes",
+        "not_important": "Notes non importantes"
+      },
+      "date_start": "Date de début",
+      "date_end": "Date de fin",
+      "author_filter": "Par auteur",
+      "author_placeholder": "Nom d'utilisateur...",
+      "reset_filters": "Réinitialiser les filtres",
+      "loading": "Chargement des notes...",
+      "no_notes_found": "Aucune note trouvée correspondant à vos critères. Essayez d'ajuster les filtres !",
+      "important_note": "Note Importante du",
+      "observation": "Observation du",
+      "by_you": "Par vous",
+      "by_other": "Par {{username}}",
+      "modified": "(Modifiée)",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "cancel": "Annuler",
+      "save_changes": "Enregistrer les modifications",
+      "add_new_note": "Ajouter une nouvelle note",
+      "note_placeholder": "Écrivez vos observations ici...",
+      "important_note_checkbox": "Note importante",
+      "save": "Enregistrer",
+      "messages": {
+        "content_empty": "Le contenu de la note ne peut pas être vide !",
+        "no_profile_selected": "Impossible d'enregistrer la note : Aucun profil sélectionné.",
+        "auth_required": "Authentification requise. Veuillez vous connecter.",
+        "auth_required_update": "Authentification requise. Veuillez vous connecter pour modifier les notes.",
+        "permission_denied_add": "Vous n'avez pas l'autorisation d'ajouter des notes à ce profil.",
+        "permission_denied_edit": "Vous n'avez pas l'autorisation de modifier cette note.",
+        "permission_denied_delete": "Vous n'avez pas l'autorisation de supprimer cette note.",
+        "save_failed": "Échec de l'enregistrement de la note. Veuillez réessayer.",
+        "update_failed": "Échec de la mise à jour de la note. Veuillez réessayer.",
+        "delete_failed": "Échec de la suppression de la note. Veuillez réessayer.",
+        "note_id_missing": "L'ID de la note est manquant ou le contenu est vide !",
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette note ?"
+      }
+    },
+    "strategy": {
+      "title": "Stratégies comportementales",
+      "add_new_strategy": "Ajouter une nouvelle stratégie",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "status": "{{status}}",
+      "responsible": "{{responsible}}",
+      "author": "{{author}}",
+      "messages": {
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette stratégie?",
+        "permission_denied": "Vous n'êtes pas autorisé à supprimer cette stratégie. Seul l'auteur peut la supprimer.",
+        "delete_error": "Une erreur est survenue lors de la suppression de la stratégie."
+      }
+    }
+  },
+  "add_strategy_modal": {
+    "header": {
+      "add": "Ajouter une nouvelle stratégie",
+      "edit": "Modifier la stratégie"
+    },
+    "labels": {
+      "title": "Titre de la stratégie",
+      "description": "Description",
+      "status": "Statut",
+      "responsible": "Responsable"
+    },
+    "placeholders": {
+      "title": "Saisissez le titre de la stratégie",
+      "description": "Saisissez la description de la stratégie"
+    },
+    "status_options": {
+      "active": "Actif",
+      "in_progress": "En cours",
+      "completed": "Terminé",
+      "under_review": "En révision",
+      "suspended": "Suspendu"
+    },
+    "responsible_options": {
+      "all_interveners": "Tous les intervenants",
+      "special_educator": "Éducateur spécialisé",
+      "psychologist": "Psychologue",
+      "speech_therapist": "Orthophoniste",
+      "parent": "Parent"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "update": "Modifier"
+    },
+    "validation": {
+      "title_required": "Le titre est requis.",
+      "description_required": "La description est requise.",
+      "status_required": "Le statut est requis.",
+      "responsible_required": "Le responsable est requis.",
+      "required_fields": "Veuillez remplir au moins le titre et la description de la stratégie."
+    }
+  }
 }

@@ -38,6 +38,7 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
   private calculatedCardsPerView = 0;
   profileId!: number;
   statusFilter: string = 'all';
+  currentView: 'card' | 'list' | 'table' = 'card';
   private languageSubscription: Subscription;
 
   constructor(
@@ -303,5 +304,24 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.updateAllScrollPositions();
+  }
+
+  setView(view: 'card' | 'list' | 'table') {
+    this.currentView = view;
+    
+    // Reset scroll positions when switching views
+    this.categories.forEach(category => {
+      if (category.id !== undefined) {
+        this.categoryScrollIndex.set(category.id, 0);
+      }
+    });
+    
+    // Recalculate dimensions for card view after view changes
+    if (view === 'card') {
+      setTimeout(() => {
+        this.calculateCardDimensions();
+        this.updateAllScrollPositions();
+      }, 0);
+    }
   }
 }

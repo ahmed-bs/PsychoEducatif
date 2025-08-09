@@ -1,5 +1,5 @@
 <div class="bg-white rounded-xl shadow overflow-hidden">
-  <div class="bg-blue-600 px-4 py-3 sm:px-6"> <h3 class="text-lg sm:text-xl font-medium text-white">Objectifs de travail</h3> </div>
+  <div class="bg-blue-600 px-4 py-3 sm:px-6"> <h3 class="text-lg sm:text-xl font-medium text-white">{{ 'dashboard_tabs.goals.title' | translate }}</h3> </div>
   <div class="p-4 sm:p-6"> <div *ngIf="goals.length > 0; else noGoalsFound">
       <div *ngFor="let goal of goals" class="mb-6 border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
         <div class="flex flex-col sm:flex-row sm:items-start mb-4">
@@ -13,17 +13,17 @@
                       'bg-yellow-100 text-yellow-800': goal.priority === 'medium',
                       'bg-green-100 text-green-800': goal.priority === 'low'
                     }">
-                {{ goal.priority | titlecase }}
+                {{ getPriorityTranslation(goal.priority) }}
               </span>
             </div>
 
-            <p class="mt-1 text-gray-600 mb-2 text-sm sm:text-base">{{ goal.description }}</p> <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-500 mt-2"> <div class="flex items-center mb-2 sm:mb-0"> <i class="fas fa-calendar-alt mr-2"></i> Date cible: {{ formatDate(goal.target_date) }}
+            <p class="mt-1 text-gray-600 mb-2 text-sm sm:text-base">{{ goal.description }}</p> <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-500 mt-2"> <div class="flex items-center mb-2 sm:mb-0"> <i class="fas fa-calendar-alt mr-2"></i> {{ 'dashboard_tabs.goals.target_date' | translate }}: {{ formatDate(goal.target_date) }}
               </div>
               <div class="flex items-center space-x-2 sm:space-x-3"> <button (click)="onEditGoalClick(goal)"
-                        class="text-blue-600 hover:text-blue-800 transition text-sm sm:text-base"> <i class="fas fa-edit mr-1"></i> Modifier
+                        class="text-blue-600 hover:text-blue-800 transition text-sm sm:text-base"> <i class="fas fa-edit mr-1"></i> {{ 'dashboard_tabs.goals.edit' | translate }}
                 </button>
                 <button (click)="onDeleteGoalClick(goal.id)"
-                        class="text-red-600 hover:text-red-800 transition text-sm sm:text-base"> <i class="fas fa-trash-alt mr-1"></i> Supprimer
+                        class="text-red-600 hover:text-red-800 transition text-sm sm:text-base"> <i class="fas fa-trash-alt mr-1"></i> {{ 'dashboard_tabs.goals.delete' | translate }}
                 </button>
               </div>
             </div>
@@ -39,21 +39,21 @@
                       class="w-full py-2 px-4 text-white font-semibold rounded-md shadow-md
                              focus:outline-none focus:ring-2 focus:ring-offset-2
                              transition ease-in-out duration-150 text-base flex items-center justify-center">
-                <i class="fas fa-question-circle mr-2"></i> Passer le Quiz
+                <i class="fas fa-question-circle mr-2"></i> {{ 'dashboard_tabs.goals.take_quiz' | translate }}
               </button>
             </div>
 
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row sm:items-center mt-4 mb-4 gap-2 sm:gap-4"> <span class="text-sm text-gray-700 font-medium whitespace-nowrap mb-2 sm:mb-0">Progression: {{ calculateProgress(goal) }}%</span> <div class="w-full bg-gray-200 rounded-full h-3">
+        <div class="flex flex-col sm:flex-row sm:items-center mt-4 mb-4 gap-2 sm:gap-4"> <span class="text-sm text-gray-700 font-medium whitespace-nowrap mb-2 sm:mb-0">{{ 'dashboard_tabs.goals.progress' | translate }}: {{ calculateProgress(goal) }}%</span> <div class="w-full bg-gray-200 rounded-full h-3">
             <div class="bg-blue-600 h-3 rounded-full transition-all duration-500 ease-out"
                  [style.width]="calculateProgress(goal) + '%'"></div>
           </div>
         </div>
 
         <div *ngIf="goal.sub_objectives && goal.sub_objectives.length > 0" class="border-l-4 border-blue-200 pl-4 ml-3 pt-2">
-          <h5 class="font-medium text-gray-700 mb-3 text-base sm:text-lg">Sous-objectifs:</h5> <ul class="space-y-3">
+          <h5 class="font-medium text-gray-700 mb-3 text-base sm:text-lg">{{ 'dashboard_tabs.goals.sub_objectives' | translate }}</h5> <ul class="space-y-3">
             <li *ngFor="let subObj of goal.sub_objectives" class="flex items-center">
               <div class="flex-shrink-0 mr-3">
                 <button (click)="onToggleSubObjective(goal.id, subObj.id, subObj.is_completed)"
@@ -75,7 +75,7 @@
             </li>
           </ul>
         </div>
-        <p *ngIf="!goal.sub_objectives || goal.sub_objectives.length === 0" class="text-gray-500 text-xs sm:text-sm italic border-l-4 border-gray-100 pl-4 ml-3 pt-2"> Aucun sous-objectif défini.
+        <p *ngIf="!goal.sub_objectives || goal.sub_objectives.length === 0" class="text-gray-500 text-xs sm:text-sm italic border-l-4 border-gray-100 pl-4 ml-3 pt-2"> {{ 'dashboard_tabs.goals.no_sub_objectives' | translate }}
         </p>
 
       </div>
@@ -83,12 +83,12 @@
 
     <ng-template #noGoalsFound>
       <div class="text-center py-10 text-gray-500">
-        <p class="text-base sm:text-lg">Aucun objectif trouvé. Cliquez sur "Ajouter un nouvel objectif" pour commencer !</p> <i class="far fa-clipboard text-5xl sm:text-6xl mt-4"></i> </div>
+        <p class="text-base sm:text-lg">{{ 'dashboard_tabs.goals.no_goals_found' | translate }}</p> <i class="far fa-clipboard text-5xl sm:text-6xl mt-4"></i> </div>
     </ng-template>
 
     <button (click)="onAddGoalClick()"
       class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-blue-600 hover:border-blue-300 transition flex items-center justify-center mt-6 text-base font-medium">
-      <i class="fas fa-plus mr-2"></i> Ajouter un nouvel objectif
+      <i class="fas fa-plus mr-2"></i> {{ 'dashboard_tabs.goals.add_new_goal' | translate }}
     </button>
   </div>
 </div>

@@ -1,21 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core'; // Added OnChanges, SimpleChanges
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core'; // Added OnChanges, SimpleChanges
 import { FormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { Note } from 'src/app/core/models/note';
 import { NoteFilterParams } from 'src/app/core/models/noteFiltesParams';
 import { AuthService } from 'src/app/core/services/authService.service';
 import { NoteService } from 'src/app/core/services/note.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
   selector: 'app-notes',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.css'
 })
 
-export class NotesComponent implements OnInit, OnChanges {
+export class NotesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() currentProfileId: number | null = null;
 
   notes: Note[] = [];
@@ -35,14 +37,26 @@ export class NotesComponent implements OnInit, OnChanges {
   filterAuthorUsername: string = '';
   private searchSubject = new Subject<string>();
   private authorSearchSubject = new Subject<string>();
+  private languageSubscription: Subscription;
 
   constructor(
     private notesService: NoteService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private translate: TranslateService,
+    private sharedService: SharedService
+  ) {
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
 
   ngOnInit(): void {
     this.currentLoggedInUsername = this.authService.currentUserValue?.username || null;
+
+    // Initialize translation with current language
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
 
     if (this.currentProfileId) {
       this.loadNotes();
@@ -66,6 +80,12 @@ export class NotesComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['currentProfileId'] && this.currentProfileId !== null) {
       this.loadNotes();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
     }
   }
 
@@ -153,11 +173,11 @@ export class NotesComponent implements OnInit, OnChanges {
 
   onSaveNote(): void {
     if (!this.newNoteContent.trim()) {
-      alert('Note content cannot be empty!');
+      alert(this.translate.instant('dashboard_tabs.notes.messages.content_empty'));
       return;
     }
     if (this.currentProfileId === null) {
-      alert('Cannot save note: No profile selected.');
+      alert(this.translate.instant('dashboard_tabs.notes.messages.no_profile_selected'));
       return;
     }
 
@@ -175,11 +195,11 @@ export class NotesComponent implements OnInit, OnChanges {
       error: (error) => {
         console.error('Error creating note:', error);
         if (error.status === 401) {
-          alert('Authentication required. Please log in.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.auth_required'));
         } else if (error.status === 403) {
-          alert('You do not have permission to add notes to this profile.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.permission_denied_add'));
         } else {
-          alert('Failed to save note. Please try again.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.save_failed'));
         }
       }
     });
@@ -199,7 +219,7 @@ export class NotesComponent implements OnInit, OnChanges {
 
   saveEditedNote(noteId: number | undefined): void {
     if (noteId === undefined || !this.editedNoteContent.trim()) {
-      alert('Note ID is missing or content is empty!');
+      alert(this.translate.instant('dashboard_tabs.notes.messages.note_id_missing'));
       return;
     }
 
@@ -220,11 +240,11 @@ export class NotesComponent implements OnInit, OnChanges {
       error: (error) => {
         console.error('Error updating note:', error);
         if (error.status === 401) {
-          alert('Authentication required. Please log in to update notes.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.auth_required_update'));
         } else if (error.status === 403) {
-          alert('You do not have permission to edit this note.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.permission_denied_edit'));
         } else {
-          alert('Failed to update note. Please try again.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.update_failed'));
         }
       }
     });
@@ -257,7 +277,7 @@ export class NotesComponent implements OnInit, OnChanges {
   }
 
   deleteNote(id: number | undefined): void {
-    if (id === undefined || !confirm('Are you sure you want to delete this note?')) {
+    if (id === undefined || !confirm(this.translate.instant('dashboard_tabs.notes.messages.confirm_delete'))) {
       return;
     }
     this.notesService.deleteNote(id).subscribe({
@@ -267,9 +287,9 @@ export class NotesComponent implements OnInit, OnChanges {
       error: (error) => {
         console.error('Error deleting note:', error);
         if (error.status === 403) {
-          alert('You do not have permission to delete this note.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.permission_denied_delete'));
         } else {
-          alert('Failed to delete note. Please try again.');
+          alert(this.translate.instant('dashboard_tabs.notes.messages.delete_failed'));
         }
       }
     });

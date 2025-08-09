@@ -1,65 +1,280 @@
-<div class="head-title">
-  <div class="left">
-    <h1>{{ 'evaluations.head_title.title' | translate }}</h1>
-    <ul class="breadcrumb">
-      <li>
-        <a href="#">{{ 'evaluations.head_title.breadcrumb.dashboard' | translate }}</a>
-      </li>
-      <li><i class="bx bx-chevron-right"></i></li>
-      <li>
-        <a class="active" href="#">{{ 'evaluations.head_title.breadcrumb.evaluations_summary' | translate }}</a>
-      </li>
-    </ul>
+<!-- Header Section -->
+<div class="page-header">
+  <div class="header-content">
+    <div class="title-section">
+      <h1 class="page-title">
+        <i class="fas fa-chart-line"></i>
+        {{ 'evaluations.head_title.title' | translate }}
+      </h1>
+      <nav class="breadcrumb-nav">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#" class="breadcrumb-link">
+              <i class="fas fa-home"></i>
+              {{ 'evaluations.head_title.breadcrumb.dashboard' | translate }}
+            </a>
+          </li>
+          <li class="breadcrumb-item active">
+            <i class="fas fa-chart-bar"></i>
+            {{ 'evaluations.head_title.breadcrumb.evaluations_summary' | translate }}
+          </li>
+        </ol>
+      </nav>
+    </div>
   </div>
-  <div class="right"></div>
 </div>
-<div class="summary-container">
-  <div *ngIf="isLoading" class="text-center">
-    <p>{{ 'evaluations.loading.message' | translate }}</p>
+
+<!-- Main Content -->
+<div class="evaluations-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-section">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p class="loading-text">{{ 'evaluations.loading.message' | translate }}</p>
+    </div>
   </div>
-  <div *ngIf="error" class="alert alert-danger">
-    {{ 'evaluations.error.message' | translate: { error: error } }}
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-section">
+    <div class="error-card">
+      <i class="fas fa-exclamation-triangle error-icon"></i>
+      <h3 class="error-title">{{ 'evaluations.error.title' | translate }}</h3>
+      <p class="error-message">{{ 'evaluations.error.message' | translate: { error: error } }}</p>
+    </div>
   </div>
-  <div *ngIf="items.length > 0" class="mb-4">
-    <h2 class="category-header">{{ 'evaluations.category_header' | translate: { categoryName: profileCategoryName } }}</h2>
-    <h3 class="domain-header">{{ 'evaluations.domain_header' | translate: { domainName: profileDomainName } }}</h3>
-  </div>
-  <p-table [value]="items" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
-    <ng-template pTemplate="caption">
-      <div class="button-container">
-        <button pButton pRipple type="button" icon="pi pi-file-excel" [label]="'evaluations.table.caption.export_excel' | translate" class="p-button-success mr-2" (click)="exportExcel()" [disabled]="items.length === 0"></button>
-        <button pButton pRipple type="button" icon="pi pi-file-pdf" [label]="'evaluations.table.caption.export_pdf' | translate" class="p-button-warning mr-2" (click)="exportPdf()" [disabled]="items.length === 0"></button>
+
+  <!-- Content Section -->
+  <div *ngIf="!isLoading && !error">
+    <!-- Category and Domain Info -->
+    <div *ngIf="items.length > 0" class="info-section">
+      <div class="info-cards">
+        <div class="info-card category-card">
+          <div class="info-icon">
+            <i class="fas fa-folder-open"></i>
+          </div>
+          <div class="info-content">
+            <h3 class="info-label">{{ 'evaluations.category_header' | translate }}</h3>
+            <p class="info-value">{{ profileCategoryName }}</p>
+          </div>
+        </div>
+        <div class="info-card domain-card">
+          <div class="info-icon">
+            <i class="fas fa-sitemap"></i>
+          </div>
+          <div class="info-content">
+            <h3 class="info-label">{{ 'evaluations.domain_header' | translate }}</h3>
+            <p class="info-value">{{ profileDomainName }}</p>
+          </div>
+        </div>
       </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        <th>{{ 'evaluations.table.headers.items' | translate }}</th>
-        <th>{{ 'evaluations.table.headers.status' | translate }}</th>
-        <th>{{ 'evaluations.table.headers.comments' | translate }}</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-item>
-      <tr>
-        <td class="align-middle">{{ item.description || item.name }}</td>
-        <td class="align-middle">
-          <span [ngClass]="{
-            'statut-badge statut-acquise': item.etat === 'ACQUIS',
-            'statut-badge statut-non-acquise': item.etat === 'NON_ACQUIS',
-            'statut-badge statut-non-evalue': item.etat === 'NON_COTE',
-            'statut-badge statut-partiel': item.etat === 'PARTIEL'
-          }">
-            {{ getEtatLabel(item.etat) }}
-          </span>
-        </td>
-        <td class="align-middle">
-          <div *ngIf="item.comentaire" class="comment-bubble">
-            {{ item.comentaire }}
+    </div>
+
+    <!-- Controls Section -->
+    <div class="controls-section">
+      <!-- View Toggle Buttons -->
+      <div class="view-controls">
+        <div class="view-toggle">
+          <button 
+            class="view-btn" 
+            [class.active]="currentView === 'table'"
+            (click)="switchView('table')"
+            title="{{ 'evaluations.views.table' | translate }}">
+            <i class="fas fa-table"></i>
+            <span>{{ 'evaluations.views.table' | translate }}</span>
+          </button>
+          <button 
+            class="view-btn" 
+            [class.active]="currentView === 'list'"
+            (click)="switchView('list')"
+            title="{{ 'evaluations.views.list' | translate }}">
+            <i class="fas fa-list"></i>
+            <span>{{ 'evaluations.views.list' | translate }}</span>
+          </button>
+          <button 
+            class="view-btn" 
+            [class.active]="currentView === 'card'"
+            (click)="switchView('card')"
+            title="{{ 'evaluations.views.card' | translate }}">
+            <i class="fas fa-th-large"></i>
+            <span>{{ 'evaluations.views.card' | translate }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div class="export-controls">
+        <button 
+          pButton 
+          pRipple 
+          type="button" 
+          icon="pi pi-file-excel" 
+          [label]="'evaluations.table.caption.export_excel' | translate" 
+          class="export-btn excel-btn" 
+          (click)="exportExcel()" 
+          [disabled]="items.length === 0">
+        </button>
+        <button 
+          pButton 
+          pRipple 
+          type="button" 
+          icon="pi pi-file-pdf" 
+          [label]="'evaluations.table.caption.export_pdf' | translate" 
+          class="export-btn pdf-btn" 
+          (click)="exportPdf()" 
+          [disabled]="items.length === 0">
+        </button>
+      </div>
+    </div>
+
+    <!-- Data Views -->
+    <div class="data-section">
+      <!-- Table View -->
+      <div *ngIf="currentView === 'table'" class="table-view">
+        <p-table 
+          [value]="items" 
+          [paginator]="true" 
+          [rows]="10" 
+          [responsive]="true" 
+          styleClass="modern-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="item-header">
+                <i class="fas fa-list-ul"></i>
+                {{ 'evaluations.table.headers.items' | translate }}
+              </th>
+              <th class="status-header">
+                <i class="fas fa-check-circle"></i>
+                {{ 'evaluations.table.headers.status' | translate }}
+              </th>
+              <th class="comment-header">
+                <i class="fas fa-comment"></i>
+                {{ 'evaluations.table.headers.comments' | translate }}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr class="table-row">
+              <td class="item-cell">
+                <div class="item-content">
+                  <span class="item-text">{{ item.description || item.name }}</span>
+                </div>
+              </td>
+              <td class="status-cell">
+                <span class="status-badge" [ngClass]="{
+                  'status-acquired': item.etat === 'ACQUIS',
+                  'status-not-acquired': item.etat === 'NON_ACQUIS',
+                  'status-not-evaluated': item.etat === 'NON_COTE',
+                  'status-partial': item.etat === 'PARTIEL'
+                }">
+                  <i class="status-icon" [ngClass]="{
+                    'fas fa-check': item.etat === 'ACQUIS',
+                    'fas fa-times': item.etat === 'NON_ACQUIS',
+                    'fas fa-question': item.etat === 'NON_COTE',
+                    'fas fa-minus': item.etat === 'PARTIEL'
+                  }"></i>
+                  {{ getEtatLabel(item.etat) }}
+                </span>
+              </td>
+              <td class="comment-cell">
+                <div *ngIf="item.comentaire" class="comment-content">
+                  <i class="fas fa-quote-left comment-quote"></i>
+                  <span class="comment-text">{{ item.comentaire }}</span>
+                </div>
+                <div *ngIf="!item.comentaire" class="no-comment">
+                  <i class="fas fa-minus-circle"></i>
+                  <span>{{ 'evaluations.table.no_comment' | translate }}</span>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <!-- List View -->
+      <div *ngIf="currentView === 'list'" class="list-view">
+        <div class="list-container">
+          <div *ngFor="let item of items; let i = index" class="list-item">
+            <div class="list-item-content">
+              <div class="list-item-header">
+                <div class="item-number">{{ i + 1 }}</div>
+                <div class="item-title">{{ item.description || item.name }}</div>
+                <div class="item-status">
+                  <span class="status-badge" [ngClass]="{
+                    'status-acquired': item.etat === 'ACQUIS',
+                    'status-not-acquired': item.etat === 'NON_ACQUIS',
+                    'status-not-evaluated': item.etat === 'NON_COTE',
+                    'status-partial': item.etat === 'PARTIEL'
+                  }">
+                    <i class="status-icon" [ngClass]="{
+                      'fas fa-check': item.etat === 'ACQUIS',
+                      'fas fa-times': item.etat === 'NON_ACQUIS',
+                      'fas fa-question': item.etat === 'NON_COTE',
+                      'fas fa-minus': item.etat === 'PARTIEL'
+                    }"></i>
+                    {{ getEtatLabel(item.etat) }}
+                  </span>
+                </div>
+              </div>
+              <div *ngIf="item.comentaire" class="list-item-comment">
+                <i class="fas fa-comment-dots"></i>
+                <span>{{ item.comentaire }}</span>
+              </div>
+            </div>
           </div>
-          <div *ngIf="!item.comentaire" class="text-muted">
-            {{ 'evaluations.table.no_comment' | translate }}
+        </div>
+      </div>
+
+      <!-- Card View -->
+      <div *ngIf="currentView === 'card'" class="card-view">
+        <div class="cards-grid">
+          <div *ngFor="let item of items; let i = index" class="evaluation-card">
+            <div class="card-header">
+              <div class="card-number">{{ i + 1 }}</div>
+              <div class="card-status">
+                <span class="status-badge" [ngClass]="{
+                  'status-acquired': item.etat === 'ACQUIS',
+                  'status-not-acquired': item.etat === 'NON_ACQUIS',
+                  'status-not-evaluated': item.etat === 'NON_COTE',
+                  'status-partial': item.etat === 'PARTIEL'
+                }">
+                  <i class="status-icon" [ngClass]="{
+                    'fas fa-check': item.etat === 'ACQUIS',
+                    'fas fa-times': item.etat === 'NON_ACQUIS',
+                    'fas fa-question': item.etat === 'NON_COTE',
+                    'fas fa-minus': item.etat === 'PARTIEL'
+                  }"></i>
+                  {{ getEtatLabel(item.etat) }}
+                </span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">{{ item.description || item.name }}</h4>
+              <div class="card-comment">
+                <div *ngIf="item.comentaire" class="comment-section">
+                  <div class="comment-label">
+                    <i class="fas fa-comment"></i>
+                    {{ 'evaluations.table.headers.comments' | translate }}
+                  </div>
+                  <div class="comment-text">{{ item.comentaire }}</div>
+                </div>
+                <div *ngIf="!item.comentaire" class="no-comment-section">
+                  <i class="fas fa-minus-circle"></i>
+                  <span>{{ 'evaluations.table.no_comment' | translate }}</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="items.length === 0" class="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h3 class="empty-title">{{ 'evaluations.empty.title' | translate }}</h3>
+        <p class="empty-message">{{ 'evaluations.empty.message' | translate }}</p>
+      </div>
+    </div>
+  </div>
 </div>
