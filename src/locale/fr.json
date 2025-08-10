@@ -540,6 +540,7 @@
       "UNKNOWN": "Inconnu"
     },
     "export": {
+      "title": "Rapport de Résumé des Compétences",
       "excel": "Exporter en Excel",
       "pdf": "Exporter en PDF",
       "category": "Catégorie",
@@ -551,7 +552,8 @@
       "not_acquired": "Non Acquises",
       "not_evaluated": "Non Évaluées",
       "overall_progress": "Progression Globale",
-      "progress": "Progression"
+      "progress": "Progression",
+      "domains_info": "Informations des Domaines"
     },
     "view_modes": {
       "table": "Tableau",
