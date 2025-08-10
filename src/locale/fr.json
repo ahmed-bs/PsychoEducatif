@@ -1036,6 +1036,15 @@
       "competencies_count": "{{count}} compétences"
     },
     "stats_content": {
+      "loading": "Chargement des statistiques...",
+      "no_child_selected": "Veuillez sélectionner un enfant pour voir les statistiques",
+      "no_data": "Aucune donnée de statistiques disponible pour cet enfant",
+      "summary": {
+        "categories": "Catégories",
+        "domains": "Domaines",
+        "items": "Éléments",
+        "progress": "Progrès Global"
+      },
       "progress_overview": {
         "title": "Aperçu des Progrès",
         "competencies_count": "{{count}} compétences",
@@ -1235,10 +1244,22 @@
       "status": "{{status}}",
       "responsible": "{{responsible}}",
       "author": "{{author}}",
+      "loading": "Chargement des stratégies...",
+      "error_title": "Erreur de chargement",
+      "retry": "Réessayer",
+      "empty_title": "Aucune stratégie trouvée",
+      "empty_description": "Commencez par ajouter votre première stratégie comportementale.",
       "messages": {
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette stratégie?",
         "permission_denied": "Vous n'êtes pas autorisé à supprimer cette stratégie. Seul l'auteur peut la supprimer.",
-        "delete_error": "Une erreur est survenue lors de la suppression de la stratégie."
+        "delete_error": "Une erreur est survenue lors de la suppression de la stratégie.",
+        "delete_success": "Stratégie supprimée avec succès.",
+        "create_success": "Stratégie créée avec succès.",
+        "update_success": "Stratégie mise à jour avec succès.",
+        "create_error": "Une erreur est survenue lors de la création de la stratégie.",
+        "update_error": "Une erreur est survenue lors de la mise à jour de la stratégie.",
+        "load_error": "Une erreur est survenue lors du chargement des stratégies.",
+        "no_profile_id": "Aucun profil sélectionné. Impossible de charger les stratégies."
       }
     }
   },
@@ -1274,13 +1295,17 @@
     "buttons": {
       "cancel": "Annuler",
       "save": "Enregistrer",
-      "update": "Modifier"
+      "update": "Modifier",
+      "saving": "Enregistrement..."
     },
     "validation": {
       "title_required": "Le titre est requis.",
+      "title_min_length": "Le titre doit contenir au moins 3 caractères.",
       "description_required": "La description est requise.",
+      "description_min_length": "La description doit contenir au moins 10 caractères.",
       "status_required": "Le statut est requis.",
       "responsible_required": "Le responsable est requis.",
+      "profile_required": "Aucun profil sélectionné.",
       "required_fields": "Veuillez remplir au moins le titre et la description de la stratégie."
     }
   },

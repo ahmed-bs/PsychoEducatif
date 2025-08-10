@@ -434,4 +434,29 @@ canvas {
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
+
+/* Statistics Summary Cards */
+.bg-gradient-to-r {
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+
+.bg-gradient-to-r:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading Animation */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
   

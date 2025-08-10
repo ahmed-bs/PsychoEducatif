@@ -27,6 +27,7 @@ import { StrategyComponent } from './tabs/strategy/strategy.component';
 import { environment } from 'src/environments/environment';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
+import { StatisticsService, OverallStatistics, CategoryStatistics } from 'src/app/core/services/statistics.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -371,6 +372,10 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   isEmailValid: boolean = false;
   loadingShare: boolean = false;
   private languageSubscription: Subscription;
+  
+  // Statistics data
+  statistics: OverallStatistics | null = null;
+  isLoadingStatistics: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -382,7 +387,8 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     private domainService: ProfileDomainService,
     private goalService: GoalService, 
     private authService: AuthService,    private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private statisticsService: StatisticsService
   ) {
     this.accesSelectionne = this.optionsAcces[0];
     
@@ -568,6 +574,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
 
   switchTab(tabId: string): void {
     this.activeTab = tabId;
+    
+    // Load statistics when stats tab is accessed
+    if (tabId === 'stats' && this.selectedChild?.id && !this.statistics) {
+      this.loadStatistics(this.selectedChild.id);
+    }
   }
 
   isTabActive(tabId: string): boolean {
@@ -629,6 +640,8 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         };
         this.loadCategories(childId);
         this.currentProfileIdForModal = childId;
+        this.loadGoals();
+        this.loadStatistics(childId);
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
@@ -642,6 +655,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       this.loadCategories(child.id);
       this.currentProfileIdForModal = child.id;
       this.loadGoals();
+      this.loadStatistics(child.id);
     }
   }
 
@@ -881,13 +895,17 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   }
 
   updateSkillsChart() {
-    // Aggregate number of skills per domain for doughnut chart
+    if (!this.statistics) return;
+    
+    // Use real statistics data for doughnut chart
     const labels: string[] = [];
     const data: number[] = [];
-    for (const cat of this.filteredCategories) {
-      labels.push(cat.name);
-      data.push((this.domains[cat.id!] || []).length);
+    
+    for (const categoryStat of this.statistics.categoryStats) {
+      labels.push(categoryStat.categoryName);
+      data.push(categoryStat.totalItems);
     }
+    
     this.skillsChartData = {
       ...this.skillsChartData,
       labels,
@@ -905,18 +923,16 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   }
 
   updateProgressChart() {
+    if (!this.statistics) return;
+    
     const labels: string[] = [];
     const currentProgress: number[] = [];
     const targetProgress: number[] = [];
     
-    for (const cat of this.filteredCategories) {
-      labels.push(cat.name);
-      const domains = this.domains[cat.id!] || [];
-      const avgProgress = domains.length > 0 
-        ? domains.reduce((sum, domain) => sum + (domain.acquis_percentage || 0), 0) / domains.length
-        : 0;
-      currentProgress.push(Math.round(avgProgress));
-      targetProgress.push(85); // Target of 85% for all domains
+    for (const categoryStat of this.statistics.categoryStats) {
+      labels.push(categoryStat.categoryName);
+      currentProgress.push(categoryStat.progressPercentage);
+      targetProgress.push(85); // Target of 85% for all categories
     }
     
     this.progressChartData = {
@@ -930,19 +946,23 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   }
 
   updateLineChart() {
+    if (!this.statistics) return;
+    
     const labels: string[] = [];
     const data: number[] = [];
-    // Use first 6 domains for line chart (or all if less than 6)
+    
+    // Use domain statistics for line chart (first 6 domains)
     let domainCount = 0;
-    for (const cat of this.filteredCategories) {
+    for (const categoryStat of this.statistics.categoryStats) {
       if (domainCount >= 6) break;
-      for (const domain of this.domains[cat.id!] || []) {
+      for (const domainStat of categoryStat.domains) {
         if (domainCount >= 6) break;
-        labels.push(domain.name);
-        data.push(domain.acquis_percentage || 0);
+        labels.push(domainStat.domainName);
+        data.push(domainStat.progressPercentage);
         domainCount++;
       }
     }
+    
     this.lineChartData = {
       ...this.lineChartData,
       labels,
@@ -951,12 +971,14 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   }
 
   updatePolarChart() {
+    if (!this.statistics) return;
+    
     const labels: string[] = [];
     const data: number[] = [];
     
-    for (const cat of this.filteredCategories) {
-      labels.push(cat.name);
-      data.push((this.domains[cat.id!] || []).length);
+    for (const categoryStat of this.statistics.categoryStats) {
+      labels.push(categoryStat.categoryName);
+      data.push(categoryStat.totalItems);
     }
     
     this.polarChartData = {
@@ -967,19 +989,44 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   }
 
   getCategoryProgress(categoryId: number): number {
-    const domains = this.domains[categoryId] || [];
-    if (domains.length === 0) return 0;
+    if (!this.statistics) return 0;
     
-    const totalProgress = domains.reduce((sum, domain) => sum + (domain.acquis_percentage || 0), 0);
-    return Math.round(totalProgress / domains.length);
+    const categoryStat = this.statistics.categoryStats.find(cat => cat.categoryId === categoryId);
+    return categoryStat ? categoryStat.progressPercentage : 0;
   }
 
   getLastUpdateDate(): string {
-    const today = new Date();
-    return today.toLocaleDateString('fr-FR', {
+    if (!this.statistics?.recentActivity.lastEvaluationDate) {
+      return new Date().toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    }
+    
+    return new Date(this.statistics.recentActivity.lastEvaluationDate).toLocaleDateString('fr-FR', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
+    });
+  }
+
+  loadStatistics(profileId: number): void {
+    console.log('Dashboard: Loading statistics for profile:', profileId);
+    this.isLoadingStatistics = true;
+    this.statistics = null;
+    
+    this.statisticsService.getProfileStatistics(profileId).subscribe({
+      next: (statistics) => {
+        console.log('Dashboard: Statistics loaded:', statistics);
+        this.statistics = statistics;
+        this.updateSkillsChart();
+        this.isLoadingStatistics = false;
+      },
+      error: (error) => {
+        console.error('Dashboard: Error loading statistics:', error);
+        this.isLoadingStatistics = false;
+      }
     });
   }
 }
