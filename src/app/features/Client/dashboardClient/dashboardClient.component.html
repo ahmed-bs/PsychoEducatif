@@ -153,55 +153,47 @@
                         <div *ngIf="statistics && statistics.categoryStats.length > 0">
                             <!-- Overall Statistics Summary -->
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                                <div
-                                    class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-md p-6 text-white">
-                                    <div class="flex items-center">
-                                        <div class="p-2 bg-white bg-opacity-20 rounded-lg">
-                                            <i class="fas fa-layer-group text-xl"></i>
+                                <div class="stats-card categories-card">
+                                    <div class="stats-card-content">
+                                        <div class="stats-icon">
+                                            <i class="fas fa-layer-group"></i>
                                         </div>
-                                        <div class="ml-4">
-                                            <p class="text-sm opacity-90">{{
-                                                'dashboard.stats_content.summary.categories' | translate }}</p>
-                                            <p class="text-2xl font-bold">{{ statistics?.totalCategories || 0 }}</p>
+                                        <div class="stats-info">
+                                            <p class="stats-label">{{ 'dashboard.stats_content.summary.categories' | translate }}</p>
+                                            <p class="stats-value">{{ statistics?.totalCategories || 0 }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="bg-gradient-to-r from-green-500 to-teal-600 rounded-xl shadow-md p-6 text-white">
-                                    <div class="flex items-center">
-                                        <div class="p-2 bg-white bg-opacity-20 rounded-lg">
-                                            <i class="fas fa-sitemap text-xl"></i>
+                                <div class="stats-card domains-card">
+                                    <div class="stats-card-content">
+                                        <div class="stats-icon">
+                                            <i class="fas fa-sitemap"></i>
                                         </div>
-                                        <div class="ml-4">
-                                            <p class="text-sm opacity-90">{{ 'dashboard.stats_content.summary.domains' |
-                                                translate }}</p>
-                                            <p class="text-2xl font-bold">{{ statistics?.totalDomains || 0 }}</p>
+                                        <div class="stats-info">
+                                            <p class="stats-label">{{ 'dashboard.stats_content.summary.domains' | translate }}</p>
+                                            <p class="stats-value">{{ statistics?.totalDomains || 0 }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl shadow-md p-6 text-white">
-                                    <div class="flex items-center">
-                                        <div class="p-2 bg-white bg-opacity-20 rounded-lg">
-                                            <i class="fas fa-tasks text-xl"></i>
+                                <div class="stats-card items-card">
+                                    <div class="stats-card-content">
+                                        <div class="stats-icon">
+                                            <i class="fas fa-tasks"></i>
                                         </div>
-                                        <div class="ml-4">
-                                            <p class="text-sm opacity-90">{{ 'dashboard.stats_content.summary.items' |
-                                                translate }}</p>
-                                            <p class="text-2xl font-bold">{{ statistics?.totalItems || 0 }}</p>
+                                        <div class="stats-info">
+                                            <p class="stats-label">{{ 'dashboard.stats_content.summary.items' | translate }}</p>
+                                            <p class="stats-value">{{ statistics?.totalItems || 0 }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="bg-gradient-to-r from-orange-500 to-red-600 rounded-xl shadow-md p-6 text-white">
-                                    <div class="flex items-center">
-                                        <div class="p-2 bg-white bg-opacity-20 rounded-lg">
-                                            <i class="fas fa-chart-line text-xl"></i>
+                                <div class="stats-card progress-card">
+                                    <div class="stats-card-content">
+                                        <div class="stats-icon">
+                                            <i class="fas fa-chart-line"></i>
                                         </div>
-                                        <div class="ml-4">
-                                            <p class="text-sm opacity-90">{{ 'dashboard.stats_content.summary.progress'
-                                                | translate }}</p>
-                                            <p class="text-2xl font-bold">{{ statistics?.overallProgress || 0 }}%</p>
+                                        <div class="stats-info">
+                                            <p class="stats-label">{{ 'dashboard.stats_content.summary.progress' | translate }}</p>
+                                            <p class="stats-value">{{ statistics?.overallProgress || 0 }}%</p>
                                         </div>
                                     </div>
                                 </div>
