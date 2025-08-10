@@ -540,6 +540,7 @@
       "UNKNOWN": "غير معروف"
     },
     "export": {
+      "title": "تقرير ملخص المهارات",
       "excel": "تصدير كـ Excel",
       "pdf": "تصدير كـ PDF",
       "category": "الفئة",
@@ -551,7 +552,8 @@
       "not_acquired": "غير مكتسبة",
       "not_evaluated": "غير مقيّمة",
       "overall_progress": "التقدم العام",
-      "progress": "التقدم"
+      "progress": "التقدم",
+      "domains_info": "معلومات المجالات"
     },
     "view_modes": {
       "table": "جدول",

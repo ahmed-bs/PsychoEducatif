@@ -168,7 +168,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
           result.allItems.map(item => ({
             ...item,
             profile_category_name: result.category.name,
-            profile_domain_name: result.domains.find(d => d.id === item.profile_domain)?.name || 'Unknown Domain'
+            profile_domain_name: item.profile_domain_name || result.domains.find(d => d.id === item.profile_domain)?.name || 'Unknown Domain'
           }))
         );
         
@@ -296,31 +296,36 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   exportExcel(): void {
     import('xlsx').then((xlsx) => {
-      const exportData = this.categoryDataForTable.flatMap(category => {
-        const categoryRow = [
-          { [this.translate.instant('skills_summary.export.category')]: category.category },
-          { [this.translate.instant('skills_summary.export.total_domains')]: category.totalDomains },
-          { [this.translate.instant('skills_summary.export.total_items')]: category.totalItemsOverall },
-          { [this.translate.instant('skills_summary.export.overall_progress')]: `${category.overallProgress}%` },
-          {}
+      // Create headers for the Excel file
+      const headers = [
+        this.translate.instant('skills_summary.export.category'),
+        this.translate.instant('skills_summary.export.total_domains'),
+        this.translate.instant('skills_summary.export.total_items'),
+        this.translate.instant('skills_summary.export.overall_progress'),
+        this.translate.instant('skills_summary.export.domains_info')
+      ];
+
+      // Create data rows
+      const exportData = this.categoryDataForTable.map(category => {
+        // Create a formatted string for domains information
+        const domainsInfo = category.domains.map(domain => 
+          `${domain.domain}: ${domain.totalItems} items (${domain.acquired} acquired, ${domain.partial} partial, ${domain.notAcquired} not acquired, ${domain.notEvaluated} not evaluated) - ${domain.progressPercentage}%`
+        ).join('; ');
+
+        return [
+          category.category,
+          category.totalDomains,
+          category.totalItemsOverall,
+          `${category.overallProgress}%`,
+          domainsInfo
         ];
-
-        const domainRows = category.domains.flatMap(domain => [
-          { [this.translate.instant('skills_summary.export.domain')]: domain.domain },
-          { [this.translate.instant('skills_summary.export.total_items')]: domain.totalItems },
-          { [this.translate.instant('skills_summary.export.acquired')]: domain.acquired },
-          { [this.translate.instant('skills_summary.export.partial')]: domain.partial },
-          { [this.translate.instant('skills_summary.export.not_acquired')]: domain.notAcquired },
-          { [this.translate.instant('skills_summary.export.not_evaluated')]: domain.notEvaluated },
-          { [this.translate.instant('skills_summary.export.progress')]: `${domain.progressPercentage}%` },
-          {}
-        ]);
-
-        return [...categoryRow, ...domainRows];
       });
 
-      const worksheet = xlsx.utils.json_to_sheet(exportData);
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      // Add headers to the beginning of the data
+      const finalData = [headers, ...exportData];
+
+      const worksheet = xlsx.utils.aoa_to_sheet(finalData);
+      const workbook = { Sheets: { 'Skills Summary': worksheet }, SheetNames: ['Skills Summary'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, 'skills_summary');
     });
@@ -334,15 +339,53 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   exportPdf(): void {
-    const doc = new jsPDF('p', 'pt');
-    let yPosition = 20;
+    const currentLang = this.sharedService.getCurrentLanguage();
+    
+    // For Arabic and French text, we need a different approach
+    if (currentLang === 'ar' || currentLang === 'fr') {
+      this.exportPdfHtml();
+    } else {
+      this.exportPdfStandard();
+    }
+  }
 
-    this.categoryDataForTable.forEach(category => {
-      doc.text(`${this.translate.instant('skills_summary.export.category')}: ${category.category}`, 40, yPosition);
+  private exportPdfStandard(): void {
+    const doc = new jsPDF('p', 'pt', 'a4');
+    
+    let yPosition = 40;
+    const pageWidth = doc.internal.pageSize.width;
+    const margin = 40;
+
+    // Add title
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    const title = this.translate.instant('skills_summary.export.title');
+    const titleWidth = doc.getTextWidth(title);
+    doc.text(title, (pageWidth - titleWidth) / 2, yPosition);
+    yPosition += 30;
+
+    this.categoryDataForTable.forEach((category, categoryIndex) => {
+      // Check if we need a new page
+      if (yPosition > doc.internal.pageSize.height - 200) {
+        doc.addPage();
+        yPosition = 40;
+      }
+
+      // Category header
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      const categoryText = `${this.translate.instant('skills_summary.export.category')}: ${category.category}`;
+      doc.text(categoryText, margin, yPosition);
       yPosition += 20;
-      doc.text(`${this.translate.instant('skills_summary.export.overall_progress')}: ${category.overallProgress}%`, 40, yPosition);
+
+      // Overall progress
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      const progressText = `${this.translate.instant('skills_summary.export.overall_progress')}: ${category.overallProgress}%`;
+      doc.text(progressText, margin, yPosition);
       yPosition += 30;
 
+      // Prepare table data
       const tableData = category.domains.map(domain => [
         domain.domain,
         domain.totalItems.toString(),
@@ -353,6 +396,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
         `${domain.progressPercentage}%`
       ]);
 
+      // Create table
       autoTable(doc, {
         startY: yPosition,
         head: [[
@@ -366,13 +410,155 @@ export class SummaryComponent implements OnInit, OnDestroy {
         ]],
         body: tableData,
         theme: 'striped',
-        headStyles: { fillColor: [0, 123, 255] },
-        margin: { top: yPosition },
+        headStyles: { 
+          fillColor: [0, 123, 255],
+          textColor: [255, 255, 255],
+          fontStyle: 'bold'
+        },
+        bodyStyles: {
+          fontSize: 10,
+          font: 'helvetica'
+        },
+        margin: { top: yPosition, left: margin, right: margin },
+        styles: {
+          font: 'helvetica',
+          fontSize: 10,
+          cellPadding: 5
+        },
+        columnStyles: {
+          0: { cellWidth: 80 }, // Domain column
+          1: { cellWidth: 30 }, // Total items
+          2: { cellWidth: 30 }, // Acquired
+          3: { cellWidth: 30 }, // Partial
+          4: { cellWidth: 35 }, // Not acquired
+          5: { cellWidth: 35 }, // Not evaluated
+          6: { cellWidth: 30 }  // Progress
+        }
       });
 
       yPosition = (doc as any).lastAutoTable.finalY + 20;
     });
 
-    doc.save('skills_summary.pdf');
+    // Save with timestamp
+    const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+    doc.save(`skills_summary_${timestamp}.pdf`);
+  }
+
+  private exportPdfHtml(): void {
+    // For Arabic and French text, we'll use a different approach
+    // We'll create an HTML file and open it in a new window for printing
+    // This approach should handle Arabic and French text much better
+    
+    const htmlContent = this.generateHtmlReport();
+    
+    // Create a blob with the HTML content
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    
+    // Open in new window for printing
+    const printWindow = window.open(url, '_blank');
+    if (printWindow) {
+      printWindow.onload = () => {
+        printWindow.print();
+        // Clean up the URL after printing
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 1000);
+      };
+    } else {
+      // Fallback: download as HTML file
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'skills_summary.html';
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  private generateHtmlReport(): string {
+    const currentLang = this.sharedService.getCurrentLanguage();
+    const isArabic = currentLang === 'ar';
+    
+    // Generate HTML content for Arabic and French text
+    let html = `
+      <html dir="${isArabic ? 'rtl' : 'ltr'}" lang="${currentLang}">
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          body { font-family: 'Arial', sans-serif; margin: 20px; }
+          .header { text-align: center; margin-bottom: 30px; }
+          .category-section { margin-bottom: 30px; }
+          .category-header { background-color: #f2f2f2; padding: 10px; margin-bottom: 15px; }
+          .domain-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+          .domain-table th, .domain-table td { border: 1px solid #ddd; padding: 8px; text-align: ${isArabic ? 'right' : 'left'}; }
+          .domain-table th { background-color: #e6e6e6; }
+          .progress-bar { background-color: #f0f0f0; height: 20px; border-radius: 10px; overflow: hidden; }
+          .progress-fill { background-color: #4CAF50; height: 100%; transition: width 0.3s; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>${this.translate.instant('skills_summary.export.title')}</h1>
+        </div>
+    `;
+    
+    this.categoryDataForTable.forEach(category => {
+      html += `
+        <div class="category-section">
+          <div class="category-header">
+            <h2>${category.category}</h2>
+            <p>${this.translate.instant('skills_summary.export.overall_progress')}: ${category.overallProgress}%</p>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${category.overallProgress}%"></div>
+            </div>
+          </div>
+      `;
+      
+      if (category.domains.length > 0) {
+        html += `
+          <table class="domain-table">
+            <thead>
+              <tr>
+                <th>${this.translate.instant('skills_summary.export.domain')}</th>
+                <th>${this.translate.instant('skills_summary.export.total_items')}</th>
+                <th>${this.translate.instant('skills_summary.export.acquired')}</th>
+                <th>${this.translate.instant('skills_summary.export.partial')}</th>
+                <th>${this.translate.instant('skills_summary.export.not_acquired')}</th>
+                <th>${this.translate.instant('skills_summary.export.not_evaluated')}</th>
+                <th>${this.translate.instant('skills_summary.export.progress')}</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        
+        category.domains.forEach(domain => {
+          html += `
+            <tr>
+              <td>${domain.domain}</td>
+              <td>${domain.totalItems}</td>
+              <td>${domain.acquired}</td>
+              <td>${domain.partial}</td>
+              <td>${domain.notAcquired}</td>
+              <td>${domain.notEvaluated}</td>
+              <td>${domain.progressPercentage}%</td>
+            </tr>
+          `;
+        });
+        
+        html += `
+            </tbody>
+          </table>
+        `;
+      }
+      
+      html += `</div>`;
+    });
+    
+    html += `
+      </body>
+      </html>
+    `;
+    
+    return html;
   }
 }
