@@ -131,10 +131,19 @@
 
       <!-- Terms Checkbox and Submit Button -->
       <div class="form-row align-items">
-        <mat-checkbox formControlName="accepte_conditions" class="checkbox" [innerHTML]="'signup_form.terms_checkbox' | translate"></mat-checkbox>
-        <span class="asterisk-placeholder">
-          <span *ngIf="showErrors && accepte_conditions?.invalid" class="text-danger ms-2">{{ 'signup_form.terms_required_error' | translate }}</span>
-        </span>
+        <div class="checkbox-container">
+          <input 
+            type="checkbox" 
+            id="accepte_conditions" 
+            formControlName="accepte_conditions" 
+            class="form-check-input">
+          <label for="accepte_conditions" class="checkbox-label">
+            <span [innerHTML]="'signup_form.terms_checkbox' | translate"></span>
+          </label>
+          <span class="asterisk-placeholder">
+            <span *ngIf="showErrors && accepte_conditions?.invalid" class="text-danger ms-2">{{ 'signup_form.terms_required_error' | translate }}</span>
+          </span>
+        </div>
         
         <button type="submit" class="submit-button" [disabled]="isLoading">
           <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
