@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { TooltipModule } from 'primeng/tooltip';
 import { SummaryComponent } from './summary.component';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -25,6 +26,7 @@ const routes: Routes = [
     CardModule,
     DividerModule,
     SelectButtonModule,
+    TooltipModule,
     RouterModule.forChild(routes),
     SummaryComponent,
     TranslateModule.forRoot({
