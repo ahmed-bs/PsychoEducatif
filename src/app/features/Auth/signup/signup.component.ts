@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authService.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,12 +12,13 @@ import Swal from 'sweetalert2';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   hidePassword = true;
   hideConfirmPassword = true;
   isLoading: boolean = false;
   showErrors: boolean = false;
+  private languageSubscription!: Subscription;
   userTypes = [
     { value: 'professional', label: 'signup_form.user_types.professional' },
     { value: 'parent', label: 'signup_form.user_types.parent' },
@@ -26,7 +29,8 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder, 
     private router: Router, 
     private authService: AuthService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -44,8 +48,10 @@ export class SignupComponent implements OnInit {
     // Initialize translation languages
     this.translate.addLangs(['fr', 'ar']);
     this.translate.setDefaultLang('ar');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+    
+    // Get saved language from localStorage or use browser language
+    const savedLang = localStorage.getItem('lang') || 'ar';
+    this.translate.use(savedLang);
 
     // Translate user type labels
     this.userTypes = this.userTypes.map(type => ({
@@ -77,7 +83,18 @@ export class SignupComponent implements OnInit {
     return password === confirm_password ? null : { passwordMismatch: true };
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Subscribe to language changes from SharedService
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
 
   get username() { return this.signupForm.get('username'); }
   get email() { return this.signupForm.get('email'); }
