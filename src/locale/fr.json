@@ -726,8 +726,8 @@
     "domain_header": "{{domainName}}",
     "table": {
       "caption": {
-        "export_excel": "Exporter en Excel",
-        "export_pdf": "Exporter en PDF"
+        "export_excel": "Exporter Excel",
+        "export_pdf": "Imprimer le rapport"
       },
       "headers": {
         "items": "Items",

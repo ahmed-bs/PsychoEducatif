@@ -692,8 +692,8 @@
     "domain_header": "{{domainName}}",
     "table": {
       "caption": {
-        "export_excel": "تصدير كـ Excel",
-        "export_pdf": "تصدير كـ PDF"
+        "export_excel": "تصدير Excel",
+        "export_pdf": "طباعة التقرير"
       },
       "headers": {
         "items": "العناصر",
