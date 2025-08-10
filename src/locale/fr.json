@@ -1122,13 +1122,9 @@
         "confirm_disable_child": "Êtes-vous sûr de vouloir désactiver {{name}} ?"
       }
     }
-  },"calendar.title": "📅 Calendrier",
-  "calendar.breadcrumb.dashboard": "Tableau de bord",
-  "calendar.breadcrumb.calendar": "📅 Calendrier",
-  "calendar.sidebar.title": "📌 Domaines en cours",
-  "calendar.domain.start_date": "Début: {{0}}",
-  "calendar.domain.last_eval_date": "Dernière éval: {{0}}",
-  "calendar.sidebar.no_domains": "Aucun domaine en cours.",
+  },
+
+
   "dashboard_tabs": {
     "goals": {
       "title": "Objectifs de travail",
@@ -1255,6 +1251,58 @@
       "status_required": "Le statut est requis.",
       "responsible_required": "Le responsable est requis.",
       "required_fields": "Veuillez remplir au moins le titre et la description de la stratégie."
+    }
+  },
+  "calendar": {
+    "title": "📅 Calendrier",
+    "breadcrumb": {
+      "dashboard": "Tableau de bord",
+      "calendar": "📅 Calendrier"
+    },
+    "sidebar": {
+      "title": "📌 Domaines en cours",
+      "no_domains_title": "Aucun domaine en cours",
+      "no_domains": "Il n'y a actuellement aucun domaine en cours de développement."
+    },
+    "domain": {
+      "start_date": "Début: {{0}}",
+      "last_eval_date": "Dernière éval: {{0}}"
+    },
+    "stats": {
+      "goals": "Objectifs",
+      "domains": "Domaines"
+    },
+    "calendar_title": "Calendrier des objectifs",
+    "calendar_subtitle": "Gérez vos objectifs et suivez vos progrès",
+    "overall_progress": "Progression globale",
+    "messages": {
+      "error": "Erreur",
+      "warning": "Avertissement",
+      "success": "Succès",
+      "deleted": "Supprimé!",
+      "saved": "Objectif enregistré!",
+      "load_goals_error": "Impossible de charger les objectifs.",
+      "delete_goal_confirm": "Voulez-vous vraiment supprimer l'objectif \"{{title}}\" ?",
+      "delete_goal_success": "L'objectif a été supprimé.",
+      "delete_goal_error": "Une erreur s'est produite lors de la suppression de l'objectif.",
+      "goal_added_success": "L'objectif \"{{title}}\" a été ajouté avec succès.",
+      "yes_delete": "Oui, supprimer!",
+      "cancel": "Annuler"
+    },
+    "buttons": {
+      "today": "Aujourd'hui",
+      "month": "Mois",
+      "week": "Semaine",
+      "day": "Jour",
+      "list": "Liste"
+    },
+    "errors": {
+      "load_goals": "Erreur lors du chargement des objectifs:",
+      "load_events": "Erreur lors du chargement des événements:",
+      "delete_goal": "Erreur lors de la suppression de l'objectif:",
+      "load_categories": "Erreur lors du chargement des catégories:",
+      "load_domains": "Erreur lors du chargement des domaines:",
+      "load_items": "Erreur lors du chargement des items:"
     }
   }
 }

@@ -1,49 +1,437 @@
+/* Modern Calendar Styling */
 .full-calendar {
-  border-radius: 25px;
+  border-radius: 30px;
   overflow: hidden;
   padding: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+  position: relative;
+}
+
+.full-calendar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Page Title Styling */
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.page-title i {
+  font-size: 2.2rem;
+  color: #667eea;
+}
+
+/* Stats Card */
+.stats-card {
+  display: flex;
+  gap: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  padding: 16px 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-item i {
+  font-size: 1.5rem;
+  color: #667eea;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Calendar Header */
+.calendar-header {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  margin-bottom: 20px;
+}
+
+.calendar-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 5px;
+}
+
+.calendar-title i {
+  color: #667eea;
+}
+
+.calendar-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-left: 28px;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.progress-summary {
+  margin-top: 15px;
+}
+
+.overall-progress {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.progress-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+  fill: none;
+  stroke: #e2e8f0;
+  stroke-width: 4;
+}
+
+.progress-ring-circle {
+  fill: none;
+  stroke: url(#gradient);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.8s ease;
+}
+
+.progress-text {
+  position: absolute;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.progress-label {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Category Section */
+.category-section {
+  margin-bottom: 20px;
+}
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.category-title i {
+  color: #667eea;
+}
+
+/* Skill Card Enhancements */
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.skill-info h4 {
+  margin-bottom: 4px;
+}
+
+.skill-meta {
+  display: flex;
+  gap: 8px;
+}
+
+.skill-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.skill-date i {
+  font-size: 0.8rem;
+}
+
+.skill-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress-percentage {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.progress-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.progress-excellent {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.progress-good {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.progress-average {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.progress-poor {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.skill-footer {
+  margin-top: 12px;
+}
+
+.skill-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.date-item i {
+  font-size: 0.8rem;
+  color: #667eea;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 20px;
+  border: 2px dashed #cbd5e1;
+}
+
+.empty-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.empty-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.empty-description {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.5;
 }
 
 .sidebar {
-  background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 255, 0.1); 
-  border-radius: 15px;
-  padding: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  border-radius: 25px 25px 0 0;
 }
 
 .title {
-  color: #1e3a8a;
-  margin-bottom: 15px;
+  color: #1e293b;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title i {
+  color: #667eea;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
 }
 
 .plans-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
 .skill-card {
-  background: #ebf2ff; 
-  border: 1px solid #b2c7ff; 
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 20px 20px 0 0;
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.skill-card h4 {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.skill-card span {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  background: rgba(102, 126, 234, 0.1);
   border-radius: 12px;
-  padding: 15px; 
-  box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.05); 
 }
 
 .progress-bar {
-  height: 8px;
-  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%); 
-  border-radius: 4px;
+  height: 10px;
+  background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%);
+  border-radius: 8px;
   overflow: hidden;
   position: relative;
+  margin: 12px 0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%); 
-  border-radius: 4px;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  border-radius: 8px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .progress-fill::after {
@@ -53,100 +441,145 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-  animation: shimmer 2s infinite;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  animation: shimmer 2.5s infinite;
 }
 
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
   }
-
   100% {
     transform: translateX(100%);
   }
 }
 
 .no-plans {
-  color: #6b7280;
+  color: #64748b;
   font-style: italic;
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 20px;
+  border: 2px dashed #cbd5e1;
 }
 
+/* Enhanced FullCalendar Styling */
 :host ::ng-deep {
   .fc {
-    font-family: 'Poppins', sans-serif;
-    color: #333;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: #1e293b;
     width: 100% !important;
     height: 100% !important;
-    min-height: 500px;
-    border-radius: 25px !important;
+    min-height: 600px;
+    border-radius: 30px !important;
     overflow: hidden !important;
-    background: transparent !important; 
-    --fc-border-color: #e5e7eb;
-    --fc-button-bg-color: #6366f1;
-    --fc-button-border-color: #6366f1;
-    --fc-button-hover-bg-color: #4f46e5;
-    --fc-button-hover-border-color: #4f46e5;
-    --fc-button-active-bg-color: #4338ca;
-    --fc-button-active-border-color: #4338ca;
-    --fc-event-bg-color: #818cf8;
-    --fc-event-border-color: #818cf8;
-    --fc-today-bg-color: #e0e7ff;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    --fc-border-color: rgba(102, 126, 234, 0.1);
+    --fc-button-bg-color: #667eea;
+    --fc-button-border-color: #667eea;
+    --fc-button-hover-bg-color: #5a67d8;
+    --fc-button-hover-border-color: #5a67d8;
+    --fc-button-active-bg-color: #4c51bf;
+    --fc-button-active-border-color: #4c51bf;
+    --fc-event-bg-color: linear-gradient(135deg, #667eea, #764ba2);
+    --fc-event-border-color: #667eea;
+    --fc-today-bg-color: rgba(102, 126, 234, 0.1);
+    --fc-page-bg-color: transparent;
+    --fc-neutral-bg-color: #f8fafc;
+    --fc-neutral-text-color: #64748b;
   }
 
   .fc a {
-    color: #1e3a8a;
+    color: #1e293b;
     text-decoration: none;
+    font-weight: 500;
   }
 
   .fc-button {
-    background: #ffffff !important; 
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
     border: none !important;
-    border-radius: 8px !important;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-    margin: 2px;
-    color: #000000 !important;
-    font-weight: 500 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+    margin: 3px;
+    color: #ffffff !important;
+    font-weight: 600 !important;
     text-transform: capitalize;
-    padding: 0.5rem 1rem;
+    padding: 10px 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fc-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .fc-button:hover::before {
+    left: 100%;
   }
 
   .fc-button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
   }
 
   .fc-toolbar-title {
-    font-size: 1.75em; 
+    font-size: 2rem !important;
     margin: 0 30px;
-    font-weight: 600;
-    color: #1f2937;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
   }
 
   .fc-event {
-    border-radius: 0.25rem;
-    padding: 0.25rem;
-    font-size: 0.875rem;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none !important;
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fc-event:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
   }
 
   .fc-day-today {
-    background-color: var(--fc-today-bg-color) !important;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)) !important;
+    border-radius: 8px;
   }
 
   .fc-daygrid-day-number,
   .fc-col-header-cell-cushion {
-    color: #4b5563;
+    color: #1e293b;
     text-decoration: none !important;
+    font-weight: 600;
+    font-size: 1.1rem;
   }
 
   .fc-day-past {
-    background-color: #f9fafb;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   }
 
   .fc-daygrid-body,
   .fc-scrollgrid {
     width: 100% !important;
-    border-radius: 25px !important;
+    border-radius: 30px !important;
     overflow: hidden !important;
   }
 
@@ -157,88 +590,168 @@
 
   .fc-daygrid-day:last-child,
   .fc-col-header-cell:last-child {
-    border-right: 1px solid #e5e7eb !important;
+    border-right: 1px solid rgba(102, 126, 234, 0.1) !important;
+  }
+
+  .fc-col-header-cell {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+    padding: 15px 0;
+  }
+
+  .fc-daygrid-day {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fc-daygrid-day:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  }
+
+  .fc-toolbar {
+    padding: 20px 30px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+  }
+
+  .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 }
 
-
-.full-calendar,
-.calendar-container {
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-}
-
+/* Responsive Design */
 @media screen and (max-width: 768px) {
   .sidebar {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 20px;
   }
 
   .skill-card {
-    padding: 12px;
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .stats-card {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .page-title i {
+    font-size: 1.7rem;
   }
 
   :host ::ng-deep .fc-header-toolbar,
   :host ::ng-deep .fc-toolbar {
-    flex-direction: column; 
-    align-items: center; 
-    gap: 10px; 
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
   }
 
   :host ::ng-deep .fc-toolbar-chunk {
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 5px; 
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
   }
 
   :host ::ng-deep .fc-toolbar-title {
-    font-size: 1.5em; 
-    margin: 0; 
+    font-size: 1.6rem !important;
+    margin: 0;
   }
 
   :host ::ng-deep .fc-button {
-    padding: 0.4rem 0.8rem !important;
-    font-size: 0.9em !important;
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
   }
 
   :host ::ng-deep .fc-view-harness {
-    height: 400px; 
+    height: 450px;
   }
 }
 
 @media screen and (max-width: 480px) {
   .sidebar {
     padding: 15px;
+    border-radius: 20px;
   }
 
   .skill-card {
-    padding: 10px;
+    padding: 12px;
+    border-radius: 15px;
   }
 
   .title {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .stats-card {
+    padding: 10px 12px;
+  }
+
+  .page-title {
+    font-size: 1.3rem;
+  }
+
+  .page-title i {
+    font-size: 1.5rem;
   }
 
   :host ::ng-deep .fc-toolbar-chunk {
-    flex-direction: column; 
-    width: 100%; 
+    flex-direction: column;
+    width: 100%;
   }
 
   :host ::ng-deep .fc-button {
-    padding: 0.3rem 0.6rem !important;
-    font-size: 0.8em !important;
-    margin: 1px;
+    padding: 6px 10px !important;
+    font-size: 0.8rem !important;
+    margin: 2px;
   }
 
   :host ::ng-deep .fc-toolbar-title {
-    font-size: 1.2em !important;
+    font-size: 1.3rem !important;
+  }
+
+  .full-calendar {
+    border-radius: 20px;
   }
 }
 
+/* Animation for cards */
+.skill-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger animation for multiple cards */
+.skill-card:nth-child(1) { animation-delay: 0.1s; }
+.skill-card:nth-child(2) { animation-delay: 0.2s; }
+.skill-card:nth-child(3) { animation-delay: 0.3s; }
+.skill-card:nth-child(4) { animation-delay: 0.4s; }
+.skill-card:nth-child(5) { animation-delay: 0.5s; }
+
 /* Keep layout LTR for consistency, only translate text content */
 :host-context([dir="rtl"]) {
-  /* Keep all layouts as LTR but allow Arabic text to display properly */
   .sidebar {
     direction: ltr;
     text-align: left;
@@ -260,7 +773,6 @@
 }
 
 :host-context([dir="rtl"]) ::ng-deep {
-  /* Keep calendar layout LTR */
   .fc {
     direction: ltr;
   }

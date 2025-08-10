@@ -7,6 +7,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
+
 import { Event } from '../../../core/models/event';
 import { EventService } from '../../../core/services/event.service';
 import Swal from 'sweetalert2'; 
@@ -37,14 +38,20 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   currentEvents: EventApi[] = [];
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
-    locale: 'ar',
+    locale: 'fr',
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
     initialView: 'dayGridMonth',
-    buttonText: this.getButtonText('ar'),
+    buttonText: {
+      today: 'Aujourd\'hui',
+      month: 'Mois',
+      week: 'Semaine',
+      day: 'Jour',
+      list: 'Liste'
+    },
     weekends: true,
     editable: true,
     selectable: true,
@@ -102,6 +109,13 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   ) {
     // Initialize current language
     this.currentLang = localStorage.getItem('lang') || 'ar';
+    
+    // Initialize translation service with current language
+    this.translate.use(this.currentLang);
+    
+    // Initialize calendar options with current language
+    this.calendarOptions.locale = this.currentLang;
+    this.calendarOptions.buttonText = this.getButtonText(this.currentLang);
   }
 
   ngOnInit(): void {
@@ -121,11 +135,14 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.currentLang = lang;
+      this.translate.use(lang); // Tell the translation service to use the new language
       this.updateCalendarLanguage(lang);
     });
 
-    // Initialize calendar with current language
-    this.updateCalendarLanguage(this.currentLang);
+    // Initialize calendar with current language after translations are loaded
+    this.translate.get('calendar.title').subscribe(() => {
+      this.updateCalendarLanguage(this.currentLang);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -141,21 +158,23 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getButtonText(language: string): any {
-    if (language === 'fr') {
-      return {
-        today: 'Aujourd\'hui',
-        month: 'Mois',
-        week: 'Semaine',
-        day: 'Jour',
-        list: 'Liste'
-      };
-    } else { // Arabic
+    // Return French or Arabic button texts based on language
+    if (language === 'ar') {
       return {
         today: 'اليوم',
         month: 'شهر',
         week: 'أسبوع',
         day: 'يوم',
         list: 'قائمة'
+      };
+    } else {
+      // Default to French
+      return {
+        today: 'Aujourd\'hui',
+        month: 'Mois',
+        week: 'Semaine',
+        day: 'Jour',
+        list: 'Liste'
       };
     }
   }
@@ -193,12 +212,17 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         this.mettreAJourEvenementsCalendrier(); 
       },
       error: (error: any) => {
-        console.error('Erreur lors du chargement des objectifs:', error);
-        Swal.fire(
-          this.currentLang === 'ar' ? 'خطأ' : 'Erreur',
-          this.currentLang === 'ar' ? 'فشل في تحميل الأهداف.' : 'Impossible de charger les objectifs.',
-          'error'
-        );
+        try {
+          console.error(this.translate.instant('calendar.errors.load_goals'), error);
+          Swal.fire(
+            this.translate.instant('calendar.messages.error'),
+            this.translate.instant('calendar.messages.load_goals_error'),
+            'error'
+          );
+        } catch (translationError) {
+          console.error('Erreur lors du chargement des objectifs:', error);
+          Swal.fire('Erreur', 'Impossible de charger les objectifs.', 'error');
+        }
       }
     });
   }
@@ -238,7 +262,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         this.events = events;
       },
       error: (error: Error) => {
-        console.error('Erreur lors du chargement des événements:', error);
+        console.error(this.translate.instant('calendar.errors.load_events'), error);
       }
     });
   }
@@ -251,16 +275,14 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
 
   handleEventClick(clickInfo: EventClickArg) {
     Swal.fire({
-      title: this.currentLang === 'ar' ? 'تحذير' : 'Avertissement',
-      text: this.currentLang === 'ar' ? 
-        `هل أنت متأكد من حذف الهدف "${clickInfo.event.title}"؟` : 
-        `Voulez-vous vraiment supprimer l'objectif "${clickInfo.event.title}" ?`,
+      title: this.translate.instant('calendar.messages.warning'),
+      text: this.translate.instant('calendar.messages.delete_goal_confirm', { title: clickInfo.event.title }),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: this.currentLang === 'ar' ? 'نعم، احذف!' : 'Oui, supprimer!',
-      cancelButtonText: this.currentLang === 'ar' ? 'إلغاء' : 'Annuler'
+      confirmButtonText: this.translate.instant('calendar.messages.yes_delete'),
+      cancelButtonText: this.translate.instant('calendar.messages.cancel')
     }).then((result) => {
       if (result.isConfirmed) {
         const goalId = parseInt(clickInfo.event.id);
@@ -268,8 +290,8 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
           next: () => {
             clickInfo.event.remove(); 
             Swal.fire(
-              this.currentLang === 'ar' ? 'تم الحذف!' : 'Supprimé!',
-              this.currentLang === 'ar' ? 'تم حذف الهدف بنجاح.' : 'L\'objectif a été supprimé.',
+              this.translate.instant('calendar.messages.deleted'),
+              this.translate.instant('calendar.messages.delete_goal_success'),
               'success'
             );
             if (this.currentProfileId) {
@@ -277,12 +299,10 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
             }
           },
           error: (error: any) => {
-            console.error('Erreur lors de la suppression de l\'objectif:', error);
+            console.error(this.translate.instant('calendar.errors.delete_goal'), error);
             Swal.fire(
-              this.currentLang === 'ar' ? 'خطأ!' : 'Erreur!',
-              this.currentLang === 'ar' ? 
-                'حدث خطأ أثناء حذف الهدف.' : 
-                'Une erreur s\'est produite lors de la suppression de l\'objectif.',
+              this.translate.instant('calendar.messages.error'),
+              this.translate.instant('calendar.messages.delete_goal_error'),
               'error'
             );
           }
@@ -309,10 +329,8 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     }
     Swal.fire({
       icon: 'success',
-      title: this.currentLang === 'ar' ? 'تم الحفظ!' : 'Objectif enregistré!',
-      text: this.currentLang === 'ar' ? 
-        `تم إضافة الهدف "${goal.title}" بنجاح.` : 
-        `L'objectif "${goal.title}" a été ajouté avec succès.`,
+      title: this.translate.instant('calendar.messages.saved'),
+      text: this.translate.instant('calendar.messages.goal_added_success', { title: goal.title }),
       timer: 2000,
       showConfirmButton: false
     });
@@ -327,7 +345,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         });
       },
       error: (err) => {
-        console.error('Erreur lors du chargement des catégories:', err);
+        console.error(this.translate.instant('calendar.errors.load_categories'), err);
       }
     });
   }
@@ -343,7 +361,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         }));
       },
       error: (err) => {
-        console.error('Erreur lors du chargement des domaines:', err);
+        console.error(this.translate.instant('calendar.errors.load_domains'), err);
       }
     });
   }
@@ -354,7 +372,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         this.items[domainId] = items;
       },
       error: (err) => {
-        console.error('Erreur lors du chargement des items:', err);
+        console.error(this.translate.instant('calendar.errors.load_items'), err);
       }
     });
   }
@@ -388,5 +406,25 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
 
   getDomainesEnCours(categoryId: number): ProfileDomain[] {
     return (this.domains[categoryId] || []).filter(domain => (domain.acquis_percentage || 0) < 100);
+  }
+
+  getOverallProgress(): number {
+    if (this.listeDomainesEnCours.length === 0) return 0;
+    const totalProgress = this.listeDomainesEnCours.reduce((sum, domain) => sum + (domain.acquis_percentage || 0), 0);
+    return Math.round(totalProgress / this.listeDomainesEnCours.length);
+  }
+
+  getProgressClass(percentage: number): string {
+    if (percentage >= 80) return 'progress-excellent';
+    if (percentage >= 60) return 'progress-good';
+    if (percentage >= 40) return 'progress-average';
+    return 'progress-poor';
+  }
+
+  getProgressIcon(percentage: number): string {
+    if (percentage >= 80) return 'bx-trophy';
+    if (percentage >= 60) return 'bx-check-circle';
+    if (percentage >= 40) return 'bx-time';
+    return 'bx-error-circle';
   }
 }
