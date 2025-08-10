@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TableModule } from 'primeng/table';
@@ -9,12 +9,10 @@ import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
-import { MenuModule } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
-import { Menu } from 'primeng/menu';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { TooltipModule } from 'primeng/tooltip';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
@@ -55,10 +53,10 @@ interface CategoryTableRow {
     TableModule,
     ButtonModule,
     ProgressBarModule,
-    MenuModule,
     DropdownModule,
     SelectButtonModule,
     ToggleButtonModule,
+    TooltipModule,
     TranslateModule
   ],
 })
@@ -69,8 +67,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
   error: string | null = null;
   profileId: number = 1;
   expandedCategories: { [key: string]: boolean } = {};
-  exportItems: MenuItem[] = [];
-  @ViewChild('exportMenu') menu: Menu | undefined;
   filterStatuses: any[] = [];
   selectedFilterStatus: string = 'ALL';
   private originalCategoryDataForTable: CategoryTableRow[] = [];
@@ -88,20 +84,17 @@ export class SummaryComponent implements OnInit, OnDestroy {
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
-      // Update filter statuses and export items when language changes
+      // Update filter statuses when language changes
       this.updateFilterStatuses();
-      this.updateExportItems();
     });
-
-    // Initialize filterStatuses with translated labels
-    this.updateFilterStatuses();
-
-    // Initialize exportItems with translated labels
-    this.updateExportItems();
   }
 
   ngOnInit(): void {
     this.profileId = parseInt(localStorage.getItem('selectedChildId') || '1', 10);
+    
+    // Initialize filter statuses after translations are ready
+    this.updateFilterStatuses();
+    
     this.loadSummaryData();
   }
 
@@ -112,34 +105,22 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   private updateFilterStatuses() {
-    this.filterStatuses = [
-      { label: this.translate.instant('skills_summary.status_labels.ALL'), value: 'ALL' },
-      { label: this.translate.instant('skills_summary.status_labels.ACQUIS'), value: 'ACQUIS' },
-      { label: this.translate.instant('skills_summary.status_labels.PARTIEL'), value: 'PARTIEL' },
-      { label: this.translate.instant('skills_summary.status_labels.NON_ACQUIS'), value: 'NON_ACQUIS' },
-      { label: this.translate.instant('skills_summary.status_labels.NON_COTE'), value: 'NON_COTE' }
-    ];
-  }
-
-  private updateExportItems() {
-    this.exportItems = [
-      {
-        label: this.translate.instant('skills_summary.export.excel'),
-        icon: 'pi pi-file-excel',
-        command: () => this.exportExcel()
-      },
-      {
-        label: this.translate.instant('skills_summary.export.pdf'),
-        icon: 'pi pi-file-pdf',
-        command: () => this.exportPdf()
-      }
-    ];
-  }
-
-  toggleMenu(event: Event) {
-    if (this.menu) {
-      this.menu.toggle(event);
-    }
+    // Wait for translations to be ready
+    this.translate.get([
+      'skills_summary.status_labels.ALL',
+      'skills_summary.status_labels.ACQUIS',
+      'skills_summary.status_labels.PARTIEL',
+      'skills_summary.status_labels.NON_ACQUIS',
+      'skills_summary.status_labels.NON_COTE'
+    ]).subscribe(translations => {
+      this.filterStatuses = [
+        { label: translations['skills_summary.status_labels.ALL'], value: 'ALL' },
+        { label: translations['skills_summary.status_labels.ACQUIS'], value: 'ACQUIS' },
+        { label: translations['skills_summary.status_labels.PARTIEL'], value: 'PARTIEL' },
+        { label: translations['skills_summary.status_labels.NON_ACQUIS'], value: 'NON_ACQUIS' },
+        { label: translations['skills_summary.status_labels.NON_COTE'], value: 'NON_COTE' }
+      ];
+    });
   }
 
   loadSummaryData(): void {
@@ -309,7 +290,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   getEtatLabel(etat: string): string {
-    return this.translate.instant('skills_summary.status_labels.' + etat) || this.translate.instant('skills_summary.status_labels.NON_COTE');
+    const translationKey = 'skills_summary.status_labels.' + etat;
+    return this.translate.instant(translationKey) || this.translate.instant('skills_summary.status_labels.NON_COTE');
   }
 
   exportExcel(): void {

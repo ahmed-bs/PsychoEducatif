@@ -496,7 +496,9 @@
       "skills_summary": "ملخص المهارات"
     },
     "loading": "جارٍ التحميل...",
-    "error": "{{error}}",
+    "error": {
+      "load_data_failed": "فشل تحميل بيانات الملخص. يرجى المحاولة لاحقًا."
+    },
     "load_summary_error": {
       "title": "خطأ",
       "text": "فشل تحميل بيانات الملخص. يرجى المحاولة لاحقًا."
@@ -518,7 +520,8 @@
       "not_evaluated": "غير مقيّمة",
       "progress_percentage": "التقدم",
       "no_domains_message": "لم يتم العثور على مجالات لهذه الفئة.",
-      "no_categories_message": "لم يتم العثور على فئات مهارات."
+      "no_categories_message": "لم يتم العثور على فئات مهارات.",
+      "current_page_report": "عرض {first} إلى {last} من {totalRecords} إدخال"
     },
     "domain_items": {
       "header": "العناصر للمجال \"{{domain}}\" (الحالة المختارة: {{status}})",
@@ -556,9 +559,6 @@
       "list": "قائمة"
     },
     "view_mode_label": "وضع العرض :",
-    "table": {
-      "current_page_report": "عرض {first} إلى {last} من {totalRecords} إدخال"
-    },
     "card": {
       "domains": "المجالات"
     },
