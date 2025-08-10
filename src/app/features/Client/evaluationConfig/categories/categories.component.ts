@@ -12,6 +12,9 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-categories',
@@ -27,6 +30,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   profileId!: number;
   loading: boolean = true;
   isEditMode: boolean = false;
+  viewMode: 'grid' | 'list' | 'table' = 'grid'; // Add view mode property
   private languageSubscription: Subscription;
 
   constructor(
@@ -71,6 +75,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   toggleFilters() {
     this.showFilters = !this.showFilters;
+  }
+
+  setViewMode(mode: 'grid' | 'list' | 'table') {
+    this.viewMode = mode;
   }
 
   showAddUserDialog() {

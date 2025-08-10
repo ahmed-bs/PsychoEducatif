@@ -857,7 +857,10 @@
       }
     },
     "toolbar": {
-      "add_skill_button": "Ajouter une compétence"
+      "add_skill_button": "Ajouter une compétence",
+      "grid_view": "Vue Grille",
+      "list_view": "Vue Liste", 
+      "table_view": "Vue Tableau"
     },
     "no_data": {
       "message": "Aucune catégorie disponible",
@@ -899,6 +902,21 @@
       },
       "confirm": {
         "delete_category": "Êtes-vous sûr de vouloir supprimer {{categoryName}} ?"
+      }
+    },
+    "table": {
+      "headers": {
+        "name": "Nom",
+        "description": "Description",
+        "created_at": "Date de création",
+        "items_count": "Nombre d'items",
+        "domains_count": "Nombre de domaines",
+        "actions": "Actions"
+      },
+      "actions": {
+        "edit": "Modifier",
+        "settings": "Paramètres",
+        "delete": "Supprimer"
       }
     }
   },  "dashboard": {

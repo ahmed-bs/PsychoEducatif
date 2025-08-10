@@ -824,7 +824,10 @@
       }
     },
     "toolbar": {
-      "add_skill_button": "إضافة مهارة"
+      "add_skill_button": "إضافة مهارة",
+      "grid_view": "عرض الشبكة",
+      "list_view": "عرض القائمة",
+      "table_view": "عرض الجدول"
     },
     "no_data": {
       "message": "لا توجد فئات متاحة",
@@ -866,6 +869,21 @@
       },
       "confirm": {
         "delete_category": "هل أنت متأكد من حذف {{categoryName}}؟"
+      }
+    },
+    "table": {
+      "headers": {
+        "name": "الاسم",
+        "description": "الوصف",
+        "created_at": "تاريخ الإنشاء",
+        "items_count": "عدد العناصر",
+        "domains_count": "عدد المجالات",
+        "actions": "الإجراءات"
+      },
+      "actions": {
+        "edit": "تعديل",
+        "settings": "الإعدادات",
+        "delete": "حذف"
       }
     }
   }, "dashboard": {
