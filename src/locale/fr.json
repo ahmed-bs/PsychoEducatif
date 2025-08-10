@@ -1269,7 +1269,43 @@
     },
     "domain": {
       "start_date": "Début",
-      "last_eval_date": "Dernière éval"
+      "last_eval_date": "Dernière éval",
+      "click_to_quiz": "Cliquez pour accéder au quiz de ce domaine",
+      "take_quiz": "Passer au quiz"
+    },
+    "goal": {
+      "details_title": "Détails de l'objectif",
+      "details_tab": "Détails",
+      "edit_tab": "Modifier",
+      "priority_label": "Priorité",
+      "target_date": "Date cible",
+      "domain": "Domaine",
+      "progress": "Progression",
+      "sub_objectives": "Sous-objectifs",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "edit": {
+        "title_label": "Titre",
+        "title_placeholder": "Entrez le titre de l'objectif",
+        "description_label": "Description",
+        "description_placeholder": "Entrez la description de l'objectif",
+        "target_date_label": "Date cible",
+        "priority_label": "Priorité",
+        "domain_label": "Domaine",
+        "domain_readonly": "Le domaine ne peut pas être modifié",
+        "cancel": "Annuler",
+        "save": "Enregistrer"
+      },
+      "validation": {
+        "title_required": "Le titre est requis."
+      },
+      "update_success": "Objectif mis à jour avec succès.",
+      "update_error": "Erreur lors de la mise à jour de l'objectif.",
+      "priority": {
+        "high": "Élevée",
+        "medium": "Moyenne",
+        "low": "Faible"
+      }
     },
     "stats": {
       "goals": "Objectifs",
@@ -1289,6 +1325,7 @@
       "delete_goal_success": "L'objectif a été supprimé.",
       "delete_goal_error": "Une erreur s'est produite lors de la suppression de l'objectif.",
       "goal_added_success": "L'objectif \"{{title}}\" a été ajouté avec succès.",
+      "navigation_error": "Impossible de naviguer vers le quiz. Veuillez réessayer.",
       "yes_delete": "Oui, supprimer!",
       "cancel": "Annuler"
     },

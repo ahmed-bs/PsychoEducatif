@@ -74,7 +74,9 @@
     <div class="sidebar-content flex-1 overflow-y-auto p-4">
       <div *ngIf="goalRelatedDomains.length > 0; else noDomains" class="plans-list flex flex-col gap-3">
         <ng-container *ngFor="let domain of goalRelatedDomains">
-          <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-0 shadow-sm">
+          <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-0 shadow-sm cursor-pointer" 
+               (click)="navigateToQuiz(domain)" 
+               [title]="'calendar.domain.click_to_quiz' | translate">
             <div class="skill-header">
               <div class="skill-info">
                 <h4 class="font-medium text-indigo-800 text-base">{{ domain.name }}</h4>
@@ -108,6 +110,11 @@
                   {{ 'calendar.domain.last_eval_date' | translate }}: {{ domain.last_eval_date | date:'shortDate' }}
                 </span>
               </div>
+              <div class="quiz-indicator mt-3">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors">
+                  <i class="bx bxl-youtube text-lg"></i>
+                </span>
+              </div>
             </div>
           </div>
         </ng-container>
@@ -134,4 +141,190 @@
     (close)="surFermetureModaleObjectif()"
     (goalSaved)="surSauvegardeModaleObjectif($event)">
   </app-add-goal-modal>
+
+  <!-- Goal Details Modal -->
+  <div *ngIf="showGoalDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 rounded-t-2xl">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-white">
+            <i class="bx bx-target-lock mr-2"></i>
+            {{ 'calendar.goal.details_title' | translate }}
+          </h3>
+          <div class="flex items-center space-x-2">
+            <button (click)="onDeleteGoal()" 
+                    class="text-white hover:text-red-200 transition-colors p-1 rounded-full hover:bg-red-500/20"
+                    [title]="'calendar.goal.delete' | translate">
+              <i class="bx bx-trash text-lg"></i>
+            </button>
+            <button (click)="closeGoalDetailsModal()" class="text-white hover:text-gray-200 transition-colors">
+              <i class="bx bx-x text-2xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="border-b border-gray-200">
+        <div class="flex">
+          <button (click)="switchToDetailsTab()" 
+                  [class]="activeTab === 'details' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
+                  class="flex-1 py-3 px-4 text-sm font-medium transition-colors">
+            <i class="bx bx-info-circle mr-2"></i>
+            {{ 'calendar.goal.details_tab' | translate }}
+          </button>
+          <button (click)="switchToEditTab()" 
+                  [class]="activeTab === 'edit' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
+                  class="flex-1 py-3 px-4 text-sm font-medium transition-colors">
+            <i class="bx bx-edit mr-2"></i>
+            {{ 'calendar.goal.edit_tab' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Details Tab Content -->
+      <div *ngIf="activeTab === 'details' && selectedGoal" class="p-6">
+        <!-- Goal Title -->
+        <div class="mb-6">
+          <h4 class="text-2xl font-bold text-gray-800 mb-2">{{ selectedGoal.title }}</h4>
+          <p class="text-gray-600">{{ selectedGoal.description }}</p>
+        </div>
+
+        <!-- Goal Details -->
+        <div class="space-y-4 mb-6">
+          <!-- Priority -->
+          <div class="flex items-center">
+            <i class="bx bx-flag text-blue-600 mr-3"></i>
+            <span class="text-gray-700 font-medium">{{ 'calendar.goal.priority_label' | translate }}:</span>
+            <span class="ml-2 px-3 py-1 rounded-full text-xs font-semibold" 
+                  [ngClass]="{
+                    'bg-red-100 text-red-800': selectedGoal.priority === 'high',
+                    'bg-yellow-100 text-yellow-800': selectedGoal.priority === 'medium',
+                    'bg-green-100 text-green-800': selectedGoal.priority === 'low'
+                  }">
+              {{ getPriorityTranslation(selectedGoal.priority) }}
+            </span>
+          </div>
+
+          <!-- Target Date -->
+          <div class="flex items-center">
+            <i class="bx bx-calendar text-blue-600 mr-3"></i>
+            <span class="text-gray-700 font-medium">{{ 'calendar.goal.target_date' | translate }}:</span>
+            <span class="ml-2 text-gray-600">{{ formatGoalDate(selectedGoal.target_date) }}</span>
+          </div>
+
+          <!-- Domain -->
+          <div class="flex items-center" *ngIf="selectedGoal.domain">
+            <i class="bx bx-layer text-blue-600 mr-3"></i>
+            <span class="text-gray-700 font-medium">{{ 'calendar.goal.domain' | translate }}:</span>
+            <span class="ml-2 text-gray-600">{{ selectedGoal.domain.name }}</span>
+          </div>
+
+          <!-- Progress -->
+          <div class="flex items-center">
+            <i class="bx bx-trending-up text-blue-600 mr-3"></i>
+            <span class="text-gray-700 font-medium">{{ 'calendar.goal.progress' | translate }}:</span>
+            <span class="ml-2 text-gray-600">{{ calculateGoalProgress(selectedGoal) }}%</span>
+          </div>
+        </div>
+
+        <!-- Sub Objectives -->
+        <div *ngIf="selectedGoal.sub_objectives && selectedGoal.sub_objectives.length > 0" class="mb-6">
+          <h5 class="font-semibold text-gray-800 mb-3">{{ 'calendar.goal.sub_objectives' | translate }}</h5>
+          <div class="space-y-2">
+            <div *ngFor="let subObj of selectedGoal.sub_objectives" class="flex items-center p-3 bg-gray-50 rounded-lg">
+              <i class="bx" [class]="subObj.is_completed ? 'bx-check-circle text-green-600' : 'bx-circle text-gray-400'"></i>
+              <span class="ml-3 text-gray-700" [class.line-through]="subObj.is_completed">
+                {{ subObj.description }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Tab Content -->
+      <div *ngIf="activeTab === 'edit' && editingGoal" class="p-6">
+        <form (ngSubmit)="saveEditedGoal()" class="space-y-6">
+          <!-- Title -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              {{ 'calendar.goal.edit.title_label' | translate }} *
+            </label>
+            <input type="text" 
+                   [(ngModel)]="editingGoal.title" 
+                   name="title"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                   [placeholder]="'calendar.goal.edit.title_placeholder' | translate"
+                   required>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              {{ 'calendar.goal.edit.description_label' | translate }}
+            </label>
+            <textarea [(ngModel)]="editingGoal.description" 
+                      name="description"
+                      rows="3"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      [placeholder]="'calendar.goal.edit.description_placeholder' | translate"></textarea>
+          </div>
+
+          <!-- Target Date -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              {{ 'calendar.goal.edit.target_date_label' | translate }} *
+            </label>
+            <input type="date" 
+                   [(ngModel)]="editingGoal.target_date" 
+                   name="target_date"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                   required>
+          </div>
+
+          <!-- Priority -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              {{ 'calendar.goal.edit.priority_label' | translate }}
+            </label>
+            <select [(ngModel)]="editingGoal.priority" 
+                    name="priority"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+              <option value="low">{{ 'calendar.goal.priority.low' | translate }}</option>
+              <option value="medium">{{ 'calendar.goal.priority.medium' | translate }}</option>
+              <option value="high">{{ 'calendar.goal.priority.high' | translate }}</option>
+            </select>
+          </div>
+
+          <!-- Domain (Read-only) -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              {{ 'calendar.goal.edit.domain_label' | translate }}
+            </label>
+            <input type="text" 
+                   [value]="editingGoal.domain?.name || ''" 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                   readonly>
+            <p class="text-xs text-gray-500 mt-1">{{ 'calendar.goal.edit.domain_readonly' | translate }}</p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex space-x-3 pt-4 border-t border-gray-200">
+            <button type="button" 
+                    (click)="cancelEditing()"
+                    class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors">
+              <i class="bx bx-x mr-2"></i>
+              {{ 'calendar.goal.edit.cancel' | translate }}
+            </button>
+            <button type="submit" 
+                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors">
+              <i class="bx bx-save mr-2"></i>
+              {{ 'calendar.goal.edit.save' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

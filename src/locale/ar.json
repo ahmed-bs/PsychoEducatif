@@ -1156,7 +1156,41 @@
     },
     "domain": {
       "start_date": "البداية",
-      "last_eval_date": "آخر تقييم"
+      "last_eval_date": "آخر تقييم",
+      "click_to_quiz": "انقر للوصول إلى اختبار هذا المجال",
+      "take_quiz": "الذهاب إلى الاختبار"
+    },
+        "goal": {
+      "details_title": "تفاصيل الهدف",
+      "details_tab": "التفاصيل",
+      "edit_tab": "تعديل",
+      "priority_label": "الأولوية",
+      "target_date": "التاريخ المستهدف",
+      "domain": "المجال",
+      "progress": "التقدم",
+      "sub_objectives": "الأهداف الفرعية",
+      "edit": {
+        "title_label": "العنوان",
+        "title_placeholder": "أدخل عنوان الهدف",
+        "description_label": "الوصف",
+        "description_placeholder": "أدخل وصف الهدف",
+        "target_date_label": "التاريخ المستهدف",
+        "priority_label": "الأولوية",
+        "domain_label": "المجال",
+        "domain_readonly": "لا يمكن تعديل المجال",
+        "cancel": "إلغاء",
+        "save": "حفظ"
+      },
+      "validation": {
+        "title_required": "العنوان مطلوب."
+      },
+      "update_success": "تم تحديث الهدف بنجاح.",
+      "update_error": "خطأ في تحديث الهدف.",
+      "priority": {
+        "high": "عالية",
+        "medium": "متوسطة",
+        "low": "منخفضة"
+      }
     },
     "stats": {
       "goals": "الأهداف",
@@ -1176,6 +1210,7 @@
       "delete_goal_success": "تم حذف الهدف بنجاح.",
       "delete_goal_error": "حدث خطأ أثناء حذف الهدف.",
       "goal_added_success": "تم إضافة الهدف \"{{title}}\" بنجاح.",
+      "navigation_error": "لا يمكن الانتقال إلى الاختبار. يرجى المحاولة مرة أخرى.",
       "yes_delete": "نعم، احذف!",
       "cancel": "إلغاء"
     },

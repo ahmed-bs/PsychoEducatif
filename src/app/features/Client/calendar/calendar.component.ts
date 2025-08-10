@@ -18,7 +18,7 @@ import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GoalService } from 'src/app/core/services/goal.service';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
@@ -72,7 +72,11 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   @Output() addGoalRequested = new EventEmitter<string>();
   @Output() goalSaved = new EventEmitter<void>();
   showGoalFormModal = false;
+  showGoalDetailsModal = false;
   selectedGoalDate: string | null = null;
+  selectedGoal: any = null;
+  activeTab: 'details' | 'edit' = 'details';
+  editingGoal: any = null;
   categories: ProfileCategory[] = [];
   domains: { [categoryId: number]: ProfileDomain[] } = {};
   goalRelatedDomains: ProfileDomain[] = [];
@@ -105,6 +109,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     private domainService: ProfileDomainService,
     private itemService: ProfileItemService,
     private route: ActivatedRoute,
+    private router: Router,
     private sharedService: SharedService,
     private translate: TranslateService
   ) {
@@ -384,41 +389,15 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    Swal.fire({
-      title: this.translate.instant('calendar.messages.warning'),
-      text: this.translate.instant('calendar.messages.delete_goal_confirm', { title: clickInfo.event.title }),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: this.translate.instant('calendar.messages.yes_delete'),
-      cancelButtonText: this.translate.instant('calendar.messages.cancel')
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const goalId = parseInt(clickInfo.event.id);
-        this.goalService.deleteGoal(goalId).subscribe({ 
-          next: () => {
-            clickInfo.event.remove(); 
-            Swal.fire(
-              this.translate.instant('calendar.messages.deleted'),
-              this.translate.instant('calendar.messages.delete_goal_success'),
-              'success'
-            );
-            if (this.currentProfileId) {
-              this.chargerObjectifs(this.currentProfileId); 
-            }
-          },
-          error: (error: any) => {
-            console.error(this.translate.instant('calendar.errors.delete_goal'), error);
-            Swal.fire(
-              this.translate.instant('calendar.messages.error'),
-              this.translate.instant('calendar.messages.delete_goal_error'),
-              'error'
-            );
-          }
-        });
-      }
-    });
+    // Find the goal data from the goals array
+    const goalId = parseInt(clickInfo.event.id);
+    this.selectedGoal = this.goals.find(goal => goal.id === goalId);
+    
+    if (this.selectedGoal) {
+      this.showGoalDetailsModal = true;
+    } else {
+      console.error('Goal not found:', goalId);
+    }
   }
 
   handleEvents(events: EventApi[]) {
@@ -578,6 +557,171 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     console.log('Domains Loaded Count:', this.domainsLoadedCount);
     console.log('Total Categories:', this.totalCategories);
     console.log('==========================');
+  }
+
+  // Navigate to quiz for a specific domain
+  navigateToQuiz(domain: any): void {
+    if (domain.id) {
+      console.log('Navigating to quiz for domain:', domain);
+      // Use the same navigation pattern as the goals component
+      this.router.navigate(['/Dashboard-client/client/quiz', domain.id]);
+    } else {
+      console.error('Cannot navigate to quiz: missing domainId');
+      Swal.fire({
+        icon: 'error',
+        title: this.translate.instant('calendar.messages.error'),
+        text: this.translate.instant('calendar.messages.navigation_error')
+      });
+    }
+  }
+
+  // Save edited goal
+  saveEditedGoal(): void {
+    if (this.editingGoal && this.editingGoal.id) {
+      // Validate required fields
+      if (!this.editingGoal.title || !this.editingGoal.target_date) {
+        Swal.fire({
+          icon: 'error',
+          title: this.translate.instant('calendar.messages.error'),
+          text: this.translate.instant('calendar.goal.validation.title_required')
+        });
+        return;
+      }
+
+      // Add profile_id to the editing goal data
+      const goalDataToUpdate = {
+        ...this.editingGoal,
+        profile_id: this.currentProfileId
+      };
+
+      this.goalService.updateGoal(this.editingGoal.id, goalDataToUpdate).subscribe({
+        next: (updatedGoal) => {
+          // Update the selected goal with the new data
+          this.selectedGoal = updatedGoal;
+          // Update the goal in the goals array
+          const index = this.goals.findIndex(g => g.id === updatedGoal.id);
+          if (index !== -1) {
+            this.goals[index] = updatedGoal;
+          }
+          // Update calendar events
+          this.mettreAJourEvenementsCalendrier();
+          
+          Swal.fire({
+            icon: 'success',
+            title: this.translate.instant('calendar.messages.saved'),
+            text: this.translate.instant('calendar.goal.update_success'),
+            timer: 2000,
+            showConfirmButton: false
+          });
+          
+          // Switch back to details tab
+          this.activeTab = 'details';
+        },
+        error: (error) => {
+          console.error('Error updating goal:', error);
+          Swal.fire({
+            icon: 'error',
+            title: this.translate.instant('calendar.messages.error'),
+            text: this.translate.instant('calendar.goal.update_error')
+          });
+        }
+      });
+    }
+  }
+
+  // Cancel editing
+  cancelEditing(): void {
+    this.editingGoal = null;
+    this.activeTab = 'details';
+  }
+
+  // Handle goal delete
+  onDeleteGoal(): void {
+    if (this.selectedGoal) {
+      Swal.fire({
+        title: this.translate.instant('calendar.messages.warning'),
+        text: this.translate.instant('calendar.messages.delete_goal_confirm', { title: this.selectedGoal.title }),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: this.translate.instant('calendar.messages.yes_delete'),
+        cancelButtonText: this.translate.instant('calendar.messages.cancel')
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const goalId = this.selectedGoal.id;
+          this.goalService.deleteGoal(goalId).subscribe({ 
+            next: () => {
+              this.showGoalDetailsModal = false;
+              this.selectedGoal = null;
+              Swal.fire(
+                this.translate.instant('calendar.messages.deleted'),
+                this.translate.instant('calendar.messages.delete_goal_success'),
+                'success'
+              );
+              if (this.currentProfileId) {
+                this.chargerObjectifs(this.currentProfileId); 
+              }
+            },
+            error: (error: any) => {
+              console.error(this.translate.instant('calendar.errors.delete_goal'), error);
+              Swal.fire(
+                this.translate.instant('calendar.messages.error'),
+                this.translate.instant('calendar.messages.delete_goal_error'),
+                'error'
+              );
+            }
+          });
+        }
+      });
+    }
+  }
+
+  // Close goal details modal
+  closeGoalDetailsModal(): void {
+    this.showGoalDetailsModal = false;
+    this.selectedGoal = null;
+    this.editingGoal = null;
+    this.activeTab = 'details';
+  }
+
+  // Switch to edit tab
+  switchToEditTab(): void {
+    this.activeTab = 'edit';
+    // Create a copy of the selected goal for editing
+    this.editingGoal = { 
+      ...this.selectedGoal,
+      profile_id: this.currentProfileId // Ensure profile_id is included
+    };
+  }
+
+  // Switch to details tab
+  switchToDetailsTab(): void {
+    this.activeTab = 'details';
+  }
+
+  // Format date for display
+  formatGoalDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR');
+  }
+
+  // Get priority translation
+  getPriorityTranslation(priority: string): string {
+    return this.translate.instant(`calendar.goal.priority.${priority}`);
+  }
+
+  // Calculate goal progress
+  calculateGoalProgress(goal: any): number {
+    if (!goal || !goal.sub_objectives || goal.sub_objectives.length === 0) {
+      return 0;
+    }
+
+    const totalSubObjectives = goal.sub_objectives.length;
+    const completedSubObjectives = goal.sub_objectives.filter((sub: any) => sub.is_completed).length;
+
+    return Math.round((completedSubObjectives / totalSubObjectives) * 100);
   }
 
   // Helper method to format dates properly
