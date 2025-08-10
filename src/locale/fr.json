@@ -536,9 +536,31 @@
       "NON_COTE": "Non Évaluée",
       "UNKNOWN": "Inconnu"
     },
-    "export_items": {
+    "export": {
       "excel": "Exporter en Excel",
-      "pdf": "Exporter en PDF"
+      "pdf": "Exporter en PDF",
+      "category": "Catégorie",
+      "domain": "Domaine",
+      "total_domains": "Total Domaines",
+      "total_items": "Total Items",
+      "acquired": "Acquises",
+      "partial": "Partielles",
+      "not_acquired": "Non Acquises",
+      "not_evaluated": "Non Évaluées",
+      "overall_progress": "Progression Globale",
+      "progress": "Progression"
+    },
+    "view_modes": {
+      "table": "Tableau",
+      "card": "Cartes",
+      "list": "Liste"
+    },
+    "view_mode_label": "Mode d'affichage :",
+    "table": {
+      "current_page_report": "Affichage de {first} à {last} sur {totalRecords} entrées"
+    },
+    "card": {
+      "domains": "Domaines"
     },
     "export_content": {
       "title": "Résumé des Compétences",

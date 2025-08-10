@@ -536,9 +536,31 @@
       "NON_COTE": "غير مقيّمة",
       "UNKNOWN": "غير معروف"
     },
-    "export_items": {
+    "export": {
       "excel": "تصدير كـ Excel",
-      "pdf": "تصدير كـ PDF"
+      "pdf": "تصدير كـ PDF",
+      "category": "الفئة",
+      "domain": "المجال",
+      "total_domains": "إجمالي المجالات",
+      "total_items": "إجمالي العناصر",
+      "acquired": "مكتسبة",
+      "partial": "جزئية",
+      "not_acquired": "غير مكتسبة",
+      "not_evaluated": "غير مقيّمة",
+      "overall_progress": "التقدم العام",
+      "progress": "التقدم"
+    },
+    "view_modes": {
+      "table": "جدول",
+      "card": "بطاقات",
+      "list": "قائمة"
+    },
+    "view_mode_label": "وضع العرض :",
+    "table": {
+      "current_page_report": "عرض {first} إلى {last} من {totalRecords} إدخال"
+    },
+    "card": {
+      "domains": "المجالات"
     },
     "export_content": {
       "title": "ملخص المهارات",

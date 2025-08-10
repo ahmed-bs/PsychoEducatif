@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { SummaryComponent } from './summary.component';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -19,6 +22,9 @@ const routes: Routes = [
     FormsModule,
     TableModule,
     ButtonModule,
+    CardModule,
+    DividerModule,
+    SelectButtonModule,
     RouterModule.forChild(routes),
     SummaryComponent,
     TranslateModule.forRoot({
