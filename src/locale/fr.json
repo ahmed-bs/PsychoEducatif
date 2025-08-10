@@ -952,7 +952,9 @@
       "notes": "Notes"
     },
     "skills_content": {
-      "competencies_count": "{{count}} compétences"
+      "competencies_count": "{{count}} compétences",
+      "start_date": "Date de début",
+      "last_update": "Dernière mise à jour"
     },
     "stats_content": {
       "progress_overview": {
@@ -1033,7 +1035,9 @@
       "notes": "Notes"
     },
     "skills_content": {
-      "competencies_count": "{{count}} compétences"
+      "competencies_count": "{{count}} compétences",
+      "start_date": "Date de début",
+      "last_update": "Dernière mise à jour"
     },
     "stats_content": {
       "loading": "Chargement des statistiques...",

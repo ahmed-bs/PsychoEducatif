@@ -921,7 +921,9 @@
       "notes": "الملاحظات"
     },
     "skills_content": {
-      "competencies_count": "{{count}} مهارات"
+      "competencies_count": "{{count}} مهارات",
+      "start_date": "تاريخ البداية",
+      "last_update": "آخر تحديث"
     },
     "stats_content": {
       "loading": "جاري تحميل الإحصائيات...",

@@ -104,18 +104,18 @@
                                             domain.name }}</h4>
                                         <span class="text-sm sm:text-base font-medium text-gray-700">{{
                                             'dashboard.stats_content.progress_overview.progress' | translate: {
-                                            percentage: domain.acquis_percentage } }}</span>
+                                            percentage: formatNumber(domain.acquis_percentage) } }}</span>
                                     </div>
-                                    <div class="progress-bar h-2 sm:h-3 bg-gray-200 rounded-full">
-                                        <div class="progress-fill h-full bg-indigo-600 rounded-full transition-all duration-500 ease-out"
-                                            [style.width]="domain.acquis_percentage + '%'"></div>
-                                    </div>
+                                                                            <div class="progress-bar h-2 sm:h-3 bg-gray-200 rounded-full">
+                                            <div class="progress-fill h-full bg-indigo-600 rounded-full transition-all duration-500 ease-out"
+                                                [style.width]="formatNumber(domain.acquis_percentage) + '%'"></div>
+                                        </div>
                                     <div
                                         class="mt-3 flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0">
-                                        <span>{{ 'dashboard.stats_content.progress_overview.start' | translate }}: {{
+                                        <span>{{ 'dashboard.skills_content.start_date' | translate }}: {{
                                             formatDate(domain.start_date) }}</span>
-                                        <span>{{ 'dashboard.stats_content.recent_activity.last_update' | translate: {
-                                            date: formatDate(domain.last_eval_date) } }}</span>
+                                        <span>{{ 'dashboard.skills_content.last_update' | translate }}: {{
+                                            formatDate(domain.last_eval_date) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +193,7 @@
                                         </div>
                                         <div class="stats-info">
                                             <p class="stats-label">{{ 'dashboard.stats_content.summary.progress' | translate }}</p>
-                                            <p class="stats-value">{{ statistics?.overallProgress || 0 }}%</p>
+                                            <p class="stats-value">{{ formatNumber(statistics?.overallProgress || 0) }}%</p>
                                         </div>
                                     </div>
                                 </div>
@@ -250,11 +250,11 @@
                                             </div>
                                             <div class="progress-bar">
                                                 <div class="progress-fill"
-                                                    [style.width]="categoryStat.progressPercentage + '%'"></div>
+                                                    [style.width]="formatNumber(categoryStat.progressPercentage) + '%'"></div>
                                             </div>
                                             <div class="flex justify-between text-xs text-gray-500 mt-1">
                                                 <span>{{ 'dashboard.stats_content.progress_overview.progress' |
-                                                    translate: { percentage: categoryStat.progressPercentage } }}</span>
+                                                    translate: { percentage: formatNumber(categoryStat.progressPercentage) } }}</span>
                                                 <span>{{ 'dashboard.stats_content.progress_overview.goal' | translate: {
                                                     percentage: 85 } }}</span>
                                             </div>

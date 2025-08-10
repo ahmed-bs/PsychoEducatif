@@ -113,7 +113,7 @@ export class StatisticsService {
 
     // Calculate progress percentage (ACQUIS + 0.5 * PARTIEL) / total
     const progressPercentage = totalItems > 0 
-      ? Math.round(((acquiredItems + (partialItems * 0.5)) / totalItems) * 100)
+      ? parseFloat(((acquiredItems + (partialItems * 0.5)) / totalItems * 100).toFixed(2))
       : 0;
 
     // Get the most recent evaluation date
@@ -142,7 +142,7 @@ export class StatisticsService {
     const notEvaluatedItems = domainStats.reduce((sum, domain) => sum + domain.notEvaluatedItems, 0);
 
     const progressPercentage = totalItems > 0 
-      ? Math.round(((acquiredItems + (partialItems * 0.5)) / totalItems) * 100)
+      ? parseFloat(((acquiredItems + (partialItems * 0.5)) / totalItems * 100).toFixed(2))
       : 0;
 
     return {
@@ -163,7 +163,7 @@ export class StatisticsService {
     const totalDomains = categoryStats.reduce((sum, category) => sum + category.domains.length, 0);
     const totalItems = categoryStats.reduce((sum, category) => sum + category.totalItems, 0);
     const overallProgress = totalItems > 0 
-      ? Math.round(categoryStats.reduce((sum, category) => sum + (category.progressPercentage * category.totalItems), 0) / totalItems)
+      ? parseFloat((categoryStats.reduce((sum, category) => sum + (category.progressPercentage * category.totalItems), 0) / totalItems).toFixed(2))
       : 0;
 
     // Calculate recent activity

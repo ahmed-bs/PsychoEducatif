@@ -572,6 +572,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     }
   }
 
+  formatNumber(value: number | undefined | null): string {
+    if (value === undefined || value === null) return '0';
+    return value.toFixed(2);
+  }
+
   switchTab(tabId: string): void {
     this.activeTab = tabId;
     
