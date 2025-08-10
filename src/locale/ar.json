@@ -921,9 +921,20 @@
       "notes": "الملاحظات"
     },
     "skills_content": {
-      "competencies_count": "{{count}} مهارات"
+      "competencies_count": "{{count}} مهارات",
+      "start_date": "تاريخ البداية",
+      "last_update": "آخر تحديث"
     },
     "stats_content": {
+      "loading": "جاري تحميل الإحصائيات...",
+      "no_child_selected": "يرجى اختيار طفل لعرض الإحصائيات",
+      "no_data": "لا توجد بيانات إحصائية متاحة لهذا الطفل",
+      "summary": {
+        "categories": "الفئات",
+        "domains": "المجالات",
+        "items": "العناصر",
+        "progress": "التقدم العام"
+      },
       "progress_overview": {
         "title": "نظرة عامة على التقدم",
         "competencies_count": "{{count}} مهارات",
@@ -1122,10 +1133,22 @@
       "status": "{{status}}",
       "responsible": "{{responsible}}",
       "author": "{{author}}",
+      "loading": "جاري تحميل الاستراتيجيات...",
+      "error_title": "خطأ في التحميل",
+      "retry": "إعادة المحاولة",
+      "empty_title": "لم يتم العثور على استراتيجيات",
+      "empty_description": "ابدأ بإضافة أول استراتيجية سلوكية لك.",
       "messages": {
         "confirm_delete": "هل أنت متأكد من حذف هذه الاستراتيجية؟",
         "permission_denied": "ليس لديك إذن لحذف هذه الاستراتيجية. يمكن للمؤلف فقط حذفها.",
-        "delete_error": "حدث خطأ أثناء حذف الاستراتيجية."
+        "delete_error": "حدث خطأ أثناء حذف الاستراتيجية.",
+        "delete_success": "تم حذف الاستراتيجية بنجاح.",
+        "create_success": "تم إنشاء الاستراتيجية بنجاح.",
+        "update_success": "تم تحديث الاستراتيجية بنجاح.",
+        "create_error": "حدث خطأ أثناء إنشاء الاستراتيجية.",
+        "update_error": "حدث خطأ أثناء تحديث الاستراتيجية.",
+        "load_error": "حدث خطأ أثناء تحميل الاستراتيجيات.",
+        "no_profile_id": "لم يتم تحديد ملف شخصي. لا يمكن تحميل الاستراتيجيات."
       }
     }
   },
@@ -1161,13 +1184,17 @@
     "buttons": {
       "cancel": "إلغاء",
       "save": "حفظ",
-      "update": "تعديل"
+      "update": "تعديل",
+      "saving": "جاري الحفظ..."
     },
     "validation": {
       "title_required": "العنوان مطلوب.",
+      "title_min_length": "يجب أن يحتوي العنوان على 3 أحرف على الأقل.",
       "description_required": "الوصف مطلوب.",
+      "description_min_length": "يجب أن يحتوي الوصف على 10 أحرف على الأقل.",
       "status_required": "الحالة مطلوبة.",
       "responsible_required": "المسؤول مطلوب.",
+      "profile_required": "لم يتم تحديد ملف شخصي.",
       "required_fields": "يرجى ملء العنوان والوصف على الأقل للاستراتيجية."
     }
   },
