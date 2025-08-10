@@ -10,7 +10,6 @@ import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.se
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -53,7 +52,6 @@ interface CategoryTableRow {
     TableModule,
     ButtonModule,
     ProgressBarModule,
-    DropdownModule,
     SelectButtonModule,
     ToggleButtonModule,
     TooltipModule,
@@ -68,7 +66,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   profileId: number = 1;
   expandedCategories: { [key: string]: boolean } = {};
   filterStatuses: any[] = [];
-  selectedFilterStatus: string = 'ALL';
+  selectedFilterStatus: string = 'all';
   private originalCategoryDataForTable: CategoryTableRow[] = [];
   domainItemsVisibility: { [domainName: string]: boolean } = {};
   private languageSubscription: Subscription;
@@ -107,18 +105,16 @@ export class SummaryComponent implements OnInit, OnDestroy {
   private updateFilterStatuses() {
     // Wait for translations to be ready
     this.translate.get([
-      'skills_summary.status_labels.ALL',
-      'skills_summary.status_labels.ACQUIS',
-      'skills_summary.status_labels.PARTIEL',
-      'skills_summary.status_labels.NON_ACQUIS',
-      'skills_summary.status_labels.NON_COTE'
+      'explore.filter.all',
+      'explore.filter.completed',
+      'explore.filter.in_progress',
+      'explore.filter.not_started'
     ]).subscribe(translations => {
       this.filterStatuses = [
-        { label: translations['skills_summary.status_labels.ALL'], value: 'ALL' },
-        { label: translations['skills_summary.status_labels.ACQUIS'], value: 'ACQUIS' },
-        { label: translations['skills_summary.status_labels.PARTIEL'], value: 'PARTIEL' },
-        { label: translations['skills_summary.status_labels.NON_ACQUIS'], value: 'NON_ACQUIS' },
-        { label: translations['skills_summary.status_labels.NON_COTE'], value: 'NON_COTE' }
+        { label: translations['explore.filter.all'], value: 'all' },
+        { label: translations['explore.filter.completed'], value: 'completed' },
+        { label: translations['explore.filter.in_progress'], value: 'en_cours' },
+        { label: translations['explore.filter.not_started'], value: 'not_started' }
       ];
     });
   }
@@ -267,17 +263,25 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(): void {
-    if (this.selectedFilterStatus === 'ALL') {
+    if (this.selectedFilterStatus === 'all') {
       this.categoryDataForTable = [...this.originalCategoryDataForTable];
       return;
     }
 
     this.categoryDataForTable = this.originalCategoryDataForTable.map(category => ({
       ...category,
-      domains: category.domains.map(domain => ({
-        ...domain,
-        profileItems: domain.profileItems.filter(item => item.etat === this.selectedFilterStatus)
-      })).filter(domain => domain.profileItems.length > 0)
+      domains: category.domains.filter(domain => {
+        const percentage = domain.progressPercentage;
+
+        if (this.selectedFilterStatus === 'completed') {
+          return percentage === 100;
+        } else if (this.selectedFilterStatus === 'en_cours') {
+          return percentage > 0 && percentage < 100;
+        } else if (this.selectedFilterStatus === 'not_started') {
+          return percentage === 0;
+        }
+        return true;
+      })
     })).filter(category => category.domains.length > 0);
   }
 
