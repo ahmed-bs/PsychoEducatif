@@ -19,6 +19,9 @@ import { CategoriesComponent } from './categories/categories.component';
 import { ToastModule } from 'primeng/toast';
 import { EvaluationConfigRoutes } from './evaluationConfig.routing';
 import { ItemsComponent } from './items/items.component';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -41,6 +44,13 @@ import { ItemsComponent } from './items/items.component';
     DropdownModule, 
     InputTextModule,
     ToastModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   declarations: [EvaluationConfigComponent,CategoriesComponent,ItemsComponent]
 })

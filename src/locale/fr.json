@@ -1,0 +1,1258 @@
+{
+  "hero_section": {
+    "welcome_message": "Bonjour, {{userName}} !",
+    "select_child_prompt": "Veuillez sélectionner le profil d'un enfant ci-dessous.",
+    "search_placeholder": "Rechercher un enfant par nom",
+    "no_children_message": "Vous n'avez aucun enfant.",
+    "add_child_card": "Ajouter un enfant",
+    "add_child_button": "+"
+  },
+  "add_child_dialog": {
+    "header": "Ajouter un enfant",
+    "first_name_label": "Prénom",
+    "first_name_placeholder": "Prénom",
+    "last_name_label": "Nom de famille",
+    "last_name_placeholder": "Nom de famille",
+    "birth_date_label": "Date de naissance",
+    "diagnosis_label": "Diagnostic",
+    "diagnosis_placeholder": "Diagnostic",
+    "gender_label": "Genre",
+    "male_option": "Homme",
+    "female_option": "Femme",
+    "profile_image_label": "Image de profil",
+    "drop_zone_text": "Glisser-déposer ou cliquer pour télécharger",
+    "cancel_button": "Annuler",
+    "add_button": "Ajouter",
+    "required_fields_error": "Prénom, nom de famille et date de naissance sont obligatoires."
+  },
+  "edit_child_dialog": {
+    "header": "Modifier un enfant",
+    "first_name_label": "Prénom",
+    "first_name_placeholder": "Prénom",
+    "last_name_label": "Nom de famille",
+    "last_name_placeholder": "Nom de famille",
+    "birth_date_label": "Date de naissance",
+    "diagnosis_label": "Diagnostic",
+    "diagnosis_placeholder": "Diagnostic",
+    "gender_label": "Genre",
+    "male_option": "Homme",
+    "female_option": "Femme",
+    "profile_image_label": "Image de profil",
+    "drop_zone_text": "Glisser-déposer ou cliquer pour télécharger",
+    "cancel_button": "Annuler",
+    "save_button": "Enregistrer",
+    "required_fields_error": "Prénom, nom de famille et date de naissance sont obligatoires."
+  },
+  "profile_messages": {
+    "load_user_error": {
+      "title": "Erreur",
+      "text": "Impossible de charger les informations de l'utilisateur."
+    },
+    "load_profiles_error": {
+      "title": "Erreur",
+      "text": "Impossible de charger les profils."
+    },
+    "add_profile_success": {
+      "title": "Succès",
+      "text": "Profil ajouté avec succès."
+    },
+    "add_profile_error": {
+      "title": "Erreur",
+      "text": "Impossible d’ajouter le profil."
+    },
+    "add_profile_required_fields_error": {
+      "title": "Erreur",
+      "text": "Veuillez remplir tous les champs obligatoires."
+    },
+    "update_profile_success": {
+      "title": "Succès",
+      "text": "Profil mis à jour avec succès."
+    },
+    "update_profile_error": {
+      "title": "Erreur",
+      "text": "Impossible de mettre à jour le profil."
+    },
+    "disable_profile_confirm": {
+      "title": "Êtes-vous sûr ?",
+      "text": "Voulez-vous vraiment désactiver {{childName}} ?",
+      "confirm_button": "Oui, désactiver",
+      "cancel_button": "Annuler"
+    },
+    "disable_profile_success": {
+      "title": "Désactivé",
+      "text": "{{childName}} a été désactivé."
+    },
+    "disable_profile_error": {
+      "title": "Erreur",
+      "text": "Impossible de désactiver le profil."
+    }
+  },
+  "sidebar": {
+    "logo_name": "<span>Evalu'</span>Action",
+    "menu": {
+      "home": "Accueil",
+      "explore": "Explorer",
+      "profiles": "Profiles",
+      "objectives": "Objectifs",
+      "summary": "Résumé",
+      "calendar": "Calendrier",
+      "logout": "Déconnexion",
+      "more": "Plus"
+    }
+  },
+  "navbar": {
+    "menu": {
+      "home": "Accueil",
+      "evaluation": "Évaluation",
+      "objectives": "Objectifs",
+      "strategies": "Stratégies"
+    },
+    "buttons": {
+      "sign_up": "Sign Up",
+      "sign_in": "Sign In"
+    },
+    "logo_name": "<span>Evalu'</span>Action",
+    "search_placeholder": "Rechercher..."
+  },
+  "footer": {
+    "resources_title": "Resources",
+    "menu": {
+      "home": "Accueil",
+      "evaluation": "Évaluation",
+      "objectives": "Objectifs",
+      "strategies": "Stratégies"
+    },
+    "information_title": "Information",
+    "contact": {
+      "phone": "+1 (305) 240-9671",
+      "email": "info@company.com"
+    },
+    "copyright": "Copyright © 2025 Topic Listing Center. All rights reserved."
+  },
+  "featured_section": {
+    "header_image_cards": {
+      "educational_follow_up": "Suivi Éducatif",
+      "personalized_activities": "Activités Personnalisées",
+      "defined_objectives": "Objectifs Définis",
+      "parental_guidance": "Guidance Parentale"
+    },
+    "header_content": "Une solution<br />numérique <span class=\"text-indigo-600\"></span> pour l’accompagnement des enfants autistes."
+  },
+  "faq_section": {
+    "title": "🌟 À propos",
+    "description": "<span class=\"highlight font-semibold text-indigo-600\">PsychoÉducatif</span> est une plateforme numérique conçue pour accompagner les enfants autistes dans leur parcours de développement grâce à une approche individualisée et interactive. Elle propose des outils d'évaluation, des stratégies éducatives et des activités adaptées pour répondre aux besoins spécifiques de chaque enfant.",
+    "accordion": {
+      "item1": {
+        "question": "Qu'est-ce que la plateforme PsychoÉducatif ?",
+        "answer": "La plateforme PsychoÉducatif est une solution interactive et numérique qui aide les enfants autistes à progresser dans leur développement. Elle propose des évaluations des compétences, des activités personnalisées et des stratégies éducatives adaptées aux besoins de chaque enfant."
+      },
+      "item2": {
+        "question": "Comment cela fonctionne-t-il ?",
+        "answer": "La plateforme fonctionne grâce à des outils d'évaluation des compétences des enfants, des activités interactives, ainsi qu'à un suivi des progrès en temps réel. Elle permet aux éducateurs et aux parents d'accompagner les enfants avec des plans personnalisés."
+      },
+      "item3": {
+        "question": "Pourquoi utiliser PsychoÉducatif ?",
+        "answer": "PsychoÉducatif est conçu pour offrir une expérience unique et interactive, permettant aux enfants autistes de progresser à leur propre rythme. La plateforme s'adapte aux besoins spécifiques de chaque enfant et soutient les éducateurs et les parents avec des outils modernes et faciles à utiliser."
+      }
+    },
+    "image_alt": "Activités interactives"
+  },
+  "explore_section": {
+    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explorer les Thèmes Psychoéducatifs",
+    "tabs": {
+      "psychology": "Psychologie",
+      "behaviour": "Comportement",
+      "development": "Développement",
+      "emotional": "Émotions",
+      "therapy": "Thérapie"
+    },
+    "psychology_tab": {
+      "cognitive_psychology": {
+        "title": "Psychologie Cognitive",
+        "description": "Compréhension du fonctionnement mental humain"
+      },
+      "developmental_psychology": {
+        "title": "Psychologie du Développement",
+        "description": "Évolution des compétences et des comportements"
+      },
+      "psychotherapy": {
+        "title": "Psychothérapie",
+        "description": "Approches thérapeutiques pour l'accompagnement"
+      }
+    },
+    "behaviour_tab": {
+      "social_behaviour": {
+        "title": "Comportement Social",
+        "description": "Interactions et ajustements sociaux"
+      },
+      "stress_management": {
+        "title": "Gestion du Stress",
+        "description": "Techniques de gestion et réduction du stress"
+      },
+      "personal_development": {
+        "title": "Développement Personnel",
+        "description": "Stratégies pour améliorer les compétences personnelles"
+      }
+    },
+    "development_tab": {
+      "skills_development": {
+        "title": "Développement des Compétences",
+        "description": "Évolution des compétences et des capacités"
+      },
+      "personal_growth": {
+        "title": "Croissance Personnelle",
+        "description": "Développer une meilleure compréhension de soi et de ses capacités"
+      }
+    },
+    "emotional_tab": {
+      "emotion_management": {
+        "title": "Gestion des Émotions",
+        "description": "Stratégies pour comprendre et gérer les émotions"
+      },
+      "emotional_wellbeing": {
+        "title": "Bien-être Émotionnel",
+        "description": "Techniques pour promouvoir la santé émotionnelle"
+      },
+      "emotional_intelligence": {
+        "title": "Intelligence Émotionnelle",
+        "description": "Développer la conscience et la gestion des émotions"
+      }
+    },
+    "therapy_tab": {
+      "cognitive_behavioral_therapy": {
+        "title": "Thérapie Cognitivo-Comportementale",
+        "description": "Approches pour traiter les troubles cognitifs et comportementaux"
+      },
+      "play_therapy": {
+        "title": "Thérapie Par le Jeu",
+        "description": "Utilisation du jeu dans le processus thérapeutique"
+      },
+      "supportive_therapy": {
+        "title": "Thérapie de Soutien",
+        "description": "Accompagnement pour surmonter les difficultés émotionnelles"
+      }
+    }
+  },
+  "timeline_section": {
+    "title": "Comment cela fonctionne dans le cadre psychoéducatif",
+    "items": {
+      "explore_themes": {
+        "title": "Explorer les Thèmes Psychoéducatifs",
+        "description": "Parcourez une large gamme de thèmes psychoéducatifs pour mieux comprendre les besoins des enfants, des parents et des professionnels. Découvrez des informations sur le développement psychologique, les stratégies comportementales et le bien-être émotionnel."
+      },
+      "track_progress": {
+        "title": "Suivre et Enregistrer les Progrès",
+        "description": "Suivez les progrès émotionnels et cognitifs de l'enfant. Enregistrez l'évolution et obtenez des informations sur les changements comportementaux grâce à un suivi continu."
+      },
+      "learn_strategies": {
+        "title": "Apprendre et Mettre en Pratique des Stratégies",
+        "description": "Lisez et apprenez à partir de ressources psychoéducatives qui fournissent des stratégies pratiques pour soutenir les enfants ayant des besoins émotionnels et développementaux. Profitez de conseils personnalisés basés sur des évaluations en temps réel."
+      }
+    },
+    "more_info": "Vous souhaitez en savoir plus ?",
+    "discover_button": "Découvrez nos Ressources"
+  },
+  "skills_section": {
+    "title": "🎯 Pourquoi choisir PsychoÉducatif ?",
+    "items": {
+      "evaluation": {
+        "title": "Évaluation précise et personnalisée",
+        "description": "Un suivi détaillé basé sur des critères reconnus en psycho-éducation."
+      },
+      "interactive_activities": {
+        "title": "Activités interactives et ludiques",
+        "description": "Des exercices engageants pour stimuler l’apprentissage et le développement des compétences sociales."
+      },
+      "support": {
+        "title": "Accompagnement des parents et professionnels",
+        "description": "Un espace dédié pour suivre les progrès et adapter les interventions."
+      },
+      "accessibility": {
+        "title": "Accessibilité et ergonomie",
+        "description": "Une interface intuitive pensée pour une utilisation facile par les enfants et leurs accompagnateurs."
+      }
+    }
+  },
+  "evaluation_featured_section": {
+    "header_content": "L’évaluation <br/>est une <span></span> étape clé dans l'accompagnement psycho-éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés."
+  },
+  "evaluation_objectives_section": {
+    "title": "🎯 Objectifs de l’évaluation",
+    "items": {
+      "strengths_and_weaknesses": {
+        "title": "Identifier les forces et les faiblesses de l’enfant",
+        "description": "Déterminer les compétences actuelles dans des domaines clés comme la communication, les interactions sociales, la motricité, et les comportements adaptatifs."
+      },
+      "specific_needs": {
+        "title": "Détecter les besoins spécifiques",
+        "description": "Repérer les obstacles qui limitent l’autonomie et le développement de l’enfant."
+      },
+      "baseline": {
+        "title": "Établir une base de référence",
+        "description": "Fournir des données précises qui serviront à mesurer les progrès au fil du temps."
+      }
+    }
+  },
+  "digital_evaluation_advantages_section": {
+    "title": "🌟 Avantages de l’évaluation numérique",
+    "items": {
+      "psychoeducatif": {
+        "title": "PsychoÉducatif",
+        "description": "<span class=\"highlight\">Accessibilité :</span> Permet une utilisation par les parents et les professionnels, sans besoin d’équipement spécialisé.<br><span class=\"highlight\">Personnalisation :</span> Les outils s’adaptent aux besoins spécifiques de chaque enfant.<br><span class=\"highlight\">Efficacité :</span> Gain de temps dans la collecte et l’analyse des données.<br><span class=\"highlight\">Suivi continu :</span> Mise à jour régulière des évaluations pour ajuster les stratégies d'accompagnement."
+      }
+    }
+  },
+  "evaluation_methodology_section": {
+    "title": "🧑‍🏫 Méthodologie d’évaluation proposée",
+    "items": {
+      "child_profile": {
+        "title": "Création du profil de l’enfant",
+        "description": "Informations générales (nom, âge, diagnostic, etc.).<br>Sélection des domaines à évaluer selon les besoins spécifiques."
+      },
+      "interactive_tests": {
+        "title": "Tests et questionnaires interactifs",
+        "description": "Série de questions adaptées à l’âge et au niveau de développement.<br>Activités ludiques permettant d’évaluer les capacités cognitives et sociales."
+      },
+      "real_time_observation": {
+        "title": "Observation et suivi en temps réel",
+        "description": "Permettre aux parents et professionnels d’enregistrer des observations comportementales quotidiennes directement dans l’application."
+      },
+      "detailed_report": {
+        "title": "Rapport détaillé généré automatiquement",
+        "description": "Analyse des résultats sous forme de graphiques et de tableaux.<br>Recommandations personnalisées basées sur les résultats."
+      }
+    }
+  },
+  "new_featured_section": {
+    "header_image_cards": {
+      "educational_follow_up": "Suivi Éducatif",
+      "personalized_activities": "Activités Personnalisées",
+      "defined_objectives": "Objectifs Définis",
+      "parental_guidance": "Guidance Parentale"
+    },
+    "header_content": "Pour un accompagnement optimal des enfants autistes, ensemble !"
+  },
+  "objectives_section": {
+    "title": "🌟 Nos Objectifs",
+    "items": {
+      "why_application": {
+        "title": "Pourquoi cette application ?",
+        "description": "Nous avons conçu cette application avec une vision claire : offrir aux enfants autistes, à leurs familles, et aux professionnels des outils modernes et personnalisés pour une prise en charge psycho-éducative optimale."
+      }
+    }
+  },
+  "goals_section": {
+    "title": "🌟 Ce que nous visons à accomplir",
+    "items": {
+      "facilitate_evaluation": {
+        "title": "Faciliter l'évaluation des besoins",
+        "description": "Identifiez les capacités cognitives, sociales et comportementales des enfants grâce à des outils modernes.",
+        "image_alt": "Évaluation interactive"
+      },
+      "personalized_support": {
+        "title": "Renforcer l'accompagnement personnalisé",
+        "description": "Recevez des recommandations éducatives adaptées aux besoins uniques de chaque enfant, basées sur les résultats de l’évaluation.",
+        "image_alt": "Stratégies adaptées"
+      },
+      "family_involvement": {
+        "title": "Promouvoir l’implication des familles",
+        "description": "Encouragez les parents à jouer un rôle actif dans l’évaluation et le suivi des progrès de leur enfant.",
+        "image_alt": "Implication des parents"
+      },
+      "improve_collaboration": {
+        "title": "Améliorer la collaboration",
+        "description": "Facilitez les échanges entre professionnels et parents pour une coordination optimale dans la prise en charge.",
+        "image_alt": "Collaboration entre professionnels"
+      }
+    }
+  },
+  "trust_section": {
+    "title": "🌟 Pourquoi nous faire confiance ?",
+    "items": {
+      "fully_adapted": {
+        "title": "100 % adaptée",
+        "description": "Conçue spécialement pour répondre aux besoins uniques des enfants autistes.",
+        "image_alt": "Adapté aux besoins"
+      },
+      "expert_collaboration": {
+        "title": "Créée avec des experts",
+        "description": "Développée en collaboration avec des professionnels et des familles pour une efficacité optimale.",
+        "image_alt": "Collaboration experts"
+      },
+      "accessible_everywhere": {
+        "title": "Accessible partout",
+        "description": "Utilisable à tout moment, où que vous soyez, grâce à sa plateforme intuitive.",
+        "image_alt": "Accessible partout"
+      }
+    }
+  },
+  "strategies_featured_section": {
+    "header_content": "Découvrez nos approches pour accompagner les enfants autistes vers une meilleure autonomie."
+  },
+  "strategies_section": {
+    "title": "🌟 Nos Stratégies",
+    "items": {
+      "interactive_tools": {
+        "title": "Utilisation d’outils interactifs",
+        "description": "Développer des jeux et activités ludiques pour stimuler les compétences cognitives, sociales et comportementales.",
+        "image_alt": "Outils interactifs"
+      },
+      "personalized_approach": {
+        "title": "Approche personnalisée",
+        "description": "Adapter les stratégies éducatives aux besoins spécifiques de chaque enfant pour des résultats optimaux.",
+        "image_alt": "Approche personnalisée"
+      },
+      "family_involvement": {
+        "title": "Implication des familles",
+        "description": "Créer un environnement collaboratif où les parents participent activement à l’évolution de leur enfant.",
+        "image_alt": "Implication des familles"
+      },
+      "progress_tracking": {
+        "title": "Suivi continu des progrès",
+        "description": "Mettre à disposition des outils pour mesurer l’évolution des compétences et ajuster les objectifs en conséquence.",
+        "image_alt": "Suivi des progrès"
+      }
+    }
+  },
+  "login_form": {
+    "return_button": "Retour",
+    "form_image_alt": "Enfants lisant",
+    "welcome_title": "Bienvenue!",
+    "welcome_subtitle": "Vous connecter pour continuer",
+    "email_label": "Email",
+    "email_placeholder": "Entrez votre email",
+    "email_required_error": "*",
+    "email_invalid_error": "Email invalide",
+    "password_label": "Mot de passe",
+    "password_placeholder": "Mot de passe obligatoire pour se connecter !",
+    "password_required_error": "*",
+    "password_too_short_error": "Trop court",
+    "remember_me": "Se souvenir de moi",
+    "submit_button": "Se connecter",
+    "submit_button_loading": "Chargement...",
+    "create_account_text": "Pas encore de compte ?",
+    "create_account_link": "Créer un compte",
+    "success_message": {
+      "title": "Succès",
+      "text": "Connexion réussie ! Vous serez redirigé."
+    },
+    "error_message": {
+      "title": "Erreur",
+      "default_text": "Erreur connexion"
+    }
+  },
+  "signup_form": {
+    "return_button": "Retour",
+    "form_image_alt": "Innovation",
+    "title": "Créer un compte",
+    "subtitle": "Remplissez les champs pour créer un nouveau compte",
+    "full_name_label": "Nom et Prénom",
+    "full_name_placeholder": "Entrez votre nom et prénom",
+    "full_name_required_error": "*",
+    "full_name_too_short_error": "Trop court",
+    "email_label": "Adresse Email",
+    "email_placeholder": "Entrez votre adresse email",
+    "email_required_error": "*",
+    "email_invalid_error": "Email invalide",
+    "password_label": "Mot de Passe",
+    "password_placeholder": "Entrez un mot de passe sécurisé",
+    "password_required_error": "*",
+    "password_too_short_error": "Trop court",
+    "password_strength_error": "Mot de passe faible",
+    "confirm_password_label": "Confirmer le Mot de Passe",
+    "confirm_password_placeholder": "Confirmez votre mot de passe",
+    "confirm_password_required_error": "*",
+    "password_mismatch_error": "Mots de passe différents",
+    "terms_checkbox": "J'accepte les <a href='#' target='_blank'>termes et conditions</a>",
+    "terms_required_error": "*",
+    "submit_button": "S'inscrire",
+    "submit_button_loading": "Chargement...",
+    "login_text": "Vous avez déjà un compte ?",
+    "login_link": "Connectez-vous",
+    "success_message": {
+      "title": "Succès",
+      "text": "Compte créé avec succès ! Vous serez redirigé vers la page de connexion."
+    },
+    "error_message": {
+      "title": "Erreur",
+      "default_text": "Erreur inscription",
+      "validation_error": "Veuillez remplir tous les champs obligatoires et corriger les erreurs du formulaire.",
+      "password_mismatch": "Les mots de passe ne correspondent pas.",
+      "password_too_short": "Le mot de passe est trop court (minimum 8 caractères).",
+      "password_strength": "Le mot de passe est trop faible. Il doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.",
+      "email_invalid": "Adresse email invalide.",
+      "username_too_short": "Le nom et prénom sont trop courts.",
+      "terms_required": "Vous devez accepter les termes et conditions."
+    },
+    "user_types": {
+      "professional": "Professionnel",
+      "parent": "Parent",
+      "other": "Autre"
+    }
+  }, "skills_summary": {
+    "title": "Résumé des Compétences 📊",
+    "breadcrumb": {
+      "dashboard": "Tableau de bord",
+      "skills_summary": "Résumé des compétences"
+    },
+    "loading": "Chargement...",
+    "error": "{{error}}",
+    "load_summary_error": {
+      "title": "Erreur",
+      "text": "Échec du chargement des données récapitulatives. Veuillez réessayer plus tard."
+    },
+    "filter_label": "Filtrer par Statut des Items :",
+    "filter_placeholder": "Sélectionner un statut",
+    "export_button": "Exporter",
+    "table": {
+      "category": "Catégorie",
+      "total_domains": "Total Domaines",
+      "total_items_overall": "Total Items",
+      "overall_progress": "Progression Globale",
+      "domains_header": "Domaines de la catégorie \"{{category}}\" :",
+      "domain": "Domaine",
+      "total_items": "Total Items",
+      "acquired": "Acquises",
+      "partial": "Partielles",
+      "not_acquired": "Non Acquises",
+      "not_evaluated": "Non Évaluées",
+      "progress_percentage": "Progression",
+      "no_domains_message": "Aucun domaine trouvé pour cette catégorie.",
+      "no_categories_message": "Aucune catégorie de compétence trouvée."
+    },
+    "domain_items": {
+      "header": "Items pour le domaine \"{{domain}}\" (Statut filtré: {{status}})",
+      "show_items": "Afficher les items",
+      "hide_items": "Masquer les items",
+      "no_items_message": "Aucun item trouvé avec le statut \"{{status}}\" pour ce domaine.",
+      "comment_label": "Commentaire: ",
+      "no_comment": "Aucun commentaire disponible."
+    },
+    "status_labels": {
+      "ALL": "Tous",
+      "ACQUIS": "Acquise",
+      "PARTIEL": "Partielle",
+      "NON_ACQUIS": "Non Acquise",
+      "NON_COTE": "Non Évaluée",
+      "UNKNOWN": "Inconnu"
+    },
+    "export": {
+      "excel": "Exporter en Excel",
+      "pdf": "Exporter en PDF",
+      "category": "Catégorie",
+      "domain": "Domaine",
+      "total_domains": "Total Domaines",
+      "total_items": "Total Items",
+      "acquired": "Acquises",
+      "partial": "Partielles",
+      "not_acquired": "Non Acquises",
+      "not_evaluated": "Non Évaluées",
+      "overall_progress": "Progression Globale",
+      "progress": "Progression"
+    },
+    "view_modes": {
+      "table": "Tableau",
+      "card": "Cartes",
+      "list": "Liste"
+    },
+    "view_mode_label": "Mode d'affichage :",
+    "table": {
+      "current_page_report": "Affichage de {first} à {last} sur {totalRecords} entrées"
+    },
+    "card": {
+      "domains": "Domaines"
+    },
+    "export_content": {
+      "title": "Résumé des Compétences",
+      "generated_on": "Export généré le {{date}}",
+      "category_label": "Catégorie",
+      "domain_label": "Domaine",
+      "total_items_label": "Total Items",
+      "acquired_label": "Acquises",
+      "partial_label": "Partielles",
+      "not_acquired_label": "Non Acquises",
+      "not_evaluated_label": "Non Évaluées",
+      "progress_label": "Progression (%)"
+    }
+  },    "skills_evaluation": {
+    "back_button": "Retour",
+    "title": "Évaluation des compétences",
+    "loading": {
+      "message": "Chargement des questions...",
+      "sr_only": "Chargement..."
+    },
+    "error": {
+      "title": "Erreur!",
+      "message": "{{error}}",
+      "missing_domain_id": "L'identifiant du domaine est requis",
+      "no_questions_found": "Aucune question trouvée pour ce domaine",
+      "load_questions_failed": "Échec du chargement des questions. Veuillez réessayer plus tard."
+    },
+    "progress_indicator": {
+      "text": "Item <span class='font-bold text-blue-600'>{{currentIndex}}</span> sur <span class='font-bold text-blue-600'>{{totalItems}}</span>"
+    },
+    "form": {
+      "skill_label": "Compétence: <b class='text-sm'>{{skillName}}</b>",
+      "description_label": "{{description}}",
+      "status_label": "Statut de la compétence :",
+      "status_options": {
+        "ACQUIS": "Acquis",
+        "PARTIEL": "Partiel",
+        "NON_ACQUIS": "Non acquis"
+      },
+      "comment_label": "Observations :",
+      "comment_placeholder": "Notes complémentaires sur cette compétence..."
+    },
+    "buttons": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "submit": "Soumettre"
+    }
+  },
+  "explore": {
+    "head_title": {
+      "title": "Explorer les Compétences",
+      "breadcrumb": {
+        "dashboard": "Tableau de bord",
+        "explore": "Explorer"
+      }
+    },
+    "views": {
+      "card": "Cartes",
+      "list": "Liste",
+      "table": "Tableau"
+    },
+    "filter": {
+      "label": "Filtrer",
+      "all": "Tous",
+      "completed": "Terminé",
+      "in_progress": "En cours",
+      "not_started": "Non commencé"
+    },
+    "scroll_buttons": {
+      "left_aria_label": "Défiler vers la gauche",
+      "right_aria_label": "Défiler vers la droite"
+    },
+    "card": {
+      "items": "éléments",
+      "completed": "terminé",
+      "item_count": "{{count}} items",
+      "image_alt": "{{domainName}}",
+      "status_labels": {
+        "acquis": "Acquis",
+        "non_acquis": "Non acquis",
+        "en_cours": "En cours"
+      },
+      "click_to_start": "Cliquez pour commencer"
+    },
+    "table": {
+      "domain": "Domaine",
+      "total_items": "Total Items",
+      "progress": "Progrès",
+      "acquired": "Acquis",
+      "in_progress": "En cours",
+      "not_acquired": "Non acquis",
+      "actions": "Actions",
+      "start": "Commencer"
+    },
+    "error": {
+      "load_categories_failed": "Échec du chargement des catégories. Veuillez réessayer plus tard.",
+      "load_domains_failed": "Échec du chargement des domaines pour la catégorie {{categoryId}}. Veuillez réessayer plus tard.",
+      "load_items_failed": "Échec du chargement des items pour le domaine {{domainId}}. Veuillez réessayer plus tard."
+    }
+  },
+  "summary": {
+    "head_title": {
+      "title": "Résumé des Compétences 📊",
+      "breadcrumb": {
+        "dashboard": "Tableau de bord",
+        "skills_summary": "Résumé des compétences"
+      }
+    },
+    "loading": {
+      "message": "Chargement..."
+    },
+    "error": {
+      "message": "{{error}}"
+    },
+    "category_header": "{{categoryName}}",
+    "domain_header": "{{domainName}}",
+    "table": {
+      "caption": {
+        "export_excel": "Exporter en Excel",
+        "export_pdf": "Exporter en PDF"
+      },
+      "headers": {
+        "items": "Items",
+        "status": "Statuts",
+        "comments": "Commentaires"
+      },
+      "no_comment": "-",
+      "status_labels": {
+        "ACQUIS": "Acquise",
+        "NON_ACQUIS": "Non acquise",
+        "PARTIEL": "Partielle",
+        "NON_COTE": "Non évaluée"
+      }
+    }
+  },  "evaluations": {
+    "head_title": {
+      "title": "Résumé des Compétences 📊",
+      "breadcrumb": {
+        "dashboard": "Tableau de bord",
+        "evaluations_summary": "Résumé des compétences"
+      }
+    },
+    "loading": {
+      "message": "Chargement..."
+    },
+    "error": {
+      "title": "Erreur",
+      "message": "{{error}}",
+      "missing_domain_id": "L'identifiant du domaine est requis dans le chemin",
+      "no_items_found": "Aucun élément trouvé pour ce domaine",
+      "load_items_failed": "Échec du chargement des éléments. Veuillez réessayer plus tard."
+    },
+    "views": {
+      "table": "Tableau",
+      "list": "Liste",
+      "card": "Cartes"
+    },
+    "empty": {
+      "title": "Aucune évaluation disponible",
+      "message": "Il n'y a actuellement aucune évaluation disponible pour ce domaine."
+    },
+    "category_header": "{{categoryName}}",
+    "domain_header": "{{domainName}}",
+    "table": {
+      "caption": {
+        "export_excel": "Exporter en Excel",
+        "export_pdf": "Exporter en PDF"
+      },
+      "headers": {
+        "items": "Items",
+        "status": "Statuts",
+        "comments": "Commentaires"
+      },
+      "no_comment": "-",
+      "status_labels": {
+        "ACQUIS": "Acquise",
+        "NON_ACQUIS": "Non acquise",
+        "PARTIEL": "Partielle",
+        "NON_COTE": "Non évaluée"
+      }
+    },
+    "export": {
+      "category_label": "Catégorie",
+      "domain_label": "Domaine",
+      "unknown_category": "Catégorie inconnue",
+      "unknown_domain": "Domaine inconnu"
+    }
+  }, "items": {
+    "back_button": "Retour",
+    "add_item_section": {
+      "title": "Ajouter un nouvel item",
+      "labels": {
+        "domain": "Domaine",
+        "item": "Item",
+        "description": "Description"
+      },
+      "placeholders": {
+        "domain": "Sélectionnez un domaine",
+        "item_title": "Titre de l'item",
+        "item_description": "Description de l'item"
+      },
+      "add_item_button": "Ajouter l'item"
+    },
+    "items_by_domain": {
+      "title": "Items par domaine",
+      "add_domain_button": "Ajouter un domaine",
+      "item_count": "{{count}} items",
+      "no_items": "Aucun item dans ce domaine",
+      "headers": {
+        "item": "ITEM",
+        "status": "ÉTAT",
+        "description": "DESCRIPTION",
+        "actions": "ACTIONS"
+      },
+      "status_labels": {
+        "ACQUIS": "Acquis",
+        "NON_ACQUIS": "Non acquis",
+        "PARTIEL": "Partiel",
+        "NON_COTE": "Non coté"
+      },
+      "description_fallback": "N/A"
+    },
+    "add_domain_dialog": {
+      "header_add": "Ajouter un domaine",
+      "header_edit": "Modifier un domaine",
+      "labels": {
+        "title": "Titre",
+        "description": "Description"
+      },
+      "placeholders": {
+        "title": "Titre",
+        "description": "Description"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "add": "Ajouter",
+        "update": "Modifier"
+      }
+    },
+    "add_item_dialog": {
+      "header_add": "Ajouter un item",
+      "header_edit": "Modifier un item",
+      "labels": {
+        "title": "Titre",
+        "description": "Description",
+        "status": "État"
+      },
+      "placeholders": {
+        "title": "Titre",
+        "description": "Description",
+        "status": "Sélectionner l'état"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "add": "Ajouter",
+        "update": "Modifier"
+      }
+    },
+    "messages": {
+      "error": {
+        "no_category_id": "Aucun identifiant de catégorie fourni",
+        "load_data_failed": "Échec du chargement des données",
+        "name_and_category_required": "Le nom et la catégorie sont requis",
+        "name_and_domain_required": "Le nom et le domaine sont requis",
+        "name_item_domain_required": "Le nom, l'item et le domaine sont requis",
+        "generic_error": "{{error}}"
+      },
+      "success": {
+        "domain_added": "Domaine ajouté avec succès",
+        "item_added": "Item ajouté avec succès",
+        "domain_updated": "Domaine mis à jour avec succès",
+        "item_updated": "Item mis à jour avec succès",
+        "domain_deleted": "Domaine supprimé avec succès",
+        "item_deleted": "Item supprimé avec succès"
+      },
+      "confirm": {
+        "delete_domain": "Êtes-vous sûr de vouloir supprimer {{domainName}} ?",
+        "delete_item": "Êtes-vous sûr de vouloir supprimer {{itemName}} ?"
+      }
+    }
+  }, "categories": {
+    "head_title": {
+      "title": "Liste des Compétences 📝",
+      "breadcrumb": {
+        "dashboard": "Tableau de bord",
+        "skills_list": "Liste des Compétences"
+      }
+    },
+    "toolbar": {
+      "add_skill_button": "Ajouter une compétence"
+    },
+    "no_data": {
+      "message": "Aucune catégorie disponible",
+      "image_alt": "Aucune donnée disponible"
+    },
+    "category_card": {
+      "created_at": "Créé le : {{date}}",
+      "items_count": "Nombre des items : {{count}}",
+      "domains_count": "Nombre des domaines : {{count}}"
+    },
+    "add_category_dialog": {
+      "header_add": "Ajouter une Compétence",
+      "header_edit": "Modifier une Compétence",
+      "labels": {
+        "title": "Titre",
+        "description": "Description"
+      },
+      "placeholders": {
+        "title": "Titre",
+        "description": "Description"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "add": "Ajouter",
+        "update": "Modifier"
+      }
+    },
+    "messages": {
+      "success": {
+        "summary": "Succès",
+        "category_added": "Catégorie ajoutée avec succès",
+        "category_updated": "Catégorie mise à jour avec succès",
+        "category_deleted": "Catégorie supprimée avec succès"
+      },
+      "error": {
+        "summary": "Erreur",
+        "name_required": "Le nom est requis",
+        "generic_error": "{{error}}"
+      },
+      "confirm": {
+        "delete_category": "Êtes-vous sûr de vouloir supprimer {{categoryName}} ?"
+      }
+    }
+  },  "dashboard": {
+    "head_title": {
+      "title": "🏠 Bienvenue sur le Tableau de Bord",
+      "breadcrumb": {
+        "dashboard": "Tableau de bord"
+      }
+    },
+    "dropdown": {
+      "add_profile": "Ajouter un nouveau profil",
+      "diagnosis_unspecified": "Non spécifié"
+    },
+    "child_profile": {
+      "last_evaluation": "Dernière évaluation: {{date}}",
+      "gender_male": "♂ Male",
+      "gender_female": "♀ Female",
+      "share_profile_button": "Partager le profil"
+    },
+    "tabs": {
+      "skills": "Compétences",
+      "stats": "Statistiques",
+      "goals": "Objectifs",
+      "strategies": "Stratégies",
+      "notes": "Notes"
+    },
+    "skills_content": {
+      "competencies_count": "{{count}} compétences"
+    },
+    "stats_content": {
+      "progress_overview": {
+        "title": "Aperçu des Progrès",
+        "competencies_count": "{{count}} compétences",
+        "progress": "Progrès: {{percentage}}%",
+        "goal": "Objectif: {{percentage}}%"
+      },
+      "recent_activity": {
+        "title": "Activité Récente",
+        "competencies_evaluated": "{{count}} compétences évaluées",
+        "last_update": "Dernière mise à jour: {{date}}"
+      }
+    },
+    "share_profile_dialog": {
+      "header": "Partager le profil",
+      "labels": {
+        "email": "Email du destinataire",
+        "access_type": "Type d'accès"
+      },
+      "placeholders": {
+        "email": "Entrez l'email"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "share": "Partager",
+        "sharing": "Partage en cours..."
+      },
+      "errors": {
+        "invalid_email": "Email invalide"
+      },
+      "access_options": {
+        "view_only": "Lecture seule",
+        "edit": "Modification",
+        "full_access": "Accès complet"
+      }
+    },
+    "messages": {
+      "success": {
+        "summary": "Succès",
+        "profile_shared": "Profil partagé avec succès",
+        "child_added": "Profil ajouté avec succès",
+        "child_updated": "Profil mis à jour avec succès",
+        "goal_saved": "Objectif sauvegardé avec succès"
+      },
+      "error": {
+        "summary": "Erreur",
+        "load_data_failed": "Échec du chargement des données. Veuillez réessayer plus tard",
+        "email_required": "L'email est requis",
+        "access_type_required": "Le type d'accès est requis",
+        "generic_error": "{{error}}"
+      }
+    }
+  }, "dashboard": {
+    "head_title": {
+      "title": "🏠 Bienvenue sur le Tableau de Bord",
+      "breadcrumb": {
+        "dashboard": "Tableau de bord"
+      }
+    },
+    "dropdown": {
+      "add_profile": "Ajouter un nouveau profil",
+      "diagnosis_unspecified": "Non spécifié"
+    },
+    "child_profile": {
+      "last_evaluation": "Dernière évaluation: {{date}}",
+      "gender_male": "♂ Male",
+      "gender_female": "♀ Female",
+      "share_profile_button": "Partager le profil",
+      "edit_profile_button": "Modifier le profil",
+      "disable_profile_button": "Désactiver le profil"
+    },
+    "tabs": {
+      "skills": "Compétences",
+      "stats": "Statistiques",
+      "goals": "Objectifs",
+      "strategies": "Stratégies",
+      "notes": "Notes"
+    },
+    "skills_content": {
+      "competencies_count": "{{count}} compétences"
+    },
+    "stats_content": {
+      "progress_overview": {
+        "title": "Aperçu des Progrès",
+        "competencies_count": "{{count}} compétences",
+        "progress": "Progrès: {{percentage}}%",
+        "goal": "Objectif: {{percentage}}%"
+      },
+      "recent_activity": {
+        "title": "Activité Récente",
+        "competencies_evaluated": "{{count}} compétences évaluées",
+        "last_update": "Dernière mise à jour: {{date}}"
+      }
+    },
+    "add_child_dialog": {
+      "header": "Ajouter un nouveau profil",
+      "labels": {
+        "first_name": "Prénom",
+        "last_name": "Nom",
+        "birth_date": "Date de naissance",
+        "gender": "Genre",
+        "diagnosis": "Diagnostic",
+        "notes": "Notes",
+        "image": "Image de profil"
+      },
+      "placeholders": {
+        "first_name": "Entrez le prénom",
+        "last_name": "Entrez le nom",
+        "birth_date": "Entrez la date de naissance",
+        "diagnosis": "Entrez le diagnostic (facultatif)",
+        "notes": "Entrez des notes (facultatif)"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "add": "Ajouter"
+      }
+    },
+    "edit_child_dialog": {
+      "header": "Modifier le profil",
+      "labels": {
+        "first_name": "Prénom",
+        "last_name": "Nom",
+        "birth_date": "Date de naissance",
+        "gender": "Genre",
+        "diagnosis": "Diagnostic",
+        "notes": "Notes",
+        "image": "Image de profil"
+      },
+      "placeholders": {
+        "first_name": "Entrez le prénom",
+        "last_name": "Entrez le nom",
+        "birth_date": "Entrez la date de naissance",
+        "diagnosis": "Entrez le diagnostic (facultatif)",
+        "notes": "Entrez des notes (facultatif)"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "update": "Mettre à jour"
+      }
+    },
+    "share_profile_dialog": {
+      "header": "Partager le profil",
+      "labels": {
+        "email": "Email du destinataire",
+        "access_type": "Type d'accès"
+      },
+      "placeholders": {
+        "email": "Entrez l'email"
+      },
+      "buttons": {
+        "cancel": "Annuler",
+        "share": "Partager",
+        "sharing": "Partage en cours..."
+      },
+      "errors": {
+        "invalid_email": "Email invalide",
+        "profile_and_email_required": "Veuillez sélectionner un profil et entrer un email"
+      },
+      "access_options": {
+        "read_only": "Lecture seule",
+        "read_write": "Lecture et modification"
+      }
+    },
+    "charts": {
+      "skills_distribution": "Répartition des Compétences",
+      "progress_by_domain": "Progrès par Domaine",
+      "skill_assessment": "Évaluation des Compétences",
+      "domain_overview": "Vue d'Ensemble des Domaines",
+      "current_progress_label": "Progrès Actuel",
+      "target_label": "Objectif",
+      "current_level_label": "Niveau Actuel"
+    },
+    "messages": {
+      "success": {
+        "summary": "Succès",
+        "profile_shared": "Profil partagé avec succès",
+        "child_added": "Profil ajouté avec succès",
+        "child_updated": "Profil mis à jour avec succès",
+        "child_disabled": "{{name}} a été désactivé",
+        "goal_saved": "Objectif sauvegardé avec succès"
+      },
+      "error": {
+        "summary": "Erreur",
+        "load_profiles_failed": "Impossible de charger les profils",
+        "load_profile_failed": "Impossible de charger le profil",
+        "load_categories_failed": "Impossible de charger les catégories",
+        "load_domains_failed": "Impossible de charger les domaines",
+        "add_child_failed": "Impossible d'ajouter le profil",
+        "update_child_failed": "Impossible de mettre à jour le profil",
+        "disable_child_failed": "Impossible de désactiver le profil",
+        "share_profile_failed": "{{error}}",
+        "required_fields_missing": "Veuillez remplir tous les champs obligatoires",
+        "generic_error": "{{error}}"
+      },
+      "warning": {
+        "summary": "Avertissement",
+        "confirm_disable_child": "Êtes-vous sûr de vouloir désactiver {{name}} ?"
+      }
+    }
+  },"calendar.title": "📅 Calendrier",
+  "calendar.breadcrumb.dashboard": "Tableau de bord",
+  "calendar.breadcrumb.calendar": "📅 Calendrier",
+  "calendar.sidebar.title": "📌 Domaines en cours",
+  "calendar.domain.start_date": "Début: {{0}}",
+  "calendar.domain.last_eval_date": "Dernière éval: {{0}}",
+  "calendar.sidebar.no_domains": "Aucun domaine en cours.",
+  "dashboard_tabs": {
+    "goals": {
+      "title": "Objectifs de travail",
+      "no_goals_found": "Aucun objectif trouvé. Cliquez sur \"Ajouter un nouvel objectif\" pour commencer !",
+      "add_new_goal": "Ajouter un nouvel objectif",
+      "target_date": "Date cible",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "take_quiz": "Passer le Quiz",
+      "progress": "Progression",
+      "sub_objectives": "Sous-objectifs:",
+      "no_sub_objectives": "Aucun sous-objectif défini.",
+      "priority": {
+        "high": "Élevée",
+        "medium": "Moyenne",
+        "low": "Faible"
+      },
+      "messages": {
+        "quiz_not_available": "Le quiz pour cet objectif ne sera disponible qu'à partir du {{date}}.",
+        "quiz_available": "Cliquez pour passer le quiz.",
+        "cannot_navigate_quiz": "Impossible de lancer le quiz : Le domaine de l'objectif est introuvable.",
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cet objectif et tous ses sous-objectifs ?",
+        "sub_objective_disabled": "Vous ne pouvez pas modifier le sous-objectif avant le {{date}}"
+      }
+    },
+    "notes": {
+      "title": "Notes et observations",
+      "filter_title": "Filtrer les notes",
+      "search_content": "Rechercher par contenu",
+      "search_placeholder": "Rechercher...",
+      "importance_filter": "Importance",
+      "importance_options": {
+        "all": "Toutes les notes",
+        "important": "Notes importantes",
+        "not_important": "Notes non importantes"
+      },
+      "date_start": "Date de début",
+      "date_end": "Date de fin",
+      "author_filter": "Par auteur",
+      "author_placeholder": "Nom d'utilisateur...",
+      "reset_filters": "Réinitialiser les filtres",
+      "loading": "Chargement des notes...",
+      "no_notes_found": "Aucune note trouvée correspondant à vos critères. Essayez d'ajuster les filtres !",
+      "important_note": "Note Importante du",
+      "observation": "Observation du",
+      "by_you": "Par vous",
+      "by_other": "Par {{username}}",
+      "modified": "(Modifiée)",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "cancel": "Annuler",
+      "save_changes": "Enregistrer les modifications",
+      "add_new_note": "Ajouter une nouvelle note",
+      "note_placeholder": "Écrivez vos observations ici...",
+      "important_note_checkbox": "Note importante",
+      "save": "Enregistrer",
+      "messages": {
+        "content_empty": "Le contenu de la note ne peut pas être vide !",
+        "no_profile_selected": "Impossible d'enregistrer la note : Aucun profil sélectionné.",
+        "auth_required": "Authentification requise. Veuillez vous connecter.",
+        "auth_required_update": "Authentification requise. Veuillez vous connecter pour modifier les notes.",
+        "permission_denied_add": "Vous n'avez pas l'autorisation d'ajouter des notes à ce profil.",
+        "permission_denied_edit": "Vous n'avez pas l'autorisation de modifier cette note.",
+        "permission_denied_delete": "Vous n'avez pas l'autorisation de supprimer cette note.",
+        "save_failed": "Échec de l'enregistrement de la note. Veuillez réessayer.",
+        "update_failed": "Échec de la mise à jour de la note. Veuillez réessayer.",
+        "delete_failed": "Échec de la suppression de la note. Veuillez réessayer.",
+        "note_id_missing": "L'ID de la note est manquant ou le contenu est vide !",
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette note ?"
+      }
+    },
+    "strategy": {
+      "title": "Stratégies comportementales",
+      "add_new_strategy": "Ajouter une nouvelle stratégie",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "status": "{{status}}",
+      "responsible": "{{responsible}}",
+      "author": "{{author}}",
+      "messages": {
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette stratégie?",
+        "permission_denied": "Vous n'êtes pas autorisé à supprimer cette stratégie. Seul l'auteur peut la supprimer.",
+        "delete_error": "Une erreur est survenue lors de la suppression de la stratégie."
+      }
+    }
+  },
+  "add_strategy_modal": {
+    "header": {
+      "add": "Ajouter une nouvelle stratégie",
+      "edit": "Modifier la stratégie"
+    },
+    "labels": {
+      "title": "Titre de la stratégie",
+      "description": "Description",
+      "status": "Statut",
+      "responsible": "Responsable"
+    },
+    "placeholders": {
+      "title": "Saisissez le titre de la stratégie",
+      "description": "Saisissez la description de la stratégie"
+    },
+    "status_options": {
+      "active": "Actif",
+      "in_progress": "En cours",
+      "completed": "Terminé",
+      "under_review": "En révision",
+      "suspended": "Suspendu"
+    },
+    "responsible_options": {
+      "all_interveners": "Tous les intervenants",
+      "special_educator": "Éducateur spécialisé",
+      "psychologist": "Psychologue",
+      "speech_therapist": "Orthophoniste",
+      "parent": "Parent"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "update": "Modifier"
+    },
+    "validation": {
+      "title_required": "Le titre est requis.",
+      "description_required": "La description est requise.",
+      "status_required": "Le statut est requis.",
+      "responsible_required": "Le responsable est requis.",
+      "required_fields": "Veuillez remplir au moins le titre et la description de la stratégie."
+    }
+  }
+}

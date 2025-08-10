@@ -2,20 +2,18 @@
     <main>
         <div class="head-title">
             <div class="left">
-                <h1>🏠 Bienvenue sur le Tableau de Bord</h1>
+                <h1>{{ 'dashboard.head_title.title' | translate }}</h1>
                 <ul class="breadcrumb">
                     <li>
-                        <a href="#">Tableau de bord</a>
+                        <a href="#">{{ 'dashboard.head_title.breadcrumb.dashboard' | translate }}</a>
                     </li>
                     <li><i class="bx bx-chevron-right"></i></li>
                     <li>
-                        <a class="active" href="#">Tableau de Bord</a>
+                        <a class="active" href="#">{{ 'dashboard.head_title.breadcrumb.dashboard' | translate }}</a>
                     </li>
                 </ul>
             </div>
-            <div class="right">
-
-            </div>
+            <div class="right"></div>
         </div>
 
         <div class="container mx-auto px-2 sm:px-4 md:px-8 py-4 max-w-6xl">
@@ -30,18 +28,15 @@
                                 </div>
                                 <div>
                                     <div class="font-medium">{{ child.first_name }} {{ child.last_name }}</div>
-                                    <div class="text-xs text-gray-500">{{ calculateAge(child.birth_date) }} • {{
-                                        child.diagnosis || 'Non spécifié' }}</div>
+                                    <div class="text-xs text-gray-500">{{ calculateAge(child.birth_date) }} • {{ child.diagnosis || ('dashboard.dropdown.diagnosis_unspecified' | translate) }}</div>
                                 </div>
                             </div>
                             <div class="border-t border-gray-200"></div>
                             <div class="dropdown-item">
                                 <i class="fas fa-plus-circle text-indigo-600 mr-3"></i>
-                                <div class="font-medium text-indigo-600" (click)="showDialog()">Ajouter un nouveau
-                                    profil</div>
+                                <div class="font-medium text-indigo-600" (click)="showDialog()">{{ 'dashboard.dropdown.add_profile' | translate }}</div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -59,21 +54,16 @@
                     <div class="md:w-3/4 p-4 md:p-6" *ngIf="selectedChild">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>
-                                <h2 class="text-xl md:text-2xl font-bold text-gray-800">{{ selectedChild.first_name }} {{
-                                    selectedChild.last_name }}
-                                </h2>
+                                <h2 class="text-xl md:text-2xl font-bold text-gray-800">{{ selectedChild.first_name }} {{ selectedChild.last_name }}</h2>
                                 <div class="flex flex-wrap items-center mt-2 gap-2">
-                                    <span class="bg-blue-100 text-blue-800 text-xs md:text-sm font-medium px-2.5 py-0.5 rounded">{{
-                                        calculateAge(selectedChild.birth_date) }}</span>
-                                    <span class="bg-purple-100 text-purple-800 text-xs md:text-sm font-medium px-2.5 py-0.5 rounded">{{
-                                        selectedChild.gender === 'M' ? '♂ Male' : '♀ Female' }}</span>
+                                    <span class="bg-blue-100 text-blue-800 text-xs md:text-sm font-medium px-2.5 py-0.5 rounded">{{ calculateAge(selectedChild.birth_date) }}</span>
+                                    <span class="bg-purple-100 text-purple-800 text-xs md:text-sm font-medium px-2.5 py-0.5 rounded">{{ selectedChild.gender === 'M' ? ('dashboard.child_profile.gender_male' | translate) : ('dashboard.child_profile.gender_female' | translate) }}</span>
                                 </div>
-                                <p class="text-gray-600 mt-2 text-xs md:text-base"><i class="fas fa-calendar-alt mr-2 text-indigo-500"></i> Dernière
-                                    évaluation: 15/06/2023</p>
+                                <p class="text-gray-600 mt-2 text-xs md:text-base"><i class="fas fa-calendar-alt mr-2 text-indigo-500"></i> {{ 'dashboard.child_profile.last_evaluation' | translate: { date: '15/06/2023' } }}</p>
                             </div>
                             <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
-                                <button (click)="showShareDialog()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center w-full sm:w-auto">
-                                    <i class="fas fa-share-alt mr-2"></i> Partager le profil
+                                                                 <button (click)="showShareDialog()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center w-full sm:w-auto" [attr.aria-label]="'dashboard.child_profile.share_profile_button' | translate">
+                                    <i class="fas fa-share-alt mr-2"></i> {{ 'dashboard.child_profile.share_profile_button' | translate }}
                                 </button>
                             </div>
                         </div>
@@ -81,8 +71,8 @@
                         <div class="border-b border-gray-200 mt-4">
                             <ul class="flex flex-wrap -mb-px overflow-x-auto md:overflow-visible">
                                 <li class="mr-2" *ngFor="let tab of tabs">
-                                    <button class="inline-block p-2 md:p-4 border-b-2 rounded-t-lg font-medium text-xs md:text-base" [class.border-indigo-600]="isTabActive(tab.id)" [class.text-indigo-600]="isTabActive(tab.id)" [class.border-transparent]="!isTabActive(tab.id)" [class.hover:text-gray-600]="!isTabActive(tab.id)" [class.hover:border-gray-300]="!isTabActive(tab.id)" (click)="switchTab(tab.id)">
-                                        {{tab.label}}
+                                    <button class="inline-block p-2 md:p-4 border-b-2 rounded-t-lg font-medium text-xs md:text-base" [class.border-indigo-600]="isTabActive(tab.id)" [class.text-indigo-600]="isTabActive(tab.id)" [class.border-transparent]="!isTabActive(tab.id)" [class.hover:text-gray-600]="!isTabActive(tab.id)" [class.hover:border-gray-300]="!isTabActive(tab.id)" (click)="switchTab(tab.id)" [attr.aria-label]="'dashboard.tabs.' + tab.id | translate">
+                                        {{ 'dashboard.tabs.' + tab.id | translate }}
                                     </button>
                                 </li>
                             </ul>
@@ -96,21 +86,20 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <div *ngFor="let category of filteredCategories" class="bg-white rounded-xl shadow overflow-hidden">
                             <div class="bg-indigo-600 px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center">
-                                <h3 class="text-lg sm:text-xl font-medium text-white">{{ category.name }} ({{
-                                    (domains[category.id!] || []).length }} compétences)</h3>
+                                <h3 class="text-lg sm:text-xl font-medium text-white">{{ category.name }} (<span [innerHTML]="'dashboard.skills_content.competencies_count' | translate: { count: (domains[category.id!] || []).length }"></span>)</h3>
                             </div>
                             <div class="p-4 sm:p-6">
                                 <div *ngFor="let domain of domains[category.id!]" class="skill-card bg-indigo-50 p-3 sm:p-4 rounded-lg mb-3 sm:mb-4 last:mb-0">
                                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
-                                        <h4 class="font-medium text-indigo-800 text-base sm:text-lg mb-1 sm:mb-0">{{ domain.name }}</h4> <span class="text-sm sm:text-base font-medium text-gray-700">Progrès: {{
-                                            domain.acquis_percentage }}%</span>
+                                        <h4 class="font-medium text-indigo-800 text-base sm:text-lg mb-1 sm:mb-0">{{ domain.name }}</h4>
+                                        <span class="text-sm sm:text-base font-medium text-gray-700">{{ 'dashboard.stats_content.progress_overview.progress' | translate: { percentage: domain.acquis_percentage } }}</span>
                                     </div>
                                     <div class="progress-bar h-2 sm:h-3 bg-gray-200 rounded-full">
-                                        <div class="progress-fill h-full bg-indigo-600 rounded-full transition-all duration-500 ease-out" [style.width]="domain.acquis_percentage + '%'">
-                                        </div>
+                                        <div class="progress-fill h-full bg-indigo-600 rounded-full transition-all duration-500 ease-out" [style.width]="domain.acquis_percentage + '%'"></div>
                                     </div>
-                                    <div class="mt-3 flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0"> <span>Début: {{ formatDate(domain.start_date) }}</span>
-                                        <span>Dernière éval: {{ formatDate(domain.last_eval_date) }}</span>
+                                    <div class="mt-3 flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0">
+                                        <span>{{ 'dashboard.stats_content.progress_overview.start' | translate }}: {{ formatDate(domain.start_date) }}</span>
+                                        <span>{{ 'dashboard.stats_content.recent_activity.last_update' | translate: { date: formatDate(domain.last_eval_date) } }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -121,30 +110,26 @@
                     <div class="grid grid-cols-1 mb-6">
                         <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
                             <div class="w-full h-64">
-                                <canvas baseChart [data]="skillsChartData" [options]="skillsChartOptions" [type]="'doughnut'">
-                                </canvas>
+                                <canvas baseChart [data]="skillsChartData" [options]="skillsChartOptions" [type]="'doughnut'"></canvas>
                             </div>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
                             <div class="w-full h-64">
-                                <canvas baseChart [data]="progressChartData" [options]="progressChartOptions" [type]="'bar'">
-                                </canvas>
+                                <canvas baseChart [data]="progressChartData" [options]="progressChartOptions" [type]="'bar'"></canvas>
                             </div>
                         </div>
                         <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
                             <div class="w-full h-64">
-                                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
-                                </canvas>
+                                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'"></canvas>
                             </div>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 mb-8">
                         <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
                             <div class="w-full h-64">
-                                <canvas baseChart [data]="polarChartData" [options]="polarChartOptions" [type]="'polarArea'">
-                                </canvas>
+                                <canvas baseChart [data]="polarChartData" [options]="polarChartOptions" [type]="'polarArea'"></canvas>
                             </div>
                         </div>
                     </div>
@@ -152,21 +137,20 @@
                         <div class="bg-white rounded-xl shadow-md p-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                                 <i class="fas fa-chart-line text-indigo-600 mr-2"></i>
-                                Aperçu des Progrès
+                                {{ 'dashboard.stats_content.progress_overview.title' | translate }}
                             </h3>
                             <div class="space-y-4">
                                 <div *ngFor="let category of filteredCategories" class="category-progress-card">
                                     <div class="flex justify-between items-center mb-2">
                                         <span class="font-medium text-gray-700">{{ category.name }}</span>
-                                        <span class="text-sm text-gray-500">{{ (domains[category.id!] || []).length }} compétences</span>
+                                        <span class="text-sm text-gray-500" [innerHTML]="'dashboard.stats_content.progress_overview.competencies_count' | translate: { count: (domains[category.id!] || []).length }"></span>
                                     </div>
                                     <div class="progress-bar">
-                                        <div class="progress-fill" [style.width]="getCategoryProgress(category.id!) + '%'">
-                                        </div>
+                                        <div class="progress-fill" [style.width]="getCategoryProgress(category.id!) + '%'"></div>
                                     </div>
                                     <div class="flex justify-between text-xs text-gray-500 mt-1">
-                                        <span>Progrès: {{ getCategoryProgress(category.id!) }}%</span>
-                                        <span>Objectif: 85%</span>
+                                        <span>{{ 'dashboard.stats_content.progress_overview.progress' | translate: { percentage: getCategoryProgress(category.id!) } }}</span>
+                                        <span>{{ 'dashboard.stats_content.progress_overview.goal' | translate: { percentage: 85 } }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +158,7 @@
                         <div class="bg-white rounded-xl shadow-md p-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                                 <i class="fas fa-clock text-green-600 mr-2"></i>
-                                Activité Récente
+                                {{ 'dashboard.stats_content.recent_activity.title' | translate }}
                             </h3>
                             <div class="space-y-4">
                                 <div *ngFor="let category of filteredCategories.slice(0, 3)" class="activity-item">
@@ -186,10 +170,8 @@
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <p class="text-sm font-medium text-gray-900">{{ category.name }}</p>
-                                            <p class="text-sm text-gray-500">
-                                                {{ (domains[category.id!] || []).length }} compétences évaluées
-                                            </p>
-                                            <p class="text-xs text-gray-400">Dernière mise à jour: {{ getLastUpdateDate() }}</p>
+                                            <p class="text-sm text-gray-500" [innerHTML]="'dashboard.stats_content.recent_activity.competencies_evaluated' | translate: { count: (domains[category.id!] || []).length }"></p>
+                                            <p class="text-xs text-gray-400">{{ 'dashboard.stats_content.recent_activity.last_update' | translate: { date: getLastUpdateDate() } }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -207,11 +189,63 @@
                     <app-strategy [currentProfileId]="currentProfileIdForModal"></app-strategy>
                 </div>
 
-                <div class="tab-content" id="notes-content" class="tab-content" [class.active]="isTabActive('notes')">
+                <div class="tab-content" id="notes-content" [class.active]="isTabActive('notes')">
                     <app-notes [currentProfileId]="currentProfileIdForModal"></app-notes>
                 </div>
             </div>
         </div>
 
     </main>
+</div>
+
+<!-- Share Profile Dialog/Modal -->
+<div *ngIf="afficherBoiteDialoguePartage"
+     style="position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4);">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+    <h2 class="text-lg font-bold mb-4">{{ 'dashboard.share_profile_dialog.header' | translate }}</h2>
+    <form (ngSubmit)="shareProfile()">
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard.share_profile_dialog.labels.email' | translate }}</label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="saisieEmail"
+          name="email"
+          (input)="validateEmail()"
+          [class.border-red-500]="saisieEmail && !isEmailValid"
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-500"
+          [placeholder]="'dashboard.share_profile_dialog.placeholders.email' | translate"
+          required
+        />
+        <div *ngIf="saisieEmail && !isEmailValid" class="text-red-500 text-xs mt-1">{{ 'dashboard.share_profile_dialog.errors.invalid_email' | translate }}</div>
+      </div>
+      <div class="mb-4">
+        <label for="access" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard.share_profile_dialog.labels.access_type' | translate }}</label>
+        <select
+          id="access"
+          [(ngModel)]="accesSelectionne"
+          name="access"
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-500"
+          required
+        >
+          <option *ngFor="let option of optionsAcces" [ngValue]="option">{{ option.libelle }}</option>
+        </select>
+      </div>
+      <div class="flex justify-end space-x-2 mt-6">
+        <button
+          type="button"
+          (click)="afficherBoiteDialoguePartage = false"
+          class="px-4 py-2 rounded bg-gray-300 text-gray-700 hover:bg-gray-400"
+          [attr.aria-label]="'dashboard.share_profile_dialog.buttons.cancel' | translate"
+        >{{ 'dashboard.share_profile_dialog.buttons.cancel' | translate }}</button>
+        <button
+          type="submit"
+          [disabled]="!isEmailValid || loadingShare"
+          class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+          [attr.aria-label]="loadingShare ? ('dashboard.share_profile_dialog.buttons.sharing' | translate) : ('dashboard.share_profile_dialog.buttons.share' | translate)"
+        >{{ loadingShare ? ('dashboard.share_profile_dialog.buttons.sharing' | translate) : ('dashboard.share_profile_dialog.buttons.share' | translate) }}</button>
+      </div>
+    </form>
+    <button (click)="afficherBoiteDialoguePartage = false" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl" [attr.aria-label]="'dashboard.share_profile_dialog.buttons.cancel' | translate">&times;</button>
+  </div>
 </div>

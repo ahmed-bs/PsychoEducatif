@@ -2,7 +2,7 @@
   <div class="form-v6-content">
     <div class="social-sidebar">
       <button class="cssbuttons-io-button" routerLink="/">
-        <a> Retour </a>
+        <a>{{ 'signup_form.return_button' | translate }}</a>
         <div class="icon">
           <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 0h24v24H0z" fill="none"></path>
@@ -19,19 +19,19 @@
     </div>
     
     <div class="form-left">
-      <img src="assets/img/Innovation.gif" alt="form">
+      <img [src]="'assets/img/Innovation.gif'" [attr.alt]="'signup_form.form_image_alt' | translate">
     </div>
     
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-detail">
-      <h1 class="custom-h1">Créer un compte</h1>
-      <p class="custom-p">Remplissez les champs pour créer un nouveau compte</p>
+      <h1 class="custom-h1">{{ 'signup_form.title' | translate }}</h1>
+      <p class="custom-p">{{ 'signup_form.subtitle' | translate }}</p>
 
       <!-- Full Name Field -->
       <div class="mb-3">
         <label for="fullName" class="form-label">
-          Nom et Prénom
+          {{ 'signup_form.full_name_label' | translate }}
           <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && username?.errors?.['required']" class="text-danger">*</span>
+            <span *ngIf="showErrors && username?.errors?.['required']" class="text-danger">{{ 'signup_form.full_name_required_error' | translate }}</span>
           </span>
         </label>
         <div class="input-group">
@@ -39,49 +39,23 @@
             type="text" 
             id="fullName" 
             class="form-control" 
-            placeholder="Entrez votre nom et prénom"
+            [placeholder]="'signup_form.full_name_placeholder' | translate"
             formControlName="username">
           <span class="input-group-text">
             <i class="bi bi-person"></i>
           </span>
         </div>
         <div class="error-placeholder">
-          <small *ngIf="showErrors && username?.errors?.['minlength']" class="text-danger">Trop court</small>
+          <small *ngIf="showErrors && username?.errors?.['minlength']" class="text-danger">{{ 'signup_form.full_name_too_short_error' | translate }}</small>
         </div>
-      </div>
-
-      <!-- User Type Field -->
-      <div class="mb-3">
-        <label for="userType" class="form-label">
-          Type d'utilisateur
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && user_type?.errors?.['required']" class="text-danger">*</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <select
-            id="userType"
-            class="form-control"
-            formControlName="user_type"
-          >
-            <option value="" disabled selected>Choisissez votre type d'utilisateur</option>
-            <option *ngFor="let type of userTypes" [value]="type.value">
-              {{ type.label }}
-            </option>
-          </select>
-          <span class="input-group-text">
-            <i class="bi bi-people"></i>
-          </span>
-        </div>
-        <div class="error-placeholder"></div>
       </div>
 
       <!-- Email Field -->
       <div class="mb-3">
         <label for="email" class="form-label">
-          Adresse Email
+          {{ 'signup_form.email_label' | translate }}
           <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && email?.errors?.['required']" class="text-danger">*</span>
+            <span *ngIf="showErrors && email?.errors?.['required']" class="text-danger">{{ 'signup_form.email_required_error' | translate }}</span>
           </span>
         </label>
         <div class="input-group">
@@ -89,23 +63,23 @@
             type="email" 
             id="email" 
             class="form-control" 
-            placeholder="Entrez votre adresse email"
+            [placeholder]="'signup_form.email_placeholder' | translate"
             formControlName="email">
           <span class="input-group-text">
             <i class="bi bi-envelope"></i>
           </span>
         </div>
         <div class="error-placeholder">
-          <small *ngIf="showErrors && email?.errors?.['email']" class="text-danger">Email invalide</small>
+          <small *ngIf="showErrors && email?.errors?.['email']" class="text-danger">{{ 'signup_form.email_invalid_error' | translate }}</small>
         </div>
       </div>
 
       <!-- Password Field -->
       <div class="mb-3">
         <label for="password" class="form-label">
-          Mot de Passe
+          {{ 'signup_form.password_label' | translate }}
           <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && password?.errors?.['required']" class="text-danger">*</span>
+            <span *ngIf="showErrors && password?.errors?.['required']" class="text-danger">{{ 'signup_form.password_required_error' | translate }}</span>
           </span>
         </label>
         <div class="input-group">
@@ -113,7 +87,7 @@
             [type]="hidePassword ? 'password' : 'text'" 
             id="password" 
             class="form-control" 
-            placeholder="Entrez un mot de passe sécurisé"
+            [placeholder]="'signup_form.password_placeholder' | translate"
             formControlName="password">
           <button 
             class="btn btn-outline-secondary" 
@@ -123,17 +97,17 @@
           </button>
         </div>
         <div class="error-placeholder">
-          <small *ngIf="showErrors && password?.errors?.['minlength']" class="text-danger">Trop court</small>
-          <small *ngIf="showErrors && password?.errors?.['passwordStrength']" class="text-danger">Mot de passe faible</small>
+          <small *ngIf="showErrors && password?.errors?.['minlength']" class="text-danger">{{ 'signup_form.password_too_short_error' | translate }}</small>
+          <small *ngIf="showErrors && password?.errors?.['passwordStrength']" class="text-danger">{{ 'signup_form.password_strength_error' | translate }}</small>
         </div>
       </div>
 
       <!-- Confirm Password Field -->
       <div class="mb-3">
         <label for="confirmPassword" class="form-label">
-          Confirmer le Mot de Passe
+          {{ 'signup_form.confirm_password_label' | translate }}
           <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && confirm_password?.errors?.['required']" class="text-danger">*</span>
+            <span *ngIf="showErrors && confirm_password?.errors?.['required']" class="text-danger">{{ 'signup_form.confirm_password_required_error' | translate }}</span>
           </span>
         </label>
         <div class="input-group">
@@ -141,7 +115,7 @@
             [type]="hideConfirmPassword ? 'password' : 'text'" 
             id="confirmPassword" 
             class="form-control" 
-            placeholder="Confirmez votre mot de passe"
+            [placeholder]="'signup_form.confirm_password_placeholder' | translate"
             formControlName="confirm_password">
           <button 
             class="btn btn-outline-secondary" 
@@ -151,27 +125,26 @@
           </button>
         </div>
         <div class="error-placeholder">
-          <small *ngIf="showErrors && signupForm.errors?.['passwordMismatch']" class="text-danger">Mots de passe différents</small>
+          <small *ngIf="showErrors && signupForm.errors?.['passwordMismatch']" class="text-danger">{{ 'signup_form.password_mismatch_error' | translate }}</small>
         </div>
       </div>
 
       <!-- Terms Checkbox and Submit Button -->
       <div class="form-row align-items">
-        <mat-checkbox formControlName="accepte_conditions" class="checkbox">
-          J'accepte les <a href="#" target="_blank">termes et conditions</a>
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && accepte_conditions?.invalid" class="text-danger ms-2">*</span>
-          </span>
-        </mat-checkbox>
+        <mat-checkbox formControlName="accepte_conditions" class="checkbox" [innerHTML]="'signup_form.terms_checkbox' | translate"></mat-checkbox>
+        <span class="asterisk-placeholder">
+          <span *ngIf="showErrors && accepte_conditions?.invalid" class="text-danger ms-2">{{ 'signup_form.terms_required_error' | translate }}</span>
+        </span>
         
         <button type="submit" class="submit-button" [disabled]="isLoading">
           <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          S'inscrire
+          <span *ngIf="!isLoading">{{ 'signup_form.submit_button' | translate }}</span>
+          <span *ngIf="isLoading">{{ 'signup_form.submit_button_loading' | translate }}</span>
         </button>
       </div>
 
       <div class="text-centre">
-        <p>Vous avez déjà un compte? <a routerLink="/auth/signin" class="login-link">Connectez-vous</a></p>
+        <p>{{ 'signup_form.login_text' | translate }} <a routerLink="/auth/signin" class="login-link">{{ 'signup_form.login_link' | translate }}</a></p>
       </div>
     </form>
   </div>

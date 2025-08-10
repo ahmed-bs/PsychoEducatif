@@ -4,17 +4,14 @@
   padding: 0;
 }
 
-
 .sidebar {
   background: white;
   box-shadow: 0 4px 8px rgba(0, 0, 255, 0.1); 
   border-radius: 15px;
   padding: 20px;
-  
 }
 
 .title {
-  
   color: #1e3a8a;
   margin-bottom: 15px;
 }
@@ -25,7 +22,6 @@
   gap: 15px;
 }
 
-
 .skill-card {
   background: #ebf2ff; 
   border: 1px solid #b2c7ff; 
@@ -33,7 +29,6 @@
   padding: 15px; 
   box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.05); 
 }
-
 
 .progress-bar {
   height: 8px;
@@ -73,9 +68,9 @@
 }
 
 .no-plans {
-  
+  color: #6b7280;
+  font-style: italic;
 }
-
 
 :host ::ng-deep {
   .fc {
@@ -83,6 +78,7 @@
     color: #333;
     width: 100% !important;
     height: 100% !important;
+    min-height: 500px;
     border-radius: 25px !important;
     overflow: hidden !important;
     background: transparent !important; 
@@ -104,17 +100,15 @@
   }
 
   .fc-button {
-    background: linear-gradient(to right, #ffffff, #ffffff) !important; 
+    background: #ffffff !important; 
     border: none !important;
     border-radius: 8px !important;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
     margin: 2px;
-    color: black !important;
-    font-weight: bold !important;
-    font-weight: 500; 
+    color: #000000 !important;
+    font-weight: 500 !important;
     text-transform: capitalize;
     padding: 0.5rem 1rem;
-    border-radius: 0.375rem; 
   }
 
   .fc-button:hover {
@@ -174,8 +168,15 @@
   padding-bottom: 0 !important;
 }
 
-
 @media screen and (max-width: 768px) {
+  .sidebar {
+    margin-bottom: 1rem;
+  }
+
+  .skill-card {
+    padding: 12px;
+  }
+
   :host ::ng-deep .fc-header-toolbar,
   :host ::ng-deep .fc-toolbar {
     flex-direction: column; 
@@ -195,21 +196,89 @@
     margin: 0; 
   }
 
-  
   :host ::ng-deep .fc-button {
     padding: 0.4rem 0.8rem !important;
     font-size: 0.9em !important;
   }
 
-  
   :host ::ng-deep .fc-view-harness {
-      height: 400px; 
+    height: 400px; 
   }
 }
 
 @media screen and (max-width: 480px) {
+  .sidebar {
+    padding: 15px;
+  }
+
+  .skill-card {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
   :host ::ng-deep .fc-toolbar-chunk {
     flex-direction: column; 
     width: 100%; 
+  }
+
+  :host ::ng-deep .fc-button {
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.8em !important;
+    margin: 1px;
+  }
+
+  :host ::ng-deep .fc-toolbar-title {
+    font-size: 1.2em !important;
+  }
+}
+
+/* Keep layout LTR for consistency, only translate text content */
+:host-context([dir="rtl"]) {
+  /* Keep all layouts as LTR but allow Arabic text to display properly */
+  .sidebar {
+    direction: ltr;
+    text-align: left;
+  }
+
+  .skill-card {
+    direction: ltr;
+    text-align: left;
+  }
+
+  .title {
+    direction: ltr;
+    text-align: left;
+  }
+
+  .plans-list {
+    direction: ltr;
+  }
+}
+
+:host-context([dir="rtl"]) ::ng-deep {
+  /* Keep calendar layout LTR */
+  .fc {
+    direction: ltr;
+  }
+  
+  .fc-toolbar {
+    direction: ltr;
+  }
+  
+  .fc-toolbar-title {
+    direction: ltr;
+    text-align: center;
+  }
+  
+  .fc-button {
+    direction: ltr;
+  }
+  
+  .fc-toolbar-chunk {
+    direction: ltr;
   }
 }

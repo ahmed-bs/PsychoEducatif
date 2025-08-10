@@ -1,67 +1,235 @@
 <div class="head-title">
+  <div class="left">
+    <h1>{{ 'explore.head_title.title' | translate }}</h1>
+    <ul class="breadcrumb">
+      <li>
+        <a href="#">{{ 'explore.head_title.breadcrumb.dashboard' | translate }}</a>
+      </li>
+      <li><i class="bx bx-chevron-right"></i></li>
+      <li>
+        <a class="active" href="#">{{ 'explore.head_title.breadcrumb.explore' | translate }}</a>
+      </li>
+    </ul>
   </div>
+</div>
+
+<!-- Controls Section -->
+<div class="controls-wrapper">
+  <div class="controls-section">
+    <!-- View Switcher -->
+    <div class="view-switcher">
+      <button 
+        class="view-btn" 
+        [class.active]="currentView === 'card'" 
+        (click)="setView('card')"
+        [attr.aria-label]="'explore.views.card' | translate">
+        <i class="fas fa-th-large"></i>
+        <span>{{ 'explore.views.card' | translate }}</span>
+      </button>
+      <button 
+        class="view-btn" 
+        [class.active]="currentView === 'list'" 
+        (click)="setView('list')"
+        [attr.aria-label]="'explore.views.list' | translate">
+        <i class="fas fa-list"></i>
+        <span>{{ 'explore.views.list' | translate }}</span>
+      </button>
+      <button 
+        class="view-btn" 
+        [class.active]="currentView === 'table'" 
+        (click)="setView('table')"
+        [attr.aria-label]="'explore.views.table' | translate">
+        <i class="fas fa-table"></i>
+        <span>{{ 'explore.views.table' | translate }}</span>
+      </button>
+    </div>
+
+    <!-- Filter Dropdown -->
+    <div class="filter-section">
+      <label for="statusFilter" class="filter-label">{{ 'explore.filter.label' | translate }}:</label>
+      <select id="statusFilter" class="filter-dropdown" [(ngModel)]="statusFilter" (change)="applyFilter()">
+        <option value="all">{{ 'explore.filter.all' | translate }}</option>
+        <option value="completed">{{ 'explore.filter.completed' | translate }}</option>
+        <option value="en_cours">{{ 'explore.filter.in_progress' | translate }}</option>
+        <option value="not_started">{{ 'explore.filter.not_started' | translate }}</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 <div class="container-custom">
-  <div class="row">
-    <div class="col-md-12">
-      <div *ngFor="let category of categories" class="category-section" [attr.data-category-id]="category.id">
-        <ng-container *ngIf="getFilteredDomains(category).length > 0">
-          <h4>{{ category.name }} <span class="count">{{ getFilteredDomains(category).length }}</span></h4>
-          <div class="shell">
-            <div class="scroller-container">
-              <button class="scroll-button left" (click)="scrollLeft(category, cardsWrapper)" 
-                      [disabled]="!canScrollLeft(category)" aria-label="Défiler vers la gauche">
-                <i class="fas fa-chevron-left"></i>
-              </button>
+  <div *ngFor="let category of categories" class="category-section" [attr.data-category-id]="category.id">
+    <ng-container *ngIf="getFilteredDomains(category).length > 0">
+      <div class="category-header">
+        <h4 class="category-title">
+          <i class="fas fa-folder-open category-icon"></i>
+          {{ category.name }} 
+          <span class="count">{{ getFilteredDomains(category).length }}</span>
+        </h4>
+      </div>
 
-              <div class="horizontal-scroller">
-                <div class="cards-wrapper" #cardsWrapper>
-                  <div class="col-md-4" *ngFor="let domain of getFilteredDomains(category)">
-                    <div class="competence-card" (click)="naviguerVersQuiz(domain.id)">
-                      <div class="card-img-top">
-                        <div class="item-count">
-                          <span class="count-badge">{{domain.item_count}} items</span>
-                        </div>
-                        <img [src]="'assets/img/' + domain.name.toLowerCase().replace(' ', '') + '.gif'"
-                          [alt]="domain.name" class="img-fluid" onerror="this.src='assets/img/autisme.jpg'" />
+      <!-- Card View -->
+      <div *ngIf="currentView === 'card'" class="card-view">
+        <div class="shell">
+          <div class="scroller-container">
+            <button class="scroll-button left" (click)="scrollLeft(category, cardsWrapper)" 
+                    [disabled]="!canScrollLeft(category)" [attr.aria-label]="'explore.scroll_buttons.left_aria_label' | translate">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="horizontal-scroller">
+              <div class="cards-wrapper" #cardsWrapper>
+                <div class="card-item" *ngFor="let domain of getFilteredDomains(category)">
+                  <div class="competence-card modern-card" (click)="naviguerVersQuiz(domain.id)">
+                    <div class="card-header">
+                      <div class="card-icon">
+                        <i class="fas fa-graduation-cap"></i>
                       </div>
-                      <div class="card-footer">
+                      <div class="item-count">
+                        <span class="count-badge">{{ domain.item_count || 0 }} {{ 'explore.card.items' | translate }}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="card-body">
+                      <h5 class="card-title">{{ domain.name }}</h5>
+                      <div class="progress-section">
                         <app-progress-bar [acquisPercentage]="domain.acquis_percentage"></app-progress-bar>
+                        <!-- <span class="progress-text">{{ domain.acquis_percentage || 0 }}% {{ 'explore.card.completed' | translate }}</span> -->
                       </div>
-                      <div class="card-body">
-                        <h5 class="card-title">{{ domain.name }}</h5>
-                        <div class="status-circles">
-                          <div class="circle acquis" title="Acquis">
-                            <span class="status-label">Acquis</span>
-                            <span class="status-count">{{ domain.acquis_count || 0 }}</span>
-                          </div>
-                          <div class="circle non-acquis" title="Non Acquis">
-                            <span class="status-label">NonAcquis</span>
-                            <span class="status-count">{{ domain.non_acquis_count || 0 }}</span>
-                          </div>
-                          <div class="circle en-cours" title="En Cours">
-                            <span class="status-label">En Cours</span>
-                            <span class="status-count">{{ domain.en_cours_count || 0 }}</span>
-                          </div>
-                        </div>
+                    </div>
+
+                    <div class="card-stats">
+                      <div class="stat-badge acquis">
+                        <i class="fas fa-check"></i>
+                        {{ domain.acquis_count || 0 }}
                       </div>
-                      <div class="card-footer">
-                        <span class="status-info">Cliquez pour commencer</span>
+                      <div class="stat-badge en-cours">
+                        <i class="fas fa-clock"></i>
+                        {{ domain.en_cours_count || 0 }}
                       </div>
+                      <div class="stat-badge non-acquis">
+                        <i class="fas fa-times"></i>
+                        {{ domain.non_acquis_count || 0 }}
+                      </div>
+                    </div>
+                      <br>
+                    <div class="card-footer">
+                      <span class="action-text">
+                        <i class="fas fa-play-circle"></i>
+                        {{ 'explore.card.click_to_start' | translate }}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <button class="scroll-button right" (click)="scrollRight(category, cardsWrapper)"
-                      [disabled]="!canScrollRight(category)"
-                      aria-label="Défiler vers la droite">
+            <button class="scroll-button right" (click)="scrollRight(category, cardsWrapper)"
+                    [disabled]="!canScrollRight(category)"
+                    [attr.aria-label]="'explore.scroll_buttons.right_aria_label' | translate">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- List View -->
+      <div *ngIf="currentView === 'list'" class="list-view">
+        <div class="list-container">
+          <div class="list-item" *ngFor="let domain of getFilteredDomains(category)" (click)="naviguerVersQuiz(domain.id)">
+            <div class="list-item-content">
+              <div class="list-item-main">
+                <div class="list-item-icon">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="list-item-info">
+                  <h5 class="list-item-title">{{ domain.name }}</h5>
+                  <div class="list-item-meta">
+                    <span class="item-count">{{ domain.item_count || 0 }} {{ 'explore.card.items' | translate }}</span>
+                    <!-- <span class="progress-text">{{ domain.acquis_percentage || 0 }}% {{ 'explore.card.completed' | translate }}</span> -->
+                  </div>
+                </div>
+              </div>
+              
+              <div class="list-item-progress">
+                <app-progress-bar [acquisPercentage]="domain.acquis_percentage"></app-progress-bar>
+              </div>
+              
+              <div class="list-item-stats">
+                <div class="stat-badge acquis">
+                  <i class="fas fa-check"></i>
+                  {{ domain.acquis_count || 0 }}
+                </div>
+                <div class="stat-badge en-cours">
+                  <i class="fas fa-clock"></i>
+                  {{ domain.en_cours_count || 0 }}
+                </div>
+                <div class="stat-badge non-acquis">
+                  <i class="fas fa-times"></i>
+                  {{ domain.non_acquis_count || 0 }}
+                </div>
+              </div>
+              
+              <div class="list-item-action">
                 <i class="fas fa-chevron-right"></i>
-              </button>
+              </div>
             </div>
           </div>
-        </ng-container>
+        </div>
       </div>
-    </div>
+
+      <!-- Table View -->
+      <div *ngIf="currentView === 'table'" class="table-view">
+        <div class="table-container">
+          <table class="domains-table">
+            <thead>
+              <tr>
+                <th>{{ 'explore.table.domain' | translate }}</th>
+                <th>{{ 'explore.table.total_items' | translate }}</th>
+                <th>{{ 'explore.table.progress' | translate }}</th>
+                <th>{{ 'explore.table.acquired' | translate }}</th>
+                <th>{{ 'explore.table.in_progress' | translate }}</th>
+                <th>{{ 'explore.table.not_acquired' | translate }}</th>
+                <th>{{ 'explore.table.actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-row" *ngFor="let domain of getFilteredDomains(category)" (click)="naviguerVersQuiz(domain.id)">
+                <td class="domain-name">
+                  <div class="domain-info">
+                    <i class="fas fa-graduation-cap domain-icon"></i>
+                    <span>{{ domain.name }}</span>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <span class="badge badge-info">{{ domain.item_count || 0 }}</span>
+                </td>
+                <td class="progress-cell">
+                  <div class="table-progress">
+                    <app-progress-bar [acquisPercentage]="domain.acquis_percentage"></app-progress-bar>
+                    <!-- <span class="progress-percentage">{{ domain.acquis_percentage || 0 }}%</span> -->
+                  </div>
+                </td>
+                <td class="text-center">
+                  <span class="badge badge-success">{{ domain.acquis_count || 0 }}</span>
+                </td>
+                <td class="text-center">
+                  <span class="badge badge-warning">{{ domain.en_cours_count || 0 }}</span>
+                </td>
+                <td class="text-center">
+                  <span class="badge badge-danger">{{ domain.non_acquis_count || 0 }}</span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-primary btn-sm action-btn">
+                    <i class="fas fa-play"></i>
+                    {{ 'explore.table.start' | translate }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

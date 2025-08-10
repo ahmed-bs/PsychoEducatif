@@ -1,161 +1,144 @@
 <div class="body">
-
   <!-- Header -->
   <section class="featured-section">
     <header class="header__container">
       <div class="header__image">
         <div class="header__image__card header__image__card-1">
-          <span><i class="ri-user-follow-line"></i></span> <!-- Nouvelle icône -->
-          Suivi Éducatif
-      </div>
-      <div class="header__image__card header__image__card-2">
-          <span><i class="ri-calendar-todo-line"></i></span> <!-- Nouvelle icône -->
-          Activités Personnalisées
-      </div>
-      <div class="header__image__card header__image__card-3">
-          <span><i class="ri-flag-line"></i></span> <!-- Nouvelle icône -->
-          Objectifs Définis
-      </div>
-      <div class="header__image__card header__image__card-4">
-          <span><i class="ri-parent-line"></i></span> <!-- Nouvelle icône -->
-          Guidance Parentale
-      </div>
+          <span><i class="ri-user-follow-line"></i></span>
+          {{ 'new_featured_section.header_image_cards.educational_follow_up' | translate }}
+        </div>
+        <div class="header__image__card header__image__card-2">
+          <span><i class="ri-calendar-todo-line"></i></span>
+          {{ 'new_featured_section.header_image_cards.personalized_activities' | translate }}
+        </div>
+        <div class="header__image__card header__image__card-3">
+          <span><i class="ri-flag-line"></i></span>
+          {{ 'new_featured_section.header_image_cards.defined_objectives' | translate }}
+        </div>
+        <div class="header__image__card header__image__card-4">
+          <span><i class="ri-parent-line"></i></span>
+          {{ 'new_featured_section.header_image_cards.parental_guidance' | translate }}
+        </div>
         <img src="assets/img/Collab-bro-removebg-preview.png" alt="header" />
       </div>
       <div class="header__content">
-        <h2 class="animated-header">Pour un accompagnement optimal des enfants autistes, ensemble !</h2>
+        <h2 class="animated-header">{{ 'new_featured_section.header_content' | translate }}</h2>
       </div>
     </header>
   </section>
 
-  <!-- Skills -->
+  <!-- Objectives -->
   <section class="skills container2">
     <div class="title">
-      <!-- <h3>MY SKILLS</h3> -->
-      <h1>🌟 Nos Objectifs</h1>
+      <h1>{{ 'objectives_section.title' | translate }}</h1>
     </div>
     <div class="grid-wrapper">
       <div class="grid-box">
         <div class="icon-title">
-          <h2>Pourquoi cette application ?</h2>
+          <h2>{{ 'objectives_section.items.why_application.title' | translate }}</h2>
         </div>
-        <p> Nous avons conçu cette application avec une vision claire : offrir aux
-          enfants autistes, à leurs familles, et aux professionnels des outils
-          modernes et personnalisés pour une prise en charge psycho-éducative
-          optimale.</p>
+        <p>{{ 'objectives_section.items.why_application.description' | translate }}</p>
       </div>
     </div>
   </section>
 
-
-
-
+  <!-- Goals -->
   <div class="wrapper">
     <div class="title">
-      <!-- <h3>MY SKILLS</h3> -->
-      <h1>🌟 Ce que nous visons à accomplir</h1>
+      <h1>{{ 'goals_section.title' | translate }}</h1>
     </div>
-
     <div class="cols">
       <!-- Card 1 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
           <div class="front" style="background-image: url(assets/img/Autism.gif);">
             <div class="inner">
-              <p>Faciliter l'évaluation des besoins</p>
+              <p>{{ 'goals_section.items.facilitate_evaluation.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img src="assets/img/Autism.gif" alt="Évaluation interactive">
-              <p>Identifiez les capacités cognitives, sociales et comportementales des enfants grâce à des outils
-                modernes.</p>
+              <img [src]="'assets/img/Autism.gif'" [attr.alt]="'goals_section.items.facilitate_evaluation.image_alt' | translate">
+              <p>{{ 'goals_section.items.facilitate_evaluation.description' | translate }}</p>
             </div>
           </div>
         </div>
       </div>
-
       <!-- Card 2 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
           <div class="front" style="background-image: url(assets/img/Accompagnement.gif);">
             <div class="inner">
-              <p>Renforcer l'accompagnement personnalisé</p>
+              <p>{{ 'goals_section.items.personalized_support.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img src="assets/img/Accompagnement.gif" alt="Stratégies adaptées">
-              <p>Recevez des recommandations éducatives adaptées aux besoins uniques de chaque enfant, basées sur les
-                résultats de l’évaluation.</p>
+              <img [src]="'assets/img/Accompagnement.gif'" [attr.alt]="'goals_section.items.personalized_support.image_alt' | translate">
+              <p>{{ 'goals_section.items.personalized_support.description' | translate }}</p>
             </div>
           </div>
         </div>
       </div>
-
       <!-- Card 3 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
           <div class="front" style="background-image: url(assets/img/Activitésinteractives.gif);">
             <div class="inner">
-              <p>Promouvoir l’implication des familles</p>
+              <p>{{ 'goals_section.items.family_involvement.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img src="assets/img/Activitésinteractives.gif" alt="Implication des parents">
-              <p>Encouragez les parents à jouer un rôle actif dans l’évaluation et le suivi des progrès de leur enfant.
-              </p>
+              <img [src]="'assets/img/Activitésinteractives.gif'" [attr.alt]="'goals_section.items.family_involvement.image_alt' | translate">
+              <p>{{ 'goals_section.items.family_involvement.description' | translate }}</p>
             </div>
           </div>
         </div>
       </div>
-
       <!-- Card 4 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
           <div class="front" style="background-image: url('assets/img/Kindergarten student.gif')">
             <div class="inner">
-              <p>Améliorer la collaboration</p>
+              <p>{{ 'goals_section.items.improve_collaboration.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img src="assets/img/Kindergarten student.gif" alt="Collaboration entre professionnels">
-              <p>Facilitez les échanges entre professionnels et parents pour une coordination optimale dans la prise en
-                charge.</p>
+              <img [src]="'assets/img/Kindergarten student.gif'" [attr.alt]="'goals_section.items.improve_collaboration.image_alt' | translate">
+              <p>{{ 'goals_section.items.improve_collaboration.description' | translate }}</p>
             </div>
           </div>
         </div>
       </div>
-
-
     </div>
+  </div>
 
-
-    <section id="trust" class="trust-section ">
-      <div class="title">
-        <!-- <h3>MY SKILLS</h3> -->
-        <h1>🌟 Pourquoi nous faire confiance ?</h1>
+  <!-- Trust Section -->
+  <section id="trust" class="trust-section">
+    <div class="title">
+      <h1>{{ 'trust_section.title' | translate }}</h1>
+    </div>
+    <div class="trust-cards">
+      <!-- Card 1 -->
+      <div class="trust-card">
+        <img [src]="'assets/img/Accompagnement.gif'" [attr.alt]="'trust_section.items.fully_adapted.image_alt' | translate">
+        <h3>{{ 'trust_section.items.fully_adapted.title' | translate }}</h3>
+        <p>{{ 'trust_section.items.fully_adapted.description' | translate }}</p>
       </div>
-      <div class="trust-cards">
-        <!-- Card 1 -->
-        <div class="trust-card">
-          <img src="assets/img/Accompagnement.gif" alt="Adapté aux besoins" />
-          <h3>100 % adaptée</h3>
-          <p>Conçue spécialement pour répondre aux besoins uniques des enfants autistes.</p>
-        </div>
-        <!-- Card 2 -->
-        <div class="trust-card">
-          <img src="assets/img/Autism (2).gif" alt="Collaboration experts" />
-          <h3>Créée avec des experts</h3>
-          <p>Développée en collaboration avec des professionnels et des familles pour une efficacité optimale.</p>
-        </div>
-        <!-- Card 3 -->
-        <div class="trust-card">
-          <img src="assets/img/Autism.gif" alt="Accessible partout" />
-          <h3>Accessible partout</h3>
-          <p>Utilisable à tout moment, où que vous soyez, grâce à sa plateforme intuitive.</p>
-        </div>
+      <!-- Card 2 -->
+      <div class="trust-card">
+        <img [src]="'assets/img/Autism (2).gif'" [attr.alt]="'trust_section.items.expert_collaboration.image_alt' | translate">
+        <h3>{{ 'trust_section.items.expert_collaboration.title' | translate }}</h3>
+        <p>{{ 'trust_section.items.expert_collaboration.description' | translate }}</p>
       </div>
-    </section>
+      <!-- Card 3 -->
+      <div class="trust-card">
+        <img [src]="'assets/img/Autism.gif'" [attr.alt]="'trust_section.items.accessible_everywhere.image_alt' | translate">
+        <h3>{{ 'trust_section.items.accessible_everywhere.title' | translate }}</h3>
+        <p>{{ 'trust_section.items.accessible_everywhere.description' | translate }}</p>
+      </div>
+    </div>
+  </section>
+</div>

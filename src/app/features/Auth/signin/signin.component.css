@@ -213,6 +213,7 @@
   }
 
   .form-left img {
+    display: none; /* Hide image on iPad and smaller */
     height: auto;
     margin-top: 20px;
   }

@@ -17,7 +17,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
 
 
 
@@ -38,8 +40,14 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     //primeng
     InputGroupModule ,
-    InputGroupAddonModule
-   
+    InputGroupAddonModule,
+       TranslateModule.forRoot({
+         loader: {
+           provide: TranslateLoader,
+           useFactory: HttpLoaderFactory,
+           deps: [HttpClient]
+         }
+       })
   ],
   declarations: [AuthComponent, SigninComponent, SignupComponent]
 })

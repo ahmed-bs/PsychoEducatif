@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -9,11 +9,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { Profile } from 'src/app/core/models/profile.model';
 import { CreateProfileRequest, UpdateProfileRequest } from 'src/app/core/models/createprofile.model';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -29,10 +33,11 @@ import { AuthService } from 'src/app/core/services/authService.service';
     InputTextModule,
     CalendarModule,
     DropdownModule,
-    InputTextareaModule
+    InputTextareaModule,
+    TranslateModule
   ]
 })
-export class PickProfileComponent implements OnInit {
+export class PickProfileComponent implements OnInit, OnDestroy {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
@@ -40,6 +45,7 @@ export class PickProfileComponent implements OnInit {
   updatedisplayDialog: boolean = false;
   isEditMode: boolean = false;
   newChild: Profile = this.resetChild();
+  selectedFile: File | null = null;
   selectedChild: Profile = {
     first_name: '',
     last_name: '',
@@ -59,26 +65,116 @@ export class PickProfileComponent implements OnInit {
   isLoading: boolean = false;
   birthDate: Date | null = null;
   genderOptions = [
-    { label: 'Male', value: 'M' },
-    { label: 'Female', value: 'F' }
+    { label: this.translate.instant('add_child_dialog.male_option'), value: 'M' },
+    { label: this.translate.instant('add_child_dialog.female_option'), value: 'F' }
   ];
   parentId: number = 0;
   error: string | null = null;
-  userName: String =  '';
+  userName: string = '';
+  private languageSubscription!: Subscription;
 
-  constructor(private auhService: AuthService, private profileService: ProfileService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private translate: TranslateService,
+    private profileService: ProfileService,
+    private router: Router,
+    private sharedService: SharedService
+  ) {
     const user = localStorage.getItem('user');
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
+
+    // Initialize translation
+    this.translate.addLangs(['fr', 'ar']);
+    this.translate.setDefaultLang('ar');
+    
+    // Get current language from shared service
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
+
+    // Update gender options with translated labels
+    this.updateGenderOptions();
   }
 
   ngOnInit() {
     if (!this.parentId) {
-      Swal.fire('Erreur', "Impossible de charger les informations de l'utilisateur.", 'error');
+      this.translate.get(['profile_messages.load_user_error.title', 'profile_messages.load_user_error.text']).subscribe(translations => {
+        Swal.fire({
+          icon: 'error',
+          title: translations['profile_messages.load_user_error.title'],
+          text: translations['profile_messages.load_user_error.text']
+        });
+      });
       return;
     }
-    this.userName = this.auhService.currentUserValue.username;
+    this.userName = this.authService.currentUserValue.username;
     this.loadChildren();
+    
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+      this.updateGenderOptions();
+    });
   }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+
+  private updateGenderOptions() {
+    this.genderOptions = [
+      { label: this.translate.instant('add_child_dialog.male_option'), value: 'M' },
+      { label: this.translate.instant('add_child_dialog.female_option'), value: 'F' }
+    ];
+  }
+
+  setDefaultImage(event: any, child: Profile) {
+    let defaultImg = '';
+    if (child.gender === 'F') {
+      if (child.category === 'Toddler') defaultImg = '/assets/image_client/image copy 2.png';
+      else if (child.category === 'Young Child') defaultImg = '/assets/image_client/image copy 6.png';
+      else if (child.category === 'Young Adult') defaultImg = '/assets/image_client/image copy 8.png';
+    } else {
+      if (child.category === 'Toddler') defaultImg = '/assets/image_client/image copy 3.png';
+      else if (child.category === 'Young Child') defaultImg = '/assets/image_client/image copy 5.png';
+      else if (child.category === 'Young Adult') defaultImg = '/assets/image_client/image copy 7.png';
+    }
+    event.target.src = defaultImg || '/assets/image_client/image copy 2.png';
+  }
+
+  onFileSelected(event: any): void {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = (event.currentTarget as HTMLElement);
+    dropZone.classList.add('drag-over');
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = (event.currentTarget as HTMLElement);
+    dropZone.classList.remove('drag-over');
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropZone = (event.currentTarget as HTMLElement);
+    dropZone.classList.remove('drag-over');
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.selectedFile = files[0];
+    }
+  }
+
   resetChild(): Profile {
     return {
       first_name: '',
@@ -88,23 +184,36 @@ export class PickProfileComponent implements OnInit {
       notes: '',
       evaluation_score: 0,
       objectives: [],
-      progress: 'En progrès',
+      progress: this.translate.instant('add_child_dialog.progress_default'),
       recommended_strategies: [],
       image_url: '',
       is_active: true
     };
   }
+
   loadChildren() {
     this.profileService.getProfilesByParent(this.parentId).subscribe({
       next: (children) => {
-        this.children = children.map(child => ({
-          ...child,
-          image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
-        }));
+        this.children = children.map(child => {
+          let imageUrl = (child as any).image || child.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
+          return {
+            ...child,
+            image_url: imageUrl
+          };
+        });
         this.filteredChildren = [...this.children];
       },
       error: (err) => {
-        Swal.fire('Erreur', 'Impossible de charger les profils.', 'error');
+        this.translate.get(['profile_messages.load_profiles_error.title', 'profile_messages.load_profiles_error.text']).subscribe(translations => {
+          Swal.fire({
+            icon: 'error',
+            title: translations['profile_messages.load_profiles_error.title'],
+            text: translations['profile_messages.load_profiles_error.text']
+          });
+        });
       }
     });
   }
@@ -138,87 +247,148 @@ export class PickProfileComponent implements OnInit {
 
   showEditDialog(child: Profile) {
     this.isEditMode = true;
-    this.selectedChild = {
-      first_name: child.first_name,
-      last_name: child.last_name,
-      birth_date: child.birth_date,
-      gender: child.gender,
-      diagnosis: child.diagnosis || '',
-      notes: child.notes || ''
-    };
+    this.selectedChild = { ...child };
     this.birthDate = new Date(child.birth_date);
     this.updatedisplayDialog = true;
     this.error = null;
   }
+
   addChild() {
     if (this.newChild.first_name && this.newChild.last_name && this.newChild.birth_date) {
-      this.isLoading = true; // Set loading to true
-      this.profileService.createChildProfile(this.newChild).subscribe({
+      this.isLoading = true;
+      const formData = new FormData();
+      formData.append('first_name', this.newChild.first_name);
+      formData.append('last_name', this.newChild.last_name);
+      formData.append('birth_date', this.newChild.birth_date);
+      formData.append('gender', this.newChild.gender || 'M');
+      formData.append('diagnosis', this.newChild.diagnosis || '');
+      formData.append('notes', this.newChild.notes || '');
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+      this.profileService.createChildProfile(formData).subscribe({
         next: (child) => {
+          let imageUrl = (child as any).image || child.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
           this.children.push({
             ...child,
-            image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+            image_url: imageUrl
           });
           this.filteredChildren = [...this.children];
           this.displayDialog = false;
-          this.isLoading = false; // Set loading to false
-          Swal.fire('Succès', 'Profil ajouté avec succès.', 'success');
+          this.isLoading = false;
+          this.translate.get(['profile_messages.add_profile_success.title', 'profile_messages.add_profile_success.text']).subscribe(translations => {
+            Swal.fire({
+              icon: 'success',
+              title: translations['profile_messages.add_profile_success.title'],
+              text: translations['profile_messages.add_profile_success.text']
+            });
+          });
         },
         error: (err) => {
-          this.isLoading = false; // Set loading to false
-          Swal.fire('Erreur', 'Impossible d’ajouter le profil.', 'error');
+          this.isLoading = false;
+          this.translate.get(['profile_messages.add_profile_error.title', 'profile_messages.add_profile_error.text']).subscribe(translations => {
+            Swal.fire({
+              icon: 'error',
+              title: translations['profile_messages.add_profile_error.title'],
+              text: translations['profile_messages.add_profile_error.text']
+            });
+          });
         }
       });
     } else {
-      Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'warning');
+      this.translate.get(['profile_messages.add_profile_required_fields_error.title', 'profile_messages.add_profile_required_fields_error.text']).subscribe(translations => {
+        Swal.fire({
+          icon: 'warning',
+          title: translations['profile_messages.add_profile_required_fields_error.title'],
+          text: translations['profile_messages.add_profile_required_fields_error.text']
+        });
+      });
     }
-
   }
 
   saveChild() {
-    if (this.selectedChild) {
-      this.profileService.updateChildProfile(this.selectedChild).subscribe({
+    if (this.selectedChild && this.selectedChild.id) {
+      const formData = new FormData();
+      formData.append('first_name', this.selectedChild.first_name);
+      formData.append('last_name', this.selectedChild.last_name);
+      formData.append('birth_date', this.selectedChild.birth_date);
+      formData.append('gender', this.selectedChild.gender || 'M');
+      formData.append('diagnosis', this.selectedChild.diagnosis || '');
+      formData.append('notes', this.selectedChild.notes || '');
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+      this.profileService.updateChildProfile(this.selectedChild.id, formData).subscribe({
         next: (updatedChild) => {
           const index = this.children.findIndex(c => c.id === updatedChild.id);
           if (index !== -1) {
             this.children[index] = { ...updatedChild, image_url: this.children[index].image_url };
             this.filteredChildren = [...this.children];
           }
-          this.displayDialog = false;
-          Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
+          this.updatedisplayDialog = false;
+          this.translate.get(['profile_messages.update_profile_success.title', 'profile_messages.update_profile_success.text']).subscribe(translations => {
+            Swal.fire({
+              icon: 'success',
+              title: translations['profile_messages.update_profile_success.title'],
+              text: translations['profile_messages.update_profile_success.text']
+            });
+          });
         },
         error: (err) => {
-          Swal.fire('Erreur', 'Impossible de mettre à jour le profil.', 'error');
+          this.translate.get(['profile_messages.update_profile_error.title', 'profile_messages.update_profile_error.text']).subscribe(translations => {
+            Swal.fire({
+              icon: 'error',
+              title: translations['profile_messages.update_profile_error.title'],
+              text: translations['profile_messages.update_profile_error.text']
+            });
+          });
         }
       });
     }
   }
+
   saveProfile() {
     if (!this.profileForm.first_name || !this.profileForm.last_name || !this.birthDate) {
-      this.error = 'Prénom, nom de famille et date de naissance sont obligatoires.';
+      this.error = this.translate.instant('add_child_dialog.required_fields_error');
       return;
     }
 
-    // Format birth_date to YYYY-MM-DD
     const formattedBirthDate = this.birthDate.toISOString().split('T')[0];
     this.profileForm.birth_date = formattedBirthDate;
 
     if (this.isEditMode && this.selectedChild?.id) {
       const updateData: UpdateProfileRequest = { ...this.profileForm };
-      this.profileService.updateChildProfile(this.selectedChild).subscribe({
+      const formData = new FormData();
+      formData.append('first_name', this.selectedChild.first_name);
+      formData.append('last_name', this.selectedChild.last_name);
+      formData.append('birth_date', this.selectedChild.birth_date);
+      formData.append('gender', this.selectedChild.gender || 'M');
+      formData.append('diagnosis', this.selectedChild.diagnosis || '');
+      formData.append('notes', this.selectedChild.notes || '');
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+      this.profileService.updateChildProfile(this.selectedChild.id, formData).subscribe({
         next: (updatedChild) => {
           const index = this.children.findIndex(c => c.id === updatedChild.id);
           if (index !== -1) {
             this.children[index] = {
               ...updatedChild,
-              image_url: this.children[index].image_url // Preserve image_url
+              image_url: (updatedChild as any).image || this.children[index].image_url
             };
             this.filteredChildren = [...this.children];
           }
-          console.log('Updated child:', updatedChild);
-
           this.displayDialog = false;
-          Swal.fire('Succès', 'Profil mis à jour avec succès.', 'success');
+          this.translate.get(['profile_messages.update_profile_success.title', 'profile_messages.update_profile_success.text']).subscribe(translations => {
+            Swal.fire({
+              icon: 'success',
+              title: translations['profile_messages.update_profile_success.title'],
+              text: translations['profile_messages.update_profile_success.text']
+            });
+          });
         },
         error: (err) => {
           this.error = err.message;
@@ -226,15 +396,35 @@ export class PickProfileComponent implements OnInit {
       });
     } else {
       const createData: CreateProfileRequest = this.profileForm as CreateProfileRequest;
-      this.profileService.createChildProfile(createData).subscribe({
+      const formData = new FormData();
+      formData.append('first_name', this.newChild.first_name);
+      formData.append('last_name', this.newChild.last_name);
+      formData.append('birth_date', this.newChild.birth_date);
+      formData.append('gender', this.newChild.gender || 'M');
+      formData.append('diagnosis', this.newChild.diagnosis || '');
+      formData.append('notes', this.newChild.notes || '');
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+      this.profileService.createChildProfile(formData).subscribe({
         next: (newChild) => {
+          let imageUrl = (newChild as any).image || newChild.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
           this.children.push({
             ...newChild,
-            image_url: newChild.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+            image_url: imageUrl
           });
           this.filteredChildren = [...this.children];
           this.displayDialog = false;
-          Swal.fire('Succès', 'Profil ajouté avec succès.', 'success');
+          this.translate.get(['profile_messages.add_profile_success.title', 'profile_messages.add_profile_success.text']).subscribe(translations => {
+            Swal.fire({
+              icon: 'success',
+              title: translations['profile_messages.add_profile_success.title'],
+              text: translations['profile_messages.add_profile_success.text']
+            });
+          });
         },
         error: (err) => {
           this.error = err.message;
@@ -244,28 +434,54 @@ export class PickProfileComponent implements OnInit {
   }
 
   disableChild(child: Profile) {
-    Swal.fire({
-      title: 'Êtes-vous sûr ?',
-      text: `Voulez-vous vraiment désactiver ${child.first_name} ${child.last_name} ?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#dc3545',
-      cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Oui, désactiver',
-      cancelButtonText: 'Annuler'
-    }).then((result) => {
-      if (result.isConfirmed && child.id) {
-        this.profileService.deleteChildProfile(child.id).subscribe({
-          next: () => {
-            this.children = this.children.filter(c => c.id !== child.id);
-            this.filteredChildren = [...this.children];
-            Swal.fire('Désactivé', `${child.first_name} ${child.last_name} a été désactivé.`, 'success');
-          },
-          error: (err) => {
-            Swal.fire('Erreur', 'Impossible de désactiver le profil.', 'error');
-          }
-        });
-      }
+    const childName = `${child.first_name} ${child.last_name}`;
+    this.translate.get([
+      'profile_messages.disable_profile_confirm.title',
+      'profile_messages.disable_profile_confirm.text',
+      'profile_messages.disable_profile_confirm.confirm_button',
+      'profile_messages.disable_profile_confirm.cancel_button'
+    ], { childName }).subscribe(translations => {
+      Swal.fire({
+        title: translations['profile_messages.disable_profile_confirm.title'],
+        text: translations['profile_messages.disable_profile_confirm.text'],
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: translations['profile_messages.disable_profile_confirm.confirm_button'],
+        cancelButtonText: translations['profile_messages.disable_profile_confirm.cancel_button']
+      }).then((result) => {
+        if (result.isConfirmed && child.id) {
+          this.profileService.deleteChildProfile(child.id).subscribe({
+            next: () => {
+              this.children = this.children.filter(c => c.id !== child.id);
+              this.filteredChildren = [...this.children];
+              this.translate.get([
+                'profile_messages.disable_profile_success.title',
+                'profile_messages.disable_profile_success.text'
+              ], { childName }).subscribe(successTranslations => {
+                Swal.fire({
+                  icon: 'success',
+                  title: successTranslations['profile_messages.disable_profile_success.title'],
+                  text: successTranslations['profile_messages.disable_profile_success.text']
+                });
+              });
+            },
+            error: (err) => {
+              this.translate.get([
+                'profile_messages.disable_profile_error.title',
+                'profile_messages.disable_profile_error.text'
+              ]).subscribe(errorTranslations => {
+                Swal.fire({
+                  icon: 'error',
+                  title: errorTranslations['profile_messages.disable_profile_error.title'],
+                  text: errorTranslations['profile_messages.disable_profile_error.text']
+                });
+              });
+            }
+          });
+        }
+      });
     });
   }
 

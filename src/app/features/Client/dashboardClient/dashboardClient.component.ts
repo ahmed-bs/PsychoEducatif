@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,17 +24,21 @@ import { GoalService } from 'src/app/core/services/goal.service';
 import { AuthService } from 'src/app/core/services/authService.service';
 import { NotesComponent } from "./tabs/notes/notes.component";
 import { StrategyComponent } from './tabs/strategy/strategy.component';
+import { environment } from 'src/environments/environment';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent, StrategyComponent],
+  imports: [ButtonModule, DialogModule,TranslateModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent, StrategyComponent],
   providers: [MessageService]
 })
 
-export class DashboardClientComponent implements OnInit {
+export class DashboardClientComponent implements OnInit, OnDestroy {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
@@ -46,6 +50,7 @@ export class DashboardClientComponent implements OnInit {
   displayDialog: boolean = false;
   displayEditDialog: boolean = false;
   afficherBoiteDialoguePartage: boolean = false;
+  selectedFile: File | null = null;
 
   newChild: Profile = this.resetChild();
 
@@ -365,6 +370,7 @@ export class DashboardClientComponent implements OnInit {
 
   isEmailValid: boolean = false;
   loadingShare: boolean = false;
+  private languageSubscription: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -375,9 +381,15 @@ export class DashboardClientComponent implements OnInit {
     private categoryService: ProfileCategoryService, 
     private domainService: ProfileDomainService,
     private goalService: GoalService, 
-    private authService: AuthService
+    private authService: AuthService,    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
     this.accesSelectionne = this.optionsAcces[0];
+    
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
   }
 
   ngOnInit() {
@@ -405,6 +417,12 @@ export class DashboardClientComponent implements OnInit {
         }, 100);
       });
     }, 300);
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   loadGoals(): void {
@@ -559,10 +577,16 @@ export class DashboardClientComponent implements OnInit {
   loadChildren() {
     this.profileService.getProfilesByParent(this.parentId).subscribe({
       next: (children) => {
-        this.children = children.map(child => ({
-          ...child,
-          image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
-        }));
+        this.children = children.map(child => {
+          let imageUrl = (child as any).image || child.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
+          return {
+            ...child,
+            image_url: imageUrl
+          };
+        });
         this.filteredChildren = [...this.children];
         if (this.childId) {
           this.selectedChild = this.children.find(child => child.id === parseInt(this.childId!, 10)) || null;
@@ -615,6 +639,7 @@ export class DashboardClientComponent implements OnInit {
 
   showEditDialog() {
     if (this.selectedChild) {
+      this.newChild = { ...this.selectedChild };
       this.displayEditDialog = true;
     }
   }
@@ -628,11 +653,25 @@ export class DashboardClientComponent implements OnInit {
 
   addChild() {
     if (this.newChild.first_name && this.newChild.last_name && this.newChild.birth_date) {
-      this.profileService.createChildProfile(this.newChild).subscribe({
+      const formData = new FormData();
+      formData.append('first_name', this.newChild.first_name);
+      formData.append('last_name', this.newChild.last_name);
+      formData.append('birth_date', this.newChild.birth_date);
+      formData.append('gender', this.newChild.gender || 'M');
+      formData.append('diagnosis', this.newChild.diagnosis || '');
+      formData.append('notes', this.newChild.notes || '');
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+      this.profileService.createChildProfile(formData).subscribe({
         next: (child) => {
+          let imageUrl = (child as any).image || child.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
           this.children.push({
             ...child,
-            image_url: child.image_url || 'https://source.unsplash.com/random/300x300/?child,portrait'
+            image_url: imageUrl
           });
           this.filteredChildren = [...this.children];
           this.displayDialog = false;
@@ -648,12 +687,29 @@ export class DashboardClientComponent implements OnInit {
   }
 
   saveChild() {
-    if (this.selectedChild) {
-      this.profileService.updateChildProfile(this.selectedChild).subscribe({
+    if (this.selectedChild && this.selectedChild.id) {
+      const formData = new FormData();
+      formData.append('first_name', this.selectedChild.first_name);
+      formData.append('last_name', this.selectedChild.last_name);
+      formData.append('birth_date', this.selectedChild.birth_date);
+      formData.append('gender', this.selectedChild.gender || 'M');
+      formData.append('diagnosis', this.selectedChild.diagnosis || '');
+      formData.append('notes', this.selectedChild.notes || '');
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+      this.profileService.updateChildProfile(this.selectedChild.id, formData).subscribe({
         next: (updatedChild) => {
           const index = this.children.findIndex(c => c.id === updatedChild.id);
           if (index !== -1) {
-            this.children[index] = { ...updatedChild, image_url: this.children[index].image_url };
+            let imageUrl = (updatedChild as any).image || updatedChild.image_url;
+            if (imageUrl && !imageUrl.startsWith('http')) {
+              imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+            }
+            this.children[index] = {
+              ...updatedChild,
+              image_url: imageUrl
+            };
             this.filteredChildren = [...this.children];
           }
           this.displayEditDialog = false;
@@ -699,7 +755,19 @@ export class DashboardClientComponent implements OnInit {
     // Simple email regex
     this.isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.saisieEmail);
   }
-
+  setDefaultImage(event: any, child: Profile) {
+    let defaultImg = '';
+    if (child.gender === 'F') {
+        if (child.category === 'Toddler') defaultImg = '/assets/image_client/image copy 2.png';
+        else if (child.category === 'Young Child') defaultImg = '/assets/image_client/image copy 6.png';
+        else if (child.category === 'Young Adult') defaultImg = '/assets/image_client/image copy 8.png';
+    } else {
+        if (child.category === 'Toddler') defaultImg = '/assets/image_client/image copy 3.png';
+        else if (child.category === 'Young Child') defaultImg = '/assets/image_client/image copy 5.png';
+        else if (child.category === 'Young Adult') defaultImg = '/assets/image_client/image copy 7.png';
+    }
+    event.target.src = defaultImg || '/assets/image_client/image copy 2.png';
+}
   shareProfile() {
     if (!this.selectedChild || !this.saisieEmail) {
       Swal.fire('Erreur', 'Veuillez sélectionner un profil et entrer un email.', 'warning');
@@ -730,7 +798,11 @@ export class DashboardClientComponent implements OnInit {
       }
     });
   }
-
+  onFileSelected(event: any): void {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
   cancel() {
     this.newChild = this.resetChild();
     this.displayDialog = false;

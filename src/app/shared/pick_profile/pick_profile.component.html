@@ -3,8 +3,8 @@
   <div class="welcome-message">
     <img src="assets/image_client/bg-5.png" alt="Background" class="welcome-background">
     <div class="welcome-content">
-      <h1>Bonjour, {{userName}}!</h1>
-      <p>Veuillez sélectionner le profil d'un de vos enfants ci-dessous.</p>
+      <h1>{{ 'hero_section.welcome_message' | translate:{userName: userName} }}</h1>
+      <p>{{ 'hero_section.select_child_prompt' | translate }}</p>
     </div>
   </div>
 
@@ -12,7 +12,7 @@
   <div class="search-bar">
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
-      <input pInputText type="text" [(ngModel)]="searchTerm" placeholder="Rechercher un enfant par nom"
+      <input pInputText type="text" [(ngModel)]="searchTerm" [placeholder]="'hero_section.search_placeholder' | translate"
         (input)="filterChildren()" class="search-input" />
     </span>
   </div>
@@ -23,162 +23,180 @@
       <!-- List of children -->
       <div class="card" *ngFor="let child of filteredChildren">
         <div (click)="navigateToClient(child.id!)">
-          <!-- Conditional image based on gender and age category -->
-          <!-- <p>{{child.gender}} +{{ child.category}}</p> -->
-          <ng-container *ngIf="child.gender == 'F'; else maleImage">
-            <img *ngIf="child.category === 'Toddler'" src="/assets/image_client/image copy 2.png" alt="Child"
-              class="card__image">
-            <img *ngIf="child.category === 'Young Child'" src="/assets/image_client/image copy 6.png" alt="Child"
-              class="card__image">
-            <img *ngIf="child.category=== 'Young Adult'" src="/assets/image_client/image copy 8.png" alt="Child"
-              class="card__image">
-          </ng-container>
-          <ng-template #maleImage>
-            <img *ngIf="child.category === 'Toddler'" src="/assets/image_client/image copy 3.png" alt="Child"
-              class="card__image">
-            <img *ngIf="child.category === 'Young Child'" src="/assets/image_client/image copy 5.png" alt="Child"
-              class="card__image">
-            <img *ngIf="child.category ===  'Young Adult'" src="/assets/image_client/image copy 7.png" alt="Child"
-              class="card__image">
-          </ng-template>
-
+          <img [src]="child.image_url" (error)="setDefaultImage($event, child)" alt="Child" class="card__image">
           <h2 class="card__name">{{ child.first_name }} {{ child.last_name }}</h2>
-
-          <!-- Circular Progress Bar for evaluations_score -->
-          <!-- <div class="progress-container">
-            <svg class="progress-circle" width="60" height="60">
-              <circle class="progress-circle-bg" cx="30" cy="30" r="28" stroke="#e0e0e0" stroke-width="4" fill="none" />
-              <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
-                      [style.strokeDasharray]="188" [style.strokeDashoffset]="188 - (188 * ( 74  / 100))"/>
-              <circle class="progress-circle-fg" cx="30" cy="30" r="28" stroke="#4a90e2" stroke-width="4" fill="none"
-                [style.strokeDasharray]="188"
-                [style.strokeDashoffset]="188 - (188 * (child.evaluation_score || 0 / 100))" />
-            </svg>
-            <span class="progress-value">{{ child.evaluation_score }}%</span>
-            <span class="progress-value">{{ 74 }}%</span>
-          </div> -->
-
           <div class="card__actions">
-            <button pButton label="Modifier" class="custom-edit-btn rounded-btn"
-              (click)="showEditDialog(child); $event.stopPropagation()"></button>
-            <button pButton label="Désactiver" class="custom-disable-btn rounded-btn"
-              (click)="disableChild(child); $event.stopPropagation()"></button>
+            <button pButton class="custom-edit-btn rounded-btn"
+              (click)="showEditDialog(child); $event.stopPropagation()">
+              <i class="pi pi-pencil"></i>
+            </button>
+            <button pButton class="custom-disable-btn rounded-btn"
+              (click)="disableChild(child); $event.stopPropagation()">
+              <i class="pi pi-trash"></i>
+            </button>
           </div>
         </div>
       </div>
       <!-- Message if list is empty -->
       <div class="no-children-message" *ngIf="filteredChildren.length === 0">
-        <p>Vous n'avez pas d'enfant.</p>
+        <p>{{ 'hero_section.no_children_message' | translate }}</p>
       </div>
     </div>
 
     <!-- Card to open add dialog (desktop/tablet only) -->
     <div class="card card--add ajout-card-desktop" (click)="showDialog()">
-      <span class="card__plus">+</span>
-      <h2 class="card__name">Ajouter un enfant</h2>
+      <span class="card__plus">{{ 'hero_section.add_child_button' | translate }}</span>
+      <h2 class="card__name">{{ 'hero_section.add_child_card' | translate }}</h2>
     </div>
   </div>
   <!-- Add button for mobile only -->
-  <button class="ajout-btn-mobile" (click)="showDialog()">+ Ajouter un enfant</button>
+  <button class="ajout-btn-mobile" (click)="showDialog()">{{ 'hero_section.add_child_button' | translate }}</button>
 </section>
 
 <p-dialog [(visible)]="displayDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false"
   [resizable]="false">
   <ng-template pTemplate="header">
-    <div class="custom-dialog-header">
-      <h2>Ajouter un enfant</h2>
-    </div>
+    <h2>{{ 'add_child_dialog.header' | translate }}</h2>
   </ng-template>
   <div class="dialog-content">
-    <div class="field">
-      <label for="firstName">Prénom</label>
-      <input pInputText id="firstName" [(ngModel)]="newChild.first_name" placeholder="Prénom" required />
-    </div>
-    <div class="field">
-      <label for="lastName">Nom</label>
-      <input pInputText id="lastName" [(ngModel)]="newChild.last_name" placeholder="Nom" required />
-    </div>
-    <div class="field">
-      <label for="birthDate">Date de naissance</label>
-      <input pInputText id="birthDate" type="date" [(ngModel)]="newChild.birth_date" required />
-    </div>
-    <div class="field">
-      <label for="diagnosis">Diagnostic</label>
-      <input pInputText id="diagnosis" [(ngModel)]="newChild.diagnosis" placeholder="Diagnostic" />
-    </div>
-    <div class="field">
-      <label>Genre</label>
-      <div class="gender-selector">
-        <!-- Male Option (M) -->
-        <div class="gender-option" [class.selected]="newChild.gender === 'M'" (click)="newChild.gender = 'M'">
-          ♂ Male
-        </div>
-
-        <!-- Female Option (F) -->
-        <div class="gender-option" [class.selected]="newChild.gender === 'F'" (click)="newChild.gender = 'F'">
-          ♀ Female
-        </div>
+    <div class="form-row">
+      <div class="field">
+        <label for="firstName">{{ 'add_child_dialog.first_name_label' | translate }}</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-user"></i>
+          <input pInputText id="firstName" [(ngModel)]="newChild.first_name" [placeholder]="'add_child_dialog.first_name_placeholder' | translate" required />
+        </span>
+      </div>
+      <div class="field">
+        <label for="lastName">{{ 'add_child_dialog.last_name_label' | translate }}</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-user"></i>
+          <input pInputText id="lastName" [(ngModel)]="newChild.last_name" [placeholder]="'add_child_dialog.last_name_placeholder' | translate" required />
+        </span>
       </div>
     </div>
+    <div class="form-row">
+        <div class="field">
+            <label for="birthDate">{{ 'add_child_dialog.birth_date_label' | translate }}</label>
+            <input pInputText id="birthDate" type="date" [(ngModel)]="newChild.birth_date" required />
+        </div>
+        <div class="field">
+            <label for="diagnosis">{{ 'add_child_dialog.diagnosis_label' | translate }}</label>
+            <span class="p-input-icon-left">
+              <i class="pi pi-book"></i>
+              <input pInputText id="diagnosis" [(ngModel)]="newChild.diagnosis" [placeholder]="'add_child_dialog.diagnosis_placeholder' | translate" />
+            </span>
+        </div>
+    </div>
     <div class="field">
-      <label for="notes">Notes</label>
-      <input pInputText id="notes" [(ngModel)]="newChild.notes" placeholder="Notes" />
+        <label>{{ 'add_child_dialog.gender_label' | translate }}</label>
+        <div class="gender-radio-group">
+            <div class="radio-option">
+                <input type="radio" id="maleAdd" name="genderAdd" value="M" [(ngModel)]="newChild.gender">
+                <label for="maleAdd">{{ 'add_child_dialog.male_option' | translate }}</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="femaleAdd" name="genderAdd" value="F" [(ngModel)]="newChild.gender">
+                <label for="femaleAdd">{{ 'add_child_dialog.female_option' | translate }}</label>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label for="image">{{ 'add_child_dialog.profile_image_label' | translate }}</label>
+        <div class="drop-zone" 
+             (dragover)="onDragOver($event)" 
+             (dragleave)="onDragLeave($event)" 
+             (drop)="onDrop($event)"
+             (click)="fileInput.click()">
+            <input #fileInput type="file" id="image" (change)="onFileSelected($event)" accept="image/*" hidden />
+            <div *ngIf="!selectedFile" class="drop-zone-text">
+              <i class="pi pi-cloud-upload"></i>
+              <span>{{ 'add_child_dialog.drop_zone_text' | translate }}</span>
+            </div>
+            <div *ngIf="selectedFile" class="drop-zone-preview">
+                <i class="pi pi-file"></i>
+                <span>{{ selectedFile.name }}</span>
+            </div>
+        </div>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-   <p-button label="Ajouter" styleClass="p-button-primary" (click)="addChild()"
+    <p-button [label]="'add_child_dialog.cancel_button' | translate" styleClass="p-button-text" (click)="cancel()"></p-button>
+    <p-button [label]="'add_child_dialog.add_button' | translate" styleClass="p-button-primary rounded-btn" (click)="addChild()"
       [style]="{ color: 'white' }" [disabled]="isLoading"></p-button>
-
   </ng-template>
 </p-dialog>
 
 <p-dialog [(visible)]="updatedisplayDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false"
   [resizable]="false">
   <ng-template pTemplate="header">
-    <div class="custom-dialog-header">
-      <h2>Modifier un enfant</h2>
-    </div>
+    <h2>{{ 'edit_child_dialog.header' | translate }}</h2>
   </ng-template>
   <div class="dialog-content">
-    <div class="field">
-      <label for="editFirstName">Prénom</label>
-      <input pInputText id="editFirstName" [(ngModel)]="selectedChild.first_name" placeholder="Prénom" required />
-    </div>
-    <div class="field">
-      <label for="editLastName">Nom</label>
-      <input pInputText id="editLastName" [(ngModel)]="selectedChild.last_name" placeholder="Nom" required />
-    </div>
-    <div class="field">
-      <label for="editBirthDate">Date de naissance</label>
-      <input pInputText id="editBirthDate" type="date" [(ngModel)]="selectedChild.birth_date" required />
-    </div>
-    <div class="field">
-      <label for="editDiagnosis">Diagnostic</label>
-      <input pInputText id="editDiagnosis" [(ngModel)]="selectedChild.diagnosis" placeholder="Diagnostic" />
-    </div>
-    <div class="field">
-      <label>Genre</label>
-      <div class="gender-selector">
-        <!-- Male Option (M) -->
-        <div class="gender-option" [class.selected]="selectedChild.gender === 'M'" (click)="selectedChild.gender = 'M'">
-          ♂ Male
-        </div>
-
-        <!-- Female Option (F) -->
-        <div class="gender-option" [class.selected]="selectedChild.gender === 'F'" (click)="selectedChild.gender = 'F'">
-          ♀ Female
-        </div>
+    <div class="form-row">
+      <div class="field">
+        <label for="editFirstName">{{ 'edit_child_dialog.first_name_label' | translate }}</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-user"></i>
+          <input pInputText id="editFirstName" [(ngModel)]="selectedChild.first_name" [placeholder]="'edit_child_dialog.first_name_placeholder' | translate" required />
+        </span>
+      </div>
+      <div class="field">
+        <label for="editLastName">{{ 'edit_child_dialog.last_name_label' | translate }}</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-user"></i>
+          <input pInputText id="editLastName" [(ngModel)]="selectedChild.last_name" [placeholder]="'edit_child_dialog.last_name_placeholder' | translate" required />
+        </span>
       </div>
     </div>
+    <div class="form-row">
+        <div class="field">
+            <label for="editBirthDate">{{ 'edit_child_dialog.birth_date_label' | translate }}</label>
+            <input pInputText id="editBirthDate" type="date" [(ngModel)]="selectedChild.birth_date" required />
+        </div>
+        <div class="field">
+            <label for="editDiagnosis">{{ 'edit_child_dialog.diagnosis_label' | translate }}</label>
+            <span class="p-input-icon-left">
+              <i class="pi pi-book"></i>
+              <input pInputText id="editDiagnosis" [(ngModel)]="selectedChild.diagnosis" [placeholder]="'edit_child_dialog.diagnosis_placeholder' | translate" />
+            </span>
+        </div>
+    </div>
     <div class="field">
-      <label for="editNotes">Notes</label>
-      <input pInputText id="editNotes" [(ngModel)]="selectedChild.notes" placeholder="Notes" />
+        <label>{{ 'edit_child_dialog.gender_label' | translate }}</label>
+        <div class="gender-radio-group">
+            <div class="radio-option">
+                <input type="radio" id="maleEdit" name="genderEdit" value="M" [(ngModel)]="selectedChild.gender">
+                <label for="maleEdit">{{ 'edit_child_dialog.male_option' | translate }}</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="femaleEdit" name="genderEdit" value="F" [(ngModel)]="selectedChild.gender">
+                <label for="femaleEdit">{{ 'edit_child_dialog.female_option' | translate }}</label>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label for="editImage">{{ 'edit_child_dialog.profile_image_label' | translate }}</label>
+        <div class="drop-zone" 
+             (dragover)="onDragOver($event)" 
+             (dragleave)="onDragLeave($event)" 
+             (drop)="onDrop($event)"
+             (click)="editFileInput.click()">
+            <input #editFileInput type="file" id="editImage" (change)="onFileSelected($event)" accept="image/*" hidden/>
+            <div *ngIf="!selectedFile" class="drop-zone-text">
+              <i class="pi pi-cloud-upload"></i>
+              <span>{{ 'edit_child_dialog.drop_zone_text' | translate }}</span>
+            </div>
+            <div *ngIf="selectedFile" class="drop-zone-preview">
+                <i class="pi pi-file"></i>
+                <span>{{ selectedFile.name }}</span>
+            </div>
+        </div>
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button label="Annuler" styleClass="p-button-text" (click)="cancel()"></p-button>
-    <p-button label="Enregistrer" styleClass="p-button-primary" (click)="saveChild()"
+    <p-button [label]="'edit_child_dialog.cancel_button' | translate" styleClass="p-button-text" (click)="cancel()"></p-button>
+    <p-button [label]="'edit_child_dialog.save_button' | translate" styleClass="p-button-primary rounded-btn" (click)="saveChild()"
       [style]="{ color: 'white' }" ></p-button>
   </ng-template>
 </p-dialog>

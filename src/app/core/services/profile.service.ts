@@ -14,7 +14,7 @@ export class ProfileService {
   constructor(private http: HttpClient) {
   }
   // Create a child profile
-  createChildProfile(profileData: CreateProfileRequest): Observable<Profile> {
+  createChildProfile(profileData: FormData): Observable<Profile> {
     return this.http
       .post<ApiResponse<Profile>>(`${this.apiUrl}create-child/`, profileData)
       .pipe(
@@ -41,10 +41,10 @@ export class ProfileService {
 
 
   // Update a child profile
-  updateChildProfile(profile: Profile
+  updateChildProfile(profileId: number, profileData: FormData
   ): Observable<Profile> {
     return this.http
-      .put<ApiResponse<Profile>>(`${this.apiUrl}${profile.id}/update/`, profile)
+      .put<ApiResponse<Profile>>(`${this.apiUrl}${profileId}/update/`, profileData)
       .pipe(
         map(response => {
           if (response.error) {

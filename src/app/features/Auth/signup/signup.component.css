@@ -13,9 +13,8 @@
   box-shadow: 4px 4px 10px 10px rgba(187, 223, 251, 0.43);
   border-radius: 8px;
   overflow: hidden;
-  padding: 25px  30px;
-  max-width: 80%;
-  margin: 20px;
+  padding: 25px 30px;
+  width: 100%;
 }
 
 .error-placeholder {
@@ -347,5 +346,19 @@
   .cssbuttons-io-button {
     padding: 15px;
     background: #ffffff;
+  }
+}
+
+/* Hide the image and make form full width on iPad and smaller */
+@media (max-width: 1024px) {
+  .form-left {
+    display: none !important;
+  }
+  .form-detail {
+    width: 100% !important;
+    padding: 0 10px !important;
+  }
+  .form-v6-content {
+    padding: 10px !important;
   }
 }

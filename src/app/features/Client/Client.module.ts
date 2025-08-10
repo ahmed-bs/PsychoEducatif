@@ -6,7 +6,7 @@ import { ClientRoutes } from './Client.routing';
 import { ExploreComponent } from './explore/explore.component';
 import { ReplaceSpacesPipe } from 'src/app/shared/replace-spaces.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,8 +16,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Add_popupComponent } from './Child_profile/add_popup/add_popup.component';
-import { AppModule } from "../../app.module";
+import { AppModule, HttpLoaderFactory } from "../../app.module";
 import { ProgressBarComponent } from 'src/app/shared/progress-bar/progress-bar.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -35,7 +36,14 @@ import { ProgressBarComponent } from 'src/app/shared/progress-bar/progress-bar.c
     //primeng
     InputGroupModule,
     InputGroupAddonModule,
-    ClientRoutes
+    ClientRoutes,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
 ],
   declarations: [ClientComponent,Add_popupComponent,ExploreComponent,ReplaceSpacesPipe,ProgressBarComponent 
 ],

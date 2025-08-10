@@ -4,7 +4,7 @@
 <br /><br />
 <div class="quiz-container mx-auto p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen">
   <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
-    Évaluation des compétences
+    {{ 'skills_evaluation.title' | translate }}
   </h2>
 
   <div *ngIf="isLoading" class="text-center my-8">
@@ -12,22 +12,19 @@
       class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto"
       role="status"
     >
-      <span class="sr-only">Chargement...</span>
+      <span class="sr-only">{{ 'skills_evaluation.loading.sr_only' | translate }}</span>
     </div>
-    <p class="text-gray-600 mt-3">Chargement des questions...</p>
+    <p class="text-gray-600 mt-3">{{ 'skills_evaluation.loading.message' | translate }}</p>
   </div>
 
   <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-4" role="alert">
-    <strong class="font-bold">Erreur!</strong>
-    <span class="block sm:inline">{{ error }}</span>
+    <strong class="font-bold">{{ 'skills_evaluation.error.title' | translate }}</strong>
+    <span class="block sm:inline">{{ 'skills_evaluation.error.message' | translate: { error: error } }}</span>
   </div>
 
   <div *ngIf="!isLoading && !error && items.length > 0" class="max-w-3xl mx-auto">
     <div class="progress-indicator text-center mb-6">
-      <p class="text-lg font-medium text-gray-700">
-        Item <span class="font-bold text-blue-600">{{ currentIndex + 1 }}</span> sur
-        <span class="font-bold text-blue-600">{{ items.length }}</span>
-      </p>
+      <p class="text-lg font-medium text-gray-700" [innerHTML]="'skills_evaluation.progress_indicator.text' | translate: { currentIndex: currentIndex + 1, totalItems: items.length }"></p>
       <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
         <div class="bg-blue-600 h-2.5 rounded-full" [style.width]="(currentIndex + 1) / items.length * 100 + '%'"></div>
       </div>
@@ -35,9 +32,7 @@
 
     <form #quizForm="ngForm" class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
       <div class="sub-skill mb-6">
-        <p class="text-lg font-semibold text-gray-600 mb-2">
-          Compétence: <b class="text-sm">{{ items[currentIndex].name }}</b>
-        </p>
+        <p class="text-lg font-semibold text-gray-600 mb-2" [innerHTML]="'skills_evaluation.form.skill_label' | translate: { skillName: items[currentIndex].name }"></p>
 
         <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md mb-6">
           <p class="font-bold text-blue-800 leading-relaxed">
@@ -45,7 +40,7 @@
           </p>
         </div>
 
-        <label class="block text-gray-700 text-sm font-bold mb-3">Statut de la compétence :</label>
+        <label class="block text-gray-700 text-sm font-bold mb-3">{{ 'skills_evaluation.form.status_label' | translate }}</label>
         <div class="flex flex-wrap gap-3 mb-6">
           <label class="inline-flex items-center">
             <input
@@ -56,7 +51,7 @@
               [(ngModel)]="items[currentIndex].etat"
               [name]="'etat-' + items[currentIndex].id"
             />
-            <span class="ml-2 text-green-700 font-medium">Acquis</span>
+            <span class="ml-2 text-green-700 font-medium">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
           </label>
 
           <label class="inline-flex items-center">
@@ -68,7 +63,7 @@
               [(ngModel)]="items[currentIndex].etat"
               [name]="'etat-' + items[currentIndex].id"
             />
-            <span class="ml-2 text-yellow-700 font-medium">Partiel</span>
+            <span class="ml-2 text-yellow-700 font-medium">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
           </label>
 
           <label class="inline-flex items-center">
@@ -80,19 +75,19 @@
               [(ngModel)]="items[currentIndex].etat"
               [name]="'etat-' + items[currentIndex].id"
             />
-            <span class="ml-2 text-red-700 font-medium">Non acquis</span>
+            <span class="ml-2 text-red-700 font-medium">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
           </label>
         </div>
 
         <div class="comment-section mb-6">
-          <label [for]="'comment-' + currentIndex" class="block text-gray-700 text-sm font-bold mb-2">Observations :</label>
+          <label [for]="'comment-' + currentIndex" class="block text-gray-700 text-sm font-bold mb-2">{{ 'skills_evaluation.form.comment_label' | translate }}</label>
           <textarea
             class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
             [id]="'comment-' + currentIndex"
             rows="4"
             [(ngModel)]="items[currentIndex].comentaire"
             [name]="'comment-' + currentIndex"
-            placeholder="Notes complémentaires sur cette compétence..."
+            [placeholder]="'skills_evaluation.form.comment_placeholder' | translate"
           ></textarea>
         </div>
       </div>
@@ -104,7 +99,7 @@
           (click)="precedent()"
           [disabled]="currentIndex === 0"
         >
-          Précédent
+          {{ 'skills_evaluation.buttons.previous' | translate }}
         </button>
 
         <button
@@ -114,7 +109,7 @@
           [disabled]="currentIndex === items.length - 1"
           *ngIf="currentIndex < items.length - 1"
         >
-          Suivant
+          {{ 'skills_evaluation.buttons.next' | translate }}
         </button>
         <button
           type="button"
@@ -122,7 +117,7 @@
           (click)="soumettreQuiz()"
           *ngIf="currentIndex === items.length - 1"
         >
-          Soumettre
+          {{ 'skills_evaluation.buttons.submit' | translate }}
         </button>
       </div>
     </form>

@@ -1,4 +1,12 @@
+/* Layout Container */
+.layout-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
 
+/* Desktop Sidebar */
 .sidebar{
     position: fixed;
     top: 0;
@@ -10,7 +18,6 @@
     overflow-x: hidden;
     scrollbar-width: none;
     transition: all 0.2s ease;
-    /* position: sticky; */
 }
 
 .sidebar::-webkit-scrollbar{
@@ -120,29 +127,41 @@
     color: var(--danger);
 }
 
-.content{
-    position: relative;
-    /* left: 230px; */
-    /* width: calc(100% - 230px); */
-    transition: all 0.3s ease;
-}
-/**  look1 **/
-.sidebar.close~.content{
-    width: calc(100% - 60px);
-    /* left: 60px; */
-}
-.bx{
-    font-size: 1.7rem;
+/* Content Area - Desktop Only (≥1024px) */
+@media screen and (min-width: 1024px) {
+  .content-area{
+      position: relative;
+      width: calc(100% - 205px);
+      left: 205px;
+      transition: all 0.3s ease;
+      margin-left: 0;
+      padding-left: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .sidebar.close~.content-area{
+      width: calc(100% - 57px);
+      left: 54px;
+  }
 }
 
-a{
-    text-decoration: none;
+/* Content Area - Mobile/Tablet (≤1023px) */
+@media screen and (max-width: 1023px) {
+  .content-area{
+      position: relative;
+      width: 100%;
+      left: 0;
+      margin-left: 0;
+      padding-left: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+  }
 }
 
-li{
-    list-style: none;
-}
-.content nav{
+.content-area nav{
     height: 56px;
     background: var(--light);
     padding: 0 24px 0 0;
@@ -154,9 +173,11 @@ li{
     top: 0;
     left: 0;
     z-index: 1000;
+    margin-left: 0;
+    padding-left: 0;
 }
 
-.content nav::before{
+.content-area nav::before{
     content: "";
     position: absolute;
     width: 40px;
@@ -167,28 +188,28 @@ li{
     box-shadow: -20px -20px 0 var(--light);
 }
 
-.content nav a{
+.content-area nav a{
     color: var(--dark);
 }
 
-.content nav .bx.bx-menu{
+.content-area nav .bx.bx-menu{
     cursor: pointer;
     color: var(--dark);
 }
 
-.content nav form{
+.content-area nav form{
     max-width: 400px;
     width: 100%;
     margin-right: auto;
 }
 
-.content nav form .form-input{
+.content-area nav form .form-input{
     display: flex;
     align-items: center;
     height: 36px;
 }
 
-.content nav form .form-input input{
+.content-area nav form .form-input input{
     flex-grow: 1;
     padding: 0 16px;
     height: 100%;
@@ -200,7 +221,7 @@ li{
     color: var(--dark);
 }
 
-.content nav form .form-input button{
+.content-area nav form .form-input button{
     width: 80px;
     height: 100%;
     display: flex;
@@ -215,12 +236,12 @@ li{
     cursor: pointer;
 }
 
-.content nav .notif{
+.content-area nav .notif{
     font-size: 20px;
     position: relative;
 }
 
-.content nav .notif .count{
+.content-area nav .notif .count{
     position: absolute;
     top: -6px;
     right: -6px;
@@ -237,8 +258,7 @@ li{
     justify-content: center;
 }
 
-
-.content nav .theme-toggle{
+.content-area nav .theme-toggle{
     display: block;
     min-width: 50px;
     height: 25px;
@@ -248,7 +268,7 @@ li{
     border-radius: 25px;
 }
 
-.content nav .theme-toggle::before{
+.content-area nav .theme-toggle::before{
     content: "";
     position: absolute;
     top: 2px;
@@ -260,17 +280,20 @@ li{
     transition: all 0.3s ease;
 }
 
-.content nav #theme-toggle:checked+.theme-toggle::before{
+.content-area nav #theme-toggle:checked+.theme-toggle::before{
     left: calc(100% - (25px - 4px) - 2px);
 }
 
-.content main{
+/* Main Content */
+.main-content{
     width: 100%;
     padding: 36px 24px;
     max-height: fit-content;
+    flex: 1;
+    overflow-y: auto;
 }
 
-.content main .header{
+.main-content .header{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -278,34 +301,34 @@ li{
     flex-wrap: wrap;
 }
 
-.content main .header .left h1{
+.main-content .header .left h1{
     font-size: 36px;
     font-weight: 600;
     margin-bottom: 10px;
     color: var(--dark);
 }
 
-.content main .header .left .breadcrumb{
+.main-content .header .left .breadcrumb{
     display: flex;
     align-items: center;
     grid-gap: 16px;
 }
 
-.content main .header .left .breadcrumb li{
+.main-content .header .left .breadcrumb li{
     color: var(--dark);
 }
 
-.content main .header .left .breadcrumb li a{
+.main-content .header .left .breadcrumb li a{
     color: var(--dark-grey);
     pointer-events: none;
 }
 
-.content main .header .left .breadcrumb li a.active{
+.main-content .header .left .breadcrumb li a.active{
     color: var(--primary);
     pointer-events: none;
 }
 
-.content main .header .report{
+.main-content .header .report{
     height: 36px;
     padding: 0 16px;
     border-radius: 36px;
@@ -318,14 +341,14 @@ li{
     font-weight: 500;
 }
 
-.content main .insights{
+.main-content .insights{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     grid-gap: 24px;
     margin-top: 36px;
 }
 
-.content main .insights li{
+.main-content .insights li{
     padding: 24px;
     background: var(--light);
     border-radius: 20px;
@@ -335,7 +358,7 @@ li{
     cursor: pointer;
 }
 
-.content main .insights li .bx{
+.main-content .insights li .bx{
     width: 80px;
     height: 80px;
     border-radius: 10px;
@@ -345,37 +368,37 @@ li{
     justify-content: center;
 }
 
-.content main .insights li:nth-child(1) .bx{
+.main-content .insights li:nth-child(1) .bx{
     background: var(--light-primary);
     color: var(--primary);
 }
 
-.content main .insights li:nth-child(2) .bx{
+.main-content .insights li:nth-child(2) .bx{
     background: var(--light-warning);
     color: var(--warning);
 }
 
-.content main .insights li:nth-child(3) .bx{
+.main-content .insights li:nth-child(3) .bx{
     background: var(--light-success);
     color: var(--success);
 }
 
-.content main .insights li:nth-child(4) .bx{
+.main-content .insights li:nth-child(4) .bx{
     background: var(--light-danger);
     color: var(--danger);
 }
 
-.content main .insights li .info h3{
+.main-content .insights li .info h3{
     font-size: 24px;
     font-weight: 600;
     color: var(--dark);
 }
 
-.content main .insights li .info p{
+.main-content .insights li .info p{
     color: var(--dark);
 }
 
-.content main .bottom-data{
+.main-content .bottom-data{
     display: flex;
     flex-wrap: wrap;
     grid-gap: 24px;
@@ -384,75 +407,75 @@ li{
     color: var(--dark);
 }
 
-.content main .bottom-data>div{
+.main-content .bottom-data>div{
     border-radius: 20px;
     background: var(--light);
     padding: 24px;
     overflow-x: auto;
 }
 
-.content main .bottom-data .header{
+.main-content .bottom-data .header{
     display: flex;
     align-items: center;
     grid-gap: 16px;
     margin-bottom: 24px;
 }
 
-.content main .bottom-data .header h3{
+.main-content .bottom-data .header h3{
     margin-right: auto;
     font-size: 24px;
     font-weight: 600;
 }
 
-.content main .bottom-data .header .bx{
+.main-content .bottom-data .header .bx{
     cursor: pointer;
 }
 
-.content main .bottom-data .orders{
+.main-content .bottom-data .orders{
     flex-grow: 1;
     flex-basis: 500px;
 }
 
-.content main .bottom-data .orders table{
+.main-content .bottom-data .orders table{
     width: 100%;
     border-collapse: collapse;
 }
 
-.content main .bottom-data .orders table th{
+.main-content .bottom-data .orders table th{
     padding-bottom: 12px;
     font-size: 13px;
     text-align: left;
     border-bottom: 1px solid var(--grey);
 }
 
-.content main .bottom-data .orders table td{
+.main-content .bottom-data .orders table td{
     padding: 16px 0;
 }
 
-.content main .bottom-data .orders table tr td:first-child{
+.main-content .bottom-data .orders table tr td:first-child{
     display: flex;
     align-items: center;
     grid-gap: 12px;
     padding-left: 6px;
 }
 
-.content main .bottom-data .orders table td img{
+.main-content .bottom-data .orders table td img{
     width: 36px;
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.content main .bottom-data .orders table tbody tr{
+.main-content .bottom-data .orders table tbody tr{
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.content main .bottom-data .orders table tbody tr:hover{
+.main-content .bottom-data .orders table tbody tr:hover{
     background: var(--grey);
 }
 
-.content main .bottom-data .orders table tr td .status{
+.main-content .bottom-data .orders table tr td .status{
     font-size: 10px;
     padding: 6px 16px;
     color: var(--light);
@@ -460,28 +483,28 @@ li{
     font-weight: 700;
 }
 
-.content main .bottom-data .orders table tr td .status.completed{
+.main-content .bottom-data .orders table tr td .status.completed{
     background: var(--success);
 }
 
-.content main .bottom-data .orders table tr td .status.process{
+.main-content .bottom-data .orders table tr td .status.process{
     background: var(--primary);
 }
 
-.content main .bottom-data .orders table tr td .status.pending{
+.main-content .bottom-data .orders table tr td .status.pending{
     background: var(--warning);
 }
 
-.content main .bottom-data .reminders{
+.main-content .bottom-data .reminders{
     flex-grow: 1;
     flex-basis: 300px;
 }
 
-.content main .bottom-data .reminders .task-list{
+.main-content .bottom-data .reminders .task-list{
     width: 100%;
 }
 
-.content main .bottom-data .reminders .task-list li{
+.main-content .bottom-data .reminders .task-list li{
     width: 100%;
     margin-bottom: 16px;
     background: var(--grey);
@@ -492,90 +515,104 @@ li{
     justify-content: space-between;
 }
 
-.content main .bottom-data .reminders .task-list li .task-title{
+.main-content .bottom-data .reminders .task-list li .task-title{
     display: flex;
     align-items: center;
 }
 
-.content main .bottom-data .reminders .task-list li .task-title p{
+.main-content .bottom-data .reminders .task-list li .task-title p{
     margin-left: 6px;
 }
 
-.content main .bottom-data .reminders .task-list li .bx{
-  cursor: pointer;  
+.main-content .bottom-data .reminders .task-list li .bx{
+cursor: pointer;  
 }
 
-.content main .bottom-data .reminders .task-list li.completed{
+.main-content .bottom-data .reminders .task-list li.completed{
     border-left: 10px solid var(--success);
 }
 
-.content main .bottom-data .reminders .task-list li.not-completed{
+.main-content .bottom-data .reminders .task-list li.not-completed{
     border-left: 10px solid var(--danger);
 }
 
-.content main .bottom-data .reminders .task-list li:last-child{
-   margin-bottom: 0;
+.main-content .bottom-data .reminders .task-list li:last-child{
+ margin-bottom: 0;
 }
 
-/* @media screen and (max-width: 768px) {
-    .sidebar{
-        width: 200px;
-    }
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+  display: none;
+}
 
-    .content{
-        width: calc(100% - 60px);
-        left: 200px;
-    }
+/* Mobile and Tablet Responsive Styles */
+@media screen and (max-width: 1024px) {
+  .main-content {
+    padding: 0;
+    padding-bottom: 100px; /* Extra padding for bottom nav */
+  }
 
-} */
+  .mobile-bottom-nav {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content-area nav form .form-input input{
+      display: none;
+  }
+
+  .content-area nav form .form-input button{
+      width: auto;
+      height: auto;
+      background: transparent;
+      color: var(--dark);
+      border-radius: none;
+  }
+
+  .content-area nav form.show .form-input input{
+      display: block;
+      width: 100%;
+  }
+
+  .content-area nav form.show .form-input button{
+      width: 36px;
+      height: 100%;
+      color: var(--light);
+      background: var(--danger);
+      border-radius: 0 36px 36px 0;
+  }
+
+  .content-area nav form.show~.notif, .content-area nav form.show~.profile{
+      display: none;
+  }
+
+  .main-content .insights {
+      grid-template-columns: 1fr;
+  }
+
+  .main-content .bottom-data .header{
+      min-width: 340px;
+  }
+
+  .main-content .bottom-data .orders table{
+      min-width: 340px;
+  }
+
+  .main-content .bottom-data .reminders .task-list{
+      min-width: 340px;
+  }
+}
 
 @media screen and (max-width: 576px) {
-    
-    .content nav form .form-input input{
-        display: none;
-    }
+  .main-content {
+    padding: 0;
+    padding-bottom: 100px;
+  }
 
-    .content nav form .form-input button{
-        width: auto;
-        height: auto;
-        background: transparent;
-        color: var(--dark);
-        border-radius: none;
-    }
-
-    .content nav form.show .form-input input{
-        display: block;
-        width: 100%;
-    }
-
-    .content nav form.show .form-input button{
-        width: 36px;
-        height: 100%;
-        color: var(--light);
-        background: var(--danger);
-        border-radius: 0 36px 36px 0;
-    }
-
-    .content nav form.show~.notif, .content nav form.show~.profile{
-        display: none;
-    }
-
-    .content main .insights {
-        grid-template-columns: 1fr;
-    }
-
-    .content main .bottom-data .header{
-        min-width: 340px;
-    }
-
-    .content main .bottom-data .orders table{
-        min-width: 340px;
-    }
-
-    .content main .bottom-data .reminders .task-list{
-        min-width: 340px;
-    }
-
+  .main-content .header .left h1 {
+    font-size: 24px;
+  }
 }
 /*hor a rounded corners for material */
 .mat-mdc-dialog-container {

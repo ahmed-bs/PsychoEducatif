@@ -1,9 +1,17 @@
-// src/app/categories/categories.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
+import { ButtonModule } from 'primeng/button';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-categories',
@@ -11,35 +19,51 @@ import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.se
   styleUrls: ['./categories.component.css'],
   providers: [MessageService],
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent implements OnInit, OnDestroy {
   displayAddUserDialog: boolean = false;
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
   newCategory: Partial<ProfileCategory> = { name: '', description: '' };
-  profileId!: number ; 
+  profileId!: number;
   loading: boolean = true;
-  isEditMode: boolean = false; // Track if dialog is for editing
+  isEditMode: boolean = false;
+  private languageSubscription: Subscription;
 
   constructor(
     private router: Router,
     private profileCategoryService: ProfileCategoryService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private translate: TranslateService,
+    private sharedService: SharedService
+  ) {
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
 
   ngOnInit() {
     this.loadCategories();
   }
 
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+
   loadCategories() {
     this.loading = true;
-    this.profileId = parseInt(localStorage.getItem('selectedChildId')!, 0);
+    this.profileId = parseInt(localStorage.getItem('selectedChildId') || '0', 10);
     this.profileCategoryService.getCategories(this.profileId).subscribe({
       next: (categories) => {
         this.categories = categories;
         this.loading = false;
       },
       error: (error) => {
-        this.showError(error.message);
+        this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
         this.loading = false;
       },
     });
@@ -63,7 +87,9 @@ export class CategoriesComponent implements OnInit {
 
   saveCategory() {
     if (!this.newCategory.name) {
-      this.showError('Name is required');
+      this.translate.get('categories.messages.error.name_required').subscribe((text) => {
+        this.showError(text);
+      });
       return;
     }
 
@@ -79,9 +105,15 @@ export class CategoriesComponent implements OnInit {
       next: (profileCategory) => {
         this.categories.push(profileCategory);
         this.displayAddUserDialog = false;
-        this.showSuccess('ProfileCategory added successfully');
+        this.translate.get('categories.messages.success.category_added').subscribe((text) => {
+          this.showSuccess(text);
+        });
       },
-      error: (error) => this.showError(error.message),
+      error: (error) => {
+        this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
+      },
     });
   }
 
@@ -94,37 +126,54 @@ export class CategoriesComponent implements OnInit {
             this.categories[index] = updatedCategory;
           }
           this.displayAddUserDialog = false;
-          this.showSuccess('ProfileCategory updated successfully');
+          this.translate.get('categories.messages.success.category_updated').subscribe((text) => {
+            this.showSuccess(text);
+          });
         },
-        error: (error) => this.showError(error.message),
+        error: (error) => {
+          this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+            this.showError(text);
+          });
+        },
       });
     }
   }
 
   deleteCategory(profileCategory: ProfileCategory) {
-    if (confirm(`Are you sure you want to delete ${profileCategory.name}?`)) {
-      this.profileCategoryService.destroy(profileCategory.id!).subscribe({
-        next: () => {
-          this.categories = this.categories.filter((c) => c.id !== profileCategory.id);
-          this.showSuccess('ProfileCategory deleted successfully');
-        },
-        error: (error) => this.showError(error.message),
+    if (profileCategory.id) {
+      this.translate.get('categories.messages.confirm.delete_category', { categoryName: profileCategory.name }).subscribe((message) => {
+        if (!confirm(message)) {
+          return;
+        }
+
+        this.profileCategoryService.destroy(profileCategory.id!).subscribe({
+          next: () => {
+            this.categories = this.categories.filter((c) => c.id !== profileCategory.id);
+            this.translate.get('categories.messages.success.category_deleted').subscribe((text) => {
+              this.showSuccess(text);
+            });
+          },
+          error: (error) => {
+            this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+              this.showError(text);
+            });
+          },
+        });
       });
     }
   }
 
   navigateToDomains(profileCategory: ProfileCategory) {
-    // Navigate to a domains page for this profileCategory
     this.router.navigate(['Dashboard-client/client/evaluations_configurations/items'], {
       queryParams: { categoryId: profileCategory.id },
     });
   }
 
   showSuccess(message: string) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+    this.messageService.add({ severity: 'success', summary: this.translate.instant('categories.messages.success.summary'), detail: message });
   }
 
   showError(message: string) {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
+    this.messageService.add({ severity: 'error', summary: this.translate.instant('categories.messages.error.summary'), detail: message });
   }
 }

@@ -1,30 +1,30 @@
 <div class="bg-white rounded-xl shadow overflow-hidden">
-    <div class="bg-yellow-600 px-4 py-3 sm:px-6"> <h3 class="text-lg sm:text-xl font-medium text-white">Notes et observations</h3> </div>
-    <div class="p-4 sm:p-6"> <div class="mb-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-gray-50"> <h4 class="font-medium text-gray-800 mb-2 text-base sm:text-lg">Filtrer les notes</h4> <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"> <div>
-                    <label for="note-search" class="block text-sm font-medium text-gray-700 mb-1">Rechercher par contenu</label>
+    <div class="bg-yellow-600 px-4 py-3 sm:px-6"> <h3 class="text-lg sm:text-xl font-medium text-white">{{ 'dashboard_tabs.notes.title' | translate }}</h3> </div>
+    <div class="p-4 sm:p-6"> <div class="mb-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-gray-50"> <h4 class="font-medium text-gray-800 mb-2 text-base sm:text-lg">{{ 'dashboard_tabs.notes.filter_title' | translate }}</h4> <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"> <div>
+                    <label for="note-search" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.search_content' | translate }}</label>
                     <input type="text" id="note-search"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" placeholder="Rechercher..."
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [placeholder]="'dashboard_tabs.notes.search_placeholder' | translate"
                            [(ngModel)]="filterSearchTerm"
                            (input)="onSearchInputChange()">
                 </div>
                 <div>
-                    <label for="note-importance" class="block text-sm font-medium text-gray-700 mb-1">Importance</label>
+                    <label for="note-importance" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.importance_filter' | translate }}</label>
                     <select id="note-importance"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [ngModel]="filterImportant === null ? 'all' : filterImportant.toString()"
                             (ngModelChange)="onImportanceFilterChange($event)">
-                        <option value="all">Toutes les notes</option>
-                        <option value="true">Notes importantes</option>
-                        <option value="false">Notes non importantes</option>
+                        <option value="all">{{ 'dashboard_tabs.notes.importance_options.all' | translate }}</option>
+                        <option value="true">{{ 'dashboard_tabs.notes.importance_options.important' | translate }}</option>
+                        <option value="false">{{ 'dashboard_tabs.notes.importance_options.not_important' | translate }}</option>
                     </select>
                 </div>
                 <div>
-                    <label for="note-start-date" class="block text-sm font-medium text-gray-700 mb-1">Date de début</label>
+                    <label for="note-start-date" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.date_start' | translate }}</label>
                     <input type="date" id="note-start-date"
                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [(ngModel)]="filterStartDate"
                            (change)="onStartDateChange($event)">
                 </div>
                 <div>
-                    <label for="note-end-date" class="block text-sm font-medium text-gray-700 mb-1">Date de fin</label>
+                    <label for="note-end-date" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.date_end' | translate }}</label>
                     <input type="date" id="note-end-date"
                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [(ngModel)]="filterEndDate"
                            (change)="onEndDateChange($event)">
@@ -38,15 +38,15 @@
                 </div>
             </div>
             <div class="mt-4 text-center sm:text-right"> <button (click)="clearFilters()"
-                        class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition text-sm sm:text-base"> Réinitialiser les filtres
+                        class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition text-sm sm:text-base"> {{ 'dashboard_tabs.notes.reset_filters' | translate }}
                 </button>
             </div>
         </div>
 
-        <div *ngIf="loadingNotes" class="text-center text-gray-500 py-4 text-sm sm:text-base"> <p>Loading notes...</p>
+        <div *ngIf="loadingNotes" class="text-center text-gray-500 py-4 text-sm sm:text-base"> <p>{{ 'dashboard_tabs.notes.loading' | translate }}</p>
         </div>
 
-        <div *ngIf="!loadingNotes && notes.length === 0" class="text-center text-gray-500 py-4 text-sm sm:text-base"> <p>No notes found matching your criteria. Try adjusting the filters!</p>
+        <div *ngIf="!loadingNotes && notes.length === 0" class="text-center text-gray-500 py-4 text-sm sm:text-base"> <p>{{ 'dashboard_tabs.notes.no_notes_found' | translate }}</p>
         </div>
 
         <div *ngIf="!loadingNotes && notes.length > 0">

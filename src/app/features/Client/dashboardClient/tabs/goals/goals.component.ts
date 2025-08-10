@@ -1,26 +1,48 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-goals',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './goals.component.html',
   styleUrl: './goals.component.css'
 })
-export class GoalsComponent implements OnInit {
+export class GoalsComponent implements OnInit, OnDestroy {
   @Input() goals: any[] = [];
   @Output() addGoalClicked = new EventEmitter<void>();
   @Output() editGoalClicked = new EventEmitter<any>();
   @Output() toggleSubObjectiveStatus = new EventEmitter<{ goalId: number; subObjectiveId: number; newStatus: boolean }>();
   @Output() deleteGoalClicked = new EventEmitter<number>();
 
+  private languageSubscription: Subscription;
 
+  constructor(
+    private router: Router,
+    private translate: TranslateService,
+    private sharedService: SharedService
+  ) {
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
 
-  constructor(private router: Router) { }
+  ngOnInit(): void {
+    // Initialize translation with current language
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
+  }
 
-  ngOnInit(): void {}
+  ngOnDestroy(): void {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
 
   isQuizAvailable(goal: any): boolean {
     if (!goal || !goal.target_date) {
@@ -38,22 +60,22 @@ export class GoalsComponent implements OnInit {
 
   getSubObjectiveTooltip(goal: any): string {
     if (!this.isQuizAvailable(goal)) {
-      return `Vous ne pouvez pas modifier le sous-objectif avant le ${this.formatDate(goal.target_date)}`;
+      return this.translate.instant('dashboard_tabs.goals.messages.sub_objective_disabled', { date: this.formatDate(goal.target_date) });
     }
     return '';
   }
 
   getQuizAvailabilityMessage(goal: any): string {
     if (this.isQuizAvailable(goal)) {
-      return 'Cliquez pour passer le quiz.';
+      return this.translate.instant('dashboard_tabs.goals.messages.quiz_available');
     } else {
-      return `Le quiz ne sera disponible qu'à partir du ${this.formatDate(goal.target_date)}.`;
+      return this.translate.instant('dashboard_tabs.goals.messages.quiz_not_available', { date: this.formatDate(goal.target_date) });
     }
   }
 
   onGoalClick(goal: any): void {
     if (!this.isQuizAvailable(goal)) {
-      alert(`Le quiz pour cet objectif ne sera disponible qu'à partir du ${this.formatDate(goal.target_date)}.`);
+      alert(this.translate.instant('dashboard_tabs.goals.messages.quiz_not_available', { date: this.formatDate(goal.target_date) }));
       return;
     }
 
@@ -63,7 +85,7 @@ export class GoalsComponent implements OnInit {
       this.router.navigate(['/Dashboard-client/client/quiz', domainId]);
     } else {
       console.warn('Cannot navigate to quiz: domain ID not found for this goal.', goal);
-      alert('Impossible de lancer le quiz : Le domaine de l\'objectif est introuvable.');
+      alert(this.translate.instant('dashboard_tabs.goals.messages.cannot_navigate_quiz'));
     }
   }
 
@@ -84,7 +106,7 @@ export class GoalsComponent implements OnInit {
   }
 
   onDeleteGoalClick(goalId: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cet objectif et tous ses sous-objectifs ?')) {
+    if (confirm(this.translate.instant('dashboard_tabs.goals.messages.confirm_delete'))) {
       this.deleteGoalClicked.emit(goalId);
     }
   }
@@ -104,5 +126,9 @@ export class GoalsComponent implements OnInit {
     const completedSubObjectives = goal.sub_objectives.filter((sub: any) => sub.is_completed).length;
 
     return Math.round((completedSubObjectives / totalSubObjectives) * 100);
+  }
+
+  getPriorityTranslation(priority: string): string {
+    return this.translate.instant(`dashboard_tabs.goals.priority.${priority}`);
   }
 }

@@ -34,15 +34,15 @@ body {
 /* Card Styling */
 .card {
     background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 40px; /* More circular edges */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 24px;
-    transition: all 0.4s ease-in-out;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
     position: relative;
     overflow: hidden;
-    transform: perspective(1000px) rotateX(0deg);
     cursor: pointer;
+    border: 1px solid #e0e0e0;
 }
 
 /* Grid Cards */
@@ -137,10 +137,13 @@ body {
 }
 
 .card__actions button {
-    flex: 1;
-    max-width: 120px;
-    font-size: 0.85rem;
-    padding: 8px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 1.2rem;
 }
 
 /* Custom Edit Button (Secondary) */
@@ -525,12 +528,10 @@ body {
 :host ::ng-deep .p-input-icon-left>.search-input {
     width: 100%;
     padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-    /* Padding à gauche pour l'icône */
-    border-radius: 0.375rem;
+    border-radius: 40px; /* More circular edges */
     border: 1px solid #e5e7eb;
     font-size: 1rem;
     color: #1e3a8a;
-    /* Bleu profond du thème */
     background-color: #fff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -593,6 +594,7 @@ body {
     border-bottom: 1px solid #e9ecef;
     overflow: hidden;
     /* Évite les débordements */
+    border-radius: 40px; /* More circular edges */
 }
 
 .welcome-background {
@@ -805,13 +807,15 @@ body {
         font-size: 8px;
     }
     .card__actions {
-        flex-direction: column;
-        gap: 4px;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
     }
     .card__actions button {
-        font-size: 0.8rem;
-        padding: 6px 8px;
-        max-width: 100%;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        padding: 0;
     }
     .card--add {
         margin-left: 0;
@@ -845,26 +849,258 @@ body {
     display: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) { /* For tablets and below */
     .ajout-card-desktop {
         display: none !important;
     }
-    .ajout-btn-mobile {
-        display: block;
-        width: 100%;
-        margin: 16px 0 0 0;
-        padding: 14px 0;
+
+    .card__actions button {
+        width: 40px;
+        height: 40px;
         font-size: 1.1rem;
-        font-weight: 600;
-        background: #6366f1;
-        color: #fff;
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(99,102,241,0.10);
-        cursor: pointer;
-        transition: background 0.2s;
     }
+
+    .ajout-btn-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+        font-weight: 300;
+        border-radius: 50%;
+        background: #6366f1;
+        color: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
     .ajout-btn-mobile:hover {
         background: #4f46e5;
+        transform: scale(1.05);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
     }
+}
+
+
+/* New, more beautiful popup styles */
+:host ::ng-deep .p-dialog .p-dialog-header {
+    background: #ffffff !important;
+    color: #1F2937 !important;
+    border-bottom: 1px solid #E5E7EB !important;
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+    padding: 1rem 1.5rem !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+    color: #1F2937 !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header h2 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    text-align: center;
+    width: 100%;
+}
+
+:host ::ng-deep .p-dialog {
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+:host ::ng-deep .dialog-content {
+    padding: 2rem !important;
+    background-color: #F9FAFB !important;
+}
+
+:host ::ng-deep .field {
+    margin-bottom: 1.5rem !important;
+}
+
+:host ::ng-deep .field label {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 500 !important;
+    color: #4B5563 !important;
+}
+
+:host ::ng-deep .field .p-inputtext,
+:host ::ng-deep .field input[type="date"],
+:host ::ng-deep .field .gender-selector {
+    width: 100% !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    color: #1F2937 !important;
+    background-color: #FFFFFF !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+:host ::ng-deep .field .p-inputtext:focus,
+:host ::ng-deep .field input[type="date"]:focus {
+    outline: none !important;
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+}
+
+:host ::ng-deep .gender-selector {
+    display: flex !important;
+    gap: 1rem !important;
+}
+
+:host ::ng-deep .gender-option {
+    flex: 1 !important;
+    padding: 0.75rem !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    transition: all 0.2s ease !important;
+}
+
+:host ::ng-deep .gender-option:hover {
+    background-color: #F3F4F6 !important;
+}
+
+:host ::ng-deep .gender-option.selected {
+    background-color: #6366f1 !important;
+    color: white !important;
+    border-color: #6366f1 !important;
+    font-weight: 600 !important;
+}
+
+:host ::ng-deep .p-dialog-footer {
+    padding: 1.5rem 2rem !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 1rem !important;
+    background: #F9FAFB !important;
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+    border-top: 1px solid #E5E7EB !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    :host ::ng-deep .p-dialog {
+        width: 90vw !important;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    :host ::ng-deep .p-dialog {
+        width: 95vw !important;
+    }
+    :host ::ng-deep .dialog-content {
+        padding: 1.5rem !important;
+    }
+    :host ::ng-deep .p-dialog-footer {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+    :host ::ng-deep .p-dialog-footer .p-button {
+        width: 100% !important;
+    }
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start; /* Aligns items to the top */
+}
+
+.form-row .field {
+    flex: 1;
+}
+
+.gender-radio-group {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.radio-option input[type="radio"] {
+    accent-color: #6366f1;
+    width: 1.25em;
+    height: 1.25em;
+}
+
+.radio-option label {
+    font-weight: 500;
+    color: #4B5563;
+}
+
+.drop-zone {
+    border: 2px dashed #D1D5DB;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: #F9FAFB;
+}
+
+.drop-zone.drag-over {
+    background-color: #E5E7EB;
+    border-color: #6366f1;
+}
+
+.drop-zone-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6B7280;
+}
+
+.drop-zone-text i {
+    font-size: 2rem;
+}
+
+.drop-zone-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #1F2937;
+    font-weight: 500;
+}
+
+.drop-zone-preview i {
+    font-size: 1.5rem;
+    color: #6366f1;
+}
+
+:host ::ng-deep .p-input-icon-left > .p-inputtext {
+    padding-left: 2.5rem !important;
+}
+
+:host ::ng-deep .p-input-icon-left > i {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: #9CA3AF;
 }
