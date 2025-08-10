@@ -24,9 +24,11 @@ import { TooltipModule } from 'primeng/tooltip';
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
   displayAddUserDialog: boolean = false;
+  displayDeleteDialog: boolean = false;
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
   newCategory: Partial<ProfileCategory> = { name: '', description: '' };
+  categoryToDelete: ProfileCategory | null = null;
   profileId!: number;
   loading: boolean = true;
   isEditMode: boolean = false;
@@ -148,25 +150,28 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(profileCategory: ProfileCategory) {
-    if (profileCategory.id) {
-      this.translate.get('categories.messages.confirm.delete_category', { categoryName: profileCategory.name }).subscribe((message) => {
-        if (!confirm(message)) {
-          return;
-        }
+    this.categoryToDelete = profileCategory;
+    this.displayDeleteDialog = true;
+  }
 
-        this.profileCategoryService.destroy(profileCategory.id!).subscribe({
-          next: () => {
-            this.categories = this.categories.filter((c) => c.id !== profileCategory.id);
-            this.translate.get('categories.messages.success.category_deleted').subscribe((text) => {
-              this.showSuccess(text);
-            });
-          },
-          error: (error) => {
-            this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
-              this.showError(text);
-            });
-          },
-        });
+  confirmDelete() {
+    if (this.categoryToDelete && this.categoryToDelete.id) {
+      this.profileCategoryService.destroy(this.categoryToDelete.id).subscribe({
+        next: () => {
+          this.categories = this.categories.filter((c) => c.id !== this.categoryToDelete!.id);
+          this.translate.get('categories.messages.success.category_deleted').subscribe((text) => {
+            this.showSuccess(text);
+          });
+          this.displayDeleteDialog = false;
+          this.categoryToDelete = null;
+        },
+        error: (error) => {
+          this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+            this.showError(text);
+          });
+          this.displayDeleteDialog = false;
+          this.categoryToDelete = null;
+        },
       });
     }
   }

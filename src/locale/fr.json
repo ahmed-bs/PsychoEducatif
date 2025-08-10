@@ -904,6 +904,14 @@
         "delete_category": "Êtes-vous sûr de vouloir supprimer {{categoryName}} ?"
       }
     },
+    "delete_dialog": {
+      "header": "Confirmer la suppression",
+      "message": "Êtes-vous sûr de vouloir supprimer la catégorie \"{{categoryName}}\" ? Cette action ne peut pas être annulée.",
+      "buttons": {
+        "cancel": "Annuler",
+        "delete": "Supprimer"
+      }
+    },
     "table": {
       "headers": {
         "name": "Nom",

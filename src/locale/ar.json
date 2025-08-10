@@ -871,6 +871,14 @@
         "delete_category": "هل أنت متأكد من حذف {{categoryName}}؟"
       }
     },
+    "delete_dialog": {
+      "header": "تأكيد الحذف",
+      "message": "هل أنت متأكد من حذف الفئة \"{{categoryName}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "buttons": {
+        "cancel": "إلغاء",
+        "delete": "حذف"
+      }
+    },
     "table": {
       "headers": {
         "name": "الاسم",

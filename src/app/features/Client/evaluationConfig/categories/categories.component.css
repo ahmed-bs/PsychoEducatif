@@ -547,6 +547,19 @@
   margin: 0;
 }
 
+/* Delete Confirmation Dialog */
+.delete-confirmation {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.delete-confirmation p {
+  color: #374151;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* List View Styles */
 .list-view {
   display: flex;

@@ -202,24 +202,44 @@
   </main>
 </div>
 
+<!-- Add/Edit Category Dialog -->
 <p-dialog [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
-      <h2>{{ newCategory.id ? 'categories.add_category_dialog.header_edit' : 'categories.add_category_dialog.header_add' | translate }}</h2>
+      <h2>{{ (newCategory.id ? 'categories.add_category_dialog.header_edit' : 'categories.add_category_dialog.header_add') | translate }}</h2>
     </div>
   </ng-template>
   <div class="dialog-content">
     <div class="field">
-      <label for="firstName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
-      <input pInputText id="firstName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" required />
+      <label for="categoryName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
+      <input pInputText id="categoryName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" required />
     </div>
     <div class="field">
-      <label for="lastName">{{ 'categories.add_category_dialog.labels.description' | translate }}</label>
-      <input pInputText id="lastName" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" required />
+      <label for="categoryDescription">{{ 'categories.add_category_dialog.labels.description' | translate }}</label>
+      <input pInputText id="categoryDescription" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" required />
     </div>
   </div>
   <ng-template pTemplate="footer">
     <p-button [label]="'categories.add_category_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayAddUserDialog = false"></p-button>
-    <p-button [label]="newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add' | translate" styleClass="p-button-primary" (click)="newCategory.id ? updateCategory() : addCategory()" [style]="{ color: 'white' }"></p-button>
+    <p-button [label]="(newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add') | translate" styleClass="p-button-primary" (click)="saveCategory()" [style]="{ color: 'white' }"></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Delete Confirmation Dialog -->
+<p-dialog [(visible)]="displayDeleteDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <div class="custom-dialog-header">
+      <h2>{{ 'categories.delete_dialog.header' | translate }}</h2>
+    </div>
+  </ng-template>
+  <div class="dialog-content">
+    <div class="delete-confirmation">
+      <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #e53e78; margin-bottom: 1rem;"></i>
+      <p>{{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete?.name } }}</p>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button [label]="'categories.delete_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayDeleteDialog = false"></p-button>
+    <p-button [label]="'categories.delete_dialog.buttons.delete' | translate" styleClass="p-button-danger" (click)="confirmDelete()"></p-button>
   </ng-template>
 </p-dialog>
