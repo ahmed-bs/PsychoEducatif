@@ -601,7 +601,14 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   loadparmail(childId: number) {
     this.profileService.getProfileById(childId).subscribe({
       next: (child) => {
-        this.selectedChild = { ...child };
+        let imageUrl = (child as any).image || child.image_url;
+        if (imageUrl && !imageUrl.startsWith('http')) {
+          imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+        }
+        this.selectedChild = {
+          ...child,
+          image_url: imageUrl
+        };
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
@@ -612,7 +619,14 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   loadChild(childId: number) {
     this.profileService.getProfileById(childId).subscribe({
       next: (child) => {
-        this.selectedChild = { ...child };
+        let imageUrl = (child as any).image || child.image_url;
+        if (imageUrl && !imageUrl.startsWith('http')) {
+          imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+        }
+        this.selectedChild = {
+          ...child,
+          image_url: imageUrl
+        };
         this.loadCategories(childId);
         this.currentProfileIdForModal = childId;
       },
@@ -620,6 +634,15 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');
       }
     });
+  }
+
+  selectChild(child: Profile) {
+    this.selectedChild = child;
+    if (child.id) {
+      this.loadCategories(child.id);
+      this.currentProfileIdForModal = child.id;
+      this.loadGoals();
+    }
   }
 
   filterChildren() {
@@ -700,12 +723,19 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       }
       this.profileService.updateChildProfile(this.selectedChild.id, formData).subscribe({
         next: (updatedChild) => {
+          let imageUrl = (updatedChild as any).image || updatedChild.image_url;
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
+          }
+          
+          // Update selectedChild with the new image URL
+          this.selectedChild = {
+            ...updatedChild,
+            image_url: imageUrl
+          };
+          
           const index = this.children.findIndex(c => c.id === updatedChild.id);
           if (index !== -1) {
-            let imageUrl = (updatedChild as any).image || updatedChild.image_url;
-            if (imageUrl && !imageUrl.startsWith('http')) {
-              imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
-            }
             this.children[index] = {
               ...updatedChild,
               image_url: imageUrl

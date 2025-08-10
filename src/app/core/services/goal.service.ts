@@ -13,22 +13,22 @@ export class GoalService {
 
 
   createGoal(goalData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/goals/`, goalData);
+    return this.http.post(`${this.baseUrl}goals/`, goalData);
   }
 
   getGoals(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/goals/`);
+    return this.http.get<any[]>(`${this.baseUrl}goals/`);
   }
 
   getGoalsByProfile(profileId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}goals?profile_id=${profileId}`);
+    return this.http.get<any[]>(`${this.baseUrl}goals/?profile_id=${profileId}`);
   }
 
   updateGoal(goalId: number, goalData: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/goals/${goalId}/`, goalData);
+    return this.http.put<any>(`${this.baseUrl}goals/${goalId}/`, goalData);
   }
   
   deleteGoal(goalId: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/goals/${goalId}/`);
+    return this.http.delete<any>(`${this.baseUrl}goals/${goalId}/`);
   }
 }

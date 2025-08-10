@@ -8,7 +8,7 @@ import { Strategy } from '../models/strategy';
   providedIn: 'root'
 })
 export class StrategyService {
-  private baseUrl = `${environment.apiUrl}/strategies/`;
+  private baseUrl = `${environment.apiUrl}strategies/`;
 
   constructor(private http: HttpClient) { }
 

@@ -28,18 +28,17 @@
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-6">
       <div class="filter-container flex-grow">
         <label for="status-filter" class="block text-gray-700 text-sm font-semibold mb-3 sm:mb-0 sm:inline-block sm:mr-4">
-          {{ 'skills_summary.filter_label' | translate }}
+          {{ 'explore.filter.label' | translate }}:
         </label>
-        <p-dropdown
-          id="status-filter"
-          [options]="filterStatuses"
-          [(ngModel)]="selectedFilterStatus"
-          optionLabel="label"
-          optionValue="value"
-          (onChange)="applyFilter()"
-          [placeholder]="'skills_summary.filter_placeholder' | translate"
-          styleClass="filter-dropdown w-full sm:w-auto min-w-[220px]"
-        ></p-dropdown>
+        <select 
+          id="status-filter" 
+          class="filter-dropdown w-full sm:w-auto min-w-[220px]"
+          [(ngModel)]="selectedFilterStatus" 
+          (change)="applyFilter()">
+          <option *ngFor="let status of filterStatuses" [value]="status.value">
+            {{ status.label }}
+          </option>
+        </select>
       </div>
 
       <div class="button-container flex-shrink-0 text-right sm:text-left flex gap-3">
@@ -269,8 +268,6 @@
                             <h6 class="items-detail-title" [innerHTML]="'skills_summary.domain_items.header' | translate: { domain: domainData.domain, status: getEtatLabel(selectedFilterStatus) }"></h6>
                             <p-toggleButton
                               [(ngModel)]="domainItemsVisibility[domainData.domain]"
-                              onIcon="pi pi-eye-slash"
-                              offIcon="pi pi-eye"
                               [onLabel]="'skills_summary.domain_items.hide_items' | translate"
                               [offLabel]="'skills_summary.domain_items.show_items' | translate"
                               [style]="{ 'width': '10em' }"

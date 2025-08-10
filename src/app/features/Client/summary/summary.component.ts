@@ -10,7 +10,6 @@ import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.se
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -53,7 +52,6 @@ interface CategoryTableRow {
     TableModule,
     ButtonModule,
     ProgressBarModule,
-    DropdownModule,
     SelectButtonModule,
     ToggleButtonModule,
     TooltipModule,
@@ -68,7 +66,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   profileId: number = 1;
   expandedCategories: { [key: string]: boolean } = {};
   filterStatuses: any[] = [];
-  selectedFilterStatus: string = 'ALL';
+  selectedFilterStatus: string = 'all';
   private originalCategoryDataForTable: CategoryTableRow[] = [];
   domainItemsVisibility: { [domainName: string]: boolean } = {};
   private languageSubscription: Subscription;
@@ -107,18 +105,16 @@ export class SummaryComponent implements OnInit, OnDestroy {
   private updateFilterStatuses() {
     // Wait for translations to be ready
     this.translate.get([
-      'skills_summary.status_labels.ALL',
-      'skills_summary.status_labels.ACQUIS',
-      'skills_summary.status_labels.PARTIEL',
-      'skills_summary.status_labels.NON_ACQUIS',
-      'skills_summary.status_labels.NON_COTE'
+      'explore.filter.all',
+      'explore.filter.completed',
+      'explore.filter.in_progress',
+      'explore.filter.not_started'
     ]).subscribe(translations => {
       this.filterStatuses = [
-        { label: translations['skills_summary.status_labels.ALL'], value: 'ALL' },
-        { label: translations['skills_summary.status_labels.ACQUIS'], value: 'ACQUIS' },
-        { label: translations['skills_summary.status_labels.PARTIEL'], value: 'PARTIEL' },
-        { label: translations['skills_summary.status_labels.NON_ACQUIS'], value: 'NON_ACQUIS' },
-        { label: translations['skills_summary.status_labels.NON_COTE'], value: 'NON_COTE' }
+        { label: translations['explore.filter.all'], value: 'all' },
+        { label: translations['explore.filter.completed'], value: 'completed' },
+        { label: translations['explore.filter.in_progress'], value: 'en_cours' },
+        { label: translations['explore.filter.not_started'], value: 'not_started' }
       ];
     });
   }
@@ -267,17 +263,25 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(): void {
-    if (this.selectedFilterStatus === 'ALL') {
+    if (this.selectedFilterStatus === 'all') {
       this.categoryDataForTable = [...this.originalCategoryDataForTable];
       return;
     }
 
     this.categoryDataForTable = this.originalCategoryDataForTable.map(category => ({
       ...category,
-      domains: category.domains.map(domain => ({
-        ...domain,
-        profileItems: domain.profileItems.filter(item => item.etat === this.selectedFilterStatus)
-      })).filter(domain => domain.profileItems.length > 0)
+      domains: category.domains.filter(domain => {
+        const percentage = domain.progressPercentage;
+
+        if (this.selectedFilterStatus === 'completed') {
+          return percentage === 100;
+        } else if (this.selectedFilterStatus === 'en_cours') {
+          return percentage > 0 && percentage < 100;
+        } else if (this.selectedFilterStatus === 'not_started') {
+          return percentage === 0;
+        }
+        return true;
+      })
     })).filter(category => category.domains.length > 0);
   }
 
@@ -296,8 +300,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   exportExcel(): void {
     import('xlsx').then((xlsx) => {
-      // Create headers for the Excel file
-      const headers = [
+      // Create headers for the summary table
+      const summaryHeaders = [
         this.translate.instant('skills_summary.export.category'),
         this.translate.instant('skills_summary.export.total_domains'),
         this.translate.instant('skills_summary.export.total_items'),
@@ -305,8 +309,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
         this.translate.instant('skills_summary.export.domains_info')
       ];
 
-      // Create data rows
-      const exportData = this.categoryDataForTable.map(category => {
+      // Create summary data rows
+      const summaryData = this.categoryDataForTable.map(category => {
         // Create a formatted string for domains information
         const domainsInfo = category.domains.map(domain => 
           `${domain.domain}: ${domain.totalItems} items (${domain.acquired} acquired, ${domain.partial} partial, ${domain.notAcquired} not acquired, ${domain.notEvaluated} not evaluated) - ${domain.progressPercentage}%`
@@ -321,8 +325,50 @@ export class SummaryComponent implements OnInit, OnDestroy {
         ];
       });
 
-      // Add headers to the beginning of the data
-      const finalData = [headers, ...exportData];
+      // Create detailed items data
+      const detailedItemsData = [];
+      
+      // Add separator and header for detailed items
+      detailedItemsData.push([]); // Empty row as separator
+      detailedItemsData.push([
+        this.translate.instant('skills_summary.export.detailed_items_title')
+      ]);
+      detailedItemsData.push([]); // Empty row as separator
+      
+      // Add headers for detailed items table
+      detailedItemsData.push([
+        this.translate.instant('skills_summary.export.category'),
+        this.translate.instant('skills_summary.export.domain'),
+        this.translate.instant('skills_summary.export.item_name'),
+        this.translate.instant('skills_summary.export.item_status'),
+        this.translate.instant('skills_summary.export.item_comments')
+      ]);
+
+      // Add all items data
+      this.categoryDataForTable.forEach(category => {
+        category.domains.forEach(domain => {
+          domain.profileItems.forEach(item => {
+            detailedItemsData.push([
+              category.category,
+              domain.domain,
+              item.description || item.name,
+              this.getEtatLabel(item.etat),
+              item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')
+            ]);
+          });
+        });
+      });
+
+      // Combine summary and detailed data
+      const finalData = [
+        // Summary section
+        [this.translate.instant('skills_summary.export.summary_title')],
+        [],
+        summaryHeaders,
+        ...summaryData,
+        // Detailed items section
+        ...detailedItemsData
+      ];
 
       const worksheet = xlsx.utils.aoa_to_sheet(finalData);
       const workbook = { Sheets: { 'Skills Summary': worksheet }, SheetNames: ['Skills Summary'] };
@@ -363,6 +409,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
     const titleWidth = doc.getTextWidth(title);
     doc.text(title, (pageWidth - titleWidth) / 2, yPosition);
     yPosition += 30;
+
+    // Summary section
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    const summaryTitle = this.translate.instant('skills_summary.export.summary_title');
+    doc.text(summaryTitle, margin, yPosition);
+    yPosition += 25;
 
     this.categoryDataForTable.forEach((category, categoryIndex) => {
       // Check if we need a new page
@@ -439,6 +492,74 @@ export class SummaryComponent implements OnInit, OnDestroy {
       yPosition = (doc as any).lastAutoTable.finalY + 20;
     });
 
+    // Add detailed items section
+    yPosition += 20;
+    
+    // Check if we need a new page for detailed items
+    if (yPosition > doc.internal.pageSize.height - 300) {
+      doc.addPage();
+      yPosition = 40;
+    }
+
+    // Detailed items title
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    const detailedTitle = this.translate.instant('skills_summary.export.detailed_items_title');
+    doc.text(detailedTitle, margin, yPosition);
+    yPosition += 25;
+
+    // Prepare detailed items table data
+    const detailedTableData: string[][] = [];
+    this.categoryDataForTable.forEach(category => {
+      category.domains.forEach(domain => {
+        domain.profileItems.forEach(item => {
+          detailedTableData.push([
+            category.category,
+            domain.domain,
+            item.description || item.name,
+            this.getEtatLabel(item.etat),
+            item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')
+          ]);
+        });
+      });
+    });
+
+    // Create detailed items table
+    autoTable(doc, {
+      startY: yPosition,
+      head: [[
+        this.translate.instant('skills_summary.export.category'),
+        this.translate.instant('skills_summary.export.domain'),
+        this.translate.instant('skills_summary.export.item_name'),
+        this.translate.instant('skills_summary.export.item_status'),
+        this.translate.instant('skills_summary.export.item_comments')
+      ]],
+      body: detailedTableData,
+      theme: 'striped',
+      headStyles: { 
+        fillColor: [40, 167, 69],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      },
+      bodyStyles: {
+        fontSize: 9,
+        font: 'helvetica'
+      },
+      margin: { top: yPosition, left: margin, right: margin },
+      styles: {
+        font: 'helvetica',
+        fontSize: 9,
+        cellPadding: 4
+      },
+      columnStyles: {
+        0: { cellWidth: 50 }, // Category
+        1: { cellWidth: 50 }, // Domain
+        2: { cellWidth: 80 }, // Item name
+        3: { cellWidth: 30 }, // Status
+        4: { cellWidth: 60 }  // Comments
+      }
+    });
+
     // Save with timestamp
     const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
     doc.save(`skills_summary_${timestamp}.pdf`);
@@ -487,6 +608,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
         <style>
           body { font-family: 'Arial', sans-serif; margin: 20px; }
           .header { text-align: center; margin-bottom: 30px; }
+          .section-title { background-color: #f2f2f2; padding: 10px; margin: 20px 0 15px 0; font-weight: bold; }
           .category-section { margin-bottom: 30px; }
           .category-header { background-color: #f2f2f2; padding: 10px; margin-bottom: 15px; }
           .domain-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
@@ -494,11 +616,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
           .domain-table th { background-color: #e6e6e6; }
           .progress-bar { background-color: #f0f0f0; height: 20px; border-radius: 10px; overflow: hidden; }
           .progress-fill { background-color: #4CAF50; height: 100%; transition: width 0.3s; }
+          .detailed-items-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+          .detailed-items-table th, .detailed-items-table td { border: 1px solid #ddd; padding: 8px; text-align: ${isArabic ? 'right' : 'left'}; }
+          .detailed-items-table th { background-color: #28a745; color: white; }
+          .page-break { page-break-before: always; }
         </style>
       </head>
       <body>
         <div class="header">
           <h1>${this.translate.instant('skills_summary.export.title')}</h1>
+        </div>
+        
+        <div class="section-title">
+          ${this.translate.instant('skills_summary.export.summary_title')}
         </div>
     `;
     
@@ -554,7 +684,44 @@ export class SummaryComponent implements OnInit, OnDestroy {
       html += `</div>`;
     });
     
+    // Add detailed items section
     html += `
+        <div class="page-break"></div>
+        <div class="section-title">
+          ${this.translate.instant('skills_summary.export.detailed_items_title')}
+        </div>
+        <table class="detailed-items-table">
+          <thead>
+            <tr>
+              <th>${this.translate.instant('skills_summary.export.category')}</th>
+              <th>${this.translate.instant('skills_summary.export.domain')}</th>
+              <th>${this.translate.instant('skills_summary.export.item_name')}</th>
+              <th>${this.translate.instant('skills_summary.export.item_status')}</th>
+              <th>${this.translate.instant('skills_summary.export.item_comments')}</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+    
+    this.categoryDataForTable.forEach(category => {
+      category.domains.forEach(domain => {
+        domain.profileItems.forEach(item => {
+          html += `
+            <tr>
+              <td>${category.category}</td>
+              <td>${domain.domain}</td>
+              <td>${item.description || item.name}</td>
+              <td>${this.getEtatLabel(item.etat)}</td>
+              <td>${item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')}</td>
+            </tr>
+          `;
+        });
+      });
+    });
+    
+    html += `
+          </tbody>
+        </table>
       </body>
       </html>
     `;

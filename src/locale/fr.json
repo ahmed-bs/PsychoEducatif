@@ -543,8 +543,13 @@
       "title": "Rapport de Résumé des Compétences",
       "excel": "Exporter en Excel",
       "pdf": "Exporter en PDF",
+      "summary_title": "Résumé des Compétences",
+      "detailed_items_title": "Détail des Items",
       "category": "Catégorie",
       "domain": "Domaine",
+      "item_name": "Nom de l'Item",
+      "item_status": "Statut de l'Item",
+      "item_comments": "Commentaires",
       "total_domains": "Total Domaines",
       "total_items": "Total Items",
       "acquired": "Acquises",
@@ -852,7 +857,10 @@
       }
     },
     "toolbar": {
-      "add_skill_button": "Ajouter une compétence"
+      "add_skill_button": "Ajouter une compétence",
+      "grid_view": "Vue Grille",
+      "list_view": "Vue Liste", 
+      "table_view": "Vue Tableau"
     },
     "no_data": {
       "message": "Aucune catégorie disponible",
@@ -894,6 +902,29 @@
       },
       "confirm": {
         "delete_category": "Êtes-vous sûr de vouloir supprimer {{categoryName}} ?"
+      }
+    },
+    "delete_dialog": {
+      "header": "Confirmer la suppression",
+      "message": "Êtes-vous sûr de vouloir supprimer la catégorie \"{{categoryName}}\" ? Cette action ne peut pas être annulée.",
+      "buttons": {
+        "cancel": "Annuler",
+        "delete": "Supprimer"
+      }
+    },
+    "table": {
+      "headers": {
+        "name": "Nom",
+        "description": "Description",
+        "created_at": "Date de création",
+        "items_count": "Nombre d'items",
+        "domains_count": "Nombre de domaines",
+        "actions": "Actions"
+      },
+      "actions": {
+        "edit": "Modifier",
+        "settings": "Paramètres",
+        "delete": "Supprimer"
       }
     }
   },  "dashboard": {
@@ -1261,12 +1292,51 @@
     },
     "sidebar": {
       "title": "📌 Domaines en cours",
+      "goal_domains_title": "📌 Domaines liés aux objectifs",
       "no_domains_title": "Aucun domaine en cours",
-      "no_domains": "Il n'y a actuellement aucun domaine en cours de développement."
+      "no_domains": "Il n'y a actuellement aucun domaine en cours de développement.",
+      "no_goal_domains_title": "Aucun domaine lié aux objectifs",
+      "no_goal_domains": "Aucun domaine n'est actuellement lié à vos objectifs."
     },
     "domain": {
-      "start_date": "Début: {{0}}",
-      "last_eval_date": "Dernière éval: {{0}}"
+      "start_date": "Début",
+      "last_eval_date": "Dernière éval",
+      "click_to_quiz": "Cliquez pour accéder au quiz de ce domaine",
+      "take_quiz": "Passer au quiz"
+    },
+    "goal": {
+      "details_title": "Détails de l'objectif",
+      "details_tab": "Détails",
+      "edit_tab": "Modifier",
+      "priority_label": "Priorité",
+      "target_date": "Date cible",
+      "domain": "Domaine",
+      "progress": "Progression",
+      "sub_objectives": "Sous-objectifs",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "edit": {
+        "title_label": "Titre",
+        "title_placeholder": "Entrez le titre de l'objectif",
+        "description_label": "Description",
+        "description_placeholder": "Entrez la description de l'objectif",
+        "target_date_label": "Date cible",
+        "priority_label": "Priorité",
+        "domain_label": "Domaine",
+        "domain_readonly": "Le domaine ne peut pas être modifié",
+        "cancel": "Annuler",
+        "save": "Enregistrer"
+      },
+      "validation": {
+        "title_required": "Le titre est requis."
+      },
+      "update_success": "Objectif mis à jour avec succès.",
+      "update_error": "Erreur lors de la mise à jour de l'objectif.",
+      "priority": {
+        "high": "Élevée",
+        "medium": "Moyenne",
+        "low": "Faible"
+      }
     },
     "stats": {
       "goals": "Objectifs",
@@ -1286,6 +1356,7 @@
       "delete_goal_success": "L'objectif a été supprimé.",
       "delete_goal_error": "Une erreur s'est produite lors de la suppression de l'objectif.",
       "goal_added_success": "L'objectif \"{{title}}\" a été ajouté avec succès.",
+      "navigation_error": "Impossible de naviguer vers le quiz. Veuillez réessayer.",
       "yes_delete": "Oui, supprimer!",
       "cancel": "Annuler"
     },

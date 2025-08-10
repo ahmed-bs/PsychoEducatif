@@ -16,18 +16,36 @@
 <div class="p-3">
   <div class="flex col justify-end">
     <p-toolbar>
-      <!-- <ng-template pTemplate="left">
-        <div class="d-flex align-items-center">
-          <button
-            pButton
-            [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-filter'"
-            (click)="toggleFilters()"
-          ></button>
+      <ng-template pTemplate="left">
+        <div class="view-mode-buttons">
+          <button 
+            pButton 
+            icon="pi pi-th-large" 
+            [class.active]="viewMode === 'grid'"
+            (click)="setViewMode('grid')"
+            class="p-button-text view-mode-btn"
+            >
+          </button>
+          <button 
+            pButton 
+            icon="pi pi-list" 
+            [class.active]="viewMode === 'list'"
+            (click)="setViewMode('list')"
+            class="p-button-text view-mode-btn"
+           >
+          </button>
+          <button 
+            pButton 
+            icon="pi pi-table" 
+            [class.active]="viewMode === 'table'"
+            (click)="setViewMode('table')"
+            class="p-button-text view-mode-btn"
+           >
+          </button>
         </div>
-      </ng-template> -->
+      </ng-template>
       <ng-template pTemplate="right">
-        <button pButton icon="pi pi-plus" class="p-button-success" (click)="showAddUserDialog()">
-          <span class="ml-3">{{ 'categories.toolbar.add_skill_button' | translate }}</span>
+        <button pButton icon="pi pi-plus" class="p-button-add" (click)="showAddUserDialog()">
         </button>
       </ng-template>
     </p-toolbar>
@@ -36,7 +54,8 @@
 
 <div class="container">
   <main>
-    <div class="insights">
+    <!-- Grid View (Original Card Layout) -->
+    <div *ngIf="viewMode === 'grid'" class="insights">
       <!-- Display image if no categories -->
       <div *ngIf="!categories || categories.length === 0" class="no-data">
         <img src="/assets/image/nodatafound.png" [alt]="'categories.no_data.image_alt' | translate" class="no-data-image" />
@@ -63,27 +82,164 @@
         </div>
       </ng-container>
     </div>
+
+    <!-- List View -->
+    <div *ngIf="viewMode === 'list'" class="list-view">
+      <!-- Display image if no categories -->
+      <div *ngIf="!categories || categories.length === 0" class="no-data">
+        <img src="/assets/image/nodatafound.png" [alt]="'categories.no_data.image_alt' | translate" class="no-data-image" />
+        <p>{{ 'categories.no_data.message' | translate }}</p>
+      </div>
+      <!-- Display categories if available -->
+      <ng-container *ngIf="categories && categories.length > 0">
+        <div class="list-item" *ngFor="let category of categories">
+          <div class="list-item-content">
+            <div class="list-item-icon">
+              <span class="material-symbols-sharp">category</span>
+            </div>
+            <div class="list-item-details">
+              <h3>{{ category.name }}</h3>
+              <p class="description">{{ category.description || 'No description' }}</p>
+              <div class="meta-info">
+                <span class="meta-item">
+                  <i class="pi pi-calendar"></i>
+                  {{ category.created_at | date: 'dd/MM/yyyy' }}
+                </span>
+                <span class="meta-item">
+                  <i class="pi pi-list"></i>
+                  {{ category.items_count || 0 }} items
+                </span>
+                <span class="meta-item">
+                  <i class="pi pi-folder"></i>
+                  {{ category.domains_count || 0 }} domains
+                </span>
+              </div>
+            </div>
+            <div class="list-item-actions">
+              <button class="btn edit" (click)="showEditDialog(category)" title="Edit">
+                <i class="pi pi-pencil"></i>
+              </button>
+              <button class="btn settings" (click)="navigateToDomains(category)" title="Settings">
+                <i class="pi pi-cog"></i>
+              </button>
+              <button class="btn delete" (click)="deleteCategory(category)" title="Delete">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Table View -->
+    <div *ngIf="viewMode === 'table'" class="table-view">
+      <!-- Display image if no categories -->
+      <div *ngIf="!categories || categories.length === 0" class="no-data">
+        <img src="/assets/image/nodatafound.png" [alt]="'categories.no_data.image_alt' | translate" class="no-data-image" />
+        <p>{{ 'categories.no_data.message' | translate }}</p>
+      </div>
+      <!-- Display table if categories available -->
+      <ng-container *ngIf="categories && categories.length > 0">
+        <p-table 
+          [value]="categories" 
+          [loading]="loading"
+          styleClass="p-datatable-sm"
+          [tableStyle]="{'min-width': '50rem'}"
+          [paginator]="true" 
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[5,10,25,50]">
+          
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ 'categories.table.headers.name' | translate }}</th>
+              <th>{{ 'categories.table.headers.description' | translate }}</th>
+              <th>{{ 'categories.table.headers.created_at' | translate }}</th>
+              <th>{{ 'categories.table.headers.items_count' | translate }}</th>
+              <th>{{ 'categories.table.headers.domains_count' | translate }}</th>
+              <th>{{ 'categories.table.headers.actions' | translate }}</th>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-category>
+            <tr>
+              <td>
+                <div class="category-name">
+                  <span class="material-symbols-sharp category-icon">category</span>
+                  {{ category.name }}
+                </div>
+              </td>
+              <td>{{ category.description || '-' }}</td>
+              <td>{{ category.created_at | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge items-badge">{{ category.items_count || 0 }}</span>
+              </td>
+              <td>
+                <span class="badge domains-badge">{{ category.domains_count || 0 }}</span>
+              </td>
+              <td>
+                <div class="table-actions">
+                  <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-sm" 
+                          (click)="showEditDialog(category)" 
+                          >
+                  </button>
+                  <button pButton icon="pi pi-cog" class="p-button-rounded p-button-text p-button-sm" 
+                          (click)="navigateToDomains(category)" 
+                          >
+                  </button>
+                  <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger p-button-sm" 
+                          (click)="deleteCategory(category)" 
+                         >
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-container>
+    </div>
   </main>
 </div>
 
+<!-- Add/Edit Category Dialog -->
 <p-dialog [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
-      <h2>{{ newCategory.id ? 'categories.add_category_dialog.header_edit' : 'categories.add_category_dialog.header_add' | translate }}</h2>
+      <h2>{{ (newCategory.id ? 'categories.add_category_dialog.header_edit' : 'categories.add_category_dialog.header_add') | translate }}</h2>
     </div>
   </ng-template>
   <div class="dialog-content">
     <div class="field">
-      <label for="firstName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
-      <input pInputText id="firstName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" required />
+      <label for="categoryName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
+      <input pInputText id="categoryName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" required />
     </div>
     <div class="field">
-      <label for="lastName">{{ 'categories.add_category_dialog.labels.description' | translate }}</label>
-      <input pInputText id="lastName" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" required />
+      <label for="categoryDescription">{{ 'categories.add_category_dialog.labels.description' | translate }}</label>
+      <input pInputText id="categoryDescription" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" required />
     </div>
   </div>
   <ng-template pTemplate="footer">
     <p-button [label]="'categories.add_category_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayAddUserDialog = false"></p-button>
-    <p-button [label]="newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add' | translate" styleClass="p-button-primary" (click)="newCategory.id ? updateCategory() : addCategory()" [style]="{ color: 'white' }"></p-button>
+    <p-button [label]="(newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add') | translate" styleClass="p-button-primary" (click)="saveCategory()" [style]="{ color: 'white' }"></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Delete Confirmation Dialog -->
+<p-dialog [(visible)]="displayDeleteDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <div class="custom-dialog-header">
+      <h2>{{ 'categories.delete_dialog.header' | translate }}</h2>
+    </div>
+  </ng-template>
+  <div class="dialog-content">
+    <div class="delete-confirmation">
+      <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #e53e78; margin-bottom: 1rem;"></i>
+      <p>{{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete?.name } }}</p>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button [label]="'categories.delete_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayDeleteDialog = false"></p-button>
+    <p-button [label]="'categories.delete_dialog.buttons.delete' | translate" styleClass="p-button-danger" (click)="confirmDelete()"></p-button>
   </ng-template>
 </p-dialog>

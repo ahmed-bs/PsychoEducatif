@@ -12,6 +12,9 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-categories',
@@ -21,12 +24,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
   displayAddUserDialog: boolean = false;
+  displayDeleteDialog: boolean = false;
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
   newCategory: Partial<ProfileCategory> = { name: '', description: '' };
+  categoryToDelete: ProfileCategory | null = null;
   profileId!: number;
   loading: boolean = true;
   isEditMode: boolean = false;
+  viewMode: 'grid' | 'list' | 'table' = 'grid'; // Add view mode property
   private languageSubscription: Subscription;
 
   constructor(
@@ -71,6 +77,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   toggleFilters() {
     this.showFilters = !this.showFilters;
+  }
+
+  setViewMode(mode: 'grid' | 'list' | 'table') {
+    this.viewMode = mode;
   }
 
   showAddUserDialog() {
@@ -140,25 +150,28 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(profileCategory: ProfileCategory) {
-    if (profileCategory.id) {
-      this.translate.get('categories.messages.confirm.delete_category', { categoryName: profileCategory.name }).subscribe((message) => {
-        if (!confirm(message)) {
-          return;
-        }
+    this.categoryToDelete = profileCategory;
+    this.displayDeleteDialog = true;
+  }
 
-        this.profileCategoryService.destroy(profileCategory.id!).subscribe({
-          next: () => {
-            this.categories = this.categories.filter((c) => c.id !== profileCategory.id);
-            this.translate.get('categories.messages.success.category_deleted').subscribe((text) => {
-              this.showSuccess(text);
-            });
-          },
-          error: (error) => {
-            this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
-              this.showError(text);
-            });
-          },
-        });
+  confirmDelete() {
+    if (this.categoryToDelete && this.categoryToDelete.id) {
+      this.profileCategoryService.destroy(this.categoryToDelete.id).subscribe({
+        next: () => {
+          this.categories = this.categories.filter((c) => c.id !== this.categoryToDelete!.id);
+          this.translate.get('categories.messages.success.category_deleted').subscribe((text) => {
+            this.showSuccess(text);
+          });
+          this.displayDeleteDialog = false;
+          this.categoryToDelete = null;
+        },
+        error: (error) => {
+          this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+            this.showError(text);
+          });
+          this.displayDeleteDialog = false;
+          this.categoryToDelete = null;
+        },
       });
     }
   }
