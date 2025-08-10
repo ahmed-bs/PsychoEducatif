@@ -75,17 +75,18 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   selectedGoalDate: string | null = null;
   categories: ProfileCategory[] = [];
   domains: { [categoryId: number]: ProfileDomain[] } = {};
+  goalRelatedDomains: ProfileDomain[] = [];
+  private categoriesLoaded = false;
+  private domainsLoadedCount = 0;
+  private totalCategories = 0;
 
   get categoriesFiltrees(): ProfileCategory[] {
     return this.categories.filter(category => (this.domains[category.id!] || []).length > 0);
   }
 
   get listeDomainesEnCours(): ProfileDomain[] {
-    let result: ProfileDomain[] = [];
-    for (const cat of this.categoriesFiltrees) {
-      result = result.concat((this.domains[cat.id!] || []).filter(domain => (domain.acquis_percentage || 0) < 100));
-    }
-    return result;
+    // Return goal-related domains instead of all domains in progress
+    return this.goalRelatedDomains;
   }
 
   items: { [domainId: number]: ProfileItem[] } = {};
@@ -130,6 +131,14 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     if (this.currentProfileId) {
       this.chargerCategories(this.currentProfileId);
       this.chargerObjectifs(this.currentProfileId); 
+      
+      // Add a timeout to ensure extraction runs after all data is loaded
+      setTimeout(() => {
+        if (this.goals && this.goals.length > 0) {
+          console.log('Manual extraction trigger after timeout');
+          this.extractGoalRelatedDomains(this.goals);
+        }
+      }, 2000);
     }
 
     // Subscribe to language changes
@@ -143,6 +152,12 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     this.translate.get('calendar.title').subscribe(() => {
       this.updateCalendarLanguage(this.currentLang);
     });
+
+    // Make debug methods available globally for testing
+    (window as any).calendarDebug = {
+      extractDomains: () => this.manualExtractGoalDomains(),
+      debugState: () => this.debugCurrentState()
+    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -209,6 +224,10 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     this.goalService.getGoalsByProfile(profileId).subscribe({ 
       next: (goals: any[]) => {
         this.goals = goals; 
+        // Only extract goal-related domains if categories and domains are loaded
+        if (this.categoriesLoaded && this.domainsLoadedCount === this.totalCategories) {
+          this.extractGoalRelatedDomains(goals);
+        }
         this.mettreAJourEvenementsCalendrier(); 
       },
       error: (error: any) => {
@@ -227,6 +246,99 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
+  extractGoalRelatedDomains(goals: any[]): void {
+    this.goalRelatedDomains = [];
+    
+    if (!goals || goals.length === 0) {
+      console.log('No goals found, returning empty goalRelatedDomains');
+      return;
+    }
+
+    console.log('Extracting goal-related domains from goals:', goals);
+    console.log('Available categories:', this.categories);
+    console.log('Available domains:', this.domains);
+
+    // First, try to find domains in the loaded categories/domains
+    const domainIds = new Set<number>();
+    goals.forEach(goal => {
+      if (goal.domain_id) {
+        // Handle case where domain_id is directly on the goal
+        const domainId = Number(goal.domain_id);
+        domainIds.add(domainId);
+        console.log('Found domain_id directly on goal:', goal.domain_id, 'converted to:', domainId);
+      } else if (goal.domain && goal.domain.id) {
+        // Handle case where domain is nested object (as shown in API response)
+        const domainId = Number(goal.domain.id);
+        domainIds.add(domainId);
+        console.log('Found nested domain.id:', goal.domain.id, 'converted to:', domainId);
+      } else {
+        console.log('No domain information found in goal:', goal);
+      }
+    });
+
+    console.log('Extracted domain IDs:', Array.from(domainIds));
+
+    // Find domains that are related to goals
+    domainIds.forEach(domainId => {
+      console.log(`Looking for domain ID: ${domainId} (type: ${typeof domainId})`);
+      // Search through all categories and domains to find the matching domain
+      for (const category of this.categories) {
+        const categoryDomains = this.domains[category.id!] || [];
+        console.log(`Searching in category ${category.id} (${category.name}):`, categoryDomains);
+        
+        // Check each domain in this category
+        categoryDomains.forEach(domain => {
+          console.log(`  Checking domain ${domain.id} (type: ${typeof domain.id}) against ${domainId} (type: ${typeof domainId})`);
+          if (Number(domain.id) === domainId) {
+            console.log('  MATCH FOUND!');
+          }
+        });
+        
+        const domain = categoryDomains.find(d => Number(d.id) === domainId);
+        if (domain) {
+          this.goalRelatedDomains.push(domain);
+          console.log('Found matching domain:', domain);
+          break;
+        }
+      }
+    });
+
+    // If no domains found in loaded data, try to extract from goals directly
+    if (this.goalRelatedDomains.length === 0) {
+      console.log('No domains found in loaded data, trying to extract from goals directly...');
+      goals.forEach(goal => {
+        if (goal.domain && goal.domain.id) {
+          // Create a domain object from the goal's domain data
+          const domainData: any = {
+            id: Number(goal.domain.id),
+            name: goal.domain.name || 'Unknown Domain',
+            description: goal.domain.description || '',
+            acquis_percentage: goal.domain.acquis_percentage || 0,
+            start_date: this.formatDate(goal.domain.start_date),
+            last_eval_date: this.formatDate(goal.domain.last_evaluation_date),
+            progress: goal.domain.acquis_percentage || 0
+          };
+          
+          console.log('Created domain data with dates:', {
+            start_date: domainData.start_date,
+            last_eval_date: domainData.last_eval_date,
+            start_date_type: typeof domainData.start_date,
+            last_eval_date_type: typeof domainData.last_eval_date
+          });
+          
+          // Check if this domain is already in the array
+          const existingDomain = this.goalRelatedDomains.find(d => d.id === domainData.id);
+          if (!existingDomain) {
+            this.goalRelatedDomains.push(domainData);
+            console.log('Added domain from goal data:', domainData);
+          }
+        }
+      });
+    }
+
+    console.log('Final goalRelatedDomains:', this.goalRelatedDomains);
+  }
+
   mettreAJourEvenementsCalendrier() {
     if (this.goals && this.goals.length > 0) {
       this.calendarOptions.events = this.goals.map(goal => ({
@@ -234,8 +346,6 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         title: goal.title,
         start: goal.target_date, 
         allDay: true,
-        
-        
       }));
     } else {
       this.calendarOptions.events = [];
@@ -340,6 +450,10 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     this.categoryService.getCategories(profileId).subscribe({
       next: (categories) => {
         this.categories = categories;
+        this.categoriesLoaded = true;
+        this.totalCategories = categories.length;
+        this.domainsLoadedCount = 0;
+        
         categories.forEach((category) => {
           this.chargerDomaines(category.id!);
         });
@@ -351,17 +465,32 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   chargerDomaines(categoryId: number) {
-    this.domainService.getDomainsWithSpecificItems(categoryId).subscribe({
+    console.log(`Loading domains for category ${categoryId}...`);
+    // Try using getDomains instead of getDomainsWithSpecificItems to get all domains
+    this.domainService.getDomains(categoryId).subscribe({
       next: (domains) => {
+        console.log(`Received ${domains.length} domains for category ${categoryId}:`, domains);
         this.domains[categoryId] = domains.map((domain) => ({
           ...domain,
           progress: domain.acquis_percentage || 0,
-          start_date: domain.start_date || new Date().toISOString().split('T')[0],
-          last_eval_date: domain.last_eval_date || new Date().toISOString().split('T')[0]
+          start_date: this.formatDate(domain.start_date),
+          last_eval_date: this.formatDate(domain.last_eval_date)
         }));
+        
+        this.domainsLoadedCount++;
+        console.log(`Domains loaded count: ${this.domainsLoadedCount}/${this.totalCategories}`);
+        
+        // Re-extract goal-related domains when all domains are loaded and goals exist
+        if (this.domainsLoadedCount === this.totalCategories && this.goals && this.goals.length > 0) {
+          console.log('All domains loaded, re-extracting goal-related domains');
+          this.extractGoalRelatedDomains(this.goals);
+        }
       },
       error: (err) => {
+        console.error(`Error loading domains for category ${categoryId}:`, err);
         console.error(this.translate.instant('calendar.errors.load_domains'), err);
+        // Still increment count to avoid blocking
+        this.domainsLoadedCount++;
       }
     });
   }
@@ -409,9 +538,9 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getOverallProgress(): number {
-    if (this.listeDomainesEnCours.length === 0) return 0;
-    const totalProgress = this.listeDomainesEnCours.reduce((sum, domain) => sum + (domain.acquis_percentage || 0), 0);
-    return Math.round(totalProgress / this.listeDomainesEnCours.length);
+    if (this.goalRelatedDomains.length === 0) return 0;
+    const totalProgress = this.goalRelatedDomains.reduce((sum, domain) => sum + (domain.acquis_percentage || 0), 0);
+    return Math.round(totalProgress / this.goalRelatedDomains.length);
   }
 
   getProgressClass(percentage: number): string {
@@ -426,5 +555,59 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     if (percentage >= 60) return 'bx-check-circle';
     if (percentage >= 40) return 'bx-time';
     return 'bx-error-circle';
+  }
+
+  // Method to manually trigger extraction for debugging
+  manualExtractGoalDomains(): void {
+    console.log('Manual extraction triggered');
+    if (this.goals && this.goals.length > 0) {
+      this.extractGoalRelatedDomains(this.goals);
+    } else {
+      console.log('No goals available for extraction');
+    }
+  }
+
+  // Debug method to check current state
+  debugCurrentState(): void {
+    console.log('=== DEBUG CURRENT STATE ===');
+    console.log('Goals:', this.goals);
+    console.log('Categories:', this.categories);
+    console.log('Domains:', this.domains);
+    console.log('Goal Related Domains:', this.goalRelatedDomains);
+    console.log('Categories Loaded:', this.categoriesLoaded);
+    console.log('Domains Loaded Count:', this.domainsLoadedCount);
+    console.log('Total Categories:', this.totalCategories);
+    console.log('==========================');
+  }
+
+  // Helper method to format dates properly
+  formatDate(dateString: string | null | undefined): string {
+    if (!dateString) {
+      return new Date().toISOString().split('T')[0];
+    }
+    
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return new Date().toISOString().split('T')[0];
+      }
+      return date.toISOString().split('T')[0];
+    } catch (error) {
+      console.error('Error formatting date:', dateString, error);
+      return new Date().toISOString().split('T')[0];
+    }
+  }
+
+  // Helper method to format date with label
+  formatDateWithLabel(dateString: string | null | undefined, labelKey: string): string {
+    const formattedDate = this.formatDate(dateString);
+    const dateObj = new Date(formattedDate);
+    const shortDate = dateObj.toLocaleDateString();
+    
+    if (this.currentLang === 'ar') {
+      return `${this.translate.instant(labelKey)}: ${shortDate}`;
+    } else {
+      return `${this.translate.instant(labelKey)}: ${shortDate}`;
+    }
   }
 }

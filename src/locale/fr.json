@@ -1261,12 +1261,15 @@
     },
     "sidebar": {
       "title": "📌 Domaines en cours",
+      "goal_domains_title": "📌 Domaines liés aux objectifs",
       "no_domains_title": "Aucun domaine en cours",
-      "no_domains": "Il n'y a actuellement aucun domaine en cours de développement."
+      "no_domains": "Il n'y a actuellement aucun domaine en cours de développement.",
+      "no_goal_domains_title": "Aucun domaine lié aux objectifs",
+      "no_goal_domains": "Aucun domaine n'est actuellement lié à vos objectifs."
     },
     "domain": {
-      "start_date": "Début: {{0}}",
-      "last_eval_date": "Dernière éval: {{0}}"
+      "start_date": "Début",
+      "last_eval_date": "Dernière éval"
     },
     "stats": {
       "goals": "Objectifs",
