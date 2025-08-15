@@ -14,6 +14,7 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   private currentScreenSize: 'desktop' | 'mobile' = 'desktop';
   private lastScreenSize: 'desktop' | 'mobile' = 'desktop';
   currentLang: string = 'ar';
+  currentUser: any = null;
   private languageSubscription: Subscription;
 
   constructor(
@@ -34,6 +35,22 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateScreenSize();
+    this.getCurrentUser();
+  }
+
+  getCurrentUser() {
+    this.currentUser = this.authService.currentUserValue;
+    // If no user data, try to get from localStorage as fallback
+    if (!this.currentUser) {
+      const userFromStorage = localStorage.getItem('user');
+      if (userFromStorage) {
+        try {
+          this.currentUser = JSON.parse(userFromStorage);
+        } catch (error) {
+          console.error('Error parsing user data from localStorage:', error);
+        }
+      }
+    }
   }
 
   ngOnDestroy() {
