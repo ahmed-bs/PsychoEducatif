@@ -613,7 +613,27 @@
     "buttons": {
       "previous": "Précédent",
       "next": "Suivant",
-      "submit": "Soumettre"
+      "submit": "Soumettre",
+      "view_description": "Voir la description",
+      "add_comment": "Ajouter un commentaire"
+    },
+    "tap_to_read_more": "Appuyez pour lire plus",
+    "view_mode": {
+      "card": "Cartes",
+      "list": "Liste",
+      "table": "Tableau"
+    },
+    "list_view": {
+      "title": "Vue en liste - Tous les éléments",
+      "subtitle": "{{totalItems}} éléments à évaluer"
+    },
+
+    "popup": {
+      "title": "Description de la compétence",
+      "comment_title": "Ajouter un commentaire",
+      "close": "Fermer",
+      "cancel": "Annuler",
+      "save": "Enregistrer"
     }
   },
   "explore": {
