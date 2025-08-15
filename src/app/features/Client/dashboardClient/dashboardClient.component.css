@@ -577,3 +577,334 @@ canvas {
   }
 }
   
+/* =============== RESPONSIVE DESIGN FOR MAC & MOBILE =============== */
+
+/* Mac-specific optimizations (1440px and above) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .chart-container {
+    height: 400px;
+  }
+  
+  .stats-card {
+    padding: 2rem;
+  }
+  
+  .stats-value {
+    font-size: 2.25rem;
+  }
+}
+
+/* Tablet landscape and small desktop (1024px - 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .chart-container {
+    height: 350px;
+  }
+}
+
+/* Tablet portrait (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .chart-container {
+    height: 300px;
+  }
+  
+  .stats-card {
+    padding: 1.25rem;
+  }
+  
+  .stats-value {
+    font-size: 1.75rem;
+  }
+  
+  /* Share button - icon only on tablet */
+  .share-button {
+    width: 48px !important;
+    height: 48px;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    min-width: 48px;
+  }
+  
+  .share-text {
+    display: none;
+  }
+  
+  .share-button i {
+    margin-right: 0 !important;
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile landscape (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .container {
+    max-width: 100%;
+    padding: 0 0.75rem;
+  }
+  
+  .chart-container {
+    height: 280px;
+  }
+  
+  .stats-card {
+    padding: 1rem;
+  }
+  
+  .stats-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+  }
+  
+  .stats-value {
+    font-size: 1.5rem;
+  }
+  
+  .stats-label {
+    font-size: 0.7rem;
+  }
+  
+  /* Share button - icon only on mobile landscape */
+  .share-button {
+    width: 44px !important;
+    height: 44px;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    min-width: 44px;
+  }
+  
+  .share-text {
+    display: none;
+  }
+  
+  .share-button i {
+    margin-right: 0 !important;
+    font-size: 1rem;
+  }
+}
+
+/* Mobile portrait (320px - 480px) */
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+  
+  .chart-container {
+    height: 250px;
+  }
+  
+  .stats-card {
+    padding: 0.75rem;
+  }
+  
+  .stats-icon {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+  }
+  
+  .stats-value {
+    font-size: 1.25rem;
+  }
+  
+  .stats-label {
+    font-size: 0.65rem;
+  }
+  
+  /* Share button - icon only on mobile portrait */
+  .share-button {
+    width: 40px !important;
+    height: 40px;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    min-width: 40px;
+  }
+  
+  .share-text {
+    display: none;
+  }
+  
+  .share-button i {
+    margin-right: 0 !important;
+    font-size: 0.9rem;
+  }
+  
+  /* Mobile-specific layout improvements */
+  .head-title {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .head-title h1 {
+    font-size: 1.5rem;
+  }
+  
+  .breadcrumb {
+    justify-content: center;
+  }
+}
+
+/* =============== ENHANCED MOBILE EXPERIENCE =============== */
+
+/* Touch-friendly interactions */
+@media (max-width: 1024px) {
+  .share-button {
+    transition: all 0.2s ease;
+  }
+  
+  .share-button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Improve touch targets */
+  button, .dropdown-item {
+    min-height: 44px;
+  }
+  
+  /* Better spacing for mobile */
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  /* Optimize chart containers for touch */
+  .chart-container {
+    touch-action: pan-x pan-y;
+  }
+}
+
+/* =============== MAC-SPECIFIC ENHANCEMENTS =============== */
+
+@media (min-width: 1440px) {
+  /* Enhanced typography for high-DPI displays */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Improved spacing for larger screens */
+  .container.mx-auto.px-2.sm\\:px-4.md\\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  
+  /* Better chart proportions */
+  .grid.grid-cols-1.md\\:grid-cols-2.gap-6 {
+    gap: 2rem;
+  }
+  
+  /* Enhanced card shadows for Mac */
+  .bg-white.rounded-xl.shadow-md {
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+  }
+  
+  .bg-white.rounded-xl.shadow-md:hover {
+    box-shadow: 0 16px 48px rgba(99, 102, 241, 0.18), 0 4px 16px rgba(0,0,0,0.08);
+  }
+}
+
+/* =============== RESPONSIVE GRID IMPROVEMENTS =============== */
+
+/* Better grid responsiveness */
+@media (max-width: 640px) {
+  .grid.grid-cols-1.md\\:grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .grid.grid-cols-1.md\\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid.grid-cols-1.md\\:grid-cols-4 {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* =============== SHARE BUTTON ANIMATIONS =============== */
+
+.share-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.share-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.share-button:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.share-button:active::before {
+  width: 120%;
+  height: 120%;
+}
+
+/* =============== ACCESSIBILITY IMPROVEMENTS =============== */
+
+/* Focus states for better accessibility */
+.share-button:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .share-button {
+    border: 2px solid currentColor;
+  }
+  
+  .stats-card {
+    border: 2px solid #374151;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .share-button,
+  .stats-card,
+  .chart-container,
+  .activity-item {
+    transition: none;
+  }
+  
+  .share-button::before {
+    display: none;
+  }
+}
