@@ -7,6 +7,30 @@
     {{ 'skills_evaluation.title' | translate }}
   </h2>
 
+  <!-- View Switcher -->
+  <div class="flex justify-center mb-8">
+    <div class="view-switcher">
+      <button 
+        type="button" 
+        [class.active]="currentView === 'card'"
+        (click)="changeView('card')"
+        class="view-btn"
+      >
+        <span class="material-symbols-sharp">view_module</span>
+        <span class="hidden sm:inline">{{ 'skills_evaluation.view_mode.card' | translate }}</span>
+      </button>
+      <button 
+        type="button" 
+        [class.active]="currentView === 'list'"
+        (click)="changeView('list')"
+        class="view-btn"
+      >
+        <span class="material-symbols-sharp">view_list</span>
+        <span class="hidden sm:inline">{{ 'skills_evaluation.view_mode.list' | translate }}</span>
+      </button>
+    </div>
+  </div>
+
   <div *ngIf="isLoading" class="text-center my-8">
     <div
       class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto"
@@ -23,103 +47,292 @@
   </div>
 
   <div *ngIf="!isLoading && !error && items.length > 0" class="max-w-3xl mx-auto">
-    <div class="progress-indicator text-center mb-6">
-      <p class="text-lg font-medium text-gray-700" [innerHTML]="'skills_evaluation.progress_indicator.text' | translate: { currentIndex: currentIndex + 1, totalItems: items.length }"></p>
-      <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-        <div class="bg-blue-600 h-2.5 rounded-full" [style.width]="(currentIndex + 1) / items.length * 100 + '%'"></div>
+    <!-- Card View (Original) -->
+    <div *ngIf="currentView === 'card'">
+      <div class="progress-indicator text-center mb-6">
+        <p class="text-lg font-medium text-gray-700" [innerHTML]="'skills_evaluation.progress_indicator.text' | translate: { currentIndex: currentIndex + 1, totalItems: items.length }"></p>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+          <div class="bg-blue-600 h-2.5 rounded-full" [style.width]="(currentIndex + 1) / items.length * 100 + '%'"></div>
+        </div>
       </div>
+
+      <form #quizForm="ngForm" class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
+        <div class="sub-skill mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <p class="text-lg font-semibold text-gray-600" [innerHTML]="'skills_evaluation.form.skill_label' | translate: { skillName: items[currentIndex].name }"></p>
+            <span class="text-sm text-gray-500">#{{ currentIndex + 1 }}</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-3 mb-6">
+            <button
+              type="button"
+              class="action-btn description-btn"
+              (click)="toggleDescriptionPopup()"
+            >
+              <span class="material-symbols-sharp">description</span>
+              <span>{{ 'skills_evaluation.buttons.view_description' | translate }}</span>
+            </button>
+            
+            <button
+              type="button"
+              class="action-btn comment-btn"
+              (click)="toggleCommentPopup()"
+            >
+              <span class="material-symbols-sharp">comment</span>
+              <span>{{ 'skills_evaluation.buttons.add_comment' | translate }}</span>
+            </button>
+          </div>
+
+          <label class="block text-gray-700 text-sm font-bold mb-3">{{ 'skills_evaluation.form.status_label' | translate }}</label>
+          <div class="flex flex-wrap gap-3 mb-6">
+            <label class="inline-flex items-center">
+              <input
+                type="radio"
+                class="form-radio h-5 w-5 text-green-600"
+                id="{{ items[currentIndex].id }}-acquis"
+                value="ACQUIS"
+                [(ngModel)]="items[currentIndex].etat"
+                [name]="'etat-' + items[currentIndex].id"
+              />
+              <span class="ml-2 text-green-700 font-medium">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
+            </label>
+
+            <label class="inline-flex items-center">
+              <input
+                type="radio"
+                class="form-radio h-5 w-5 text-yellow-500"
+                id="{{ items[currentIndex].id }}-partiel"
+                value="PARTIEL"
+                [(ngModel)]="items[currentIndex].etat"
+                [name]="'etat-' + items[currentIndex].id"
+              />
+              <span class="ml-2 text-yellow-700 font-medium">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
+            </label>
+
+            <label class="inline-flex items-center">
+              <input
+                type="radio"
+                class="form-radio h-5 w-5 text-red-600"
+                id="{{ items[currentIndex].id }}-non-acquis"
+                value="NON_ACQUIS"
+                [(ngModel)]="items[currentIndex].etat"
+                [name]="'etat-' + items[currentIndex].id"
+              />
+              <span class="ml-2 text-red-700 font-medium">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row-reverse gap-3 sm:gap-4 pt-4 border-t border-gray-200">
+          <button
+            type="button"
+            class="w-full sm:w-auto px-5 py-2.5 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+            (click)="precedent()"
+            [disabled]="currentIndex === 0"
+          >
+            {{ 'skills_evaluation.buttons.previous' | translate }}
+          </button>
+
+          <button
+            type="button"
+            class="w-full sm:w-auto px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+            (click)="suivant()"
+            [disabled]="currentIndex === items.length - 1"
+            *ngIf="currentIndex < items.length - 1"
+          >
+            {{ 'skills_evaluation.buttons.next' | translate }}
+          </button>
+          <button
+            type="button"
+            class="w-full sm:w-auto px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+            (click)="soumettreQuiz()"
+            *ngIf="currentIndex === items.length - 1"
+          >
+            {{ 'skills_evaluation.buttons.submit' | translate }}
+          </button>
+        </div>
+      </form>
     </div>
 
-    <form #quizForm="ngForm" class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
-      <div class="sub-skill mb-6">
-        <p class="text-lg font-semibold text-gray-600 mb-2" [innerHTML]="'skills_evaluation.form.skill_label' | translate: { skillName: items[currentIndex].name }"></p>
+    <!-- List View -->
+    <div *ngIf="currentView === 'list'" class="list-view-container">
+      <div class="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <!-- <h3 class="text-2xl font-bold text-gray-800">{{ 'skills_evaluation.list_view.title' | translate }}</h3> -->
+        <p class="text-gray-600 mt-2">{{ 'skills_evaluation.list_view.subtitle' | translate: { totalItems: items.length } }}</p>
+      </div>
+      
+      <div class="space-y-0">
+        <div *ngFor="let item of items; let i = index" class="list-item">
+          <div class="list-item-header">
+            <h4 class="list-item-title">{{ item.name }}</h4>
+            <span class="list-item-number">#{{ i + 1 }}</span>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="flex gap-3 mb-4">
+            <button
+              type="button"
+              class="action-btn description-btn"
+              (click)="toggleDescriptionPopup()"
+            >
+              <span class="material-symbols-sharp">description</span>
+              <span>{{ 'skills_evaluation.buttons.view_description' | translate }}</span>
+            </button>
+            
+            <button
+              type="button"
+              class="action-btn comment-btn"
+              (click)="toggleCommentPopup()"
+            >
+              <span class="material-symbols-sharp">comment</span>
+              <span>{{ 'skills_evaluation.buttons.add_comment' | translate }}</span>
+            </button>
+          </div>
 
-        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md mb-6">
-          <p class="font-bold text-blue-800 leading-relaxed">
-            {{ items[currentIndex].description }}
-          </p>
-        </div>
+          <div class="space-y-4">
+            <label class="block text-gray-700 text-sm font-bold">{{ 'skills_evaluation.form.status_label' | translate }}</label>
+            <div class="status-options">
+              <label class="status-option acquis">
+                <input
+                  type="radio"
+                  class="form-radio"
+                  [id]="'list-' + item.id + '-acquis'"
+                  value="ACQUIS"
+                  [(ngModel)]="item.etat"
+                  [name]="'list-etat-' + item.id"
+                />
+                <span class="ml-3 text-green-700 font-medium">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
+              </label>
 
-        <label class="block text-gray-700 text-sm font-bold mb-3">{{ 'skills_evaluation.form.status_label' | translate }}</label>
-        <div class="flex flex-wrap gap-3 mb-6">
-          <label class="inline-flex items-center">
-            <input
-              type="radio"
-              class="form-radio h-5 w-5 text-green-600"
-              id="{{ items[currentIndex].id }}-acquis"
-              value="ACQUIS"
-              [(ngModel)]="items[currentIndex].etat"
-              [name]="'etat-' + items[currentIndex].id"
-            />
-            <span class="ml-2 text-green-700 font-medium">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
-          </label>
+              <label class="status-option partiel">
+                <input
+                  type="radio"
+                  class="form-radio"
+                  [id]="'list-' + item.id + '-partiel'"
+                  value="PARTIEL"
+                  [(ngModel)]="item.etat"
+                  [name]="'list-etat-' + item.id"
+                />
+                <span class="ml-3 text-yellow-700 font-medium">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
+              </label>
 
-          <label class="inline-flex items-center">
-            <input
-              type="radio"
-              class="form-radio h-5 w-5 text-yellow-500"
-              id="{{ items[currentIndex].id }}-partiel"
-              value="PARTIEL"
-              [(ngModel)]="items[currentIndex].etat"
-              [name]="'etat-' + items[currentIndex].id"
-            />
-            <span class="ml-2 text-yellow-700 font-medium">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
-          </label>
-
-          <label class="inline-flex items-center">
-            <input
-              type="radio"
-              class="form-radio h-5 w-5 text-red-600"
-              id="{{ items[currentIndex].id }}-non-acquis"
-              value="NON_ACQUIS"
-              [(ngModel)]="items[currentIndex].etat"
-              [name]="'etat-' + items[currentIndex].id"
-            />
-            <span class="ml-2 text-red-700 font-medium">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
-          </label>
-        </div>
-
-        <div class="comment-section mb-6">
-          <label [for]="'comment-' + currentIndex" class="block text-gray-700 text-sm font-bold mb-2">{{ 'skills_evaluation.form.comment_label' | translate }}</label>
-          <textarea
-            class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-            [id]="'comment-' + currentIndex"
-            rows="4"
-            [(ngModel)]="items[currentIndex].comentaire"
-            [name]="'comment-' + currentIndex"
-            [placeholder]="'skills_evaluation.form.comment_placeholder' | translate"
-          ></textarea>
+              <label class="status-option non-acquis">
+                <input
+                  type="radio"
+                  class="form-radio"
+                  [id]="'list-' + item.id + '-non-acquis'"
+                  value="NON_ACQUIS"
+                  [(ngModel)]="item.etat"
+                  [name]="'list-etat-' + item.id"
+                />
+                <span class="ml-3 text-red-700 font-medium">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
+              </label>
+            </div>
+          </div>
+          <br>
+          <hr>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row-reverse gap-3 sm:gap-4 pt-4 border-t border-gray-200">
+      <div class="flex justify-end p-6 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
         <button
           type="button"
-          class="w-full sm:w-auto px-5 py-2.5 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
-          (click)="precedent()"
-          [disabled]="currentIndex === 0"
-        >
-          {{ 'skills_evaluation.buttons.previous' | translate }}
-        </button>
-
-        <button
-          type="button"
-          class="w-full sm:w-auto px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
-          (click)="suivant()"
-          [disabled]="currentIndex === items.length - 1"
-          *ngIf="currentIndex < items.length - 1"
-        >
-          {{ 'skills_evaluation.buttons.next' | translate }}
-        </button>
-        <button
-          type="button"
-          class="w-full sm:w-auto px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+          class="submit-btn"
           (click)="soumettreQuiz()"
-          *ngIf="currentIndex === items.length - 1"
         >
           {{ 'skills_evaluation.buttons.submit' | translate }}
         </button>
       </div>
-    </form>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- Description Popup Modal -->
+<div *ngIf="showDescriptionPopup" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50" (click)="closeDescriptionPopup()">
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-hidden" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800">{{ 'skills_evaluation.popup.title' | translate }}</h3>
+      <button 
+        type="button" 
+        class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+        (click)="closeDescriptionPopup()"
+      >
+        <span class="material-symbols-sharp">close</span>
+      </button>
+    </div>
+    
+    <!-- Content -->
+    <div class="p-4 overflow-y-auto max-h-[60vh]">
+      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md">
+        <p class="font-bold text-blue-800 leading-relaxed text-base">
+          {{ items[currentIndex].description }}
+        </p>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="flex justify-end p-4 border-t border-gray-200">
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        (click)="closeDescriptionPopup()"
+      >
+        {{ 'skills_evaluation.popup.close' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Comment Popup Modal -->
+<div *ngIf="showCommentPopup" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50" (click)="closeCommentPopup()">
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-hidden" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800">{{ 'skills_evaluation.popup.comment_title' | translate }}</h3>
+      <button 
+        type="button" 
+        class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+        (click)="closeCommentPopup()"
+      >
+        <span class="material-symbols-sharp">close</span>
+      </button>
+    </div>
+    
+    <!-- Content -->
+    <div class="p-4 overflow-y-auto max-h-[60vh]">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2">{{ 'skills_evaluation.form.comment_label' | translate }}</label>
+          <textarea
+            class="form-textarea w-full"
+            rows="6"
+            [(ngModel)]="items[currentIndex].comentaire"
+            [placeholder]="'skills_evaluation.form.comment_placeholder' | translate"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="flex justify-end gap-3 p-4 border-t border-gray-200">
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
+        (click)="closeCommentPopup()"
+      >
+        {{ 'skills_evaluation.popup.cancel' | translate }}
+      </button>
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        (click)="closeCommentPopup()"
+      >
+        {{ 'skills_evaluation.popup.save' | translate }}
+      </button>
+    </div>
   </div>
 </div>

@@ -38,12 +38,12 @@
     </div>
   </div>
 
-  <div class="navbar-center">
+  <!-- <div class="navbar-center">
     <div class="search-container">
       <i class='bx bx-search search-icon'></i>
       <input type="text" placeholder="Search..." class="search-input">
     </div>
-  </div>
+  </div> -->
 
   <div class="navbar-right">
     <div class="nav-actions">
@@ -66,7 +66,7 @@
       <div class="user-profile">
         <img src="assets/logo.png" alt="Profile" class="profile-img">
         <div class="profile-info">
-          <span class="profile-name">John Doe</span>
+          <span class="profile-name">{{ currentUser?.username || currentUser?.email || 'User' }}</span>
           <span class="profile-role">Parent</span>
         </div>
       </div>

@@ -12,6 +12,7 @@ import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { PaginatorModule } from 'primeng/paginator';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
@@ -55,7 +56,8 @@ interface CategoryTableRow {
     SelectButtonModule,
     ToggleButtonModule,
     TooltipModule,
-    TranslateModule
+    TranslateModule,
+    PaginatorModule
   ],
 })
 export class SummaryComponent implements OnInit, OnDestroy {
@@ -296,6 +298,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
   getEtatLabel(etat: string): string {
     const translationKey = 'skills_summary.status_labels.' + etat;
     return this.translate.instant(translationKey) || this.translate.instant('skills_summary.status_labels.NON_COTE');
+  }
+
+  getFilterStatusLabel(filterStatus: string): string {
+    // Map filter status values to their corresponding translation keys
+    const statusMapping: { [key: string]: string } = {
+      'all': 'explore.filter.all',
+      'completed': 'explore.filter.completed',
+      'en_cours': 'explore.filter.in_progress',
+      'not_started': 'explore.filter.not_started'
+    };
+    
+    const translationKey = statusMapping[filterStatus] || 'explore.filter.all';
+    return this.translate.instant(translationKey);
   }
 
   exportExcel(): void {

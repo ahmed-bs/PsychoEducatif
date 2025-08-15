@@ -40,6 +40,7 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
   statusFilter: string = 'all';
   currentView: 'card' | 'list' | 'table' = 'card';
   private languageSubscription: Subscription;
+  isMobileOrTablet = false;
 
   constructor(
     private profileCategoryService: ProfileCategoryService,
@@ -54,6 +55,9 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
     });
+    
+    // Check initial screen size
+    this.checkScreenSize();
   }
 
   ngOnInit() {
@@ -79,8 +83,19 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
+    this.checkScreenSize();
     this.calculateCardDimensions();
     this.updateAllScrollPositions();
+  }
+
+  private checkScreenSize() {
+    const width = window.innerWidth;
+    this.isMobileOrTablet = width <= 1024;
+    
+    // Force list view on mobile/tablet
+    if (this.isMobileOrTablet && this.currentView !== 'list') {
+      this.currentView = 'list';
+    }
   }
 
   private calculateCardDimensions() {
@@ -307,6 +322,11 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setView(view: 'card' | 'list' | 'table') {
+    // Don't allow card or table view on mobile/tablet
+    if (this.isMobileOrTablet && view !== 'list') {
+      return;
+    }
+    
     this.currentView = view;
     
     // Reset scroll positions when switching views

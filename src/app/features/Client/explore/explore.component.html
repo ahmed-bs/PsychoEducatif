@@ -1,6 +1,9 @@
 <div class="head-title">
   <div class="left">
-    <h1>{{ 'explore.head_title.title' | translate }}</h1>
+    <h1 class="page-title">
+      <i class="fas fa-compass title-icon"></i>
+      {{ 'explore.head_title.title' | translate }}
+    </h1>
     <ul class="breadcrumb">
       <li>
         <a href="#">{{ 'explore.head_title.breadcrumb.dashboard' | translate }}</a>
@@ -16,8 +19,8 @@
 <!-- Controls Section -->
 <div class="controls-wrapper">
   <div class="controls-section">
-    <!-- View Switcher -->
-    <div class="view-switcher">
+    <!-- View Switcher - Hidden on mobile/tablet -->
+    <div class="view-switcher desktop-only">
       <button 
         class="view-btn" 
         [class.active]="currentView === 'card'" 

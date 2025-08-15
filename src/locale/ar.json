@@ -614,7 +614,27 @@
     "buttons": {
       "previous": "السابق",
       "next": "التالي",
-      "submit": "إرسال"
+      "submit": "إرسال",
+      "view_description": "عرض الوصف",
+      "add_comment": "إضافة تعليق"
+    },
+    "tap_to_read_more": "انقر لقراءة المزيد",
+    "view_mode": {
+      "card": "البطاقات",
+      "list": "القائمة",
+      "table": "الجدول"
+    },
+    "list_view": {
+      "title": "عرض القائمة - جميع العناصر",
+      "subtitle": "{{totalItems}} عناصر للتقييم"
+    },
+
+    "popup": {
+      "title": "وصف المهارة",
+      "comment_title": "إضافة تعليق",
+      "close": "إغلاق",
+      "cancel": "إلغاء",
+      "save": "حفظ"
     }
   },
   "explore": {

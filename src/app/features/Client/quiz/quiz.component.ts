@@ -27,6 +27,9 @@ export class QuizComponent implements OnInit, OnDestroy {
   currentIndex: number = 0;
   isLoading: boolean = false;
   error: string | null = null;
+  showDescriptionPopup: boolean = false;
+  showCommentPopup: boolean = false;
+  currentView: 'card' | 'list' = 'card';
   private languageSubscription: Subscription;
 
   constructor(
@@ -45,6 +48,9 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Load saved view from localStorage
+    this.currentView = this.getViewFromStorage();
+    
     const categoryIdParam = this.route.snapshot.paramMap.get('domainId');
 
     if (categoryIdParam) {
@@ -100,6 +106,32 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.location.back();
+  }
+
+  toggleDescriptionPopup() {
+    this.showDescriptionPopup = !this.showDescriptionPopup;
+  }
+
+  closeDescriptionPopup() {
+    this.showDescriptionPopup = false;
+  }
+
+  toggleCommentPopup() {
+    this.showCommentPopup = !this.showCommentPopup;
+  }
+
+  closeCommentPopup() {
+    this.showCommentPopup = false;
+  }
+
+  changeView(view: 'card' | 'list') {
+    this.currentView = view;
+    localStorage.setItem('quiz-view-mode', view);
+  }
+
+  getViewFromStorage(): 'card' | 'list' {
+    const savedView = localStorage.getItem('quiz-view-mode');
+    return (savedView as 'card' | 'list') || 'card';
   }
 
   soumettreQuiz() {
