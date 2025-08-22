@@ -40,12 +40,14 @@ interface DomainWithUI extends ProfileDomain {
 export class ItemsComponent implements OnInit, OnDestroy {
   category: ProfileCategory | null = null;
   domains: DomainWithUI[] = [];
+  domainsWithDisplayNames: any[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
   displayAddDomainDialog = false;
   displayAddItemDialog = false;
   displayAddCompetenceDialog = false;
   editingCompetence = false;
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
   
   newDomain: NewDomain = {
@@ -82,11 +84,17 @@ export class ItemsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private sharedService: SharedService
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
       // Update status options when language changes
       this.updateStatusOptions();
+      // Update domains with display names when language changes
+      this.updateDomainsWithDisplayNames();
     });
   }
 
@@ -125,9 +133,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
   // Helper method to get the appropriate field for ProfileItem based on language
   getItemLanguageField(item: ProfileItem, fieldName: string): string {
-    const currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
-    
-    if (currentLanguage === 'ar') {
+    if (this.currentLanguage === 'ar') {
       // For Arabic language, use _ar fields
       if (fieldName === 'name') {
         return item.name_ar || '';
@@ -149,6 +155,39 @@ export class ItemsComponent implements OnInit, OnDestroy {
     return '';
   }
 
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: ProfileDomain, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the display name for domain dropdown
+  getDomainDisplayName(domain: ProfileDomain): string {
+    return this.getDomainLanguageField(domain, 'name');
+  }
+
+  // Update domains with display names for dropdown
+  private updateDomainsWithDisplayNames() {
+    this.domainsWithDisplayNames = this.domains.map(domain => ({
+      ...domain,
+      displayName: this.getDomainLanguageField(domain, 'name')
+    }));
+  }
+
   loadData() {
     if (!this.categoryId) return;
     
@@ -160,6 +199,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
       }),
       switchMap(domains => {
         this.domains = domains as DomainWithUI[];
+        this.updateDomainsWithDisplayNames();
         const itemRequests = domains.map(domain => 
           this.profileItemService.getItems(domain.id).pipe(
             tap(items => {
@@ -305,7 +345,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
   deleteDomain(domain: DomainWithUI) {
     if (!domain.id) return;
 
-    this.translate.get('items.messages.confirm.delete_domain', { domainName: domain.name }).subscribe((message) => {
+    this.translate.get('items.messages.confirm.delete_domain', { domainName: this.getDomainLanguageField(domain, 'name') }).subscribe((message) => {
       if (!confirm(message)) {
         return;
       }

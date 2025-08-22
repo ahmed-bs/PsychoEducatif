@@ -24,6 +24,7 @@ import { catchError, switchMap, map } from 'rxjs/operators';
 
 interface DomainTableRow {
   domain: string;
+  domainObject?: any; // Add reference to original domain object for language fields
   totalItems: number;
   acquired: number;
   partial: number;
@@ -35,6 +36,7 @@ interface DomainTableRow {
 
 interface CategoryTableRow {
   category: string;
+  categoryObject?: any; // Add reference to original category object for language fields
   id: number;
   totalDomains: number;
   totalItemsOverall: number;
@@ -94,8 +96,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
       this.updateFilterStatuses();
       // Refresh data with new language
       this.refreshDataForLanguage();
-      // Force change detection
-      this.cdr.detectChanges();
     });
   }
 
@@ -172,18 +172,20 @@ export class SummaryComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (results) => {
-        const rawData = results.flatMap(result => 
-          result.allItems.map(item => {
-            const domain = result.domains.find(d => d.id === item.profile_domain);
-            return {
-              ...item,
-              profile_category_name: result.category.name,
-              profile_category_name_ar: result.category.name_ar,
-              profile_domain_name: item.profile_domain_name || domain?.name || 'Unknown Domain',
-              profile_domain_name_ar: (domain as any)?.name_ar || ''
-            };
-          })
-        );
+                 const rawData = results.flatMap(result => 
+           result.allItems.map(item => {
+             const domain = result.domains.find(d => d.id === item.profile_domain);
+             return {
+               ...item,
+               profile_category_name: result.category.name,
+               profile_category_name_ar: result.category.name_ar,
+               profile_category_object: result.category, // Store the original category object
+               profile_domain_name: item.profile_domain_name || domain?.name || 'Unknown Domain',
+               profile_domain_name_ar: (domain as any)?.name_ar || '',
+               profile_domain_object: domain // Store the original domain object
+             };
+           })
+         );
         
         this.processCategoryAndDomainDataForTable(rawData);
         this.isLoading = false;
@@ -215,34 +217,36 @@ export class SummaryComponent implements OnInit, OnDestroy {
         (item.profile_domain_name_ar || item.profile_domain_name) : 
         item.profile_domain_name;
 
-      if (!categoryMap.has(categoryName)) {
-        categoryMap.set(categoryName, {
-          category: categoryName,
-          id: item.profile_category_id || 0,
-          totalDomains: 0,
-          totalItemsOverall: 0,
-          overallProgress: 0,
-          domains: []
-        });
-      }
+             if (!categoryMap.has(categoryName)) {
+         categoryMap.set(categoryName, {
+           category: categoryName,
+           categoryObject: item.profile_category_object || null, // Store reference to original category object
+           id: item.profile_category_id || 0,
+           totalDomains: 0,
+           totalItemsOverall: 0,
+           overallProgress: 0,
+           domains: []
+         });
+       }
 
       const category = categoryMap.get(categoryName)!;
       let domain = category.domains.find(d => d.domain === domainName);
 
-      if (!domain) {
-        domain = {
-          domain: domainName,
-          totalItems: 0,
-          acquired: 0,
-          partial: 0,
-          notAcquired: 0,
-          notEvaluated: 0,
-          progressPercentage: 0,
-          profileItems: []
-        };
-        category.domains.push(domain);
-        category.totalDomains++;
-      }
+             if (!domain) {
+         domain = {
+           domain: domainName,
+           domainObject: item.profile_domain_object || null, // Store reference to original domain object
+           totalItems: 0,
+           acquired: 0,
+           partial: 0,
+           notAcquired: 0,
+           notEvaluated: 0,
+           progressPercentage: 0,
+           profileItems: []
+         };
+         category.domains.push(domain);
+         category.totalDomains++;
+       }
 
       domain.totalItems++;
       category.totalItemsOverall++;
@@ -351,13 +355,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
           `${domain.domain}: ${domain.totalItems} items (${domain.acquired} acquired, ${domain.partial} partial, ${domain.notAcquired} not acquired, ${domain.notEvaluated} not evaluated) - ${domain.progressPercentage}%`
         ).join('; ');
 
-        return [
-          category.category,
-          category.totalDomains,
-          category.totalItemsOverall,
-          `${category.overallProgress}%`,
-          domainsInfo
-        ];
+                 return [
+           this.getCategoryDisplayName(category),
+           category.totalDomains,
+           category.totalItemsOverall,
+           `${category.overallProgress}%`,
+           domainsInfo
+         ];
       });
 
       // Create detailed items data
@@ -383,13 +387,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
       this.categoryDataForTable.forEach(category => {
         category.domains.forEach(domain => {
           domain.profileItems.forEach(item => {
-            detailedItemsData.push([
-              category.category,
-              domain.domain,
-              item.description || item.name,
-              this.getEtatLabel(item.etat),
-              item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')
-            ]);
+                         detailedItemsData.push([
+               this.getCategoryDisplayName(category),
+               this.getDomainDisplayName(domain),
+               this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
+               this.getEtatLabel(item.etat),
+               this.getItemLanguageField(item, 'comentaire') || this.translate.instant('skills_summary.domain_items.no_comment')
+             ]);
           });
         });
       });
@@ -462,7 +466,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       // Category header
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
-      const categoryText = `${this.translate.instant('skills_summary.export.category')}: ${category.category}`;
+             const categoryText = `${this.translate.instant('skills_summary.export.category')}: ${this.getCategoryDisplayName(category)}`;
       doc.text(categoryText, margin, yPosition);
       yPosition += 20;
 
@@ -473,16 +477,16 @@ export class SummaryComponent implements OnInit, OnDestroy {
       doc.text(progressText, margin, yPosition);
       yPosition += 30;
 
-      // Prepare table data
-      const tableData = category.domains.map(domain => [
-        domain.domain,
-        domain.totalItems.toString(),
-        domain.acquired.toString(),
-        domain.partial.toString(),
-        domain.notAcquired.toString(),
-        domain.notEvaluated.toString(),
-        `${domain.progressPercentage}%`
-      ]);
+             // Prepare table data
+       const tableData = category.domains.map(domain => [
+         this.getDomainDisplayName(domain),
+         domain.totalItems.toString(),
+         domain.acquired.toString(),
+         domain.partial.toString(),
+         domain.notAcquired.toString(),
+         domain.notEvaluated.toString(),
+         `${domain.progressPercentage}%`
+       ]);
 
       // Create table
       autoTable(doc, {
@@ -548,13 +552,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.categoryDataForTable.forEach(category => {
       category.domains.forEach(domain => {
         domain.profileItems.forEach(item => {
-          detailedTableData.push([
-            category.category,
-            domain.domain,
-            item.description || item.name,
-            this.getEtatLabel(item.etat),
-            item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')
-          ]);
+                     detailedTableData.push([
+             this.getCategoryDisplayName(category),
+             this.getDomainDisplayName(domain),
+             this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
+             this.getEtatLabel(item.etat),
+             this.getItemLanguageField(item, 'comentaire') || this.translate.instant('skills_summary.domain_items.no_comment')
+           ]);
         });
       });
     });
@@ -680,10 +684,75 @@ export class SummaryComponent implements OnInit, OnDestroy {
     return '';
   }
 
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: any, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get domain display name for DomainTableRow
+  getDomainDisplayName(domainData: DomainTableRow): string {
+    if (domainData.domainObject) {
+      return this.getDomainLanguageField(domainData.domainObject, 'name') || domainData.domain;
+    }
+    return domainData.domain;
+  }
+
+  // Helper method to get category display name for CategoryTableRow
+  getCategoryDisplayName(categoryData: CategoryTableRow): string {
+    if (categoryData.categoryObject) {
+      return this.getLanguageField(categoryData.categoryObject, 'name') || categoryData.category;
+    }
+    return categoryData.category;
+  }
+
   // Refresh data when language changes
   private refreshDataForLanguage() {
-    // Reload the data to get language-specific content
-    this.loadSummaryData();
+    // Reprocess the existing data with the new language
+    if (this.originalCategoryDataForTable.length > 0) {
+      // Get the raw data from the original processed data
+      const rawData = this.getRawDataFromProcessedData();
+      this.processCategoryAndDomainDataForTable(rawData);
+      // Force change detection
+      this.cdr.detectChanges();
+    }
+  }
+
+  // Helper method to reconstruct raw data from processed data
+  private getRawDataFromProcessedData(): any[] {
+    const rawData: any[] = [];
+    
+    this.originalCategoryDataForTable.forEach(category => {
+      category.domains.forEach(domain => {
+        domain.profileItems.forEach(item => {
+          rawData.push({
+            ...item,
+            profile_category_name: category.categoryObject?.name || category.category,
+            profile_category_name_ar: category.categoryObject?.name_ar || '',
+            profile_category_object: category.categoryObject,
+            profile_domain_name: domain.domainObject?.name || domain.domain,
+            profile_domain_name_ar: domain.domainObject?.name_ar || '',
+            profile_domain_object: domain.domainObject
+          });
+        });
+      });
+    });
+    
+    return rawData;
   }
 
   private generateHtmlReport(): string {
@@ -726,7 +795,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       html += `
         <div class="category-section">
           <div class="category-header">
-            <h2>${category.category}</h2>
+                         <h2>${this.getCategoryDisplayName(category)}</h2>
             <p>${this.translate.instant('skills_summary.export.overall_progress')}: ${category.overallProgress}%</p>
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${category.overallProgress}%"></div>
@@ -751,19 +820,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
             <tbody>
         `;
         
-        category.domains.forEach(domain => {
-          html += `
-            <tr>
-              <td>${domain.domain}</td>
-              <td>${domain.totalItems}</td>
-              <td>${domain.acquired}</td>
-              <td>${domain.partial}</td>
-              <td>${domain.notAcquired}</td>
-              <td>${domain.notEvaluated}</td>
-              <td>${domain.progressPercentage}%</td>
-            </tr>
-          `;
-        });
+                 category.domains.forEach(domain => {
+           html += `
+             <tr>
+               <td>${this.getDomainDisplayName(domain)}</td>
+               <td>${domain.totalItems}</td>
+               <td>${domain.acquired}</td>
+               <td>${domain.partial}</td>
+               <td>${domain.notAcquired}</td>
+               <td>${domain.notEvaluated}</td>
+               <td>${domain.progressPercentage}%</td>
+             </tr>
+           `;
+         });
         
         html += `
             </tbody>
@@ -796,15 +865,15 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.categoryDataForTable.forEach(category => {
       category.domains.forEach(domain => {
         domain.profileItems.forEach(item => {
-          html += `
-            <tr>
-              <td>${category.category}</td>
-              <td>${domain.domain}</td>
-              <td>${item.description || item.name}</td>
-              <td>${this.getEtatLabel(item.etat)}</td>
-              <td>${item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')}</td>
-            </tr>
-          `;
+                     html += `
+             <tr>
+               <td>${this.getCategoryDisplayName(category)}</td>
+               <td>${this.getDomainDisplayName(domain)}</td>
+               <td>${this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name')}</td>
+               <td>${this.getEtatLabel(item.etat)}</td>
+               <td>${this.getItemLanguageField(item, 'comentaire') || this.translate.instant('skills_summary.domain_items.no_comment')}</td>
+             </tr>
+           `;
         });
       });
     });

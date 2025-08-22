@@ -14,9 +14,9 @@
     <div class="form-row">
       <div class="form-group">
         <label>{{ 'items.add_item_section.labels.domain' | translate }}</label>
-        <p-dropdown [options]="domains" 
+        <p-dropdown [options]="domainsWithDisplayNames" 
                    [(ngModel)]="selectedDomain" 
-                   optionLabel="name" 
+                   optionLabel="displayName" 
                    [placeholder]="'items.add_item_section.placeholders.domain' | translate"
                    [style]="{'width':'100%'}">
         </p-dropdown>
@@ -61,7 +61,7 @@
   <div *ngFor="let domain of domains" class="domain-section">
     <div class="domain-header" (click)="toggleDomain(domain)">
       <span class="material-symbols-sharp">{{ domain.expanded ? 'expand_less' : 'expand_more' }}</span>
-      <span class="domain-title">{{ domain.name }}</span>
+      <span class="domain-title">{{ getDomainLanguageField(domain, 'name') }}</span>
       <span class="item-count" [innerHTML]="'items.items_by_domain.item_count' | translate: { count: itemsByDomain[domain.id]!.length || 0 }"></span>
       <div class="domain-actions">
         <button pButton icon="pi pi-trash" class="p-button-text p-button-rounded p-button-danger" 
