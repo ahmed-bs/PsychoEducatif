@@ -331,4 +331,19 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
     this.isEditMode = false;
     this.close.emit();
   }
+
+  // Get current language
+  private getCurrentLanguage(): string {
+    return localStorage.getItem('selectedLanguage') || 'fr';
+  }
+
+  // Helper method to get the appropriate field based on language
+  getLanguageField(category: ProfileCategory, fieldName: string): string {
+    const currentLang = this.getCurrentLanguage();
+    if (currentLang === 'ar') {
+      return category[`${fieldName}_ar` as keyof ProfileCategory] as string || category[fieldName as keyof ProfileCategory] as string || '';
+    } else {
+      return category[fieldName as keyof ProfileCategory] as string || category[`${fieldName}_ar` as keyof ProfileCategory] as string || '';
+    }
+  }
 }

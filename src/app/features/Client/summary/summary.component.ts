@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TableModule } from 'primeng/table';
@@ -71,6 +71,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   selectedFilterStatus: string = 'all';
   private originalCategoryDataForTable: CategoryTableRow[] = [];
   domainItemsVisibility: { [domainName: string]: boolean } = {};
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
 
   constructor(
@@ -79,13 +80,22 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private profileDomainService: ProfileDomainService,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
       // Update filter statuses when language changes
       this.updateFilterStatuses();
+      // Refresh data with new language
+      this.refreshDataForLanguage();
+      // Force change detection
+      this.cdr.detectChanges();
     });
   }
 
@@ -163,11 +173,16 @@ export class SummaryComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (results) => {
         const rawData = results.flatMap(result => 
-          result.allItems.map(item => ({
-            ...item,
-            profile_category_name: result.category.name,
-            profile_domain_name: item.profile_domain_name || result.domains.find(d => d.id === item.profile_domain)?.name || 'Unknown Domain'
-          }))
+          result.allItems.map(item => {
+            const domain = result.domains.find(d => d.id === item.profile_domain);
+            return {
+              ...item,
+              profile_category_name: result.category.name,
+              profile_category_name_ar: result.category.name_ar,
+              profile_domain_name: item.profile_domain_name || domain?.name || 'Unknown Domain',
+              profile_domain_name_ar: (domain as any)?.name_ar || ''
+            };
+          })
         );
         
         this.processCategoryAndDomainDataForTable(rawData);
@@ -192,8 +207,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
     const categoryMap = new Map<string, CategoryTableRow>();
 
     rawData.forEach(item => {
-      const categoryName = item.profile_category_name;
-      const domainName = item.profile_domain_name;
+      // Get language-specific category name
+      const categoryName = this.currentLanguage === 'ar' ? 
+        (item.profile_category_name_ar || item.profile_category_name) : 
+        item.profile_category_name;
+      const domainName = this.currentLanguage === 'ar' ? 
+        (item.profile_domain_name_ar || item.profile_domain_name) : 
+        item.profile_domain_name;
 
       if (!categoryMap.has(categoryName)) {
         categoryMap.set(categoryName, {
@@ -611,8 +631,63 @@ export class SummaryComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  // Helper method to get the appropriate field based on language
+  getLanguageField(category: any, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Refresh data when language changes
+  private refreshDataForLanguage() {
+    // Reload the data to get language-specific content
+    this.loadSummaryData();
+  }
+
   private generateHtmlReport(): string {
-    const currentLang = this.sharedService.getCurrentLanguage();
+    const currentLang = this.getCurrentLanguage();
     const isArabic = currentLang === 'ar';
     
     // Generate HTML content for Arabic and French text

@@ -25,8 +25,8 @@
     {{ error }}
   </div>
   <div *ngIf="items.length > 0" class="mb-4">
-    <h2 class="category-header">{{ profileCategoryName }}</h2>
-    <h3 class="domain-header">{{ profileDomainName }}</h3>
+    <h2 class="category-header">{{ getLanguageSpecificCategoryName() }}</h2>
+    <h3 class="domain-header">{{ getLanguageSpecificDomainName() }}</h3>
   </div>
   <p-table [value]="items" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
     <ng-template pTemplate="caption">
@@ -44,7 +44,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td class="align-middle">{{ item.description || item.name }}</td>
+        <td class="align-middle">{{ getItemLanguageField(item, 'description') || getItemLanguageField(item, 'name') }}</td>
         <td class="align-middle">
           <span [ngClass]="{
             'statut-badge statut-acquise': item.etat === 'ACQUIS',
@@ -59,8 +59,8 @@
           </span>
         </td>
         <td class="align-middle">
-          <div *ngIf="item.comentaire" class="comment-bubble">
-            {{ item.comentaire }}
+          <div *ngIf="getItemLanguageField(item, 'comentaire')" class="comment-bubble">
+            {{ getItemLanguageField(item, 'comentaire') }}
           </div>
           <div *ngIf="!item.comentaire" class="text-muted">
             {{ 'evaluations.table.no_comment' | translate }}

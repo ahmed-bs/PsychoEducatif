@@ -799,3 +799,33 @@
     padding: 0.75rem 0.5rem;
   }
 }
+
+/* Field Info */
+.field-info {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #6366f1;
+}
+
+.field-info small {
+  color: #6c757d;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Responsive adjustments for wider dialog */
+@media (max-width: 768px) {
+    :host ::ng-deep .p-dialog {
+        width: 95vw !important;
+    }
+    
+    .dialog-content {
+        padding: 0.75rem;
+    }
+    
+    .field {
+        margin-bottom: 1rem;
+    }
+}

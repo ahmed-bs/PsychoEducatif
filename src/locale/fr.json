@@ -896,16 +896,23 @@
       "header_edit": "Modifier une Compétence",
       "labels": {
         "title": "Titre",
-        "description": "Description"
+        "title_ar": "العنوان",
+        "description": "Description",
+        "description_ar": "الوصف"
       },
       "placeholders": {
         "title": "Titre",
-        "description": "Description"
+        "title_ar": "العنوان",
+        "description": "Description",
+        "description_ar": "الوصف"
       },
       "buttons": {
         "cancel": "Annuler",
         "add": "Ajouter",
         "update": "Modifier"
+      },
+      "info": {
+        "at_least_one_name": "Au moins un titre (en français ou en arabe) doit être fourni."
       }
     },
     "messages": {
@@ -917,7 +924,7 @@
       },
       "error": {
         "summary": "Erreur",
-        "name_required": "Le nom est requis",
+        "name_required": "Au moins un titre (en français ou en arabe) doit être fourni",
         "generic_error": "{{error}}"
       },
       "confirm": {
@@ -1334,7 +1341,7 @@
     }
   },
   "calendar": {
-    "title": "📅 Calendrier",
+    "title": "Calendrier",
     "breadcrumb": {
       "dashboard": "Tableau de bord",
       "calendar": "📅 Calendrier"

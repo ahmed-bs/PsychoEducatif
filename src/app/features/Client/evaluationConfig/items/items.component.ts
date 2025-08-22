@@ -123,6 +123,32 @@ export class ItemsComponent implements OnInit, OnDestroy {
     return this.translate.instant('items.items_by_domain.status_labels.' + etat) || this.translate.instant('items.items_by_domain.status_labels.NON_COTE');
   }
 
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    const currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
+    if (currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
   loadData() {
     if (!this.categoryId) return;
     

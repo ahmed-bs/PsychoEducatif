@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
@@ -11,6 +11,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
@@ -27,12 +28,13 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   displayDeleteDialog: boolean = false;
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
-  newCategory: Partial<ProfileCategory> = { name: '', description: '' };
+  newCategory: Partial<ProfileCategory> = { name: '', name_ar: '', description: '', description_ar: '' };
   categoryToDelete: ProfileCategory | null = null;
   profileId!: number;
   loading: boolean = true;
   isEditMode: boolean = false;
-  viewMode: 'grid' | 'list' | 'table' = 'grid'; // Add view mode property
+  viewMode: 'grid' | 'list' | 'table' = 'grid';
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
 
   constructor(
@@ -40,11 +42,19 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     private profileCategoryService: ProfileCategoryService,
     private messageService: MessageService,
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
+      // Force change detection
+      this.refreshDisplay();
+      this.cdr.detectChanges();
     });
   }
 
@@ -56,6 +66,60 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+  }
+
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  // Force refresh display when language changes
+  refreshDisplay() {
+    // Trigger change detection by updating a property
+    this.categories = [...this.categories];
+  }
+
+  // Helper method to get the appropriate field based on language
+  getLanguageField(category: ProfileCategory, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to prepare form data based on current language
+  private prepareFormDataForLanguage(data: Partial<ProfileCategory>): Partial<ProfileCategory> {
+    const preparedData: Partial<ProfileCategory> = {};
+
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields for form display
+      preparedData.name = data.name_ar?.trim() || '';
+      preparedData.description = data.description_ar?.trim() || '';
+      // Keep original fields for backend
+      preparedData.name_ar = data.name_ar?.trim() || '';
+      preparedData.description_ar = data.description_ar?.trim() || '';
+    } else {
+      // For French language, use non-_ar fields for form display
+      preparedData.name = data.name?.trim() || '';
+      preparedData.description = data.description?.trim() || '';
+      // Keep _ar fields for backend
+      preparedData.name_ar = data.name_ar?.trim() || '';
+      preparedData.description_ar = data.description_ar?.trim() || '';
+    }
+
+    return preparedData;
   }
 
   loadCategories() {
@@ -84,19 +148,44 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   showAddUserDialog() {
-    this.newCategory = { name: '', description: '' };
+    this.newCategory = { name: '', name_ar: '', description: '', description_ar: '' };
     this.isEditMode = false;
     this.displayAddUserDialog = true;
   }
 
   showEditDialog(profileCategory: ProfileCategory) {
-    this.newCategory = { ...profileCategory };
+    // Prepare the form data based on current language
+    this.newCategory = this.prepareFormDataForLanguage({
+      ...profileCategory,
+      name: profileCategory.name || '',
+      name_ar: profileCategory.name_ar || '',
+      description: profileCategory.description || '',
+      description_ar: profileCategory.description_ar || ''
+    });
     this.isEditMode = true;
     this.displayAddUserDialog = true;
   }
 
   saveCategory() {
-    if (!this.newCategory.name) {
+    // Prepare the data based on current language
+    if (this.currentLanguage === 'ar') {
+      // For Arabic, map form data to _ar fields
+      this.newCategory.name_ar = this.newCategory.name?.trim() || '';
+      this.newCategory.description_ar = this.newCategory.description?.trim() || '';
+      // Clear the non-_ar fields since we're in Arabic mode
+      this.newCategory.name = '';
+      this.newCategory.description = '';
+    } else {
+      // For French, keep the name and description fields as they are
+      this.newCategory.name = this.newCategory.name?.trim() || '';
+      this.newCategory.description = this.newCategory.description?.trim() || '';
+      // Keep existing _ar fields if they exist
+      this.newCategory.name_ar = this.newCategory.name_ar?.trim() || '';
+      this.newCategory.description_ar = this.newCategory.description_ar?.trim() || '';
+    }
+
+    // Check if at least one of name or name_ar is provided
+    if (!this.newCategory.name?.trim() && !this.newCategory.name_ar?.trim()) {
       this.translate.get('categories.messages.error.name_required').subscribe((text) => {
         this.showError(text);
       });

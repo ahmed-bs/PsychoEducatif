@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 // import { ColumnFilterModule } from 'primeng/columnfilter';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -32,6 +33,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
     FormsModule,
     TableModule,
     InputTextModule,
+    InputTextareaModule,
     IconFieldModule,
     InputIconModule,
     FormsModule,

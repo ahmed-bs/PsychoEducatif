@@ -863,16 +863,23 @@
       "header_edit": "تعديل المهارة",
       "labels": {
         "title": "العنوان",
-        "description": "الوصف"
+        "title_ar": "العنوان",
+        "description": "الوصف",
+        "description_ar": "الوصف"
       },
       "placeholders": {
         "title": "العنوان",
-        "description": "الوصف"
+        "title_ar": "العنوان",
+        "description": "الوصف",
+        "description_ar": "الوصف"
       },
       "buttons": {
         "cancel": "إلغاء",
         "add": "إضافة",
         "update": "تعديل"
+      },
+      "info": {
+        "at_least_one_name": "يجب توفير عنوان واحد على الأقل (باللغة العربية أو الإنجليزية)."
       }
     },
     "messages": {
@@ -884,7 +891,7 @@
       },
       "error": {
         "summary": "خطأ",
-        "name_required": "الاسم مطلوب",
+        "name_required": "يجب توفير عنوان واحد على الأقل (باللغة العربية أو الإنجليزية)",
         "generic_error": "{{error}}"
       },
       "confirm": {

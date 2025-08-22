@@ -24,12 +24,14 @@ import { Subscription } from 'rxjs';
 export class QuizComponent implements OnInit, OnDestroy {
   domainId: number = 0;
   items: ProfileItem[] = [];
+  domain: any = null;
   currentIndex: number = 0;
   isLoading: boolean = false;
   error: string | null = null;
   showDescriptionPopup: boolean = false;
   showCommentPopup: boolean = false;
   currentView: 'card' | 'list' = 'card';
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
 
   constructor(
@@ -41,10 +43,58 @@ export class QuizComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private sharedService: SharedService
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
     });
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: any, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
   }
 
   ngOnInit(): void {
@@ -72,6 +122,9 @@ export class QuizComponent implements OnInit, OnDestroy {
   loadItems() {
     this.isLoading = true;
     this.error = null;
+    
+    // Load domain information first - we'll need to get the category ID first
+    // For now, let's just load items and get domain info from the items if available
     this.profileItemService.getItems(this.domainId).subscribe({
       next: (items) => {
         this.items = items;
@@ -79,10 +132,21 @@ export class QuizComponent implements OnInit, OnDestroy {
           this.translate.get('skills_evaluation.error.no_questions_found').subscribe((text) => {
             this.error = text;
           });
+        } else {
+          // Try to get domain info from the first item if available
+          if (items[0] && items[0].profile_domain_name) {
+            this.domain = {
+              id: this.domainId,
+              name: items[0].profile_domain_name,
+              name_ar: items[0].profile_domain_name_ar || '',
+              description: '',
+              description_ar: ''
+            };
+          }
         }
         this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading items:', error);
         this.translate.get('skills_evaluation.error.load_questions_failed').subscribe((text) => {
           this.error = text;

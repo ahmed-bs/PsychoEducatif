@@ -91,7 +91,7 @@
                         <div *ngFor="let category of filteredCategories"
                             class="bg-white rounded-xl shadow overflow-hidden">
                             <div class="bg-indigo-600 px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center">
-                                <h3 class="text-lg sm:text-xl font-medium text-white">{{ category.name }} (<span
+                                <h3 class="text-lg sm:text-xl font-medium text-white">{{ getLanguageField(category, 'name') }} (<span
                                         [innerHTML]="'dashboard.skills_content.competencies_count' | translate: { count: (domains[category.id!] || []).length }"></span>)
                                 </h3>
                             </div>
@@ -101,7 +101,7 @@
                                     <div
                                         class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
                                         <h4 class="font-medium text-indigo-800 text-base sm:text-lg mb-1 sm:mb-0">{{
-                                            domain.name }}</h4>
+                                            getLanguageFieldForDomain(domain, 'name') }}</h4>
                                         <span class="text-sm sm:text-base font-medium text-gray-700">{{
                                             'dashboard.stats_content.progress_overview.progress' | translate: {
                                             percentage: formatNumber(domain.acquis_percentage) } }}</span>
@@ -202,35 +202,35 @@
                             <div class="grid grid-cols-1 mb-6">
                                 <div
                                     class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                    <div class="w-full h-64">
-                                        <canvas baseChart [data]="skillsChartData" [options]="skillsChartOptions"
-                                            [type]="'doughnut'"></canvas>
-                                    </div>
+                                                                         <div class="w-full h-64">
+                                         <canvas baseChart [data]="skillsChartData" [options]="getSkillsChartOptions()"
+                                             [type]="'doughnut'"></canvas>
+                                     </div>
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div
                                     class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                    <div class="w-full h-64">
-                                        <canvas baseChart [data]="progressChartData" [options]="progressChartOptions"
-                                            [type]="'bar'"></canvas>
-                                    </div>
+                                                                         <div class="w-full h-64">
+                                         <canvas baseChart [data]="progressChartData" [options]="getProgressChartOptions()"
+                                             [type]="'bar'"></canvas>
+                                     </div>
                                 </div>
                                 <div
                                     class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                    <div class="w-full h-64">
-                                        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions"
-                                            [type]="'line'"></canvas>
-                                    </div>
+                                                                         <div class="w-full h-64">
+                                         <canvas baseChart [data]="lineChartData" [options]="getLineChartOptions()"
+                                             [type]="'line'"></canvas>
+                                     </div>
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 mb-8">
                                 <div
                                     class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                    <div class="w-full h-64">
-                                        <canvas baseChart [data]="polarChartData" [options]="polarChartOptions"
-                                            [type]="'polarArea'"></canvas>
-                                    </div>
+                                                                         <div class="w-full h-64">
+                                         <canvas baseChart [data]="polarChartData" [options]="getPolarChartOptions()"
+                                             [type]="'polarArea'"></canvas>
+                                     </div>
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -243,7 +243,7 @@
                                         <div *ngFor="let categoryStat of statistics?.categoryStats || []"
                                             class="category-progress-card">
                                             <div class="flex justify-between items-center mb-2">
-                                                <span class="font-medium text-gray-700">{{ categoryStat.categoryName
+                                                <span class="font-medium text-gray-700">{{ getCategoryNameForStats(categoryStat)
                                                     }}</span>
                                                 <span class="text-sm text-gray-500"
                                                     [innerHTML]="'dashboard.stats_content.progress_overview.competencies_count' | translate: { count: categoryStat.totalItems }"></span>
@@ -277,7 +277,7 @@
                                                 </div>
                                                 <div class="flex-1 min-w-0">
                                                     <p class="text-sm font-medium text-gray-900">{{
-                                                        categoryStat.categoryName }}</p>
+                                                        getCategoryNameForStats(categoryStat) }}</p>
                                                     <p class="text-sm text-gray-500"
                                                         [innerHTML]="'dashboard.stats_content.recent_activity.competencies_evaluated' | translate: { count: categoryStat.totalItems }">
                                                     </p>
