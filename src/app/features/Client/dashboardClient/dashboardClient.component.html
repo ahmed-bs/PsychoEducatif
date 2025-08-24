@@ -75,8 +75,8 @@
                                         [class.border-transparent]="!isTabActive(tab.id)"
                                         [class.hover:text-gray-600]="!isTabActive(tab.id)"
                                         [class.hover:border-gray-300]="!isTabActive(tab.id)" (click)="switchTab(tab.id)"
-                                        [attr.aria-label]="'dashboard.tabs.' + tab.id | translate">
-                                        {{ 'dashboard.tabs.' + tab.id | translate }}
+                                        [attr.aria-label]="tab.label | translate">
+                                        {{ tab.label | translate }}
                                     </button>
                                 </li>
                             </ul>
@@ -112,9 +112,9 @@
                                         </div>
                                     <div
                                         class="mt-3 flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0">
-                                        <span>Date de début: {{
+                                        <span>{{ 'dashboard.skills_content.start_date' | translate }}: {{
                                             formatDate(domain.start_date) }}</span>
-                                        <span>Dernière mise à jour: {{
+                                        <span>{{ 'dashboard.skills_content.last_update' | translate }}: {{
                                             formatDate(domain.last_eval_date) }}</span>
                                     </div>
                                 </div>
@@ -131,13 +131,11 @@
                                 }}</p>
                         </div>
                     </div>
-
                     <!-- Loading state -->
                     <div *ngIf="selectedChild && isLoadingStatistics" class="flex justify-center items-center py-8">
                         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
                         <span class="ml-3 text-gray-600">{{ 'dashboard.stats_content.loading' | translate }}</span>
                     </div>
-
                     <!-- Statistics content -->
                     <div *ngIf="selectedChild && !isLoadingStatistics">
                         <!-- No statistics available -->

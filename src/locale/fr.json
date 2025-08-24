@@ -1340,6 +1340,65 @@
       "required_fields": "Veuillez remplir au moins le titre et la description de la stratégie."
     }
   },
+  "add_goal_modal": {
+    "header": {
+      "add": "Ajouter un nouvel objectif",
+      "edit": "Modifier l'objectif"
+    },
+    "labels": {
+      "title": "Titre de l'objectif",
+      "description": "Description",
+      "target_date": "Date cible",
+      "priority": "Priorité",
+      "category": "Catégorie",
+      "domain": "Domaine",
+      "sub_objectives": "Sous-objectifs"
+    },
+    "placeholders": {
+      "title": "Ex: Maîtriser de nouvelles compétences",
+      "description": "Décrivez votre objectif en détail",
+      "select_category": "Sélectionner une catégorie",
+      "select_domain": "Sélectionner un domaine",
+      "sub_objective": "Description du sous-objectif"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "update": "Modifier",
+      "add_sub_objective": "Ajouter un sous-objective",
+      "save_changes": "Enregistrer les modifications",
+      "create_goal": "Créer l'objectif"
+    },
+    "validation": {
+      "title_required": "Le titre est requis",
+      "description_required": "La description est requise",
+      "target_date_required": "La date cible est requise",
+      "priority_required": "La priorité est requise",
+      "category_required": "La catégorie est requise",
+      "domain_required": "Le domaine est requis"
+    },
+    "messages": {
+      "no_categories": "Aucune catégorie disponible. Assurez-vous d'avoir des catégories associées à votre profil",
+      "select_category_first": "Veuillez d'abord sélectionner une catégorie",
+      "no_domains": "Aucun domaine disponible pour la catégorie sélectionnée"
+    },
+    "success_messages": {
+      "goal_updated": "Objectif mis à jour!",
+      "goal_updated_text": "L'objectif \"{{title}}\" a été mis à jour avec succès.",
+      "goal_created": "Objectif créé!",
+      "goal_created_text": "L'objectif \"{{title}}\" a été créé avec succès."
+    },
+    "error_messages": {
+      "update_failed": "Impossible de mettre à jour l'objectif.",
+      "create_failed": "Impossible de créer l'objectif.",
+      "no_profile_selected": "Impossible d'enregistrer l'objectif: Aucun profil sélectionné."
+    },
+    "priority": {
+      "high": "Élevée",
+      "medium": "Moyenne",
+      "low": "Faible"
+    }
+  },
   "calendar": {
     "title": "Calendrier",
     "breadcrumb": {

@@ -29,6 +29,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { StatisticsService, OverallStatistics, CategoryStatistics } from 'src/app/core/services/statistics.service';
 import { Subscription } from 'rxjs';
+import { ProfileItem } from 'src/app/core/models/ProfileItem';
 
 @Component({
   selector: 'app-dashboardClient',
@@ -76,11 +77,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   showGoalFormModal = false;
 
   tabs = [
-    { id: 'skills', label: 'Compétences' },
-    { id: 'goals', label: 'Objectifs' },
-    { id: 'strategies', label: 'Stratégies' },
-    { id: 'notes', label: 'Notes' },
-    { id: 'stats', label: 'Statistiques' }
+    { id: 'skills', label: 'dashboard.tabs.skills' },
+    { id: 'goals', label: 'dashboard.tabs.goals' },
+    { id: 'strategies', label: 'dashboard.tabs.strategies' },
+    { id: 'notes', label: 'dashboard.tabs.notes' },
+    { id: 'stats', label: 'dashboard.tabs.stats' }
   ];
 
   progressBars = [
@@ -136,12 +137,12 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         cornerRadius: 8,
         displayColors: true,
         callbacks: {
-          label: function(context) {
+          label: (context: any) => {
             const label = context.label || '';
             const value = context.parsed;
             const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
             const percentage = ((value / total) * 100).toFixed(1);
-            return `${label}: ${value} compétences (${percentage}%)`;
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')} (${percentage}%)`;
           }
         }
       }
@@ -155,7 +156,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     labels: [],
     datasets: [
       {
-        label: 'Progrès Actuel',
+        label: '',
         data: [],
         backgroundColor: 'rgba(99, 102, 241, 0.8)',
         borderColor: 'rgba(99, 102, 241, 1)',
@@ -164,7 +165,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         borderSkipped: false,
       },
       {
-        label: 'Objectif',
+        label: '',
         data: [],
         backgroundColor: 'rgba(34, 197, 94, 0.6)',
         borderColor: 'rgba(34, 197, 94, 1)',
@@ -231,7 +232,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     labels: [],
     datasets: [
       {
-        label: 'Niveau Actuel',
+        label: '',
         data: [],
         fill: false,
         borderColor: 'rgba(99, 102, 241, 1)',
@@ -341,10 +342,10 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         borderWidth: 1,
         cornerRadius: 8,
         callbacks: {
-          label: function(context) {
+          label: (context: any) => {
             const label = context.label || '';
             const value = context.parsed.r;
-            return `${label}: ${value} compétences`;
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')}`;
           }
         }
       }
@@ -972,8 +973,16 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       ...this.progressChartData,
       labels,
       datasets: [
-        { ...this.progressChartData.datasets[0], data: currentProgress },
-        { ...this.progressChartData.datasets[1], data: targetProgress }
+        { 
+          ...this.progressChartData.datasets[0], 
+          data: currentProgress,
+          label: this.getTranslatedChartLabel('current_progress')
+        },
+        { 
+          ...this.progressChartData.datasets[1], 
+          data: targetProgress,
+          label: this.getTranslatedChartLabel('target')
+        }
       ],
     };
   }
@@ -1003,7 +1012,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     this.lineChartData = {
       ...this.lineChartData,
       labels,
-      datasets: [{ ...this.lineChartData.datasets[0], data }],
+      datasets: [{ 
+        ...this.lineChartData.datasets[0], 
+        data,
+        label: this.getTranslatedChartLabel('current_level')
+      }],
     };
   }
 
@@ -1126,6 +1139,22 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     return categoryName;
   }
 
+  // Helper method to get translated chart labels
+  getTranslatedChartLabel(key: string): string {
+    const translations: { [key: string]: { fr: string, ar: string } } = {
+      'current_progress': { fr: 'Progrès Actuel', ar: 'التقدم الحالي' },
+      'target': { fr: 'Objectif', ar: 'الهدف' },
+      'current_level': { fr: 'Niveau Actuel', ar: 'المستوى الحالي' },
+      'competencies': { fr: 'compétences', ar: 'مهارات' }
+    };
+    
+    const translation = translations[key];
+    if (translation) {
+      return this.currentLanguage === 'ar' ? translation.ar : translation.fr;
+    }
+    return key;
+  }
+
   // Helper method to get a unique key for forcing template updates
   getLanguageKey(): string {
     return this.currentLanguage;
@@ -1173,15 +1202,15 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
           borderWidth: 1,
           cornerRadius: 8,
           displayColors: true,
-          callbacks: {
-            label: function(context) {
-              const label = context.label || '';
-              const value = context.parsed;
-              const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
-              const percentage = ((value / total) * 100).toFixed(1);
-              return `${label}: ${value} compétences (${percentage}%)`;
-            }
+                  callbacks: {
+          label: (context: any) => {
+            const label = context.label || '';
+            const value = context.parsed;
+            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+            const percentage = ((value / total) * 100).toFixed(1);
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')} (${percentage}%)`;
           }
+        }
         }
       },
       cutout: '60%',
@@ -1320,13 +1349,13 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
           borderColor: '#ffffff',
           borderWidth: 1,
           cornerRadius: 8,
-          callbacks: {
-            label: function(context) {
-              const label = context.label || '';
-              const value = context.parsed.r;
-              return `${label}: ${value} compétences`;
-            }
+                  callbacks: {
+          label: (context: any) => {
+            const label = context.label || '';
+            const value = context.parsed.r;
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')}`;
           }
+        }
         }
       },
       scales: {
@@ -1342,5 +1371,84 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         }
       }
     };
+  }
+
+  // Helper method to get the appropriate field for ProfileCategory based on language
+  getCategoryLanguageField(category: ProfileCategory, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: ProfileDomain, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get category display name
+  getCategoryDisplayName(category: ProfileCategory): string {
+    return this.getCategoryLanguageField(category, 'name') || category.name || '';
+  }
+
+  // Helper method to get domain display name
+  getDomainDisplayName(domain: ProfileDomain): string {
+    return this.getDomainLanguageField(domain, 'name') || domain.name || '';
+  }
+
+  // Helper method to get item display name
+  getItemDisplayName(item: ProfileItem): string {
+    return this.getItemLanguageField(item, 'name') || item.name || '';
   }
 }

@@ -96,6 +96,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   items: { [domainId: number]: ProfileItem[] } = {};
   currentProfileId: number | null = null;
   currentLang: string = 'ar';
+  currentLanguage: string = 'fr';
   private languageSubscription!: Subscription;
 
   plansDuJour = [
@@ -115,6 +116,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   ) {
     // Initialize current language
     this.currentLang = localStorage.getItem('lang') || 'ar';
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
     
     // Initialize translation service with current language
     this.translate.use(this.currentLang);
@@ -149,6 +151,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.currentLang = lang;
+      this.currentLanguage = lang;
       this.translate.use(lang); // Tell the translation service to use the new language
       this.updateCalendarLanguage(lang);
     });
@@ -753,5 +756,84 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       return `${this.translate.instant(labelKey)}: ${shortDate}`;
     }
+  }
+
+  // Helper method to get the appropriate field for ProfileCategory based on language
+  getCategoryLanguageField(category: ProfileCategory, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: ProfileDomain, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get category display name
+  getCategoryDisplayName(category: ProfileCategory): string {
+    return this.getCategoryLanguageField(category, 'name') || category.name || '';
+  }
+
+  // Helper method to get domain display name
+  getDomainDisplayName(domain: ProfileDomain): string {
+    return this.getDomainLanguageField(domain, 'name') || domain.name || '';
+  }
+
+  // Helper method to get item display name
+  getItemDisplayName(item: ProfileItem): string {
+    return this.getItemLanguageField(item, 'name') || item.name || '';
   }
 }
