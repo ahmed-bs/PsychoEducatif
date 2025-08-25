@@ -41,16 +41,10 @@ export class ProfileItemService {
 
     // Create a new item
     create(domainId: number, itemData: Partial<ProfileItem>): Observable<ProfileItem> {
-        if (!itemData.name) {
-            return throwError(() => new Error('Missing required fields: name'));
-        }
+
         const url = `${this.baseUrl}?domain_id=${domainId}`;
-        const body = {
-            name: itemData.name,
-            description: itemData.description || '',
-            etat: itemData.etat || 'NON_COTE',
-            comentaire: itemData.comentaire || '-'
-        };
+        // Send the data as-is to handle both name/name_ar, description/description_ar, and comentaire/comentaire_ar
+        const body = { ...itemData };
         return this.http.post<ApiResponse<ProfileItem>>(url, body).pipe(
             map(response => response.data!),
             catchError(this.handleError)
@@ -60,17 +54,8 @@ export class ProfileItemService {
     // Update an existing item
     update(itemId: number, itemData: Partial<ProfileItem>): Observable<ProfileItem> {
         const url = `${this.baseUrl}${itemId}/`;
-        const body: any = {};
-        if (itemData.name) body.name = itemData.name;
-        if (itemData.description) body.description = itemData.description;
-        if (itemData.comentaire) body.comentaire = itemData.comentaire;
-        if (itemData.etat) {
-            const validEtats = ['ACQUIS', 'PARTIEL', 'NON_ACQUIS', 'NON_COTE'];
-            if (!validEtats.includes(itemData.etat)) {
-                return throwError(() => new Error('Invalid etat. Must be one of: ACQUIS, PARTIEL, NON_ACQUIS, NON_COTE'));
-            }
-            body.etat = itemData.etat;
-        }
+        // Send the data as-is to handle both name/name_ar, description/description_ar, and comentaire/comentaire_ar
+        const body = { ...itemData };
         return this.http.put<ApiResponse<ProfileItem>>(url, body).pipe(
             map(response => response.data!),
             catchError(this.handleError)
