@@ -1236,6 +1236,7 @@
       "date_end": "Date de fin",
       "author_filter": "Par auteur",
       "author_placeholder": "Nom d'utilisateur...",
+      "unknown": "Inconnu",
       "reset_filters": "Réinitialiser les filtres",
       "loading": "Chargement des notes...",
       "no_notes_found": "Aucune note trouvée correspondant à vos critères. Essayez d'ajuster les filtres !",
@@ -1489,6 +1490,13 @@
       "load_categories": "Erreur lors du chargement des catégories:",
       "load_domains": "Erreur lors du chargement des domaines:",
       "load_items": "Erreur lors du chargement des items:"
+    }
+  },
+  "child_profile": {
+    "title": "👤 Choisir un Profil",
+    "breadcrumb": {
+      "home": "Accueil",
+      "choose_profile": "Choisir un Profil"
     }
   }
 }

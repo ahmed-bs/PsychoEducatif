@@ -294,4 +294,13 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
   }
+
+  getAuthorDisplayName(authorUsername: string | undefined): string {
+    return authorUsername || this.translate.instant('dashboard_tabs.notes.unknown');
+  }
+
+  getAuthorText(authorUsername: string | undefined): string {
+    const username = authorUsername || this.translate.instant('dashboard_tabs.notes.unknown');
+    return this.translate.instant('dashboard_tabs.notes.by_other', { username });
+  }
 }

@@ -85,8 +85,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private cdr: ChangeDetectorRef
   ) {
-    // Initialize current language
-    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    // Initialize current language - use the same key as SharedService
+    this.currentLanguage = localStorage.getItem('lang') || 'ar';
     
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
@@ -180,8 +180,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
                profile_category_name: result.category.name,
                profile_category_name_ar: result.category.name_ar,
                profile_category_object: result.category, // Store the original category object
-               profile_domain_name: item.profile_domain_name || domain?.name || 'Unknown Domain',
-               profile_domain_name_ar: (domain as any)?.name_ar || '',
+               profile_domain_name: domain?.name || item.profile_domain_name || 'Unknown Domain',
+               profile_domain_name_ar: item.profile_domain_name_ar || domain?.name_ar || '',
                profile_domain_object: domain // Store the original domain object
              };
            })
@@ -213,9 +213,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
       const categoryName = this.currentLanguage === 'ar' ? 
         (item.profile_category_name_ar || item.profile_category_name) : 
         item.profile_category_name;
-      const domainName = this.currentLanguage === 'ar' ? 
-        (item.profile_domain_name_ar || item.profile_domain_name) : 
-        item.profile_domain_name;
+      
+      // Get language-specific domain name
+      // First try to get from the domain object, then from the item's domain name fields
+      let domainName = item.profile_domain_name;
+      
+      if (this.currentLanguage === 'ar') {
+        // For Arabic, try to get the Arabic name from the domain object first
+        if (item.profile_domain_object && item.profile_domain_object.name_ar && item.profile_domain_object.name_ar.trim() !== '') {
+          domainName = item.profile_domain_object.name_ar;
+        } else if (item.profile_domain_name_ar && item.profile_domain_name_ar.trim() !== '') {
+          domainName = item.profile_domain_name_ar;
+        }
+      }
 
              if (!categoryMap.has(categoryName)) {
          categoryMap.set(categoryName, {
@@ -645,9 +655,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
     if (this.currentLanguage === 'ar') {
       // For Arabic language, use _ar fields
       if (fieldName === 'name') {
-        return category.name_ar || '';
+        return category.name_ar || category.name || '';
       } else if (fieldName === 'description') {
-        return category.description_ar || '';
+        return category.description_ar || category.description || '';
       }
     } else {
       // For French language, use non-_ar fields
@@ -665,11 +675,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
     if (this.currentLanguage === 'ar') {
       // For Arabic language, use _ar fields
       if (fieldName === 'name') {
-        return item.name_ar || '';
+        return item.name_ar || item.name || '';
       } else if (fieldName === 'description') {
-        return item.description_ar || '';
+        return item.description_ar || item.description || '';
       } else if (fieldName === 'comentaire') {
-        return item.commentaire_ar || '';
+        return item.commentaire_ar || item.comentaire || '';
       }
     } else {
       // For French language, use non-_ar fields
@@ -686,12 +696,14 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   // Helper method to get the appropriate field for ProfileDomain based on language
   getDomainLanguageField(domain: any, fieldName: string): string {
+    if (!domain) return '';
+    
     if (this.currentLanguage === 'ar') {
       // For Arabic language, use _ar fields
       if (fieldName === 'name') {
-        return domain.name_ar || '';
+        return domain.name_ar || domain.name || '';
       } else if (fieldName === 'description') {
-        return domain.description_ar || '';
+        return domain.description_ar || domain.description || '';
       }
     } else {
       // For French language, use non-_ar fields
@@ -706,9 +718,24 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   // Helper method to get domain display name for DomainTableRow
   getDomainDisplayName(domainData: DomainTableRow): string {
+    // First, try to get the name from the domain object using the current language
     if (domainData.domainObject) {
-      return this.getDomainLanguageField(domainData.domainObject, 'name') || domainData.domain;
+      const displayName = this.getDomainLanguageField(domainData.domainObject, 'name');
+      if (displayName && displayName.trim() !== '') {
+        return displayName;
+      }
     }
+    
+    // If no language-specific name is available from the domain object,
+    // check if we have any items with Arabic domain names
+    if (domainData.profileItems && domainData.profileItems.length > 0) {
+      const firstItem = domainData.profileItems[0];
+      if (this.currentLanguage === 'ar' && firstItem.profile_domain_name_ar && firstItem.profile_domain_name_ar.trim() !== '') {
+        return firstItem.profile_domain_name_ar;
+      }
+    }
+    
+    // Fallback to the stored domain name
     return domainData.domain;
   }
 
@@ -745,7 +772,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
             profile_category_name_ar: category.categoryObject?.name_ar || '',
             profile_category_object: category.categoryObject,
             profile_domain_name: domain.domainObject?.name || domain.domain,
-            profile_domain_name_ar: domain.domainObject?.name_ar || '',
+            profile_domain_name_ar: item.profile_domain_name_ar || domain.domainObject?.name_ar || '',
             profile_domain_object: domain.domainObject
           });
         });

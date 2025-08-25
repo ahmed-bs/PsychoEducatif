@@ -30,9 +30,9 @@
                            (change)="onEndDateChange($event)">
                 </div>
                 <div>
-                    <label for="note-author" class="block text-sm font-medium text-gray-700 mb-1">Par auteur</label>
+                    <label for="note-author" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.author_filter' | translate }}</label>
                     <input type="text" id="note-author"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" placeholder="Nom d'utilisateur..."
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [placeholder]="'dashboard_tabs.notes.author_placeholder' | translate"
                            [(ngModel)]="filterAuthorUsername"
                            (input)="onAuthorUsernameChange()">
                 </div>
@@ -53,31 +53,31 @@
             <div class="mb-6 pb-6 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0" *ngFor="let note of notes"> <div class="flex items-start flex-col sm:flex-row"> <div class="flex-shrink-0 mt-1 mr-0 sm:mr-3 mb-2 sm:mb-0"> <div
                             class="flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-yellow-100 text-yellow-800"> <i class="fas fa-pencil-alt text-sm sm:text-base"></i> </div>
                     </div>
-                    <div class="ml-0 sm:ml-3 flex-grow w-full"> <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center"> <h4 class="text-base sm:text-lg font-medium text-gray-800 mb-1 sm:mb-0"
+                    <div class="ml-0 sm:ml-3 flex-grow w-full"> <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">                             <h4 class="text-base sm:text-lg font-medium text-gray-800 mb-1 sm:mb-0"
                                 [class.text-red-600]="note.is_important">
-                                {{ note.is_important ? 'Note Importante du' : 'Observation du' }} {{ formatDate(note.created_at) }}
+                                {{ note.is_important ? ('dashboard_tabs.notes.important_note' | translate) : ('dashboard_tabs.notes.observation' | translate) }} {{ formatDate(note.created_at) }}
                             </h4>
                             <span class="text-xs sm:text-sm text-gray-500 flex flex-wrap gap-1"> <ng-container *ngIf="note.author_username === currentLoggedInUsername; else otherAuthor">
-                                    Par vous
+                                    {{ 'dashboard_tabs.notes.by_you' | translate }}
                                 </ng-container>
                                 <ng-template #otherAuthor>
-                                    Par {{ note.author_username || 'Inconnu' }}
+                                    {{ getAuthorText(note.author_username) }}
                                 </ng-template>
                                 <span *ngIf="isNoteUpdated(note)"
                                     class="ml-0 sm:ml-2 px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
-                                    (Modifiée)
+                                    {{ 'dashboard_tabs.notes.modified' | translate }}
                                 </span>
                             </span>
                         </div>
 
                         <ng-container *ngIf="editingNoteId !== note.id">
-                            <p class="mt-2 text-gray-600 text-sm sm:text-base">{{ note.content }}</p> <div class="mt-2 flex flex-col sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-2"> <button *ngIf="note.author_username === currentLoggedInUsername"
+                            <p class="mt-2 text-gray-600 text-sm sm:text-base">{{ note.content }}</p> <div class="mt-2 flex flex-col sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-2">                                 <button *ngIf="note.author_username === currentLoggedInUsername"
                                     (click)="startEdit(note)"
-                                    class="text-sm sm:text-base text-blue-600 hover:text-blue-800 mr-0 sm:mr-2"> <i class="fas fa-edit mr-1"></i> Modifier
+                                    class="text-sm sm:text-base text-blue-600 hover:text-blue-800 mr-0 sm:mr-2"> <i class="fas fa-edit mr-1"></i> {{ 'dashboard_tabs.notes.edit' | translate }}
                                 </button>
                                 <button *ngIf="note.author_username === currentLoggedInUsername"
                                     (click)="deleteNote(note.id)"
-                                    class="text-sm sm:text-base text-red-600 hover:text-red-800"> <i class="fas fa-trash-alt mr-1"></i> Supprimer
+                                    class="text-sm sm:text-base text-red-600 hover:text-red-800"> <i class="fas fa-trash-alt mr-1"></i> {{ 'dashboard_tabs.notes.delete' | translate }}
                                 </button>
                             </div>
                         </ng-container>
@@ -90,17 +90,17 @@
                             <div class="mt-2 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0"> <div>
                                     <label class="inline-flex items-center text-sm sm:text-base"> <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600"
                                                [(ngModel)]="editedIsImportant">
-                                        <span class="ml-2 text-gray-700">Note importante</span>
+                                        <span class="ml-2 text-gray-700">{{ 'dashboard_tabs.notes.important_note_checkbox' | translate }}</span>
                                     </label>
                                 </div>
                                 <div class="flex space-x-2">
                                     <button
                                         class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition text-sm sm:text-base" (click)="cancelEdit()">
-                                        Annuler
+                                        {{ 'dashboard_tabs.notes.cancel' | translate }}
                                     </button>
                                     <button
                                         class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm sm:text-base" (click)="saveEditedNote(note.id)">
-                                        Enregistrer les modifications
+                                        {{ 'dashboard_tabs.notes.save_changes' | translate }}
                                     </button>
                                 </div>
                             </div>
@@ -110,19 +110,19 @@
             </div>
         </div>
 
-        <div class="border-2 border-gray-200 rounded-lg p-4 sm:p-6 mt-6"> <h4 class="font-medium text-gray-800 mb-3 text-base sm:text-lg">Ajouter une nouvelle note</h4> <textarea
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" rows="4" placeholder="Écrivez vos observations ici..."
+        <div class="border-2 border-gray-200 rounded-lg p-4 sm:p-6 mt-6"> <h4 class="font-medium text-gray-800 mb-3 text-base sm:text-lg">{{ 'dashboard_tabs.notes.add_new_note' | translate }}</h4> <textarea
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" rows="4" [placeholder]="'dashboard_tabs.notes.note_placeholder' | translate"
                 [(ngModel)]="newNoteContent">
             </textarea>
             <div class="mt-3 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0"> <div>
                     <label class="inline-flex items-center text-sm sm:text-base"> <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600"
                                [(ngModel)]="isImportantNote">
-                        <span class="ml-2 text-gray-700">Note importante</span>
+                        <span class="ml-2 text-gray-700">{{ 'dashboard_tabs.notes.important_note_checkbox' | translate }}</span>
                     </label>
                 </div>
                 <button
                     class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition text-sm sm:text-base" (click)="onSaveNote()">
-                    Enregistrer
+                    {{ 'dashboard_tabs.notes.save' | translate }}
                 </button>
             </div>
         </div>
