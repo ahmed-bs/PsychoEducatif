@@ -22,6 +22,12 @@ export class ProfileCategoryService {
     }
 
     private handleError(error: HttpErrorResponse): Observable<never> {
+        console.error('HTTP Error:', error);
+        console.error('Error URL:', error.url);
+        console.error('Error Method:', error.type);
+        console.error('Error Status:', error.status);
+        console.error('Error Message:', error.message);
+        
         let errorMessage = 'An error occurred';
         if (error.error instanceof ErrorEvent) {
             errorMessage = error.error.message;
@@ -113,30 +119,36 @@ export class ProfileCategoryService {
 
     // Update an existing category
     update(categoryId: number, categoryData: Partial<ProfileCategory>): Observable<ProfileCategory> {
+        // Ensure proper URL construction
         const url = `${this.baseUrl}${categoryId}/`;
+        console.log('Base URL:', this.baseUrl);
+        console.log('Category ID:', categoryId);
+        console.log('Constructed URL:', url);
         
         // Prepare update data with Arabic fields support
         const updateData: any = {};
         
-        if (categoryData.name !== undefined) {
-            updateData.name = categoryData.name?.trim() || '';
-        }
-        if (categoryData.name_ar !== undefined) {
-            updateData.name_ar = categoryData.name_ar?.trim() || '';
-        }
-        if (categoryData.description !== undefined) {
-            updateData.description = categoryData.description?.trim() || '';
-        }
-        if (categoryData.description_ar !== undefined) {
-            updateData.description_ar = categoryData.description_ar?.trim() || '';
-        }
+        // Always include all fields to ensure proper PUT request
+        updateData.name = categoryData.name?.trim() || '';
+        updateData.name_ar = categoryData.name_ar?.trim() || '';
+        updateData.description = categoryData.description?.trim() || '';
+        updateData.description_ar = categoryData.description_ar?.trim() || '';
 
         // Check if at least one of name or name_ar is provided when updating
         if (updateData.name === '' && updateData.name_ar === '') {
             return throwError(() => new Error('Either name or name_ar must be provided'));
         }
 
-        return this.http.put<ApiResponse<ProfileCategory>>(url, updateData).pipe(
+        console.log('Sending PUT request to:', url);
+        console.log('Full URL:', environment.apiUrl + 'category/categories/' + categoryId + '/');
+        console.log('Update data:', updateData);
+
+        // Ensure we're sending a proper PUT request with correct headers
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+        });
+
+        return this.http.put<ApiResponse<ProfileCategory>>(url, updateData, { headers }).pipe(
             map(response => response.data!),
             catchError(this.handleError)
         );

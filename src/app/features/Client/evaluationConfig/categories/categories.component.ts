@@ -103,6 +103,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   private prepareFormDataForLanguage(data: Partial<ProfileCategory>): Partial<ProfileCategory> {
     const preparedData: Partial<ProfileCategory> = {};
 
+    // Always preserve the ID
+    if (data.id) {
+      preparedData.id = data.id;
+    }
+
     if (this.currentLanguage === 'ar') {
       // For Arabic language, use _ar fields for form display
       preparedData.name = data.name_ar?.trim() || '';
@@ -148,12 +153,18 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   showAddUserDialog() {
+    console.log('showAddUserDialog called - resetting for new category');
     this.newCategory = { name: '', name_ar: '', description: '', description_ar: '' };
     this.isEditMode = false;
     this.displayAddUserDialog = true;
+    console.log('After showAddUserDialog:');
+    console.log('- isEditMode:', this.isEditMode);
+    console.log('- newCategory.id:', this.newCategory.id);
   }
 
   showEditDialog(profileCategory: ProfileCategory) {
+    console.log('showEditDialog called with profileCategory:', profileCategory);
+    
     // Prepare the form data based on current language
     this.newCategory = this.prepareFormDataForLanguage({
       ...profileCategory,
@@ -162,45 +173,55 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       description: profileCategory.description || '',
       description_ar: profileCategory.description_ar || ''
     });
+    
+    // Ensure the ID is preserved
+    this.newCategory.id = profileCategory.id;
+    
     this.isEditMode = true;
     this.displayAddUserDialog = true;
+    
+    console.log('After showEditDialog:');
+    console.log('- isEditMode:', this.isEditMode);
+    console.log('- newCategory.id:', this.newCategory.id);
+    console.log('- newCategory object:', this.newCategory);
   }
 
   saveCategory() {
-    // Prepare the data based on current language
-    if (this.currentLanguage === 'ar') {
-      // For Arabic, map form data to _ar fields
-      this.newCategory.name_ar = this.newCategory.name?.trim() || '';
-      this.newCategory.description_ar = this.newCategory.description?.trim() || '';
-      // Clear the non-_ar fields since we're in Arabic mode
-      this.newCategory.name = '';
-      this.newCategory.description = '';
-    } else {
-      // For French, keep the name and description fields as they are
-      this.newCategory.name = this.newCategory.name?.trim() || '';
-      this.newCategory.description = this.newCategory.description?.trim() || '';
-      // Keep existing _ar fields if they exist
-      this.newCategory.name_ar = this.newCategory.name_ar?.trim() || '';
-      this.newCategory.description_ar = this.newCategory.description_ar?.trim() || '';
-    }
+    // Create a clean data object for the API call
+    const categoryData: Partial<ProfileCategory> = {
+      name: this.newCategory.name?.trim() || '',
+      name_ar: this.newCategory.name_ar?.trim() || '',
+      description: this.newCategory.description?.trim() || '',
+      description_ar: this.newCategory.description_ar?.trim() || ''
+    };
 
     // Check if at least one of name or name_ar is provided
-    if (!this.newCategory.name?.trim() && !this.newCategory.name_ar?.trim()) {
+    if (!categoryData.name && !categoryData.name_ar) {
       this.translate.get('categories.messages.error.name_required').subscribe((text) => {
         this.showError(text);
       });
       return;
     }
 
+    console.log('isEditMode:', this.isEditMode);
+    console.log('newCategory.id:', this.newCategory.id);
+    console.log('newCategory object:', this.newCategory);
+    
     if (this.isEditMode && this.newCategory.id) {
-      this.updateCategory();
+      console.log('Updating category with ID:', this.newCategory.id);
+      console.log('Category data to send 44444444444444444444444444444444444444444444444444444444444');
+      this.updateCategory(categoryData);
     } else {
-      this.addCategory();
+      console.log('Category data to send tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt');
+      console.log('Going to addCategory because:');
+      console.log('- isEditMode is:', this.isEditMode);
+      console.log('- newCategory.id is:', this.newCategory.id);
+      this.addCategory(categoryData);
     }
   }
 
-  addCategory() {
-    this.profileCategoryService.create(this.profileId, this.newCategory).subscribe({
+  addCategory(categoryData: Partial<ProfileCategory>) {
+    this.profileCategoryService.create(this.profileId, categoryData).subscribe({
       next: (profileCategory) => {
         this.categories.push(profileCategory);
         this.displayAddUserDialog = false;
@@ -216,9 +237,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateCategory() {
+  updateCategory(categoryData: Partial<ProfileCategory>) {
     if (this.newCategory.id) {
-      this.profileCategoryService.update(this.newCategory.id, this.newCategory).subscribe({
+      console.log('Updating category with ID:', this.newCategory.id);
+      console.log('Category data to send:', categoryData);
+      this.profileCategoryService.update(this.newCategory.id, categoryData).subscribe({
         next: (updatedCategory) => {
           const index = this.categories.findIndex((c) => c.id === updatedCategory.id);
           if (index !== -1) {
