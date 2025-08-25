@@ -792,6 +792,11 @@
         "cancel": "إلغاء",
         "add": "إضافة",
         "update": "تعديل"
+      },
+      "tooltips": {
+        "edit": "تعديل هذا المجال",
+        "delete": "حذف هذا المجال",
+        "expand": "توسيع/طي"
       }
     },
     "add_item_dialog": {
@@ -811,18 +816,30 @@
         "cancel": "إلغاء",
         "add": "إضافة",
         "update": "تعديل"
+      },
+      "tooltips": {
+        "edit": "تعديل هذا العنصر",
+        "delete": "حذف هذا العنصر",
+        "expand": "توسيع/طي"
       }
     },
     "messages": {
       "error": {
+        "summary": "خطأ",
         "no_category_id": "لم يتم توفير معرف الفئة",
         "load_data_failed": "فشل تحميل البيانات",
         "name_and_category_required": "الاسم والفئة مطلوبان",
         "name_and_domain_required": "الاسم والمجال مطلوبان",
         "name_item_domain_required": "الاسم والعنصر والمجال مطلوبان",
-        "generic_error": "{{error}}"
+        "generic_error": "{{error}}",
+        "validation": {
+          "required_field": "هذا الحقل مطلوب",
+          "invalid_format": "تنسيق غير صحيح",
+          "name_required": "الاسم مطلوب بلغة واحدة على الأقل"
+        }
       },
       "success": {
+        "summary": "نجاح",
         "domain_added": "تمت إضافة المجال بنجاح",
         "item_added": "تمت إضافة العنصر بنجاح",
         "domain_updated": "تم تحديث المجال بنجاح",
@@ -833,6 +850,11 @@
       "confirm": {
         "delete_domain": "هل أنت متأكد من حذف {{domainName}}؟",
         "delete_item": "هل أنت متأكد من حذف {{itemName}}؟"
+      },
+      "info": {
+        "summary": "معلومات",
+        "loading": "جاري التحميل...",
+        "no_data": "لا توجد بيانات متاحة"
       }
     }
   },  "categories": {

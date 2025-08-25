@@ -48,14 +48,10 @@ export class ProfileDomainService {
 
     // Create a new domain
     create(categoryId: number, domainData: Partial<ProfileDomain>): Observable<ProfileDomain> {
-        if (!domainData.name) {
-            return throwError(() => new Error('Missing required fields: name'));
-        }
+
         const url = `${this.baseUrl}?category_id=${categoryId}`;
-        const body = {
-            name: domainData.name,
-            description: domainData.description || ''
-        };
+        // Send the data as-is to handle both name/name_ar and description/description_ar
+        const body = { ...domainData };
         return this.http.post<ApiResponse<ProfileDomain>>(url, body).pipe(
             map(response => response.data!),
             catchError(this.handleError)
@@ -65,10 +61,8 @@ export class ProfileDomainService {
     // Update an existing domain
     update(domainId: number, domainData: Partial<ProfileDomain>): Observable<ProfileDomain> {
         const url = `${this.baseUrl}${domainId}/`;
-        const body = {
-            name: domainData.name,
-            description: domainData.description
-        };
+        // Send the data as-is to handle both name/name_ar and description/description_ar
+        const body = { ...domainData };
         return this.http.put<ApiResponse<ProfileDomain>>(url, body).pipe(
             map(response => response.data!),
             catchError(this.handleError)

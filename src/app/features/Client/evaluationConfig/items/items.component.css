@@ -101,6 +101,12 @@
   margin-right: 16px;
 }
 
+.domain-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
+}
+
 /* Item List Styles */
 .item-list {
   padding: 16px;

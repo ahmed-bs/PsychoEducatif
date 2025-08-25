@@ -825,6 +825,11 @@
         "cancel": "Annuler",
         "add": "Ajouter",
         "update": "Modifier"
+      },
+      "tooltips": {
+        "edit": "Modifier ce domaine",
+        "delete": "Supprimer ce domaine",
+        "expand": "Développer/Réduire"
       }
     },
     "add_item_dialog": {
@@ -844,18 +849,30 @@
         "cancel": "Annuler",
         "add": "Ajouter",
         "update": "Modifier"
+      },
+      "tooltips": {
+        "edit": "Modifier cet item",
+        "delete": "Supprimer cet item",
+        "expand": "Développer/Réduire"
       }
     },
     "messages": {
       "error": {
+        "summary": "Erreur",
         "no_category_id": "Aucun identifiant de catégorie fourni",
         "load_data_failed": "Échec du chargement des données",
         "name_and_category_required": "Le nom et la catégorie sont requis",
         "name_and_domain_required": "Le nom et le domaine sont requis",
         "name_item_domain_required": "Le nom, l'item et le domaine sont requis",
-        "generic_error": "{{error}}"
+        "generic_error": "{{error}}",
+        "validation": {
+          "required_field": "Ce champ est obligatoire",
+          "invalid_format": "Format invalide",
+          "name_required": "Le nom est obligatoire dans au moins une langue"
+        }
       },
       "success": {
+        "summary": "Succès",
         "domain_added": "Domaine ajouté avec succès",
         "item_added": "Item ajouté avec succès",
         "domain_updated": "Domaine mis à jour avec succès",
@@ -866,6 +883,11 @@
       "confirm": {
         "delete_domain": "Êtes-vous sûr de vouloir supprimer {{domainName}} ?",
         "delete_item": "Êtes-vous sûr de vouloir supprimer {{itemName}} ?"
+      },
+      "info": {
+        "summary": "Information",
+        "loading": "Chargement en cours...",
+        "no_data": "Aucune donnée disponible"
       }
     }
   }, "categories": {
