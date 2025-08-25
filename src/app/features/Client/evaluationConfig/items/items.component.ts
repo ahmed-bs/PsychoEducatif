@@ -238,6 +238,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Validate language-specific content
+    if (!this.validateLanguageContent('domain')) {
+      return;
+    }
+
     let createData: any = { ...this.newDomain };
 
     // Handle Arabic fields for backend create
@@ -278,6 +283,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
       this.translate.get('items.messages.error.name_and_domain_required').subscribe((text) => {
         this.showError(text);
       });
+      return;
+    }
+
+    // Validate language-specific content
+    if (!this.validateLanguageContent('item')) {
       return;
     }
 
@@ -328,6 +338,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Validate language-specific content
+    if (!this.validateLanguageContent('domain')) {
+      return;
+    }
+
     const domainId = this.selectedDomain.id;
     let updateData: any = { ...this.newDomain };
 
@@ -372,6 +387,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
       this.translate.get('items.messages.error.name_item_domain_required').subscribe((text) => {
         this.showError(text);
       });
+      return;
+    }
+
+    // Validate language-specific content
+    if (!this.validateLanguageContent('item')) {
       return;
     }
 
@@ -604,6 +624,64 @@ export class ItemsComponent implements OnInit, OnDestroy {
         this.newItem.description = this.selectedItem.description || '';
       }
     }
+  }
+
+  private validateLanguageContent(type: 'domain' | 'item'): boolean {
+    const arabicPattern = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+    const frenchPattern = /[àâäéèêëïîôöùûüÿç]/i;
+    
+    let name: string = '';
+    let description: string = '';
+    
+    if (type === 'domain') {
+      name = this.newDomain.name;
+      description = this.newDomain.description;
+    } else {
+      name = this.newItem.name || '';
+      description = this.newItem.description || '';
+    }
+
+    // Check if fields are empty
+    if (!name.trim()) {
+      this.translate.get('items.messages.error.name_required').subscribe((text) => {
+        this.showError(text);
+      });
+      return false;
+    }
+
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, check if content contains Arabic characters
+      if (!arabicPattern.test(name)) {
+        this.translate.get('items.messages.error.arabic_content_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+      
+      if (description && !arabicPattern.test(description)) {
+        this.translate.get('items.messages.error.arabic_description_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+    } else {
+      // For French language, check if content contains French characters
+      if (!frenchPattern.test(name)) {
+        this.translate.get('items.messages.error.french_content_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+      
+      if (description && !frenchPattern.test(description)) {
+        this.translate.get('items.messages.error.french_description_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+    }
+
+    return true;
   }
 
 

@@ -836,7 +836,11 @@
           "required_field": "هذا الحقل مطلوب",
           "invalid_format": "تنسيق غير صحيح",
           "name_required": "الاسم مطلوب بلغة واحدة على الأقل"
-        }
+        },
+        "arabic_content_required": "يجب أن يكون المحتوى باللغة العربية",
+        "arabic_description_required": "يجب أن يكون الوصف باللغة العربية",
+        "french_content_required": "يجب أن يكون المحتوى باللغة الفرنسية",
+        "french_description_required": "يجب أن يكون الوصف باللغة الفرنسية"
       },
       "success": {
         "summary": "نجاح",

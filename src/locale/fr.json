@@ -869,7 +869,11 @@
           "required_field": "Ce champ est obligatoire",
           "invalid_format": "Format invalide",
           "name_required": "Le nom est obligatoire dans au moins une langue"
-        }
+        },
+        "arabic_content_required": "Le contenu doit être en arabe",
+        "arabic_description_required": "La description doit être en arabe",
+        "french_content_required": "Le contenu doit être en français",
+        "french_description_required": "La description doit être en français"
       },
       "success": {
         "summary": "Succès",
