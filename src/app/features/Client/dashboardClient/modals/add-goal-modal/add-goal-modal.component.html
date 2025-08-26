@@ -5,7 +5,7 @@
 
     <div class="p-4 pb-2 sm:p-6 sm:pb-2 flex justify-between items-center flex-shrink-0">
       <h2 class="text-xl sm:text-2xl font-semibold text-gray-800">
-        {{ isEditMode ? 'Modifier l\'objectif' : 'Ajouter un nouvel objectif' }}
+        {{ isEditMode ? ('add_goal_modal.header.edit' | translate) : ('add_goal_modal.header.add' | translate) }}
       </h2>
       <button (click)="onCloseModal()" class="text-gray-500 hover:text-gray-700">
         <i class="fas fa-times text-lg sm:text-xl"></i>
@@ -14,94 +14,94 @@
 
     <div class="px-4 sm:px-6 flex-grow overflow-y-auto custom-scrollbar"> <form [formGroup]="goalForm" (ngSubmit)="onSubmit()">
         <div class="mb-4">
-          <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Titre de l'objectif:</label>
+          <label for="title" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.title' | translate }}:</label>
           <input id="title" type="text" formControlName="title"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm sm:text-base"
             [class.border-red-500]="goalForm.get('title')?.invalid && goalForm.get('title')?.touched"
-            placeholder="Ex: Maîtriser de nouvelles compétences">
+            [placeholder]="'add_goal_modal.placeholders.title' | translate">
           <p *ngIf="goalForm.get('title')?.invalid && goalForm.get('title')?.touched" class="text-red-500 text-xs italic">
-            Le titre est requis.
+            {{ 'add_goal_modal.validation.title_required' | translate }}.
           </p>
         </div>
 
         <div class="mb-4">
-          <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+          <label for="description" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.description' | translate }}:</label>
           <textarea id="description" formControlName="description" rows="3"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none text-sm sm:text-base"
             [class.border-red-500]="goalForm.get('description')?.invalid && goalForm.get('description')?.touched"
-            placeholder="Décrivez votre objectif en détail."></textarea>
+            [placeholder]="'add_goal_modal.placeholders.description' | translate"></textarea>
           <p *ngIf="goalForm.get('description')?.invalid && goalForm.get('description')?.touched" class="text-red-500 text-xs italic">
-            La description est requise.
+            {{ 'add_goal_modal.validation.description_required' | translate }}.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label for="target_date" class="block text-gray-700 text-sm font-bold mb-2">Date cible:</label>
+            <label for="target_date" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.target_date' | translate }}:</label>
             <input id="target_date" type="date" formControlName="target_date"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm sm:text-base"
               [class.border-red-500]="goalForm.get('target_date')?.invalid && goalForm.get('target_date')?.touched">
             <p *ngIf="goalForm.get('target_date')?.invalid && goalForm.get('target_date')?.touched" class="text-red-500 text-xs italic">
-              La date cible est requise.
+              {{ 'add_goal_modal.validation.target_date_required' | translate }}.
             </p>
           </div>
           <div>
-            <label for="priority" class="block text-gray-700 text-sm font-bold mb-2">Priorité:</label>
+            <label for="priority" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.priority' | translate }}:</label>
             <select id="priority" formControlName="priority"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm sm:text-base"
               [class.border-red-500]="goalForm.get('priority')?.invalid && goalForm.get('priority')?.touched">
-              <option *ngFor="let p of priorities" [value]="p">{{ p | titlecase }}</option>
+              <option *ngFor="let p of priorities" [value]="p">{{ getPriorityLabel(p) }}</option>
             </select>
             <p *ngIf="goalForm.get('priority')?.invalid && goalForm.get('priority')?.touched" class="text-red-500 text-xs italic">
-              La priorité est requise.
+              {{ 'add_goal_modal.validation.priority_required' | translate }}.
             </p>
           </div>
         </div>
 
         <div class="mb-4">
-          <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Catégorie:</label>
+          <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.category' | translate }}:</label>
           <select id="category" formControlName="category_id"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm sm:text-base"
             [class.border-red-500]="goalForm.get('category_id')?.invalid && goalForm.get('category_id')?.touched">
-            <option [ngValue]="null" disabled>Sélectionner une catégorie</option>
-            <option *ngFor="let category of availableCategories" [value]="category.id">{{ category.name }}</option>
+            <option [ngValue]="null" disabled>{{ 'add_goal_modal.placeholders.select_category' | translate }}</option>
+            <option *ngFor="let category of availableCategories" [value]="category.id">{{ getLanguageField(category, 'name') }}</option>
           </select>
           <p *ngIf="goalForm.get('category_id')?.invalid && goalForm.get('category_id')?.touched" class="text-red-500 text-xs italic">
-            La catégorie est requise.
+            {{ 'add_goal_modal.validation.category_required' | translate }}.
           </p>
           <p *ngIf="availableCategories.length === 0 && goalForm.get('category_id')?.touched" class="text-sm text-gray-500 mt-1">
-            Aucune catégorie disponible. Assurez-vous d'avoir des catégories associées à votre profil.
+            {{ 'add_goal_modal.messages.no_categories' | translate }}.
           </p>
         </div>
 
         <div class="mb-4">
-          <label for="domain" class="block text-gray-700 text-sm font-bold mb-2">Domaine:</label>
+          <label for="domain" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.domain' | translate }}:</label>
           <select id="domain" formControlName="domain_id"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm sm:text-base"
             [class.border-red-500]="goalForm.get('domain_id')?.invalid && goalForm.get('domain_id')?.touched">
-            <option [ngValue]="null" disabled>Sélectionner un domaine</option>
-            <option *ngFor="let domain of availableDomains" [value]="domain.id">{{ domain.name }}</option>
+            <option [ngValue]="null" disabled>{{ 'add_goal_modal.placeholders.select_domain' | translate }}</option>
+            <option *ngFor="let domain of availableDomains" [value]="domain.id">{{ getDomainLanguageField(domain, 'name') }}</option>
           </select>
           <p *ngIf="goalForm.get('domain_id')?.invalid && goalForm.get('domain_id')?.touched" class="text-red-500 text-xs italic">
-            Le domaine est requis.
+            {{ 'add_goal_modal.validation.domain_required' | translate }}.
           </p>
           <p *ngIf="!goalForm.get('category_id')?.value" class="text-sm text-gray-500 mt-1">
-              Veuillez d'abord sélectionner une catégorie.
+              {{ 'add_goal_modal.messages.select_category_first' | translate }}.
           </p>
           <p *ngIf="goalForm.get('category_id')?.value && availableDomains.length === 0 && goalForm.get('category_id')?.touched" class="text-sm text-gray-500 mt-1">
-            Aucun domaine disponible pour la catégorie sélectionnée.
+            {{ 'add_goal_modal.messages.no_domains' | translate }}.
           </p>
         </div>
 
         <div class="mb-4 p-3 sm:p-4 border border-gray-200 rounded-lg">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3">Sous-objectifs:</h3>
+          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3">{{ 'add_goal_modal.labels.sub_objectives' | translate }}:</h3>
           <div class="max-h-32 sm:max-h-36 overflow-y-auto pr-2 custom-scrollbar" formArrayName="sub_objectives">
             <div *ngFor="let subObjectiveGroup of subObjectives.controls; let i = index" [formGroupName]="i"
               class="flex items-center mb-3">
               <input type="text" formControlName="description"
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 text-sm sm:text-base"
                 [class.border-red-500]="subObjectiveGroup.get('description')?.invalid && subObjectiveGroup.get('description')?.touched"
-                placeholder="Description du sous-objectif">
+                [placeholder]="'add_goal_modal.placeholders.sub_objective' | translate">
               <button type="button" (click)="removeSubObjective(i)"
                 class="text-red-600 hover:text-red-800 text-base sm:text-lg p-1">
                 <i class="fas fa-trash-alt"></i>
@@ -110,7 +110,7 @@
           </div>
           <button type="button" (click)="addSubObjective()"
             class="mt-2 bg-gray-200 text-gray-700 px-3 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-300 transition flex items-center text-sm sm:text-base">
-            <i class="fas fa-plus mr-2"></i> Ajouter un sous-objectif
+            <i class="fas fa-plus mr-2"></i> {{ 'add_goal_modal.buttons.add_sub_objective' | translate }}
           </button>
         </div>
       </form>
@@ -119,12 +119,12 @@
     <div class="p-4 pt-0 sm:p-6 sm:pt-0 flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
       <button type="button" (click)="onCloseModal()"
         class="bg-gray-300 text-gray-800 px-4 py-2 sm:px-6 sm:py-2 rounded-lg hover:bg-gray-400 transition text-sm sm:text-base">
-        Annuler
+        {{ 'add_goal_modal.buttons.cancel' | translate }}
       </button>
       <button type="submit" (click)="onSubmit()"
         class="bg-blue-600 text-white px-4 py-2 sm:px-6 sm:py-2 rounded-lg shadow-md hover:bg-blue-700 transition text-sm sm:text-base"
         [disabled]="!goalForm.valid">
-        <i class="fas fa-save mr-2"></i> {{ isEditMode ? 'Enregistrer les modifications' : 'Créer l\'objectif' }}
+        <i class="fas fa-save mr-2"></i> {{ isEditMode ? ('add_goal_modal.buttons.save_changes' | translate) : ('add_goal_modal.buttons.create_goal' | translate) }}
       </button>
     </div>
   </div>

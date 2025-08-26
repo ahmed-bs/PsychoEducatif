@@ -17,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 type ItemStatus = ProfileItem['etat'];
 
@@ -40,12 +41,14 @@ interface DomainWithUI extends ProfileDomain {
 export class ItemsComponent implements OnInit, OnDestroy {
   category: ProfileCategory | null = null;
   domains: DomainWithUI[] = [];
+  domainsWithDisplayNames: any[] = [];
   loading: boolean = true;
   showFilters: boolean = false;
   displayAddDomainDialog = false;
   displayAddItemDialog = false;
   displayAddCompetenceDialog = false;
   editingCompetence = false;
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
   
   newDomain: NewDomain = {
@@ -82,11 +85,19 @@ export class ItemsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private sharedService: SharedService
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
       // Update status options when language changes
       this.updateStatusOptions();
+      // Update domains with display names when language changes
+      this.updateDomainsWithDisplayNames();
+      // Update form fields if editing
+      this.updateFormFieldsForLanguage();
     });
   }
 
@@ -123,6 +134,63 @@ export class ItemsComponent implements OnInit, OnDestroy {
     return this.translate.instant('items.items_by_domain.status_labels.' + etat) || this.translate.instant('items.items_by_domain.status_labels.NON_COTE');
   }
 
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: ProfileDomain, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the display name for domain dropdown
+  getDomainDisplayName(domain: ProfileDomain): string {
+    return this.getDomainLanguageField(domain, 'name');
+  }
+
+  // Update domains with display names for dropdown
+  private updateDomainsWithDisplayNames() {
+    this.domainsWithDisplayNames = this.domains.map(domain => ({
+      ...domain,
+      displayName: this.getDomainLanguageField(domain, 'name')
+    }));
+  }
+
   loadData() {
     if (!this.categoryId) return;
     
@@ -134,6 +202,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
       }),
       switchMap(domains => {
         this.domains = domains as DomainWithUI[];
+        this.updateDomainsWithDisplayNames();
         const itemRequests = domains.map(domain => 
           this.profileItemService.getItems(domain.id).pipe(
             tap(items => {
@@ -162,22 +231,44 @@ export class ItemsComponent implements OnInit, OnDestroy {
   }
 
   addDomain() {
-    if (!this.newDomain.name || !this.categoryId) {
+    if (!this.categoryId) {
       this.translate.get('items.messages.error.name_and_category_required').subscribe((text) => {
         this.showError(text);
       });
       return;
     }
 
-    this.profileDomainService.create(this.categoryId, this.newDomain).subscribe({
+    // Validate language-specific content
+    if (!this.validateLanguageContent('domain')) {
+      return;
+    }
+
+    let createData: any = { ...this.newDomain };
+
+    // Handle Arabic fields for backend create
+    if (this.currentLanguage === 'ar') {
+      createData = {
+        name_ar: this.newDomain.name,
+        description_ar: this.newDomain.description
+        // Don't send name and description when using Arabic fields
+      };
+    } else {
+      createData = {
+        name: this.newDomain.name,
+        description: this.newDomain.description
+        // Don't send name_ar and description_ar when using French fields
+      };
+    }
+
+    this.profileDomainService.create(this.categoryId, createData).subscribe({
       next: (domain) => {
         this.domains.push(domain as DomainWithUI);
         this.itemsByDomain[domain.id] = [];
-        this.displayAddDomainDialog = false;
+        this.updateDomainsWithDisplayNames();
+        this.closeDomainDialog();
         this.translate.get('items.messages.success.domain_added').subscribe((text) => {
           this.showSuccess(text);
         });
-        this.newDomain = { name: '', description: '' };
       },
       error: (error) => {
         this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
@@ -188,25 +279,48 @@ export class ItemsComponent implements OnInit, OnDestroy {
   }
 
   addItem() {
-    if (!this.selectedDomain?.id || !this.newItem.name) {
+    if (!this.selectedDomain?.id) {
       this.translate.get('items.messages.error.name_and_domain_required').subscribe((text) => {
         this.showError(text);
       });
       return;
     }
 
+    // Validate language-specific content
+    if (!this.validateLanguageContent('item')) {
+      return;
+    }
+
     const domainId = this.selectedDomain.id;
-    this.profileItemService.create(domainId, this.newItem).subscribe({
+    let createData: any = { ...this.newItem };
+
+    // Handle Arabic fields for backend create
+    if (this.currentLanguage === 'ar') {
+      createData = {
+        name_ar: this.newItem.name,
+        description_ar: this.newItem.description,
+        etat: this.newItem.etat
+        // Don't send name and description when using Arabic fields
+      };
+    } else {
+      createData = {
+        name: this.newItem.name,
+        description: this.newItem.description,
+        etat: this.newItem.etat
+        // Don't send name_ar and description_ar when using French fields
+      };
+    }
+
+    this.profileItemService.create(domainId, createData).subscribe({
       next: (item) => {
         if (!this.itemsByDomain[domainId]) {
           this.itemsByDomain[domainId] = [];
         }
         this.itemsByDomain[domainId].push(item);
-        this.displayAddItemDialog = false;
+        this.closeItemDialog();
         this.translate.get('items.messages.success.item_added').subscribe((text) => {
           this.showSuccess(text);
         });
-        this.resetNewItem();
       },
       error: (error) => {
         this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
@@ -217,21 +331,45 @@ export class ItemsComponent implements OnInit, OnDestroy {
   }
 
   updateDomain() {
-    if (!this.selectedDomain?.id || !this.newDomain.name) {
+    if (!this.selectedDomain?.id) {
       this.translate.get('items.messages.error.name_and_domain_required').subscribe((text) => {
         this.showError(text);
       });
       return;
     }
 
+    // Validate language-specific content
+    if (!this.validateLanguageContent('domain')) {
+      return;
+    }
+
     const domainId = this.selectedDomain.id;
-    this.profileDomainService.update(domainId, this.newDomain).subscribe({
+    let updateData: any = { ...this.newDomain };
+
+    // Handle Arabic fields for backend update
+    if (this.currentLanguage === 'ar') {
+      updateData = {
+        name_ar: this.newDomain.name,
+        description_ar: this.newDomain.description
+        // Don't send name and description when using Arabic fields
+      };
+    } else {
+      updateData = {
+        name: this.newDomain.name,
+        description: this.newDomain.description
+        // Don't send name_ar and description_ar when using French fields
+      };
+    }
+
+    this.profileDomainService.update(domainId, updateData).subscribe({
       next: (updatedDomain) => {
         const index = this.domains.findIndex((d) => d.id === updatedDomain.id);
         if (index !== -1) {
           this.domains[index] = updatedDomain as DomainWithUI;
+          // Update domainsWithDisplayNames as well
+          this.updateDomainsWithDisplayNames();
         }
-        this.displayAddDomainDialog = false;
+        this.closeDomainDialog();
         this.translate.get('items.messages.success.domain_updated').subscribe((text) => {
           this.showSuccess(text);
         });
@@ -245,28 +383,50 @@ export class ItemsComponent implements OnInit, OnDestroy {
   }
 
   updateItem() {
-    if (!this.selectedDomain?.id || !this.selectedItem?.id || !this.newItem.name) {
+    if (!this.selectedDomain?.id || !this.selectedItem?.id) {
       this.translate.get('items.messages.error.name_item_domain_required').subscribe((text) => {
         this.showError(text);
       });
       return;
     }
 
+    // Validate language-specific content
+    if (!this.validateLanguageContent('item')) {
+      return;
+    }
+
     const domainId = this.selectedDomain.id;
     const itemId = this.selectedItem.id;
+    let updateData: any = { ...this.newItem };
 
-    this.profileItemService.update(itemId, this.newItem).subscribe({
+    // Handle Arabic fields for backend update
+    if (this.currentLanguage === 'ar') {
+      updateData = {
+        name_ar: this.newItem.name,
+        description_ar: this.newItem.description,
+        etat: this.newItem.etat
+        // Don't send name and description when using Arabic fields
+      };
+    } else {
+      updateData = {
+        name: this.newItem.name,
+        description: this.newItem.description,
+        etat: this.newItem.etat
+        // Don't send name_ar and description_ar when using French fields
+      };
+    }
+
+    this.profileItemService.update(itemId, updateData).subscribe({
       next: (updatedItem) => {
         const items = this.itemsByDomain[domainId] || [];
         const itemIndex = items.findIndex((i: ProfileItem) => i.id === updatedItem.id);
         if (itemIndex !== -1) {
           this.itemsByDomain[domainId][itemIndex] = updatedItem;
         }
-        this.displayAddItemDialog = false;
+        this.closeItemDialog();
         this.translate.get('items.messages.success.item_updated').subscribe((text) => {
           this.showSuccess(text);
         });
-        this.resetNewItem();
       },
       error: (error) => {
         this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
@@ -279,7 +439,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
   deleteDomain(domain: DomainWithUI) {
     if (!domain.id) return;
 
-    this.translate.get('items.messages.confirm.delete_domain', { domainName: domain.name }).subscribe((message) => {
+    this.translate.get('items.messages.confirm.delete_domain', { domainName: this.getDomainLanguageField(domain, 'name') }).subscribe((message) => {
       if (!confirm(message)) {
         return;
       }
@@ -371,14 +531,57 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
   showEditDomainDialog(domain: DomainWithUI) {
     this.selectedDomain = domain;
-    this.newDomain = { ...domain };
+    if (this.currentLanguage === 'ar') {
+      // For Arabic, use _ar fields
+      this.newDomain = {
+        id: domain.id,
+        name: domain.name_ar || '',
+        description: domain.description_ar || ''
+      };
+    } else {
+      // For French, use regular fields
+      this.newDomain = {
+        id: domain.id,
+        name: domain.name || '',
+        description: domain.description || ''
+      };
+    }
     this.displayAddDomainDialog = true;
+  }
+
+  closeDomainDialog() {
+    this.displayAddDomainDialog = false;
+    this.selectedDomain = null;
+    this.newDomain = { name: '', description: '' };
+  }
+
+  closeItemDialog() {
+    this.displayAddItemDialog = false;
+    this.selectedDomain = null;
+    this.selectedItem = null;
+    this.resetNewItem();
   }
 
   showEditItemDialog(item: ProfileItem, domain: DomainWithUI) {
     this.selectedDomain = domain;
     this.selectedItem = item;
-    this.newItem = { ...item };
+    if (this.currentLanguage === 'ar') {
+      // For Arabic, use _ar fields
+      this.newItem = {
+        id: item.id,
+        name: item.name_ar || '',
+        description: item.description_ar || '',
+        etat: item.etat
+      };
+    } else {
+      // For French, use regular fields
+      this.newItem = {
+        id: item.id,
+        name: item.name || '',
+        description: item.description || '',
+        etat: item.etat
+      };
+    }
     this.displayAddItemDialog = true;
   }
 
@@ -390,4 +593,96 @@ export class ItemsComponent implements OnInit, OnDestroy {
     };
     this.selectedItem = null;
   }
+
+  isEditingDomain(): boolean {
+    return this.newDomain.id !== undefined && this.newDomain.id !== null;
+  }
+
+  isEditingItem(): boolean {
+    return this.selectedItem !== null;
+  }
+
+  private updateFormFieldsForLanguage() {
+    // Update domain form if editing
+    if (this.isEditingDomain() && this.selectedDomain) {
+      if (this.currentLanguage === 'ar') {
+        this.newDomain.name = this.selectedDomain.name_ar || '';
+        this.newDomain.description = this.selectedDomain.description_ar || '';
+      } else {
+        this.newDomain.name = this.selectedDomain.name || '';
+        this.newDomain.description = this.selectedDomain.description || '';
+      }
+    }
+
+    // Update item form if editing
+    if (this.isEditingItem() && this.selectedItem) {
+      if (this.currentLanguage === 'ar') {
+        this.newItem.name = this.selectedItem.name_ar || '';
+        this.newItem.description = this.selectedItem.description_ar || '';
+      } else {
+        this.newItem.name = this.selectedItem.name || '';
+        this.newItem.description = this.selectedItem.description || '';
+      }
+    }
+  }
+
+  private validateLanguageContent(type: 'domain' | 'item'): boolean {
+    const arabicPattern = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+    const frenchPattern = /[àâäéèêëïîôöùûüÿç]/i;
+    
+    let name: string = '';
+    let description: string = '';
+    
+    if (type === 'domain') {
+      name = this.newDomain.name;
+      description = this.newDomain.description;
+    } else {
+      name = this.newItem.name || '';
+      description = this.newItem.description || '';
+    }
+
+    // Check if fields are empty
+    if (!name.trim()) {
+      this.translate.get('items.messages.error.name_required').subscribe((text) => {
+        this.showError(text);
+      });
+      return false;
+    }
+
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, check if content contains Arabic characters
+      if (!arabicPattern.test(name)) {
+        this.translate.get('items.messages.error.arabic_content_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+      
+      if (description && !arabicPattern.test(description)) {
+        this.translate.get('items.messages.error.arabic_description_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+    } else {
+      // For French language, check if content contains French characters
+      if (!frenchPattern.test(name)) {
+        this.translate.get('items.messages.error.french_content_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+      
+      if (description && !frenchPattern.test(description)) {
+        this.translate.get('items.messages.error.french_description_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+
 }

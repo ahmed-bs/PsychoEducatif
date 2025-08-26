@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
@@ -59,18 +59,55 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
   profileDomainName: string | null = null;
   isLoading: boolean = false;
   error: string | null = null;
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
 
   constructor(
     private profileItemService: ProfileItemService,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
+      // Update category and domain names when language changes
+      if (this.items.length > 0) {
+        this.profileCategoryName = this.getLanguageSpecificCategoryName();
+        this.profileDomainName = this.getLanguageSpecificDomainName();
+      }
+      // Force change detection
+      this.cdr.detectChanges();
     });
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
   }
 
   ngOnInit(): void {
@@ -99,6 +136,37 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  // Helper method to get language-specific category name
+  public getLanguageSpecificCategoryName(): string {
+    if (this.items.length > 0) {
+      const item = this.items[0];
+      if (this.currentLanguage === 'ar') {
+        return item.profile_category_name_ar || item.profile_category_name || this.translate.instant('evaluations.export.unknown_category');
+      } else {
+        return item.profile_category_name || this.translate.instant('evaluations.export.unknown_category');
+      }
+    }
+    return this.translate.instant('evaluations.export.unknown_category');
+  }
+
+  // Helper method to get language-specific domain name
+  public getLanguageSpecificDomainName(): string {
+    if (this.items.length > 0) {
+      const item = this.items[0];
+      if (this.currentLanguage === 'ar') {
+        return item.profile_domain_name_ar || item.profile_domain_name || this.translate.instant('evaluations.export.unknown_domain');
+      } else {
+        return item.profile_domain_name || this.translate.instant('evaluations.export.unknown_domain');
+      }
+    }
+    return this.translate.instant('evaluations.export.unknown_domain');
+  }
+
   loadItems(): void {
     this.isLoading = true;
     this.error = null;
@@ -109,8 +177,9 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
         if (items.length === 0) {
           this.error = this.translate.instant('evaluations.error.no_items_found');
         } else {
-          this.profileCategoryName = items[0]?.profile_category_name || this.translate.instant('evaluations.export.unknown_category');
-          this.profileDomainName = items[0]?.profile_domain_name || this.translate.instant('evaluations.export.unknown_domain');
+          // Use language-specific names
+          this.profileCategoryName = this.getLanguageSpecificCategoryName();
+          this.profileDomainName = this.getLanguageSpecificDomainName();
         }
         this.isLoading = false;
       },
@@ -125,13 +194,13 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
   exportExcel(): void {
     import('xlsx').then((xlsx) => {
       const exportData = [
-        { [this.translate.instant('evaluations.export.category_label')]: this.profileCategoryName || this.translate.instant('evaluations.export.unknown_category') },
-        { [this.translate.instant('evaluations.export.domain_label')]: this.profileDomainName || this.translate.instant('evaluations.export.unknown_domain') },
+        { [this.translate.instant('evaluations.export.category_label')]: this.getLanguageSpecificCategoryName() },
+        { [this.translate.instant('evaluations.export.domain_label')]: this.getLanguageSpecificDomainName() },
         {},
         ...this.items.map((item) => ({
-          [this.translate.instant('evaluations.table.headers.items')]: item.description || item.name,
+          [this.translate.instant('evaluations.table.headers.items')]: this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
           [this.translate.instant('evaluations.table.headers.status')]: this.getStatusLabel(item.etat),
-          [this.translate.instant('evaluations.table.headers.comments')]: item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('evaluations.table.no_comment'),
+          [this.translate.instant('evaluations.table.headers.comments')]: this.getItemLanguageField(item, 'comentaire') || this.translate.instant('evaluations.table.no_comment'),
         })),
       ];
       const worksheet = xlsx.utils.json_to_sheet(exportData);
@@ -149,10 +218,10 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
   }
 
   exportPdf(): void {
-    const currentLang = this.sharedService.getCurrentLanguage();
+    const currentLang = this.currentLanguage;
     
     // For Arabic text, we need a different approach
-    if (currentLang === 'ar' || containsArabic(this.profileCategoryName || '') || containsArabic(this.profileDomainName || '')) {
+    if (currentLang === 'ar' || containsArabic(this.getLanguageSpecificCategoryName()) || containsArabic(this.getLanguageSpecificDomainName())) {
       this.exportPdfArabic();
     } else {
       this.exportPdfStandard();
@@ -167,17 +236,17 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
     doc.setFontSize(12);
 
     // Add header text
-    const categoryText = `${this.translate.instant('evaluations.export.category_label')}: ${this.profileCategoryName || this.translate.instant('evaluations.export.unknown_category')}`;
-    const domainText = `${this.translate.instant('evaluations.export.domain_label')}: ${this.profileDomainName || this.translate.instant('evaluations.export.unknown_domain')}`;
+    const categoryText = `${this.translate.instant('evaluations.export.category_label')}: ${this.getLanguageSpecificCategoryName()}`;
+    const domainText = `${this.translate.instant('evaluations.export.domain_label')}: ${this.getLanguageSpecificDomainName()}`;
     
     doc.text(categoryText, 40, 20);
     doc.text(domainText, 40, 40);
 
     // Prepare table data
     const tableData = this.items.map((item) => [
-      item.description || item.name,
+      this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
       this.getStatusLabel(item.etat),
-      item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('evaluations.table.no_comment'),
+      this.getItemLanguageField(item, 'comentaire') || this.translate.instant('evaluations.table.no_comment'),
     ]);
 
     // Apply autoTable
@@ -260,8 +329,8 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
           <h1>تقرير التقييم</h1>
         </div>
         <div class="info">
-          <p><strong>الفئة:</strong> ${this.profileCategoryName || 'غير محدد'}</p>
-          <p><strong>المجال:</strong> ${this.profileDomainName || 'غير محدد'}</p>
+          <p><strong>الفئة:</strong> ${this.getLanguageSpecificCategoryName()}</p>
+          <p><strong>المجال:</strong> ${this.getLanguageSpecificDomainName()}</p>
         </div>
         <table>
           <thead>
@@ -275,9 +344,9 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
     `;
     
     this.items.forEach(item => {
-      const itemText = item.description || item.name || '';
+      const itemText = this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name') || '';
       const statusText = this.getStatusLabel(item.etat);
-      const commentText = item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('evaluations.table.no_comment');
+      const commentText = this.getItemLanguageField(item, 'comentaire') || this.translate.instant('evaluations.table.no_comment');
       
       html += `
         <tr>

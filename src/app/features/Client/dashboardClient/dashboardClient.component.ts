@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,6 +29,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { StatisticsService, OverallStatistics, CategoryStatistics } from 'src/app/core/services/statistics.service';
 import { Subscription } from 'rxjs';
+import { ProfileItem } from 'src/app/core/models/ProfileItem';
 
 @Component({
   selector: 'app-dashboardClient',
@@ -76,11 +77,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   showGoalFormModal = false;
 
   tabs = [
-    { id: 'skills', label: 'Compétences' },
-    { id: 'goals', label: 'Objectifs' },
-    { id: 'strategies', label: 'Stratégies' },
-    { id: 'notes', label: 'Notes' },
-    { id: 'stats', label: 'Statistiques' }
+    { id: 'skills', label: 'dashboard.tabs.skills' },
+    { id: 'goals', label: 'dashboard.tabs.goals' },
+    { id: 'strategies', label: 'dashboard.tabs.strategies' },
+    { id: 'notes', label: 'dashboard.tabs.notes' },
+    { id: 'stats', label: 'dashboard.tabs.stats' }
   ];
 
   progressBars = [
@@ -136,12 +137,12 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         cornerRadius: 8,
         displayColors: true,
         callbacks: {
-          label: function(context) {
+          label: (context: any) => {
             const label = context.label || '';
             const value = context.parsed;
             const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
             const percentage = ((value / total) * 100).toFixed(1);
-            return `${label}: ${value} compétences (${percentage}%)`;
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')} (${percentage}%)`;
           }
         }
       }
@@ -155,7 +156,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     labels: [],
     datasets: [
       {
-        label: 'Progrès Actuel',
+        label: '',
         data: [],
         backgroundColor: 'rgba(99, 102, 241, 0.8)',
         borderColor: 'rgba(99, 102, 241, 1)',
@@ -164,7 +165,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         borderSkipped: false,
       },
       {
-        label: 'Objectif',
+        label: '',
         data: [],
         backgroundColor: 'rgba(34, 197, 94, 0.6)',
         borderColor: 'rgba(34, 197, 94, 1)',
@@ -231,7 +232,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     labels: [],
     datasets: [
       {
-        label: 'Niveau Actuel',
+        label: '',
         data: [],
         fill: false,
         borderColor: 'rgba(99, 102, 241, 1)',
@@ -341,10 +342,10 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         borderWidth: 1,
         cornerRadius: 8,
         callbacks: {
-          label: function(context) {
+          label: (context: any) => {
             const label = context.label || '';
             const value = context.parsed.r;
-            return `${label}: ${value} compétences`;
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')}`;
           }
         }
       }
@@ -371,6 +372,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
 
   isEmailValid: boolean = false;
   loadingShare: boolean = false;
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
   
   // Statistics data
@@ -388,13 +390,30 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     private goalService: GoalService, 
     private authService: AuthService,    private translate: TranslateService,
     private sharedService: SharedService,
-    private statisticsService: StatisticsService
+    private statisticsService: StatisticsService,
+    private cdr: ChangeDetectorRef
   ) {
     this.accesSelectionne = this.optionsAcces[0];
+    
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
     
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
+      // Update charts with new language
+      if (this.statistics) {
+        this.updateSkillsChart();
+      }
+      // Force refresh statistics display
+      this.refreshStatisticsDisplay();
+      // Reload categories if they're not available but statistics are
+      if (this.statistics && this.categories.length === 0 && this.selectedChild?.id) {
+        this.loadCategories(this.selectedChild.id);
+      }
+      // Force change detection
+      this.cdr.detectChanges();
     });
   }
 
@@ -537,6 +556,10 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         });
         // Update chart data for skills
         this.updateSkillsChart();
+        // Refresh statistics display if statistics are already loaded
+        if (this.statistics) {
+          this.updateSkillsChart();
+        }
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger les catégories.', 'error');
@@ -902,12 +925,15 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   updateSkillsChart() {
     if (!this.statistics) return;
     
-    // Use real statistics data for doughnut chart
+    // Use real statistics data for doughnut chart with language-specific names
     const labels: string[] = [];
     const data: number[] = [];
     
     for (const categoryStat of this.statistics.categoryStats) {
-      labels.push(categoryStat.categoryName);
+      // Get language-specific category name
+      const category = this.categories.find(cat => cat.id === categoryStat.categoryId);
+      const categoryName = category ? this.getLanguageField(category, 'name') : categoryStat.categoryName;
+      labels.push(categoryName);
       data.push(categoryStat.totalItems);
     }
     
@@ -935,7 +961,10 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     const targetProgress: number[] = [];
     
     for (const categoryStat of this.statistics.categoryStats) {
-      labels.push(categoryStat.categoryName);
+      // Get language-specific category name
+      const category = this.categories.find(cat => cat.id === categoryStat.categoryId);
+      const categoryName = category ? this.getLanguageField(category, 'name') : categoryStat.categoryName;
+      labels.push(categoryName);
       currentProgress.push(categoryStat.progressPercentage);
       targetProgress.push(85); // Target of 85% for all categories
     }
@@ -944,8 +973,16 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       ...this.progressChartData,
       labels,
       datasets: [
-        { ...this.progressChartData.datasets[0], data: currentProgress },
-        { ...this.progressChartData.datasets[1], data: targetProgress }
+        { 
+          ...this.progressChartData.datasets[0], 
+          data: currentProgress,
+          label: this.getTranslatedChartLabel('current_progress')
+        },
+        { 
+          ...this.progressChartData.datasets[1], 
+          data: targetProgress,
+          label: this.getTranslatedChartLabel('target')
+        }
       ],
     };
   }
@@ -962,7 +999,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       if (domainCount >= 6) break;
       for (const domainStat of categoryStat.domains) {
         if (domainCount >= 6) break;
-        labels.push(domainStat.domainName);
+        // Get language-specific domain name if available
+        const category = this.categories.find(cat => cat.id === categoryStat.categoryId);
+        const domain = category ? this.domains[category.id!]?.find(d => d.id === domainStat.domainId) : null;
+        const domainName = domain ? this.getLanguageFieldForDomain(domain, 'name') : domainStat.domainName;
+        labels.push(domainName);
         data.push(domainStat.progressPercentage);
         domainCount++;
       }
@@ -971,7 +1012,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     this.lineChartData = {
       ...this.lineChartData,
       labels,
-      datasets: [{ ...this.lineChartData.datasets[0], data }],
+      datasets: [{ 
+        ...this.lineChartData.datasets[0], 
+        data,
+        label: this.getTranslatedChartLabel('current_level')
+      }],
     };
   }
 
@@ -982,7 +1027,10 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     const data: number[] = [];
     
     for (const categoryStat of this.statistics.categoryStats) {
-      labels.push(categoryStat.categoryName);
+      // Get language-specific category name
+      const category = this.categories.find(cat => cat.id === categoryStat.categoryId);
+      const categoryName = category ? this.getLanguageField(category, 'name') : categoryStat.categoryName;
+      labels.push(categoryName);
       data.push(categoryStat.totalItems);
     }
     
@@ -1033,5 +1081,374 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         this.isLoadingStatistics = false;
       }
     });
+  }
+
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  // Helper method to get the appropriate field based on language
+  getLanguageField(category: ProfileCategory, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get language-specific domain name
+  getLanguageFieldForDomain(domain: ProfileDomain, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || domain.description || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get language-specific category name for statistics
+  getCategoryNameForStats(categoryStat: any): string {
+    // Include current language in the calculation to force re-evaluation
+    const currentLang = this.currentLanguage;
+    const category = this.categories.find(cat => cat.id === categoryStat.categoryId);
+    const categoryName = category ? this.getLanguageField(category, 'name') : categoryStat.categoryName;
+    
+    // Return the name with a language prefix to ensure uniqueness
+    return categoryName;
+  }
+
+  // Helper method to get translated chart labels
+  getTranslatedChartLabel(key: string): string {
+    const translations: { [key: string]: { fr: string, ar: string } } = {
+      'current_progress': { fr: 'Progrès Actuel', ar: 'التقدم الحالي' },
+      'target': { fr: 'Objectif', ar: 'الهدف' },
+      'current_level': { fr: 'Niveau Actuel', ar: 'المستوى الحالي' },
+      'competencies': { fr: 'compétences', ar: 'مهارات' }
+    };
+    
+    const translation = translations[key];
+    if (translation) {
+      return this.currentLanguage === 'ar' ? translation.ar : translation.fr;
+    }
+    return key;
+  }
+
+  // Helper method to get a unique key for forcing template updates
+  getLanguageKey(): string {
+    return this.currentLanguage;
+  }
+
+  // Force refresh statistics display
+  refreshStatisticsDisplay() {
+    // Force change detection by updating the statistics reference
+    if (this.statistics) {
+      // Create a deep copy to ensure all nested objects are new references
+      this.statistics = JSON.parse(JSON.stringify(this.statistics));
+      // Force change detection
+      this.cdr.markForCheck();
+    }
+  }
+
+  // Helper methods to get chart options with language-specific titles
+  getSkillsChartOptions(): ChartConfiguration<'doughnut'>['options'] {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { 
+            color: '#374151', 
+            font: { size: 12, weight: '500' },
+            padding: 20,
+            usePointStyle: true,
+            pointStyle: 'circle'
+          },
+        },
+        title: {
+          display: true,
+          text: this.currentLanguage === 'ar' ? 'توزيع الكفاءات' : 'Répartition des Compétences',
+          color: '#1F2937',
+          font: { size: 16, weight: 'bold' },
+          padding: { top: 10, bottom: 20 }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          titleColor: '#ffffff',
+          bodyColor: '#ffffff',
+          borderColor: '#ffffff',
+          borderWidth: 1,
+          cornerRadius: 8,
+          displayColors: true,
+                  callbacks: {
+          label: (context: any) => {
+            const label = context.label || '';
+            const value = context.parsed;
+            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+            const percentage = ((value / total) * 100).toFixed(1);
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')} (${percentage}%)`;
+          }
+        }
+        }
+      },
+      cutout: '60%',
+      radius: '90%'
+    };
+  }
+
+  getProgressChartOptions(): ChartConfiguration<'bar'>['options'] {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { 
+            color: '#374151', 
+            font: { size: 12, weight: '500' },
+            usePointStyle: true,
+            pointStyle: 'rect'
+          },
+        },
+        title: {
+          display: true,
+          text: this.currentLanguage === 'ar' ? 'التقدم حسب المجال' : 'Progrès par Domaine',
+          color: '#1F2937',
+          font: { size: 16, weight: 'bold' },
+          padding: { top: 10, bottom: 20 }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          titleColor: '#ffffff',
+          bodyColor: '#ffffff',
+          borderColor: '#ffffff',
+          borderWidth: 1,
+          cornerRadius: 8,
+          callbacks: {
+            label: function(context) {
+              return `${context.dataset.label}: ${context.parsed.y}%`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { 
+          ticks: { color: '#6B7280', font: { size: 11 } },
+          grid: { color: 'rgba(107, 114, 128, 0.1)' }
+        },
+        y: { 
+          ticks: { color: '#6B7280', font: { size: 11 } },
+          grid: { color: 'rgba(107, 114, 128, 0.1)' },
+          beginAtZero: true, 
+          max: 100 
+        },
+      },
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      }
+    };
+  }
+
+  getLineChartOptions(): ChartConfiguration<'line'>['options'] {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { 
+            color: '#374151', 
+            font: { size: 12, weight: '500' }
+          },
+        },
+        title: {
+          display: true,
+          text: this.currentLanguage === 'ar' ? 'تقييم الكفاءات' : 'Évaluation des Compétences',
+          color: '#1F2937',
+          font: { size: 16, weight: 'bold' },
+          padding: { top: 10, bottom: 20 }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          titleColor: '#ffffff',
+          bodyColor: '#ffffff',
+          borderColor: '#ffffff',
+          borderWidth: 1,
+          cornerRadius: 8,
+          callbacks: {
+            label: function(context) {
+              return `${context.dataset.label}: ${context.parsed.y}%`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#6B7280', font: { size: 11 } },
+          grid: { color: 'rgba(107, 114, 128, 0.1)' }
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { color: '#6B7280', font: { size: 11 } },
+          grid: { color: 'rgba(107, 114, 128, 0.1)' }
+        }
+      }
+    };
+  }
+
+  getPolarChartOptions(): ChartConfiguration<'polarArea'>['options'] {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { 
+            color: '#374151', 
+            font: { size: 11, weight: '500' },
+            padding: 15,
+            usePointStyle: true,
+            pointStyle: 'circle'
+          },
+        },
+        title: {
+          display: true,
+          text: this.currentLanguage === 'ar' ? 'نظرة عامة على المجالات' : 'Vue d\'Ensemble des Domaines',
+          color: '#1F2937',
+          font: { size: 16, weight: 'bold' },
+          padding: { top: 10, bottom: 20 }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          titleColor: '#ffffff',
+          bodyColor: '#ffffff',
+          borderColor: '#ffffff',
+          borderWidth: 1,
+          cornerRadius: 8,
+                  callbacks: {
+          label: (context: any) => {
+            const label = context.label || '';
+            const value = context.parsed.r;
+            return `${label}: ${value} ${this.getTranslatedChartLabel('competencies')}`;
+          }
+        }
+        }
+      },
+      scales: {
+        r: {
+          ticks: {
+            color: '#6B7280',
+            font: { size: 10 },
+            stepSize: 1
+          },
+          grid: {
+            color: 'rgba(107, 114, 128, 0.1)'
+          }
+        }
+      }
+    };
+  }
+
+  // Helper method to get the appropriate field for ProfileCategory based on language
+  getCategoryLanguageField(category: ProfileCategory, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: ProfileDomain, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get category display name
+  getCategoryDisplayName(category: ProfileCategory): string {
+    return this.getCategoryLanguageField(category, 'name') || category.name || '';
+  }
+
+  // Helper method to get domain display name
+  getDomainDisplayName(domain: ProfileDomain): string {
+    return this.getDomainLanguageField(domain, 'name') || domain.name || '';
+  }
+
+  // Helper method to get item display name
+  getItemDisplayName(item: ProfileItem): string {
+    return this.getItemLanguageField(item, 'name') || item.name || '';
   }
 }

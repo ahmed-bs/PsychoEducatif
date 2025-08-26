@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TableModule } from 'primeng/table';
@@ -24,6 +24,7 @@ import { catchError, switchMap, map } from 'rxjs/operators';
 
 interface DomainTableRow {
   domain: string;
+  domainObject?: any; // Add reference to original domain object for language fields
   totalItems: number;
   acquired: number;
   partial: number;
@@ -35,6 +36,7 @@ interface DomainTableRow {
 
 interface CategoryTableRow {
   category: string;
+  categoryObject?: any; // Add reference to original category object for language fields
   id: number;
   totalDomains: number;
   totalItemsOverall: number;
@@ -71,6 +73,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   selectedFilterStatus: string = 'all';
   private originalCategoryDataForTable: CategoryTableRow[] = [];
   domainItemsVisibility: { [domainName: string]: boolean } = {};
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
 
   constructor(
@@ -79,13 +82,20 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private profileDomainService: ProfileDomainService,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) {
+    // Initialize current language - use the same key as SharedService
+    this.currentLanguage = localStorage.getItem('lang') || 'ar';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
       // Update filter statuses when language changes
       this.updateFilterStatuses();
+      // Refresh data with new language
+      this.refreshDataForLanguage();
     });
   }
 
@@ -162,13 +172,20 @@ export class SummaryComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (results) => {
-        const rawData = results.flatMap(result => 
-          result.allItems.map(item => ({
-            ...item,
-            profile_category_name: result.category.name,
-            profile_domain_name: item.profile_domain_name || result.domains.find(d => d.id === item.profile_domain)?.name || 'Unknown Domain'
-          }))
-        );
+                 const rawData = results.flatMap(result => 
+           result.allItems.map(item => {
+             const domain = result.domains.find(d => d.id === item.profile_domain);
+             return {
+               ...item,
+               profile_category_name: result.category.name,
+               profile_category_name_ar: result.category.name_ar,
+               profile_category_object: result.category, // Store the original category object
+               profile_domain_name: domain?.name || item.profile_domain_name || 'Unknown Domain',
+               profile_domain_name_ar: item.profile_domain_name_ar || domain?.name_ar || '',
+               profile_domain_object: domain // Store the original domain object
+             };
+           })
+         );
         
         this.processCategoryAndDomainDataForTable(rawData);
         this.isLoading = false;
@@ -192,37 +209,54 @@ export class SummaryComponent implements OnInit, OnDestroy {
     const categoryMap = new Map<string, CategoryTableRow>();
 
     rawData.forEach(item => {
-      const categoryName = item.profile_category_name;
-      const domainName = item.profile_domain_name;
-
-      if (!categoryMap.has(categoryName)) {
-        categoryMap.set(categoryName, {
-          category: categoryName,
-          id: item.profile_category_id || 0,
-          totalDomains: 0,
-          totalItemsOverall: 0,
-          overallProgress: 0,
-          domains: []
-        });
+      // Get language-specific category name
+      const categoryName = this.currentLanguage === 'ar' ? 
+        (item.profile_category_name_ar || item.profile_category_name) : 
+        item.profile_category_name;
+      
+      // Get language-specific domain name
+      // First try to get from the domain object, then from the item's domain name fields
+      let domainName = item.profile_domain_name;
+      
+      if (this.currentLanguage === 'ar') {
+        // For Arabic, try to get the Arabic name from the domain object first
+        if (item.profile_domain_object && item.profile_domain_object.name_ar && item.profile_domain_object.name_ar.trim() !== '') {
+          domainName = item.profile_domain_object.name_ar;
+        } else if (item.profile_domain_name_ar && item.profile_domain_name_ar.trim() !== '') {
+          domainName = item.profile_domain_name_ar;
+        }
       }
+
+             if (!categoryMap.has(categoryName)) {
+         categoryMap.set(categoryName, {
+           category: categoryName,
+           categoryObject: item.profile_category_object || null, // Store reference to original category object
+           id: item.profile_category_id || 0,
+           totalDomains: 0,
+           totalItemsOverall: 0,
+           overallProgress: 0,
+           domains: []
+         });
+       }
 
       const category = categoryMap.get(categoryName)!;
       let domain = category.domains.find(d => d.domain === domainName);
 
-      if (!domain) {
-        domain = {
-          domain: domainName,
-          totalItems: 0,
-          acquired: 0,
-          partial: 0,
-          notAcquired: 0,
-          notEvaluated: 0,
-          progressPercentage: 0,
-          profileItems: []
-        };
-        category.domains.push(domain);
-        category.totalDomains++;
-      }
+             if (!domain) {
+         domain = {
+           domain: domainName,
+           domainObject: item.profile_domain_object || null, // Store reference to original domain object
+           totalItems: 0,
+           acquired: 0,
+           partial: 0,
+           notAcquired: 0,
+           notEvaluated: 0,
+           progressPercentage: 0,
+           profileItems: []
+         };
+         category.domains.push(domain);
+         category.totalDomains++;
+       }
 
       domain.totalItems++;
       category.totalItemsOverall++;
@@ -331,13 +365,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
           `${domain.domain}: ${domain.totalItems} items (${domain.acquired} acquired, ${domain.partial} partial, ${domain.notAcquired} not acquired, ${domain.notEvaluated} not evaluated) - ${domain.progressPercentage}%`
         ).join('; ');
 
-        return [
-          category.category,
-          category.totalDomains,
-          category.totalItemsOverall,
-          `${category.overallProgress}%`,
-          domainsInfo
-        ];
+                 return [
+           this.getCategoryDisplayName(category),
+           category.totalDomains,
+           category.totalItemsOverall,
+           `${category.overallProgress}%`,
+           domainsInfo
+         ];
       });
 
       // Create detailed items data
@@ -363,13 +397,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
       this.categoryDataForTable.forEach(category => {
         category.domains.forEach(domain => {
           domain.profileItems.forEach(item => {
-            detailedItemsData.push([
-              category.category,
-              domain.domain,
-              item.description || item.name,
-              this.getEtatLabel(item.etat),
-              item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')
-            ]);
+                         detailedItemsData.push([
+               this.getCategoryDisplayName(category),
+               this.getDomainDisplayName(domain),
+               this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
+               this.getEtatLabel(item.etat),
+               this.getItemLanguageField(item, 'comentaire') || this.translate.instant('skills_summary.domain_items.no_comment')
+             ]);
           });
         });
       });
@@ -442,7 +476,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       // Category header
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
-      const categoryText = `${this.translate.instant('skills_summary.export.category')}: ${category.category}`;
+             const categoryText = `${this.translate.instant('skills_summary.export.category')}: ${this.getCategoryDisplayName(category)}`;
       doc.text(categoryText, margin, yPosition);
       yPosition += 20;
 
@@ -453,16 +487,16 @@ export class SummaryComponent implements OnInit, OnDestroy {
       doc.text(progressText, margin, yPosition);
       yPosition += 30;
 
-      // Prepare table data
-      const tableData = category.domains.map(domain => [
-        domain.domain,
-        domain.totalItems.toString(),
-        domain.acquired.toString(),
-        domain.partial.toString(),
-        domain.notAcquired.toString(),
-        domain.notEvaluated.toString(),
-        `${domain.progressPercentage}%`
-      ]);
+             // Prepare table data
+       const tableData = category.domains.map(domain => [
+         this.getDomainDisplayName(domain),
+         domain.totalItems.toString(),
+         domain.acquired.toString(),
+         domain.partial.toString(),
+         domain.notAcquired.toString(),
+         domain.notEvaluated.toString(),
+         `${domain.progressPercentage}%`
+       ]);
 
       // Create table
       autoTable(doc, {
@@ -528,13 +562,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.categoryDataForTable.forEach(category => {
       category.domains.forEach(domain => {
         domain.profileItems.forEach(item => {
-          detailedTableData.push([
-            category.category,
-            domain.domain,
-            item.description || item.name,
-            this.getEtatLabel(item.etat),
-            item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')
-          ]);
+                     detailedTableData.push([
+             this.getCategoryDisplayName(category),
+             this.getDomainDisplayName(domain),
+             this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
+             this.getEtatLabel(item.etat),
+             this.getItemLanguageField(item, 'comentaire') || this.translate.instant('skills_summary.domain_items.no_comment')
+           ]);
         });
       });
     });
@@ -611,8 +645,145 @@ export class SummaryComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  // Helper method to get the appropriate field based on language
+  getLanguageField(category: any, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || category.description || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || item.comentaire || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: any, fieldName: string): string {
+    if (!domain) return '';
+    
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || domain.description || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get domain display name for DomainTableRow
+  getDomainDisplayName(domainData: DomainTableRow): string {
+    // First, try to get the name from the domain object using the current language
+    if (domainData.domainObject) {
+      const displayName = this.getDomainLanguageField(domainData.domainObject, 'name');
+      if (displayName && displayName.trim() !== '') {
+        return displayName;
+      }
+    }
+    
+    // If no language-specific name is available from the domain object,
+    // check if we have any items with Arabic domain names
+    if (domainData.profileItems && domainData.profileItems.length > 0) {
+      const firstItem = domainData.profileItems[0];
+      if (this.currentLanguage === 'ar' && firstItem.profile_domain_name_ar && firstItem.profile_domain_name_ar.trim() !== '') {
+        return firstItem.profile_domain_name_ar;
+      }
+    }
+    
+    // Fallback to the stored domain name
+    return domainData.domain;
+  }
+
+  // Helper method to get category display name for CategoryTableRow
+  getCategoryDisplayName(categoryData: CategoryTableRow): string {
+    if (categoryData.categoryObject) {
+      return this.getLanguageField(categoryData.categoryObject, 'name') || categoryData.category;
+    }
+    return categoryData.category;
+  }
+
+  // Refresh data when language changes
+  private refreshDataForLanguage() {
+    // Reprocess the existing data with the new language
+    if (this.originalCategoryDataForTable.length > 0) {
+      // Get the raw data from the original processed data
+      const rawData = this.getRawDataFromProcessedData();
+      this.processCategoryAndDomainDataForTable(rawData);
+      // Force change detection
+      this.cdr.detectChanges();
+    }
+  }
+
+  // Helper method to reconstruct raw data from processed data
+  private getRawDataFromProcessedData(): any[] {
+    const rawData: any[] = [];
+    
+    this.originalCategoryDataForTable.forEach(category => {
+      category.domains.forEach(domain => {
+        domain.profileItems.forEach(item => {
+          rawData.push({
+            ...item,
+            profile_category_name: category.categoryObject?.name || category.category,
+            profile_category_name_ar: category.categoryObject?.name_ar || '',
+            profile_category_object: category.categoryObject,
+            profile_domain_name: domain.domainObject?.name || domain.domain,
+            profile_domain_name_ar: item.profile_domain_name_ar || domain.domainObject?.name_ar || '',
+            profile_domain_object: domain.domainObject
+          });
+        });
+      });
+    });
+    
+    return rawData;
+  }
+
   private generateHtmlReport(): string {
-    const currentLang = this.sharedService.getCurrentLanguage();
+    const currentLang = this.getCurrentLanguage();
     const isArabic = currentLang === 'ar';
     
     // Generate HTML content for Arabic and French text
@@ -651,7 +822,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       html += `
         <div class="category-section">
           <div class="category-header">
-            <h2>${category.category}</h2>
+                         <h2>${this.getCategoryDisplayName(category)}</h2>
             <p>${this.translate.instant('skills_summary.export.overall_progress')}: ${category.overallProgress}%</p>
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${category.overallProgress}%"></div>
@@ -676,19 +847,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
             <tbody>
         `;
         
-        category.domains.forEach(domain => {
-          html += `
-            <tr>
-              <td>${domain.domain}</td>
-              <td>${domain.totalItems}</td>
-              <td>${domain.acquired}</td>
-              <td>${domain.partial}</td>
-              <td>${domain.notAcquired}</td>
-              <td>${domain.notEvaluated}</td>
-              <td>${domain.progressPercentage}%</td>
-            </tr>
-          `;
-        });
+                 category.domains.forEach(domain => {
+           html += `
+             <tr>
+               <td>${this.getDomainDisplayName(domain)}</td>
+               <td>${domain.totalItems}</td>
+               <td>${domain.acquired}</td>
+               <td>${domain.partial}</td>
+               <td>${domain.notAcquired}</td>
+               <td>${domain.notEvaluated}</td>
+               <td>${domain.progressPercentage}%</td>
+             </tr>
+           `;
+         });
         
         html += `
             </tbody>
@@ -721,15 +892,15 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.categoryDataForTable.forEach(category => {
       category.domains.forEach(domain => {
         domain.profileItems.forEach(item => {
-          html += `
-            <tr>
-              <td>${category.category}</td>
-              <td>${domain.domain}</td>
-              <td>${item.description || item.name}</td>
-              <td>${this.getEtatLabel(item.etat)}</td>
-              <td>${item.comentaire && item.comentaire !== item.name ? item.comentaire : this.translate.instant('skills_summary.domain_items.no_comment')}</td>
-            </tr>
-          `;
+                     html += `
+             <tr>
+               <td>${this.getCategoryDisplayName(category)}</td>
+               <td>${this.getDomainDisplayName(domain)}</td>
+               <td>${this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name')}</td>
+               <td>${this.getEtatLabel(item.etat)}</td>
+               <td>${this.getItemLanguageField(item, 'comentaire') || this.translate.instant('skills_summary.domain_items.no_comment')}</td>
+             </tr>
+           `;
         });
       });
     });

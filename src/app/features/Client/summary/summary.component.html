@@ -23,12 +23,12 @@
   </div>
 
   <!-- Error State -->
-  <div *ngIf="error" class="error-container">
+  <!-- <div *ngIf="error" class="error-container">
     <div class="error-message">
       <i class="pi pi-exclamation-triangle"></i>
       {{ 'skills_summary.error' | translate: { error: error } }}
     </div>
-  </div>
+  </div> -->
 
   <!-- Controls Section -->
   <div class="controls-section">
@@ -136,7 +136,7 @@
             <td class="category-name">
               <div class="category-content">
                 <i class="pi pi-folder category-icon"></i>
-                <span class="category-text">{{ categoryData.category }}</span>
+                                 <span class="category-text">{{ getCategoryDisplayName(categoryData) }}</span>
               </div>
             </td>
             <td class="domains-count">
@@ -168,7 +168,7 @@
             <td [attr.colspan]="5">
               <div class="expansion-content">
                 <div class="expansion-header">
-                  <h5 class="expansion-title" [innerHTML]="'skills_summary.table.domains_header' | translate: { category: categoryData.category }"></h5>
+                                     <h5 class="expansion-title" [innerHTML]="'skills_summary.table.domains_header' | translate: { category: getCategoryDisplayName(categoryData) }"></h5>
                   <div class="expansion-divider"></div>
                 </div>
                 <div class="domains-table-container">
@@ -239,7 +239,7 @@
                         <td class="domain-name">
                           <div class="domain-content">
                             <i class="pi pi-globe domain-icon"></i>
-                            <span class="domain-text">{{ domainData.domain }}</span>
+                            <span class="domain-text">{{ getDomainDisplayName(domainData) }}</span>
                           </div>
                         </td>
                         <td class="total-count">
@@ -274,7 +274,7 @@
                         <td [attr.colspan]="7" class="p-0">
                           <div class="items-detail-container">
                             <div class="items-detail-header">
-                              <h6 class="items-detail-title" [innerHTML]="'skills_summary.domain_items.header' | translate: { domain: domainData.domain, status: getFilterStatusLabel(selectedFilterStatus) }"></h6>
+                              <h6 class="items-detail-title" [innerHTML]="'skills_summary.domain_items.header' | translate: { domain: getDomainDisplayName(domainData), status: getFilterStatusLabel(selectedFilterStatus) }"></h6>
                               <p-toggleButton
                                 [(ngModel)]="domainItemsVisibility[domainData.domain]"
                                 [onLabel]="'skills_summary.domain_items.hide_items' | translate"
@@ -287,7 +287,7 @@
                             <div *ngIf="isDomainItemsVisible(domainData.domain)" class="items-grid">
                               <div *ngFor="let item of domainData.profileItems" class="item-card">
                                 <div class="item-header">
-                                  <span class="item-name">{{ item.name }}</span>
+                                  <span class="item-name">{{ getItemLanguageField(item, 'name') }}</span>
                                   <span class="statut-badge text-xs font-semibold px-2.5 py-0.5 rounded-full" [ngClass]="{
                                       'statut-acquise': item.etat === 'ACQUIS',
                                       'statut-partiel': item.etat === 'PARTIEL',
@@ -296,9 +296,9 @@
                                   }">{{ 'skills_summary.status_labels.' + item.etat | translate }}</span>
                                 </div>
                                 <div class="item-content">
-                                  <p *ngIf="item.commentaire" class="item-comment">
+                                  <p *ngIf="getItemLanguageField(item, 'comentaire')" class="item-comment">
                                     <i class="pi pi-comment comment-icon"></i>
-                                    {{ item.commentaire }}
+                                    {{ getItemLanguageField(item, 'comentaire') }}
                                   </p>
                                   <p *ngIf="!item.commentaire" class="item-no-comment">
                                     <i class="pi pi-info-circle info-icon"></i>
@@ -343,7 +343,7 @@
               <i class="pi pi-folder"></i>
             </div>
             <div class="category-details">
-              <h3 class="category-title">{{ category.category }}</h3>
+                             <h3 class="category-title">{{ getCategoryDisplayName(category) }}</h3>
               <div class="category-stats">
                 <span class="stat-item">
                   <i class="pi pi-sitemap"></i>
@@ -371,7 +371,7 @@
               <div class="domain-header" (click)="toggleDomainItems(domain.domain)">
                 <div class="domain-info">
                   <i class="pi pi-globe"></i>
-                  <span class="domain-name">{{ domain.domain }}</span>
+                  <span class="domain-name">{{ getDomainDisplayName(domain) }}</span>
                 </div>
                 <div class="domain-stats">
                   <div class="domain-progress-bar">
@@ -407,11 +407,11 @@
                 </div>
 
                 <div class="items-section">
-                  <h4 class="items-section-title">{{ 'skills_summary.domain_items.header' | translate: { domain: domain.domain, status: getFilterStatusLabel(selectedFilterStatus) } }}</h4>
+                  <h4 class="items-section-title">{{ 'skills_summary.domain_items.header' | translate: { domain: getDomainDisplayName(domain), status: getFilterStatusLabel(selectedFilterStatus) } }}</h4>
                   <div class="items-list">
                     <div *ngFor="let item of domain.profileItems" class="item-card-mobile">
                       <div class="item-header-mobile">
-                        <span class="item-name-mobile">{{ item.name }}</span>
+                        <span class="item-name-mobile">{{ getItemLanguageField(item, 'name') }}</span>
                         <span class="status-badge-mobile" [ngClass]="{
                           'status-acquired': item.etat === 'ACQUIS',
                           'status-partial': item.etat === 'PARTIEL',
@@ -419,9 +419,9 @@
                           'status-not-evaluated': item.etat === 'NON_COTE'
                         }">{{ 'skills_summary.status_labels.' + item.etat | translate }}</span>
                       </div>
-                                             <div *ngIf="item.comentaire" class="item-comment-mobile">
+                                             <div *ngIf="getItemLanguageField(item, 'comentaire')" class="item-comment-mobile">
                          <i class="pi pi-comment"></i>
-                         {{ item.comentaire }}
+                         {{ getItemLanguageField(item, 'comentaire') }}
                        </div>
                        <div *ngIf="!item.comentaire" class="item-no-comment-mobile">
                         <i class="pi pi-info-circle"></i>

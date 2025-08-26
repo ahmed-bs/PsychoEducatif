@@ -14,9 +14,9 @@
     <div class="form-row">
       <div class="form-group">
         <label>{{ 'items.add_item_section.labels.domain' | translate }}</label>
-        <p-dropdown [options]="domains" 
+        <p-dropdown [options]="domainsWithDisplayNames" 
                    [(ngModel)]="selectedDomain" 
-                   optionLabel="name" 
+                   optionLabel="displayName" 
                    [placeholder]="'items.add_item_section.placeholders.domain' | translate"
                    [style]="{'width':'100%'}">
         </p-dropdown>
@@ -61,10 +61,14 @@
   <div *ngFor="let domain of domains" class="domain-section">
     <div class="domain-header" (click)="toggleDomain(domain)">
       <span class="material-symbols-sharp">{{ domain.expanded ? 'expand_less' : 'expand_more' }}</span>
-      <span class="domain-title">{{ domain.name }}</span>
+      <span class="domain-title">{{ getDomainLanguageField(domain, 'name') }}</span>
       <span class="item-count" [innerHTML]="'items.items_by_domain.item_count' | translate: { count: itemsByDomain[domain.id]!.length || 0 }"></span>
       <div class="domain-actions">
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-rounded p-button-info" 
+                [pTooltip]="'items.add_domain_dialog.tooltips.edit' | translate"
+                (click)="showEditDomainDialog(domain); $event.stopPropagation()"></button>
         <button pButton icon="pi pi-trash" class="p-button-text p-button-rounded p-button-danger" 
+                [pTooltip]="'items.add_domain_dialog.tooltips.delete' | translate"
                 (click)="deleteDomain(domain); $event.stopPropagation()"></button>
       </div>
     </div>
@@ -78,16 +82,20 @@
       </div>
 
       <div class="item-row" *ngFor="let item of itemsByDomain[domain.id]">
-        <div class="col-item">{{ item.name }}</div>
+        <div class="col-item">{{ getItemLanguageField(item, 'name') }}</div>
         <div class="col-etat">
           <span [class]="'status-badge status-' + item.etat.toLowerCase()">
             {{ getEtatLabel(item.etat) }}
           </span>
         </div>
-        <div class="col-description">{{ item.description || ('items.items_by_domain.description_fallback' | translate) }}</div>
+        <div class="col-description">{{ getItemLanguageField(item, 'description') || ('items.items_by_domain.description_fallback' | translate) }}</div>
         <div class="col-actions">
-          <button pButton icon="pi pi-pencil" class="p-button-text p-button-rounded p-button-info" (click)="showEditItemDialog(item, domain)"></button>
-          <button pButton icon="pi pi-trash" class="p-button-text p-button-rounded p-button-danger" (click)="deleteItem(item, domain)"></button>
+          <button pButton icon="pi pi-pencil" class="p-button-text p-button-rounded p-button-info" 
+                  [pTooltip]="'items.add_item_dialog.tooltips.edit' | translate"
+                  (click)="showEditItemDialog(item, domain)"></button>
+          <button pButton icon="pi pi-trash" class="p-button-text p-button-rounded p-button-danger" 
+                  [pTooltip]="'items.add_item_dialog.tooltips.delete' | translate"
+                  (click)="deleteItem(item, domain)"></button>
         </div>
       </div>
 
@@ -102,22 +110,22 @@
 <p-dialog [(visible)]="displayAddDomainDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
-      <h2>{{ newDomain.id ? 'items.add_domain_dialog.header_edit' : 'items.add_domain_dialog.header_add' | translate }}</h2>
+      <h2>{{ isEditingDomain() ? ('items.add_domain_dialog.header_edit' | translate) : ('items.add_domain_dialog.header_add' | translate) }}</h2>
     </div>
   </ng-template>
   <div class="dialog-content">
     <div class="field">
       <label for="domainName">{{ 'items.add_domain_dialog.labels.title' | translate }}</label>
-      <input pInputText id="domainName" [(ngModel)]="newDomain.name" [placeholder]="'items.add_domain_dialog.placeholders.title' | translate" required />
+      <input pInputText id="domainName" [(ngModel)]="newDomain.name" [placeholder]="'items.add_domain_dialog.placeholders.title' | translate" />
     </div>
     <div class="field">
       <label for="domainDesc">{{ 'items.add_domain_dialog.labels.description' | translate }}</label>
-      <input pInputText id="domainDesc" [(ngModel)]="newDomain.description" [placeholder]="'items.add_domain_dialog.placeholders.description' | translate" required />
+      <input pInputText id="domainDesc" [(ngModel)]="newDomain.description" [placeholder]="'items.add_domain_dialog.placeholders.description' | translate" />
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button [label]="'items.add_domain_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayAddDomainDialog = false"></p-button>
-    <p-button [label]="newDomain.id ? 'items.add_domain_dialog.buttons.update' : 'items.add_domain_dialog.buttons.add' | translate" styleClass="p-button-primary" (click)="newDomain.id ? updateDomain() : addDomain()" [style]="{ color: 'white' }"></p-button>
+    <p-button [label]="'items.add_domain_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="closeDomainDialog()"></p-button>
+    <p-button [label]="isEditingDomain() ? ('items.add_domain_dialog.buttons.update' | translate) : ('items.add_domain_dialog.buttons.add' | translate)" styleClass="p-button-primary" (click)="isEditingDomain() ? updateDomain() : addDomain()" [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>
 
@@ -125,13 +133,13 @@
 <p-dialog [(visible)]="displayAddItemDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
   <ng-template pTemplate="header">
     <div class="custom-dialog-header">
-      <h2>{{ selectedItem ? 'items.add_item_dialog.header_edit' : 'items.add_item_dialog.header_add' | translate }}</h2>
+      <h2>{{ isEditingItem() ? ('items.add_item_dialog.header_edit' | translate) : ('items.add_item_dialog.header_add' | translate) }}</h2>
     </div>
   </ng-template>
   <div class="dialog-content">
     <div class="field">
       <label for="itemName">{{ 'items.add_item_dialog.labels.title' | translate }}</label>
-      <input pInputText id="itemName" [(ngModel)]="newItem.name" [placeholder]="'items.add_item_dialog.placeholders.title' | translate" required />
+      <input pInputText id="itemName" [(ngModel)]="newItem.name" [placeholder]="'items.add_item_dialog.placeholders.title' | translate" />
     </div>
     <div class="field">
       <label for="itemDesc">{{ 'items.add_item_dialog.labels.description' | translate }}</label>
@@ -147,7 +155,7 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button [label]="'items.add_item_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayAddItemDialog = false"></p-button>
-    <p-button [label]="selectedItem ? 'items.add_item_dialog.buttons.update' : 'items.add_item_dialog.buttons.add' | translate" styleClass="p-button-primary" (click)="selectedItem ? updateItem() : addItem()" [style]="{ color: 'white' }"></p-button>
+    <p-button [label]="'items.add_item_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="closeItemDialog()"></p-button>
+    <p-button [label]="isEditingItem() ? ('items.add_item_dialog.buttons.update' | translate) : ('items.add_item_dialog.buttons.add' | translate)" styleClass="p-button-primary" (click)="isEditingItem() ? updateItem() : addItem()" [style]="{ color: 'white' }"></p-button>
   </ng-template>
 </p-dialog>

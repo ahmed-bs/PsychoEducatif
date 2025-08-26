@@ -30,7 +30,6 @@ const routes: Routes = [
     TooltipModule,
     PaginatorModule,
     RouterModule.forChild(routes),
-    SummaryComponent,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

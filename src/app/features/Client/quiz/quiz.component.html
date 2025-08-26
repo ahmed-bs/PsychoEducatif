@@ -6,6 +6,11 @@
   <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
     {{ 'skills_evaluation.title' | translate }}
   </h2>
+  <div *ngIf="domain" class="text-center mb-4">
+    <h3 class="text-xl font-semibold text-gray-700">
+      {{ getDomainLanguageField(domain, 'name') }}
+    </h3>
+  </div>
 
   <!-- View Switcher -->
   <div class="flex justify-center mb-8">
@@ -59,7 +64,7 @@
       <form #quizForm="ngForm" class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
         <div class="sub-skill mb-6">
           <div class="flex items-center justify-between mb-4">
-            <p class="text-lg font-semibold text-gray-600" [innerHTML]="'skills_evaluation.form.skill_label' | translate: { skillName: items[currentIndex].name }"></p>
+            <p class="text-lg font-semibold text-gray-600" [innerHTML]="'skills_evaluation.form.skill_label' | translate: { skillName: getItemLanguageField(items[currentIndex], 'name') }"></p>
             <span class="text-sm text-gray-500">#{{ currentIndex + 1 }}</span>
           </div>
 
@@ -165,7 +170,7 @@
       <div class="space-y-0">
         <div *ngFor="let item of items; let i = index" class="list-item">
           <div class="list-item-header">
-            <h4 class="list-item-title">{{ item.name }}</h4>
+            <h4 class="list-item-title">{{ getItemLanguageField(item, 'name') }}</h4>
             <span class="list-item-number">#{{ i + 1 }}</span>
           </div>
           

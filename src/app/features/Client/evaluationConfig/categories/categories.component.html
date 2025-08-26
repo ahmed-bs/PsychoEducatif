@@ -68,7 +68,7 @@
           <span class="material-symbols-sharp">category</span>
           <div class="middle">
             <div class="left">
-              <h2>{{ category.name }}</h2>
+              <h2>{{ getLanguageField(category, 'name') }}</h2>
               <h3 [innerHTML]="'categories.category_card.created_at' | translate: { date: (category.created_at | date: 'dd/MM/yyyy') }"></h3>
             </div>
           </div>
@@ -98,8 +98,8 @@
               <span class="material-symbols-sharp">category</span>
             </div>
             <div class="list-item-details">
-              <h3>{{ category.name }}</h3>
-              <p class="description">{{ category.description || 'No description' }}</p>
+              <h3>{{ getLanguageField(category, 'name') }}</h3>
+              <p class="description">{{ getLanguageField(category, 'description') || 'No description' }}</p>
               <div class="meta-info">
                 <span class="meta-item">
                   <i class="pi pi-calendar"></i>
@@ -167,10 +167,10 @@
               <td>
                 <div class="category-name">
                   <span class="material-symbols-sharp category-icon">category</span>
-                  {{ category.name }}
+                  {{ getLanguageField(category, 'name') }}
                 </div>
               </td>
-              <td>{{ category.description || '-' }}</td>
+              <td>{{ getLanguageField(category, 'description') || '-' }}</td>
               <td>{{ category.created_at | date: 'dd/MM/yyyy' }}</td>
               <td>
                 <span class="badge items-badge">{{ category.items_count || 0 }}</span>
@@ -210,13 +210,27 @@
     </div>
   </ng-template>
   <div class="dialog-content">
-    <div class="field">
-      <label for="categoryName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
-      <input pInputText id="categoryName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" required />
+    <!-- Language-specific form fields -->
+    <div *ngIf="getCurrentLanguage() === 'ar'" class="field">
+      <label for="categoryNameAr">{{ 'categories.add_category_dialog.labels.title_ar' | translate }}</label>
+      <input pInputText id="categoryNameAr" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title_ar' | translate" />
     </div>
-    <div class="field">
+    <div *ngIf="getCurrentLanguage() === 'ar'" class="field">
+      <label for="categoryDescriptionAr">{{ 'categories.add_category_dialog.labels.description_ar' | translate }}</label>
+      <textarea pInputTextarea id="categoryDescriptionAr" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description_ar' | translate" rows="3"></textarea>
+    </div>
+    
+    <div *ngIf="getCurrentLanguage() === 'fr'" class="field">
+      <label for="categoryName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
+      <input pInputText id="categoryName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" />
+    </div>
+    <div *ngIf="getCurrentLanguage() === 'fr'" class="field">
       <label for="categoryDescription">{{ 'categories.add_category_dialog.labels.description' | translate }}</label>
-      <input pInputText id="categoryDescription" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" required />
+      <textarea pInputTextarea id="categoryDescription" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" rows="3"></textarea>
+    </div>
+    
+    <div class="field-info">
+      <small class="text-muted">{{ 'categories.add_category_dialog.info.at_least_one_name' | translate }}</small>
     </div>
   </div>
   <ng-template pTemplate="footer">
@@ -235,7 +249,7 @@
   <div class="dialog-content">
     <div class="delete-confirmation">
       <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #e53e78; margin-bottom: 1rem;"></i>
-      <p>{{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete?.name } }}</p>
+      <p>{{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete ? getLanguageField(categoryToDelete, 'name') : '' } }}</p>
     </div>
   </div>
   <ng-template pTemplate="footer">

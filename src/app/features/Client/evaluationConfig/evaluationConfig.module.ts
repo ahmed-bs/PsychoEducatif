@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 // import { ColumnFilterModule } from 'primeng/columnfilter';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -15,6 +16,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TooltipModule } from 'primeng/tooltip';
 import { CategoriesComponent } from './categories/categories.component';
 import { ToastModule } from 'primeng/toast';
 import { EvaluationConfigRoutes } from './evaluationConfig.routing';
@@ -32,6 +34,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
     FormsModule,
     TableModule,
     InputTextModule,
+    InputTextareaModule,
     IconFieldModule,
     InputIconModule,
     FormsModule,
@@ -42,6 +45,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
     ToolbarModule,
     DialogModule, 
     DropdownModule, 
+    TooltipModule,
     InputTextModule,
     ToastModule,
     TranslateModule.forRoot({

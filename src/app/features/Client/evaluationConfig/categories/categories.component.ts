@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
@@ -11,6 +11,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
@@ -27,12 +28,13 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   displayDeleteDialog: boolean = false;
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
-  newCategory: Partial<ProfileCategory> = { name: '', description: '' };
+  newCategory: Partial<ProfileCategory> = { name: '', name_ar: '', description: '', description_ar: '' };
   categoryToDelete: ProfileCategory | null = null;
   profileId!: number;
   loading: boolean = true;
   isEditMode: boolean = false;
-  viewMode: 'grid' | 'list' | 'table' = 'grid'; // Add view mode property
+  viewMode: 'grid' | 'list' | 'table' = 'grid';
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
 
   constructor(
@@ -40,11 +42,19 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     private profileCategoryService: ProfileCategoryService,
     private messageService: MessageService,
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
+      // Force change detection
+      this.refreshDisplay();
+      this.cdr.detectChanges();
     });
   }
 
@@ -56,6 +66,65 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+  }
+
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  // Force refresh display when language changes
+  refreshDisplay() {
+    // Trigger change detection by updating a property
+    this.categories = [...this.categories];
+  }
+
+  // Helper method to get the appropriate field based on language
+  getLanguageField(category: ProfileCategory, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to prepare form data based on current language
+  private prepareFormDataForLanguage(data: Partial<ProfileCategory>): Partial<ProfileCategory> {
+    const preparedData: Partial<ProfileCategory> = {};
+
+    // Always preserve the ID
+    if (data.id) {
+      preparedData.id = data.id;
+    }
+
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields for form display
+      preparedData.name = data.name_ar?.trim() || '';
+      preparedData.description = data.description_ar?.trim() || '';
+      // Keep original fields for backend
+      preparedData.name_ar = data.name_ar?.trim() || '';
+      preparedData.description_ar = data.description_ar?.trim() || '';
+    } else {
+      // For French language, use non-_ar fields for form display
+      preparedData.name = data.name?.trim() || '';
+      preparedData.description = data.description?.trim() || '';
+      // Keep _ar fields for backend
+      preparedData.name_ar = data.name_ar?.trim() || '';
+      preparedData.description_ar = data.description_ar?.trim() || '';
+    }
+
+    return preparedData;
   }
 
   loadCategories() {
@@ -84,34 +153,75 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   showAddUserDialog() {
-    this.newCategory = { name: '', description: '' };
+    console.log('showAddUserDialog called - resetting for new category');
+    this.newCategory = { name: '', name_ar: '', description: '', description_ar: '' };
     this.isEditMode = false;
     this.displayAddUserDialog = true;
+    console.log('After showAddUserDialog:');
+    console.log('- isEditMode:', this.isEditMode);
+    console.log('- newCategory.id:', this.newCategory.id);
   }
 
   showEditDialog(profileCategory: ProfileCategory) {
-    this.newCategory = { ...profileCategory };
+    console.log('showEditDialog called with profileCategory:', profileCategory);
+    
+    // Prepare the form data based on current language
+    this.newCategory = this.prepareFormDataForLanguage({
+      ...profileCategory,
+      name: profileCategory.name || '',
+      name_ar: profileCategory.name_ar || '',
+      description: profileCategory.description || '',
+      description_ar: profileCategory.description_ar || ''
+    });
+    
+    // Ensure the ID is preserved
+    this.newCategory.id = profileCategory.id;
+    
     this.isEditMode = true;
     this.displayAddUserDialog = true;
+    
+    console.log('After showEditDialog:');
+    console.log('- isEditMode:', this.isEditMode);
+    console.log('- newCategory.id:', this.newCategory.id);
+    console.log('- newCategory object:', this.newCategory);
   }
 
   saveCategory() {
-    if (!this.newCategory.name) {
+    // Create a clean data object for the API call
+    const categoryData: Partial<ProfileCategory> = {
+      name: this.newCategory.name?.trim() || '',
+      name_ar: this.newCategory.name_ar?.trim() || '',
+      description: this.newCategory.description?.trim() || '',
+      description_ar: this.newCategory.description_ar?.trim() || ''
+    };
+
+    // Check if at least one of name or name_ar is provided
+    if (!categoryData.name && !categoryData.name_ar) {
       this.translate.get('categories.messages.error.name_required').subscribe((text) => {
         this.showError(text);
       });
       return;
     }
 
+    console.log('isEditMode:', this.isEditMode);
+    console.log('newCategory.id:', this.newCategory.id);
+    console.log('newCategory object:', this.newCategory);
+    
     if (this.isEditMode && this.newCategory.id) {
-      this.updateCategory();
+      console.log('Updating category with ID:', this.newCategory.id);
+      console.log('Category data to send 44444444444444444444444444444444444444444444444444444444444');
+      this.updateCategory(categoryData);
     } else {
-      this.addCategory();
+      console.log('Category data to send tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt');
+      console.log('Going to addCategory because:');
+      console.log('- isEditMode is:', this.isEditMode);
+      console.log('- newCategory.id is:', this.newCategory.id);
+      this.addCategory(categoryData);
     }
   }
 
-  addCategory() {
-    this.profileCategoryService.create(this.profileId, this.newCategory).subscribe({
+  addCategory(categoryData: Partial<ProfileCategory>) {
+    this.profileCategoryService.create(this.profileId, categoryData).subscribe({
       next: (profileCategory) => {
         this.categories.push(profileCategory);
         this.displayAddUserDialog = false;
@@ -127,9 +237,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateCategory() {
+  updateCategory(categoryData: Partial<ProfileCategory>) {
     if (this.newCategory.id) {
-      this.profileCategoryService.update(this.newCategory.id, this.newCategory).subscribe({
+      console.log('Updating category with ID:', this.newCategory.id);
+      console.log('Category data to send:', categoryData);
+      this.profileCategoryService.update(this.newCategory.id, categoryData).subscribe({
         next: (updatedCategory) => {
           const index = this.categories.findIndex((c) => c.id === updatedCategory.id);
           if (index !== -1) {

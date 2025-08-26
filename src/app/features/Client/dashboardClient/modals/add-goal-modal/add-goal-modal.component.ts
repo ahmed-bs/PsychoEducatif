@@ -7,12 +7,14 @@ import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { debounceTime, distinctUntilChanged, filter, switchMap, take } from 'rxjs';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
+import { TranslateModule, TranslateService } from '@ngx-translate/core'; 
+import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
   selector: 'app-add-goal-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './add-goal-modal.component.html',
   styleUrl: './add-goal-modal.component.css'
 })
@@ -36,7 +38,9 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private goalService: GoalService,
     private domainService: ProfileDomainService,
-    private profileCategoryService: ProfileCategoryService
+    private profileCategoryService: ProfileCategoryService,
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -284,15 +288,15 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
             this.onCloseModal();
             Swal.fire({
               icon: 'success',
-              title: 'Objectif mis à jour!',
-              text: `L'objectif "${response.title}" a été mis à jour avec succès.`,
+              title: this.translate.instant('add_goal_modal.success_messages.goal_updated'),
+              text: this.translate.instant('add_goal_modal.success_messages.goal_updated_text', { title: response.title }),
               timer: 2000,
               showConfirmButton: false
             });
           },
           error: (error) => {
             console.error('Error updating goal:', error);
-            Swal.fire('Erreur', 'Impossible de mettre à jour l\'objectif.', 'error');
+            Swal.fire('Erreur', this.translate.instant('add_goal_modal.error_messages.update_failed'), 'error');
           }
         });
       } else {
@@ -302,15 +306,15 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
             this.onCloseModal();
             Swal.fire({
               icon: 'success',
-              title: 'Objectif créé!',
-              text: `L'objectif "${response.title}" a été créé avec succès.`,
+              title: this.translate.instant('add_goal_modal.success_messages.goal_created'),
+              text: this.translate.instant('add_goal_modal.success_messages.goal_created_text', { title: response.title }),
               timer: 2000,
               showConfirmButton: false
             });
           },
           error: (error) => {
             console.error('Error creating goal:', error);
-            Swal.fire('Erreur', 'Impossible de créer l\'objectif.', 'error');
+            Swal.fire('Erreur', this.translate.instant('add_goal_modal.error_messages.create_failed'), 'error');
           }
         });
       }
@@ -318,7 +322,7 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
       console.error('Form is invalid or currentProfileId is missing. Mark all as touched.');
       this.goalForm.markAllAsTouched();
       if (this.currentProfileId === null) {
-        Swal.fire('Attention', 'Impossible d\'enregistrer l\'objectif: Aucun profil sélectionné.', 'warning');
+        Swal.fire('Attention', this.translate.instant('add_goal_modal.error_messages.no_profile_selected'), 'warning');
       } else {
         Swal.fire('Attention', 'Veuillez remplir tous les champs requis.', 'warning');
       }
@@ -330,5 +334,43 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
     this.goalToEdit = null;
     this.isEditMode = false;
     this.close.emit();
+  }
+
+  // Get current language
+  private getCurrentLanguage(): string {
+    return this.sharedService.getCurrentLanguage();
+  }
+
+  // Helper method to get the appropriate field based on language for categories
+  getLanguageField(category: ProfileCategory, fieldName: string): string {
+    const currentLang = this.getCurrentLanguage();
+    if (currentLang === 'ar') {
+      const arabicField = category[`${fieldName}_ar` as keyof ProfileCategory] as string;
+      const fallbackField = category[fieldName as keyof ProfileCategory] as string;
+      return arabicField || fallbackField || '';
+    } else {
+      const frenchField = category[fieldName as keyof ProfileCategory] as string;
+      const fallbackField = category[`${fieldName}_ar` as keyof ProfileCategory] as string;
+      return frenchField || fallbackField || '';
+    }
+  }
+
+  // Helper method to get the appropriate field based on language for domains
+  getDomainLanguageField(domain: ProfileDomain, fieldName: string): string {
+    const currentLang = this.getCurrentLanguage();
+    if (currentLang === 'ar') {
+      const arabicField = domain[`${fieldName}_ar` as keyof ProfileDomain] as string;
+      const fallbackField = domain[fieldName as keyof ProfileDomain] as string;
+      return arabicField || fallbackField || '';
+    } else {
+      const frenchField = domain[fieldName as keyof ProfileDomain] as string;
+      const fallbackField = domain[`${fieldName}_ar` as keyof ProfileDomain] as string;
+      return frenchField || fallbackField || '';
+    }
+  }
+
+  // Helper method to get translated priority label
+  getPriorityLabel(priority: string): string {
+    return this.translate.instant(`add_goal_modal.priority.${priority}`);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChildren, QueryList, Renderer2, AfterViewInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChildren, QueryList, Renderer2, AfterViewInit, HostListener, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
@@ -39,6 +39,7 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
   profileId!: number;
   statusFilter: string = 'all';
   currentView: 'card' | 'list' | 'table' = 'card';
+  currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
   isMobileOrTablet = false;
 
@@ -49,11 +50,18 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) {
+    // Initialize current language
+    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
       this.translate.use(lang);
+      this.currentLanguage = lang;
+      // Force change detection
+      this.cdr.detectChanges();
     });
     
     // Check initial screen size
@@ -343,5 +351,74 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
         this.updateAllScrollPositions();
       }, 0);
     }
+  }
+
+  // Get current language
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  // Helper method to get the appropriate field based on language
+  getLanguageField(category: ProfileCategory, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return category.name_ar || '';
+      } else if (fieldName === 'description') {
+        return category.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      }
+    }
+    return '';
+  }
+
+  // Helper method to get the appropriate field for ProfileDomain based on language
+  getDomainLanguageField(domain: ProfileDomain, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return domain.name_ar || '';
+      } else if (fieldName === 'description') {
+        return domain.description_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description || '';
+      }
+    }
+    return '';
   }
 }

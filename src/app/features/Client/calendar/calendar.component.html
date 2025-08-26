@@ -1,8 +1,6 @@
 <div class="head-title">
   <div class="left">
-    <h1 class="page-title">
-      <i class="bx bx-calendar-alt"></i>
-      {{ 'calendar.title' | translate }}
+    <h1 class="head-title">📅  {{ 'calendar.title' | translate }}
     </h1>
     <ul class="breadcrumb">
       <li>
@@ -79,7 +77,7 @@
                [title]="'calendar.domain.click_to_quiz' | translate">
             <div class="skill-header">
               <div class="skill-info">
-                <h4 class="font-medium text-indigo-800 text-base">{{ domain.name }}</h4>
+                <h4 class="font-medium text-indigo-800 text-base">{{ getDomainDisplayName(domain) }}</h4>
                 <div class="skill-meta">
                   <span class="skill-date">
                     <i class="bx bx-calendar"></i>
@@ -218,7 +216,7 @@
           <div class="flex items-center" *ngIf="selectedGoal.domain">
             <i class="bx bx-layer text-blue-600 mr-3"></i>
             <span class="text-gray-700 font-medium">{{ 'calendar.goal.domain' | translate }}:</span>
-            <span class="ml-2 text-gray-600">{{ selectedGoal.domain.name }}</span>
+                            <span class="ml-2 text-gray-600">{{ getDomainDisplayName(selectedGoal.domain) }}</span>
           </div>
 
           <!-- Progress -->

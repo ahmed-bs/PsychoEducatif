@@ -825,6 +825,11 @@
         "cancel": "Annuler",
         "add": "Ajouter",
         "update": "Modifier"
+      },
+      "tooltips": {
+        "edit": "Modifier ce domaine",
+        "delete": "Supprimer ce domaine",
+        "expand": "Développer/Réduire"
       }
     },
     "add_item_dialog": {
@@ -844,18 +849,34 @@
         "cancel": "Annuler",
         "add": "Ajouter",
         "update": "Modifier"
+      },
+      "tooltips": {
+        "edit": "Modifier cet item",
+        "delete": "Supprimer cet item",
+        "expand": "Développer/Réduire"
       }
     },
     "messages": {
       "error": {
+        "summary": "Erreur",
         "no_category_id": "Aucun identifiant de catégorie fourni",
         "load_data_failed": "Échec du chargement des données",
         "name_and_category_required": "Le nom et la catégorie sont requis",
         "name_and_domain_required": "Le nom et le domaine sont requis",
         "name_item_domain_required": "Le nom, l'item et le domaine sont requis",
-        "generic_error": "{{error}}"
+        "generic_error": "{{error}}",
+        "validation": {
+          "required_field": "Ce champ est obligatoire",
+          "invalid_format": "Format invalide",
+          "name_required": "Le nom est obligatoire dans au moins une langue"
+        },
+        "arabic_content_required": "Le contenu doit être en arabe",
+        "arabic_description_required": "La description doit être en arabe",
+        "french_content_required": "Le contenu doit être en français",
+        "french_description_required": "La description doit être en français"
       },
       "success": {
+        "summary": "Succès",
         "domain_added": "Domaine ajouté avec succès",
         "item_added": "Item ajouté avec succès",
         "domain_updated": "Domaine mis à jour avec succès",
@@ -866,6 +887,11 @@
       "confirm": {
         "delete_domain": "Êtes-vous sûr de vouloir supprimer {{domainName}} ?",
         "delete_item": "Êtes-vous sûr de vouloir supprimer {{itemName}} ?"
+      },
+      "info": {
+        "summary": "Information",
+        "loading": "Chargement en cours...",
+        "no_data": "Aucune donnée disponible"
       }
     }
   }, "categories": {
@@ -896,16 +922,23 @@
       "header_edit": "Modifier une Compétence",
       "labels": {
         "title": "Titre",
-        "description": "Description"
+        "title_ar": "العنوان",
+        "description": "Description",
+        "description_ar": "الوصف"
       },
       "placeholders": {
         "title": "Titre",
-        "description": "Description"
+        "title_ar": "العنوان",
+        "description": "Description",
+        "description_ar": "الوصف"
       },
       "buttons": {
         "cancel": "Annuler",
         "add": "Ajouter",
         "update": "Modifier"
+      },
+      "info": {
+        "at_least_one_name": "Au moins un titre (en français ou en arabe) doit être fourni."
       }
     },
     "messages": {
@@ -917,7 +950,7 @@
       },
       "error": {
         "summary": "Erreur",
-        "name_required": "Le nom est requis",
+        "name_required": "Au moins un titre (en français ou en arabe) doit être fourni",
         "generic_error": "{{error}}"
       },
       "confirm": {
@@ -1229,6 +1262,7 @@
       "date_end": "Date de fin",
       "author_filter": "Par auteur",
       "author_placeholder": "Nom d'utilisateur...",
+      "unknown": "Inconnu",
       "reset_filters": "Réinitialiser les filtres",
       "loading": "Chargement des notes...",
       "no_notes_found": "Aucune note trouvée correspondant à vos critères. Essayez d'ajuster les filtres !",
@@ -1333,8 +1367,67 @@
       "required_fields": "Veuillez remplir au moins le titre et la description de la stratégie."
     }
   },
+  "add_goal_modal": {
+    "header": {
+      "add": "Ajouter un nouvel objectif",
+      "edit": "Modifier l'objectif"
+    },
+    "labels": {
+      "title": "Titre de l'objectif",
+      "description": "Description",
+      "target_date": "Date cible",
+      "priority": "Priorité",
+      "category": "Catégorie",
+      "domain": "Domaine",
+      "sub_objectives": "Sous-objectifs"
+    },
+    "placeholders": {
+      "title": "Ex: Maîtriser de nouvelles compétences",
+      "description": "Décrivez votre objectif en détail",
+      "select_category": "Sélectionner une catégorie",
+      "select_domain": "Sélectionner un domaine",
+      "sub_objective": "Description du sous-objectif"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "update": "Modifier",
+      "add_sub_objective": "Ajouter un sous-objective",
+      "save_changes": "Enregistrer les modifications",
+      "create_goal": "Créer l'objectif"
+    },
+    "validation": {
+      "title_required": "Le titre est requis",
+      "description_required": "La description est requise",
+      "target_date_required": "La date cible est requise",
+      "priority_required": "La priorité est requise",
+      "category_required": "La catégorie est requise",
+      "domain_required": "Le domaine est requis"
+    },
+    "messages": {
+      "no_categories": "Aucune catégorie disponible. Assurez-vous d'avoir des catégories associées à votre profil",
+      "select_category_first": "Veuillez d'abord sélectionner une catégorie",
+      "no_domains": "Aucun domaine disponible pour la catégorie sélectionnée"
+    },
+    "success_messages": {
+      "goal_updated": "Objectif mis à jour!",
+      "goal_updated_text": "L'objectif \"{{title}}\" a été mis à jour avec succès.",
+      "goal_created": "Objectif créé!",
+      "goal_created_text": "L'objectif \"{{title}}\" a été créé avec succès."
+    },
+    "error_messages": {
+      "update_failed": "Impossible de mettre à jour l'objectif.",
+      "create_failed": "Impossible de créer l'objectif.",
+      "no_profile_selected": "Impossible d'enregistrer l'objectif: Aucun profil sélectionné."
+    },
+    "priority": {
+      "high": "Élevée",
+      "medium": "Moyenne",
+      "low": "Faible"
+    }
+  },
   "calendar": {
-    "title": "📅 Calendrier",
+    "title": "Calendrier",
     "breadcrumb": {
       "dashboard": "Tableau de bord",
       "calendar": "📅 Calendrier"
@@ -1423,6 +1516,13 @@
       "load_categories": "Erreur lors du chargement des catégories:",
       "load_domains": "Erreur lors du chargement des domaines:",
       "load_items": "Erreur lors du chargement des items:"
+    }
+  },
+  "child_profile": {
+    "title": "👤 Choisir un Profil",
+    "breadcrumb": {
+      "home": "Accueil",
+      "choose_profile": "Choisir un Profil"
     }
   }
 }
