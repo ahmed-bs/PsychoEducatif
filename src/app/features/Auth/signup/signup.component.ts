@@ -47,10 +47,10 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     // Initialize translation languages
     this.translate.addLangs(['fr', 'ar']);
-    this.translate.setDefaultLang('ar');
+    this.translate.setDefaultLang('fr');
     
     // Get saved language from localStorage or use browser language
-    const savedLang = localStorage.getItem('lang') || 'ar';
+    const savedLang = localStorage.getItem('lang') || 'fr';
     this.translate.use(savedLang);
 
     // Translate user type labels

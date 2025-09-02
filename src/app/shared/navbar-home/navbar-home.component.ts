@@ -9,14 +9,14 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./navbar-home.component.css']
 })
 export class NavbarHomeComponent implements OnInit, OnDestroy {
-  currentLang: string = 'ar';
+  currentLang: string = 'fr';
   private languageSubscription!: Subscription;
 
   constructor(
     private sharedService: SharedService,
     private translate: TranslateService
   ) {
-    const savedLang = localStorage.getItem('lang') || 'ar';
+    const savedLang = localStorage.getItem('lang') || 'fr';
     this.currentLang = savedLang;
     this.translate.use(this.currentLang);
   }

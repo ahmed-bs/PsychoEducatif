@@ -20,7 +20,7 @@ export class EvaluationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     // Initialize translation with current language from shared service
-    this.translate.setDefaultLang('ar');
+    this.translate.setDefaultLang('fr');
     const currentLang = this.sharedService.getCurrentLanguage();
     this.translate.use(currentLang);
 

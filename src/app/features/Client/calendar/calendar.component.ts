@@ -95,7 +95,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
 
   items: { [domainId: number]: ProfileItem[] } = {};
   currentProfileId: number | null = null;
-  currentLang: string = 'ar';
+  currentLang: string = 'fr';
   currentLanguage: string = 'fr';
   private languageSubscription!: Subscription;
 
@@ -115,7 +115,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     private translate: TranslateService
   ) {
     // Initialize current language
-    this.currentLang = localStorage.getItem('lang') || 'ar';
+    this.currentLang = localStorage.getItem('lang') || 'fr';
     this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
     
     // Initialize translation service with current language

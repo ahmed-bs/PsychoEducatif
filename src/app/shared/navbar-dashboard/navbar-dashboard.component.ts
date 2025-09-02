@@ -13,7 +13,7 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
 
   private currentScreenSize: 'desktop' | 'mobile' = 'desktop';
   private lastScreenSize: 'desktop' | 'mobile' = 'desktop';
-  currentLang: string = 'ar';
+  currentLang: string = 'fr';
   currentUser: any = null;
   private languageSubscription: Subscription;
 
@@ -22,7 +22,7 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private authService: AuthService
   ) {
-    const savedLang = localStorage.getItem('lang') || 'ar';
+    const savedLang = localStorage.getItem('lang') || 'fr';
     this.currentLang = savedLang;
     this.translate.use(this.currentLang);
     
