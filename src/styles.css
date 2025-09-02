@@ -1,6 +1,14 @@
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* You can add global styles to this file, and also import other style files
 */
 @import url("https://fonts.googleapis.com/css?family=Muli:400,400i,700,700i");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 body {
   font-family: "Muli", sans-serif;
   background: #ddd;
@@ -125,9 +133,6 @@ body{
     
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
 :root {
     --light: #d6d6ff;
     --primary: #1976D2;
@@ -150,8 +155,6 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
-
-
 html{
     overflow-x: hidden;
 }
@@ -166,8 +169,6 @@ body{
     background: var(--grey);
     overflow-x: hidden;
 }
-
-
 
 /* Styles pour l'en-tête du tableau de bord */
 .head-title {
@@ -245,7 +246,6 @@ body{
       justify-content: flex-start;
     }
   }
-
 
 ::ng-deep .mdc-dialog__surface {
     position: static !important; /* Overrides position: relative */
