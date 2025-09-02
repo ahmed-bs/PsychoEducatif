@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authService.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/app/core/services/shared.service';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,17 +13,19 @@ import Swal from 'sweetalert2';
   styleUrls: ['./signin.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, OnDestroy {
   hide = true;
   isLoading = false;
   showErrors = false;
   loginForm: FormGroup;
+  private languageSubscription!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sharedService: SharedService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -29,11 +33,10 @@ export class SigninComponent implements OnInit {
       rememberMe: [false]
     });
 
-    // Initialize translation languages
-    this.translate.addLangs(['fr', 'ar']);
-    this.translate.setDefaultLang('ar');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/fr|ar/) ? browserLang : 'ar');
+    // Initialize translation with current language from shared service
+    this.translate.setDefaultLang('fr');
+    const currentLang = this.sharedService.getCurrentLanguage();
+    this.translate.use(currentLang);
   }
 
   ngOnInit() {
@@ -44,6 +47,17 @@ export class SigninComponent implements OnInit {
         email: rememberedEmail,
         rememberMe: true
       });
+    }
+
+    // Subscribe to language changes
+    this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.translate.use(lang);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
     }
   }
 

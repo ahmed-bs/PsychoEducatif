@@ -86,7 +86,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     // Initialize current language - use the same key as SharedService
-    this.currentLanguage = localStorage.getItem('lang') || 'ar';
+    this.currentLanguage = localStorage.getItem('lang') || 'fr';
     
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {

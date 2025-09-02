@@ -18,10 +18,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private sharedService: SharedService
   ) {
     // Set default language
-    this.translate.setDefaultLang('ar');
+    this.translate.setDefaultLang('fr');
     
-    // Get saved language from localStorage or default to 'ar'
-    const savedLang = localStorage.getItem('lang') || 'ar';
+    // Get saved language from localStorage or default to 'fr'
+    const savedLang = localStorage.getItem('lang') || 'fr';
     this.translate.use(savedLang);
     
     // Subscribe to language changes
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Initialize translation with saved language
-    const savedLang = localStorage.getItem('lang') || 'ar';
+    const savedLang = localStorage.getItem('lang') || 'fr';
     this.translate.use(savedLang);
   }
 
