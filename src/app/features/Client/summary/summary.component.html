@@ -33,20 +33,52 @@
   <!-- Controls Section -->
   <div class="controls-section">
     <div class="controls-content">
-      <div class="filter-section">
-        <label for="status-filter" class="filter-label">
-          {{ 'explore.filter.label' | translate }}:
-        </label>
-        <select 
-          id="status-filter" 
-          class="filter-select"
-          [(ngModel)]="selectedFilterStatus" 
-          (change)="applyFilter()">
-          <option *ngFor="let status of filterStatuses" [value]="status.value">
-            {{ status.label }}
-          </option>
-        </select>
-      </div>
+      <div class="filters-container">
+        <div class="filter-section">
+          <label for="status-filter" class="filter-label">
+            {{ 'skills_summary.filters.status' | translate }}:
+          </label>
+          <select 
+            id="status-filter" 
+            class="filter-select"
+            [(ngModel)]="selectedFilterStatus" 
+            (change)="applyFilter()">
+            <option *ngFor="let status of filterStatuses" [value]="status.value">
+              {{ status.label }}
+            </option>
+          </select>
+        </div>
+
+         <div class="filter-section">
+           <label for="module-filter" class="filter-label">
+             {{ 'skills_summary.filters.module' | translate }}:
+           </label>
+           <select 
+             id="module-filter" 
+             class="filter-select"
+             [(ngModel)]="selectedFilterModule" 
+             (change)="applyFilter()">
+             <option *ngFor="let module of filterModules" [value]="module.value">
+               {{ module.label }}
+             </option>
+           </select>
+         </div>
+
+         <div class="filter-section">
+           <label for="item-status-filter" class="filter-label">
+             {{ 'skills_summary.filters.item_status.label' | translate }}:
+           </label>
+           <select 
+             id="item-status-filter" 
+             class="filter-select"
+             [(ngModel)]="selectedFilterItemStatus" 
+             (change)="applyFilter()">
+             <option *ngFor="let itemStatus of filterItemStatuses" [value]="itemStatus.value">
+               {{ itemStatus.label }}
+             </option>
+           </select>
+         </div>
+       </div>
 
       <div class="export-section">
         <button

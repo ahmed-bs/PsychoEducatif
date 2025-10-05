@@ -55,11 +55,13 @@ function containsArabic(text: string): boolean {
 export class EvaluationsComponent implements OnInit, OnDestroy {
   domainId: number | null = null;
   items: ProfileItem[] = [];
+  filteredItems: ProfileItem[] = [];
   profileCategoryName: string | null = null;
   profileDomainName: string | null = null;
   isLoading: boolean = false;
   error: string | null = null;
   currentLanguage: string = 'fr';
+  selectedStatusFilter: string = 'ALL';
   private languageSubscription: Subscription;
 
   constructor(
@@ -174,6 +176,7 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
     this.profileItemService.getItems(this.domainId!).subscribe({
       next: (items) => {
         this.items = items;
+        this.filteredItems = items; // Initialize filtered items
         if (items.length === 0) {
           this.error = this.translate.instant('evaluations.error.no_items_found');
         } else {
@@ -191,13 +194,43 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Filter items by status
+  filterByStatus(): void {
+    if (this.selectedStatusFilter === 'ALL') {
+      this.filteredItems = [...this.items];
+    } else {
+      this.filteredItems = this.items.filter(item => item.etat === this.selectedStatusFilter);
+    }
+  }
+
+  // Get available status options for filter dropdown
+  getStatusOptions(): Array<{value: string, label: string}> {
+    return [
+      { value: 'ALL', label: this.translate.instant('evaluations.filter.all_status') },
+      { value: 'ACQUIS', label: this.translate.instant('evaluations.table.status_labels.ACQUIS') },
+      { value: 'NON_ACQUIS', label: this.translate.instant('evaluations.table.status_labels.NON_ACQUIS') },
+      { value: 'PARTIEL', label: this.translate.instant('evaluations.table.status_labels.PARTIEL') },
+      { value: 'NON_COTE', label: this.translate.instant('evaluations.table.status_labels.NON_COTE') }
+    ];
+  }
+
+  // Get filter label for export
+  getFilterLabel(): string {
+    if (this.selectedStatusFilter === 'ALL') {
+      return this.translate.instant('evaluations.filter.all_status');
+    } else {
+      return this.getStatusLabel(this.selectedStatusFilter);
+    }
+  }
+
   exportExcel(): void {
     import('xlsx').then((xlsx) => {
       const exportData = [
         { [this.translate.instant('evaluations.export.category_label')]: this.getLanguageSpecificCategoryName() },
         { [this.translate.instant('evaluations.export.domain_label')]: this.getLanguageSpecificDomainName() },
+        { [this.translate.instant('evaluations.export.filter_label')]: this.getFilterLabel() },
         {},
-        ...this.items.map((item) => ({
+        ...this.filteredItems.map((item) => ({
           [this.translate.instant('evaluations.table.headers.items')]: this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
           [this.translate.instant('evaluations.table.headers.status')]: this.getStatusLabel(item.etat),
           [this.translate.instant('evaluations.table.headers.comments')]: this.getItemLanguageField(item, 'comentaire') || this.translate.instant('evaluations.table.no_comment'),
@@ -243,7 +276,7 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
     doc.text(domainText, 40, 40);
 
     // Prepare table data
-    const tableData = this.items.map((item) => [
+    const tableData = this.filteredItems.map((item) => [
       this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name'),
       this.getStatusLabel(item.etat),
       this.getItemLanguageField(item, 'comentaire') || this.translate.instant('evaluations.table.no_comment'),
@@ -343,7 +376,7 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
           <tbody>
     `;
     
-    this.items.forEach(item => {
+    this.filteredItems.forEach(item => {
       const itemText = this.getItemLanguageField(item, 'description') || this.getItemLanguageField(item, 'name') || '';
       const statusText = this.getStatusLabel(item.etat);
       const commentText = this.getItemLanguageField(item, 'comentaire') || this.translate.instant('evaluations.table.no_comment');

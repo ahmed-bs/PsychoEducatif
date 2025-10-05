@@ -28,11 +28,20 @@
     <h2 class="category-header">{{ getLanguageSpecificCategoryName() }}</h2>
     <h3 class="domain-header">{{ getLanguageSpecificDomainName() }}</h3>
   </div>
-  <p-table [value]="items" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
+  <p-table [value]="filteredItems" [paginator]="true" [rows]="10" [responsive]="true" styleClass="p-datatable-striped p-datatable-gridlines">
     <ng-template pTemplate="caption">
-      <div class="button-container">
-        <button pButton pRipple type="button" icon="pi pi-file-excel" [label]="'evaluations.table.caption.export_excel' | translate" class="p-button-success mr-2" (click)="exportExcel()" [disabled]="items.length === 0"></button>
-        <button pButton pRipple type="button" icon="pi pi-file-pdf" [label]="'evaluations.table.caption.export_pdf' | translate" class="p-button-warning mr-2" (click)="exportPdf()" [disabled]="items.length === 0"></button>
+      <div class="filter-container">
+        <div class="filter-controls">
+          <label for="statusFilter" class="filter-label">{{ 'evaluations.filter.filter_by_status' | translate }}:</label>
+          <select id="statusFilter" [(ngModel)]="selectedStatusFilter" (change)="filterByStatus()" class="filter-select">
+            <option *ngFor="let option of getStatusOptions()" [value]="option.value">{{ option.label }}</option>
+          </select>
+          <span class="filter-results">{{ 'evaluations.filter.showing_results' | translate }}: {{ filteredItems.length }} / {{ items.length }}</span>
+        </div>
+        <div class="button-container">
+          <button pButton pRipple type="button" icon="pi pi-file-excel" [label]="'evaluations.table.caption.export_excel' | translate" class="p-button-success mr-2" (click)="exportExcel()" [disabled]="filteredItems.length === 0"></button>
+          <button pButton pRipple type="button" icon="pi pi-file-pdf" [label]="'evaluations.table.caption.export_pdf' | translate" class="p-button-warning mr-2" (click)="exportPdf()" [disabled]="filteredItems.length === 0"></button>
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="header">

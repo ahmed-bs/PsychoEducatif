@@ -71,6 +71,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
   expandedCategories: { [key: string]: boolean } = {};
   filterStatuses: any[] = [];
   selectedFilterStatus: string = 'all';
+  filterModules: any[] = [];
+  selectedFilterModule: string = 'all';
+  filterItemStatuses: any[] = [];
+  selectedFilterItemStatus: string = 'all';
   private originalCategoryDataForTable: CategoryTableRow[] = [];
   domainItemsVisibility: { [domainName: string]: boolean } = {};
   currentLanguage: string = 'fr';
@@ -94,6 +98,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
       this.currentLanguage = lang;
       // Update filter statuses when language changes
       this.updateFilterStatuses();
+      // Update module filters when language changes
+      this.updateFilterModules();
+      // Update item status filters when language changes
+      this.updateFilterItemStatuses();
       // Refresh data with new language
       this.refreshDataForLanguage();
     });
@@ -104,6 +112,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     
     // Initialize filter statuses after translations are ready
     this.updateFilterStatuses();
+    this.updateFilterItemStatuses();
     
     this.loadSummaryData();
   }
@@ -127,6 +136,38 @@ export class SummaryComponent implements OnInit, OnDestroy {
         { label: translations['explore.filter.completed'], value: 'completed' },
         { label: translations['explore.filter.in_progress'], value: 'en_cours' },
         { label: translations['explore.filter.not_started'], value: 'not_started' }
+      ];
+    });
+  }
+
+  private updateFilterModules() {
+    // Create module filter options from available categories
+    this.filterModules = [
+      { label: this.translate.instant('explore.filter.all'), value: 'all' }
+    ];
+    
+    // Add each category as a filter option
+    this.originalCategoryDataForTable.forEach(category => {
+      this.filterModules.push({
+        label: this.getCategoryDisplayName(category),
+        value: category.category
+      });
+    });
+  }
+
+  private updateFilterItemStatuses() {
+    // Wait for translations to be ready
+    this.translate.get([
+      'explore.filter.all',
+      'skills_summary.filters.item_status.acquired',
+      'skills_summary.filters.item_status.not_acquired',
+      'skills_summary.filters.item_status.partial'
+    ]).subscribe(translations => {
+      this.filterItemStatuses = [
+        { label: translations['explore.filter.all'], value: 'all' },
+        { label: translations['skills_summary.filters.item_status.acquired'], value: 'acquired' },
+        { label: translations['skills_summary.filters.item_status.not_acquired'], value: 'not_acquired' },
+        { label: translations['skills_summary.filters.item_status.partial'], value: 'partial' }
       ];
     });
   }
@@ -188,6 +229,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
          );
         
         this.processCategoryAndDomainDataForTable(rawData);
+        // Update module filters after data is loaded
+        this.updateFilterModules();
         this.isLoading = false;
       },
       error: (error) => {
@@ -299,26 +342,53 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(): void {
-    if (this.selectedFilterStatus === 'all') {
-      this.categoryDataForTable = [...this.originalCategoryDataForTable];
-      return;
+    let filteredData = [...this.originalCategoryDataForTable];
+
+    // Apply module filter first
+    if (this.selectedFilterModule !== 'all') {
+      filteredData = filteredData.filter(category => category.category === this.selectedFilterModule);
     }
 
-    this.categoryDataForTable = this.originalCategoryDataForTable.map(category => ({
-      ...category,
-      domains: category.domains.filter(domain => {
-        const percentage = domain.progressPercentage;
+    // Apply status filter
+    if (this.selectedFilterStatus !== 'all') {
+      filteredData = filteredData.map(category => ({
+        ...category,
+        domains: category.domains.filter(domain => {
+          const percentage = domain.progressPercentage;
 
-        if (this.selectedFilterStatus === 'completed') {
-          return percentage === 100;
-        } else if (this.selectedFilterStatus === 'en_cours') {
-          return percentage > 0 && percentage < 100;
-        } else if (this.selectedFilterStatus === 'not_started') {
-          return percentage === 0;
-        }
-        return true;
-      })
-    })).filter(category => category.domains.length > 0);
+          if (this.selectedFilterStatus === 'completed') {
+            return percentage === 100;
+          } else if (this.selectedFilterStatus === 'en_cours') {
+            return percentage > 0 && percentage < 100;
+          } else if (this.selectedFilterStatus === 'not_started') {
+            return percentage === 0;
+          }
+          return true;
+        })
+      })).filter(category => category.domains.length > 0);
+    }
+
+    // Apply item status filter
+    if (this.selectedFilterItemStatus !== 'all') {
+      filteredData = filteredData.map(category => ({
+        ...category,
+        domains: category.domains.map(domain => ({
+          ...domain,
+          profileItems: domain.profileItems.filter(item => {
+            if (this.selectedFilterItemStatus === 'acquired') {
+              return item.etat === 'ACQUIS';
+            } else if (this.selectedFilterItemStatus === 'not_acquired') {
+              return item.etat === 'NON_ACQUIS';
+            } else if (this.selectedFilterItemStatus === 'partial') {
+              return item.etat === 'PARTIEL';
+            }
+            return true;
+          })
+        }))
+      }));
+    }
+
+    this.categoryDataForTable = filteredData;
   }
 
   toggleDomainItems(domainName: string): void {
