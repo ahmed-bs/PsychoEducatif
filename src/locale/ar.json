@@ -506,6 +506,16 @@
     },
     "filter_label": "تصفية حسب حالة العناصر:",
     "filter_placeholder": "اختر حالة",
+    "filters": {
+      "status": "الحالة",
+      "module": "الوحدة",
+      "item_status": {
+        "label": "حالة العناصر",
+        "acquired": "مكتسب",
+        "not_acquired": "غير مكتسب",
+        "partial": "جزئي"
+      }
+    },
     "export_button": "تصدير",
     "table": {
       "category": "الفئة",
@@ -736,9 +746,15 @@
         "NON_COTE": "غير مقيّمة"
       }
     },
+    "filter": {
+      "filter_by_status": "تصفية حسب الحالة",
+      "all_status": "جميع الحالات",
+      "showing_results": "النتائج المعروضة"
+    },
     "export": {
       "category_label": "الفئة",
       "domain_label": "المجال",
+      "filter_label": "التصفية المطبقة",
       "unknown_category": "فئة غير معروفة",
       "unknown_domain": "مجال غير معروف"
     }

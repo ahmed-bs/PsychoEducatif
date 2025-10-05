@@ -505,6 +505,16 @@
     },
     "filter_label": "Filtrer par Statut des Items :",
     "filter_placeholder": "Sélectionner un statut",
+    "filters": {
+      "status": "Statut",
+      "module": "Module",
+      "item_status": {
+        "label": "Statut des Items",
+        "acquired": "Acquis",
+        "not_acquired": "Non Acquis",
+        "partial": "Partiel"
+      }
+    },
     "export_button": "Exporter",
     "table": {
       "category": "Catégorie",
@@ -769,9 +779,15 @@
         "NON_COTE": "Non évaluée"
       }
     },
+    "filter": {
+      "filter_by_status": "Filtrer par statut",
+      "all_status": "Tous les statuts",
+      "showing_results": "Résultats affichés"
+    },
     "export": {
       "category_label": "Catégorie",
       "domain_label": "Domaine",
+      "filter_label": "Filtre appliqué",
       "unknown_category": "Catégorie inconnue",
       "unknown_domain": "Domaine inconnu"
     }
