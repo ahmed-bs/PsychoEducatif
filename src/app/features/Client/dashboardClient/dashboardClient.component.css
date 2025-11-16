@@ -77,6 +77,25 @@
 
 /* =============== CONTENT PADDING =============== */
 
+/* Remove bullet points from tab navigation */
+.border-b.border-gray-200 ul,
+.border-b.border-gray-200 ul li,
+.border-b.border-gray-200 .flex ul,
+.border-b.border-gray-200 .flex ul li,
+ul.flex li {
+  list-style: none !important;
+  margin: 0;
+  padding: 0;
+}
+
+.border-b.border-gray-200 ul li::before,
+.border-b.border-gray-200 ul li::after,
+ul.flex li::before,
+ul.flex li::after {
+  content: none !important;
+  display: none !important;
+}
+
 /* Variables pour une gestion cohérente des couleurs et espacements */
 :host {
   --primary-color: #6366f1;

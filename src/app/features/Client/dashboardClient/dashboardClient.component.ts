@@ -72,7 +72,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     can_delete: false
   };
 
-  activeTab: string = 'skills';
+  activeTab: string = 'stats';
   
   showGoalFormModal = false;
 
