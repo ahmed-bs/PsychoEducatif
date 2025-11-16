@@ -1,19 +1,15 @@
 <div class="peu-container">
+  <div class="back-button" (click)="goBack()">
+    <i class="pi pi-arrow-left"></i>
+  </div>
   <div class="peu-header">
     <div class="header-left">
-      <button pButton 
-              type="button" 
-              label="Back" 
-              icon="pi pi-arrow-left" 
-              (click)="goBack()"
-              class="p-button-secondary back-button">
-      </button>
-      <h1>PEU - Profile Items</h1>
+      <h1>{{ 'peu.title' | translate }}</h1>
     </div>
     <div class="header-right">
       <button pButton 
               type="button" 
-              label="Export Excel" 
+              [label]="'peu.export_excel' | translate" 
               icon="pi pi-file-excel" 
               (click)="exportExcel()"
               [disabled]="items.length === 0 || isLoading"
@@ -21,7 +17,7 @@
       </button>
       <button pButton 
               type="button" 
-              label="Export PDF" 
+              [label]="'peu.export_pdf' | translate" 
               icon="pi pi-file-pdf" 
               (click)="exportPdf()"
               [disabled]="items.length === 0 || isLoading"
@@ -33,7 +29,7 @@
   <div class="peu-content">
     <div *ngIf="isLoading" class="loading-state">
       <i class="pi pi-spin pi-spinner loading-icon"></i>
-      <p>Loading items...</p>
+      <p>{{ 'peu.loading_items' | translate }}</p>
     </div>
 
     <div *ngIf="error" class="error-state">
@@ -45,6 +41,7 @@
       <app-profile-item-list
         [items]="items"
         [selectedItems]="selectedItemIds"
+        [currentLanguage]="currentLanguage"
         (selectionChange)="onSelectionChange($event)">
       </app-profile-item-list>
     </div>

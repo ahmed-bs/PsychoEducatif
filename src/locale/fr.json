@@ -1541,5 +1541,24 @@
       "home": "Accueil",
       "choose_profile": "Choisir un Profil"
     }
+  },
+  "peu": {
+    "title": "PEU - Éléments de Profil",
+    "export_excel": "Exporter Excel",
+    "export_pdf": "Exporter PDF",
+    "loading_items": "Chargement des éléments...",
+    "no_profile_selected": "Aucun profil sélectionné",
+    "no_profile_id": "Aucun ID de profil disponible",
+    "failed_to_load": "Échec du chargement des éléments",
+    "export": {
+      "title": "PEU - Éléments de Profil",
+      "total_items": "Total des éléments",
+      "category": "Catégorie",
+      "domain": "Domaine",
+      "item_name": "Nom de l'élément",
+      "description": "Description",
+      "comments": "Commentaires",
+      "done": "Terminé"
+    }
   }
 }

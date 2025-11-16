@@ -18,6 +18,7 @@ import { ProfileItem } from 'src/app/core/models/ProfileItem';
 export class ProfileItemListComponent implements OnInit, OnChanges {
   @Input() items: ProfileItem[] = [];
   @Input() selectedItems: number[] = []; // Array of selected item IDs
+  @Input() currentLanguage: string = 'fr'; // Language for displaying items
   @Output() selectionChange = new EventEmitter<number[]>();
 
   selectedItemIds: Set<number> = new Set();
@@ -63,6 +64,38 @@ export class ProfileItemListComponent implements OnInit, OnChanges {
   private emitSelectionChange() {
     const selectedArray = Array.from(this.selectedItemIds);
     this.selectionChange.emit(selectedArray);
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
+  getItemLanguageField(item: ProfileItem, fieldName: string): string {
+    if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
+      if (fieldName === 'name') {
+        return item.name_ar || '';
+      } else if (fieldName === 'description') {
+        return item.description_ar || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_ar || '';
+      } else if (fieldName === 'category') {
+        return item.profile_category_name_ar || '';
+      } else if (fieldName === 'domain') {
+        return item.profile_domain_name_ar || '';
+      }
+    } else {
+      // For French language, use non-_ar fields
+      if (fieldName === 'name') {
+        return item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.comentaire || '';
+      } else if (fieldName === 'category') {
+        return item.profile_category_name || '';
+      } else if (fieldName === 'domain') {
+        return item.profile_domain_name || '';
+      }
+    }
+    return '';
   }
 }
 

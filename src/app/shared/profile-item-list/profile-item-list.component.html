@@ -6,13 +6,13 @@
       class="profile-item-checkbox">
     </mat-checkbox>
     <div class="profile-item-content">
-      <div class="profile-item-name">{{ item.name }}</div>
-      <div class="profile-item-description" *ngIf="item.description">
-        {{ item.description }}
+      <div class="profile-item-name">{{ getItemLanguageField(item, 'name') }}</div>
+      <div class="profile-item-description" *ngIf="getItemLanguageField(item, 'description')">
+        {{ getItemLanguageField(item, 'description') }}
       </div>
       <div class="profile-item-meta">
-        <span class="profile-item-domain">{{ item.profile_domain_name }}</span>
-        <span class="profile-item-category">{{ item.profile_category_name }}</span>
+        <span class="profile-item-domain">{{ getItemLanguageField(item, 'domain') }}</span>
+        <span class="profile-item-category">{{ getItemLanguageField(item, 'category') }}</span>
       </div>
     </div>
   </div>

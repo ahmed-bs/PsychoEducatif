@@ -16,6 +16,13 @@ import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+// Function to check if text contains Arabic characters
+function containsArabic(text: string): boolean {
+  if (!text) return false;
+  const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+  return arabicRegex.test(text);
+}
+
 @Component({
   standalone: true,
   selector: 'app-peu',
@@ -48,6 +55,7 @@ export class PeuComponent implements OnInit, OnDestroy {
   ) {
     // Initialize current language
     this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    this.translate.use(this.currentLanguage);
     
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
@@ -70,7 +78,7 @@ export class PeuComponent implements OnInit, OnDestroy {
           this.profileId = parseInt(storedChildId, 10);
           this.loadItems();
         } else {
-          this.error = 'No profile selected';
+          this.error = this.translate.instant('peu.no_profile_selected');
         }
       }
     });
@@ -84,7 +92,7 @@ export class PeuComponent implements OnInit, OnDestroy {
 
   loadItems() {
     if (!this.profileId) {
-      this.error = 'No profile ID available';
+      this.error = this.translate.instant('peu.no_profile_id');
       return;
     }
 
@@ -145,7 +153,7 @@ export class PeuComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error loading items:', error);
-        this.error = 'Failed to load items';
+        this.error = this.translate.instant('peu.failed_to_load');
         this.isLoading = false;
       }
     });
@@ -215,17 +223,25 @@ export class PeuComponent implements OnInit, OnDestroy {
     }
 
     import('xlsx').then((xlsx) => {
+      const categoryLabel = this.translate.instant('peu.export.category');
+      const domainLabel = this.translate.instant('peu.export.domain');
+      const itemNameLabel = this.translate.instant('peu.export.item_name');
+      const descriptionLabel = this.translate.instant('peu.export.description');
+      const commentsLabel = this.translate.instant('peu.export.comments');
+      const doneLabel = this.translate.instant('peu.export.done');
+      
       const exportData = this.items.map((item) => ({
-        'Category': this.getItemLanguageField(item, 'category'),
-        'Domain': this.getItemLanguageField(item, 'domain'),
-        'Item Name': this.getItemLanguageField(item, 'name'),
-        'Description': this.getItemLanguageField(item, 'description'),
-        'Comments': this.getItemLanguageField(item, 'comentaire') || '',
-        'Done': item.done ? 'OK' : '',
+        [categoryLabel]: this.getItemLanguageField(item, 'category'),
+        [domainLabel]: this.getItemLanguageField(item, 'domain'),
+        [itemNameLabel]: this.getItemLanguageField(item, 'name'),
+        [descriptionLabel]: this.getItemLanguageField(item, 'description'),
+        [commentsLabel]: this.getItemLanguageField(item, 'comentaire') || '',
+        [doneLabel]: item.done ? this.translate.instant('peu.export.done') : '',
       }));
 
       const worksheet = xlsx.utils.json_to_sheet(exportData);
-      const workbook = { Sheets: { 'PEU Items': worksheet }, SheetNames: ['PEU Items'] };
+      const sheetName = this.translate.instant('peu.export.title');
+      const workbook = { Sheets: { [sheetName]: worksheet }, SheetNames: [sheetName] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, 'peu_items');
     });
@@ -243,6 +259,23 @@ export class PeuComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Check if we need to use Arabic PDF export
+    const hasArabicContent = this.currentLanguage === 'ar' || 
+      this.items.some(item => 
+        containsArabic(item.name_ar || '') || 
+        containsArabic(item.description_ar || '') ||
+        containsArabic(item.profile_category_name_ar || '') ||
+        containsArabic(item.profile_domain_name_ar || '')
+      );
+
+    if (hasArabicContent) {
+      this.exportPdfArabic();
+    } else {
+      this.exportPdfStandard();
+    }
+  }
+
+  private exportPdfStandard(): void {
     const doc = new jsPDF('p', 'pt', 'a4');
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
@@ -255,10 +288,10 @@ export class PeuComponent implements OnInit, OnDestroy {
     // Add header
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
-    doc.text('PEU - Profile Items', margin, 30);
+    doc.text(this.translate.instant('peu.export.title'), margin, 30);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Total Items: ${this.items.length}`, margin, 50);
+    doc.text(`${this.translate.instant('peu.export.total_items')}: ${this.items.length}`, margin, 50);
 
     // Prepare table data - use empty string for checkbox column, we'll draw it manually
     const tableData = this.items.map((item) => [
@@ -271,9 +304,14 @@ export class PeuComponent implements OnInit, OnDestroy {
     ]);
 
     // Get translated headers
-    const headers = this.currentLanguage === 'ar' 
-      ? ['الفئة', 'المجال', 'اسم العنصر', 'الوصف', 'التعليقات', 'منجز']
-      : ['Category', 'Domain', 'Item Name', 'Description', 'Comments', 'Done'];
+    const headers = [
+      this.translate.instant('peu.export.category'),
+      this.translate.instant('peu.export.domain'),
+      this.translate.instant('peu.export.item_name'),
+      this.translate.instant('peu.export.description'),
+      this.translate.instant('peu.export.comments'),
+      this.translate.instant('peu.export.done')
+    ];
 
     // Calculate column widths as percentages of available width
     // Category: 12%, Domain: 12%, Name: 18%, Description: 30%, Comments: 20%, Done: 8%
@@ -368,20 +406,200 @@ export class PeuComponent implements OnInit, OnDestroy {
     doc.save('peu_items_' + new Date().getTime() + '.pdf');
   }
 
+  private exportPdfArabic(): void {
+    // For Arabic text, we'll use an HTML-based approach
+    // This handles Arabic text much better than jsPDF
+    const htmlContent = this.generateArabicHtml();
+    
+    // Create a blob with the HTML content
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    
+    // Open in new window for printing
+    const printWindow = window.open(url, '_blank');
+    if (printWindow) {
+      printWindow.onload = () => {
+        printWindow.print();
+        // Clean up the URL after printing
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 1000);
+      };
+    } else {
+      // Fallback: download as HTML file
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'peu_items_' + new Date().getTime() + '.html';
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  private generateArabicHtml(): string {
+    const isArabic = this.currentLanguage === 'ar';
+    const title = this.translate.instant('peu.export.title');
+    const totalItems = this.translate.instant('peu.export.total_items');
+    const categoryLabel = this.translate.instant('peu.export.category');
+    const domainLabel = this.translate.instant('peu.export.domain');
+    const itemNameLabel = this.translate.instant('peu.export.item_name');
+    const descriptionLabel = this.translate.instant('peu.export.description');
+    const commentsLabel = this.translate.instant('peu.export.comments');
+    const doneLabel = this.translate.instant('peu.export.done');
+    const doneText = isArabic ? 'نعم' : 'Yes';
+    const notDoneText = isArabic ? 'لا' : 'No';
+
+    let html = `
+      <!DOCTYPE html>
+      <html dir="${isArabic ? 'rtl' : 'ltr'}" lang="${this.currentLanguage}">
+      <head>
+        <meta charset="UTF-8">
+        <title>${title}</title>
+        <style>
+          body { 
+            font-family: 'Arial', 'Tahoma', sans-serif; 
+            margin: 20px; 
+            direction: ${isArabic ? 'rtl' : 'ltr'};
+          }
+          .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #6366f1;
+            padding-bottom: 15px;
+          }
+          .header h1 {
+            color: #6366f1;
+            margin: 0;
+          }
+          .info { 
+            margin-bottom: 20px; 
+            font-size: 14px;
+          }
+          table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            font-size: 12px;
+          }
+          th, td { 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            text-align: ${isArabic ? 'right' : 'left'}; 
+          }
+          th { 
+            background-color: #6366f1; 
+            color: white;
+            font-weight: bold;
+          }
+          tr:nth-child(even) {
+            background-color: #f5f7fa;
+          }
+          .checkbox-cell {
+            text-align: center;
+          }
+          .checkbox {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #333;
+            border-radius: 3px;
+            position: relative;
+            vertical-align: middle;
+          }
+          .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            color: green;
+            font-weight: bold;
+          }
+          @media print {
+            body { margin: 0; }
+            .header { page-break-after: avoid; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>${title}</h1>
+          <p>${totalItems}: ${this.items.length}</p>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>${categoryLabel}</th>
+              <th>${domainLabel}</th>
+              <th>${itemNameLabel}</th>
+              <th>${descriptionLabel}</th>
+              <th>${commentsLabel}</th>
+              <th class="checkbox-cell">${doneLabel}</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+    
+    this.items.forEach(item => {
+      const category = this.getItemLanguageField(item, 'category');
+      const domain = this.getItemLanguageField(item, 'domain');
+      const itemName = this.getItemLanguageField(item, 'name');
+      const description = this.getItemLanguageField(item, 'description');
+      const comments = this.getItemLanguageField(item, 'comentaire') || '';
+      const isDone = item.done;
+      
+      // Escape HTML to prevent XSS
+      const escapeHtml = (text: string) => {
+        if (!text) return '';
+        return text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      };
+      
+      html += `
+        <tr>
+          <td>${escapeHtml(category)}</td>
+          <td>${escapeHtml(domain)}</td>
+          <td>${escapeHtml(itemName)}</td>
+          <td>${escapeHtml(description)}</td>
+          <td>${escapeHtml(comments)}</td>
+          <td class="checkbox-cell">
+            <span class="checkbox ${isDone ? 'checked' : ''}"></span>
+          </td>
+        </tr>
+      `;
+    });
+    
+    html += `
+          </tbody>
+        </table>
+      </body>
+      </html>
+    `;
+    
+    return html;
+  }
+
+  // Helper method to get the appropriate field for ProfileItem based on language
   getItemLanguageField(item: ProfileItem, fieldName: string): string {
     if (this.currentLanguage === 'ar') {
+      // For Arabic language, use _ar fields
       if (fieldName === 'name') {
-        return item.name_ar || item.name || '';
+        return item.name_ar || '';
       } else if (fieldName === 'description') {
-        return item.description_ar || item.description || '';
+        return item.description_ar || '';
       } else if (fieldName === 'comentaire') {
-        return item.commentaire_ar || item.comentaire || '';
+        return item.commentaire_ar || '';
       } else if (fieldName === 'category') {
-        return item.profile_category_name_ar || item.profile_category_name || '';
+        return item.profile_category_name_ar || '';
       } else if (fieldName === 'domain') {
-        return item.profile_domain_name_ar || item.profile_domain_name || '';
+        return item.profile_domain_name_ar || '';
       }
     } else {
+      // For French language, use non-_ar fields
       if (fieldName === 'name') {
         return item.name || '';
       } else if (fieldName === 'description') {

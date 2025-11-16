@@ -1424,5 +1424,24 @@
       "home": "الرئيسية",
       "choose_profile": "اختيار ملف شخصي"
     }
+  },
+  "peu": {
+    "title": "PEU - عناصر الملف الشخصي",
+    "export_excel": "تصدير Excel",
+    "export_pdf": "تصدير PDF",
+    "loading_items": "جاري تحميل العناصر...",
+    "no_profile_selected": "لم يتم اختيار ملف شخصي",
+    "no_profile_id": "معرف الملف الشخصي غير متاح",
+    "failed_to_load": "فشل تحميل العناصر",
+    "export": {
+      "title": "PEU - عناصر الملف الشخصي",
+      "total_items": "إجمالي العناصر",
+      "category": "الفئة",
+      "domain": "المجال",
+      "item_name": "اسم العنصر",
+      "description": "الوصف",
+      "comments": "التعليقات",
+      "done": "منجز"
+    }
   }
 }
