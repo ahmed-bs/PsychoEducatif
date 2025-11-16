@@ -1451,4 +1451,12 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   getItemDisplayName(item: ProfileItem): string {
     return this.getItemLanguageField(item, 'name') || item.name || '';
   }
+
+  navigateToPEU() {
+    if (this.selectedChild?.id) {
+      this.router.navigate(['/Dashboard-client/client/peu', this.selectedChild.id]);
+    } else if (this.childId) {
+      this.router.navigate(['/Dashboard-client/client/peu', this.childId]);
+    }
+  }
 }

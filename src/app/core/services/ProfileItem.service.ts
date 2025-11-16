@@ -39,6 +39,16 @@ export class ProfileItemService {
         );
     }
 
+    // List PEU items for a domain
+    getPeuItems(domainId: number): Observable<ProfileItem[]> {
+        const peuUrl = environment.apiUrl + 'items/items-peu/';
+        const url = `${peuUrl}?domain_id=${domainId}`;
+        return this.http.get<ApiResponse<ProfileItem[]>>(url).pipe(
+            map(response => response.data || []),
+            catchError(this.handleError)
+        );
+    }
+
     // Create a new item
     create(domainId: number, itemData: Partial<ProfileItem>): Observable<ProfileItem> {
 
@@ -67,6 +77,16 @@ export class ProfileItemService {
         const url = `${this.baseUrl}${itemId}/`;
         return this.http.delete<ApiResponse<void>>(url).pipe(
             map(() => undefined),
+            catchError(this.handleError)
+        );
+    }
+
+    // Update item status (isPeu and done)
+    updateStatus(itemId: number, isPeu: boolean, done: boolean = false): Observable<ProfileItem> {
+        const url = `${this.baseUrl}${itemId}/update-status/`;
+        const body = { isPeu, done };
+        return this.http.patch<ApiResponse<ProfileItem>>(url, body).pipe(
+            map(response => response.data!),
             catchError(this.handleError)
         );
     }

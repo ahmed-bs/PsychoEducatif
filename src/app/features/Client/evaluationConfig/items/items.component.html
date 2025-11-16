@@ -78,6 +78,7 @@
         <div class="col-item">{{ 'items.items_by_domain.headers.item' | translate }}</div>
         <div class="col-etat">{{ 'items.items_by_domain.headers.status' | translate }}</div>
         <div class="col-description">{{ 'items.items_by_domain.headers.description' | translate }}</div>
+        <div class="col-ispeu">{{ 'items.items_by_domain.headers.ispeu' | translate }}</div>
         <div class="col-actions">{{ 'items.items_by_domain.headers.actions' | translate }}</div>
       </div>
 
@@ -89,6 +90,9 @@
           </span>
         </div>
         <div class="col-description">{{ getItemLanguageField(item, 'description') || ('items.items_by_domain.description_fallback' | translate) }}</div>
+        <div class="col-ispeu">
+          <p-inputSwitch [(ngModel)]="item.isPeu" (onChange)="toggleIsPeu(item, domain, $event)"></p-inputSwitch>
+        </div>
         <div class="col-actions">
           <button pButton icon="pi pi-pencil" class="p-button-text p-button-rounded p-button-info" 
                   [pTooltip]="'items.add_item_dialog.tooltips.edit' | translate"

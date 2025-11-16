@@ -783,6 +783,7 @@
         "item": "العنصر",
         "status": "الحالة",
         "description": "الوصف",
+        "ispeu": "PEU",
         "actions": "الإجراءات"
       },
       "status_labels": {

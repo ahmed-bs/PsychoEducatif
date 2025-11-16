@@ -18,6 +18,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 type ItemStatus = ProfileItem['etat'];
 
@@ -490,6 +491,47 @@ export class ItemsComponent implements OnInit, OnDestroy {
           });
         }
       });
+    });
+  }
+
+  toggleIsPeu(item: ProfileItem, domain: DomainWithUI, event: any) {
+    if (!item.id || !domain.id) return;
+
+    const domainId = domain.id;
+    const itemId = item.id;
+    
+    // Get the new value from the event (PrimeNG InputSwitch onChange provides event.checked)
+    // If event.checked is not available, use item.isPeu (which ngModel has already updated)
+    const newIsPeuValue = event?.checked !== undefined ? event.checked : (item.isPeu ?? false);
+    
+    // Save the original item state for potential rollback
+    // Since ngModel updates before onChange, we reverse the new value to get the original
+    const originalIsPeuValue = !newIsPeuValue;
+    const originalItem = { ...item, isPeu: originalIsPeuValue };
+
+    // The UI is already updated by ngModel, so we just need to call the API
+    const items = this.itemsByDomain[domainId] || [];
+    const itemIndex = items.findIndex((i: ProfileItem) => i.id === itemId);
+
+    // Call API to update status (always send done: false as per requirements)
+    this.profileItemService.updateStatus(itemId, newIsPeuValue, false).subscribe({
+      next: (updatedItem) => {
+        // Update with the response from server
+        if (itemIndex !== -1) {
+          this.itemsByDomain[domainId][itemIndex] = updatedItem;
+        }
+      },
+      error: (error) => {
+        // Revert the optimistic update on error
+        if (itemIndex !== -1) {
+          this.itemsByDomain[domainId][itemIndex] = originalItem;
+          // Also revert the ngModel binding
+          item.isPeu = originalIsPeuValue;
+        }
+        this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
+      }
     });
   }
 

@@ -1,0 +1,53 @@
+<div class="peu-container">
+  <div class="peu-header">
+    <div class="header-left">
+      <button pButton 
+              type="button" 
+              label="Back" 
+              icon="pi pi-arrow-left" 
+              (click)="goBack()"
+              class="p-button-secondary back-button">
+      </button>
+      <h1>PEU - Profile Items</h1>
+    </div>
+    <div class="header-right">
+      <button pButton 
+              type="button" 
+              label="Export Excel" 
+              icon="pi pi-file-excel" 
+              (click)="exportExcel()"
+              [disabled]="items.length === 0 || isLoading"
+              class="p-button-success export-button">
+      </button>
+      <button pButton 
+              type="button" 
+              label="Export PDF" 
+              icon="pi pi-file-pdf" 
+              (click)="exportPdf()"
+              [disabled]="items.length === 0 || isLoading"
+              class="p-button-warning export-button">
+      </button>
+    </div>
+  </div>
+
+  <div class="peu-content">
+    <div *ngIf="isLoading" class="loading-state">
+      <i class="pi pi-spin pi-spinner loading-icon"></i>
+      <p>Loading items...</p>
+    </div>
+
+    <div *ngIf="error" class="error-state">
+      <i class="pi pi-exclamation-triangle error-icon"></i>
+      <p>{{ error }}</p>
+    </div>
+
+    <div *ngIf="!isLoading && !error" class="content-wrapper">
+      <app-profile-item-list
+        [items]="items"
+        [selectedItems]="selectedItemIds"
+        (selectionChange)="onSelectionChange($event)">
+      </app-profile-item-list>
+    </div>
+  </div>
+</div>
+

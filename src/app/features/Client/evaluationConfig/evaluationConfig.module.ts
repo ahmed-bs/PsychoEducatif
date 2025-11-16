@@ -17,6 +17,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { CategoriesComponent } from './categories/categories.component';
 import { ToastModule } from 'primeng/toast';
 import { EvaluationConfigRoutes } from './evaluationConfig.routing';
@@ -46,6 +47,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
     DialogModule, 
     DropdownModule, 
     TooltipModule,
+    InputSwitchModule,
     InputTextModule,
     ToastModule,
     TranslateModule.forRoot({

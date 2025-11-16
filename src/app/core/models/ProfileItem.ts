@@ -14,4 +14,6 @@ export interface ProfileItem {
   modified_at: string;
   comentaire?: string;
   commentaire_ar?: string;
+  isPeu?: boolean;
+  done?: boolean;
 }

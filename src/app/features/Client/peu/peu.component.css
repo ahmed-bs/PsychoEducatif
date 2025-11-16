@@ -1,0 +1,256 @@
+.peu-container {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+.peu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding: 24px 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  flex-wrap: wrap;
+  transition: box-shadow 0.3s ease;
+}
+
+.peu-header:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.peu-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.back-button {
+  margin-right: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-button:hover {
+  transform: translateX(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-button:active {
+  transform: translateX(0);
+}
+
+.export-button {
+  min-width: 150px;
+  height: 42px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.export-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.export-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.export-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .peu-container {
+    padding: 16px;
+  }
+
+  .peu-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .peu-header h1 {
+    font-size: 24px;
+    width: 100%;
+  }
+
+  .header-right {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .export-button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .peu-container {
+    padding: 12px;
+  }
+
+  .peu-header {
+    padding: 16px;
+  }
+
+  .peu-header h1 {
+    font-size: 20px;
+  }
+}
+
+.peu-content {
+  min-height: 500px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+  min-height: 400px;
+}
+
+.loading-icon {
+  font-size: 2.5rem;
+  color: #667eea;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state p {
+  margin-top: 24px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #495057;
+  letter-spacing: 0.3px;
+}
+
+.error-state {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.error-icon {
+  font-size: 2.5rem;
+  color: #dc3545;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.content-wrapper {
+  padding: 16px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.error-state p {
+  margin-top: 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #dc3545;
+  padding: 12px 24px;
+  background: #fff;
+  border-radius: 8px;
+  border: 2px solid #f8d7da;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.1);
+}
+
+/* Smooth transitions for content changes */
+.peu-content > div {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Custom scrollbar for content area */
+.peu-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.peu-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.peu-content::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+.peu-content::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+

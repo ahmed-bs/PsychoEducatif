@@ -816,6 +816,7 @@
         "item": "ITEM",
         "status": "ÉTAT",
         "description": "DESCRIPTION",
+        "ispeu": "PEU",
         "actions": "ACTIONS"
       },
       "status_labels": {
