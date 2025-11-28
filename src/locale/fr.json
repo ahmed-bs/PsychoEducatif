@@ -816,7 +816,7 @@
         "item": "ITEM",
         "status": "ÉTAT",
         "description": "DESCRIPTION",
-        "ispeu": "PEU",
+        "ispeu": "PEI",
         "actions": "ACTIONS"
       },
       "status_labels": {
@@ -1543,7 +1543,7 @@
     }
   },
   "peu": {
-    "title": "PEU - Éléments de Profil",
+    "title": "PEI - Éléments de Profil",
     "export_excel": "Exporter Excel",
     "export_pdf": "Exporter PDF",
     "loading_items": "Chargement des éléments...",
@@ -1551,7 +1551,7 @@
     "no_profile_id": "Aucun ID de profil disponible",
     "failed_to_load": "Échec du chargement des éléments",
     "export": {
-      "title": "PEU - Éléments de Profil",
+      "title": "PEI - Éléments de Profil",
       "total_items": "Total des éléments",
       "category": "Catégorie",
       "domain": "Domaine",

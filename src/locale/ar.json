@@ -783,7 +783,7 @@
         "item": "العنصر",
         "status": "الحالة",
         "description": "الوصف",
-        "ispeu": "PEU",
+        "ispeu": "PEI",
         "actions": "الإجراءات"
       },
       "status_labels": {
@@ -1426,7 +1426,7 @@
     }
   },
   "peu": {
-    "title": "PEU - عناصر الملف الشخصي",
+    "title": "PEI - عناصر الملف الشخصي",
     "export_excel": "تصدير Excel",
     "export_pdf": "تصدير PDF",
     "loading_items": "جاري تحميل العناصر...",
@@ -1434,7 +1434,7 @@
     "no_profile_id": "معرف الملف الشخصي غير متاح",
     "failed_to_load": "فشل تحميل العناصر",
     "export": {
-      "title": "PEU - عناصر الملف الشخصي",
+      "title": "PEI - عناصر الملف الشخصي",
       "total_items": "إجمالي العناصر",
       "category": "الفئة",
       "domain": "المجال",
