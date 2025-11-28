@@ -36,6 +36,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   viewMode: 'grid' | 'list' | 'table' = 'grid';
   currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
+  selectedDescriptionCategory: ProfileCategory | null = null;
+  isMobile: boolean = false;
 
   constructor(
     private router: Router,
@@ -59,7 +61,17 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Set default view mode based on screen size
+    this.setDefaultViewMode();
     this.loadCategories();
+  }
+
+  // Set default view mode - list for mobile, grid for desktop
+  private setDefaultViewMode(): void {
+    if (typeof window !== 'undefined') {
+      this.isMobile = window.innerWidth <= 768;
+      this.viewMode = this.isMobile ? 'list' : 'grid';
+    }
   }
 
   ngOnDestroy() {
@@ -97,6 +109,22 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       }
     }
     return '';
+  }
+
+  // Show description popup for mobile
+  showDescriptionPopup(category: ProfileCategory, event: Event): void {
+    event.stopPropagation();
+    this.selectedDescriptionCategory = category;
+  }
+
+  // Hide description popup
+  hideDescriptionPopup(): void {
+    this.selectedDescriptionCategory = null;
+  }
+
+  // Check if description popup is open for a category
+  isDescriptionPopupOpen(category: ProfileCategory): boolean {
+    return this.selectedDescriptionCategory?.id === category.id;
   }
 
   // Helper method to prepare form data based on current language
@@ -149,6 +177,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   setViewMode(mode: 'grid' | 'list' | 'table') {
+    // Prevent switching to table view on mobile
+    if (this.isMobile && mode === 'table') {
+      return;
+    }
     this.viewMode = mode;
   }
 
