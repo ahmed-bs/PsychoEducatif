@@ -1,3 +1,8 @@
+.calendar-container full-calendar {
+  display: block;
+  width: 100%;
+}
+
 /* Modern Calendar Styling */
 .full-calendar {
   border-radius: 30px;
@@ -79,6 +84,10 @@
   padding: 20px 0;
   border-bottom: 1px solid rgba(102, 126, 234, 0.1);
   margin-bottom: 20px;
+}
+
+.calendar-container {
+  width: 100%;
 }
 
 .calendar-title {

@@ -72,7 +72,7 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     can_delete: false
   };
 
-  activeTab: string = 'skills';
+  activeTab: string = 'stats';
   
   showGoalFormModal = false;
 
@@ -1450,5 +1450,13 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   // Helper method to get item display name
   getItemDisplayName(item: ProfileItem): string {
     return this.getItemLanguageField(item, 'name') || item.name || '';
+  }
+
+  navigateToPEU() {
+    if (this.selectedChild?.id) {
+      this.router.navigate(['/Dashboard-client/client/peu', this.selectedChild.id]);
+    } else if (this.childId) {
+      this.router.navigate(['/Dashboard-client/client/peu', this.childId]);
+    }
   }
 }

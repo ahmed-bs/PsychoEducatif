@@ -1,0 +1,23 @@
+<div class="profile-item-list-container">
+  <div *ngFor="let item of items" class="profile-item-row">
+    <mat-checkbox
+      [checked]="isItemSelected(item.id)"
+      (change)="toggleItem(item.id)"
+      class="profile-item-checkbox">
+    </mat-checkbox>
+    <div class="profile-item-content">
+      <div class="profile-item-name">{{ getItemLanguageField(item, 'name') }}</div>
+      <div class="profile-item-description" *ngIf="getItemLanguageField(item, 'description')">
+        {{ getItemLanguageField(item, 'description') }}
+      </div>
+      <div class="profile-item-meta">
+        <span class="profile-item-domain">{{ getItemLanguageField(item, 'domain') }}</span>
+        <span class="profile-item-category">{{ getItemLanguageField(item, 'category') }}</span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="items.length === 0" class="empty-state">
+    No items to display
+  </div>
+</div>
+
