@@ -30,16 +30,7 @@
 
 <div class="p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
   <!-- Main Calendar Container -->
-  <div class="bg-white shadow-lg rounded-2xl p-4 full-calendar flex-1 lg:flex-auto">
-    <div class="calendar-header">
-      <div class="calendar-info">
-        <h3 class="calendar-title">
-          <i class="bx bx-calendar-check"></i>
-          {{ 'calendar.calendar_title' | translate }}
-        </h3>
-        <p class="calendar-subtitle">{{ 'calendar.calendar_subtitle' | translate }}</p>
-      </div>
-    </div>
+  <div class="flex-1 lg:flex-auto">
     <div class="calendar-container">
       <full-calendar [options]="calendarOptions"></full-calendar>
     </div>
