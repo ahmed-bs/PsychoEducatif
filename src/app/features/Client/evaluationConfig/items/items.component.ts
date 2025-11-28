@@ -68,6 +68,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
   categoryId: number | null = null;
   profileId: number = 1;
   itemsByDomain: Record<number, ProfileItem[]> = {};
+  selectedDescriptionItem: ProfileItem | null = null;
 
   statusOptions = [
     { label: this.translate.instant('items.items_by_domain.status_labels.NON_COTE'), value: 'NON_COTE' as ItemStatus },
@@ -157,6 +158,22 @@ export class ItemsComponent implements OnInit, OnDestroy {
       }
     }
     return '';
+  }
+
+  // Show description popup for mobile
+  showDescriptionPopup(item: ProfileItem, event: Event): void {
+    event.stopPropagation();
+    this.selectedDescriptionItem = item;
+  }
+
+  // Hide description popup
+  hideDescriptionPopup(): void {
+    this.selectedDescriptionItem = null;
+  }
+
+  // Check if description popup is open for an item
+  isDescriptionPopupOpen(item: ProfileItem): boolean {
+    return this.selectedDescriptionItem?.id === item.id;
   }
 
   // Helper method to get the appropriate field for ProfileDomain based on language

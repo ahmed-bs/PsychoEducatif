@@ -35,6 +35,7 @@
            >
           </button>
           <button 
+            *ngIf="!isMobile"
             pButton 
             icon="pi pi-table" 
             [class.active]="viewMode === 'table'"
@@ -98,8 +99,18 @@
               <span class="material-symbols-sharp">category</span>
             </div>
             <div class="list-item-details">
-              <h3>{{ getLanguageField(category, 'name') }}</h3>
-              <p class="description">{{ getLanguageField(category, 'description') || 'No description' }}</p>
+              <div class="title-row">
+                <h3>{{ getLanguageField(category, 'name') }}</h3>
+                <button 
+                  *ngIf="getLanguageField(category, 'description')" 
+                  class="description-info-btn mobile-only" 
+                  (click)="showDescriptionPopup(category, $event)"
+                  [attr.aria-label]="'View description'"
+                  type="button">
+                  <i class="pi pi-info-circle"></i>
+                </button>
+              </div>
+              <p class="description desktop-only">{{ getLanguageField(category, 'description') || 'No description' }}</p>
               <div class="meta-info">
                 <span class="meta-item">
                   <i class="pi pi-calendar"></i>
@@ -131,8 +142,26 @@
       </ng-container>
     </div>
 
+    <!-- Description Popup for Mobile -->
+    <div 
+      *ngIf="selectedDescriptionCategory" 
+      class="description-popup-overlay"
+      (click)="hideDescriptionPopup()">
+      <div class="description-popup" (click)="$event.stopPropagation()">
+        <div class="popup-header">
+          <h4>{{ getLanguageField(selectedDescriptionCategory, 'name') }}</h4>
+          <button class="popup-close-btn" (click)="hideDescriptionPopup()" type="button">
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+        <div class="popup-content">
+          <p>{{ getLanguageField(selectedDescriptionCategory, 'description') || 'No description' }}</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Table View -->
-    <div *ngIf="viewMode === 'table'" class="table-view">
+    <div *ngIf="viewMode === 'table' && !isMobile" class="table-view">
       <!-- Display image if no categories -->
       <div *ngIf="!categories || categories.length === 0" class="no-data">
         <img src="/assets/image/nodatafound.png" [alt]="'categories.no_data.image_alt' | translate" class="no-data-image" />
