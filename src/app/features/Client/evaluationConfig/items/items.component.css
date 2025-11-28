@@ -244,25 +244,226 @@
 
 /* Responsive Styles */
 @media (max-width: 1024px) {
+  .container-custom {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 20px;
+    margin: 15px 0;
+  }
+
   .form-row {
     grid-template-columns: 1fr 1fr;
+    gap: 16px;
   }
   
   .add-item-btn {
     grid-column: 2;
     justify-self: end;
   }
+
+  .item-header,
+  .item-row {
+    grid-template-columns: 2fr 1fr 2fr 100px 90px;
+    gap: 12px;
+    font-size: 0.9rem;
+  }
+
+  .domain-header {
+    padding: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .domain-title {
+    font-size: 0.95rem;
+  }
+
+  .item-count {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .container-custom {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 16px;
+    margin: 12px 0;
+  }
+
+  .back-button {
+    top: 60px;
+    left: 12px;
+    width: 36px;
+    height: 36px;
+  }
+
   .form-row {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
   
   .add-item-btn {
     grid-column: 1;
     justify-self: stretch;
+    width: 100%;
+  }
+
+  .add-item-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .domain-header {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .domain-title {
+    font-size: 0.9rem;
+    margin-left: 6px;
+    flex: 1 1 100%;
+    order: 2;
+  }
+
+  .item-count {
+    font-size: 0.8rem;
+    margin-left: 0;
+    margin-right: 8px;
+    order: 3;
+  }
+
+  .domain-actions {
+    margin-left: 0;
+    order: 4;
+  }
+
+  .item-list {
+    padding: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .item-header {
+    display: none; /* Hide header on mobile, use card layout instead */
+  }
+
+  .item-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #FAFAFA;
+  }
+
+  .item-row > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+  }
+
+  .item-row > div::before {
+    content: attr(data-label) ': ';
+    font-weight: 600;
+    color: #6B7280;
+    font-size: 0.85rem;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .col-item,
+  .col-etat,
+  .col-description,
+  .col-ispeu,
+  .col-actions {
+    flex: 1;
+    text-align: right;
+  }
+
+  .col-description {
+    word-break: break-word;
+    text-align: left;
+  }
+
+  .col-actions {
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .add-domain-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-custom {
+    padding: 8px;
+  }
+
+  .card {
+    padding: 12px;
+    margin: 10px 0;
+  }
+
+  .back-button {
+    top: 50px;
+    left: 8px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .form-row {
+    gap: 12px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .add-item-section h2 {
+    font-size: 1.1rem;
+  }
+
+  .domain-header {
+    padding: 10px;
+  }
+
+  .domain-title {
+    font-size: 0.85rem;
+  }
+
+  .item-list {
+    padding: 10px;
+  }
+
+  .item-row {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .status-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .col-actions .p-button {
+    width: 28px;
+    height: 28px;
+  }
+
+  .col-actions .p-button .p-button-icon {
+    font-size: 0.85rem;
   }
 }
 
@@ -342,9 +543,17 @@
 
 
 /* Responsive */
+@media (max-width: 1024px) {
+  :host ::ng-deep .p-dialog {
+      width: 85vw !important;
+      max-width: 600px;
+  }
+}
+
 @media (max-width: 768px) {
   :host ::ng-deep .p-dialog {
-      width: 90vw !important;
+      width: 95vw !important;
+      max-width: none;
   }
   
   :host ::ng-deep .p-dialog-header {
@@ -354,6 +563,49 @@
   
   .dialog-content {
       padding: 0.75rem;
+  }
+
+  .field {
+      margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :host ::ng-deep .p-dialog {
+      width: 98vw !important;
+      margin: 0 1vw;
+  }
+  
+  :host ::ng-deep .p-dialog-header {
+      padding: 0.625rem 0.75rem;
+      font-size: 1rem;
+  }
+  
+  .dialog-content {
+      padding: 0.5rem;
+  }
+
+  .field {
+      margin-bottom: 0.75rem;
+  }
+
+  .field label {
+      font-size: 0.9rem;
+  }
+
+  :host ::ng-deep .field .p-inputtext {
+      padding: 0.625rem;
+      font-size: 0.9rem;
+  }
+
+  :host ::ng-deep .p-dialog-footer {
+      padding: 0.75rem;
+      flex-direction: column;
+      gap: 0.5rem;
+  }
+
+  :host ::ng-deep .p-dialog-footer .p-button {
+      width: 100%;
   }
 }
 

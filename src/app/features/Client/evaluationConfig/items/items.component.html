@@ -83,17 +83,17 @@
       </div>
 
       <div class="item-row" *ngFor="let item of itemsByDomain[domain.id]">
-        <div class="col-item">{{ getItemLanguageField(item, 'name') }}</div>
-        <div class="col-etat">
+        <div class="col-item" data-label="Item">{{ getItemLanguageField(item, 'name') }}</div>
+        <div class="col-etat" data-label="Status">
           <span [class]="'status-badge status-' + item.etat.toLowerCase()">
             {{ getEtatLabel(item.etat) }}
           </span>
         </div>
-        <div class="col-description">{{ getItemLanguageField(item, 'description') || ('items.items_by_domain.description_fallback' | translate) }}</div>
-        <div class="col-ispeu">
+        <div class="col-description" data-label="Description">{{ getItemLanguageField(item, 'description') || ('items.items_by_domain.description_fallback' | translate) }}</div>
+        <div class="col-ispeu" data-label="PEI">
           <p-inputSwitch [(ngModel)]="item.isPeu" (onChange)="toggleIsPeu(item, domain, $event)"></p-inputSwitch>
         </div>
-        <div class="col-actions">
+        <div class="col-actions" data-label="Actions">
           <button pButton icon="pi pi-pencil" class="p-button-text p-button-rounded p-button-info" 
                   [pTooltip]="'items.add_item_dialog.tooltips.edit' | translate"
                   (click)="showEditItemDialog(item, domain)"></button>
