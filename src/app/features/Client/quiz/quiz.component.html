@@ -315,8 +315,9 @@
           <textarea
             class="form-textarea w-full"
             rows="6"
-            [(ngModel)]="items[currentIndex].comentaire"
+            [(ngModel)]="currentCommentText"
             [placeholder]="'skills_evaluation.form.comment_placeholder' | translate"
+            [disabled]="updatingComment"
           ></textarea>
         </div>
       </div>
@@ -326,17 +327,20 @@
     <div class="flex justify-end gap-3 p-4 border-t border-gray-200">
       <button 
         type="button" 
-        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
+        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 disabled:opacity-50"
         (click)="closeCommentPopup()"
+        [disabled]="updatingComment"
       >
         {{ 'skills_evaluation.popup.cancel' | translate }}
       </button>
       <button 
         type="button" 
-        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-        (click)="closeCommentPopup()"
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
+        (click)="saveComment()"
+        [disabled]="updatingComment"
       >
-        {{ 'skills_evaluation.popup.save' | translate }}
+        <span *ngIf="!updatingComment">{{ 'skills_evaluation.popup.save' | translate }}</span>
+        <span *ngIf="updatingComment">{{ 'dashboard_tabs.strategy.comment_modal.saving' | translate }}</span>
       </button>
     </div>
   </div>

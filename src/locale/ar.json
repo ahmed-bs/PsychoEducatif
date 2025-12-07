@@ -1209,6 +1209,44 @@
       "retry": "إعادة المحاولة",
       "empty_title": "لم يتم العثور على استراتيجيات",
       "empty_description": "ابدأ بإضافة أول استراتيجية سلوكية لك.",
+      "select_category": "اختر فئة",
+      "select_category_placeholder": "اختر فئة تحتوي على عناصر جزئية",
+      "loading_categories": "جاري تحميل الفئات...",
+      "domains": "مجالات",
+      "items": "عناصر",
+      "domains_with_partiel_items": "المجالات مع العناصر الجزئية",
+      "no_domains_with_partiel": "لم يتم العثور على مجالات مع عناصر جزئية",
+      "table": {
+        "category": "الفئة",
+        "domain": "المجال",
+        "total_items": "إجمالي العناصر",
+        "partiel_items": "العناصر الجزئية",
+        "progress": "التقدم",
+        "actions": "الإجراءات",
+        "start": "ابدأ",
+        "item_name": "اسم العنصر",
+        "item_description": "الوصف",
+        "status": "الحالة",
+        "partiel": "جزئي",
+        "go_to_quiz": "الذهاب إلى الاختبار",
+        "comment": "تعليق",
+        "add_comment": "إضافة تعليق",
+        "edit_comment": "تعديل التعليق",
+        "status_options": {
+          "acquis": "مكتسب",
+          "non_acquis": "غير مكتسب",
+          "partiel": "جزئي",
+          "non_cote": "غير مقيم"
+        }
+      },
+      "comment_modal": {
+        "title": "إضافة/تعديل تعليق",
+        "comment_label": "التعليق",
+        "comment_placeholder": "أدخل تعليقك هنا...",
+        "save": "حفظ",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء"
+      },
       "messages": {
         "confirm_delete": "هل أنت متأكد من حذف هذه الاستراتيجية؟",
         "permission_denied": "ليس لديك إذن لحذف هذه الاستراتيجية. يمكن للمؤلف فقط حذفها.",
@@ -1219,7 +1257,9 @@
         "create_error": "حدث خطأ أثناء إنشاء الاستراتيجية.",
         "update_error": "حدث خطأ أثناء تحديث الاستراتيجية.",
         "load_error": "حدث خطأ أثناء تحميل الاستراتيجيات.",
-        "no_profile_id": "لم يتم تحديد ملف شخصي. لا يمكن تحميل الاستراتيجيات."
+        "no_profile_id": "لم يتم تحديد ملف شخصي. لا يمكن تحميل الاستراتيجيات.",
+        "comment_update_error": "حدث خطأ أثناء تحديث التعليق.",
+        "status_update_error": "حدث خطأ أثناء تحديث الحالة."
       }
     }
   },

@@ -12,7 +12,8 @@ export interface ProfileItem {
   profile_category_name_ar?: string; // Added field for Arabic category name
   is_modified: boolean;
   modified_at: string;
-  comentaire?: string;
+  comentaire?: string; // Keep for backward compatibility
+  commentaire?: string; // Correct spelling from API
   commentaire_ar?: string;
   isPeu?: boolean;
   done?: boolean;

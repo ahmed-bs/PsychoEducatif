@@ -33,6 +33,25 @@ export class QuizComponent implements OnInit, OnDestroy {
   currentView: 'card' | 'list' = 'card';
   currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
+  updatingComment: boolean = false;
+  currentCommentText: string = '';
+
+  // Helper to get commentaire value (handles both spellings)
+  getCommentaire(item: ProfileItem): string {
+    if (this.currentLanguage === 'ar') {
+      return item.commentaire_ar || (item as any).commentaire || '';
+    } else {
+      // API returns commentaire (with 'n'), so prioritize that
+      return (item as any).commentaire || item.comentaire || '';
+    }
+  }
+
+  // Helper to set commentaire value (handles both spellings)
+  setCommentaire(item: ProfileItem, value: string): void {
+    // Set both spellings for compatibility
+    (item as any).commentaire = value;
+    item.comentaire = value;
+  }
 
   constructor(
     private location: Location,
@@ -61,8 +80,9 @@ export class QuizComponent implements OnInit, OnDestroy {
         return item.name_ar || '';
       } else if (fieldName === 'description') {
         return item.description_ar || '';
-      } else if (fieldName === 'comentaire') {
-        return item.commentaire_ar || '';
+      } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
+        // Check both spellings for backward compatibility
+        return item.commentaire_ar || (item as any).commentaire || item.comentaire || '';
       }
     } else {
       // For French language, use non-_ar fields
@@ -70,8 +90,9 @@ export class QuizComponent implements OnInit, OnDestroy {
         return item.name || '';
       } else if (fieldName === 'description') {
         return item.description || '';
-      } else if (fieldName === 'comentaire') {
-        return item.comentaire || '';
+      } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
+        // Check both spellings for backward compatibility
+        return (item as any).commentaire || item.comentaire || '';
       }
     }
     return '';
@@ -127,18 +148,31 @@ export class QuizComponent implements OnInit, OnDestroy {
     // For now, let's just load items and get domain info from the items if available
     this.profileItemService.getItems(this.domainId).subscribe({
       next: (items) => {
-        this.items = items;
-        if (items.length === 0) {
+        // Normalize items to ensure both commentaire spellings are available
+        // API returns commentaire (with 'n'), so we use that as primary
+        this.items = items.map(item => {
+          // API returns commentaire (with 'n'), ensure both spellings are available
+          const commentaireValue = (item as any).commentaire || item.comentaire || '';
+          const normalizedItem = {
+            ...item,
+            // Set both spellings for compatibility
+            comentaire: commentaireValue,
+            commentaire: commentaireValue
+          } as any;
+          return normalizedItem;
+        });
+        
+        if (this.items.length === 0) {
           this.translate.get('skills_evaluation.error.no_questions_found').subscribe((text) => {
             this.error = text;
           });
         } else {
           // Try to get domain info from the first item if available
-          if (items[0] && items[0].profile_domain_name) {
+          if (this.items[0] && this.items[0].profile_domain_name) {
             this.domain = {
               id: this.domainId,
-              name: items[0].profile_domain_name,
-              name_ar: items[0].profile_domain_name_ar || '',
+              name: this.items[0].profile_domain_name,
+              name_ar: this.items[0].profile_domain_name_ar || '',
               description: '',
               description_ar: ''
             };
@@ -181,11 +215,71 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   toggleCommentPopup() {
-    this.showCommentPopup = !this.showCommentPopup;
+    if (this.showCommentPopup) {
+      this.closeCommentPopup();
+    } else {
+      this.openCommentPopup();
+    }
+  }
+
+  openCommentPopup() {
+    if (this.items[this.currentIndex]) {
+      this.currentCommentText = this.getCommentaire(this.items[this.currentIndex]);
+    }
+    this.showCommentPopup = true;
   }
 
   closeCommentPopup() {
     this.showCommentPopup = false;
+    this.currentCommentText = '';
+    this.updatingComment = false;
+  }
+
+  saveComment(): void {
+    if (!this.items[this.currentIndex] || !this.items[this.currentIndex].id) return;
+
+    this.updatingComment = true;
+    const item = this.items[this.currentIndex];
+    const updateData: any = {};
+    
+    if (this.currentLanguage === 'ar') {
+      updateData.commentaire_ar = this.currentCommentText;
+      // Keep the French comment if it exists
+      const commentaireFr = (item as any).commentaire || item.comentaire || '';
+      if (commentaireFr) {
+        updateData.commentaire = commentaireFr;
+      }
+    } else {
+      updateData.commentaire = this.currentCommentText;
+      // Keep the Arabic comment if it exists
+      if (item.commentaire_ar) {
+        updateData.commentaire_ar = item.commentaire_ar;
+      }
+    }
+
+    this.profileItemService.update(item.id, updateData).subscribe({
+      next: (updatedItem) => {
+        // Update the item in the items array
+        const itemIndex = this.items.findIndex(i => i.id === updatedItem.id);
+        if (itemIndex !== -1) {
+          // Update the item with the new data, preserving both commentaire spellings
+          this.items[itemIndex] = {
+            ...this.items[itemIndex],
+            ...updatedItem,
+            // Ensure both spellings are available for compatibility
+            comentaire: (updatedItem as any).commentaire || updatedItem.comentaire || '',
+            commentaire: (updatedItem as any).commentaire || updatedItem.comentaire || ''
+          } as any;
+        }
+        this.closeCommentPopup();
+        this.updatingComment = false;
+      },
+      error: (error) => {
+        console.error('Error updating comment:', error);
+        this.updatingComment = false;
+        alert(this.translate.instant('dashboard_tabs.strategy.messages.comment_update_error'));
+      }
+    });
   }
 
   changeView(view: 'card' | 'list') {
@@ -201,11 +295,24 @@ export class QuizComponent implements OnInit, OnDestroy {
   soumettreQuiz() {
     const updatePromises = this.items.map(item => {
       if (item.id) {
-        return this.profileItemService.update(item.id, {
+        const updateData: any = {
           etat: item.etat,
-          description: item.description,
-          comentaire: item.comentaire
-        }).toPromise();
+          description: item.description
+        };
+        
+        // Use commentaire (with 'n') for the PUT request
+        // Check both spellings for reading, but always send commentaire
+        const commentaireValue = (item as any).commentaire || item.comentaire || '';
+        if (commentaireValue) {
+          updateData.commentaire = commentaireValue;
+        }
+        
+        // Also preserve commentaire_ar if it exists
+        if (item.commentaire_ar) {
+          updateData.commentaire_ar = item.commentaire_ar;
+        }
+        
+        return this.profileItemService.update(item.id, updateData).toPromise();
       }
       return Promise.resolve();
     });
