@@ -619,14 +619,17 @@
         "NON_ACQUIS": "غير مكتسبة"
       },
       "comment_label": "ملاحظات:",
-      "comment_placeholder": "ملاحظات إضافية حول هذه المهارة..."
+      "comment_placeholder": "ملاحظات إضافية حول هذه المهارة...",
+      "strategy_label": "الاستراتيجية:",
+      "strategy_placeholder": "أدخل الاستراتيجية لهذه المهارة..."
     },
     "buttons": {
       "previous": "السابق",
       "next": "التالي",
       "submit": "إرسال",
       "view_description": "عرض الوصف",
-      "add_comment": "إضافة تعليق"
+      "add_comment": "إضافة تعليق",
+      "add_strategy": "إضافة استراتيجية"
     },
     "tap_to_read_more": "انقر لقراءة المزيد",
     "view_mode": {
@@ -642,9 +645,12 @@
     "popup": {
       "title": "وصف المهارة",
       "comment_title": "إضافة تعليق",
+      "strategy_title": "إضافة استراتيجية",
       "close": "إغلاق",
       "cancel": "إلغاء",
-      "save": "حفظ"
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "strategy_update_error": "خطأ في تحديث الاستراتيجية"
     }
   },
   "explore": {
@@ -1216,6 +1222,25 @@
       "items": "عناصر",
       "domains_with_partiel_items": "المجالات مع العناصر الجزئية",
       "no_domains_with_partiel": "لم يتم العثور على مجالات مع عناصر جزئية",
+      "filter": {
+        "all": "الكل",
+        "placeholder": "تصفية حسب الحالة",
+        "no_results": "لم يتم العثور على نتائج لهذا الفلتر"
+      },
+      "export": {
+        "title": "تصدير الاستراتيجيات",
+        "filter": "الفلتر",
+        "all_items": "جميع العناصر",
+        "category": "الفئة",
+        "domain": "المجال",
+        "item_name": "اسم العنصر",
+        "description": "الوصف",
+        "status": "الحالة",
+        "comment": "التعليق",
+        "strategy": "الاستراتيجية",
+        "pdf": "تصدير كـ PDF",
+        "excel": "تصدير كـ Excel"
+      },
       "table": {
         "category": "الفئة",
         "domain": "المجال",
@@ -1232,6 +1257,9 @@
         "comment": "تعليق",
         "add_comment": "إضافة تعليق",
         "edit_comment": "تعديل التعليق",
+        "strategy": "الاستراتيجية",
+        "view_strategy": "عرض الاستراتيجية",
+        "no_strategy": "لا توجد استراتيجية",
         "status_options": {
           "acquis": "مكتسب",
           "non_acquis": "غير مكتسب",
@@ -1246,6 +1274,12 @@
         "save": "حفظ",
         "saving": "جاري الحفظ...",
         "cancel": "إلغاء"
+      },
+      "strategy_modal": {
+        "title": "الاستراتيجية",
+        "strategy_label": "الاستراتيجية",
+        "no_strategy": "لم يتم تحديد استراتيجية لهذا العنصر",
+        "close": "إغلاق"
       },
       "messages": {
         "confirm_delete": "هل أنت متأكد من حذف هذه الاستراتيجية؟",

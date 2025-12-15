@@ -13,6 +13,12 @@ import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { Router } from '@angular/router';
 import { switchMap, map, catchError } from 'rxjs/operators';
+import * as FileSaver from 'file-saver';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 interface DomainWithPartielItems extends ProfileDomain {
   items?: ProfileItem[];
@@ -26,7 +32,7 @@ interface DomainWithPartielItems extends ProfileDomain {
 @Component({
   selector: 'app-strategy',
   standalone: true,
-  imports: [CommonModule, AddStrategyModalComponent, TranslateModule, FormsModule],
+  imports: [CommonModule, AddStrategyModalComponent, TranslateModule, FormsModule, DropdownModule, ButtonModule, TooltipModule],
   templateUrl: './strategy.component.html',
   styleUrls: ['./strategy.component.css']
 })
@@ -44,7 +50,13 @@ export class StrategyComponent implements OnInit, OnDestroy {
   selectedItemForComment: ProfileItem | null = null;
   showCommentModal: boolean = false;
   commentText: string = '';
+  selectedItemForStrategy: ProfileItem | null = null;
+  showStrategyModal: boolean = false;
+  strategyText: string = '';
   updatingItem: boolean = false;
+  selectedStatusFilter: string | null = 'PARTIEL';
+  statusFilterOptions: any[] = [];
+  filteredDomainsWithPartielItems: DomainWithPartielItems[] = [];
 
   private strategiesSubscription: Subscription | undefined;
   private saveSubscription: Subscription | undefined;
@@ -76,6 +88,9 @@ export class StrategyComponent implements OnInit, OnDestroy {
     this.translate.use(currentLang);
     this.currentLanguage = currentLang;
 
+    // Initialize status filter options
+    this.initializeStatusFilterOptions();
+
     if (this.currentProfileId) {
       this.loadStrategies();
     } else {
@@ -84,6 +99,30 @@ export class StrategyComponent implements OnInit, OnDestroy {
 
     // Load categories with partiel items
     this.loadCategoriesWithPartielItems();
+  }
+
+  initializeStatusFilterOptions(): void {
+    // Subscribe to language changes to update filter options
+    this.sharedService.languageChange$.subscribe(() => {
+      this.updateStatusFilterOptions();
+    });
+    this.updateStatusFilterOptions();
+  }
+
+  updateStatusFilterOptions(): void {
+    this.translate.get([
+      'dashboard_tabs.strategy.filter.all',
+      'dashboard_tabs.strategy.table.status_options.partiel',
+      'dashboard_tabs.strategy.table.status_options.acquis',
+      'dashboard_tabs.strategy.table.status_options.non_acquis'
+    ]).subscribe(translations => {
+      this.statusFilterOptions = [
+        { label: translations['dashboard_tabs.strategy.filter.all'], value: null },
+        { label: translations['dashboard_tabs.strategy.table.status_options.partiel'], value: 'PARTIEL' },
+        { label: translations['dashboard_tabs.strategy.table.status_options.acquis'], value: 'ACQUIS' },
+        { label: translations['dashboard_tabs.strategy.table.status_options.non_acquis'], value: 'NON_ACQUIS' }
+      ];
+    });
   }
 
   ngOnDestroy(): void {
@@ -155,12 +194,14 @@ export class StrategyComponent implements OnInit, OnDestroy {
                   } as any;
                 });
                 
+                // Keep all items for filtering, but also track partiel items
                 const partielItems = normalizedItems.filter(item => item.etat === 'PARTIEL');
-                if (partielItems.length > 0) {
+                // Return domain if it has any items (not just partiel)
+                if (normalizedItems.length > 0) {
                   return {
                     ...domain,
                     items: normalizedItems,
-                    partielItems: partielItems,
+                    partielItems: normalizedItems, // Store all items for filtering
                     partiel_count: partielItems.length,
                     categoryName: category.label,
                     categoryNameAr: category.label_ar,
@@ -187,6 +228,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
       next: (results) => {
         // Flatten the array of arrays
         this.domainsWithPartielItems = results.flat();
+        this.applyStatusFilter();
         this.isLoadingDomains = false;
       },
       error: (error) => {
@@ -194,6 +236,30 @@ export class StrategyComponent implements OnInit, OnDestroy {
         this.isLoadingDomains = false;
       }
     });
+  }
+
+  applyStatusFilter(): void {
+    if (!this.selectedStatusFilter) {
+      this.filteredDomainsWithPartielItems = [...this.domainsWithPartielItems];
+      return;
+    }
+
+    const filtered: DomainWithPartielItems[] = [];
+    this.domainsWithPartielItems.forEach(domain => {
+      const filteredItems = domain.partielItems?.filter(item => item.etat === this.selectedStatusFilter) || [];
+      if (filteredItems.length > 0) {
+        filtered.push({
+          ...domain,
+          partielItems: filteredItems,
+          partiel_count: filteredItems.length
+        });
+      }
+    });
+    this.filteredDomainsWithPartielItems = filtered;
+  }
+
+  onStatusFilterChange(): void {
+    this.applyStatusFilter();
   }
 
   getDomainLanguageField(domain: DomainWithPartielItems, fieldName: string): string {
@@ -231,6 +297,10 @@ export class StrategyComponent implements OnInit, OnDestroy {
     return !!(commentaireFr || commentaireAr);
   }
 
+  hasStrategy(item: ProfileItem): boolean {
+    return !!(item.strategie && item.strategie.trim());
+  }
+
   toggleDomainExpansion(domain: DomainWithPartielItems): void {
     domain.expanded = !domain.expanded;
   }
@@ -258,6 +328,8 @@ export class StrategyComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'comentaire') {
         // API returns commentaire (with 'n'), prioritize that
         return item.commentaire_ar || (item as any).commentaire || item.comentaire || '';
+      } else if (fieldName === 'strategie') {
+        return item.strategie || '';
       }
     } else {
       if (fieldName === 'name') {
@@ -267,6 +339,8 @@ export class StrategyComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'comentaire') {
         // API returns commentaire (with 'n'), prioritize that
         return (item as any).commentaire || item.comentaire || '';
+      } else if (fieldName === 'strategie') {
+        return item.strategie || '';
       }
     }
     return '';
@@ -290,6 +364,131 @@ export class StrategyComponent implements OnInit, OnDestroy {
     this.showCommentModal = false;
     this.selectedItemForComment = null;
     this.commentText = '';
+  }
+
+  openStrategyModal(item: ProfileItem, event: Event): void {
+    event.stopPropagation();
+    this.selectedItemForStrategy = item;
+    this.strategyText = item.strategie || '';
+    this.showStrategyModal = true;
+  }
+
+  closeStrategyModal(): void {
+    this.showStrategyModal = false;
+    this.selectedItemForStrategy = null;
+    this.strategyText = '';
+  }
+
+  exportPdf(): void {
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    
+    // Add title
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text(this.translate.instant('dashboard_tabs.strategy.export.title'), margin, 30);
+    
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    const filterText = this.selectedStatusFilter 
+      ? `${this.translate.instant('dashboard_tabs.strategy.export.filter')}: ${this.getStatusLabel(this.selectedStatusFilter)}`
+      : this.translate.instant('dashboard_tabs.strategy.export.all_items');
+    doc.text(filterText, margin, 50);
+    
+    // Prepare table data
+    const tableData: any[] = [];
+    this.filteredDomainsWithPartielItems.forEach(domain => {
+      domain.partielItems?.forEach(item => {
+        tableData.push([
+          this.getCategoryName(domain),
+          this.getDomainLanguageField(domain, 'name'),
+          this.getItemLanguageField(item, 'name'),
+          this.getItemLanguageField(item, 'description'),
+          this.getStatusLabel(item.etat),
+          this.getItemLanguageField(item, 'comentaire') || '-',
+          item.strategie || '-'
+        ]);
+      });
+    });
+
+    // Headers
+    const headers = [
+      this.translate.instant('dashboard_tabs.strategy.export.category'),
+      this.translate.instant('dashboard_tabs.strategy.export.domain'),
+      this.translate.instant('dashboard_tabs.strategy.export.item_name'),
+      this.translate.instant('dashboard_tabs.strategy.export.description'),
+      this.translate.instant('dashboard_tabs.strategy.export.status'),
+      this.translate.instant('dashboard_tabs.strategy.export.comment'),
+      this.translate.instant('dashboard_tabs.strategy.export.strategy')
+    ];
+
+    // Create table
+    autoTable(doc, {
+      startY: 70,
+      head: [headers],
+      body: tableData,
+      theme: 'striped',
+      headStyles: {
+        fillColor: [34, 197, 94], // green-600
+        font: 'helvetica',
+        fontSize: 10,
+        textColor: [255, 255, 255]
+      },
+      bodyStyles: {
+        font: 'helvetica',
+        fontSize: 9
+      },
+      margin: { top: 70 },
+      styles: {
+        font: 'helvetica',
+        fontSize: 9,
+        cellPadding: 3
+      },
+      columnStyles: {
+        0: { cellWidth: 60 },
+        1: { cellWidth: 80 },
+        2: { cellWidth: 100 },
+        3: { cellWidth: 120 },
+        4: { cellWidth: 50 },
+        5: { cellWidth: 100 },
+        6: { cellWidth: 120 }
+      }
+    });
+
+    doc.save('strategies_export.pdf');
+  }
+
+  exportExcel(): void {
+    import('xlsx').then((xlsx) => {
+      const exportData: any[] = [];
+      
+      this.filteredDomainsWithPartielItems.forEach(domain => {
+        domain.partielItems?.forEach(item => {
+          exportData.push({
+            [this.translate.instant('dashboard_tabs.strategy.export.category')]: this.getCategoryName(domain),
+            [this.translate.instant('dashboard_tabs.strategy.export.domain')]: this.getDomainLanguageField(domain, 'name'),
+            [this.translate.instant('dashboard_tabs.strategy.export.item_name')]: this.getItemLanguageField(item, 'name'),
+            [this.translate.instant('dashboard_tabs.strategy.export.description')]: this.getItemLanguageField(item, 'description'),
+            [this.translate.instant('dashboard_tabs.strategy.export.status')]: this.getStatusLabel(item.etat),
+            [this.translate.instant('dashboard_tabs.strategy.export.comment')]: this.getItemLanguageField(item, 'comentaire') || '',
+            [this.translate.instant('dashboard_tabs.strategy.export.strategy')]: item.strategie || ''
+          });
+        });
+      });
+
+      const worksheet = xlsx.utils.json_to_sheet(exportData);
+      const workbook = { Sheets: { 'Data': worksheet }, SheetNames: ['Data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'strategies_export');
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName + '_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
   saveComment(): void {

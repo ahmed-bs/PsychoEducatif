@@ -87,6 +87,15 @@
               <span class="material-symbols-sharp">comment</span>
               <span>{{ 'skills_evaluation.buttons.add_comment' | translate }}</span>
             </button>
+            
+            <button
+              type="button"
+              class="action-btn strategy-btn"
+              (click)="toggleStrategyPopup()"
+            >
+              <span class="material-symbols-sharp">lightbulb</span>
+              <span>{{ 'skills_evaluation.buttons.add_strategy' | translate }}</span>
+            </button>
           </div>
 
           <label class="block text-gray-700 text-sm font-bold mb-3">{{ 'skills_evaluation.form.status_label' | translate }}</label>
@@ -192,6 +201,15 @@
             >
               <span class="material-symbols-sharp">comment</span>
               <span>{{ 'skills_evaluation.buttons.add_comment' | translate }}</span>
+            </button>
+            
+            <button
+              type="button"
+              class="action-btn strategy-btn"
+              (click)="toggleStrategyPopup(i)"
+            >
+              <span class="material-symbols-sharp">lightbulb</span>
+              <span>{{ 'skills_evaluation.buttons.add_strategy' | translate }}</span>
             </button>
           </div>
 
@@ -341,6 +359,60 @@
       >
         <span *ngIf="!updatingComment">{{ 'skills_evaluation.popup.save' | translate }}</span>
         <span *ngIf="updatingComment">{{ 'dashboard_tabs.strategy.comment_modal.saving' | translate }}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Strategy Popup Modal -->
+<div *ngIf="showStrategyPopup" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50" (click)="closeStrategyPopup()">
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-hidden" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800">{{ 'skills_evaluation.popup.strategy_title' | translate }}</h3>
+      <button 
+        type="button" 
+        class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+        (click)="closeStrategyPopup()"
+      >
+        <span class="material-symbols-sharp">close</span>
+      </button>
+    </div>
+    
+    <!-- Content -->
+    <div class="p-4 overflow-y-auto max-h-[60vh]">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2">{{ 'skills_evaluation.form.strategy_label' | translate }}</label>
+          <textarea
+            class="form-textarea w-full"
+            rows="6"
+            [(ngModel)]="currentStrategyText"
+            [placeholder]="'skills_evaluation.form.strategy_placeholder' | translate"
+            [disabled]="updatingStrategy"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="flex justify-end gap-3 p-4 border-t border-gray-200">
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 disabled:opacity-50"
+        (click)="closeStrategyPopup()"
+        [disabled]="updatingStrategy"
+      >
+        {{ 'skills_evaluation.popup.cancel' | translate }}
+      </button>
+      <button 
+        type="button" 
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
+        (click)="saveStrategy()"
+        [disabled]="updatingStrategy"
+      >
+        <span *ngIf="!updatingStrategy">{{ 'skills_evaluation.popup.save' | translate }}</span>
+        <span *ngIf="updatingStrategy">{{ 'skills_evaluation.popup.saving' | translate }}</span>
       </button>
     </div>
   </div>

@@ -30,11 +30,14 @@ export class QuizComponent implements OnInit, OnDestroy {
   error: string | null = null;
   showDescriptionPopup: boolean = false;
   showCommentPopup: boolean = false;
+  showStrategyPopup: boolean = false;
   currentView: 'card' | 'list' = 'card';
   currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
   updatingComment: boolean = false;
+  updatingStrategy: boolean = false;
   currentCommentText: string = '';
+  currentStrategyText: string = '';
 
   // Helper to get commentaire value (handles both spellings)
   getCommentaire(item: ProfileItem): string {
@@ -83,6 +86,8 @@ export class QuizComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
         // Check both spellings for backward compatibility
         return item.commentaire_ar || (item as any).commentaire || item.comentaire || '';
+      } else if (fieldName === 'strategie') {
+        return item.strategie || '';
       }
     } else {
       // For French language, use non-_ar fields
@@ -93,6 +98,8 @@ export class QuizComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
         // Check both spellings for backward compatibility
         return (item as any).commentaire || item.comentaire || '';
+      } else if (fieldName === 'strategie') {
+        return item.strategie || '';
       }
     }
     return '';
@@ -235,6 +242,31 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.updatingComment = false;
   }
 
+  currentStrategyItemIndex: number = 0;
+
+  toggleStrategyPopup(itemIndex?: number) {
+    if (this.showStrategyPopup) {
+      this.closeStrategyPopup();
+    } else {
+      this.openStrategyPopup(itemIndex);
+    }
+  }
+
+  openStrategyPopup(itemIndex?: number) {
+    const index = itemIndex !== undefined ? itemIndex : this.currentIndex;
+    this.currentStrategyItemIndex = index;
+    if (this.items[index]) {
+      this.currentStrategyText = this.items[index].strategie || '';
+    }
+    this.showStrategyPopup = true;
+  }
+
+  closeStrategyPopup() {
+    this.showStrategyPopup = false;
+    this.currentStrategyText = '';
+    this.updatingStrategy = false;
+  }
+
   saveComment(): void {
     if (!this.items[this.currentIndex] || !this.items[this.currentIndex].id) return;
 
@@ -278,6 +310,37 @@ export class QuizComponent implements OnInit, OnDestroy {
         console.error('Error updating comment:', error);
         this.updatingComment = false;
         alert(this.translate.instant('dashboard_tabs.strategy.messages.comment_update_error'));
+      }
+    });
+  }
+
+  saveStrategy(): void {
+    const itemIndex = this.currentStrategyItemIndex;
+    if (!this.items[itemIndex] || !this.items[itemIndex].id) return;
+
+    this.updatingStrategy = true;
+    const item = this.items[itemIndex];
+    const updateData: any = {
+      strategie: this.currentStrategyText
+    };
+
+    this.profileItemService.update(item.id, updateData).subscribe({
+      next: (updatedItem) => {
+        // Update the item in the items array
+        const updatedItemIndex = this.items.findIndex(i => i.id === updatedItem.id);
+        if (updatedItemIndex !== -1) {
+          this.items[updatedItemIndex] = {
+            ...this.items[updatedItemIndex],
+            ...updatedItem
+          };
+        }
+        this.closeStrategyPopup();
+        this.updatingStrategy = false;
+      },
+      error: (error) => {
+        console.error('Error updating strategy:', error);
+        this.updatingStrategy = false;
+        alert(this.translate.instant('skills_evaluation.popup.strategy_update_error'));
       }
     });
   }

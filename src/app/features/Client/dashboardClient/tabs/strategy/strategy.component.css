@@ -1,3 +1,31 @@
+/* Export Icon Buttons */
+.export-icon-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.export-icon-btn:hover:not([disabled]) {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.export-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.export-icon-btn i {
+  font-size: 1.25rem;
+}
+
 /* Mobile and Tablet Responsive Styles */
 @media (max-width: 640px) {
   .overflow-x-auto {

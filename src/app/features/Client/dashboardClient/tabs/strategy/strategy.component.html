@@ -11,7 +11,39 @@
 
         <!-- Domains Table -->
         <div *ngIf="!isLoadingDomains && domainsWithPartielItems.length > 0" class="mb-6">
-            <h4 class="text-lg font-semibold text-gray-800 mb-4">{{ 'dashboard_tabs.strategy.domains_with_partiel_items' | translate }}</h4>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center mb-4 gap-4">
+                <div class="flex-1 sm:flex-initial">
+                    <p-dropdown 
+                        [options]="statusFilterOptions" 
+                        [(ngModel)]="selectedStatusFilter" 
+                        [placeholder]="'dashboard_tabs.strategy.filter.placeholder' | translate"
+                        optionLabel="label"
+                        optionValue="value"
+                        (onChange)="onStatusFilterChange()"
+                        [style]="{'width':'100%', 'min-width': '200px'}">
+                    </p-dropdown>
+                </div>
+                <div class="flex gap-2 ml-auto">
+                    <button 
+                        type="button" 
+                        pTooltip="{{ 'dashboard_tabs.strategy.export.pdf' | translate }}"
+                        tooltipPosition="top"
+                        class="export-icon-btn"
+                        (click)="exportPdf()"
+                        [disabled]="filteredDomainsWithPartielItems.length === 0">
+                        <i class="pi pi-file-pdf"></i>
+                    </button>
+                    <button 
+                        type="button" 
+                        pTooltip="{{ 'dashboard_tabs.strategy.export.excel' | translate }}"
+                        tooltipPosition="top"
+                        class="export-icon-btn"
+                        (click)="exportExcel()"
+                        [disabled]="filteredDomainsWithPartielItems.length === 0">
+                        <i class="pi pi-file-excel"></i>
+                    </button>
+                </div>
+            </div>
             <div class="overflow-x-auto -mx-4 sm:mx-0">
                 <div class="inline-block min-w-full align-middle">
                     <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
@@ -38,7 +70,7 @@
                             </tr>
                         </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <ng-container *ngFor="let domain of domainsWithPartielItems">
+                        <ng-container *ngFor="let domain of filteredDomainsWithPartielItems">
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-3 sm:px-6 py-3 sm:py-4 text-sm font-medium text-gray-900">
                                     <div class="max-w-[120px] sm:max-w-none truncate sm:whitespace-nowrap" [title]="getCategoryName(domain)">
@@ -98,7 +130,7 @@
                                                         {{ 'dashboard_tabs.strategy.table.comment' | translate }}
                                                     </th>
                                                     <th class="px-2 sm:px-4 py-2 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                                        {{ 'dashboard_tabs.strategy.table.actions' | translate }}
+                                                        {{ 'dashboard_tabs.strategy.table.strategy' | translate }}
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -137,14 +169,13 @@
                             </button>
                                                     </td>
                                                     <td class="px-2 sm:px-4 py-2 sm:py-3 text-center">
-                                                        <div class="flex items-center justify-center gap-1 sm:gap-2">
-                                                            <button 
-                                                                (click)="navigateToQuizWithItem(domain.id, item.id, $event)"
-                                                                class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                                                <i class="fas fa-play mr-1"></i>
-                                                                <span class="hidden sm:inline">{{ 'dashboard_tabs.strategy.table.go_to_quiz' | translate }}</span>
+                                                        <button 
+                                                            (click)="openStrategyModal(item, $event)"
+                                                            class="relative inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                                            [title]="hasStrategy(item) ? ('dashboard_tabs.strategy.table.view_strategy' | translate) : ('dashboard_tabs.strategy.table.no_strategy' | translate)">
+                                                            <i class="fas fa-lightbulb"></i>
+                                                            <span *ngIf="hasStrategy(item)" class="absolute -top-1 -right-1 h-2 w-2 bg-yellow-500 rounded-full border border-white"></span>
                             </button>
-                        </div>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -162,6 +193,12 @@
         <div *ngIf="!isLoadingDomains && domainsWithPartielItems.length === 0" class="text-center py-8">
             <i class="fas fa-inbox text-6xl text-gray-300 mb-4"></i>
             <p class="text-gray-600 text-lg">{{ 'dashboard_tabs.strategy.no_domains_with_partiel' | translate }}</p>
+        </div>
+
+        <!-- Filtered Empty State -->
+        <div *ngIf="!isLoadingDomains && domainsWithPartielItems.length > 0 && filteredDomainsWithPartielItems.length === 0" class="text-center py-8">
+            <i class="fas fa-filter text-6xl text-gray-300 mb-4"></i>
+            <p class="text-gray-600 text-lg">{{ 'dashboard_tabs.strategy.filter.no_results' | translate }}</p>
         </div>
 
     </div>
@@ -212,6 +249,43 @@
         [disabled]="updatingItem"
         class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50">
         {{ 'dashboard_tabs.strategy.comment_modal.cancel' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Strategy Modal -->
+<div *ngIf="showStrategyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+  (click)="closeStrategyModal()">
+  <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform transition-all duration-300 scale-100"
+    (click)="$event.stopPropagation()">
+    <div class="bg-green-600 text-white px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center">
+      <h3 class="text-lg sm:text-xl font-semibold" id="modal-title">
+        {{ 'dashboard_tabs.strategy.strategy_modal.title' | translate }}
+      </h3>
+      <button (click)="closeStrategyModal()" class="text-white hover:text-gray-200 focus:outline-none">
+        <i class="fas fa-times text-base sm:text-lg"></i>
+      </button>
+    </div>
+    <div class="px-4 pt-5 pb-4 sm:p-6">
+      <div class="mt-2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          {{ 'dashboard_tabs.strategy.strategy_modal.strategy_label' | translate }}
+        </label>
+        <div *ngIf="strategyText" class="bg-gray-50 border border-gray-300 rounded-md p-4 min-h-[100px] max-h-[300px] overflow-y-auto">
+          <p class="text-sm text-gray-700 whitespace-pre-wrap">{{ strategyText }}</p>
+        </div>
+        <div *ngIf="!strategyText" class="bg-gray-50 border border-gray-300 rounded-md p-4 min-h-[100px] flex items-center justify-center">
+          <p class="text-sm text-gray-500 italic">{{ 'dashboard_tabs.strategy.strategy_modal.no_strategy' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-4 py-3 sm:px-6 flex flex-row-reverse gap-3">
+      <button 
+        type="button"
+        (click)="closeStrategyModal()"
+        class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+        {{ 'dashboard_tabs.strategy.strategy_modal.close' | translate }}
       </button>
     </div>
   </div>

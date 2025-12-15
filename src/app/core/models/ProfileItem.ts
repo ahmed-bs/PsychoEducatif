@@ -15,6 +15,7 @@ export interface ProfileItem {
   comentaire?: string; // Keep for backward compatibility
   commentaire?: string; // Correct spelling from API
   commentaire_ar?: string;
+  strategie?: string; // Strategy text field from API
   isPeu?: boolean;
   done?: boolean;
 }
