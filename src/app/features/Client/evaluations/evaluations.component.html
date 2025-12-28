@@ -71,7 +71,7 @@
           <div *ngIf="getItemLanguageField(item, 'comentaire')" class="comment-bubble">
             {{ getItemLanguageField(item, 'comentaire') }}
           </div>
-          <div *ngIf="!item.comentaire" class="text-muted">
+          <div *ngIf="!getItemLanguageField(item, 'comentaire')" class="text-muted">
             {{ 'evaluations.table.no_comment' | translate }}
           </div>
         </td>

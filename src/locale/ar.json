@@ -619,14 +619,17 @@
         "NON_ACQUIS": "غير مكتسبة"
       },
       "comment_label": "ملاحظات:",
-      "comment_placeholder": "ملاحظات إضافية حول هذه المهارة..."
+      "comment_placeholder": "ملاحظات إضافية حول هذه المهارة...",
+      "strategy_label": "الاستراتيجية:",
+      "strategy_placeholder": "أدخل الاستراتيجية لهذه المهارة..."
     },
     "buttons": {
       "previous": "السابق",
       "next": "التالي",
       "submit": "إرسال",
       "view_description": "عرض الوصف",
-      "add_comment": "إضافة تعليق"
+      "add_comment": "إضافة تعليق",
+      "add_strategy": "إضافة استراتيجية"
     },
     "tap_to_read_more": "انقر لقراءة المزيد",
     "view_mode": {
@@ -642,9 +645,12 @@
     "popup": {
       "title": "وصف المهارة",
       "comment_title": "إضافة تعليق",
+      "strategy_title": "إضافة استراتيجية",
       "close": "إغلاق",
       "cancel": "إلغاء",
-      "save": "حفظ"
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "strategy_update_error": "خطأ في تحديث الاستراتيجية"
     }
   },
   "explore": {
@@ -1209,6 +1215,72 @@
       "retry": "إعادة المحاولة",
       "empty_title": "لم يتم العثور على استراتيجيات",
       "empty_description": "ابدأ بإضافة أول استراتيجية سلوكية لك.",
+      "select_category": "اختر فئة",
+      "select_category_placeholder": "اختر فئة تحتوي على عناصر جزئية",
+      "loading_categories": "جاري تحميل الفئات...",
+      "domains": "مجالات",
+      "items": "عناصر",
+      "domains_with_partiel_items": "المجالات مع العناصر الجزئية",
+      "no_domains_with_partiel": "لم يتم العثور على مجالات مع عناصر جزئية",
+      "filter": {
+        "all": "الكل",
+        "placeholder": "تصفية حسب الحالة",
+        "no_results": "لم يتم العثور على نتائج لهذا الفلتر"
+      },
+      "export": {
+        "title": "تصدير الاستراتيجيات",
+        "filter": "الفلتر",
+        "all_items": "جميع العناصر",
+        "category": "الفئة",
+        "domain": "المجال",
+        "item_name": "اسم العنصر",
+        "description": "الوصف",
+        "status": "الحالة",
+        "comment": "التعليق",
+        "strategy": "الاستراتيجية",
+        "pdf": "تصدير كـ PDF",
+        "excel": "تصدير كـ Excel"
+      },
+      "table": {
+        "category": "الفئة",
+        "domain": "المجال",
+        "total_items": "إجمالي العناصر",
+        "partiel_items": "العناصر الجزئية",
+        "progress": "التقدم",
+        "actions": "الإجراءات",
+        "start": "ابدأ",
+        "item_name": "اسم العنصر",
+        "item_description": "الوصف",
+        "status": "الحالة",
+        "partiel": "جزئي",
+        "go_to_quiz": "الذهاب إلى الاختبار",
+        "comment": "تعليق",
+        "add_comment": "إضافة تعليق",
+        "edit_comment": "تعديل التعليق",
+        "strategy": "الاستراتيجية",
+        "view_strategy": "عرض الاستراتيجية",
+        "no_strategy": "لا توجد استراتيجية",
+        "status_options": {
+          "acquis": "مكتسب",
+          "non_acquis": "غير مكتسب",
+          "partiel": "جزئي",
+          "non_cote": "غير مقيم"
+        }
+      },
+      "comment_modal": {
+        "title": "إضافة/تعديل تعليق",
+        "comment_label": "التعليق",
+        "comment_placeholder": "أدخل تعليقك هنا...",
+        "save": "حفظ",
+        "saving": "جاري الحفظ...",
+        "cancel": "إلغاء"
+      },
+      "strategy_modal": {
+        "title": "الاستراتيجية",
+        "strategy_label": "الاستراتيجية",
+        "no_strategy": "لم يتم تحديد استراتيجية لهذا العنصر",
+        "close": "إغلاق"
+      },
       "messages": {
         "confirm_delete": "هل أنت متأكد من حذف هذه الاستراتيجية؟",
         "permission_denied": "ليس لديك إذن لحذف هذه الاستراتيجية. يمكن للمؤلف فقط حذفها.",
@@ -1219,7 +1291,9 @@
         "create_error": "حدث خطأ أثناء إنشاء الاستراتيجية.",
         "update_error": "حدث خطأ أثناء تحديث الاستراتيجية.",
         "load_error": "حدث خطأ أثناء تحميل الاستراتيجيات.",
-        "no_profile_id": "لم يتم تحديد ملف شخصي. لا يمكن تحميل الاستراتيجيات."
+        "no_profile_id": "لم يتم تحديد ملف شخصي. لا يمكن تحميل الاستراتيجيات.",
+        "comment_update_error": "حدث خطأ أثناء تحديث التعليق.",
+        "status_update_error": "حدث خطأ أثناء تحديث الحالة."
       }
     }
   },

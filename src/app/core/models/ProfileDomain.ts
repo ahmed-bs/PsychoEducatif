@@ -2,8 +2,10 @@ export interface ProfileDomain {
   id: number;
   name: string;
   name_ar?: string;
+  name_en?: string;
   description: string;
   description_ar?: string;
+  description_en?: string;
   profile_category: number;
   item_count: number;
   acquis_percentage: number;

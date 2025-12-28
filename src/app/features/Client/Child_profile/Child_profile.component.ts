@@ -21,7 +21,7 @@ export class Child_profileComponent implements OnInit, OnDestroy {
     private sharedService: SharedService
   ) {
     // Initialize translation
-    this.translate.addLangs(['fr', 'ar']);
+    this.translate.addLangs(['fr', 'ar', 'en']);
     this.translate.setDefaultLang('fr');
     
     // Get current language from shared service

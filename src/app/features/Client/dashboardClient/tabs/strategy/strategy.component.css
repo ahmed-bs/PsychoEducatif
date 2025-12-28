@@ -1,0 +1,61 @@
+/* Export Icon Buttons */
+.export-icon-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.export-icon-btn:hover:not([disabled]) {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.export-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.export-icon-btn i {
+  font-size: 1.25rem;
+}
+
+/* Mobile and Tablet Responsive Styles */
+@media (max-width: 640px) {
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+

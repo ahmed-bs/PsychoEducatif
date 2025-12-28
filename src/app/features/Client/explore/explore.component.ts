@@ -367,6 +367,13 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (fieldName === 'description') {
         return category.description_ar || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (category as any).name_en || category.name || '';
+      } else if (fieldName === 'description') {
+        return (category as any).description_en || category.description || '';
+      }
     } else {
       // For French language, use non-_ar fields
       if (fieldName === 'name') {
@@ -389,6 +396,15 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (fieldName === 'comentaire') {
         return item.commentaire_ar || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (item as any).name_en || item.name || '';
+      } else if (fieldName === 'description') {
+        return (item as any).description_en || item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return (item as any).commentaire_en || (item as any).comentaire_en || item.comentaire || item.commentaire || '';
+      }
     } else {
       // For French language, use non-_ar fields
       if (fieldName === 'name') {
@@ -396,7 +412,7 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (fieldName === 'description') {
         return item.description || '';
       } else if (fieldName === 'comentaire') {
-        return item.comentaire || '';
+        return item.comentaire || item.commentaire || '';
       }
     }
     return '';
@@ -410,6 +426,13 @@ export class ExploreComponent implements OnInit, AfterViewInit, OnDestroy {
         return domain.name_ar || '';
       } else if (fieldName === 'description') {
         return domain.description_ar || '';
+      }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (domain as any).name_en || domain.name || '';
+      } else if (fieldName === 'description') {
+        return (domain as any).description_en || domain.description || '';
       }
     } else {
       // For French language, use non-_ar fields

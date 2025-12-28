@@ -422,6 +422,18 @@ h2 {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
+.strategy-btn {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+}
+
+.strategy-btn:hover {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
+}
+
 .action-btn .material-symbols-sharp {
   font-size: 18px;
 }

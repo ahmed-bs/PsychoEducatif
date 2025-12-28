@@ -28,7 +28,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   displayDeleteDialog: boolean = false;
   showFilters: boolean = false;
   categories: ProfileCategory[] = [];
-  newCategory: Partial<ProfileCategory> = { name: '', name_ar: '', description: '', description_ar: '' };
+  newCategory: Partial<ProfileCategory> = { name: '', name_ar: '', name_en: '', description: '', description_ar: '', description_en: '' };
   categoryToDelete: ProfileCategory | null = null;
   profileId!: number;
   loading: boolean = true;
@@ -100,6 +100,13 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'description') {
         return category.description_ar || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return category.name_en || '';
+      } else if (fieldName === 'description') {
+        return category.description_en || '';
+      }
     } else {
       // For French language, use non-_ar fields
       if (fieldName === 'name') {
@@ -143,13 +150,26 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       // Keep original fields for backend
       preparedData.name_ar = data.name_ar?.trim() || '';
       preparedData.description_ar = data.description_ar?.trim() || '';
+      preparedData.name_en = data.name_en?.trim() || '';
+      preparedData.description_en = data.description_en?.trim() || '';
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields for form display
+      preparedData.name = data.name_en?.trim() || '';
+      preparedData.description = data.description_en?.trim() || '';
+      // Keep all fields for backend
+      preparedData.name_ar = data.name_ar?.trim() || '';
+      preparedData.description_ar = data.description_ar?.trim() || '';
+      preparedData.name_en = data.name_en?.trim() || '';
+      preparedData.description_en = data.description_en?.trim() || '';
     } else {
       // For French language, use non-_ar fields for form display
       preparedData.name = data.name?.trim() || '';
       preparedData.description = data.description?.trim() || '';
-      // Keep _ar fields for backend
+      // Keep _ar and _en fields for backend
       preparedData.name_ar = data.name_ar?.trim() || '';
       preparedData.description_ar = data.description_ar?.trim() || '';
+      preparedData.name_en = data.name_en?.trim() || '';
+      preparedData.description_en = data.description_en?.trim() || '';
     }
 
     return preparedData;
@@ -186,7 +206,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   showAddUserDialog() {
     console.log('showAddUserDialog called - resetting for new category');
-    this.newCategory = { name: '', name_ar: '', description: '', description_ar: '' };
+    this.newCategory = { name: '', name_ar: '', name_en: '', description: '', description_ar: '', description_en: '' };
     this.isEditMode = false;
     this.displayAddUserDialog = true;
     console.log('After showAddUserDialog:');
@@ -202,8 +222,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       ...profileCategory,
       name: profileCategory.name || '',
       name_ar: profileCategory.name_ar || '',
+      name_en: profileCategory.name_en || '',
       description: profileCategory.description || '',
-      description_ar: profileCategory.description_ar || ''
+      description_ar: profileCategory.description_ar || '',
+      description_en: profileCategory.description_en || ''
     });
     
     // Ensure the ID is preserved
@@ -220,15 +242,35 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   saveCategory() {
     // Create a clean data object for the API call
+    // Preserve all existing language fields and update the current language field
     const categoryData: Partial<ProfileCategory> = {
+      // Preserve existing values for all language fields
       name: this.newCategory.name?.trim() || '',
       name_ar: this.newCategory.name_ar?.trim() || '',
+      name_en: this.newCategory.name_en?.trim() || '',
       description: this.newCategory.description?.trim() || '',
-      description_ar: this.newCategory.description_ar?.trim() || ''
+      description_ar: this.newCategory.description_ar?.trim() || '',
+      description_en: this.newCategory.description_en?.trim() || ''
     };
 
-    // Check if at least one of name or name_ar is provided
-    if (!categoryData.name && !categoryData.name_ar) {
+    // Map the form input (newCategory.name/description) to the appropriate backend field based on current language
+    // The form field contains the edited value for the current language
+    if (this.currentLanguage === 'ar') {
+      // When editing in Arabic, newCategory.name contains the Arabic value from form
+      categoryData.name_ar = this.newCategory.name?.trim() || '';
+      categoryData.description_ar = this.newCategory.description?.trim() || '';
+    } else if (this.currentLanguage === 'en') {
+      // When editing in English, newCategory.name contains the English value from form
+      categoryData.name_en = this.newCategory.name?.trim() || '';
+      categoryData.description_en = this.newCategory.description?.trim() || '';
+    } else {
+      // When editing in French, newCategory.name contains the French value from form
+      categoryData.name = this.newCategory.name?.trim() || '';
+      categoryData.description = this.newCategory.description?.trim() || '';
+    }
+
+    // Check if at least one of name, name_ar, or name_en is provided
+    if (!categoryData.name && !categoryData.name_ar && !categoryData.name_en) {
       this.translate.get('categories.messages.error.name_required').subscribe((text) => {
         this.showError(text);
       });

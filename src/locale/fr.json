@@ -618,14 +618,17 @@
         "NON_ACQUIS": "Non acquis"
       },
       "comment_label": "Observations :",
-      "comment_placeholder": "Notes complémentaires sur cette compétence..."
+      "comment_placeholder": "Notes complémentaires sur cette compétence...",
+      "strategy_label": "Stratégie :",
+      "strategy_placeholder": "Entrez la stratégie pour cette compétence..."
     },
     "buttons": {
       "previous": "Précédent",
       "next": "Suivant",
       "submit": "Soumettre",
       "view_description": "Voir la description",
-      "add_comment": "Ajouter un commentaire"
+      "add_comment": "Ajouter un commentaire",
+      "add_strategy": "Ajouter une stratégie"
     },
     "tap_to_read_more": "Appuyez pour lire plus",
     "view_mode": {
@@ -641,9 +644,12 @@
     "popup": {
       "title": "Description de la compétence",
       "comment_title": "Ajouter un commentaire",
+      "strategy_title": "Ajouter une stratégie",
       "close": "Fermer",
       "cancel": "Annuler",
-      "save": "Enregistrer"
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "strategy_update_error": "Erreur lors de la mise à jour de la stratégie"
     }
   },
   "explore": {
@@ -1324,6 +1330,72 @@
       "retry": "Réessayer",
       "empty_title": "Aucune stratégie trouvée",
       "empty_description": "Commencez par ajouter votre première stratégie comportementale.",
+      "select_category": "Sélectionner une catégorie",
+      "select_category_placeholder": "Sélectionnez une catégorie avec des éléments partiels",
+      "loading_categories": "Chargement des catégories...",
+      "domains": "domaines",
+      "items": "éléments",
+      "domains_with_partiel_items": "Domaines avec éléments partiels",
+      "no_domains_with_partiel": "Aucun domaine avec des éléments partiels trouvé",
+      "filter": {
+        "all": "Tous",
+        "placeholder": "Filtrer par statut",
+        "no_results": "Aucun résultat trouvé pour ce filtre"
+      },
+      "export": {
+        "title": "Export des stratégies",
+        "filter": "Filtre",
+        "all_items": "Tous les éléments",
+        "category": "Catégorie",
+        "domain": "Domaine",
+        "item_name": "Nom de l'élément",
+        "description": "Description",
+        "status": "Statut",
+        "comment": "Commentaire",
+        "strategy": "Stratégie",
+        "pdf": "Exporter en PDF",
+        "excel": "Exporter en Excel"
+      },
+      "table": {
+        "category": "Catégorie",
+        "domain": "Domaine",
+        "total_items": "Total éléments",
+        "partiel_items": "Éléments partiels",
+        "progress": "Progrès",
+        "actions": "Actions",
+        "start": "Commencer",
+        "item_name": "Nom de l'élément",
+        "item_description": "Description",
+        "status": "Statut",
+        "partiel": "Partiel",
+        "go_to_quiz": "Aller au quiz",
+        "comment": "Commentaire",
+        "add_comment": "Ajouter commentaire",
+        "edit_comment": "Modifier commentaire",
+        "strategy": "Stratégie",
+        "view_strategy": "Voir la stratégie",
+        "no_strategy": "Aucune stratégie",
+        "status_options": {
+          "acquis": "Acquis",
+          "non_acquis": "Non acquis",
+          "partiel": "Partiel",
+          "non_cote": "Non coté"
+        }
+      },
+      "comment_modal": {
+        "title": "Ajouter/Modifier un commentaire",
+        "comment_label": "Commentaire",
+        "comment_placeholder": "Entrez votre commentaire ici...",
+        "save": "Enregistrer",
+        "saving": "Enregistrement...",
+        "cancel": "Annuler"
+      },
+      "strategy_modal": {
+        "title": "Stratégie",
+        "strategy_label": "Stratégie",
+        "no_strategy": "Aucune stratégie définie pour cet élément",
+        "close": "Fermer"
+      },
       "messages": {
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette stratégie?",
         "permission_denied": "Vous n'êtes pas autorisé à supprimer cette stratégie. Seul l'auteur peut la supprimer.",
@@ -1334,7 +1406,9 @@
         "create_error": "Une erreur est survenue lors de la création de la stratégie.",
         "update_error": "Une erreur est survenue lors de la mise à jour de la stratégie.",
         "load_error": "Une erreur est survenue lors du chargement des stratégies.",
-        "no_profile_id": "Aucun profil sélectionné. Impossible de charger les stratégies."
+        "no_profile_id": "Aucun profil sélectionné. Impossible de charger les stratégies.",
+        "comment_update_error": "Une erreur est survenue lors de la mise à jour du commentaire.",
+        "status_update_error": "Une erreur est survenue lors de la mise à jour du statut."
       }
     }
   },

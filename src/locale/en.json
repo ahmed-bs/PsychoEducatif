@@ -1,0 +1,1561 @@
+{
+  "hero_section": {
+    "welcome_message": "Hello, {{userName}}!",
+    "select_child_prompt": "Please select a child's profile below.",
+    "search_placeholder": "Search for a child by name",
+    "no_children_message": "You have no children.",
+    "add_child_card": "Add a child",
+    "add_child_button": "+"
+  },
+  "add_child_dialog": {
+    "header": "Add a child",
+    "first_name_label": "First name",
+    "first_name_placeholder": "First name",
+    "last_name_label": "Last name",
+    "last_name_placeholder": "Last name",
+    "birth_date_label": "Date of birth",
+    "diagnosis_label": "Diagnosis",
+    "diagnosis_placeholder": "Diagnosis",
+    "gender_label": "Gender",
+    "male_option": "Male",
+    "female_option": "Female",
+    "profile_image_label": "Profile image",
+    "drop_zone_text": "Drag and drop or click to upload",
+    "cancel_button": "Cancel",
+    "add_button": "Add",
+    "required_fields_error": "First name, last name and date of birth are required."
+  },
+  "edit_child_dialog": {
+    "header": "Edit a child",
+    "first_name_label": "First name",
+    "first_name_placeholder": "First name",
+    "last_name_label": "Last name",
+    "last_name_placeholder": "Last name",
+    "birth_date_label": "Date of birth",
+    "diagnosis_label": "Diagnosis",
+    "diagnosis_placeholder": "Diagnosis",
+    "gender_label": "Gender",
+    "male_option": "Male",
+    "female_option": "Female",
+    "profile_image_label": "Profile image",
+    "drop_zone_text": "Drag and drop or click to upload",
+    "cancel_button": "Cancel",
+    "save_button": "Save",
+    "required_fields_error": "First name, last name and date of birth are required."
+  },
+  "profile_messages": {
+    "load_user_error": {
+      "title": "Error",
+      "text": "Unable to load user information."
+    },
+    "load_profiles_error": {
+      "title": "Error",
+      "text": "Unable to load profiles."
+    },
+    "add_profile_success": {
+      "title": "Success",
+      "text": "Profile added successfully."
+    },
+    "add_profile_error": {
+      "title": "Error",
+      "text": "Unable to add profile."
+    },
+    "add_profile_required_fields_error": {
+      "title": "Error",
+      "text": "Please fill in all required fields."
+    },
+    "update_profile_success": {
+      "title": "Success",
+      "text": "Profile updated successfully."
+    },
+    "update_profile_error": {
+      "title": "Error",
+      "text": "Unable to update profile."
+    },
+    "disable_profile_confirm": {
+      "title": "Are you sure?",
+      "text": "Do you really want to disable {{childName}}?",
+      "confirm_button": "Yes, disable",
+      "cancel_button": "Cancel"
+    },
+    "disable_profile_success": {
+      "title": "Disabled",
+      "text": "{{childName}} has been disabled."
+    },
+    "disable_profile_error": {
+      "title": "Error",
+      "text": "Unable to disable profile."
+    }
+  },
+  "sidebar": {
+    "logo_name": "<span>Evalu'</span>Action",
+    "menu": {
+      "home": "Home",
+      "explore": "Explore",
+      "profiles": "Profiles",
+      "objectives": "Objectives",
+      "summary": "Summary",
+      "calendar": "Calendar",
+      "logout": "Logout",
+      "more": "More"
+    }
+  },
+  "navbar": {
+    "menu": {
+      "home": "Home",
+      "evaluation": "Evaluation",
+      "objectives": "Objectives",
+      "strategies": "Strategies"
+    },
+    "buttons": {
+      "sign_up": "Sign Up",
+      "sign_in": "Sign In"
+    },
+    "logo_name": "<span>Evalu'</span>Action",
+    "search_placeholder": "Search..."
+  },
+  "footer": {
+    "resources_title": "Resources",
+    "menu": {
+      "home": "Home",
+      "evaluation": "Evaluation",
+      "objectives": "Objectives",
+      "strategies": "Strategies"
+    },
+    "information_title": "Information",
+    "contact": {
+      "phone": "+1 (305) 240-9671",
+      "email": "info@company.com"
+    },
+    "copyright": "Copyright © 2025 Topic Listing Center. All rights reserved."
+  },
+  "featured_section": {
+    "header_image_cards": {
+      "educational_follow_up": "Educational Follow-up",
+      "personalized_activities": "Personalized Activities",
+      "defined_objectives": "Defined Objectives",
+      "parental_guidance": "Parental Guidance"
+    },
+    "header_content": "A digital<br />solution <span class=\"text-indigo-600\"></span> for supporting children with autism."
+  },
+  "faq_section": {
+    "title": "🌟 About",
+    "description": "<span class=\"highlight font-semibold text-indigo-600\">PsychoÉducatif</span> is a digital platform designed to support children with autism in their development journey through an individualized and interactive approach. It offers assessment tools, educational strategies and adapted activities to meet the specific needs of each child.",
+    "accordion": {
+      "item1": {
+        "question": "What is the PsychoÉducatif platform?",
+        "answer": "The PsychoÉducatif platform is an interactive digital solution that helps children with autism progress in their development. It offers skills assessments, personalized activities and educational strategies adapted to each child's needs."
+      },
+      "item2": {
+        "question": "How does it work?",
+        "answer": "The platform works through children's skills assessment tools, interactive activities, and real-time progress tracking. It allows educators and parents to support children with personalized plans."
+      },
+      "item3": {
+        "question": "Why use PsychoÉducatif?",
+        "answer": "PsychoÉducatif is designed to offer a unique and interactive experience, allowing children with autism to progress at their own pace. The platform adapts to each child's specific needs and supports educators and parents with modern and easy-to-use tools."
+      }
+    },
+    "image_alt": "Interactive activities"
+  },
+  "explore_section": {
+    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explore Psychoeducational Themes",
+    "tabs": {
+      "psychology": "Psychology",
+      "behaviour": "Behavior",
+      "development": "Development",
+      "emotional": "Emotions",
+      "therapy": "Therapy"
+    },
+    "psychology_tab": {
+      "cognitive_psychology": {
+        "title": "Cognitive Psychology",
+        "description": "Understanding human mental functioning"
+      },
+      "developmental_psychology": {
+        "title": "Developmental Psychology",
+        "description": "Evolution of skills and behaviors"
+      },
+      "psychotherapy": {
+        "title": "Psychotherapy",
+        "description": "Therapeutic approaches for support"
+      }
+    },
+    "behaviour_tab": {
+      "social_behaviour": {
+        "title": "Social Behavior",
+        "description": "Social interactions and adjustments"
+      },
+      "stress_management": {
+        "title": "Stress Management",
+        "description": "Techniques for managing and reducing stress"
+      },
+      "personal_development": {
+        "title": "Personal Development",
+        "description": "Strategies to improve personal skills"
+      }
+    },
+    "development_tab": {
+      "skills_development": {
+        "title": "Skills Development",
+        "description": "Evolution of skills and abilities"
+      },
+      "personal_growth": {
+        "title": "Personal Growth",
+        "description": "Developing a better understanding of oneself and one's abilities"
+      }
+    },
+    "emotional_tab": {
+      "emotion_management": {
+        "title": "Emotion Management",
+        "description": "Strategies to understand and manage emotions"
+      },
+      "emotional_wellbeing": {
+        "title": "Emotional Wellbeing",
+        "description": "Techniques to promote emotional health"
+      },
+      "emotional_intelligence": {
+        "title": "Emotional Intelligence",
+        "description": "Developing awareness and management of emotions"
+      }
+    },
+    "therapy_tab": {
+      "cognitive_behavioral_therapy": {
+        "title": "Cognitive Behavioral Therapy",
+        "description": "Approaches to treat cognitive and behavioral disorders"
+      },
+      "play_therapy": {
+        "title": "Play Therapy",
+        "description": "Using play in the therapeutic process"
+      },
+      "supportive_therapy": {
+        "title": "Supportive Therapy",
+        "description": "Support to overcome emotional difficulties"
+      }
+    }
+  },
+  "timeline_section": {
+    "title": "How it works in the psychoeducational framework",
+    "items": {
+      "explore_themes": {
+        "title": "Explore Psychoeducational Themes",
+        "description": "Browse a wide range of psychoeducational themes to better understand the needs of children, parents and professionals. Discover information on psychological development, behavioral strategies and emotional wellbeing."
+      },
+      "track_progress": {
+        "title": "Track and Record Progress",
+        "description": "Track the child's emotional and cognitive progress. Record the evolution and get information on behavioral changes through continuous monitoring."
+      },
+      "learn_strategies": {
+        "title": "Learn and Practice Strategies",
+        "description": "Read and learn from psychoeducational resources that provide practical strategies to support children with emotional and developmental needs. Benefit from personalized advice based on real-time assessments."
+      }
+    },
+    "more_info": "Would you like to know more?",
+    "discover_button": "Discover our Resources"
+  },
+  "skills_section": {
+    "title": "🎯 Why choose PsychoÉducatif?",
+    "items": {
+      "evaluation": {
+        "title": "Accurate and personalized assessment",
+        "description": "Detailed monitoring based on recognized psycho-education criteria."
+      },
+      "interactive_activities": {
+        "title": "Interactive and fun activities",
+        "description": "Engaging exercises to stimulate learning and social skills development."
+      },
+      "support": {
+        "title": "Support for parents and professionals",
+        "description": "A dedicated space to track progress and adapt interventions."
+      },
+      "accessibility": {
+        "title": "Accessibility and ergonomics",
+        "description": "An intuitive interface designed for easy use by children and their caregivers."
+      }
+    }
+  },
+  "evaluation_featured_section": {
+    "header_content": "Assessment <br/>is a <span></span> key step in the psycho-educational support of children with autism. It helps understand their needs and skills to develop personalized plans."
+  },
+  "evaluation_objectives_section": {
+    "title": "🎯 Assessment Objectives",
+    "items": {
+      "strengths_and_weaknesses": {
+        "title": "Identify the child's strengths and weaknesses",
+        "description": "Determine current skills in key areas such as communication, social interactions, motor skills, and adaptive behaviors."
+      },
+      "specific_needs": {
+        "title": "Detect specific needs",
+        "description": "Identify obstacles that limit the child's autonomy and development."
+      },
+      "baseline": {
+        "title": "Establish a baseline",
+        "description": "Provide accurate data that will be used to measure progress over time."
+      }
+    }
+  },
+  "digital_evaluation_advantages_section": {
+    "title": "🌟 Advantages of digital assessment",
+    "items": {
+      "psychoeducatif": {
+        "title": "PsychoÉducatif",
+        "description": "<span class=\"highlight\">Accessibility:</span> Allows use by parents and professionals, without the need for specialized equipment.<br><span class=\"highlight\">Personalization:</span> Tools adapt to each child's specific needs.<br><span class=\"highlight\">Efficiency:</span> Time savings in data collection and analysis.<br><span class=\"highlight\">Continuous monitoring:</span> Regular updates of assessments to adjust support strategies."
+      }
+    }
+  },
+  "evaluation_methodology_section": {
+    "title": "🧑‍🏫 Proposed assessment methodology",
+    "items": {
+      "child_profile": {
+        "title": "Child profile creation",
+        "description": "General information (name, age, diagnosis, etc.).<br>Selection of areas to assess according to specific needs."
+      },
+      "interactive_tests": {
+        "title": "Interactive tests and questionnaires",
+        "description": "Series of questions adapted to age and development level.<br>Fun activities to assess cognitive and social abilities."
+      },
+      "real_time_observation": {
+        "title": "Real-time observation and monitoring",
+        "description": "Allow parents and professionals to record daily behavioral observations directly in the application."
+      },
+      "detailed_report": {
+        "title": "Automatically generated detailed report",
+        "description": "Analysis of results in the form of graphs and tables.<br>Personalized recommendations based on results."
+      }
+    }
+  },
+  "new_featured_section": {
+    "header_image_cards": {
+      "educational_follow_up": "Educational Follow-up",
+      "personalized_activities": "Personalized Activities",
+      "defined_objectives": "Defined Objectives",
+      "parental_guidance": "Parental Guidance"
+    },
+    "header_content": "For optimal support of children with autism, together!"
+  },
+  "objectives_section": {
+    "title": "🌟 Our Objectives",
+    "items": {
+      "why_application": {
+        "title": "Why this application?",
+        "description": "We designed this application with a clear vision: to offer children with autism, their families, and professionals modern and personalized tools for optimal psycho-educational care."
+      }
+    }
+  },
+  "goals_section": {
+    "title": "🌟 What we aim to accomplish",
+    "items": {
+      "facilitate_evaluation": {
+        "title": "Facilitate needs assessment",
+        "description": "Identify children's cognitive, social and behavioral abilities through modern tools.",
+        "image_alt": "Interactive assessment"
+      },
+      "personalized_support": {
+        "title": "Strengthen personalized support",
+        "description": "Receive educational recommendations adapted to each child's unique needs, based on assessment results.",
+        "image_alt": "Adapted strategies"
+      },
+      "family_involvement": {
+        "title": "Promote family involvement",
+        "description": "Encourage parents to play an active role in assessing and tracking their child's progress.",
+        "image_alt": "Parent involvement"
+      },
+      "improve_collaboration": {
+        "title": "Improve collaboration",
+        "description": "Facilitate exchanges between professionals and parents for optimal coordination in care.",
+        "image_alt": "Collaboration between professionals"
+      }
+    }
+  },
+  "trust_section": {
+    "title": "🌟 Why trust us?",
+    "items": {
+      "fully_adapted": {
+        "title": "100% adapted",
+        "description": "Designed specifically to meet the unique needs of children with autism.",
+        "image_alt": "Adapted to needs"
+      },
+      "expert_collaboration": {
+        "title": "Created with experts",
+        "description": "Developed in collaboration with professionals and families for optimal effectiveness.",
+        "image_alt": "Expert collaboration"
+      },
+      "accessible_everywhere": {
+        "title": "Accessible everywhere",
+        "description": "Usable at any time, wherever you are, thanks to its intuitive platform.",
+        "image_alt": "Accessible everywhere"
+      }
+    }
+  },
+  "strategies_featured_section": {
+    "header_content": "Discover our approaches to support children with autism towards greater autonomy."
+  },
+  "strategies_section": {
+    "title": "🌟 Our Strategies",
+    "items": {
+      "interactive_tools": {
+        "title": "Use of interactive tools",
+        "description": "Develop games and fun activities to stimulate cognitive, social and behavioral skills.",
+        "image_alt": "Interactive tools"
+      },
+      "personalized_approach": {
+        "title": "Personalized approach",
+        "description": "Adapt educational strategies to each child's specific needs for optimal results.",
+        "image_alt": "Personalized approach"
+      },
+      "family_involvement": {
+        "title": "Family involvement",
+        "description": "Create a collaborative environment where parents actively participate in their child's development.",
+        "image_alt": "Family involvement"
+      },
+      "progress_tracking": {
+        "title": "Continuous progress tracking",
+        "description": "Provide tools to measure skills evolution and adjust goals accordingly.",
+        "image_alt": "Progress tracking"
+      }
+    }
+  },
+  "login_form": {
+    "return_button": "Back",
+    "form_image_alt": "Children reading",
+    "welcome_title": "Welcome!",
+    "welcome_subtitle": "Sign in to continue",
+    "email_label": "Email",
+    "email_placeholder": "Enter your email",
+    "email_required_error": "*",
+    "email_invalid_error": "Invalid email",
+    "password_label": "Password",
+    "password_placeholder": "Password required to sign in!",
+    "password_required_error": "*",
+    "password_too_short_error": "Too short",
+    "remember_me": "Remember me",
+    "submit_button": "Sign in",
+    "submit_button_loading": "Loading...",
+    "create_account_text": "Don't have an account yet?",
+    "create_account_link": "Create an account",
+    "success_message": {
+      "title": "Success",
+      "text": "Login successful! You will be redirected."
+    },
+    "error_message": {
+      "title": "Error",
+      "default_text": "Connection error"
+    }
+  },
+  "signup_form": {
+    "return_button": "Back",
+    "form_image_alt": "Innovation",
+    "title": "Create an account",
+    "subtitle": "Fill in the fields to create a new account",
+    "full_name_label": "Full Name",
+    "full_name_placeholder": "Enter your full name",
+    "full_name_required_error": "*",
+    "full_name_too_short_error": "Too short",
+    "email_label": "Email Address",
+    "email_placeholder": "Enter your email address",
+    "email_required_error": "*",
+    "email_invalid_error": "Invalid email",
+    "password_label": "Password",
+    "password_placeholder": "Enter a secure password",
+    "password_required_error": "*",
+    "password_too_short_error": "Too short",
+    "password_strength_error": "Weak password",
+    "confirm_password_label": "Confirm Password",
+    "confirm_password_placeholder": "Confirm your password",
+    "confirm_password_required_error": "*",
+    "password_mismatch_error": "Passwords do not match",
+    "terms_checkbox": "I accept the <a href='#' target='_blank'>terms and conditions</a>",
+    "terms_required_error": "*",
+    "submit_button": "Sign up",
+    "submit_button_loading": "Loading...",
+    "login_text": "Already have an account?",
+    "login_link": "Sign in",
+    "success_message": {
+      "title": "Success",
+      "text": "Account created successfully! You will be redirected to the login page."
+    },
+    "error_message": {
+      "title": "Error",
+      "default_text": "Registration error",
+      "validation_error": "Please fill in all required fields and correct form errors.",
+      "password_mismatch": "Passwords do not match.",
+      "password_too_short": "Password is too short (minimum 8 characters).",
+      "password_strength": "Password is too weak. It must contain an uppercase letter, a lowercase letter, a number and a special character.",
+      "email_invalid": "Invalid email address.",
+      "username_too_short": "Full name is too short.",
+      "terms_required": "You must accept the terms and conditions."
+    },
+    "user_types": {
+      "professional": "Professional",
+      "parent": "Parent",
+      "other": "Other"
+    }
+  }, "skills_summary": {
+    "title": "Skills Summary 📊",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "skills_summary": "Skills summary"
+    },
+    "loading": "Loading...",
+    "error": {
+      "load_data_failed": "Failed to load summary data. Please try again later."
+    },
+    "load_summary_error": {
+      "title": "Error",
+      "text": "Failed to load summary data. Please try again later."
+    },
+    "filter_label": "Filter by Item Status:",
+    "filter_placeholder": "Select a status",
+    "filters": {
+      "status": "Status",
+      "module": "Module",
+      "item_status": {
+        "label": "Item Status",
+        "acquired": "Acquired",
+        "not_acquired": "Not Acquired",
+        "partial": "Partial"
+      }
+    },
+    "export_button": "Export",
+    "table": {
+      "category": "Category",
+      "total_domains": "Total Domains",
+      "total_items_overall": "Total Items",
+      "overall_progress": "Overall Progress",
+      "domains_header": "Domains for category \"{{category}}\":",
+      "domain": "Domain",
+      "total_items": "Total Items",
+      "acquired": "Acquired",
+      "partial": "Partial",
+      "not_acquired": "Not Acquired",
+      "not_evaluated": "Not Evaluated",
+      "progress_percentage": "Progress",
+      "no_domains_message": "No domain found for this category.",
+      "no_categories_message": "No skill category found.",
+      "current_page_report": "Showing {first} to {last} of {totalRecords} entries"
+    },
+    "domain_items": {
+      "header": "Items for domain \"{{domain}}\" (Filtered status: {{status}})",
+      "show_items": "Show items",
+      "hide_items": "Hide items",
+      "no_items_message": "No item found with status \"{{status}}\" for this domain.",
+      "comment_label": "Comment: ",
+      "no_comment": "No comment available."
+    },
+    "status_labels": {
+      "ALL": "All",
+      "ACQUIS": "Acquired",
+      "PARTIEL": "Partial",
+      "NON_ACQUIS": "Not Acquired",
+      "NON_COTE": "Not Evaluated",
+      "UNKNOWN": "Unknown"
+    },
+    "export": {
+      "title": "Skills Summary Report",
+      "excel": "Export to Excel",
+      "pdf": "Export to PDF",
+      "summary_title": "Skills Summary",
+      "detailed_items_title": "Items Detail",
+      "category": "Category",
+      "domain": "Domain",
+      "item_name": "Item Name",
+      "item_status": "Item Status",
+      "item_comments": "Comments",
+      "total_domains": "Total Domains",
+      "total_items": "Total Items",
+      "acquired": "Acquired",
+      "partial": "Partial",
+      "not_acquired": "Not Acquired",
+      "not_evaluated": "Not Evaluated",
+      "overall_progress": "Overall Progress",
+      "progress": "Progress",
+      "domains_info": "Domains Information"
+    },
+    "view_modes": {
+      "table": "Table",
+      "card": "Cards",
+      "list": "List"
+    },
+    "view_mode_label": "Display mode:",
+    "card": {
+      "domains": "Domains"
+    },
+    "export_content": {
+      "title": "Skills Summary",
+      "generated_on": "Export generated on {{date}}",
+      "category_label": "Category",
+      "domain_label": "Domain",
+      "total_items_label": "Total Items",
+      "acquired_label": "Acquired",
+      "partial_label": "Partial",
+      "not_acquired_label": "Not Acquired",
+      "not_evaluated_label": "Not Evaluated",
+      "progress_label": "Progress (%)"
+    }
+  },    "skills_evaluation": {
+    "back_button": "Back",
+    "title": "Skills Evaluation",
+    "loading": {
+      "message": "Loading questions...",
+      "sr_only": "Loading..."
+    },
+    "error": {
+      "title": "Error!",
+      "message": "{{error}}",
+      "missing_domain_id": "Domain identifier is required",
+      "no_questions_found": "No questions found for this domain",
+      "load_questions_failed": "Failed to load questions. Please try again later."
+    },
+    "progress_indicator": {
+      "text": "Item <span class='font-bold text-blue-600'>{{currentIndex}}</span> of <span class='font-bold text-blue-600'>{{totalItems}}</span>"
+    },
+    "form": {
+      "skill_label": "Skill: <b class='text-sm'>{{skillName}}</b>",
+      "description_label": "{{description}}",
+      "status_label": "Skill status:",
+      "status_options": {
+        "ACQUIS": "Acquired",
+        "PARTIEL": "Partial",
+        "NON_ACQUIS": "Not acquired"
+      },
+      "comment_label": "Observations:",
+      "comment_placeholder": "Additional notes on this skill...",
+      "strategy_label": "Strategy:",
+      "strategy_placeholder": "Enter the strategy for this skill..."
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Submit",
+      "view_description": "View description",
+      "add_comment": "Add comment",
+      "add_strategy": "Add strategy"
+    },
+    "tap_to_read_more": "Tap to read more",
+    "view_mode": {
+      "card": "Cards",
+      "list": "List",
+      "table": "Table"
+    },
+    "list_view": {
+      "title": "List view - All items",
+      "subtitle": "{{totalItems}} items to evaluate"
+    },
+
+    "popup": {
+      "title": "Skill description",
+      "comment_title": "Add comment",
+      "strategy_title": "Add strategy",
+      "close": "Close",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "strategy_update_error": "Error updating strategy"
+    }
+  },
+  "explore": {
+    "head_title": {
+      "title": "Explore Skills",
+      "breadcrumb": {
+        "dashboard": "Dashboard",
+        "explore": "Explore"
+      }
+    },
+    "views": {
+      "card": "Cards",
+      "list": "List",
+      "table": "Table"
+    },
+    "filter": {
+      "label": "Filter",
+      "all": "All",
+      "completed": "Completed",
+      "in_progress": "In progress",
+      "not_started": "Not started"
+    },
+    "scroll_buttons": {
+      "left_aria_label": "Scroll left",
+      "right_aria_label": "Scroll right"
+    },
+    "card": {
+      "items": "items",
+      "completed": "completed",
+      "item_count": "{{count}} items",
+      "image_alt": "{{domainName}}",
+      "status_labels": {
+        "acquis": "Acquired",
+        "non_acquis": "Not acquired",
+        "en_cours": "In progress"
+      },
+      "click_to_start": "Click to start"
+    },
+    "table": {
+      "domain": "Domain",
+      "total_items": "Total Items",
+      "progress": "Progress",
+      "acquired": "Acquired",
+      "in_progress": "In progress",
+      "not_acquired": "Not acquired",
+      "actions": "Actions",
+      "start": "Start"
+    },
+    "error": {
+      "load_categories_failed": "Failed to load categories. Please try again later.",
+      "load_domains_failed": "Failed to load domains for category {{categoryId}}. Please try again later.",
+      "load_items_failed": "Failed to load items for domain {{domainId}}. Please try again later."
+    }
+  },
+  "summary": {
+    "head_title": {
+      "title": "Skills Summary 📊",
+      "breadcrumb": {
+        "dashboard": "Dashboard",
+        "skills_summary": "Skills summary"
+      }
+    },
+    "loading": {
+      "message": "Loading..."
+    },
+    "error": {
+      "message": "{{error}}"
+    },
+    "category_header": "{{categoryName}}",
+    "domain_header": "{{domainName}}",
+    "table": {
+      "caption": {
+        "export_excel": "Export to Excel",
+        "export_pdf": "Export to PDF"
+      },
+      "headers": {
+        "items": "Items",
+        "status": "Status",
+        "comments": "Comments"
+      },
+      "no_comment": "-",
+      "status_labels": {
+        "ACQUIS": "Acquired",
+        "NON_ACQUIS": "Not acquired",
+        "PARTIEL": "Partial",
+        "NON_COTE": "Not evaluated"
+      }
+    }
+  },  "evaluations": {
+    "head_title": {
+      "title": "Skills Summary 📊",
+      "breadcrumb": {
+        "dashboard": "Dashboard",
+        "evaluations_summary": "Skills summary"
+      }
+    },
+    "loading": {
+      "message": "Loading..."
+    },
+    "error": {
+      "title": "Error",
+      "message": "{{error}}",
+      "missing_domain_id": "Domain identifier is required in the path",
+      "no_items_found": "No items found for this domain",
+      "load_items_failed": "Failed to load items. Please try again later."
+    },
+    "views": {
+      "table": "Table",
+      "list": "List",
+      "card": "Cards"
+    },
+    "empty": {
+      "title": "No evaluation available",
+      "message": "There is currently no evaluation available for this domain."
+    },
+    "category_header": "{{categoryName}}",
+    "domain_header": "{{domainName}}",
+    "table": {
+      "caption": {
+        "export_excel": "Export Excel",
+        "export_pdf": "Print report"
+      },
+      "headers": {
+        "items": "Items",
+        "status": "Status",
+        "comments": "Comments"
+      },
+      "no_comment": "-",
+      "status_labels": {
+        "ACQUIS": "Acquired",
+        "NON_ACQUIS": "Not acquired",
+        "PARTIEL": "Partial",
+        "NON_COTE": "Not evaluated"
+      }
+    },
+    "filter": {
+      "filter_by_status": "Filter by status",
+      "all_status": "All statuses",
+      "showing_results": "Results displayed"
+    },
+    "export": {
+      "category_label": "Category",
+      "domain_label": "Domain",
+      "filter_label": "Filter applied",
+      "unknown_category": "Unknown category",
+      "unknown_domain": "Unknown domain"
+    }
+  },   "items": {
+    "back_button": "Back",
+    "add_item_section": {
+      "title": "Add a new item",
+      "labels": {
+        "domain": "Domain",
+        "item": "Item",
+        "description": "Description"
+      },
+      "placeholders": {
+        "domain": "Select a domain",
+        "item_title": "Item title",
+        "item_description": "Item description"
+      },
+      "add_item_button": "Add item"
+    },
+    "items_by_domain": {
+      "title": "Items by domain",
+      "add_domain_button": "Add a domain",
+      "item_count": "{{count}} items",
+      "no_items": "No items in this domain",
+      "headers": {
+        "item": "ITEM",
+        "status": "STATUS",
+        "description": "DESCRIPTION",
+        "ispeu": "PEI",
+        "actions": "ACTIONS"
+      },
+      "status_labels": {
+        "ACQUIS": "Acquired",
+        "NON_ACQUIS": "Not acquired",
+        "PARTIEL": "Partial",
+        "NON_COTE": "Not rated"
+      },
+      "description_fallback": "N/A"
+    },
+    "add_domain_dialog": {
+      "header_add": "Add a domain",
+      "header_edit": "Edit a domain",
+      "labels": {
+        "title": "Title",
+        "description": "Description"
+      },
+      "placeholders": {
+        "title": "Title",
+        "description": "Description"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "add": "Add",
+        "update": "Update"
+      },
+      "tooltips": {
+        "edit": "Edit this domain",
+        "delete": "Delete this domain",
+        "expand": "Expand/Collapse"
+      }
+    },
+    "add_item_dialog": {
+      "header_add": "Add an item",
+      "header_edit": "Edit an item",
+      "labels": {
+        "title": "Title",
+        "description": "Description",
+        "status": "Status"
+      },
+      "placeholders": {
+        "title": "Title",
+        "description": "Description",
+        "status": "Select status"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "add": "Add",
+        "update": "Update"
+      },
+      "tooltips": {
+        "edit": "Edit this item",
+        "delete": "Delete this item",
+        "expand": "Expand/Collapse"
+      }
+    },
+    "messages": {
+      "error": {
+        "summary": "Error",
+        "no_category_id": "No category identifier provided",
+        "load_data_failed": "Failed to load data",
+        "name_and_category_required": "Name and category are required",
+        "name_and_domain_required": "Name and domain are required",
+        "name_item_domain_required": "Name, item and domain are required",
+        "generic_error": "{{error}}",
+        "validation": {
+          "required_field": "This field is required",
+          "invalid_format": "Invalid format",
+          "name_required": "Name is required in at least one language"
+        },
+        "arabic_content_required": "Content must be in Arabic",
+        "arabic_description_required": "Description must be in Arabic",
+        "french_content_required": "Content must be in French",
+        "french_description_required": "Description must be in French"
+      },
+      "success": {
+        "summary": "Success",
+        "domain_added": "Domain added successfully",
+        "item_added": "Item added successfully",
+        "domain_updated": "Domain updated successfully",
+        "item_updated": "Item updated successfully",
+        "domain_deleted": "Domain deleted successfully",
+        "item_deleted": "Item deleted successfully"
+      },
+      "confirm": {
+        "delete_domain": "Are you sure you want to delete {{domainName}}?",
+        "delete_item": "Are you sure you want to delete {{itemName}}?"
+      },
+      "info": {
+        "summary": "Information",
+        "loading": "Loading...",
+        "no_data": "No data available"
+      }
+    }
+  },   "categories": {
+    "head_title": {
+      "title": "Skills List 📝",
+      "breadcrumb": {
+        "dashboard": "Dashboard",
+        "skills_list": "Skills List"
+      }
+    },
+    "toolbar": {
+      "add_skill_button": "Add a skill",
+      "grid_view": "Grid View",
+      "list_view": "List View", 
+      "table_view": "Table View"
+    },
+    "no_data": {
+      "message": "No category available",
+      "image_alt": "No data available"
+    },
+    "category_card": {
+      "created_at": "Created on: {{date}}",
+      "items_count": "Number of items: {{count}}",
+      "domains_count": "Number of domains: {{count}}"
+    },
+    "add_category_dialog": {
+      "header_add": "Add a Skill",
+      "header_edit": "Edit a Skill",
+      "labels": {
+        "title": "Title",
+        "title_ar": "العنوان",
+        "title_en": "Title",
+        "description": "Description",
+        "description_ar": "الوصف",
+        "description_en": "Description"
+      },
+      "placeholders": {
+        "title": "Title",
+        "title_ar": "العنوان",
+        "title_en": "Title",
+        "description": "Description",
+        "description_ar": "الوصف",
+        "description_en": "Description"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "add": "Add",
+        "update": "Update"
+      },
+      "info": {
+        "at_least_one_name": "At least one title (in French or Arabic) must be provided."
+      }
+    },
+    "messages": {
+      "success": {
+        "summary": "Success",
+        "category_added": "Category added successfully",
+        "category_updated": "Category updated successfully",
+        "category_deleted": "Category deleted successfully"
+      },
+      "error": {
+        "summary": "Error",
+        "name_required": "At least one title (in French or Arabic) must be provided",
+        "generic_error": "{{error}}"
+      },
+      "confirm": {
+        "delete_category": "Are you sure you want to delete {{categoryName}}?"
+      }
+    },
+    "delete_dialog": {
+      "header": "Confirm deletion",
+      "message": "Are you sure you want to delete the category \"{{categoryName}}\"? This action cannot be undone.",
+      "buttons": {
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    },
+    "table": {
+      "headers": {
+        "name": "Name",
+        "description": "Description",
+        "created_at": "Creation date",
+        "items_count": "Number of items",
+        "domains_count": "Number of domains",
+        "actions": "Actions"
+      },
+      "actions": {
+        "edit": "Edit",
+        "settings": "Settings",
+        "delete": "Delete"
+      }
+    }
+  }, "dashboard": {
+    "head_title": {
+      "title": "🏠 Welcome to the Dashboard",
+      "breadcrumb": {
+        "dashboard": "Dashboard"
+      }
+    },
+    "dropdown": {
+      "add_profile": "Add a new profile",
+      "diagnosis_unspecified": "Unspecified"
+    },
+    "child_profile": {
+      "last_evaluation": "Last evaluation: {{date}}",
+      "gender_male": "♂ Male",
+      "gender_female": "♀ Female",
+      "share_profile_button": "Share profile",
+      "edit_profile_button": "Edit profile",
+      "disable_profile_button": "Disable profile"
+    },
+    "tabs": {
+      "skills": "Skills",
+      "stats": "Statistics",
+      "goals": "Goals",
+      "strategies": "Strategies",
+      "notes": "Notes"
+    },
+    "skills_content": {
+      "competencies_count": "{{count}} competencies",
+      "start_date": "Start date",
+      "last_update": "Last update"
+    },
+    "stats_content": {
+      "loading": "Loading statistics...",
+      "no_child_selected": "Please select a child to view statistics",
+      "no_data": "No statistics data available for this child",
+      "summary": {
+        "categories": "Categories",
+        "domains": "Domains",
+        "items": "Items",
+        "progress": "Overall Progress"
+      },
+      "progress_overview": {
+        "title": "Progress Overview",
+        "competencies_count": "{{count}} competencies",
+        "progress": "Progress: {{percentage}}%",
+        "goal": "Goal: {{percentage}}%"
+      },
+      "recent_activity": {
+        "title": "Recent Activity",
+        "competencies_evaluated": "{{count}} competencies evaluated",
+        "last_update": "Last update: {{date}}"
+      }
+    },
+    "add_child_dialog": {
+      "header": "Add a new profile",
+      "labels": {
+        "first_name": "First name",
+        "last_name": "Last name",
+        "birth_date": "Date of birth",
+        "gender": "Gender",
+        "diagnosis": "Diagnosis",
+        "notes": "Notes",
+        "image": "Profile image"
+      },
+      "placeholders": {
+        "first_name": "Enter first name",
+        "last_name": "Enter last name",
+        "birth_date": "Enter date of birth",
+        "diagnosis": "Enter diagnosis (optional)",
+        "notes": "Enter notes (optional)"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "add": "Add"
+      }
+    },
+    "edit_child_dialog": {
+      "header": "Edit profile",
+      "labels": {
+        "first_name": "First name",
+        "last_name": "Last name",
+        "birth_date": "Date of birth",
+        "gender": "Gender",
+        "diagnosis": "Diagnosis",
+        "notes": "Notes",
+        "image": "Profile image"
+      },
+      "placeholders": {
+        "first_name": "Enter first name",
+        "last_name": "Enter last name",
+        "birth_date": "Enter date of birth",
+        "diagnosis": "Enter diagnosis (optional)",
+        "notes": "Enter notes (optional)"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "update": "Update"
+      }
+    },
+    "share_profile_dialog": {
+      "header": "Share profile",
+      "labels": {
+        "email": "Recipient email",
+        "access_type": "Access type"
+      },
+      "placeholders": {
+        "email": "Enter email"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "share": "Share",
+        "sharing": "Sharing..."
+      },
+      "errors": {
+        "invalid_email": "Invalid email",
+        "profile_and_email_required": "Please select a profile and enter an email"
+      },
+      "access_options": {
+        "read_only": "Read only",
+        "read_write": "Read and edit"
+      }
+    },
+    "charts": {
+      "skills_distribution": "Skills Distribution",
+      "progress_by_domain": "Progress by Domain",
+      "skill_assessment": "Skills Assessment",
+      "domain_overview": "Domain Overview",
+      "current_progress_label": "Current Progress",
+      "target_label": "Target",
+      "current_level_label": "Current Level"
+    },
+    "messages": {
+      "success": {
+        "summary": "Success",
+        "profile_shared": "Profile shared successfully",
+        "child_added": "Profile added successfully",
+        "child_updated": "Profile updated successfully",
+        "child_disabled": "{{name}} has been disabled",
+        "goal_saved": "Goal saved successfully"
+      },
+      "error": {
+        "summary": "Error",
+        "load_profiles_failed": "Unable to load profiles",
+        "load_profile_failed": "Unable to load profile",
+        "load_categories_failed": "Unable to load categories",
+        "load_domains_failed": "Unable to load domains",
+        "add_child_failed": "Unable to add profile",
+        "update_child_failed": "Unable to update profile",
+        "disable_child_failed": "Unable to disable profile",
+        "share_profile_failed": "{{error}}",
+        "required_fields_missing": "Please fill in all required fields",
+        "generic_error": "{{error}}"
+      },
+      "warning": {
+        "summary": "Warning",
+        "confirm_disable_child": "Are you sure you want to disable {{name}}?"
+      }
+    }
+  },
+
+
+  "dashboard_tabs": {
+    "goals": {
+      "title": "Work goals",
+      "no_goals_found": "No goals found. Click on \"Add a new goal\" to get started!",
+      "add_new_goal": "Add a new goal",
+      "target_date": "Target date",
+      "edit": "Edit",
+      "delete": "Delete",
+      "take_quiz": "Take Quiz",
+      "progress": "Progress",
+      "sub_objectives": "Sub-objectives:",
+      "no_sub_objectives": "No sub-objectives defined.",
+      "priority": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "messages": {
+        "quiz_not_available": "The quiz for this goal will only be available from {{date}}.",
+        "quiz_available": "Click to take the quiz.",
+        "cannot_navigate_quiz": "Unable to launch quiz: Goal domain not found.",
+        "confirm_delete": "Are you sure you want to delete this goal and all its sub-objectives?",
+        "sub_objective_disabled": "You cannot edit the sub-objective before {{date}}"
+      }
+    },
+    "notes": {
+      "title": "Notes and observations",
+      "filter_title": "Filter notes",
+      "search_content": "Search by content",
+      "search_placeholder": "Search...",
+      "importance_filter": "Importance",
+      "importance_options": {
+        "all": "All notes",
+        "important": "Important notes",
+        "not_important": "Non-important notes"
+      },
+      "date_start": "Start date",
+      "date_end": "End date",
+      "author_filter": "By author",
+      "author_placeholder": "Username...",
+      "unknown": "Unknown",
+      "reset_filters": "Reset filters",
+      "loading": "Loading notes...",
+      "no_notes_found": "No notes found matching your criteria. Try adjusting the filters!",
+      "important_note": "Important Note from",
+      "observation": "Observation from",
+      "by_you": "By you",
+      "by_other": "By {{username}}",
+      "modified": "(Modified)",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save_changes": "Save changes",
+      "add_new_note": "Add a new note",
+      "note_placeholder": "Write your observations here...",
+      "important_note_checkbox": "Important note",
+      "save": "Save",
+      "messages": {
+        "content_empty": "Note content cannot be empty!",
+        "no_profile_selected": "Unable to save note: No profile selected.",
+        "auth_required": "Authentication required. Please sign in.",
+        "auth_required_update": "Authentication required. Please sign in to edit notes.",
+        "permission_denied_add": "You do not have permission to add notes to this profile.",
+        "permission_denied_edit": "You do not have permission to edit this note.",
+        "permission_denied_delete": "You do not have permission to delete this note.",
+        "save_failed": "Failed to save note. Please try again.",
+        "update_failed": "Failed to update note. Please try again.",
+        "delete_failed": "Failed to delete note. Please try again.",
+        "note_id_missing": "Note ID is missing or content is empty!",
+        "confirm_delete": "Are you sure you want to delete this note?"
+      }
+    },
+    "strategy": {
+      "title": "Behavioral strategies",
+      "add_new_strategy": "Add a new strategy",
+      "edit": "Edit",
+      "delete": "Delete",
+      "status": "{{status}}",
+      "responsible": "{{responsible}}",
+      "author": "{{author}}",
+      "loading": "Loading strategies...",
+      "error_title": "Loading error",
+      "retry": "Retry",
+      "empty_title": "No strategy found",
+      "empty_description": "Start by adding your first behavioral strategy.",
+      "select_category": "Select a category",
+      "select_category_placeholder": "Select a category with partial items",
+      "loading_categories": "Loading categories...",
+      "domains": "domains",
+      "items": "items",
+      "domains_with_partiel_items": "Domains with partial items",
+      "no_domains_with_partiel": "No domain with partial items found",
+      "filter": {
+        "all": "All",
+        "placeholder": "Filter by status",
+        "no_results": "No results found for this filter"
+      },
+      "export": {
+        "title": "Strategy export",
+        "filter": "Filter",
+        "all_items": "All items",
+        "category": "Category",
+        "domain": "Domain",
+        "item_name": "Item name",
+        "description": "Description",
+        "status": "Status",
+        "comment": "Comment",
+        "strategy": "Strategy",
+        "pdf": "Export to PDF",
+        "excel": "Export to Excel"
+      },
+      "table": {
+        "category": "Category",
+        "domain": "Domain",
+        "total_items": "Total items",
+        "partiel_items": "Partial items",
+        "progress": "Progress",
+        "actions": "Actions",
+        "start": "Start",
+        "item_name": "Item name",
+        "item_description": "Description",
+        "status": "Status",
+        "partiel": "Partial",
+        "go_to_quiz": "Go to quiz",
+        "comment": "Comment",
+        "add_comment": "Add comment",
+        "edit_comment": "Edit comment",
+        "strategy": "Strategy",
+        "view_strategy": "View strategy",
+        "no_strategy": "No strategy",
+        "status_options": {
+          "acquis": "Acquired",
+          "non_acquis": "Not acquired",
+          "partiel": "Partial",
+          "non_cote": "Not rated"
+        }
+      },
+      "comment_modal": {
+        "title": "Add/Edit comment",
+        "comment_label": "Comment",
+        "comment_placeholder": "Enter your comment here...",
+        "save": "Save",
+        "saving": "Saving...",
+        "cancel": "Cancel"
+      },
+      "strategy_modal": {
+        "title": "Strategy",
+        "strategy_label": "Strategy",
+        "no_strategy": "No strategy defined for this item",
+        "close": "Close"
+      },
+      "messages": {
+        "confirm_delete": "Are you sure you want to delete this strategy?",
+        "permission_denied": "You are not authorized to delete this strategy. Only the author can delete it.",
+        "delete_error": "An error occurred while deleting the strategy.",
+        "delete_success": "Strategy deleted successfully.",
+        "create_success": "Strategy created successfully.",
+        "update_success": "Strategy updated successfully.",
+        "create_error": "An error occurred while creating the strategy.",
+        "update_error": "An error occurred while updating the strategy.",
+        "load_error": "An error occurred while loading strategies.",
+        "no_profile_id": "No profile selected. Cannot load strategies.",
+        "comment_update_error": "An error occurred while updating the comment.",
+        "status_update_error": "An error occurred while updating the status."
+      }
+    }
+  },
+  "add_strategy_modal": {
+    "header": {
+      "add": "Add a new strategy",
+      "edit": "Edit strategy"
+    },
+    "labels": {
+      "title": "Strategy title",
+      "description": "Description",
+      "status": "Status",
+      "responsible": "Responsible"
+    },
+    "placeholders": {
+      "title": "Enter strategy title",
+      "description": "Enter strategy description"
+    },
+    "status_options": {
+      "active": "Active",
+      "in_progress": "In progress",
+      "completed": "Completed",
+      "under_review": "Under review",
+      "suspended": "Suspended"
+    },
+    "responsible_options": {
+      "all_interveners": "All interveners",
+      "special_educator": "Special educator",
+      "psychologist": "Psychologist",
+      "speech_therapist": "Speech therapist",
+      "parent": "Parent"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "update": "Update",
+      "saving": "Saving..."
+    },
+    "validation": {
+      "title_required": "Title is required.",
+      "title_min_length": "Title must contain at least 3 characters.",
+      "description_required": "Description is required.",
+      "description_min_length": "Description must contain at least 10 characters.",
+      "status_required": "Status is required.",
+      "responsible_required": "Responsible is required.",
+      "profile_required": "No profile selected.",
+      "required_fields": "Please fill in at least the title and description of the strategy."
+    }
+  },
+  "add_goal_modal": {
+    "header": {
+      "add": "Add a new goal",
+      "edit": "Edit goal"
+    },
+    "labels": {
+      "title": "Goal title",
+      "description": "Description",
+      "target_date": "Target date",
+      "priority": "Priority",
+      "category": "Category",
+      "domain": "Domain",
+      "sub_objectives": "Sub-objectives"
+    },
+    "placeholders": {
+      "title": "Ex: Master new skills",
+      "description": "Describe your goal in detail",
+      "select_category": "Select a category",
+      "select_domain": "Select a domain",
+      "sub_objective": "Sub-objective description"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "update": "Update",
+      "add_sub_objective": "Add a sub-objective",
+      "save_changes": "Save changes",
+      "create_goal": "Create goal"
+    },
+    "validation": {
+      "title_required": "Title is required",
+      "description_required": "Description is required",
+      "target_date_required": "Target date is required",
+      "priority_required": "Priority is required",
+      "category_required": "Category is required",
+      "domain_required": "Domain is required"
+    },
+    "messages": {
+      "no_categories": "No categories available. Make sure you have categories associated with your profile",
+      "select_category_first": "Please select a category first",
+      "no_domains": "No domains available for the selected category"
+    },
+    "success_messages": {
+      "goal_updated": "Goal updated!",
+      "goal_updated_text": "Goal \"{{title}}\" has been updated successfully.",
+      "goal_created": "Goal created!",
+      "goal_created_text": "Goal \"{{title}}\" has been created successfully."
+    },
+    "error_messages": {
+      "update_failed": "Unable to update goal.",
+      "create_failed": "Unable to create goal.",
+      "no_profile_selected": "Unable to save goal: No profile selected."
+    },
+    "priority": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "calendar": "📅 Calendar"
+    },
+    "sidebar": {
+      "title": "📌 Domains in progress",
+      "goal_domains_title": "📌 Goal-related domains",
+      "no_domains_title": "No domains in progress",
+      "no_domains": "There are currently no domains in development.",
+      "no_goal_domains_title": "No goal-related domains",
+      "no_goal_domains": "No domains are currently linked to your goals."
+    },
+    "domain": {
+      "start_date": "Start",
+      "last_eval_date": "Last eval",
+      "click_to_quiz": "Click to access this domain's quiz",
+      "take_quiz": "Go to quiz"
+    },
+    "goal": {
+      "details_title": "Goal details",
+      "details_tab": "Details",
+      "edit_tab": "Edit",
+      "priority_label": "Priority",
+      "target_date": "Target date",
+      "domain": "Domain",
+      "progress": "Progress",
+      "sub_objectives": "Sub-objectives",
+      "edit_button": "Edit",
+      "delete": "Delete",
+      "edit": {
+        "title_label": "Title",
+        "title_placeholder": "Enter goal title",
+        "description_label": "Description",
+        "description_placeholder": "Enter goal description",
+        "target_date_label": "Target date",
+        "priority_label": "Priority",
+        "domain_label": "Domain",
+        "domain_readonly": "Domain cannot be modified",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "validation": {
+        "title_required": "Title is required."
+      },
+      "update_success": "Goal updated successfully.",
+      "update_error": "Error updating goal.",
+      "priority": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      }
+    },
+    "stats": {
+      "goals": "Goals",
+      "domains": "Domains"
+    },
+    "calendar_title": "Goals calendar",
+    "calendar_subtitle": "Manage your goals and track your progress",
+    "overall_progress": "Overall progress",
+    "messages": {
+      "error": "Error",
+      "warning": "Warning",
+      "success": "Success",
+      "deleted": "Deleted!",
+      "saved": "Goal saved!",
+      "load_goals_error": "Unable to load goals.",
+      "delete_goal_confirm": "Do you really want to delete the goal \"{{title}}\"?",
+      "delete_goal_success": "The goal has been deleted.",
+      "delete_goal_error": "An error occurred while deleting the goal.",
+      "goal_added_success": "Goal \"{{title}}\" has been added successfully.",
+      "navigation_error": "Unable to navigate to quiz. Please try again.",
+      "yes_delete": "Yes, delete!",
+      "cancel": "Cancel"
+    },
+    "buttons": {
+      "today": "Today",
+      "month": "Month",
+      "week": "Week",
+      "day": "Day",
+      "list": "List"
+    },
+    "errors": {
+      "load_goals": "Error loading goals:",
+      "load_events": "Error loading events:",
+      "delete_goal": "Error deleting goal:",
+      "load_categories": "Error loading categories:",
+      "load_domains": "Error loading domains:",
+      "load_items": "Error loading items:"
+    }
+  },
+  "child_profile": {
+    "title": "👤 Choose a Profile",
+    "breadcrumb": {
+      "home": "Home",
+      "choose_profile": "Choose a Profile"
+    }
+  },
+  "peu": {
+    "title": "PEI - Profile Elements",
+    "export_excel": "Export Excel",
+    "export_pdf": "Export PDF",
+    "loading_items": "Loading items...",
+    "no_profile_selected": "No profile selected",
+    "no_profile_id": "No profile ID available",
+    "failed_to_load": "Failed to load items",
+    "export": {
+      "title": "PEI - Profile Elements",
+      "total_items": "Total items",
+      "category": "Category",
+      "domain": "Domain",
+      "item_name": "Item name",
+      "description": "Description",
+      "comments": "Comments",
+      "done": "Done"
+    }
+  }
+}

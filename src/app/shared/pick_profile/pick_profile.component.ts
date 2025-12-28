@@ -84,7 +84,7 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
 
     // Initialize translation
-    this.translate.addLangs(['fr', 'ar']);
+    this.translate.addLangs(['fr', 'ar', 'en']);
     this.translate.setDefaultLang('fr');
     
     // Get current language from shared service

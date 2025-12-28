@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Strategy } from '../models/strategy';
+import { Strategy, CategoriesWithPartielItemsResponse } from '../models/strategy';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,11 @@ export class StrategyService {
       params = params.set('profile_id', profileId.toString());
     }
     return this.http.get<Strategy[]>(this.baseUrl, { params });
+  }
+
+  getCategoriesWithPartielItems(): Observable<CategoriesWithPartielItemsResponse> {
+    const url = `${this.baseUrl}categories-with-partiel-items/`;
+    return this.http.get<CategoriesWithPartielItemsResponse>(url);
   }
 
 

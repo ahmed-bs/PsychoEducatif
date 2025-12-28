@@ -119,14 +119,17 @@ export class PeuComponent implements OnInit, OnDestroy {
                   const allItems: ProfileItem[] = [];
                   itemsArrays.forEach((items, index) => {
                     items.forEach(item => {
-                      allItems.push({
+                      const itemWithExtras: any = {
                         ...item,
                         profile_domain: domains[index].id || 0,
                         profile_domain_name: domains[index].name || '',
                         profile_domain_name_ar: domains[index].name_ar || '',
+                        profile_domain_name_en: (domains[index] as any).name_en || '',
                         profile_category_name: category.name || '',
-                        profile_category_name_ar: category.name_ar || ''
-                      });
+                        profile_category_name_ar: category.name_ar || '',
+                        profile_category_name_en: category.name_en || ''
+                      };
+                      allItems.push(itemWithExtras as ProfileItem);
                     });
                   });
                   return of(allItems);
@@ -598,8 +601,21 @@ export class PeuComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'domain') {
         return item.profile_domain_name_ar || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (item as any).name_en || item.name || '';
+      } else if (fieldName === 'description') {
+        return (item as any).description_en || item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return (item as any).commentaire_en || item.comentaire || '';
+      } else if (fieldName === 'category') {
+        return (item as any).profile_category_name_en || item.profile_category_name || '';
+      } else if (fieldName === 'domain') {
+        return (item as any).profile_domain_name_en || item.profile_domain_name || '';
+      }
     } else {
-      // For French language, use non-_ar fields
+      // For French language (default), use non-_ar/_en fields
       if (fieldName === 'name') {
         return item.name || '';
       } else if (fieldName === 'description') {

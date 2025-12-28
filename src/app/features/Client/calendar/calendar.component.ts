@@ -181,7 +181,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getButtonText(language: string): any {
-    // Return French or Arabic button texts based on language
+    // Return button texts based on language
     if (language === 'ar') {
       return {
         today: 'اليوم',
@@ -189,6 +189,14 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         week: 'أسبوع',
         day: 'يوم',
         list: 'قائمة'
+      };
+    } else if (language === 'en') {
+      return {
+        today: 'Today',
+        month: 'Month',
+        week: 'Week',
+        day: 'Day',
+        list: 'List'
       };
     } else {
       // Default to French
@@ -202,8 +210,10 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+
   updateCalendarLanguage(language: string): void {
     // Update calendar options with new language
+    // FullCalendar accepts locale as string ('en', 'fr', 'ar')
     this.calendarOptions.locale = language;
     this.calendarOptions.buttonText = this.getButtonText(language);
     
@@ -214,7 +224,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     if (this.calendarComponent && this.calendarComponent.getApi()) {
       const calendarApi = this.calendarComponent.getApi();
       
-      // Update locale
+      // Update locale with the locale string
       calendarApi.setOption('locale', language);
       
       // Update button text

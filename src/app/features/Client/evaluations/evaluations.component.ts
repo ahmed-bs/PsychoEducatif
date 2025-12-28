@@ -96,17 +96,29 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
         return item.name_ar || '';
       } else if (fieldName === 'description') {
         return item.description_ar || '';
-      } else if (fieldName === 'comentaire') {
-        return item.commentaire_ar || '';
+      } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
+        // Check both spellings for backward compatibility
+        return item.commentaire_ar || (item as any).commentaire || item.comentaire || '';
+      }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (item as any).name_en || item.name || '';
+      } else if (fieldName === 'description') {
+        return (item as any).description_en || item.description || '';
+      } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
+        // Check both spellings for backward compatibility
+        return (item as any).commentaire_en || (item as any).commentaire || item.comentaire || '';
       }
     } else {
-      // For French language, use non-_ar fields
+      // For French language, use non-_ar/_en fields
       if (fieldName === 'name') {
         return item.name || '';
       } else if (fieldName === 'description') {
         return item.description || '';
-      } else if (fieldName === 'comentaire') {
-        return item.comentaire || '';
+      } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
+        // Check both spellings for backward compatibility
+        return (item as any).commentaire || item.comentaire || '';
       }
     }
     return '';
@@ -149,6 +161,8 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
       const item = this.items[0];
       if (this.currentLanguage === 'ar') {
         return item.profile_category_name_ar || item.profile_category_name || this.translate.instant('evaluations.export.unknown_category');
+      } else if (this.currentLanguage === 'en') {
+        return (item as any).profile_category_name_en || item.profile_category_name || this.translate.instant('evaluations.export.unknown_category');
       } else {
         return item.profile_category_name || this.translate.instant('evaluations.export.unknown_category');
       }
@@ -162,6 +176,8 @@ export class EvaluationsComponent implements OnInit, OnDestroy {
       const item = this.items[0];
       if (this.currentLanguage === 'ar') {
         return item.profile_domain_name_ar || item.profile_domain_name || this.translate.instant('evaluations.export.unknown_domain');
+      } else if (this.currentLanguage === 'en') {
+        return (item as any).profile_domain_name_en || item.profile_domain_name || this.translate.instant('evaluations.export.unknown_domain');
       } else {
         return item.profile_domain_name || this.translate.instant('evaluations.export.unknown_domain');
       }

@@ -141,14 +141,23 @@ export class ItemsComponent implements OnInit, OnDestroy {
     if (this.currentLanguage === 'ar') {
       // For Arabic language, use _ar fields
       if (fieldName === 'name') {
-        return item.name_ar || '';
+        return (item as any).name_ar || '';
       } else if (fieldName === 'description') {
-        return item.description_ar || '';
+        return (item as any).description_ar || '';
       } else if (fieldName === 'comentaire') {
-        return item.commentaire_ar || '';
+        return (item as any).commentaire_ar || '';
+      }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (item as any).name_en || '';
+      } else if (fieldName === 'description') {
+        return (item as any).description_en || '';
+      } else if (fieldName === 'comentaire') {
+        return (item as any).commentaire_en || '';
       }
     } else {
-      // For French language, use non-_ar fields
+      // For French language, use non-_ar/_en fields
       if (fieldName === 'name') {
         return item.name || '';
       } else if (fieldName === 'description') {
@@ -185,8 +194,15 @@ export class ItemsComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'description') {
         return domain.description_ar || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (domain as any).name_en || '';
+      } else if (fieldName === 'description') {
+        return (domain as any).description_en || '';
+      }
     } else {
-      // For French language, use non-_ar fields
+      // For French language, use non-_ar/_en fields
       if (fieldName === 'name') {
         return domain.name || '';
       } else if (fieldName === 'description') {
@@ -263,18 +279,24 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     let createData: any = { ...this.newDomain };
 
-    // Handle Arabic fields for backend create
+    // Handle language-specific fields for backend create
     if (this.currentLanguage === 'ar') {
       createData = {
         name_ar: this.newDomain.name,
         description_ar: this.newDomain.description
         // Don't send name and description when using Arabic fields
       };
+    } else if (this.currentLanguage === 'en') {
+      createData = {
+        name_en: this.newDomain.name,
+        description_en: this.newDomain.description
+        // Don't send name and description when using English fields
+      };
     } else {
       createData = {
         name: this.newDomain.name,
         description: this.newDomain.description
-        // Don't send name_ar and description_ar when using French fields
+        // Don't send name_ar/name_en and description_ar/description_en when using French fields
       };
     }
 
@@ -312,7 +334,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     const domainId = this.selectedDomain.id;
     let createData: any = { ...this.newItem };
 
-    // Handle Arabic fields for backend create
+    // Handle language-specific fields for backend create
     if (this.currentLanguage === 'ar') {
       createData = {
         name_ar: this.newItem.name,
@@ -320,12 +342,19 @@ export class ItemsComponent implements OnInit, OnDestroy {
         etat: this.newItem.etat
         // Don't send name and description when using Arabic fields
       };
+    } else if (this.currentLanguage === 'en') {
+      createData = {
+        name_en: this.newItem.name,
+        description_en: this.newItem.description,
+        etat: this.newItem.etat
+        // Don't send name and description when using English fields
+      };
     } else {
       createData = {
         name: this.newItem.name,
         description: this.newItem.description,
         etat: this.newItem.etat
-        // Don't send name_ar and description_ar when using French fields
+        // Don't send name_ar/name_en and description_ar/description_en when using French fields
       };
     }
 
@@ -364,18 +393,24 @@ export class ItemsComponent implements OnInit, OnDestroy {
     const domainId = this.selectedDomain.id;
     let updateData: any = { ...this.newDomain };
 
-    // Handle Arabic fields for backend update
+    // Handle language-specific fields for backend update
     if (this.currentLanguage === 'ar') {
       updateData = {
         name_ar: this.newDomain.name,
         description_ar: this.newDomain.description
         // Don't send name and description when using Arabic fields
       };
+    } else if (this.currentLanguage === 'en') {
+      updateData = {
+        name_en: this.newDomain.name,
+        description_en: this.newDomain.description
+        // Don't send name and description when using English fields
+      };
     } else {
       updateData = {
         name: this.newDomain.name,
         description: this.newDomain.description
-        // Don't send name_ar and description_ar when using French fields
+        // Don't send name_ar/name_en and description_ar/description_en when using French fields
       };
     }
 
@@ -417,7 +452,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     const itemId = this.selectedItem.id;
     let updateData: any = { ...this.newItem };
 
-    // Handle Arabic fields for backend update
+    // Handle language-specific fields for backend update
     if (this.currentLanguage === 'ar') {
       updateData = {
         name_ar: this.newItem.name,
@@ -425,12 +460,19 @@ export class ItemsComponent implements OnInit, OnDestroy {
         etat: this.newItem.etat
         // Don't send name and description when using Arabic fields
       };
+    } else if (this.currentLanguage === 'en') {
+      updateData = {
+        name_en: this.newItem.name,
+        description_en: this.newItem.description,
+        etat: this.newItem.etat
+        // Don't send name and description when using English fields
+      };
     } else {
       updateData = {
         name: this.newItem.name,
         description: this.newItem.description,
         etat: this.newItem.etat
-        // Don't send name_ar and description_ar when using French fields
+        // Don't send name_ar/name_en and description_ar/description_en when using French fields
       };
     }
 
@@ -483,7 +525,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
   deleteItem(item: ProfileItem, domain: DomainWithUI) {
     if (!item.id || !domain.id) return;
 
-    this.translate.get('items.messages.confirm.delete_item', { itemName: item.name }).subscribe((message) => {
+    this.translate.get('items.messages.confirm.delete_item', { itemName: this.getItemLanguageField(item, 'name') }).subscribe((message) => {
       if (!confirm(message)) {
         return;
       }
@@ -597,6 +639,13 @@ export class ItemsComponent implements OnInit, OnDestroy {
         name: domain.name_ar || '',
         description: domain.description_ar || ''
       };
+    } else if (this.currentLanguage === 'en') {
+      // For English, use _en fields
+      this.newDomain = {
+        id: domain.id,
+        name: (domain as any).name_en || '',
+        description: (domain as any).description_en || ''
+      };
     } else {
       // For French, use regular fields
       this.newDomain = {
@@ -628,8 +677,16 @@ export class ItemsComponent implements OnInit, OnDestroy {
       // For Arabic, use _ar fields
       this.newItem = {
         id: item.id,
-        name: item.name_ar || '',
-        description: item.description_ar || '',
+        name: (item as any).name_ar || '',
+        description: (item as any).description_ar || '',
+        etat: item.etat
+      };
+    } else if (this.currentLanguage === 'en') {
+      // For English, use _en fields
+      this.newItem = {
+        id: item.id,
+        name: (item as any).name_en || '',
+        description: (item as any).description_en || '',
         etat: item.etat
       };
     } else {
@@ -667,6 +724,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
       if (this.currentLanguage === 'ar') {
         this.newDomain.name = this.selectedDomain.name_ar || '';
         this.newDomain.description = this.selectedDomain.description_ar || '';
+      } else if (this.currentLanguage === 'en') {
+        this.newDomain.name = (this.selectedDomain as any).name_en || '';
+        this.newDomain.description = (this.selectedDomain as any).description_en || '';
       } else {
         this.newDomain.name = this.selectedDomain.name || '';
         this.newDomain.description = this.selectedDomain.description || '';
@@ -676,8 +736,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
     // Update item form if editing
     if (this.isEditingItem() && this.selectedItem) {
       if (this.currentLanguage === 'ar') {
-        this.newItem.name = this.selectedItem.name_ar || '';
-        this.newItem.description = this.selectedItem.description_ar || '';
+        this.newItem.name = (this.selectedItem as any).name_ar || '';
+        this.newItem.description = (this.selectedItem as any).description_ar || '';
+      } else if (this.currentLanguage === 'en') {
+        this.newItem.name = (this.selectedItem as any).name_en || '';
+        this.newItem.description = (this.selectedItem as any).description_en || '';
       } else {
         this.newItem.name = this.selectedItem.name || '';
         this.newItem.description = this.selectedItem.description || '';
@@ -723,6 +786,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
         });
         return false;
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, no specific character validation needed
+      // English can contain any characters
+      return true;
     } else {
       // For French language, check if content contains French characters
       if (!frenchPattern.test(name)) {
