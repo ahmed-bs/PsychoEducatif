@@ -249,6 +249,15 @@
       <textarea pInputTextarea id="categoryDescriptionAr" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description_ar' | translate" rows="3"></textarea>
     </div>
     
+    <div *ngIf="getCurrentLanguage() === 'en'" class="field">
+      <label for="categoryNameEn">{{ 'categories.add_category_dialog.labels.title_en' | translate }}</label>
+      <input pInputText id="categoryNameEn" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title_en' | translate" />
+    </div>
+    <div *ngIf="getCurrentLanguage() === 'en'" class="field">
+      <label for="categoryDescriptionEn">{{ 'categories.add_category_dialog.labels.description_en' | translate }}</label>
+      <textarea pInputTextarea id="categoryDescriptionEn" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description_en' | translate" rows="3"></textarea>
+    </div>
+    
     <div *ngIf="getCurrentLanguage() === 'fr'" class="field">
       <label for="categoryName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
       <input pInputText id="categoryName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" />

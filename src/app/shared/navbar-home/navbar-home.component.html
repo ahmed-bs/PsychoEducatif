@@ -27,6 +27,12 @@
           (click)="switchLanguage('ar')">
           عربي
         </button>
+        <button 
+          class="lang-btn" 
+          [class.active]="currentLang === 'en'"
+          (click)="switchLanguage('en')">
+          EN
+        </button>
       </div>
     </li>
     <li class="nav__btns">

@@ -46,7 +46,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     }, { validator: this.passwordMatchValidator });
 
     // Initialize translation languages
-    this.translate.addLangs(['fr', 'ar']);
+    this.translate.addLangs(['fr', 'ar', 'en']);
     this.translate.setDefaultLang('fr');
     
     // Get saved language from localStorage or use browser language

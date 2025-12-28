@@ -43,6 +43,8 @@ export class QuizComponent implements OnInit, OnDestroy {
   getCommentaire(item: ProfileItem): string {
     if (this.currentLanguage === 'ar') {
       return item.commentaire_ar || (item as any).commentaire || '';
+    } else if (this.currentLanguage === 'en') {
+      return (item as any).commentaire_en || (item as any).commentaire || item.comentaire || '';
     } else {
       // API returns commentaire (with 'n'), so prioritize that
       return (item as any).commentaire || item.comentaire || '';
@@ -87,10 +89,22 @@ export class QuizComponent implements OnInit, OnDestroy {
         // Check both spellings for backward compatibility
         return item.commentaire_ar || (item as any).commentaire || item.comentaire || '';
       } else if (fieldName === 'strategie') {
-        return item.strategie || '';
+        return item.strategie_ar || item.strategie || '';
+      }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (item as any).name_en || item.name || '';
+      } else if (fieldName === 'description') {
+        return (item as any).description_en || item.description || '';
+      } else if (fieldName === 'comentaire' || fieldName === 'commentaire') {
+        // Check both spellings for backward compatibility
+        return (item as any).commentaire_en || (item as any).commentaire || item.comentaire || '';
+      } else if (fieldName === 'strategie') {
+        return (item as any).strategie_en || item.strategie || '';
       }
     } else {
-      // For French language, use non-_ar fields
+      // For French language, use non-_ar/_en fields
       if (fieldName === 'name') {
         return item.name || '';
       } else if (fieldName === 'description') {
@@ -114,8 +128,15 @@ export class QuizComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'description') {
         return domain.description_ar || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return domain.name_en || domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description_en || domain.description || '';
+      }
     } else {
-      // For French language, use non-_ar fields
+      // For French language, use non-_ar/_en fields
       if (fieldName === 'name') {
         return domain.name || '';
       } else if (fieldName === 'description') {
@@ -180,8 +201,10 @@ export class QuizComponent implements OnInit, OnDestroy {
               id: this.domainId,
               name: this.items[0].profile_domain_name,
               name_ar: this.items[0].profile_domain_name_ar || '',
+              name_en: (this.items[0] as any).profile_domain_name_en || '',
               description: '',
-              description_ar: ''
+              description_ar: '',
+              description_en: ''
             };
           }
         }
@@ -256,7 +279,13 @@ export class QuizComponent implements OnInit, OnDestroy {
     const index = itemIndex !== undefined ? itemIndex : this.currentIndex;
     this.currentStrategyItemIndex = index;
     if (this.items[index]) {
-      this.currentStrategyText = this.items[index].strategie || '';
+      if (this.currentLanguage === 'ar') {
+        this.currentStrategyText = this.items[index].strategie_ar || this.items[index].strategie || '';
+      } else if (this.currentLanguage === 'en') {
+        this.currentStrategyText = (this.items[index] as any).strategie_en || this.items[index].strategie || '';
+      } else {
+        this.currentStrategyText = this.items[index].strategie || '';
+      }
     }
     this.showStrategyPopup = true;
   }
@@ -281,11 +310,30 @@ export class QuizComponent implements OnInit, OnDestroy {
       if (commentaireFr) {
         updateData.commentaire = commentaireFr;
       }
+      // Keep the English comment if it exists
+      if ((item as any).commentaire_en) {
+        updateData.commentaire_en = (item as any).commentaire_en;
+      }
+    } else if (this.currentLanguage === 'en') {
+      updateData.commentaire_en = this.currentCommentText;
+      // Keep the French comment if it exists
+      const commentaireFr = (item as any).commentaire || item.comentaire || '';
+      if (commentaireFr) {
+        updateData.commentaire = commentaireFr;
+      }
+      // Keep the Arabic comment if it exists
+      if (item.commentaire_ar) {
+        updateData.commentaire_ar = item.commentaire_ar;
+      }
     } else {
       updateData.commentaire = this.currentCommentText;
       // Keep the Arabic comment if it exists
       if (item.commentaire_ar) {
         updateData.commentaire_ar = item.commentaire_ar;
+      }
+      // Keep the English comment if it exists
+      if ((item as any).commentaire_en) {
+        updateData.commentaire_en = (item as any).commentaire_en;
       }
     }
 
@@ -320,9 +368,14 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     this.updatingStrategy = true;
     const item = this.items[itemIndex];
-    const updateData: any = {
-      strategie: this.currentStrategyText
-    };
+    const updateData: any = {};
+    if (this.currentLanguage === 'ar') {
+      updateData.strategie_ar = this.currentStrategyText;
+    } else if (this.currentLanguage === 'en') {
+      updateData.strategie_en = this.currentStrategyText;
+    } else {
+      updateData.strategie = this.currentStrategyText;
+    }
 
     this.profileItemService.update(item.id, updateData).subscribe({
       next: (updatedItem) => {
@@ -359,9 +412,17 @@ export class QuizComponent implements OnInit, OnDestroy {
     const updatePromises = this.items.map(item => {
       if (item.id) {
         const updateData: any = {
-          etat: item.etat,
-          description: item.description
+          etat: item.etat
         };
+        
+        // Set description based on language
+        if (this.currentLanguage === 'ar') {
+          updateData.description_ar = item.description_ar || item.description || '';
+        } else if (this.currentLanguage === 'en') {
+          updateData.description_en = (item as any).description_en || item.description || '';
+        } else {
+          updateData.description = item.description || '';
+        }
         
         // Use commentaire (with 'n') for the PUT request
         // Check both spellings for reading, but always send commentaire
@@ -373,6 +434,11 @@ export class QuizComponent implements OnInit, OnDestroy {
         // Also preserve commentaire_ar if it exists
         if (item.commentaire_ar) {
           updateData.commentaire_ar = item.commentaire_ar;
+        }
+        
+        // Also preserve commentaire_en if it exists
+        if ((item as any).commentaire_en) {
+          updateData.commentaire_en = (item as any).commentaire_en;
         }
         
         return this.profileItemService.update(item.id, updateData).toPromise();

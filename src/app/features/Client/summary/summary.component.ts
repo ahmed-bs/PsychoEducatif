@@ -220,9 +220,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
                ...item,
                profile_category_name: result.category.name,
                profile_category_name_ar: result.category.name_ar,
+               profile_category_name_en: result.category.name_en,
                profile_category_object: result.category, // Store the original category object
                profile_domain_name: domain?.name || item.profile_domain_name || 'Unknown Domain',
                profile_domain_name_ar: item.profile_domain_name_ar || domain?.name_ar || '',
+               profile_domain_name_en: item.profile_domain_name_en || domain?.name_en || '',
                profile_domain_object: domain // Store the original domain object
              };
            })
@@ -253,9 +255,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
     rawData.forEach(item => {
       // Get language-specific category name
-      const categoryName = this.currentLanguage === 'ar' ? 
-        (item.profile_category_name_ar || item.profile_category_name) : 
-        item.profile_category_name;
+      let categoryName = item.profile_category_name;
+      if (this.currentLanguage === 'ar') {
+        categoryName = item.profile_category_name_ar || item.profile_category_name;
+      } else if (this.currentLanguage === 'en') {
+        // For English, try to get from category object first
+        if (item.profile_category_object && item.profile_category_object.name_en && item.profile_category_object.name_en.trim() !== '') {
+          categoryName = item.profile_category_object.name_en;
+        } else if (item.profile_category_name_en && item.profile_category_name_en.trim() !== '') {
+          categoryName = item.profile_category_name_en;
+        } else {
+          categoryName = item.profile_category_name;
+        }
+      }
       
       // Get language-specific domain name
       // First try to get from the domain object, then from the item's domain name fields
@@ -267,6 +279,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
           domainName = item.profile_domain_object.name_ar;
         } else if (item.profile_domain_name_ar && item.profile_domain_name_ar.trim() !== '') {
           domainName = item.profile_domain_name_ar;
+        }
+      } else if (this.currentLanguage === 'en') {
+        // For English, try to get the English name from the domain object first
+        if (item.profile_domain_object && item.profile_domain_object.name_en && item.profile_domain_object.name_en.trim() !== '') {
+          domainName = item.profile_domain_object.name_en;
+        } else if (item.profile_domain_name_en && item.profile_domain_name_en.trim() !== '') {
+          domainName = item.profile_domain_name_en;
         }
       }
 
@@ -729,6 +748,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'description') {
         return category.description_ar || category.description || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return category.name_en || category.name || '';
+      } else if (fieldName === 'description') {
+        return category.description_en || category.description || '';
+      }
     } else {
       // For French language, use non-_ar fields
       if (fieldName === 'name') {
@@ -750,6 +776,15 @@ export class SummaryComponent implements OnInit, OnDestroy {
         return item.description_ar || item.description || '';
       } else if (fieldName === 'comentaire') {
         return item.commentaire_ar || item.comentaire || '';
+      }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return item.name_en || item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description_en || item.description || '';
+      } else if (fieldName === 'comentaire') {
+        return item.commentaire_en || item.comentaire || '';
       }
     } else {
       // For French language, use non-_ar fields
@@ -775,6 +810,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'description') {
         return domain.description_ar || domain.description || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return domain.name_en || domain.name || '';
+      } else if (fieldName === 'description') {
+        return domain.description_en || domain.description || '';
+      }
     } else {
       // For French language, use non-_ar fields
       if (fieldName === 'name') {
@@ -797,11 +839,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
     }
     
     // If no language-specific name is available from the domain object,
-    // check if we have any items with Arabic domain names
+    // check if we have any items with language-specific domain names
     if (domainData.profileItems && domainData.profileItems.length > 0) {
       const firstItem = domainData.profileItems[0];
       if (this.currentLanguage === 'ar' && firstItem.profile_domain_name_ar && firstItem.profile_domain_name_ar.trim() !== '') {
         return firstItem.profile_domain_name_ar;
+      } else if (this.currentLanguage === 'en' && firstItem.profile_domain_name_en && firstItem.profile_domain_name_en.trim() !== '') {
+        return firstItem.profile_domain_name_en;
       }
     }
     
@@ -840,9 +884,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
             ...item,
             profile_category_name: category.categoryObject?.name || category.category,
             profile_category_name_ar: category.categoryObject?.name_ar || '',
+            profile_category_name_en: category.categoryObject?.name_en || '',
             profile_category_object: category.categoryObject,
             profile_domain_name: domain.domainObject?.name || domain.domain,
             profile_domain_name_ar: item.profile_domain_name_ar || domain.domainObject?.name_ar || '',
+            profile_domain_name_en: item.profile_domain_name_en || domain.domainObject?.name_en || '',
             profile_domain_object: domain.domainObject
           });
         });

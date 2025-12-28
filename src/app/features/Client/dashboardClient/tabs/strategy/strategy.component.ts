@@ -298,6 +298,9 @@ export class StrategyComponent implements OnInit, OnDestroy {
   }
 
   hasStrategy(item: ProfileItem): boolean {
+    if (this.currentLanguage === 'ar') {
+      return !!(item.strategie_ar && item.strategie_ar.trim());
+    }
     return !!(item.strategie && item.strategie.trim());
   }
 
@@ -329,7 +332,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
         // API returns commentaire (with 'n'), prioritize that
         return item.commentaire_ar || (item as any).commentaire || item.comentaire || '';
       } else if (fieldName === 'strategie') {
-        return item.strategie || '';
+        return item.strategie_ar || item.strategie || '';
       }
     } else {
       if (fieldName === 'name') {
@@ -369,7 +372,11 @@ export class StrategyComponent implements OnInit, OnDestroy {
   openStrategyModal(item: ProfileItem, event: Event): void {
     event.stopPropagation();
     this.selectedItemForStrategy = item;
-    this.strategyText = item.strategie || '';
+    if (this.currentLanguage === 'ar') {
+      this.strategyText = item.strategie_ar || item.strategie || '';
+    } else {
+      this.strategyText = item.strategie || '';
+    }
     this.showStrategyModal = true;
   }
 
@@ -383,6 +390,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
     const doc = new jsPDF('p', 'pt', 'a4');
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
+    const usableWidth = pageWidth - (margin * 2);
     
     // Add title
     doc.setFontSize(18);
@@ -407,7 +415,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
           this.getItemLanguageField(item, 'description'),
           this.getStatusLabel(item.etat),
           this.getItemLanguageField(item, 'comentaire') || '-',
-          item.strategie || '-'
+          this.getItemLanguageField(item, 'strategie') || '-'
         ]);
       });
     });
@@ -423,6 +431,18 @@ export class StrategyComponent implements OnInit, OnDestroy {
       this.translate.instant('dashboard_tabs.strategy.export.strategy')
     ];
 
+    // Calculate column widths as percentages of usable width
+    // Category: 10%, Domain: 12%, Name: 15%, Description: 20%, Status: 8%, Comment: 15%, Strategy: 20%
+    const colWidths = [
+      usableWidth * 0.10,  // Category
+      usableWidth * 0.12,  // Domain
+      usableWidth * 0.15,  // Item Name
+      usableWidth * 0.20,  // Description
+      usableWidth * 0.08,  // Status
+      usableWidth * 0.15,  // Comment
+      usableWidth * 0.20   // Strategy
+    ];
+
     // Create table
     autoTable(doc, {
       startY: 70,
@@ -432,27 +452,29 @@ export class StrategyComponent implements OnInit, OnDestroy {
       headStyles: {
         fillColor: [34, 197, 94], // green-600
         font: 'helvetica',
-        fontSize: 10,
+        fontSize: 9,
         textColor: [255, 255, 255]
       },
       bodyStyles: {
         font: 'helvetica',
-        fontSize: 9
+        fontSize: 8
       },
-      margin: { top: 70 },
+      margin: { top: 70, left: margin, right: margin },
       styles: {
         font: 'helvetica',
-        fontSize: 9,
-        cellPadding: 3
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak',
+        cellWidth: 'wrap'
       },
       columnStyles: {
-        0: { cellWidth: 60 },
-        1: { cellWidth: 80 },
-        2: { cellWidth: 100 },
-        3: { cellWidth: 120 },
-        4: { cellWidth: 50 },
-        5: { cellWidth: 100 },
-        6: { cellWidth: 120 }
+        0: { cellWidth: colWidths[0], halign: 'left' },
+        1: { cellWidth: colWidths[1], halign: 'left' },
+        2: { cellWidth: colWidths[2], halign: 'left' },
+        3: { cellWidth: colWidths[3], halign: 'left' },
+        4: { cellWidth: colWidths[4], halign: 'center' },
+        5: { cellWidth: colWidths[5], halign: 'left' },
+        6: { cellWidth: colWidths[6], halign: 'left' }
       }
     });
 
@@ -472,7 +494,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
             [this.translate.instant('dashboard_tabs.strategy.export.description')]: this.getItemLanguageField(item, 'description'),
             [this.translate.instant('dashboard_tabs.strategy.export.status')]: this.getStatusLabel(item.etat),
             [this.translate.instant('dashboard_tabs.strategy.export.comment')]: this.getItemLanguageField(item, 'comentaire') || '',
-            [this.translate.instant('dashboard_tabs.strategy.export.strategy')]: item.strategie || ''
+            [this.translate.instant('dashboard_tabs.strategy.export.strategy')]: this.getItemLanguageField(item, 'strategie') || ''
           });
         });
       });
