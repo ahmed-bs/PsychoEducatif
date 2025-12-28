@@ -946,14 +946,18 @@
       "labels": {
         "title": "Title",
         "title_ar": "العنوان",
+        "title_en": "Title",
         "description": "Description",
-        "description_ar": "الوصف"
+        "description_ar": "الوصف",
+        "description_en": "Description"
       },
       "placeholders": {
         "title": "Title",
         "title_ar": "العنوان",
+        "title_en": "Title",
         "description": "Description",
-        "description_ar": "الوصف"
+        "description_ar": "الوصف",
+        "description_en": "Description"
       },
       "buttons": {
         "cancel": "Cancel",
