@@ -21,9 +21,13 @@ export class StrategyService {
     return this.http.get<Strategy[]>(this.baseUrl, { params });
   }
 
-  getCategoriesWithPartielItems(): Observable<CategoriesWithPartielItemsResponse> {
+  getCategoriesWithPartielItems(profileId: number | null = null): Observable<CategoriesWithPartielItemsResponse> {
+    let params = new HttpParams();
+    if (profileId !== null) {
+      params = params.set('profile_id', profileId.toString());
+    }
     const url = `${this.baseUrl}categories-with-partiel-items/`;
-    return this.http.get<CategoriesWithPartielItemsResponse>(url);
+    return this.http.get<CategoriesWithPartielItemsResponse>(url, { params });
   }
 
 

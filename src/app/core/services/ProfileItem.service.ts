@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -31,9 +31,13 @@ export class ProfileItemService {
     }
 
     // List items for a domain
-    getItems(domainId: number): Observable<ProfileItem[]> {
-        const url = `${this.baseUrl}?domain_id=${domainId}`;
-        return this.http.get<ApiResponse<ProfileItem[]>>(url).pipe(
+    getItems(domainId: number, profileId: number | null = null): Observable<ProfileItem[]> {
+        let params = new HttpParams().set('domain_id', domainId.toString());
+        if (profileId !== null && profileId !== undefined) {
+            params = params.set('profile_id', profileId.toString());
+        }
+        const url = `${this.baseUrl}`;
+        return this.http.get<ApiResponse<ProfileItem[]>>(url, { params }).pipe(
             map(response => response.data || []),
             catchError(this.handleError)
         );
