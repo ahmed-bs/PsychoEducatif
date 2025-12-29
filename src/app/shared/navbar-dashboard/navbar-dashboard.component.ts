@@ -16,6 +16,7 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   currentLang: string = 'fr';
   currentUser: any = null;
   private languageSubscription: Subscription;
+  showLanguageMenu: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -90,6 +91,21 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   // Language switcher method
   switchLanguage(language: string) {
     this.sharedService.changeLanguage(language);
+    this.showLanguageMenu = false; // Close menu after selection
+  }
+
+  // Toggle language menu
+  toggleLanguageMenu() {
+    this.showLanguageMenu = !this.showLanguageMenu;
+  }
+
+  // Close language menu when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.language-menu-container')) {
+      this.showLanguageMenu = false;
+    }
   }
 
   toggleSidebarState(): void {

@@ -37,37 +37,82 @@ nav {
   margin: 0 1rem;
 }
 
-.language-switcher {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  background: rgba(162, 197, 233, 0.1);
-  border-radius: 20px;
-  padding: 0.25rem;
+.language-menu-container {
+  position: relative;
+  display: inline-block;
 }
 
-.lang-btn {
-  padding: 0.5rem 1rem;
+.lang-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   border: none;
+  border-radius: 50%;
+  background: rgba(162, 197, 233, 0.1);
+  color: #2c3e50;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.lang-icon-btn:hover {
+  background: rgba(162, 197, 233, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(162, 197, 233, 0.4);
+}
+
+.language-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: white;
+  border: 1px solid rgba(162, 197, 233, 0.3);
   border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
   background: transparent;
   color: #2c3e50;
   cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
   transition: all 0.3s ease;
-  min-width: 45px;
+  text-align: left;
+  font-size: 0.875rem;
 }
 
-.lang-btn:hover {
-  background: rgba(162, 197, 233, 0.3);
-  transform: translateY(-1px);
+.lang-option:hover {
+  background: rgba(162, 197, 233, 0.1);
 }
 
-.lang-btn.active {
+.lang-option.active {
   background: #a2c5e9;
   color: white;
-  box-shadow: 0 2px 8px rgba(162, 197, 233, 0.4);
+  font-weight: 500;
+}
+
+.lang-code {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.lang-name {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.lang-option.active .lang-name {
+  color: white;
 }
 
 /* Mobile responsiveness for language switcher */
@@ -77,15 +122,16 @@ nav {
     margin: 0.5rem 0;
   }
   
-  .language-switcher {
-    gap: 0.25rem;
-    padding: 0.2rem;
+  .lang-icon-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.125rem;
   }
-  
-  .lang-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-    min-width: 40px;
+
+  .language-dropdown {
+    right: auto;
+    left: 0;
+    min-width: 140px;
   }
 }
 
