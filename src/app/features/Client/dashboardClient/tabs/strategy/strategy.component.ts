@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Strategy, CategoryWithPartielItems } from 'src/app/core/models/strategy';
 import { AddStrategyModalComponent } from '../../modals/add-strategy-modal/add-strategy-modal.component';
@@ -37,7 +37,7 @@ interface DomainWithPartielItems extends ProfileDomain {
   templateUrl: './strategy.component.html',
   styleUrls: ['./strategy.component.css']
 })
-export class StrategyComponent implements OnInit, OnDestroy {
+export class StrategyComponent implements OnInit, OnDestroy, OnChanges {
   @Input() currentProfileId: number | null = null;
 
   strategies: Strategy[] = [];
@@ -63,6 +63,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
   private saveSubscription: Subscription | undefined;
   private deleteSubscription: Subscription | undefined;
   private categoriesSubscription: Subscription | undefined;
+  private domainsSubscription: Subscription | undefined;
   private languageSubscription: Subscription;
 
   constructor(
@@ -94,12 +95,40 @@ export class StrategyComponent implements OnInit, OnDestroy {
 
     if (this.currentProfileId) {
       this.loadStrategies();
+      // Load categories with partiel items
+      this.loadCategoriesWithPartielItems();
     } else {
       console.warn('StrategyComponent initialized without a currentProfileId. Cannot load strategies.');
     }
+  }
 
-    // Load categories with partiel items
-    this.loadCategoriesWithPartielItems();
+  ngOnChanges(changes: SimpleChanges): void {
+    // Reload data when profile ID changes
+    if (changes['currentProfileId'] && !changes['currentProfileId'].firstChange) {
+      const previousProfileId = changes['currentProfileId'].previousValue;
+      const currentProfileId = changes['currentProfileId'].currentValue;
+      
+      if (previousProfileId !== currentProfileId) {
+        // Cancel any ongoing subscriptions
+        this.categoriesSubscription?.unsubscribe();
+        this.domainsSubscription?.unsubscribe();
+        this.strategiesSubscription?.unsubscribe();
+        
+        // Clear existing data
+        this.categoriesWithPartielItems = [];
+        this.domainsWithPartielItems = [];
+        this.filteredDomainsWithPartielItems = [];
+        this.strategies = [];
+        this.isLoadingCategories = false;
+        this.isLoadingDomains = false;
+        
+        // Reload data for the new profile
+        if (currentProfileId) {
+          this.loadStrategies();
+          this.loadCategoriesWithPartielItems();
+        }
+      }
+    }
   }
 
   initializeStatusFilterOptions(): void {
@@ -131,6 +160,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
     this.saveSubscription?.unsubscribe();
     this.deleteSubscription?.unsubscribe();
     this.categoriesSubscription?.unsubscribe();
+    this.domainsSubscription?.unsubscribe();
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
@@ -150,9 +180,22 @@ export class StrategyComponent implements OnInit, OnDestroy {
   }
 
   loadCategoriesWithPartielItems(): void {
+    if (!this.currentProfileId) {
+      console.warn('Cannot load categories: currentProfileId is not set');
+      this.isLoadingCategories = false;
+      this.isLoadingDomains = false;
+      return;
+    }
+
     this.isLoadingCategories = true;
     this.isLoadingDomains = true;
-    this.categoriesSubscription = this.strategyService.getCategoriesWithPartielItems().subscribe({
+    
+    // Unsubscribe from previous subscription if it exists
+    if (this.categoriesSubscription) {
+      this.categoriesSubscription.unsubscribe();
+    }
+    
+    this.categoriesSubscription = this.strategyService.getCategoriesWithPartielItems(this.currentProfileId).subscribe({
       next: (response) => {
         this.categoriesWithPartielItems = response.data || [];
         this.isLoadingCategories = false;
@@ -173,15 +216,27 @@ export class StrategyComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (!this.currentProfileId) {
+      console.warn('Cannot load domains: currentProfileId is not set');
+      this.isLoadingDomains = false;
+      return;
+    }
+
     // Fetch domains for each category
     const domainRequests = this.categoriesWithPartielItems.map(category =>
       this.profileDomainService.getDomains(category.value).pipe(
         switchMap((domains: ProfileDomain[]) => {
           if (domains.length === 0) return of([]);
           
-          // Get items for each domain to check for partiel status
+          // Get items for each domain to check for partiel status, filtered by profile
+          // Ensure profileId is always passed as a number (not null)
+          const profileIdForItems = this.currentProfileId as number;
+          if (!profileIdForItems) {
+            console.error('Profile ID is required but not set');
+            return of([]);
+          }
           const itemRequests = domains.map(domain =>
-            this.profileItemService.getItems(domain.id).pipe(
+            this.profileItemService.getItems(domain.id, profileIdForItems).pipe(
               map((items: ProfileItem[]) => {
                 // Normalize items to ensure both commentaire spellings are available
                 const normalizedItems = items.map(item => {
@@ -226,7 +281,12 @@ export class StrategyComponent implements OnInit, OnDestroy {
       )
     );
 
-    forkJoin(domainRequests).subscribe({
+    // Unsubscribe from previous subscription if it exists
+    if (this.domainsSubscription) {
+      this.domainsSubscription.unsubscribe();
+    }
+    
+    this.domainsSubscription = forkJoin(domainRequests).subscribe({
       next: (results) => {
         // Flatten the array of arrays
         this.domainsWithPartielItems = results.flat();
