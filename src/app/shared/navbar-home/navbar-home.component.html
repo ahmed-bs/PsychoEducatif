@@ -14,25 +14,36 @@
     <li><a routerLink="/strategy" routerLinkActive="active-link"><i class="fas fa-lightbulb"></i> {{ 'navbar.menu.strategies' | translate }}</a></li>
     <li class="nav__language">
       <!-- Language Switcher -->
-      <div class="language-switcher">
+      <div class="language-menu-container">
         <button 
-          class="lang-btn" 
-          [class.active]="currentLang === 'fr'"
-          (click)="switchLanguage('fr')">
-          FR
+          class="lang-icon-btn" 
+          (click)="toggleLanguageMenu()"
+          [attr.aria-label]="'Language selector'">
+          <i class="fas fa-globe"></i>
         </button>
-        <button 
-          class="lang-btn" 
-          [class.active]="currentLang === 'ar'"
-          (click)="switchLanguage('ar')">
-          عربي
-        </button>
-        <button 
-          class="lang-btn" 
-          [class.active]="currentLang === 'en'"
-          (click)="switchLanguage('en')">
-          EN
-        </button>
+        <div class="language-dropdown" *ngIf="showLanguageMenu">
+          <button 
+            class="lang-option" 
+            [class.active]="currentLang === 'fr'"
+            (click)="switchLanguage('fr')">
+            <span class="lang-code">FR</span>
+            <span class="lang-name">Français</span>
+          </button>
+          <button 
+            class="lang-option" 
+            [class.active]="currentLang === 'ar'"
+            (click)="switchLanguage('ar')">
+            <span class="lang-code">عربي</span>
+            <span class="lang-name">العربية</span>
+          </button>
+          <button 
+            class="lang-option" 
+            [class.active]="currentLang === 'en'"
+            (click)="switchLanguage('en')">
+            <span class="lang-code">EN</span>
+            <span class="lang-name">English</span>
+          </button>
+        </div>
       </div>
     </li>
     <li class="nav__btns">

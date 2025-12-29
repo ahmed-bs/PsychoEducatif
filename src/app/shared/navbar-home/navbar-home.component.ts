@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class NavbarHomeComponent implements OnInit, OnDestroy {
   currentLang: string = 'fr';
   private languageSubscription!: Subscription;
+  showLanguageMenu: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -53,5 +54,20 @@ export class NavbarHomeComponent implements OnInit, OnDestroy {
   // Language switcher method
   switchLanguage(language: string): void {
     this.sharedService.changeLanguage(language);
+    this.showLanguageMenu = false; // Close menu after selection
+  }
+
+  // Toggle language menu
+  toggleLanguageMenu(): void {
+    this.showLanguageMenu = !this.showLanguageMenu;
+  }
+
+  // Close language menu when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.language-menu-container')) {
+      this.showLanguageMenu = false;
+    }
   }
 }

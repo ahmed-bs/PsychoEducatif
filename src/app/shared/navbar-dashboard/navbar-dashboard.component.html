@@ -9,25 +9,36 @@
 
   <div class="desktop-right-section">
     <!-- Language Switcher for Desktop -->
-    <div class="language-switcher-desktop">
+    <div class="language-menu-container">
       <button 
-        class="lang-btn-desktop" 
-        [class.active]="currentLang === 'fr'"
-        (click)="switchLanguage('fr')">
-        FR
+        class="lang-icon-btn-desktop" 
+        (click)="toggleLanguageMenu()"
+        [attr.aria-label]="'Language selector'">
+        <i class='bx bx-globe'></i>
       </button>
-      <button 
-        class="lang-btn-desktop" 
-        [class.active]="currentLang === 'ar'"
-        (click)="switchLanguage('ar')">
-        عربي
-      </button>
-      <button 
-        class="lang-btn-desktop" 
-        [class.active]="currentLang === 'en'"
-        (click)="switchLanguage('en')">
-        EN
-      </button>
+      <div class="language-dropdown" *ngIf="showLanguageMenu">
+        <button 
+          class="lang-option" 
+          [class.active]="currentLang === 'fr'"
+          (click)="switchLanguage('fr')">
+          <span class="lang-code">FR</span>
+          <span class="lang-name">Français</span>
+        </button>
+        <button 
+          class="lang-option" 
+          [class.active]="currentLang === 'ar'"
+          (click)="switchLanguage('ar')">
+          <span class="lang-code">عربي</span>
+          <span class="lang-name">العربية</span>
+        </button>
+        <button 
+          class="lang-option" 
+          [class.active]="currentLang === 'en'"
+          (click)="switchLanguage('en')">
+          <span class="lang-code">EN</span>
+          <span class="lang-name">English</span>
+        </button>
+      </div>
     </div>
 
     <a class="profile"> <img src="assets/logo.png" alt="Profile" class="w-9 h-9 object-cover rounded-full">
@@ -54,25 +65,36 @@
   <div class="navbar-right">
     <div class="nav-actions">
       <!-- Language Switcher -->
-      <div class="language-switcher">
+      <div class="language-menu-container">
         <button 
-          class="lang-btn" 
-          [class.active]="currentLang === 'fr'"
-          (click)="switchLanguage('fr')">
-          FR
+          class="lang-icon-btn" 
+          (click)="toggleLanguageMenu()"
+          [attr.aria-label]="'Language selector'">
+          <i class='bx bx-globe'></i>
         </button>
-        <button 
-          class="lang-btn" 
-          [class.active]="currentLang === 'ar'"
-          (click)="switchLanguage('ar')">
-          عربي
-        </button>
-        <button 
-          class="lang-btn" 
-          [class.active]="currentLang === 'en'"
-          (click)="switchLanguage('en')">
-          EN
-        </button>
+        <div class="language-dropdown" *ngIf="showLanguageMenu">
+          <button 
+            class="lang-option" 
+            [class.active]="currentLang === 'fr'"
+            (click)="switchLanguage('fr')">
+            <span class="lang-code">FR</span>
+            <span class="lang-name">Français</span>
+          </button>
+          <button 
+            class="lang-option" 
+            [class.active]="currentLang === 'ar'"
+            (click)="switchLanguage('ar')">
+            <span class="lang-code">عربي</span>
+            <span class="lang-name">العربية</span>
+          </button>
+          <button 
+            class="lang-option" 
+            [class.active]="currentLang === 'en'"
+            (click)="switchLanguage('en')">
+            <span class="lang-code">EN</span>
+            <span class="lang-name">English</span>
+          </button>
+        </div>
       </div>
       
       <div class="user-profile">
