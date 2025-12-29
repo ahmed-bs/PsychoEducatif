@@ -1,7 +1,7 @@
 <section class="featured-section">
   <header class="header__container">
     <div class="header__content">
-      <h2 class="animated-header">{{ 'strategies_featured_section.header_content' | translate }}</h2>
+      <h2 class="animated-header">{{ getTranslationKey('strategies_featured_section.header_content') | translate }}</h2>
     </div>
     <div class="header__image">
       <img src="assets/img/Strategy.png" alt="header" />
@@ -11,32 +11,32 @@
 
 <section class="strategies-section">
   <div class="title">
-    <h1>{{ 'strategies_section.title' | translate }}</h1>
+    <h1>{{ getTranslationKey('strategies_section.title') | translate }}</h1>
   </div>
   <div class="strategy-cards">
     <!-- Card 1 -->
     <div class="strategy-card">
-      <img [src]="'assets/img/Autism (2).gif'" [attr.alt]="'strategies_section.items.interactive_tools.image_alt' | translate">
-      <h3>{{ 'strategies_section.items.interactive_tools.title' | translate }}</h3>
-      <p>{{ 'strategies_section.items.interactive_tools.description' | translate }}</p>
+      <img [src]="'assets/img/Autism (2).gif'" [attr.alt]="getTranslationKey('strategies_section.items.interactive_tools.image_alt') | translate">
+      <h3>{{ getTranslationKey('strategies_section.items.interactive_tools.title') | translate }}</h3>
+      <p>{{ getTranslationKey('strategies_section.items.interactive_tools.description') | translate }}</p>
     </div>
     <!-- Card 2 -->
     <div class="strategy-card">
-      <img [src]="'assets/img/Autism (1).gif'" [attr.alt]="'strategies_section.items.personalized_approach.image_alt' | translate">
-      <h3>{{ 'strategies_section.items.personalized_approach.title' | translate }}</h3>
-      <p>{{ 'strategies_section.items.personalized_approach.description' | translate }}</p>
+      <img [src]="'assets/img/Autism (1).gif'" [attr.alt]="getTranslationKey('strategies_section.items.personalized_approach.image_alt') | translate">
+      <h3>{{ getTranslationKey('strategies_section.items.personalized_approach.title') | translate }}</h3>
+      <p>{{ getTranslationKey('strategies_section.items.personalized_approach.description') | translate }}</p>
     </div>
     <!-- Card 3 -->
     <div class="strategy-card">
-      <img [src]="'assets/img/Autism.gif'" [attr.alt]="'strategies_section.items.family_involvement.image_alt' | translate">
-      <h3>{{ 'strategies_section.items.family_involvement.title' | translate }}</h3>
-      <p>{{ 'strategies_section.items.family_involvement.description' | translate }}</p>
+      <img [src]="'assets/img/Autism.gif'" [attr.alt]="getTranslationKey('strategies_section.items.family_involvement.image_alt') | translate">
+      <h3>{{ getTranslationKey('strategies_section.items.family_involvement.title') | translate }}</h3>
+      <p>{{ getTranslationKey('strategies_section.items.family_involvement.description') | translate }}</p>
     </div>
     <!-- Card 4 -->
     <div class="strategy-card">
-      <img [src]="'assets/img/Autism (2).gif'" [attr.alt]="'strategies_section.items.progress_tracking.image_alt' | translate">
-      <h3>{{ 'strategies_section.items.progress_tracking.title' | translate }}</h3>
-      <p>{{ 'strategies_section.items.progress_tracking.description' | translate }}</p>
+      <img [src]="'assets/img/Autism (2).gif'" [attr.alt]="getTranslationKey('strategies_section.items.progress_tracking.image_alt') | translate">
+      <h3>{{ getTranslationKey('strategies_section.items.progress_tracking.title') | translate }}</h3>
+      <p>{{ getTranslationKey('strategies_section.items.progress_tracking.description') | translate }}</p>
     </div>
   </div>
 </section>

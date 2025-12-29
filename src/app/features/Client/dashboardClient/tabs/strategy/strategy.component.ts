@@ -26,6 +26,7 @@ interface DomainWithPartielItems extends ProfileDomain {
   partiel_count?: number;
   categoryName?: string;
   categoryNameAr?: string;
+  categoryNameEn?: string;
   expanded?: boolean;
 }
 
@@ -205,6 +206,7 @@ export class StrategyComponent implements OnInit, OnDestroy {
                     partiel_count: partielItems.length,
                     categoryName: category.label,
                     categoryNameAr: category.label_ar,
+                    categoryNameEn: (category as any).label_en,
                     expanded: false
                   } as DomainWithPartielItems;
                 }
@@ -269,7 +271,15 @@ export class StrategyComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'description') {
         return domain.description_ar || domain.description || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return (domain as any).name_en || domain.name || '';
+      } else if (fieldName === 'description') {
+        return (domain as any).description_en || domain.description || '';
+      }
     } else {
+      // For French language (default), use non-_ar/_en fields
       if (fieldName === 'name') {
         return domain.name || '';
       } else if (fieldName === 'description') {
@@ -282,6 +292,8 @@ export class StrategyComponent implements OnInit, OnDestroy {
   getCategoryName(domain: DomainWithPartielItems): string {
     if (this.currentLanguage === 'ar' && domain.categoryNameAr) {
       return domain.categoryNameAr;
+    } else if (this.currentLanguage === 'en' && domain.categoryNameEn) {
+      return domain.categoryNameEn;
     }
     return domain.categoryName || '';
   }
@@ -300,6 +312,8 @@ export class StrategyComponent implements OnInit, OnDestroy {
   hasStrategy(item: ProfileItem): boolean {
     if (this.currentLanguage === 'ar') {
       return !!(item.strategie_ar && item.strategie_ar.trim());
+    } else if (this.currentLanguage === 'en') {
+      return !!((item as any).strategie_en && (item as any).strategie_en.trim()) || !!(item.strategie && item.strategie.trim());
     }
     return !!(item.strategie && item.strategie.trim());
   }
@@ -334,7 +348,20 @@ export class StrategyComponent implements OnInit, OnDestroy {
       } else if (fieldName === 'strategie') {
         return item.strategie_ar || item.strategie || '';
       }
+    } else if (this.currentLanguage === 'en') {
+      // For English language, use _en fields
+      if (fieldName === 'name') {
+        return item.name_en || item.name || '';
+      } else if (fieldName === 'description') {
+        return item.description_en || item.description || '';
+      } else if (fieldName === 'comentaire') {
+        // API returns commentaire (with 'n'), prioritize that
+        return item.commentaire_en || (item as any).commentaire || item.comentaire || '';
+      } else if (fieldName === 'strategie') {
+        return item.strategie_en || item.strategie || '';
+      }
     } else {
+      // For French language (default), use non-_ar/_en fields
       if (fieldName === 'name') {
         return item.name || '';
       } else if (fieldName === 'description') {
@@ -357,6 +384,8 @@ export class StrategyComponent implements OnInit, OnDestroy {
     const commentaireFr = (item as any).commentaire || item.comentaire || '';
     if (this.currentLanguage === 'ar') {
       this.commentText = item.commentaire_ar || commentaireFr || '';
+    } else if (this.currentLanguage === 'en') {
+      this.commentText = item.commentaire_en || commentaireFr || '';
     } else {
       this.commentText = commentaireFr;
     }
@@ -374,6 +403,8 @@ export class StrategyComponent implements OnInit, OnDestroy {
     this.selectedItemForStrategy = item;
     if (this.currentLanguage === 'ar') {
       this.strategyText = item.strategie_ar || item.strategie || '';
+    } else if (this.currentLanguage === 'en') {
+      this.strategyText = (item as any).strategie_en || item.strategie || '';
     } else {
       this.strategyText = item.strategie || '';
     }
@@ -525,11 +556,29 @@ export class StrategyComponent implements OnInit, OnDestroy {
       if (this.selectedItemForComment.comentaire || (this.selectedItemForComment as any).commentaire) {
         updateData.commentaire = (this.selectedItemForComment as any).commentaire || this.selectedItemForComment.comentaire;
       }
+      // Keep the English comment if it exists
+      if (this.selectedItemForComment.commentaire_en) {
+        updateData.commentaire_en = this.selectedItemForComment.commentaire_en;
+      }
+    } else if (this.currentLanguage === 'en') {
+      updateData.commentaire_en = this.commentText;
+      // Keep the French comment if it exists
+      if (this.selectedItemForComment.comentaire || (this.selectedItemForComment as any).commentaire) {
+        updateData.commentaire = (this.selectedItemForComment as any).commentaire || this.selectedItemForComment.comentaire;
+      }
+      // Keep the Arabic comment if it exists
+      if (this.selectedItemForComment.commentaire_ar) {
+        updateData.commentaire_ar = this.selectedItemForComment.commentaire_ar;
+      }
     } else {
       updateData.commentaire = this.commentText;
       // Keep the Arabic comment if it exists
       if (this.selectedItemForComment.commentaire_ar) {
         updateData.commentaire_ar = this.selectedItemForComment.commentaire_ar;
+      }
+      // Keep the English comment if it exists
+      if (this.selectedItemForComment.commentaire_en) {
+        updateData.commentaire_en = this.selectedItemForComment.commentaire_en;
       }
     }
 
