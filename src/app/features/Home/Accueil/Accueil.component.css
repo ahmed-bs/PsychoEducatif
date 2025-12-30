@@ -766,6 +766,59 @@ html {
   transform: translateY(-50%);
 }
 
+.header__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  z-index: 3;
+  max-width: 600px;
+}
+
+.header__content.rtl {
+  align-items: flex-end;
+  text-align: right;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.header__title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  color: var(--h1);
+  line-height: 5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.header__subtitle {
+  font-size: 1.25rem;
+  color: #ffffff;
+  line-height: 1.75rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+}
+
+.header__button {
+  padding: 12px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--h1);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.header__button:hover {
+  background-color: #34A1CD;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
 .header__content h1,
 .header__content h2,
 .header__content .animated-header {
@@ -892,6 +945,23 @@ html {
     font-size: 14px;
   }
 
+  .header__title {
+    font-size: 2.5rem;
+    line-height: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .header__subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .header__button {
+    padding: 10px 30px;
+    font-size: 1rem;
+  }
+
   .header__content h1,
   .header__content h2,
   .header__content .animated-header {
@@ -905,7 +975,10 @@ html {
   }
 
   .featured-section {
-    min-height: 500px;
+    min-height: 300px;
+    max-height: 350px;
+    height: 320px;
+    margin-top: 0;
   }
 
   .header-video {
@@ -1687,11 +1760,15 @@ html {
 -----------------------------------------*/
 .featured-section {   
   position: relative;
+  top: -10px;
   width: 100%;
   padding: 0;
   margin: 0;
+  margin-top: -80px;
   overflow: hidden;
-  min-height: 600px;
+  min-height: 550px;
+  max-height: 650px;
+  height: 600px;
 }
 
 .video-background {
@@ -1736,11 +1813,18 @@ html {
   z-index: 2;
   max-width: 1200px;
   margin: auto;
-  padding-block: 8rem 2rem;
-  padding-inline: 1rem;
-  display: grid;
-  gap: 16rem;
+  padding-block: 3rem 2rem;
+  padding-inline: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
   overflow-x: hidden;
+  height: 100%;
+}
+
+.header__container.rtl {
+  justify-content: flex-end;
 }
 
 .featured-section .row {

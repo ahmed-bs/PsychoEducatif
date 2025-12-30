@@ -11,6 +11,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class AccueilComponent implements OnInit, OnDestroy {
   private languageSubscription!: Subscription;
+  currentLang: string = 'fr';
 
   videoUrl: SafeResourceUrl;
 
@@ -27,10 +28,12 @@ export class AccueilComponent implements OnInit, OnDestroy {
     // Initialize translation with current language from shared service
     this.translate.setDefaultLang('fr');
     const currentLang = this.sharedService.getCurrentLanguage();
+    this.currentLang = currentLang;
     this.translate.use(currentLang);
 
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.currentLang = lang;
       this.translate.use(lang);
     });
 
