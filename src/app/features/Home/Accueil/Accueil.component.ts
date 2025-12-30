@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-Accueil',
@@ -11,10 +12,16 @@ import { Subscription } from 'rxjs';
 export class AccueilComponent implements OnInit, OnDestroy {
   private languageSubscription!: Subscription;
 
+  videoUrl: SafeResourceUrl;
+
   constructor(
     private translate: TranslateService,
-    private sharedService: SharedService
-  ) { }
+    private sharedService: SharedService,
+    private sanitizer: DomSanitizer
+  ) {
+    const videoUrlString = 'https://www.youtube.com/embed/extcXqu8Ki4?autoplay=1&loop=1&playlist=extcXqu8Ki4&start=20&mute=1&playsinline=1&controls=0&showinfo=0&autohide=1&allowfullscreen=true&modestbranding=1';
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrlString);
+  }
 
   ngOnInit() {
     // Initialize translation with current language from shared service
@@ -167,7 +174,7 @@ export class AccueilComponent implements OnInit, OnDestroy {
       });
     });
 
-    // Add rotation animation for icons on hover (excluding accordion icons)
+    // Add rotation animation for icons on hover
     const icons = document.querySelectorAll('.icon-holder i, .header__image__card span i');
     icons.forEach(icon => {
       icon.addEventListener('mouseenter', () => {
