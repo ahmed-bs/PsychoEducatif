@@ -84,201 +84,204 @@ a {
 /***************************************************************************/
 
 /***************************************************************************/  
+/* Animation for section headers */
+.section-header {
+  position: relative;
+}
 
-.animated-header {   
-    font-size: 2rem;  
-    position: relative;  
-  }  
-  
-  
-  .header__container {  
-    max-width: 1200px;  
-    margin: auto;  
-    padding-block: 8rem 2rem;  
-    padding-inline: 1rem;  
-    display: grid;  
-    gap: 16rem;  
-    overflow-x: hidden;  
-  }  
-  
-  .header__image {  
-    position: relative;  
-    isolation: isolate;  
-  }  
-  
-  .header__image::before {  
-    position: absolute;  
-    content: "";  
-    width: 100%;  
-    max-width: 550px;  
-    aspect-ratio: 1;  
-    top: 50%;  
-    left: 50%;  
-    transform: translate(-50%, -50%);  
-    background-size: cover;  
-    background-position: center center;  
-    background-repeat: no-repeat;  
-    border-radius: 100%;  
-    opacity: 0.5;  
-    z-index: -1;  
-  }  
-  
-  .header__image img {  
-    max-width: 300px;  
-    margin-inline: auto;  
-  }  
 
-  .header__image__card {  
-    position: absolute;  
-    padding: 0.75rem 1rem;  
-    display: flex;  
-    align-items: center;  
-    gap: 5px;  
-    font-size: 15px;  
-    font-weight: 300;  
-    color: black;  
-    background-color: white;  
-    white-space: nowrap;  
-    border-radius: 5px;  
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);  
-    z-index: 1;  
-  }  
+.header__container {
+  max-width: 1200px;
+  margin: auto;
+  padding-block: 8rem 2rem;
+  padding-inline: 1rem;
+  display: grid;
+  gap: 10rem;
   
-  .header__image__card span {  
-    font-size: 17px;  
-    font-weight: 400;  
-    color: rgb(0, 0, 0);  
-  }  
-  
-  .header__image__card-1 {  
-    top: 25%;  
-    left: 0;  
-    transform: translate(-50%, -50%);  
-  }  
-  
-  .header__image__card-2 {  
-    top: 5%;  
-    right: 2rem;  
-    transform: translateY(-50%);  
-  }  
-  
-  .header__image__card-3 {  
-    top: 60%;  
-    left: 0;  
-    transform: translateY(-50%);  
-  }  
-  
-  .header__image__card-4 {  
-    top: 70%;  
-    right: 0;  
-    transform: translateY(-50%);  
-  }  
-  
-  
-  .header__content h1 {  
-    margin-bottom: 1rem;  
-    font-size: 5rem;  
-    font-weight: 400;  
-    font-family: "Bebas Neue", sans-serif;  
-    color: black;  
-    line-height: 5.5rem;  
-    text-align: center;  
-  }  
-  
-  .header__content h1 span {  
-    color: rgb(123, 123, 198);  
-  }  
-  
-  .header__content p {  
-    margin-bottom: 2rem;  
-    color: var(--text-light);  
-    line-height: 1.75rem;  
-    text-align: center;  
-  }  
-  
-  .featured-section {
-    background-image: linear-gradient(to bottom right, #ffffff, #89c5f3);
+}
 
-    /* Teinte bleue avec transparence */
-      border-radius: 0 0 100px 100px;
-      padding-bottom: 5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  
-    }
-  
-  @media (width > 768px) {
-    .header__container {
-      padding-block: 2rem;
-      grid-template-columns: repeat(2, 1fr);
-      align-items: center;
-    }
-    .header__image img {
-      max-width: 520px;
-      margin-inline: auto;
-    }
-    .header__image {
-      grid-area: 1/2/2/3;
-    }
-    .header__content :is(h1, p, .bar) {
-      text-align: left;
-    }
-    .header__image__card {
-      position: absolute;
-      padding: 0.75rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: black;
-      background-color: white;
-      white-space: nowrap;
-      border-radius: 5px;
-      box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-     
-    }
-    .header__image__card:hover {
-      background-color: #f0f0f0; /* Couleur de fond lors du hover */
-      box-shadow: 5px 5px 25px rgba(117, 178, 236, 0.3); /* Ombre plus marquée */
-      color: #333; 
-      cursor: pointer;
-  
-    }
-    .header__image__card span {
-      font-size: 1.5rem;
-      font-weight: 600;
-      
-    }
+.header__image {
+  position: relative;
+  isolation: isolate;
+}
+
+.header__image::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  max-width: 550px;
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 100%;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.header__image img {
+  max-width: 250px;
+  margin-inline: auto;
+  border-radius: 160px;
+}
+
+
+.header__content h1 {
+  margin-bottom: 1rem;
+  font-size: 5rem;
+  font-weight: 400;
+  font-family: "Bebas Neue", sans-serif;
+  color: black;
+  line-height: 5.5rem;
+  text-align: center;
+}
+
+.header__content h1 span {
+  color: rgb(123, 123, 198);
+}
+
+.header__content p {
+  margin-bottom: 2rem;
+  color: var(--text-light);
+  /* Vérifiez que cette variable est définie */
+  line-height: 1.75rem;
+  text-align: center;
+}
+
+
+
+@media (width > 768px) {
+  .header__container {
+    padding-block: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+
+  .header__image img {
+    max-width: 520px;
+    margin-inline: auto;
+  }
+
+  .header__image {
+    grid-area: 1/2/2/3;
+  }
+
+  .header__content :is(h1, p, .bar) {
+    text-align: left;
+  }
+
+  .header__image__card {
+    position: absolute;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: black;
+    background-color: white;
     
-    .header__image__card-1 {
-      top: 25%;
-      left: 0;
-      transform: translate(-50%, -50%);
-    }
-    
-    .header__image__card-2 {
-      top: 14%;
-      right: 2rem;
-      transform: translateY(-50%);
-    }
-    
-    .header__image__card-3 {
-      top: 60%;
-      left: 0;
-      transform: translate(-52%, -50%);
-    }
-    
-    .header__image__card-4 {
-      top: 70%;
-      right: 0;
-      transform: translateY(-50%);
-    }
-    
-    
-  
+    border-radius: 50px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .header__image__card span {
+    font-size: 1rem;
+    font-weight: 600;
     
   }
+
+  .header__image__card-1 {
+    top: 15%;
+    left: -68px;
+    transform: translate(-50%, -50%);
+  }
+
+  .header__image__card-2 {
+    top: 14%;
+    right: -4rem;
+    transform: translateY(-50%);
+  }
+
+  .header__image__card-3 {
+    top: 67%;
+    left: -52px;
+    transform: translateY(-50%);
+  }
+
+  .header__image__card-4 {
+    top: 66%;
+    right: -33px;
+    transform: translateY(-50%);
+  }
+
+}
+
+@media (width > 1024px) {
+  .header__content form {
+    flex-direction: row;
+  }
+
+  .header__content button {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 568px) {
+  .header__container {
+    padding-block: 4rem 1rem;
+    padding-inline: 0.5rem;
+    gap: 1rem;
+  }
+
+  .header__image img {
+    max-width: 180px;
+  }
+
+  .header__image__card {
+    padding: 0.5rem 0.75rem;
+    font-size: 12px;
+    gap: 3px;
+  }
+
+  .header__image__card span {
+    font-size: 14px;
+  }
+
+  .header__content h1 {
+    font-size: 3rem;
+    line-height: 3.5rem;
+  }
+
+  .header__content p {
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+  }
+
+
+}
+
+ /*---------------------------------------
+  TOPICS              
+-----------------------------------------*/
+.featured-section {   
+  background: url("/assets/image/banniere-desktop-autisme.png") no-repeat center center;
+  border-radius: 0 0 100px 100px;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ height: 400px;
+}
+
+.featured-section .row {
+  position: relative;
+  bottom: 100px;
+  margin-bottom: -100px;
+}
+  
   @media (width > 1024px) {
     .header__content form {
       flex-direction: row;
@@ -294,15 +297,6 @@ a {
         gap: 1rem;
       }
     
-      .header__image img {
-        max-width: 180px;
-      }
-    
-     
-      .header__image__card span {
-        font-size: 14px;
-      }
-    
       .header__content h1 {
         font-size: 3rem;
         line-height: 3.5rem;
@@ -312,11 +306,7 @@ a {
         font-size: 0.9rem;
         line-height: 1.5rem;
       }
-    
-      
     }
-  
-  
   
   
   /*******************************************/

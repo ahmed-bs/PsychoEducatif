@@ -99,165 +99,22 @@ a {
 /* Header */
 /***************************************************************************/
 
-/***************************************************************************/  
+/***************************************************************************/ 
 
-.animated-header {   
-    font-size: 2rem;  
-    position: relative;  
-  }  
-  
-  .animated-header span {  
-    color: #f9a826;  
-    font-weight: bold;  
-    position: relative;  
-  }  
-  
-  .animated-header span::before {
-    content: "innovante"; /* Mot initial */
-    animation: changeWord 10s linear infinite; /* Durée totale de l'animation */
-  }
-  
-  @keyframes changeWord {  
-    0% {  
-      content: "innovante";  
-    }  
-    33% {  
-      content: "créative";  
-    }  
-    66% {  
-      content: "inclusive";  
-    }  
-    100% {  
-      content: "innovante";  
-    }  
-  }  
-  
-  .header__container {  
-    max-width: 1200px;  
-    margin: auto;  
-    padding-block: 8rem 2rem;  
-    padding-inline: 1rem;  
-    display: grid;  
-    gap: 16rem;  
-    overflow-x: hidden;  
-  }  
-  
-  .header__image {  
-    position: relative;  
-    isolation: isolate;  
-  }  
-  
-  .header__image::before {  
-    position: absolute;  
-    content: "";  
-    width: 100%;  
-    max-width: 550px;  
-    aspect-ratio: 1;  
-    top: 50%;  
-    left: 50%;  
-    transform: translate(-50%, -50%);  
-    background-size: cover;  
-    background-position: center center;  
-    background-repeat: no-repeat;  
-    border-radius: 100%;  
-    opacity: 0.5;  
-    z-index: -1;  
-  }  
-  
-  .header__image img {  
-    max-width: 300px;  
-    margin-inline: auto;  
-  }  
-  
-  
-  .header__content h1 {  
-    margin-bottom: 1rem;  
-    font-size: 5rem;  
-    font-weight: 400;  
-    font-family: "Bebas Neue", sans-serif;  
-    color: black;  
-    line-height: 5.5rem;  
-    text-align: center;  
-  }  
-  
-  .header__content h1 span {  
-    color: rgb(123, 123, 198);  
-  }  
-  
-  .header__content p {  
-    margin-bottom: 2rem;  
-    color: var(--text-light);  
-    line-height: 1.75rem;  
-    text-align: center;  
-  }  
-  
-  .featured-section {
-    background-image: linear-gradient(to bottom right, #ffffff, #89c5f3);
+.featured-section {   
+  background: url("/assets/image/reperage-precoce-des-TND-bd755af4.webp") no-repeat center center;
+  background-size: cover;
+  border-radius: 0 0 100px 100px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  min-height: 400px;
+}
 
-    /* Teinte bleue avec transparence */
-      border-radius: 0 0 100px 100px;
-      padding-bottom: 5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  
-    }
-  
-  @media (width > 768px) {
-    .header__container {
-      padding-block: 2rem;
-      grid-template-columns: repeat(2, 1fr);
-      align-items: center;
-    }
-    .header__image img {
-      max-width: 520px;
-      margin-inline: auto;
-    }
-    .header__image {
-      grid-area: 1/2/2/3;
-    }
-    .header__content :is(h1, p, .bar) {
-      text-align: left;
-    }
-    
-  
-    
-  }
-  @media (width > 1024px) {
-    .header__content form {
-      flex-direction: row;
-    }
-    .header__content button {
-      width: fit-content;
-    }
-  }
-  @media (max-width: 568px) {
-    
-      .header__container {
-        padding-block: 4rem 1rem;
-        padding-inline: 0.5rem;
-        gap: 1rem;
-      }
-    
-      .header__image img {
-        max-width: 180px;
-      }
-    
-     
-      .header__image__card span {
-        font-size: 14px;
-      }
-    
-      .header__content h1 {
-        font-size: 3rem;
-        line-height: 3.5rem;
-      }
-    
-      .header__content p {
-        font-size: 0.9rem;
-        line-height: 1.5rem;
-      }
-    
-      
-    }
+.featured-section .row {
+  position: relative;
+  bottom: 100px;
+  margin-bottom: -100px;
+}
   
   
   
