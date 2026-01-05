@@ -139,7 +139,7 @@
     "header_content": "A digital<br />solution <span class=\"text-indigo-600\"></span> for supporting children with autism."
   },
   "faq_section": {
-    "title": "🌟 About",
+    "title": "About",
     "description": "<span class=\"highlight font-semibold text-indigo-600\">PsychoÉducatif</span> is a digital platform designed to support children with autism in their development journey through an individualized and interactive approach. It offers assessment tools, educational strategies and adapted activities to meet the specific needs of each child.",
     "accordion": {
       "item1": {
@@ -253,7 +253,7 @@
     "discover_button": "Discover our Resources"
   },
   "skills_section": {
-    "title": "🎯 Why choose PsychoÉducatif?",
+    "title": "Why choose PsychoÉducatif?",
     "items": {
       "evaluation": {
         "title": "Accurate and personalized assessment",
@@ -277,7 +277,7 @@
     "header_content": "Assessment <br/>is a <span></span> key step in the psycho-educational support of children with autism. It helps understand their needs and skills to develop personalized plans."
   },
   "evaluation_objectives_section": {
-    "title": "🎯 Assessment Objectives",
+    "title": "Assessment Objectives",
     "items": {
       "strengths_and_weaknesses": {
         "title": "Identify the child's strengths and weaknesses",
@@ -294,7 +294,7 @@
     }
   },
   "digital_evaluation_advantages_section": {
-    "title": "🌟 Advantages of digital assessment",
+    "title": "Advantages of digital assessment",
     "items": {
       "psychoeducatif": {
         "title": "PsychoÉducatif",
@@ -303,7 +303,7 @@
     }
   },
   "evaluation_methodology_section": {
-    "title": "🧑‍🏫 Proposed assessment methodology",
+    "title": "Proposed assessment methodology",
     "items": {
       "child_profile": {
         "title": "Child profile creation",
@@ -333,7 +333,7 @@
     "header_content": "For optimal support of children with autism, together!"
   },
   "objectives_section": {
-    "title": "🌟 Our Objectives",
+    "title": " Our Objectives",
     "items": {
       "why_application": {
         "title": "Why this application?",
@@ -342,7 +342,7 @@
     }
   },
   "goals_section": {
-    "title": "🌟 What we aim to accomplish",
+    "title": "What we aim to accomplish",
     "items": {
       "facilitate_evaluation": {
         "title": "Facilitate needs assessment",

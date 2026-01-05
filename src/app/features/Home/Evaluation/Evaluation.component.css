@@ -145,15 +145,26 @@ a {
     border-radius: 50%;
     z-index: -1;
 }
-.featured-section {
-      background-image: linear-gradient(to bottom right, #ffffff, #89c5f3);
+/* Header */
+/***************************************************************************/
 
-    /* Teinte bleue avec transparence */
-      border-radius: 0 0 100px 100px;
-      padding-bottom: 5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+/***************************************************************************/ 
+
+.featured-section {   
+  background: url("/assets/image/parcours-aidant-de-personne-autiste-69c6779a.webp") no-repeat center center;
+  background-size: cover;
+  border-radius: 0 0 100px 100px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  min-height: 400px;
+}
+
+.featured-section .row {
+  position: relative;
+  bottom: 100px;
+  margin-bottom: -100px;
+}
   
-    }
 /***************************************************************************/
 
 /***************************************************************************/  

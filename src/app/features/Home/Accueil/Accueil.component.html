@@ -22,7 +22,19 @@
                 <img src="/assets/image/enfant-autiste.jpg" alt="header" />
             </div>
             <div class="header__content">
-                <h2 class="animated-header" [innerHTML]="'featured_section.header_content' | translate"></h2>
+                <div class="header__content-wrapper">
+                    <h2 class="animated-header" [innerHTML]="'featured_section.header_content' | translate"></h2>
+                    <div class="header__buttons">
+                        <button class="btn btn-signup" routerLink="/auth/signup">
+                            <i class="fas fa-user-plus"></i>
+                            {{ 'navbar.buttons.sign_up' | translate }}
+                        </button>
+                        <button class="btn btn-signin" routerLink="/auth/signin">
+                            <i class="fas fa-sign-in-alt"></i>
+                            {{ 'navbar.buttons.sign_in' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
     </section>
@@ -41,8 +53,8 @@
                 </div>
 
                 <div class="col-lg-6 col-12 m-auto slide-in-right">
-                    <p [innerHTML]="'faq_section.description' | translate"></p>
-                    <div class="accordion" id="accordionExample">
+                    <!-- <p class="faq-description" [innerHTML]="'faq_section.description' | translate"></p> -->
+                    <div class="accordion modern-accordion" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" aria-expanded="true" aria-controls="collapseOne">

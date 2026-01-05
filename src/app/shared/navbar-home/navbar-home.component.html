@@ -1,7 +1,35 @@
+<!-- Contact and Social Media Bar -->
+<div class="contact-social-bar">
+  <div class="contact-info">
+    <a href="mailto:contact&#64;evaluaction.com" class="contact-item">
+      <i class="fas fa-envelope"></i>
+      <span>contact&#64;evaluaction.com</span>
+    </a>
+    <a href="tel:+1234567890" class="contact-item">
+      <i class="fas fa-phone"></i>
+      <span>+123 456 7890</span>
+    </a>
+  </div>
+  <div class="social-media">
+    <a href="#" class="social-icon" aria-label="Facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="#" class="social-icon" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="#" class="social-icon" aria-label="LinkedIn">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="#" class="social-icon" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+  </div>
+</div>
 <nav>
   <div class="nav__header">
-    <div class="nav__logo">
+    <div class="nav__logo-container">
       <img class="nav__logo" src="assets/logo.png" alt="">
+      <span class="nav__logo-text">EvaluAction</span>
     </div>
     <div class="nav__menu__btn" id="menu-btn">
       <span><i class="ri-menu-line"></i></span>
@@ -17,36 +45,65 @@
       <div class="language-menu-container">
         <button 
           class="lang-icon-btn" 
+          type="button"
           (click)="toggleLanguageMenu()"
-          [attr.aria-label]="'Language selector'">
-          <i class="fas fa-globe"></i>
+          [attr.aria-expanded]="showLanguageMenu"
+          [attr.aria-label]="'Language selector'"
+          [attr.aria-haspopup]="true">
+          <i class="fas fa-globe" [class.rotating]="showLanguageMenu"></i>
+          <span class="current-lang-indicator">{{ currentLang.toUpperCase() }}</span>
         </button>
-        <div class="language-dropdown" *ngIf="showLanguageMenu">
+        <div 
+          class="language-dropdown" 
+          [class.show]="showLanguageMenu"
+          role="menu"
+          [attr.aria-hidden]="!showLanguageMenu">
           <button 
             class="lang-option" 
+            type="button"
+            role="menuitem"
             [class.active]="currentLang === 'fr'"
-            (click)="switchLanguage('fr')">
-            <span class="lang-code">FR</span>
-            <span class="lang-name">Français</span>
+            (click)="switchLanguage('fr')"
+            [attr.aria-current]="currentLang === 'fr' ? 'true' : null">
+            <span class="lang-flag">🇫🇷</span>
+            <span class="lang-content">
+              <span class="lang-code">FR</span>
+              <span class="lang-name">Français</span>
+            </span>
+            <i class="fas fa-check check-icon" *ngIf="currentLang === 'fr'"></i>
           </button>
           <button 
             class="lang-option" 
+            type="button"
+            role="menuitem"
             [class.active]="currentLang === 'ar'"
-            (click)="switchLanguage('ar')">
-            <span class="lang-code">عربي</span>
-            <span class="lang-name">العربية</span>
+            (click)="switchLanguage('ar')"
+            [attr.aria-current]="currentLang === 'ar' ? 'true' : null">
+            <span class="lang-flag">🇸🇦</span>
+            <span class="lang-content">
+              <span class="lang-code">عربي</span>
+              <span class="lang-name">العربية</span>
+            </span>
+            <i class="fas fa-check check-icon" *ngIf="currentLang === 'ar'"></i>
           </button>
           <button 
             class="lang-option" 
+            type="button"
+            role="menuitem"
             [class.active]="currentLang === 'en'"
-            (click)="switchLanguage('en')">
-            <span class="lang-code">EN</span>
-            <span class="lang-name">English</span>
+            (click)="switchLanguage('en')"
+            [attr.aria-current]="currentLang === 'en' ? 'true' : null">
+            <span class="lang-flag">🇬🇧</span>
+            <span class="lang-content">
+              <span class="lang-code">EN</span>
+              <span class="lang-name">English</span>
+            </span>
+            <i class="fas fa-check check-icon" *ngIf="currentLang === 'en'"></i>
           </button>
         </div>
       </div>
     </li>
-    <li class="nav__btns">
+    <!-- <li class="nav__btns">
       <button class="btn sign__up" routerLink="/auth/signup">
         <i class="fas fa-user-plus"></i> {{ 'navbar.buttons.sign_up' | translate }}
       </button>
@@ -64,6 +121,7 @@
           </path>
         </svg>
       </button>
-    </li>
+    </li> -->
   </ul>
 </nav>
+
