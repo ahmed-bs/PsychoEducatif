@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.url.includes('/login/') || request.url.includes('/register/')) {
+    if (request.url.includes('/email/login/') || request.url.includes('/email/register/') || request.url.includes('/login/') || request.url.includes('/register/')) {
       return next.handle(request); // No token added
     }
     request = request.clone({

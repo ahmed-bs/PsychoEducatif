@@ -20,7 +20,7 @@ export class AuthService {
       }
   
     register(data: Parent): Observable<any> {
-      return this.http.post(`${this.apiUrl}register/`, data,{ headers: this.getNoAuthHeaders() }).pipe(
+      return this.http.post(`${this.apiUrl}email/register/`, data,{ headers: this.getNoAuthHeaders() }).pipe(
         catchError((error) => {
           console.error(error);
           throw error;
@@ -38,8 +38,8 @@ export class AuthService {
           'Content-Type': 'application/json'
       });
   }
-    login(username_or_email: string, password: string): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${this.apiUrl}login/`, { username_or_email, password }).pipe(
+    login(email: string, password: string): Observable<LoginResponse> {
+        return this.http.post<LoginResponse>(`${this.apiUrl}email/login/`, { email, password }).pipe(
           catchError((error) => {
             console.error(error);
             throw error;

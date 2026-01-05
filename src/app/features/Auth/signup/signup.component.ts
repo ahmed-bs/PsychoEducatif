@@ -138,7 +138,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
       password: this.signupForm.value.password,
-      confirm_password: this.signupForm.value.confirm_password,
+      password_confirm: this.signupForm.value.confirm_password,
       user_type: 'parent', // Default value since field is removed from UI
       accepte_conditions: this.signupForm.value.accepte_conditions,
       bio: this.signupForm.value.bio || null
