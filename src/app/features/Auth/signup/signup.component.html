@@ -138,7 +138,7 @@
             formControlName="accepte_conditions" 
             class="form-check-input">
           <label for="accepte_conditions" class="checkbox-label">
-            <span [innerHTML]="'signup_form.terms_checkbox' | translate"></span>
+            <span [innerHTML]="'signup_form.terms_checkbox' | translate" (click)="handleTermsClick($event)"></span>
           </label>
           <span class="asterisk-placeholder">
             <span *ngIf="showErrors && accepte_conditions?.invalid" class="text-danger ms-2">{{ 'signup_form.terms_required_error' | translate }}</span>

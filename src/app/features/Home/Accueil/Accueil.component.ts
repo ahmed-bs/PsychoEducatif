@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/authService.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,10 +15,22 @@ export class AccueilComponent implements OnInit, OnDestroy {
 
   constructor(
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    // Check if user is already logged in (remember me is checked)
+    const token = this.authService.getToken();
+    const user = localStorage.getItem('user');
+    
+    if (token && user) {
+      // User is logged in, redirect to pick profile component (dashboard entry point)
+      this.router.navigate(['/pick_profileComponent']);
+      return;
+    }
+
     // Initialize translation with current language from shared service
     this.translate.setDefaultLang('fr');
     const currentLang = this.sharedService.getCurrentLanguage();
