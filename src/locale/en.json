@@ -4,6 +4,7 @@
     "select_child_prompt": "Please select a child's profile below.",
     "search_placeholder": "Search for a child by name",
     "no_children_message": "You have no children.",
+    "no_children_cloud_message": "You have no children. Create a new one first",
     "add_child_card": "Add a child",
     "add_child_button": "+"
   },
@@ -109,7 +110,14 @@
     },
     "buttons": {
       "sign_up": "Sign Up",
-      "sign_in": "Sign In"
+      "sign_in": "Sign In",
+      "change_account": "Change Account",
+      "change_account_confirm": {
+        "title": "Change Account",
+        "text": "Are you sure you want to change account? You will be logged out of this account.",
+        "confirm_button": "Yes, change",
+        "cancel_button": "Cancel"
+      }
     },
     "logo_name": "<span>Evalu'</span>Action",
     "search_placeholder": "Search..."

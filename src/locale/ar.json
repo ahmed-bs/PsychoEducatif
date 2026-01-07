@@ -4,6 +4,7 @@
     "select_child_prompt": "يرجى اختيار ملف أحد أطفالك أدناه.",
     "search_placeholder": "ابحث عن طفل بالاسم",
     "no_children_message": "ليس لديك أطفال.",
+    "no_children_cloud_message": "ليس لديك أطفال. قم بإنشاء واحد جديد أولاً",
     "add_child_card": "إضافة طفل",
     "add_child_button": "+"
   },
@@ -109,7 +110,14 @@
     },
     "buttons": {
       "sign_up": "التسجيل",
-      "sign_in": "تسجيل الدخول"
+      "sign_in": "تسجيل الدخول",
+      "change_account": "تغيير الحساب",
+      "change_account_confirm": {
+        "title": "تغيير الحساب",
+        "text": "هل أنت متأكد أنك تريد تغيير الحساب؟ سيتم تسجيل خروجك من هذا الحساب.",
+        "confirm_button": "نعم، تغيير",
+        "cancel_button": "إلغاء"
+      }
     },
     "logo_name": "<span>تقييم </span> العمل",
     "search_placeholder": "ابحث..."

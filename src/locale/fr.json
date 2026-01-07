@@ -4,6 +4,7 @@
     "select_child_prompt": "Veuillez sélectionner le profil d'un enfant ci-dessous.",
     "search_placeholder": "Rechercher un enfant par nom",
     "no_children_message": "Vous n'avez aucun enfant.",
+    "no_children_cloud_message": "Vous n'avez aucun enfant. Créez-en un nouveau d'abord",
     "add_child_card": "Ajouter un enfant",
     "add_child_button": "+"
   },
@@ -109,7 +110,14 @@
     },
     "buttons": {
       "sign_up": "Sign Up",
-      "sign_in": "Sign In"
+      "sign_in": "Sign In",
+      "change_account": "Changer de compte",
+      "change_account_confirm": {
+        "title": "Changer de compte",
+        "text": "Êtes-vous sûr de vouloir changer de compte ? Vous serez déconnecté de ce compte.",
+        "confirm_button": "Oui, changer",
+        "cancel_button": "Annuler"
+      }
     },
     "logo_name": "<span>Evalu'</span>Action",
     "search_placeholder": "Rechercher..."
