@@ -169,8 +169,13 @@
   </div>
   
   <!-- Floating Add Button -->
-  <button class="floating-add-btn" (click)="showDialog()" [attr.aria-label]="'hero_section.add_child_button' | translate">
-    <i class="fas fa-plus"></i>
+  <button 
+    class="floating-add-btn" 
+    [class.disabled]="displayDialog"
+    [disabled]="displayDialog"
+    (click)="showDialog()" 
+    [attr.aria-label]="'hero_section.add_child_button' | translate">
+    <i class="fas" [class.fa-plus]="!displayDialog" [class.fa-spinner]="displayDialog" [class.rotating]="displayDialog"></i>
     <span class="floating-btn-text">{{ 'hero_section.add_child_button' | translate }}</span>
   </button>
 </section>
