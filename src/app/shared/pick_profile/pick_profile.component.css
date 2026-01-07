@@ -722,6 +722,8 @@
     grid-template-columns: repeat(auto-fit, minmax(227px, 1fr));
     gap: 24px;
     padding: 16px;
+    overflow: visible;
+    /* Allow scaled cards to overflow */
 }
 
 /* Card Styling */
@@ -760,10 +762,7 @@
     border: 1px solid #e0e0e0;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
+/* Hover effect moved to .cards-container .card:hover below */
 
 /* Image Style */
 .card__image {
@@ -778,7 +777,8 @@
     transition: all 0.3s ease;
 }
 
-.card:hover .card__image {
+/* Image hover effect - will work with the new card hover design */
+.cards-container .card:hover .card__image {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
@@ -1150,27 +1150,134 @@
     }
 }
 
-.cards-container {
+/* Wrapper to contain the scrolling cards */
+.cards-container-wrapper {
     width: 820px;
-    overflow-x: auto;
-    /* Scroll horizontal */
-    overflow-y: hidden;
-    /* Pas de scroll vertical */
-    padding-bottom: 0.5rem;
-    /* Padding en bas au lieu de droite */
+    overflow-x: hidden;
+    /* Hide overflow to show only 3 cards */
+    overflow-y: visible;
+    /* Allow vertical overflow for scaled cards */
+    margin: 0 auto;
     position: relative;
-    /* Pour le positionnement du message */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.cards-container {
     display: flex;
     /* Ajout de flex pour aligner les cartes horizontalement */
     white-space: nowrap;
     /* Empêche le retour à la ligne */
-    gap: 1rem;
-    /* Espace entre les cartes, ajustable */
+    gap: 15px;
+    /* Espace entre les cartes, matching the design */
     justify-content: flex-start;
-    /* Align cards to start by default */
-    /* Hide scrollbar but keep scroll functionality */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    /* Start from left for scroll effect */
+    align-items: center;
+    /* Center cards vertically to prevent clipping */
+    transition: transform 0.8s ease-in-out;
+    /* Smooth scroll-like transition */
+    will-change: transform;
+    /* Optimize for smooth scrolling */
+    padding-left: 0;
+    /* Remove any padding that might interfere */
+}
+
+/* Navigation Arrows */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4da5d8 0%, #3d8bb8 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(77, 165, 216, 0.3);
+    transition: all 0.3s ease;
+}
+
+.nav-arrow:hover {
+    background: linear-gradient(135deg, #3d8bb8 0%, #2d7ba8 100%);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(77, 165, 216, 0.4);
+}
+
+.nav-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.nav-arrow-left {
+    left: -25px;
+}
+
+.nav-arrow-right {
+    right: -25px;
+}
+
+/* Card grid positioning for arrows - override earlier definitions */
+.card-grid {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 60px; /* Space for arrows */
+    overflow: visible;
+}
+
+/* Responsive adjustments for arrows */
+@media (max-width: 900px) {
+    .card-grid {
+        padding: 16px 50px;
+    }
+    
+    .nav-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .nav-arrow-left {
+        left: -20px;
+    }
+    
+    .nav-arrow-right {
+        right: -20px;
+    }
+    
+    .cards-container {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .card-grid {
+        padding: 16px 40px;
+    }
+    
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+    font-size: 1.1rem;
+    }
+    
+    .nav-arrow-left {
+        left: -15px;
+    }
+    
+    .nav-arrow-right {
+        right: -15px;
+    }
 }
 
 .cards-container::-webkit-scrollbar {
@@ -1450,7 +1557,44 @@
     width: 250px;
     /* Ajustez selon vos besoins */
     /* Vos autres styles existants pour .card */
+    transition: 400ms;
+    cursor: pointer;
+    overflow: visible;
+    /* Allow content to overflow when scaled */
+    position: relative;
+    /* Ensure z-index works for hovered card */
+    z-index: 1;
 }
+
+/* Override overflow for cards in cards-container */
+.cards-container .card {
+    overflow: visible !important;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* No base animation - only animate during navigation */
+}
+
+/* Hover effect: scale up the hovered card */
+.cards-container .card:hover {
+    transform: scale(1.2, 1.2);
+    z-index: 10;
+    /* Bring hovered card to front */
+}
+
+/* Blur and scale down other cards when one is hovered */
+.cards-container:hover > .card:not(:hover) {
+    filter: blur(10px);
+    transform: scale(0.9, 0.9);
+}
+
+/* Slide animation for navigation */
+.cards-container.navigating-left .card,
+.cards-container.navigating-right .card {
+    pointer-events: none; /* Disable interactions during animation */
+}
+
+/* Scroll-like animation is handled by transform transition on .cards-container */
 
 .welcome-message {
     position: relative;

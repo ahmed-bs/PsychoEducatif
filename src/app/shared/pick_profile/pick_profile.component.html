@@ -134,11 +134,25 @@
   </div>
 
   <div class="card-grid">
+    <!-- Navigation arrows - always show if more than 3 profiles -->
+    <button 
+      *ngIf="showNavigationArrows"
+      class="nav-arrow nav-arrow-left" 
+      (click)="navigateLeft()"
+      aria-label="Previous cards">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
     <!-- Container with scroll for cards -->
-    <div class="cards-container" [class.empty-state]="filteredChildren.length === 0">
-      <!-- List of children -->
-      <div class="card" *ngFor="let child of filteredChildren">
-        <div (click)="navigateToClient(child.id!)">
+    <div class="cards-container-wrapper">
+      <div class="cards-container" 
+           [class.empty-state]="filteredChildren.length === 0"
+           [style.transform]="'translateX(-' + scrollOffset + 'px)'">
+        <!-- List of children - show all filtered children for scrolling effect -->
+        <div class="card" 
+             *ngFor="let child of filteredChildren; let first = first; let i = index" 
+             [class.first-card]="first && i === 0">
+          <div (click)="navigateToClient(child.id!)">
           <img [src]="child.image_url" (error)="setDefaultImage($event, child)" alt="Child" class="card__image">
           <h2 class="card__name">{{ child.first_name }} {{ child.last_name }}</h2>
           <div class="card__actions">
@@ -151,6 +165,7 @@
               <i class="pi pi-trash"></i>
             </button>
           </div>
+        </div>
         </div>
       </div>
       <!-- Message if list is empty -->
@@ -165,6 +180,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Navigation arrows - always show if more than 3 profiles -->
+    <button 
+      *ngIf="showNavigationArrows"
+      class="nav-arrow nav-arrow-right" 
+      (click)="navigateRight()"
+      aria-label="Next cards">
+      <i class="fas fa-chevron-right"></i>
+    </button>
 
   </div>
   

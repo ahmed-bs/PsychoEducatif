@@ -40,7 +40,12 @@ import { Subscription } from 'rxjs';
 export class PickProfileComponent implements OnInit, OnDestroy {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
+  displayedChildren: Profile[] = []; // Cards currently visible (max 3)
+  currentCardIndex: number = 0; // Starting index for displayed cards
   searchTerm: string = '';
+  isNavigating: boolean = false; // Track navigation state for animation
+  navigationDirection: 'left' | 'right' | null = null; // Track navigation direction
+  scrollOffset: number = 0; // Track scroll position for animation
   displayDialog: boolean = false;
   updatedisplayDialog: boolean = false;
   isEditMode: boolean = false;
@@ -269,6 +274,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
           };
         });
         this.filteredChildren = [...this.children];
+        this.currentCardIndex = 0;
+        this.updateDisplayedChildren();
       },
       error: (err) => {
         // Only show error for actual server/network errors (500+), not for "no profiles" cases
@@ -304,6 +311,7 @@ export class PickProfileComponent implements OnInit, OnDestroy {
         // For all other cases (404, 400, etc.), just set empty arrays silently (no error message)
         this.children = [];
         this.filteredChildren = [];
+        this.displayedChildren = [];
       }
     });
   }
@@ -318,6 +326,91 @@ export class PickProfileComponent implements OnInit, OnDestroy {
           .includes(this.searchTerm.toLowerCase())
       );
     }
+    // Reset to first card when filtering
+    this.currentCardIndex = 0;
+    this.updateDisplayedChildren();
+  }
+
+  updateDisplayedChildren() {
+    // Calculate scroll offset for smooth scrolling effect
+    // Each card is 250px wide + 15px gap = 265px
+    // Center the first card: (container width - card width) / 2 = (820 - 250) / 2 = 285px
+    const cardWidth = 250;
+    const gap = 15;
+    const containerWidth = 820;
+    const initialOffset = (containerWidth - cardWidth) / 2; // Center first card
+    const cardSpacing = cardWidth + gap;
+    
+    // Calculate offset - handle infinite cycling
+    if (this.filteredChildren.length > 3) {
+      this.scrollOffset = initialOffset + (this.currentCardIndex * cardSpacing);
+    } else {
+      // If 3 or fewer cards, center them
+      this.scrollOffset = initialOffset;
+    }
+  }
+
+  navigateLeft() {
+    if (this.filteredChildren.length === 0 || this.isNavigating) {
+      return;
+    }
+    
+    this.isNavigating = true;
+    this.navigationDirection = 'left';
+    
+    // Infinite cycle: if at the beginning, go to the end
+    if (this.currentCardIndex === 0) {
+      // Calculate how many cards we can show (max 3 at a time)
+      const maxIndex = Math.max(0, this.filteredChildren.length - 3);
+      this.currentCardIndex = maxIndex;
+    } else {
+      this.currentCardIndex--;
+    }
+    
+    this.updateDisplayedChildren();
+    
+    // Reset animation state after transition completes
+    setTimeout(() => {
+      this.isNavigating = false;
+      this.navigationDirection = null;
+    }, 850); // Slightly longer than animation duration (800ms)
+  }
+
+  navigateRight() {
+    if (this.filteredChildren.length === 0 || this.isNavigating) {
+      return;
+    }
+    
+    this.isNavigating = true;
+    this.navigationDirection = 'right';
+    
+    // Infinite cycle: if at the end, go back to the beginning
+    const maxIndex = Math.max(0, this.filteredChildren.length - 3);
+    if (this.currentCardIndex >= maxIndex) {
+      this.currentCardIndex = 0;
+    } else {
+      this.currentCardIndex++;
+    }
+    
+    this.updateDisplayedChildren();
+    
+    // Reset animation state after transition completes
+    setTimeout(() => {
+      this.isNavigating = false;
+      this.navigationDirection = null;
+    }, 850); // Slightly longer than animation duration (800ms)
+  }
+
+  get canNavigateLeft(): boolean {
+    return this.filteredChildren.length > 3;
+  }
+
+  get canNavigateRight(): boolean {
+    return this.filteredChildren.length > 3;
+  }
+
+  get showNavigationArrows(): boolean {
+    return this.filteredChildren.length > 3;
   }
 
   showDialog() {
