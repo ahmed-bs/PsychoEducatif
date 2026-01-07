@@ -146,8 +146,7 @@
     <!-- Container with scroll for cards -->
     <div class="cards-container-wrapper">
       <div class="cards-container" 
-           [class.empty-state]="filteredChildren.length === 0"
-           [style.transform]="'translateX(-' + scrollOffset + 'px)'">
+           [class.empty-state]="filteredChildren.length === 0">
         <!-- List of children - show all filtered children for scrolling effect -->
         <div class="card" 
              *ngFor="let child of filteredChildren; let first = first; let i = index" 

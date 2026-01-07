@@ -332,22 +332,9 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   }
 
   updateDisplayedChildren() {
-    // Calculate scroll offset for smooth scrolling effect
-    // Each card is 250px wide + 15px gap = 265px
-    // Center the first card: (container width - card width) / 2 = (820 - 250) / 2 = 285px
-    const cardWidth = 250;
-    const gap = 15;
-    const containerWidth = 820;
-    const initialOffset = (containerWidth - cardWidth) / 2; // Center first card
-    const cardSpacing = cardWidth + gap;
-    
-    // Calculate offset - handle infinite cycling
-    if (this.filteredChildren.length > 3) {
-      this.scrollOffset = initialOffset + (this.currentCardIndex * cardSpacing);
-    } else {
-      // If 3 or fewer cards, center them
-      this.scrollOffset = initialOffset;
-    }
+    // No transform animation - cards will display normally
+    // Keep scrollOffset for potential future use, but don't apply transform
+    this.scrollOffset = 0;
   }
 
   navigateLeft() {
@@ -415,6 +402,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
 
   showDialog() {
     this.isEditMode = false;
+    this.newChild = this.resetChild();
+    this.selectedFile = null;
     this.profileForm = {
       first_name: '',
       last_name: '',
@@ -455,11 +444,13 @@ export class PickProfileComponent implements OnInit, OnDestroy {
           if (imageUrl && !imageUrl.startsWith('http')) {
             imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
           }
-          this.children.push({
-            ...child,
-            image_url: imageUrl
-          });
-          this.filteredChildren = [...this.children];
+          // Reload all profiles from server to ensure data consistency
+          this.loadChildren();
+          
+          // Reset form and file selection
+          this.newChild = this.resetChild();
+          this.selectedFile = null;
+          
           this.displayDialog = false;
           this.isLoading = false;
           this.translate.get(['profile_messages.add_profile_success.title', 'profile_messages.add_profile_success.text']).subscribe(translations => {
@@ -728,6 +719,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   cancel() {
     this.displayDialog = false;
     this.error = null;
+    this.newChild = this.resetChild();
+    this.selectedFile = null;
   }
 
   // Language switcher methods

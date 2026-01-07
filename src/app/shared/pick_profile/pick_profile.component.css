@@ -1161,6 +1161,8 @@
     position: relative;
     padding-top: 2rem;
     padding-bottom: 2rem;
+    min-height: 350px;
+    /* Ensure minimum height for cards to be visible */
 }
 
 .cards-container {
@@ -1170,16 +1172,16 @@
     /* Empêche le retour à la ligne */
     gap: 15px;
     /* Espace entre les cartes, matching the design */
-    justify-content: flex-start;
-    /* Start from left for scroll effect */
+    justify-content: center;
+    /* Center cards horizontally */
     align-items: center;
     /* Center cards vertically to prevent clipping */
-    transition: transform 0.8s ease-in-out;
-    /* Smooth scroll-like transition */
-    will-change: transform;
-    /* Optimize for smooth scrolling */
     padding-left: 0;
     /* Remove any padding that might interfere */
+    width: max-content;
+    /* Ensure container is wide enough for all cards */
+    min-height: 300px;
+    /* Ensure minimum height for cards to be visible */
 }
 
 /* Navigation Arrows */
@@ -1564,6 +1566,12 @@
     position: relative;
     /* Ensure z-index works for hovered card */
     z-index: 1;
+    display: block !important;
+    /* Ensure card is displayed */
+    visibility: visible !important;
+    /* Ensure card is visible */
+    opacity: 1 !important;
+    /* Ensure card is fully opaque */
 }
 
 /* Override overflow for cards in cards-container */
