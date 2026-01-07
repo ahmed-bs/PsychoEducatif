@@ -274,7 +274,13 @@
     }
   },
   "evaluation_featured_section": {
-    "header_content": "Assessment <br/>is a <span></span> key step in the psycho-educational support of children with autism. It helps understand their needs and skills to develop personalized plans."
+    "header_content": "Assessment <br/>is a <span></span> key step in the psycho-educational support of children with autism. It helps understand their needs and skills to develop personalized plans.",
+    "header_image_cards": {
+      "educational_follow_up": "Educational Follow-up",
+      "personalized_activities": "Personalized Activities",
+      "defined_objectives": "Defined Objectives",
+      "parental_guidance": "Parental Guidance"
+    }
   },
   "evaluation_objectives_section": {
     "title": "Assessment Objectives",

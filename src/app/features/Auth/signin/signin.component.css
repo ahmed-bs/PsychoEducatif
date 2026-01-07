@@ -1,3 +1,238 @@
+/* Cloud background animation */
+.clouds-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(to top, #e0eafc 0%, #cfdef3 100%);
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+  opacity: 0.6;
+}
+
+.cloud:before,
+.cloud:after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+}
+
+.cloud:before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud:after {
+  width: 60px;
+  height: 60px;
+  top: -35px;
+  right: 10px;
+}
+
+/* Cloud shapes */
+.cloud-1 {
+  width: 100px;
+  height: 40px;
+  top: 20%;
+  left: -150px;
+  animation: moveCloud1 30s linear infinite;
+}
+
+.cloud-1:before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud-1:after {
+  width: 60px;
+  height: 60px;
+  top: -35px;
+  right: 10px;
+}
+
+.cloud-2 {
+  width: 120px;
+  height: 45px;
+  top: 40%;
+  left: -200px;
+  animation: moveCloud2 35s linear infinite;
+  animation-delay: -5s;
+}
+
+.cloud-2:before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 15px;
+}
+
+.cloud-2:after {
+  width: 70px;
+  height: 70px;
+  top: -40px;
+  right: 15px;
+}
+
+.cloud-3 {
+  width: 90px;
+  height: 35px;
+  top: 60%;
+  left: -180px;
+  animation: moveCloud3 40s linear infinite;
+  animation-delay: -10s;
+}
+
+.cloud-3:before {
+  width: 45px;
+  height: 45px;
+  top: -22px;
+  left: 8px;
+}
+
+.cloud-3:after {
+  width: 55px;
+  height: 55px;
+  top: -30px;
+  right: 8px;
+}
+
+.cloud-4 {
+  width: 110px;
+  height: 42px;
+  top: 10%;
+  left: -220px;
+  animation: moveCloud4 32s linear infinite;
+  animation-delay: -15s;
+}
+
+.cloud-4:before {
+  width: 55px;
+  height: 55px;
+  top: -27px;
+  left: 12px;
+}
+
+.cloud-4:after {
+  width: 65px;
+  height: 65px;
+  top: -37px;
+  right: 12px;
+}
+
+.cloud-5 {
+  width: 130px;
+  height: 50px;
+  top: 70%;
+  left: -250px;
+  animation: moveCloud5 38s linear infinite;
+  animation-delay: -20s;
+}
+
+.cloud-5:before {
+  width: 65px;
+  height: 65px;
+  top: -32px;
+  left: 18px;
+}
+
+.cloud-5:after {
+  width: 75px;
+  height: 75px;
+  top: -42px;
+  right: 18px;
+}
+
+.cloud-6 {
+  width: 95px;
+  height: 38px;
+  top: 30%;
+  left: -190px;
+  animation: moveCloud6 36s linear infinite;
+  animation-delay: -25s;
+}
+
+.cloud-6:before {
+  width: 48px;
+  height: 48px;
+  top: -24px;
+  left: 9px;
+}
+
+.cloud-6:after {
+  width: 58px;
+  height: 58px;
+  top: -32px;
+  right: 9px;
+}
+
+/* Cloud animations */
+@keyframes moveCloud1 {
+  from {
+    left: -150px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud2 {
+  from {
+    left: -200px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud3 {
+  from {
+    left: -180px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud4 {
+  from {
+    left: -220px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud5 {
+  from {
+    left: -250px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud6 {
+  from {
+    left: -190px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
 /* Main Container */
 .signup-container {
   min-height: 100vh;
@@ -5,8 +240,10 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: transparent;
   font-family: 'Nunito', sans-serif;
+  position: relative;
+  z-index: 1;
 }
 
 /* Wrapper for image and form */
@@ -18,6 +255,8 @@
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 /* Left Side - Image Section */

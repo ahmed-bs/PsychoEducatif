@@ -1,13 +1,32 @@
 <div class="body">
+  <div class="clouds-container">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
+    <div class="cloud cloud-6"></div>
+  </div>
   <!-- Header -->
   <section class="featured-section">
     <header class="header__container">
         <div class="header__image">
-            <!-- <img src="assets/img/Autism-bro.png" alt="header" /> -->
-         
+            <img src="/assets/image/banniere-desktop-autisme.png" alt="header" />
         </div>
         <div class="header__content">
-          <h2 class="animated-header">{{ 'new_featured_section.header_content' | translate }}</h2>
+            <div class="header__content-wrapper">
+                <h2 class="animated-header" [innerHTML]="'new_featured_section.header_content' | translate"></h2>
+                <div class="header__buttons">
+                    <button class="btn btn-signup" routerLink="/auth/signup">
+                        <i class="fas fa-user-plus"></i>
+                        {{ 'navbar.buttons.sign_up' | translate }}
+                    </button>
+                    <button class="btn btn-signin" routerLink="/auth/signin">
+                        <i class="fas fa-sign-in-alt"></i>
+                        {{ 'navbar.buttons.sign_in' | translate }}
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 </section>

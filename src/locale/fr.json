@@ -274,7 +274,13 @@
     }
   },
   "evaluation_featured_section": {
-    "header_content": "L’évaluation <br/>est une <span></span> étape clé dans l'accompagnement psycho-éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés."
+    "header_content": "L'évaluation <br/>est une <span></span> étape clé dans l'accompagnement psycho-éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés.",
+    "header_image_cards": {
+      "educational_follow_up": "Suivi éducatif",
+      "personalized_activities": "Activités personnalisées",
+      "defined_objectives": "Objectifs définis",
+      "parental_guidance": "Guidance parentale"
+    }
   },
   "evaluation_objectives_section": {
     "title": "🎯 Objectifs de l’évaluation",

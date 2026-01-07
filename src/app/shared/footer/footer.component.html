@@ -1,48 +1,50 @@
-<footer class="site-footer py-8 px-4 md:py-16 bg-gray-800 text-white">
-    <div class="container max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="col">
-                <h6 class="site-footer-title text-xl font-semibold mb-4">{{ 'footer.resources_title' | translate }}</h6>
-                <ul class="site-footer-links space-y-2">
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h6 class="footer-title">{{ 'footer.resources_title' | translate }}</h6>
+                <ul class="footer-links">
                     <li>
-                        <a href="#" class="site-footer-link text-gray-300 hover:text-white transition-colors duration-200">{{ 'footer.menu.home' | translate }}</a>
+                        <a href="#" class="footer-link">{{ 'footer.menu.home' | translate }}</a>
                     </li>
                     <li>
-                        <a href="#" class="site-footer-link text-gray-300 hover:text-white transition-colors duration-200">{{ 'footer.menu.evaluation' | translate }}</a>
+                        <a href="#" class="footer-link">{{ 'footer.menu.evaluation' | translate }}</a>
                     </li>
                     <li>
-                        <a href="#" class="site-footer-link text-gray-300 hover:text-white transition-colors duration-200">{{ 'footer.menu.objectives' | translate }}</a>
+                        <a href="#" class="footer-link">{{ 'footer.menu.objectives' | translate }}</a>
                     </li>
                     <li>
-                        <a href="#" class="site-footer-link text-gray-300 hover:text-white transition-colors duration-200">{{ 'footer.menu.strategies' | translate }}</a>
+                        <a href="#" class="footer-link">{{ 'footer.menu.strategies' | translate }}</a>
                     </li>
                 </ul>
             </div>
-            <div class="col">
-                <h6 class="site-footer-title text-xl font-semibold mb-4">{{ 'footer.information_title' | translate }}</h6>
-                <p class="text-gray-300 flex items-center mb-2">
-                    <a href="tel: 305-240-9671" class="site-footer-link hover:text-white transition-colors duration-200">{{ 'footer.contact.phone' | translate }}</a>
-                </p>
-                <p class="text-gray-300 flex items-center">
-                    <a href="mailto:infocompany.com" class="site-footer-link hover:text-white transition-colors duration-200">{{ 'footer.contact.email' | translate }}</a>
-                </p>
+            <div class="footer-column">
+                <h6 class="footer-title">{{ 'footer.information_title' | translate }}</h6>
+                <div class="footer-contact">
+                    <p class="contact-item">
+                        <a href="tel:305-240-9671" class="footer-link">{{ 'footer.contact.phone' | translate }}</a>
+                    </p>
+                    <p class="contact-item">
+                        <a href="mailto:infocompany.com" class="footer-link">{{ 'footer.contact.email' | translate }}</a>
+                    </p>
+                </div>
             </div>
-            <div class="col flex flex-col justify-between">
-                <p class="copyright-text text-sm text-gray-400 mt-8 lg:mt-0">{{ 'footer.copyright' | translate }}</p>
-                <div class="social-icons flex space-x-4 mt-4 md:mt-0 justify-start">
-                    <a href="#" target="_blank" class="text-[#4267B2] hover:opacity-80 transition-opacity duration-200">
-                        <i class="fab fa-facebook" style="font-size: 30px;"></i>
+            <div class="footer-column footer-column-social">
+                <div class="social-icons">
+                    <a href="#" target="_blank" class="social-icon-link facebook">
+                        <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="#" target="_blank" class="text-[#C13584] hover:opacity-80 transition-opacity duration-200">
-                        <i class="fab fa-instagram" style="font-size: 30px;"></i>
+                    <a href="#" target="_blank" class="social-icon-link instagram">
+                        <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" target="_blank" class="text-[#25D366] hover:opacity-80 transition-opacity duration-200">
-                        <i class="fab fa-whatsapp" style="font-size: 30px;"></i>
+                    <a href="#" target="_blank" class="social-icon-link whatsapp">
+                        <i class="fab fa-whatsapp"></i>
                     </a>
-                    <a href="#" target="_blank" class="text-[#0A66C2] hover:opacity-80 transition-opacity duration-200">
-                        <i class="fab fa-linkedin" style="font-size: 30px;"></i>
+                    <a href="#" target="_blank" class="social-icon-link linkedin">
+                        <i class="fab fa-linkedin"></i>
                     </a>
                 </div>
+                <p class="copyright-text">{{ 'footer.copyright' | translate }}</p>
             </div>
         </div>
     </div>
