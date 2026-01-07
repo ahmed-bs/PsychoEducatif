@@ -104,7 +104,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
         Swal.fire({
           icon: 'error',
           title: translations['profile_messages.load_user_error.title'],
-          text: translations['profile_messages.load_user_error.text']
+          html: `<div class="error-warning">
+                  <i class="fas fa-exclamation-triangle warning-icon"></i>
+                  <p>${translations['profile_messages.load_user_error.text']}</p>
+                </div>`,
+          width: '700px',
+          confirmButtonColor: '#4da5d8',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'terms-popup error-popup',
+            title: 'terms-title',
+            htmlContainer: 'terms-html-container',
+            confirmButton: 'terms-confirm-button'
+          },
+          allowOutsideClick: true
         });
       });
       return;
@@ -271,7 +284,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'error',
               title: translations['profile_messages.load_profiles_error.title'],
-              text: translations['profile_messages.load_profiles_error.text']
+              html: `<div class="error-warning">
+                      <i class="fas fa-exclamation-triangle warning-icon"></i>
+                      <p>${translations['profile_messages.load_profiles_error.text']}</p>
+                    </div>`,
+              width: '700px',
+              confirmButtonColor: '#4da5d8',
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'terms-popup error-popup',
+                title: 'terms-title',
+                htmlContainer: 'terms-html-container',
+                confirmButton: 'terms-confirm-button'
+              },
+              allowOutsideClick: true
             });
           });
         }
@@ -357,7 +383,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'error',
               title: translations['profile_messages.add_profile_error.title'],
-              text: translations['profile_messages.add_profile_error.text']
+              html: `<div class="error-warning">
+                      <i class="fas fa-exclamation-triangle warning-icon"></i>
+                      <p>${translations['profile_messages.add_profile_error.text']}</p>
+                    </div>`,
+              width: '700px',
+              confirmButtonColor: '#4da5d8',
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'terms-popup error-popup',
+                title: 'terms-title',
+                htmlContainer: 'terms-html-container',
+                confirmButton: 'terms-confirm-button'
+              },
+              allowOutsideClick: true
             });
           });
         }
@@ -367,7 +406,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
         Swal.fire({
           icon: 'warning',
           title: translations['profile_messages.add_profile_required_fields_error.title'],
-          text: translations['profile_messages.add_profile_required_fields_error.text']
+          html: `<div class="error-warning">
+                  <i class="fas fa-exclamation-triangle warning-icon"></i>
+                  <p>${translations['profile_messages.add_profile_required_fields_error.text']}</p>
+                </div>`,
+          width: '700px',
+          confirmButtonColor: '#4da5d8',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'terms-popup error-popup',
+            title: 'terms-title',
+            htmlContainer: 'terms-html-container',
+            confirmButton: 'terms-confirm-button'
+          },
+          allowOutsideClick: true
         });
       });
     }
@@ -406,7 +458,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'error',
               title: translations['profile_messages.update_profile_error.title'],
-              text: translations['profile_messages.update_profile_error.text']
+              html: `<div class="error-warning">
+                      <i class="fas fa-exclamation-triangle warning-icon"></i>
+                      <p>${translations['profile_messages.update_profile_error.text']}</p>
+                    </div>`,
+              width: '700px',
+              confirmButtonColor: '#4da5d8',
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'terms-popup error-popup',
+                title: 'terms-title',
+                htmlContainer: 'terms-html-container',
+                confirmButton: 'terms-confirm-button'
+              },
+              allowOutsideClick: true
             });
           });
         }
@@ -539,7 +604,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
                 Swal.fire({
                   icon: 'error',
                   title: errorTranslations['profile_messages.disable_profile_error.title'],
-                  text: errorTranslations['profile_messages.disable_profile_error.text']
+                  html: `<div class="error-warning">
+                          <i class="fas fa-exclamation-triangle warning-icon"></i>
+                          <p>${errorTranslations['profile_messages.disable_profile_error.text']}</p>
+                        </div>`,
+                  width: '700px',
+                  confirmButtonColor: '#4da5d8',
+                  confirmButtonText: 'OK',
+                  customClass: {
+                    popup: 'terms-popup error-popup',
+                    title: 'terms-title',
+                    htmlContainer: 'terms-html-container',
+                    confirmButton: 'terms-confirm-button'
+                  },
+                  allowOutsideClick: true
                 });
               });
             }
