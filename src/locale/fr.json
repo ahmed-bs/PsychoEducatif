@@ -148,25 +148,25 @@
   },
   "faq_section": {
     "title": "🌟 À propos",
-    "description": "<span class=\"highlight font-semibold text-indigo-600\">PsychoÉducatif</span> est une plateforme numérique conçue pour accompagner les enfants autistes dans leur parcours de développement grâce à une approche individualisée et interactive. Elle propose des outils d'évaluation, des stratégies éducatives et des activités adaptées pour répondre aux besoins spécifiques de chaque enfant.",
+    "description": "<span class=\"highlight font-semibold text-indigo-600\">EvaluAction</span> est une plateforme numérique conçue pour accompagner les enfants autistes dans leur parcours de développement grâce à une approche individualisée et interactive. Elle propose des outils d'évaluation, des stratégies éducatives et des activités adaptées pour répondre aux besoins spécifiques de chaque enfant.",
     "accordion": {
       "item1": {
-        "question": "Qu'est-ce que la plateforme PsychoÉducatif ?",
-        "answer": "La plateforme PsychoÉducatif est une solution interactive et numérique qui aide les enfants autistes à progresser dans leur développement. Elle propose des évaluations des compétences, des activités personnalisées et des stratégies éducatives adaptées aux besoins de chaque enfant."
+        "question": "Qu'est-ce que la plateforme EvaluAction ?",
+        "answer": "La plateforme EvaluAction est une solution interactive et numérique qui aide les enfants autistes à progresser dans leur développement. Elle propose des évaluations des compétences, des activités personnalisées et des stratégies éducatives adaptées aux besoins de chaque enfant."
       },
       "item2": {
         "question": "Comment cela fonctionne-t-il ?",
         "answer": "La plateforme fonctionne grâce à des outils d'évaluation des compétences des enfants, des activités interactives, ainsi qu'à un suivi des progrès en temps réel. Elle permet aux éducateurs et aux parents d'accompagner les enfants avec des plans personnalisés."
       },
       "item3": {
-        "question": "Pourquoi utiliser PsychoÉducatif ?",
-        "answer": "PsychoÉducatif est conçu pour offrir une expérience unique et interactive, permettant aux enfants autistes de progresser à leur propre rythme. La plateforme s'adapte aux besoins spécifiques de chaque enfant et soutient les éducateurs et les parents avec des outils modernes et faciles à utiliser."
+        "question": "Pourquoi utiliser EvaluAction ?",
+        "answer": "EvaluAction est conçu pour offrir une expérience unique et interactive, permettant aux enfants autistes de progresser à leur propre rythme. La plateforme s'adapte aux besoins spécifiques de chaque enfant et soutient les éducateurs et les parents avec des outils modernes et faciles à utiliser."
       }
     },
     "image_alt": "Activités interactives"
   },
   "explore_section": {
-    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explorer les Thèmes Psychoéducatifs",
+    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explorer les Thèmes Éducatifs",
     "tabs": {
       "psychology": "Psychologie",
       "behaviour": "Comportement",
@@ -242,11 +242,11 @@
     }
   },
   "timeline_section": {
-    "title": "Comment cela fonctionne dans le cadre psychoéducatif",
+    "title": "Comment cela fonctionne dans le cadre éducatif",
     "items": {
       "explore_themes": {
-        "title": "Explorer les Thèmes Psychoéducatifs",
-        "description": "Parcourez une large gamme de thèmes psychoéducatifs pour mieux comprendre les besoins des enfants, des parents et des professionnels. Découvrez des informations sur le développement psychologique, les stratégies comportementales et le bien-être émotionnel."
+        "title": "Explorer les Thèmes Éducatifs",
+        "description": "Parcourez une large gamme de thèmes éducatifs pour mieux comprendre les besoins des enfants, des parents et des professionnels. Découvrez des informations sur le développement psychologique, les stratégies comportementales et le bien-être émotionnel."
       },
       "track_progress": {
         "title": "Suivre et Enregistrer les Progrès",
@@ -254,18 +254,18 @@
       },
       "learn_strategies": {
         "title": "Apprendre et Mettre en Pratique des Stratégies",
-        "description": "Lisez et apprenez à partir de ressources psychoéducatives qui fournissent des stratégies pratiques pour soutenir les enfants ayant des besoins émotionnels et développementaux. Profitez de conseils personnalisés basés sur des évaluations en temps réel."
+        "description": "Lisez et apprenez à partir de ressources éducatives qui fournissent des stratégies pratiques pour soutenir les enfants ayant des besoins émotionnels et développementaux. Profitez de conseils personnalisés basés sur des évaluations en temps réel."
       }
     },
     "more_info": "Vous souhaitez en savoir plus ?",
     "discover_button": "Découvrez nos Ressources"
   },
   "skills_section": {
-    "title": "🎯 Pourquoi choisir PsychoÉducatif ?",
+    "title": "🎯 Pourquoi choisir EvaluAction ?",
     "items": {
       "evaluation": {
         "title": "Évaluation précise et personnalisée",
-        "description": "Un suivi détaillé basé sur des critères reconnus en psycho-éducation."
+        "description": "Un suivi détaillé basé sur des critères reconnus en éducation."
       },
       "interactive_activities": {
         "title": "Activités interactives et ludiques",
@@ -282,7 +282,7 @@
     }
   },
   "evaluation_featured_section": {
-    "header_content": "L'évaluation <br/>est une <span></span> étape clé dans l'accompagnement psycho-éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés.",
+    "header_content": "L'évaluation <br/>est une <span></span> étape clé dans l'accompagnement éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés.",
     "header_image_cards": {
       "educational_follow_up": "Suivi éducatif",
       "personalized_activities": "Activités personnalisées",
@@ -311,7 +311,7 @@
     "title": "🌟 Avantages de l’évaluation numérique",
     "items": {
       "psychoeducatif": {
-        "title": "PsychoÉducatif",
+        "title": "EvaluAction",
         "description": "<span class=\"highlight\">Accessibilité :</span> Permet une utilisation par les parents et les professionnels, sans besoin d’équipement spécialisé.<br><span class=\"highlight\">Personnalisation :</span> Les outils s’adaptent aux besoins spécifiques de chaque enfant.<br><span class=\"highlight\">Efficacité :</span> Gain de temps dans la collecte et l’analyse des données.<br><span class=\"highlight\">Suivi continu :</span> Mise à jour régulière des évaluations pour ajuster les stratégies d'accompagnement."
       }
     }
@@ -351,7 +351,7 @@
     "items": {
       "why_application": {
         "title": "Pourquoi cette application ?",
-        "description": "Nous avons conçu cette application avec une vision claire : offrir aux enfants autistes, à leurs familles, et aux professionnels des outils modernes et personnalisés pour une prise en charge psycho-éducative optimale."
+        "description": "Nous avons conçu cette application avec une vision claire : offrir aux enfants autistes, à leurs familles, et aux professionnels des outils modernes et personnalisés pour une prise en charge éducative optimale."
       }
     }
   },
