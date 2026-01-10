@@ -101,6 +101,35 @@ export class SignupComponent implements OnInit, OnDestroy {
   get password() { return this.signupForm.get('password'); }
   get confirm_password() { return this.signupForm.get('confirm_password'); }
   get accepte_conditions() { return this.signupForm.get('accepte_conditions'); }
+
+  handleTermsClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'A' || target.closest('a')) {
+      event.preventDefault();
+      this.showTermsAndConditions();
+    }
+  }
+
+  showTermsAndConditions() {
+    this.translate.get(['signup_form.terms_title', 'signup_form.terms_content']).subscribe(translations => {
+      const closeText = this.translate.instant('skills_evaluation.popup.close') || 'Fermer';
+      Swal.fire({
+        title: translations['signup_form.terms_title'],
+        html: translations['signup_form.terms_content'],
+        width: '700px',
+        confirmButtonText: closeText,
+        confirmButtonColor: '#4da5d8',
+        customClass: {
+          popup: 'terms-popup',
+          title: 'terms-title',
+          htmlContainer: 'terms-html-container',
+          confirmButton: 'terms-confirm-button'
+        },
+        backdrop: true,
+        allowOutsideClick: true
+      });
+    });
+  }
   get bio() { return this.signupForm.get('bio'); }
 
   onSubmit() {
@@ -138,7 +167,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
       password: this.signupForm.value.password,
-      confirm_password: this.signupForm.value.confirm_password,
+      password_confirm: this.signupForm.value.confirm_password,
       user_type: 'parent', // Default value since field is removed from UI
       accepte_conditions: this.signupForm.value.accepte_conditions,
       bio: this.signupForm.value.bio || null

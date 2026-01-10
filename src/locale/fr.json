@@ -4,6 +4,7 @@
     "select_child_prompt": "Veuillez sélectionner le profil d'un enfant ci-dessous.",
     "search_placeholder": "Rechercher un enfant par nom",
     "no_children_message": "Vous n'avez aucun enfant.",
+    "no_children_cloud_message": "Vous n'avez aucun enfant. Créez-en un nouveau d'abord",
     "add_child_card": "Ajouter un enfant",
     "add_child_button": "+"
   },
@@ -109,7 +110,14 @@
     },
     "buttons": {
       "sign_up": "Sign Up",
-      "sign_in": "Sign In"
+      "sign_in": "Sign In",
+      "change_account": "Changer de compte",
+      "change_account_confirm": {
+        "title": "Changer de compte",
+        "text": "Êtes-vous sûr de vouloir changer de compte ? Vous serez déconnecté de ce compte.",
+        "confirm_button": "Oui, changer",
+        "cancel_button": "Annuler"
+      }
     },
     "logo_name": "<span>Evalu'</span>Action",
     "search_placeholder": "Rechercher..."
@@ -140,25 +148,25 @@
   },
   "faq_section": {
     "title": "🌟 À propos",
-    "description": "<span class=\"highlight font-semibold text-indigo-600\">PsychoÉducatif</span> est une plateforme numérique conçue pour accompagner les enfants autistes dans leur parcours de développement grâce à une approche individualisée et interactive. Elle propose des outils d'évaluation, des stratégies éducatives et des activités adaptées pour répondre aux besoins spécifiques de chaque enfant.",
+    "description": "<span class=\"highlight font-semibold text-indigo-600\">EvaluAction</span> est une plateforme numérique conçue pour accompagner les enfants autistes dans leur parcours de développement grâce à une approche individualisée et interactive. Elle propose des outils d'évaluation, des stratégies éducatives et des activités adaptées pour répondre aux besoins spécifiques de chaque enfant.",
     "accordion": {
       "item1": {
-        "question": "Qu'est-ce que la plateforme PsychoÉducatif ?",
-        "answer": "La plateforme PsychoÉducatif est une solution interactive et numérique qui aide les enfants autistes à progresser dans leur développement. Elle propose des évaluations des compétences, des activités personnalisées et des stratégies éducatives adaptées aux besoins de chaque enfant."
+        "question": "Qu'est-ce que la plateforme EvaluAction ?",
+        "answer": "La plateforme EvaluAction est une solution interactive et numérique qui aide les enfants autistes à progresser dans leur développement. Elle propose des évaluations des compétences, des activités personnalisées et des stratégies éducatives adaptées aux besoins de chaque enfant."
       },
       "item2": {
         "question": "Comment cela fonctionne-t-il ?",
         "answer": "La plateforme fonctionne grâce à des outils d'évaluation des compétences des enfants, des activités interactives, ainsi qu'à un suivi des progrès en temps réel. Elle permet aux éducateurs et aux parents d'accompagner les enfants avec des plans personnalisés."
       },
       "item3": {
-        "question": "Pourquoi utiliser PsychoÉducatif ?",
-        "answer": "PsychoÉducatif est conçu pour offrir une expérience unique et interactive, permettant aux enfants autistes de progresser à leur propre rythme. La plateforme s'adapte aux besoins spécifiques de chaque enfant et soutient les éducateurs et les parents avec des outils modernes et faciles à utiliser."
+        "question": "Pourquoi utiliser EvaluAction ?",
+        "answer": "EvaluAction est conçu pour offrir une expérience unique et interactive, permettant aux enfants autistes de progresser à leur propre rythme. La plateforme s'adapte aux besoins spécifiques de chaque enfant et soutient les éducateurs et les parents avec des outils modernes et faciles à utiliser."
       }
     },
     "image_alt": "Activités interactives"
   },
   "explore_section": {
-    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explorer les Thèmes Psychoéducatifs",
+    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explorer les Thèmes Éducatifs",
     "tabs": {
       "psychology": "Psychologie",
       "behaviour": "Comportement",
@@ -234,11 +242,11 @@
     }
   },
   "timeline_section": {
-    "title": "Comment cela fonctionne dans le cadre psychoéducatif",
+    "title": "Comment cela fonctionne dans le cadre éducatif",
     "items": {
       "explore_themes": {
-        "title": "Explorer les Thèmes Psychoéducatifs",
-        "description": "Parcourez une large gamme de thèmes psychoéducatifs pour mieux comprendre les besoins des enfants, des parents et des professionnels. Découvrez des informations sur le développement psychologique, les stratégies comportementales et le bien-être émotionnel."
+        "title": "Explorer les Thèmes Éducatifs",
+        "description": "Parcourez une large gamme de thèmes éducatifs pour mieux comprendre les besoins des enfants, des parents et des professionnels. Découvrez des informations sur le développement psychologique, les stratégies comportementales et le bien-être émotionnel."
       },
       "track_progress": {
         "title": "Suivre et Enregistrer les Progrès",
@@ -246,18 +254,18 @@
       },
       "learn_strategies": {
         "title": "Apprendre et Mettre en Pratique des Stratégies",
-        "description": "Lisez et apprenez à partir de ressources psychoéducatives qui fournissent des stratégies pratiques pour soutenir les enfants ayant des besoins émotionnels et développementaux. Profitez de conseils personnalisés basés sur des évaluations en temps réel."
+        "description": "Lisez et apprenez à partir de ressources éducatives qui fournissent des stratégies pratiques pour soutenir les enfants ayant des besoins émotionnels et développementaux. Profitez de conseils personnalisés basés sur des évaluations en temps réel."
       }
     },
     "more_info": "Vous souhaitez en savoir plus ?",
     "discover_button": "Découvrez nos Ressources"
   },
   "skills_section": {
-    "title": "🎯 Pourquoi choisir PsychoÉducatif ?",
+    "title": "🎯 Pourquoi choisir EvaluAction ?",
     "items": {
       "evaluation": {
         "title": "Évaluation précise et personnalisée",
-        "description": "Un suivi détaillé basé sur des critères reconnus en psycho-éducation."
+        "description": "Un suivi détaillé basé sur des critères reconnus en éducation."
       },
       "interactive_activities": {
         "title": "Activités interactives et ludiques",
@@ -274,7 +282,13 @@
     }
   },
   "evaluation_featured_section": {
-    "header_content": "L’évaluation <br/>est une <span></span> étape clé dans l'accompagnement psycho-éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés."
+    "header_content": "L'évaluation <br/>est une <span></span> étape clé dans l'accompagnement éducatif des enfants autistes. Elle aide à comprendre leurs besoins et compétences pour élaborer des plans personnalisés.",
+    "header_image_cards": {
+      "educational_follow_up": "Suivi éducatif",
+      "personalized_activities": "Activités personnalisées",
+      "defined_objectives": "Objectifs définis",
+      "parental_guidance": "Guidance parentale"
+    }
   },
   "evaluation_objectives_section": {
     "title": "🎯 Objectifs de l’évaluation",
@@ -297,7 +311,7 @@
     "title": "🌟 Avantages de l’évaluation numérique",
     "items": {
       "psychoeducatif": {
-        "title": "PsychoÉducatif",
+        "title": "EvaluAction",
         "description": "<span class=\"highlight\">Accessibilité :</span> Permet une utilisation par les parents et les professionnels, sans besoin d’équipement spécialisé.<br><span class=\"highlight\">Personnalisation :</span> Les outils s’adaptent aux besoins spécifiques de chaque enfant.<br><span class=\"highlight\">Efficacité :</span> Gain de temps dans la collecte et l’analyse des données.<br><span class=\"highlight\">Suivi continu :</span> Mise à jour régulière des évaluations pour ajuster les stratégies d'accompagnement."
       }
     }
@@ -337,7 +351,7 @@
     "items": {
       "why_application": {
         "title": "Pourquoi cette application ?",
-        "description": "Nous avons conçu cette application avec une vision claire : offrir aux enfants autistes, à leurs familles, et aux professionnels des outils modernes et personnalisés pour une prise en charge psycho-éducative optimale."
+        "description": "Nous avons conçu cette application avec une vision claire : offrir aux enfants autistes, à leurs familles, et aux professionnels des outils modernes et personnalisés pour une prise en charge éducative optimale."
       }
     }
   },
@@ -463,8 +477,10 @@
     "confirm_password_placeholder": "Confirmez votre mot de passe",
     "confirm_password_required_error": "*",
     "password_mismatch_error": "Mots de passe différents",
-    "terms_checkbox": "J'accepte les <a href='#' target='_blank'>termes et conditions</a>",
+    "terms_checkbox": "J'accepte les <a href='#' class='terms-link'>termes et conditions</a>",
     "terms_required_error": "*",
+    "terms_title": "Termes et Conditions",
+    "terms_content": "<div class='terms-content'><div class='terms-section'><h4>1. Acceptation des conditions</h4><p>En utilisant ce service, vous acceptez d'être lié par ces termes et conditions d'utilisation.</p></div><div class='terms-section'><h4>2. Utilisation du service</h4><p>Vous vous engagez à utiliser ce service de manière légale, appropriée et conforme aux lois en vigueur.</p></div><div class='terms-section'><h4>3. Confidentialité et protection des données</h4><p>Vos données personnelles seront traitées conformément à notre politique de confidentialité. Nous nous engageons à protéger vos informations.</p></div><div class='terms-section'><h4>4. Propriété intellectuelle</h4><p>Tous les contenus, textes, images et fonctionnalités de ce service sont protégés par les droits d'auteur et la propriété intellectuelle.</p></div><div class='terms-section'><h4>5. Limitation de responsabilité</h4><p>Nous ne serons pas responsables des dommages indirects, pertes de données ou préjudices résultant de l'utilisation de ce service.</p></div></div>",
     "submit_button": "S'inscrire",
     "submit_button_loading": "Chargement...",
     "login_text": "Vous avez déjà un compte ?",

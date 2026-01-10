@@ -44,7 +44,8 @@ export class Add_popupComponent implements OnInit {
     this.authService.login(email, password).subscribe({
       next: (response) => {
         this.isLoading = false;
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', response.access);
+        localStorage.setItem('refresh_token', response.refresh);
         localStorage.setItem('user', JSON.stringify(response.user));
         
         Swal.fire({

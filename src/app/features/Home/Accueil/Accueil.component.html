@@ -1,4 +1,12 @@
 <div class="body">
+    <div class="clouds-container">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
+        <div class="cloud cloud-5"></div>
+        <div class="cloud cloud-6"></div>
+    </div>
     <section class="featured-section">
         <header class="header__container">
             <div class="header__image">
@@ -18,10 +26,23 @@
                     <span><i class="ri-parent-line"></i></span>
                     {{ 'featured_section.header_image_cards.parental_guidance' | translate }}
                 </div>
-                <img src="assets/img/Autism-bro.png" alt="header" />
+                <!-- <img src="assets/img/Autism-bro.png" alt="header" /> -->
+                <img src="/assets/image/enfant-autiste.jpg" alt="header" />
             </div>
             <div class="header__content">
-                <h2 class="animated-header" [innerHTML]="'featured_section.header_content' | translate"></h2>
+                <div class="header__content-wrapper">
+                    <h2 class="animated-header" [innerHTML]="'featured_section.header_content' | translate"></h2>
+                    <div class="header__buttons">
+                        <button class="btn btn-signup" routerLink="/auth/signup">
+                            <i class="fas fa-user-plus"></i>
+                            {{ 'navbar.buttons.sign_up' | translate }}
+                        </button>
+                        <button class="btn btn-signin" routerLink="/auth/signin">
+                            <i class="fas fa-sign-in-alt"></i>
+                            {{ 'navbar.buttons.sign_in' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
     </section>
@@ -36,12 +57,12 @@
                 <div class="clearfix"></div>
 
                 <div class="col-lg-5 col-12 slide-in-left">
-                    <img src="assets/img/Activitésinteractives.gif" class="img-fluid" [alt]="'faq_section.image_alt' | translate">
+                    <img src="assets/image/enfant.jpg" class="img-fluid" [alt]="'faq_section.image_alt' | translate">
                 </div>
 
                 <div class="col-lg-6 col-12 m-auto slide-in-right">
-                    <p [innerHTML]="'faq_section.description' | translate"></p>
-                    <div class="accordion" id="accordionExample">
+                    <!-- <p class="faq-description" [innerHTML]="'faq_section.description' | translate"></p> -->
+                    <div class="accordion modern-accordion" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" aria-expanded="true" aria-controls="collapseOne">
@@ -146,49 +167,46 @@
                             <div class="row stagger-animation">
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.psychology_tab.cognitive_psychology.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.psychology_tab.cognitive_psychology.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-psychology rounded-pill ms-auto">14</span>
                                             </div>
-                                            <img src="assets/img/Accompagnement.gif"
+                                            <img src="assets/image/image1.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.psychology_tab.developmental_psychology.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.psychology_tab.developmental_psychology.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-psychology rounded-pill ms-auto">75</span>
                                             </div>
-                                            <img src="assets/img/Activitésinteractives.gif"
+                                            <img src="assets/image/image2.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.psychology_tab.psychotherapy.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.psychology_tab.psychotherapy.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-psychology rounded-pill ms-auto">100</span>
                                             </div>
-                                            <img src="assets/img/Kindergarten student.gif"
+                                            <img src="assets/image/image3.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -199,49 +217,46 @@
                             <div class="row stagger-animation">
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.behaviour_tab.social_behaviour.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.behaviour_tab.social_behaviour.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-behaviour rounded-pill ms-auto">30</span>
                                             </div>
-                                            <img src="assets/img/Innovation.gif" class="custom-block-image img-fluid"
+                                            <img src="assets/image/image4.webp" class="custom-block-image img-fluid"
                                                 alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.behaviour_tab.stress_management.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.behaviour_tab.stress_management.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-behaviour rounded-pill ms-auto">65</span>
                                             </div>
-                                            <img src="assets/img/Autism.gif" class="custom-block-image img-fluid"
+                                            <img src="assets/image/image5.webp" class="custom-block-image img-fluid"
                                                 alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.behaviour_tab.personal_development.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.behaviour_tab.personal_development.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-behaviour rounded-pill ms-auto">50</span>
                                             </div>
-                                            <img src="assets/img/Kids reading.gif" class="custom-block-image img-fluid"
+                                            <img src="assets/image/image6.webp" class="custom-block-image img-fluid"
                                                 alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -252,31 +267,31 @@
                             <div class="row stagger-animation">
                                 <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.development_tab.skills_development.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.development_tab.skills_development.description' | translate }}</p>
                                                 </div>
                                             </div>
-                                            <img src="assets/img/Office management.gif"
+                                            <img src="assets/image/image7.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.development_tab.personal_growth.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.development_tab.personal_growth.description' | translate }}</p>
                                                 </div>
                                             </div>
-                                            <img src="assets/img/Usability testing.gif"
+                                            <img src="assets/image/image8.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -286,49 +301,46 @@
                             <div class="row stagger-animation">
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.emotional_tab.emotion_management.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.emotional_tab.emotion_management.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-emotional rounded-pill ms-auto">40</span>
                                             </div>
-                                            <img src="assets/img/Usability testing.gif"
+                                            <img src="assets/image/image9.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.emotional_tab.emotional_wellbeing.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.emotional_tab.emotional_wellbeing.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-emotional rounded-pill ms-auto">55</span>
                                             </div>
-                                            <img src="assets/img/Activitésinteractives.gif"
+                                            <img src="assets/image/image10.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.emotional_tab.emotional_intelligence.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.emotional_tab.emotional_intelligence.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-emotional rounded-pill ms-auto">63</span>
                                             </div>
-                                            <img src="assets/img/Kindergarten student.gif"
+                                            <img src="assets/image/image11.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -339,49 +351,46 @@
                             <div class="row stagger-animation">
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.therapy_tab.cognitive_behavioral_therapy.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.therapy_tab.cognitive_behavioral_therapy.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-therapy rounded-pill ms-auto">85</span>
                                             </div>
-                                            <img src="assets/img/Accompagnement.gif"
+                                            <img src="assets/image/image12.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.therapy_tab.play_therapy.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.therapy_tab.play_therapy.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-therapy rounded-pill ms-auto">45</span>
                                             </div>
-                                            <img src="assets/img/Kindergarten student.gif"
+                                            <img src="assets/image/image13.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-12">
                                     <div class="custom-block bg-white shadow-lg">
-                                        <a href="topics-detail.html">
+                                        <div>
                                             <div class="d-flex">
                                                 <div>
                                                     <h5 class="mb-2">{{ 'explore_section.therapy_tab.supportive_therapy.title' | translate }}</h5>
                                                     <p class="mb-0">{{ 'explore_section.therapy_tab.supportive_therapy.description' | translate }}</p>
                                                 </div>
-                                                <span class="badge bg-therapy rounded-pill ms-auto">72</span>
                                             </div>
-                                            <img src="assets/img/Strategy.png"
+                                            <img src="assets/image/image14.webp"
                                                 class="custom-block-image img-fluid" alt="">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -396,7 +405,6 @@
 
 
     <section class="timeline-section section-padding fade-in" id="section_3">
-        <div class="section-overlay"></div>
 
         <div class="container">
             <div class="row">
@@ -464,28 +472,28 @@
         <div class="grid-wrapper stagger-animation">
             <div class="grid-box">
                 <div class="icon-title">
-                    <img src="assets/img/evaluation.gif" class="image" alt="">
+                    <img src="assets/image/image1.webp" class="image" alt="">
                     <h2>{{ 'skills_section.items.evaluation.title' | translate }}</h2>
                 </div>
                 <p>{{ 'skills_section.items.evaluation.description' | translate }}</p>
             </div>
             <div class="grid-box">
                 <div class="icon-title">
-                    <img src="assets/img/Activitésinteractives.gif" class="image" alt="">
+                    <img src="assets/image/image8.webp" class="image" alt="">
                     <h2>{{ 'skills_section.items.interactive_activities.title' | translate }}</h2>
                 </div>
                 <p>{{ 'skills_section.items.interactive_activities.description' | translate }}</p>
             </div>
             <div class="grid-box">
                 <div class="icon-title">
-                    <img src="assets/img/Accompagnement.gif" class="image" alt="">
+                    <img src="assets/image/image12.webp" class="image" alt="">
                     <h2>{{ 'skills_section.items.support.title' | translate }}</h2>
                 </div>
                 <p>{{ 'skills_section.items.support.description' | translate }}</p>
             </div>
             <div class="grid-box">
                 <div class="icon-title">
-                    <img src="assets/img/Usability testing.gif" class="image" alt="">
+                    <img src="assets/image/image11.webp" class="image" alt="">
                     <h2>{{ 'skills_section.items.accessibility.title' | translate }}</h2>
                 </div>
                 <p>{{ 'skills_section.items.accessibility.description' | translate }}</p>

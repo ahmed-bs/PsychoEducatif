@@ -1,93 +1,100 @@
-<div class="page-content">
-  <div class="form-v6-content">
-    <div class="form-left">
-      <button class="cssbuttons-io-button" routerLink="/">
-        <a>{{ 'login_form.return_button' | translate }}</a>
-        <div class="icon">
-          <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M15 19l-7-7 7-7M5 12h14" fill="currentColor"></path>
-          </svg>
-        </div>
-      </button>
-      <img [src]="'assets/img/Kids reading.gif'" [attr.alt]="'login_form.form_image_alt' | translate">
+<div class="clouds-container">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+  <div class="cloud cloud-4"></div>
+  <div class="cloud cloud-5"></div>
+  <div class="cloud cloud-6"></div>
+</div>
+<div class="signup-container">
+  <div class="signup-wrapper">
+    <!-- Left Side - Image -->
+    <div class="signup-image-section">
+      <img src="/assets/image/enfant-autiste.jpg" [attr.alt]="'login_form.form_image_alt' | translate" class="signup-image">
     </div>
     
-    <form class="form-detail" [formGroup]="loginForm" (ngSubmit)="login()">
-      <h1 class="custom-h1">{{ 'login_form.welcome_title' | translate }}</h1>
-      <p class="custom-p">{{ 'login_form.welcome_subtitle' | translate }}</p>
-
-      <!-- Email Field -->
-      <div class="mb-3">
-        <label for="email" class="form-label">
-          {{ 'login_form.email_label' | translate }}
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && email?.errors?.['required']" class="text-danger">{{ 'login_form.email_required_error' | translate }}</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            formControlName="email"
-            [placeholder]="'login_form.email_placeholder' | translate">
-          <span class="input-group-text">
-            <i class="bi bi-envelope"></i>
-          </span>
+    <!-- Right Side - Form -->
+    <div class="signup-card">
+      <button class="back-button" routerLink="/" type="button">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="login()" class="signup-form">
+        <div class="form-header">
+          <h1 class="form-title">{{ 'login_form.welcome_title' | translate }}</h1>
+          <p class="form-subtitle">{{ 'login_form.welcome_subtitle' | translate }}</p>
         </div>
-        <div class="error-placeholder">
-          <small *ngIf="showErrors && email?.errors?.['email']" class="text-danger">{{ 'login_form.email_invalid_error' | translate }}</small>
-        </div>
-      </div>
 
-      <!-- Password Field -->
-      <div class="mb-3">
-        <label for="password" class="form-label">
-          {{ 'login_form.password_label' | translate }}
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && password?.errors?.['required']" class="text-danger">{{ 'login_form.password_required_error' | translate }}</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <input
-            [type]="hide ? 'password' : 'text'"
-            class="form-control"
-            id="password"
-            formControlName="password"
-            [placeholder]="'login_form.password_placeholder' | translate">
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            (click)="togglePasswordVisibility()">
-            <i [ngClass]="hide ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+        <div class="form-body">
+          <!-- Email Field -->
+          <div class="form-field">
+            <label for="email" class="field-label">
+              {{ 'login_form.email_label' | translate }}
+            </label>
+            <div class="input-wrapper">
+              <i class="bi bi-envelope input-icon"></i>
+              <input
+                type="email"
+                id="email"
+                class="form-input"
+                [placeholder]="'login_form.email_placeholder' | translate"
+                formControlName="email"
+                [class.error]="showErrors && email?.invalid">
+            </div>
+            <small *ngIf="showErrors && email?.errors?.['required']" class="error-message">{{ 'login_form.email_required_error' | translate }}</small>
+            <small *ngIf="showErrors && email?.errors?.['email']" class="error-message">{{ 'login_form.email_invalid_error' | translate }}</small>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-field">
+            <label for="password" class="field-label">
+              {{ 'login_form.password_label' | translate }}
+            </label>
+            <div class="input-wrapper">
+              <i class="bi bi-lock input-icon"></i>
+              <input
+                [type]="hide ? 'password' : 'text'"
+                id="password"
+                class="form-input"
+                [placeholder]="'login_form.password_placeholder' | translate"
+                formControlName="password"
+                [class.error]="showErrors && password?.invalid">
+              <button
+                class="toggle-password"
+                type="button"
+                (click)="togglePasswordVisibility()"
+                tabindex="-1">
+                <i [ngClass]="hide ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <small *ngIf="showErrors && password?.errors?.['required']" class="error-message">{{ 'login_form.password_required_error' | translate }}</small>
+            <small *ngIf="showErrors && password?.errors?.['minlength']" class="error-message">{{ 'login_form.password_too_short_error' | translate }}</small>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="form-field checkbox-field">
+            <label class="checkbox-wrapper">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                formControlName="rememberMe"
+                class="checkbox-input">
+              <span class="checkbox-label-text">{{ 'login_form.remember_me' | translate }}</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" [disabled]="isLoading">
+            <span *ngIf="isLoading" class="spinner"></span>
+            <span *ngIf="!isLoading">{{ 'login_form.submit_button' | translate }}</span>
+            <span *ngIf="isLoading">{{ 'login_form.submit_button_loading' | translate }}</span>
           </button>
         </div>
-        <div class="error-placeholder">
-          <small *ngIf="showErrors && password?.errors?.['minlength']" class="text-danger">{{ 'login_form.password_too_short_error' | translate }}</small>
+
+        <div class="form-footer">
+          <p>{{ 'login_form.create_account_text' | translate }} <a routerLink="/auth/signup" class="login-link">{{ 'login_form.create_account_link' | translate }}</a></p>
         </div>
-      </div>
-
-      <!-- Remember Me & Submit Button -->
-      <div class="form-row align-items">
-        <mat-checkbox formControlName="rememberMe" class="checkbox">{{ 'login_form.remember_me' | translate }}</mat-checkbox>
-        <button type="submit" class="submit-button" [disabled]="isLoading">
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          <span *ngIf="!isLoading">{{ 'login_form.submit_button' | translate }}</span>
-          <span *ngIf="isLoading">{{ 'login_form.submit_button_loading' | translate }}</span>
-        </button>
-      </div>
-
-      <div class="text-centre">
-        <p>{{ 'login_form.create_account_text' | translate }} <a routerLink="/auth/signup" class="create-account-link">{{ 'login_form.create_account_link' | translate }}</a></p>
-      </div>
-
-      <div class="social-icons">
-        <a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 30px; color: #4267B2;"></i></a>
-        <a href="#" target="_blank"><i class="fab-insta" style="font-size: 30px; color: #C13584;"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 30px; color: #25D366;"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 30px; color: #0A66C2;"></i></a>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>

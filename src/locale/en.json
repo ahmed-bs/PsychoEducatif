@@ -4,6 +4,7 @@
     "select_child_prompt": "Please select a child's profile below.",
     "search_placeholder": "Search for a child by name",
     "no_children_message": "You have no children.",
+    "no_children_cloud_message": "You have no children. Create a new one first",
     "add_child_card": "Add a child",
     "add_child_button": "+"
   },
@@ -109,7 +110,14 @@
     },
     "buttons": {
       "sign_up": "Sign Up",
-      "sign_in": "Sign In"
+      "sign_in": "Sign In",
+      "change_account": "Change Account",
+      "change_account_confirm": {
+        "title": "Change Account",
+        "text": "Are you sure you want to change account? You will be logged out of this account.",
+        "confirm_button": "Yes, change",
+        "cancel_button": "Cancel"
+      }
     },
     "logo_name": "<span>Evalu'</span>Action",
     "search_placeholder": "Search..."
@@ -139,26 +147,26 @@
     "header_content": "A digital<br />solution <span class=\"text-indigo-600\"></span> for supporting children with autism."
   },
   "faq_section": {
-    "title": "🌟 About",
-    "description": "<span class=\"highlight font-semibold text-indigo-600\">PsychoÉducatif</span> is a digital platform designed to support children with autism in their development journey through an individualized and interactive approach. It offers assessment tools, educational strategies and adapted activities to meet the specific needs of each child.",
+    "title": "About",
+    "description": "<span class=\"highlight font-semibold text-indigo-600\">EvaluAction</span> is a digital platform designed to support children with autism in their development journey through an individualized and interactive approach. It offers assessment tools, educational strategies and adapted activities to meet the specific needs of each child.",
     "accordion": {
       "item1": {
-        "question": "What is the PsychoÉducatif platform?",
-        "answer": "The PsychoÉducatif platform is an interactive digital solution that helps children with autism progress in their development. It offers skills assessments, personalized activities and educational strategies adapted to each child's needs."
+        "question": "What is the EvaluAction platform?",
+        "answer": "The EvaluAction platform is an interactive digital solution that helps children with autism progress in their development. It offers skills assessments, personalized activities and educational strategies adapted to each child's needs."
       },
       "item2": {
         "question": "How does it work?",
         "answer": "The platform works through children's skills assessment tools, interactive activities, and real-time progress tracking. It allows educators and parents to support children with personalized plans."
       },
       "item3": {
-        "question": "Why use PsychoÉducatif?",
-        "answer": "PsychoÉducatif is designed to offer a unique and interactive experience, allowing children with autism to progress at their own pace. The platform adapts to each child's specific needs and supports educators and parents with modern and easy-to-use tools."
+        "question": "Why use EvaluAction?",
+        "answer": "EvaluAction is designed to offer a unique and interactive experience, allowing children with autism to progress at their own pace. The platform adapts to each child's specific needs and supports educators and parents with modern and easy-to-use tools."
       }
     },
     "image_alt": "Interactive activities"
   },
   "explore_section": {
-    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explore Psychoeducational Themes",
+    "title": "<i class=\"fas fa-brain\" style=\"color: #4e73df; margin-right: 8px;\"></i>Explore Educational Themes",
     "tabs": {
       "psychology": "Psychology",
       "behaviour": "Behavior",
@@ -234,11 +242,11 @@
     }
   },
   "timeline_section": {
-    "title": "How it works in the psychoeducational framework",
+    "title": "How it works in the educational framework",
     "items": {
       "explore_themes": {
-        "title": "Explore Psychoeducational Themes",
-        "description": "Browse a wide range of psychoeducational themes to better understand the needs of children, parents and professionals. Discover information on psychological development, behavioral strategies and emotional wellbeing."
+        "title": "Explore Educational Themes",
+        "description": "Browse a wide range of educational themes to better understand the needs of children, parents and professionals. Discover information on psychological development, behavioral strategies and emotional wellbeing."
       },
       "track_progress": {
         "title": "Track and Record Progress",
@@ -246,18 +254,18 @@
       },
       "learn_strategies": {
         "title": "Learn and Practice Strategies",
-        "description": "Read and learn from psychoeducational resources that provide practical strategies to support children with emotional and developmental needs. Benefit from personalized advice based on real-time assessments."
+        "description": "Read and learn from educational resources that provide practical strategies to support children with emotional and developmental needs. Benefit from personalized advice based on real-time assessments."
       }
     },
     "more_info": "Would you like to know more?",
     "discover_button": "Discover our Resources"
   },
   "skills_section": {
-    "title": "🎯 Why choose PsychoÉducatif?",
+    "title": "Why choose EvaluAction?",
     "items": {
       "evaluation": {
         "title": "Accurate and personalized assessment",
-        "description": "Detailed monitoring based on recognized psycho-education criteria."
+        "description": "Detailed monitoring based on recognized education criteria."
       },
       "interactive_activities": {
         "title": "Interactive and fun activities",
@@ -274,10 +282,16 @@
     }
   },
   "evaluation_featured_section": {
-    "header_content": "Assessment <br/>is a <span></span> key step in the psycho-educational support of children with autism. It helps understand their needs and skills to develop personalized plans."
+    "header_content": "Assessment <br/>is a <span></span> key step in the educational support of children with autism. It helps understand their needs and skills to develop personalized plans.",
+    "header_image_cards": {
+      "educational_follow_up": "Educational Follow-up",
+      "personalized_activities": "Personalized Activities",
+      "defined_objectives": "Defined Objectives",
+      "parental_guidance": "Parental Guidance"
+    }
   },
   "evaluation_objectives_section": {
-    "title": "🎯 Assessment Objectives",
+    "title": "Assessment Objectives",
     "items": {
       "strengths_and_weaknesses": {
         "title": "Identify the child's strengths and weaknesses",
@@ -294,16 +308,16 @@
     }
   },
   "digital_evaluation_advantages_section": {
-    "title": "🌟 Advantages of digital assessment",
+    "title": "Advantages of digital assessment",
     "items": {
       "psychoeducatif": {
-        "title": "PsychoÉducatif",
+        "title": "EvaluAction",
         "description": "<span class=\"highlight\">Accessibility:</span> Allows use by parents and professionals, without the need for specialized equipment.<br><span class=\"highlight\">Personalization:</span> Tools adapt to each child's specific needs.<br><span class=\"highlight\">Efficiency:</span> Time savings in data collection and analysis.<br><span class=\"highlight\">Continuous monitoring:</span> Regular updates of assessments to adjust support strategies."
       }
     }
   },
   "evaluation_methodology_section": {
-    "title": "🧑‍🏫 Proposed assessment methodology",
+    "title": "Proposed assessment methodology",
     "items": {
       "child_profile": {
         "title": "Child profile creation",
@@ -333,16 +347,16 @@
     "header_content": "For optimal support of children with autism, together!"
   },
   "objectives_section": {
-    "title": "🌟 Our Objectives",
+    "title": " Our Objectives",
     "items": {
       "why_application": {
         "title": "Why this application?",
-        "description": "We designed this application with a clear vision: to offer children with autism, their families, and professionals modern and personalized tools for optimal psycho-educational care."
+        "description": "We designed this application with a clear vision: to offer children with autism, their families, and professionals modern and personalized tools for optimal educational care."
       }
     }
   },
   "goals_section": {
-    "title": "🌟 What we aim to accomplish",
+    "title": "What we aim to accomplish",
     "items": {
       "facilitate_evaluation": {
         "title": "Facilitate needs assessment",
@@ -463,8 +477,10 @@
     "confirm_password_placeholder": "Confirm your password",
     "confirm_password_required_error": "*",
     "password_mismatch_error": "Passwords do not match",
-    "terms_checkbox": "I accept the <a href='#' target='_blank'>terms and conditions</a>",
+    "terms_checkbox": "I accept the <a href='#' class='terms-link'>terms and conditions</a>",
     "terms_required_error": "*",
+    "terms_title": "Terms and Conditions",
+    "terms_content": "<div class='terms-content'><div class='terms-section'><h4>1. Acceptance of Terms</h4><p>By using this service, you agree to be bound by these terms and conditions of use.</p></div><div class='terms-section'><h4>2. Use of Service</h4><p>You agree to use this service in a lawful, appropriate manner and in compliance with applicable laws.</p></div><div class='terms-section'><h4>3. Privacy and Data Protection</h4><p>Your personal data will be processed in accordance with our privacy policy. We are committed to protecting your information.</p></div><div class='terms-section'><h4>4. Intellectual Property</h4><p>All content, texts, images, and features of this service are protected by copyright and intellectual property rights.</p></div><div class='terms-section'><h4>5. Limitation of Liability</h4><p>We will not be liable for indirect damages, data loss, or harm resulting from the use of this service.</p></div></div>",
     "submit_button": "Sign up",
     "submit_button_loading": "Loading...",
     "login_text": "Already have an account?",

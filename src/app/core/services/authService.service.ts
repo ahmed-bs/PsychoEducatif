@@ -20,7 +20,7 @@ export class AuthService {
       }
   
     register(data: Parent): Observable<any> {
-      return this.http.post(`${this.apiUrl}register/`, data,{ headers: this.getNoAuthHeaders() }).pipe(
+      return this.http.post(`${this.apiUrl}email/register/`, data,{ headers: this.getNoAuthHeaders() }).pipe(
         catchError((error) => {
           console.error(error);
           throw error;
@@ -38,8 +38,8 @@ export class AuthService {
           'Content-Type': 'application/json'
       });
   }
-    login(username_or_email: string, password: string): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${this.apiUrl}login/`, { username_or_email, password }).pipe(
+    login(email: string, password: string): Observable<LoginResponse> {
+        return this.http.post<LoginResponse>(`${this.apiUrl}email/login/`, { email, password }).pipe(
           catchError((error) => {
             console.error(error);
             throw error;
@@ -48,9 +48,28 @@ export class AuthService {
       }
     
       logout() {
+        const refreshToken = localStorage.getItem('refresh_token');
+        const logoutData = refreshToken ? { refresh: refreshToken } : {};
+        
+        // Send logout request with refresh token if available
+        this.http.post(`${this.apiUrl}logout/`, logoutData).subscribe({
+          next: () => {
+            // Clear local storage and navigate
+            this.clearLocalStorage();
+          },
+          error: (error) => {
+            // Even if logout fails, clear local storage and navigate
+            console.error('Logout error:', error);
+            this.clearLocalStorage();
+          }
+        });
+      }
+
+      private clearLocalStorage() {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('refresh_token');
         this.currentUserSubject.next(null);
-        this.http.post(`${this.apiUrl}logout/`, {});
         this.router.navigate(['/signin']);
       }
  

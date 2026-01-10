@@ -1,319 +1,589 @@
-.page-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #ffffff;
-  font-family: 'Nunito', sans-serif;
-}
-
-.form-v6-content {
-  display: flex;
-  background: #ffffff;
-  box-shadow: 4px 4px 10px 10px rgba(187, 223, 251, 0.43);
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 0 60px;
-}
-.error-placeholder {
-  min-height: 20px;
-  visibility: hidden;
-}
-
-.error-placeholder small {
-  visibility: visible;
-}
-
-.asterisk-placeholder {
-  display: inline-block;
-  width: 10px;
-  text-align: center;
-}
-.form-left {
-  width: 50%;
-}
-
-.form-left img {
+/* Cloud background animation */
+.clouds-container {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 75%;
-  margin-top: 73px;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(to top, #e0eafc 0%, #cfdef3 100%);
 }
 
-.form-detail {
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+  opacity: 0.6;
+}
+
+.cloud:before,
+.cloud:after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+}
+
+.cloud:before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud:after {
+  width: 60px;
+  height: 60px;
+  top: -35px;
+  right: 10px;
+}
+
+/* Cloud shapes */
+.cloud-1 {
+  width: 100px;
+  height: 40px;
+  top: 20%;
+  left: -150px;
+  animation: moveCloud1 30s linear infinite;
+}
+
+.cloud-1:before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud-1:after {
+  width: 60px;
+  height: 60px;
+  top: -35px;
+  right: 10px;
+}
+
+.cloud-2 {
+  width: 120px;
+  height: 45px;
+  top: 40%;
+  left: -200px;
+  animation: moveCloud2 35s linear infinite;
+  animation-delay: -5s;
+}
+
+.cloud-2:before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 15px;
+}
+
+.cloud-2:after {
+  width: 70px;
+  height: 70px;
+  top: -40px;
+  right: 15px;
+}
+
+.cloud-3 {
+  width: 90px;
+  height: 35px;
+  top: 60%;
+  left: -180px;
+  animation: moveCloud3 40s linear infinite;
+  animation-delay: -10s;
+}
+
+.cloud-3:before {
+  width: 45px;
+  height: 45px;
+  top: -22px;
+  left: 8px;
+}
+
+.cloud-3:after {
+  width: 55px;
+  height: 55px;
+  top: -30px;
+  right: 8px;
+}
+
+.cloud-4 {
+  width: 110px;
+  height: 42px;
+  top: 10%;
+  left: -220px;
+  animation: moveCloud4 32s linear infinite;
+  animation-delay: -15s;
+}
+
+.cloud-4:before {
+  width: 55px;
+  height: 55px;
+  top: -27px;
+  left: 12px;
+}
+
+.cloud-4:after {
+  width: 65px;
+  height: 65px;
+  top: -37px;
+  right: 12px;
+}
+
+.cloud-5 {
+  width: 130px;
+  height: 50px;
+  top: 70%;
+  left: -250px;
+  animation: moveCloud5 38s linear infinite;
+  animation-delay: -20s;
+}
+
+.cloud-5:before {
+  width: 65px;
+  height: 65px;
+  top: -32px;
+  left: 18px;
+}
+
+.cloud-5:after {
+  width: 75px;
+  height: 75px;
+  top: -42px;
+  right: 18px;
+}
+
+.cloud-6 {
+  width: 95px;
+  height: 38px;
+  top: 30%;
+  left: -190px;
+  animation: moveCloud6 36s linear infinite;
+  animation-delay: -25s;
+}
+
+.cloud-6:before {
+  width: 48px;
+  height: 48px;
+  top: -24px;
+  left: 9px;
+}
+
+.cloud-6:after {
+  width: 58px;
+  height: 58px;
+  top: -32px;
+  right: 9px;
+}
+
+/* Cloud animations */
+@keyframes moveCloud1 {
+  from {
+    left: -150px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud2 {
+  from {
+    left: -200px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud3 {
+  from {
+    left: -180px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud4 {
+  from {
+    left: -220px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud5 {
+  from {
+    left: -250px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud6 {
+  from {
+    left: -190px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+/* Main Container */
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: transparent;
+  font-family: 'Nunito', sans-serif;
+  position: relative;
+  z-index: 1;
+}
+
+/* Wrapper for image and form */
+.signup-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* Left Side - Image Section */
+.signup-image-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4da5d8 0%, #3d8bb8 100%);
+  padding: 0;
+  min-height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+.signup-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Right Side - Form Card */
+.signup-card {
+  flex: 1;
+  max-width: 500px;
+  background: #ffffff;
   padding: 40px;
-  width: 50%;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 }
 
-.full-width {
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-.input {
-  border: 2px solid rgb(159, 157, 157);
-  border-radius: 4px;
-  padding: 8px;
-  margin: 8px;
-  color: rgb(184, 184, 182);
-  height: 60px;
-}
-
-
-.custom-h1 {
-  font-size: 64px;
-  font-weight: 700;
-  color: rgb(77, 165, 216);
-  margin-bottom: 0;
-  text-align: center;
-  font-family: 'Nunito', sans-serif;
-}
-
-.custom-p {
-  font-size: 1.3rem;
-  color: black;
-  margin-top: 0;
-  margin-bottom: 75px;
-  text-align: center;
-}
-
-.label {
-  color: solid black;
-}
-
-.form-row.align-items {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin: 16px;
-}
-
-/* Styling for the checkbox */
-.checkbox {
-  font-size: 0.9rem;
-  color: black;
-}
-
-.submit-button {
-  background-color: rgb(77, 165, 216);
-  color: white;
-  padding: 14px 27px;
-  border-radius: 23px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.submit-button:hover {
-  background-color: rgb(98, 170, 211);
-  color: #ffffff;
-}
-
-
-.create-account-link {
-  color: rgb(77, 165, 216);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.text-centre {
-  text-align: center;
-}
-
-.create-account-link:hover {
-  text-decoration: underline;
-  color: rgb(48, 112, 169);
-}
-
-.social-icons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-}
-
-/*go back button*/
-.cssbuttons-io-button {
-  background: rgb(77, 165, 216);
-  color: white;
-  font-family: inherit;
-  padding: 0.35em;
-  margin-top: 20px;
-  padding-left: 1.2em;
-  font-size: 17px;
-  font-weight: 500;
-  border-radius: 0.9em;
-  border: none;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 0 1.6em #6d9bdb;
-  overflow: hidden;
-  position: relative;
-  height: 3em;
-  padding-right: 3.5em;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.cssbuttons-io-button .icon {
-  background: white;
-  margin-left: 1em;
+/* Back Button */
+.back-button {
   position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #4da5d8;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 2.2em;
-  width: 2.2em;
-  border-radius: 0.7em;
-  box-shadow: 0.1em 0.1em 0.6em 0.2em #84c1ff;
-  right: 0.3em;
-  transition: all 0.3s;
+  width: 40px;
+  height: 40px;
 }
 
-.cssbuttons-io-button:hover .icon {
-  width: calc(100% - 0.6em);
+.back-button:hover {
+  background: rgba(77, 165, 216, 0.1);
+  transform: translateX(-3px);
 }
 
-.cssbuttons-io-button .icon svg {
-  width: 1.1em;
-  transition: transform 0.3s;
-  color: #84c1ff;
+/* Form Header */
+.form-header {
+  text-align: center;
+  margin-bottom: 35px;
 }
 
-.cssbuttons-io-button:hover .icon svg {
-  transform: translateX(0.1em);
+.form-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 10px 0;
 }
 
-.cssbuttons-io-button:active .icon {
-  transform: scale(0.95);
+.form-subtitle {
+  font-size: 15px;
+  color: #7f8c8d;
+  margin: 0;
 }
 
-.cssbuttons-io-button:active {
-  box-shadow: 0.1em 0.1em 0.6em 0.2em #84c1ff;
-  transform: scale(0.98);
+/* Form Body */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* Form Field */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
+.field-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
 
-/* Responsive Styles for iPhone and iPad */
+/* Input Wrapper */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #95a5a6;
+  font-size: 18px;
+  z-index: 1;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 14px 14px 45px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4da5d8;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(77, 165, 216, 0.1);
+}
+
+.form-input.error {
+  border-color: #e74c3c;
+  background: #fff5f5;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #95a5a6;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: #4da5d8;
+}
+
+/* Error Message */
+.error-message {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: -4px;
+  display: block;
+}
+
+/* Checkbox Field */
+.checkbox-field {
+  margin: 10px 0;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox-input {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4da5d8;
+  flex-shrink: 0;
+}
+
+.checkbox-label-text {
+  font-size: 14px;
+  color: #34495e;
+  line-height: 1.5;
+  user-select: none;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #4da5d8 0%, #3d8bb8 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(77, 165, 216, 0.3);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(77, 165, 216, 0.4);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Form Footer */
+.form-footer {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.form-footer p {
+  margin: 0;
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.login-link {
+  color: #4da5d8;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #3d8bb8;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
-  .form-v6-content {
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .form-left,
-  .form-detail {
-    width: 100%;
-  }
-
-  .form-left img {
-    display: none; /* Hide image on iPad and smaller */
-    height: auto;
-    margin-top: 20px;
-  }
-
-  .custom-h1 {
-    font-size: 48px;
-  }
-
-  .custom-p {
-    font-size: 1.1rem;
-    margin-bottom: 50px;
-  }
-
-  .input {
-    height: 50px;
-    margin: 5px 0;
-  }
-
-  .submit-button {
-    padding: 12px 20px;
-    font-size: 16px;
-  }
-
-  .form-row.align-items {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin: 16px;
-  }
-
-  /* Styling for the checkbox */
-  .checkbox {
-    font-size: 0.9rem;
-    color: black;
-  }
-}
-
-/* Specific Styling for iPhones (max-width: 768px) */
-@media (max-width: 768px) {
-  .custom-h1 {
-    font-size: 36px;
-  }
-
-  .custom-p {
-    font-size: 1rem;
-    margin-bottom: 40px;
-  }
-
-  .form-detail {
-    padding: 0;
-  }
-
-  .input {
-    height: 45px;
-    padding: 3px;
-  }
-
-  .submit-button {
-    padding: 9px 10px;
-    font-size: 14px;
-  }
-
-  .cssbuttons-io-button a {
+  .signup-image-section {
     display: none;
   }
 
-  .cssbuttons-io-button {
-    padding: 25px;
-    background: #ffffff;
+  .signup-wrapper {
+    max-width: 500px;
   }
 
+  .signup-card {
+    width: 100%;
+  }
 }
 
-/* Additional Styles for Ultra-Small Screens (max-width: 480px) */
-@media (max-width: 480px) {
-  .custom-h1 {
+@media (max-width: 768px) {
+  .signup-container {
+    padding: 15px;
+  }
+
+  .signup-card {
+    padding: 30px 25px;
+  }
+
+  .form-title {
     font-size: 28px;
   }
 
-  .custom-p {
-    font-size: 0.9rem;
-    margin-bottom: 30px;
+  .form-subtitle {
+    font-size: 14px;
   }
 
-  .form-row.align-items {
-    gap: 3px;
+  .form-body {
+    gap: 18px;
   }
 
-  .submit-button {
-    font-size: 12px;
-    padding: 8px 10px;
+  .form-input {
+    padding: 12px 12px 12px 40px;
+    font-size: 14px;
   }
 
-  .cssbuttons-io-button a {
-    display: none;
+  .submit-btn {
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-card {
+    padding: 25px 20px;
   }
 
-  .cssbuttons-io-button {
-    padding: 25px;
-    background: #ffffff;
+  .form-title {
+    font-size: 24px;
+  }
+
+  .back-button {
+    top: 15px;
+    left: 15px;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
   }
 }

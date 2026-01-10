@@ -1,160 +1,147 @@
-<div class="page-content">
-  <div class="form-v6-content">
-    <div class="social-sidebar">
-      <button class="cssbuttons-io-button" routerLink="/">
-        <a>{{ 'signup_form.return_button' | translate }}</a>
-        <div class="icon">
-          <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M15 19l-7-7 7-7M5 12h14" fill="currentColor"></path>
-          </svg>
-        </div>
+<div class="clouds-container">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+  <div class="cloud cloud-4"></div>
+  <div class="cloud cloud-5"></div>
+  <div class="cloud cloud-6"></div>
+</div>
+<div class="signup-container">
+  <div class="signup-wrapper">
+    <!-- Left Side - Image -->
+    <div class="signup-image-section">
+      <img src="/assets/image/enfant-autiste.jpg" [attr.alt]="'signup_form.form_image_alt' | translate" class="signup-image">
+    </div>
+    
+    <!-- Right Side - Form -->
+    <div class="signup-card">
+      <button class="back-button" routerLink="/" type="button">
+        <i class="bi bi-arrow-left"></i>
       </button>
-      <ul class="social-icons">
-        <li><a href="#" target="_blank"><i class="fab fa-facebook" style="font-size: 40px; color: #4267B2;"></i></a></li>
-        <li><a href="#" target="_blank"><i class="fab fa-instagram" style="font-size: 40px; color: #C13584;"></i></a></li>
-        <li><a href="#" target="_blank"><i class="fab fa-whatsapp" style="font-size: 40px; color: #25D366;"></i></a></li>
-        <li><a href="#" target="_blank"><i class="fab fa-linkedin" style="font-size: 40px; color: #0A66C2;"></i></a></li>
-      </ul>
-    </div>
-    
-    <div class="form-left">
-      <img [src]="'assets/img/Innovation.gif'" [attr.alt]="'signup_form.form_image_alt' | translate">
-    </div>
-    
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-detail">
-      <h1 class="custom-h1">{{ 'signup_form.title' | translate }}</h1>
-      <p class="custom-p">{{ 'signup_form.subtitle' | translate }}</p>
-
-      <!-- Full Name Field -->
-      <div class="mb-3">
-        <label for="fullName" class="form-label">
-          {{ 'signup_form.full_name_label' | translate }}
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && username?.errors?.['required']" class="text-danger">{{ 'signup_form.full_name_required_error' | translate }}</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <input 
-            type="text" 
-            id="fullName" 
-            class="form-control" 
-            [placeholder]="'signup_form.full_name_placeholder' | translate"
-            formControlName="username">
-          <span class="input-group-text">
-            <i class="bi bi-person"></i>
-          </span>
-        </div>
-        <div class="error-placeholder">
-          <small *ngIf="showErrors && username?.errors?.['minlength']" class="text-danger">{{ 'signup_form.full_name_too_short_error' | translate }}</small>
-        </div>
+      
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+      <div class="form-header">
+        <h1 class="form-title">{{ 'signup_form.title' | translate }}</h1>
+        <p class="form-subtitle">{{ 'signup_form.subtitle' | translate }}</p>
       </div>
 
-      <!-- Email Field -->
-      <div class="mb-3">
-        <label for="email" class="form-label">
-          {{ 'signup_form.email_label' | translate }}
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && email?.errors?.['required']" class="text-danger">{{ 'signup_form.email_required_error' | translate }}</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <input 
-            type="email" 
-            id="email" 
-            class="form-control" 
-            [placeholder]="'signup_form.email_placeholder' | translate"
-            formControlName="email">
-          <span class="input-group-text">
-            <i class="bi bi-envelope"></i>
-          </span>
-        </div>
-        <div class="error-placeholder">
-          <small *ngIf="showErrors && email?.errors?.['email']" class="text-danger">{{ 'signup_form.email_invalid_error' | translate }}</small>
-        </div>
-      </div>
-
-      <!-- Password Field -->
-      <div class="mb-3">
-        <label for="password" class="form-label">
-          {{ 'signup_form.password_label' | translate }}
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && password?.errors?.['required']" class="text-danger">{{ 'signup_form.password_required_error' | translate }}</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <input 
-            [type]="hidePassword ? 'password' : 'text'" 
-            id="password" 
-            class="form-control" 
-            [placeholder]="'signup_form.password_placeholder' | translate"
-            formControlName="password">
-          <button 
-            class="btn btn-outline-secondary" 
-            type="button" 
-            (click)="hidePassword = !hidePassword">
-            <i [class]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-          </button>
-        </div>
-        <div class="error-placeholder">
-          <small *ngIf="showErrors && password?.errors?.['minlength']" class="text-danger">{{ 'signup_form.password_too_short_error' | translate }}</small>
-          <small *ngIf="showErrors && password?.errors?.['passwordStrength']" class="text-danger">{{ 'signup_form.password_strength_error' | translate }}</small>
-        </div>
-      </div>
-
-      <!-- Confirm Password Field -->
-      <div class="mb-3">
-        <label for="confirmPassword" class="form-label">
-          {{ 'signup_form.confirm_password_label' | translate }}
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && confirm_password?.errors?.['required']" class="text-danger">{{ 'signup_form.confirm_password_required_error' | translate }}</span>
-          </span>
-        </label>
-        <div class="input-group">
-          <input 
-            [type]="hideConfirmPassword ? 'password' : 'text'" 
-            id="confirmPassword" 
-            class="form-control" 
-            [placeholder]="'signup_form.confirm_password_placeholder' | translate"
-            formControlName="confirm_password">
-          <button 
-            class="btn btn-outline-secondary" 
-            type="button" 
-            (click)="hideConfirmPassword = !hideConfirmPassword">
-            <i [class]="hideConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-          </button>
-        </div>
-        <div class="error-placeholder">
-          <small *ngIf="showErrors && signupForm.errors?.['passwordMismatch']" class="text-danger">{{ 'signup_form.password_mismatch_error' | translate }}</small>
-        </div>
-      </div>
-
-      <!-- Terms Checkbox and Submit Button -->
-      <div class="form-row align-items">
-        <div class="checkbox-container">
-          <input 
-            type="checkbox" 
-            id="accepte_conditions" 
-            formControlName="accepte_conditions" 
-            class="form-check-input">
-          <label for="accepte_conditions" class="checkbox-label">
-            <span [innerHTML]="'signup_form.terms_checkbox' | translate"></span>
+      <div class="form-body">
+        <!-- Full Name Field -->
+        <div class="form-field">
+          <label for="fullName" class="field-label">
+            {{ 'signup_form.full_name_label' | translate }}
           </label>
-          <span class="asterisk-placeholder">
-            <span *ngIf="showErrors && accepte_conditions?.invalid" class="text-danger ms-2">{{ 'signup_form.terms_required_error' | translate }}</span>
-          </span>
+          <div class="input-wrapper">
+            <i class="bi bi-person input-icon"></i>
+            <input 
+              type="text" 
+              id="fullName" 
+              class="form-input" 
+              [placeholder]="'signup_form.full_name_placeholder' | translate"
+              formControlName="username"
+              [class.error]="showErrors && username?.invalid">
+          </div>
+          <small *ngIf="showErrors && username?.errors?.['required']" class="error-message">{{ 'signup_form.full_name_required_error' | translate }}</small>
+          <small *ngIf="showErrors && username?.errors?.['minlength']" class="error-message">{{ 'signup_form.full_name_too_short_error' | translate }}</small>
         </div>
-        
-        <button type="submit" class="submit-button" [disabled]="isLoading">
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+
+        <!-- Email Field -->
+        <div class="form-field">
+          <label for="email" class="field-label">
+            {{ 'signup_form.email_label' | translate }}
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-envelope input-icon"></i>
+            <input 
+              type="email" 
+              id="email" 
+              class="form-input" 
+              [placeholder]="'signup_form.email_placeholder' | translate"
+              formControlName="email"
+              [class.error]="showErrors && email?.invalid">
+          </div>
+          <small *ngIf="showErrors && email?.errors?.['required']" class="error-message">{{ 'signup_form.email_required_error' | translate }}</small>
+          <small *ngIf="showErrors && email?.errors?.['email']" class="error-message">{{ 'signup_form.email_invalid_error' | translate }}</small>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-field">
+          <label for="password" class="field-label">
+            {{ 'signup_form.password_label' | translate }}
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input 
+              [type]="hidePassword ? 'password' : 'text'" 
+              id="password" 
+              class="form-input" 
+              [placeholder]="'signup_form.password_placeholder' | translate"
+              formControlName="password"
+              [class.error]="showErrors && password?.invalid">
+            <button 
+              class="toggle-password" 
+              type="button" 
+              (click)="hidePassword = !hidePassword"
+              tabindex="-1">
+              <i [class]="hidePassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          <small *ngIf="showErrors && password?.errors?.['required']" class="error-message">{{ 'signup_form.password_required_error' | translate }}</small>
+          <small *ngIf="showErrors && password?.errors?.['minlength']" class="error-message">{{ 'signup_form.password_too_short_error' | translate }}</small>
+          <small *ngIf="showErrors && password?.errors?.['passwordStrength']" class="error-message">{{ 'signup_form.password_strength_error' | translate }}</small>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="form-field">
+          <label for="confirmPassword" class="field-label">
+            {{ 'signup_form.confirm_password_label' | translate }}
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input 
+              [type]="hideConfirmPassword ? 'password' : 'text'" 
+              id="confirmPassword" 
+              class="form-input" 
+              [placeholder]="'signup_form.confirm_password_placeholder' | translate"
+              formControlName="confirm_password"
+              [class.error]="showErrors && (confirm_password?.invalid || signupForm.errors?.['passwordMismatch'])">
+            <button 
+              class="toggle-password" 
+              type="button" 
+              (click)="hideConfirmPassword = !hideConfirmPassword"
+              tabindex="-1">
+              <i [class]="hideConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          <small *ngIf="showErrors && confirm_password?.errors?.['required']" class="error-message">{{ 'signup_form.confirm_password_required_error' | translate }}</small>
+          <small *ngIf="showErrors && signupForm.errors?.['passwordMismatch']" class="error-message">{{ 'signup_form.password_mismatch_error' | translate }}</small>
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="form-field checkbox-field">
+          <label class="checkbox-wrapper">
+            <input 
+              type="checkbox" 
+              id="accepte_conditions" 
+              formControlName="accepte_conditions" 
+              class="checkbox-input">
+            <span class="checkbox-label-text" [innerHTML]="'signup_form.terms_checkbox' | translate" (click)="handleTermsClick($event)"></span>
+          </label>
+          <small *ngIf="showErrors && accepte_conditions?.invalid" class="error-message">{{ 'signup_form.terms_required_error' | translate }}</small>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner"></span>
           <span *ngIf="!isLoading">{{ 'signup_form.submit_button' | translate }}</span>
           <span *ngIf="isLoading">{{ 'signup_form.submit_button_loading' | translate }}</span>
         </button>
       </div>
 
-      <div class="text-centre">
+      <div class="form-footer">
         <p>{{ 'signup_form.login_text' | translate }} <a routerLink="/auth/signin" class="login-link">{{ 'signup_form.login_link' | translate }}</a></p>
       </div>
     </form>
+    </div>
   </div>
 </div>

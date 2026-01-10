@@ -33,9 +33,14 @@ export class NavbarHomeComponent implements OnInit, OnDestroy {
       menuBtnIcon?.setAttribute('class', isOpen ? 'ri-close-line' : 'ri-menu-line');
     });
 
-    navLinks?.addEventListener('click', () => {
-      navLinks?.classList.remove('open');
-      menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+    // Close menu when clicking on a link (not on the entire navLinks container)
+    navLinks?.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      // Only close if clicking on a link (a tag) or its parent (li tag)
+      if (target.tagName === 'A' || target.closest('a')) {
+        navLinks?.classList.remove('open');
+        menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+      }
     });
 
     // Subscribe to language changes
@@ -66,7 +71,15 @@ export class NavbarHomeComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (!target.closest('.language-menu-container')) {
+    if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
+      this.showLanguageMenu = false;
+    }
+  }
+
+  // Close language menu with Escape key
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKey(event: KeyboardEvent): void {
+    if (this.showLanguageMenu) {
       this.showLanguageMenu = false;
     }
   }

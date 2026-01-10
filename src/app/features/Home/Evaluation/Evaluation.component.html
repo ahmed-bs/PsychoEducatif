@@ -1,37 +1,73 @@
-<body>
+<div class="body">
+  <div class="clouds-container">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
+    <div class="cloud cloud-6"></div>
+  </div>
   <section class="featured-section">
     <header class="header__container">
         <div class="header__image">
-            <img src="assets/img/Good_team-pana-removebg-preview.png" alt="header" />
+            <div class="header__image__card header__image__card-1">
+                <span><i class="ri-user-follow-line"></i></span>
+                {{ 'evaluation_featured_section.header_image_cards.educational_follow_up' | translate }}
+            </div>
+            <div class="header__image__card header__image__card-2">
+                <span><i class="ri-calendar-todo-line"></i></span>
+                {{ 'evaluation_featured_section.header_image_cards.personalized_activities' | translate }}
+            </div>
+            <div class="header__image__card header__image__card-3">
+                <span><i class="ri-flag-line"></i></span>
+                {{ 'evaluation_featured_section.header_image_cards.defined_objectives' | translate }}
+            </div>
+            <div class="header__image__card header__image__card-4">
+                <span><i class="ri-parent-line"></i></span>
+                {{ 'evaluation_featured_section.header_image_cards.parental_guidance' | translate }}
+            </div>
+            <img src="/assets/realimg/pexels-cottonbro-3661353.jpg" alt="header" />
         </div>
         <div class="header__content">
-            <h2 class="animated-header" [innerHTML]="'evaluation_featured_section.header_content' | translate"></h2>
+            <div class="header__content-wrapper">
+                <h2 class="animated-header" [innerHTML]="'evaluation_featured_section.header_content' | translate"></h2>
+                <div class="header__buttons">
+                    <button class="btn btn-signup" routerLink="/auth/signup">
+                        <i class="fas fa-user-plus"></i>
+                        {{ 'navbar.buttons.sign_up' | translate }}
+                    </button>
+                    <button class="btn btn-signin" routerLink="/auth/signin">
+                        <i class="fas fa-sign-in-alt"></i>
+                        {{ 'navbar.buttons.sign_in' | translate }}
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 </section>
 
-  <section class="skills container">
+  <section class="skills container fade-in">
     <div class="title">
-      <h1>{{ 'evaluation_objectives_section.title' | translate }}</h1>
+      <h1 class="section-header">{{ 'evaluation_objectives_section.title' | translate }}</h1>
     </div>
-    <div class="grid-wrapper">
+    <div class="grid-wrapper stagger-animation">
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/evaluation.gif" class="image" alt="">
+          <img src="assets/realimg/pexels-pixabay-273062.jpg" class="image" alt="">
           <h2>{{ 'evaluation_objectives_section.items.strengths_and_weaknesses.title' | translate }}</h2>
         </div>
         <p>{{ 'evaluation_objectives_section.items.strengths_and_weaknesses.description' | translate }}</p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/Activités interactives.gif" class="image" alt="">
+          <img src="assets/realimg/pexels-cottonbro-3661356.jpg" class="image" alt="">
           <h2>{{ 'evaluation_objectives_section.items.specific_needs.title' | translate }}</h2>
         </div>
         <p>{{ 'evaluation_objectives_section.items.specific_needs.description' | translate }}</p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/Usability testing.gif" class="image" alt="">
+          <img src="assets/realimg/pexels-reneterp-2505098.jpg" class="image" alt="">
           <h2>{{ 'evaluation_objectives_section.items.baseline.title' | translate }}</h2>
         </div>
         <p>{{ 'evaluation_objectives_section.items.baseline.description' | translate }}</p>
@@ -39,54 +75,86 @@
     </div>
   </section>
 
-  <section class="skills container">
-    <div class="title">
-      <h1>{{ 'digital_evaluation_advantages_section.title' | translate }}</h1>
-    </div>
-    <div class="grid-wrapper">
-      <div class="grid-box">
-        <div class="icon-title">
-          <img src="assets/image/skill-1.png" alt="">
-          <h2>{{ 'digital_evaluation_advantages_section.items.psychoeducatif.title' | translate }}</h2>
+  <section class="timeline-section section-padding fade-in">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h2 class="text-white mb-4 section-header">{{ 'digital_evaluation_advantages_section.title' | translate }}</h2>
         </div>
-        <p [innerHTML]="'digital_evaluation_advantages_section.items.psychoeducatif.description' | translate"></p>
+        <div class="col-lg-10 col-12 mx-auto">
+          <div class="timeline-container">
+            <ul class="vertical-scrollable-timeline stagger-animation" id="vertical-scrollable-timeline">
+              <div class="list-progress">
+                <div class="inner"></div>
+              </div>
+              <li>
+                <h4 class="mb-3">Accessibilité</h4>
+                <p>Permet une utilisation par les parents et les professionnels, sans besoin d'équipement spécialisé.</p>
+                <div class="icon-holder">
+                  <i class="bi-check-circle"></i>
+                </div>
+              </li>
+              <li>
+                <h4 class="mb-3">Personnalisation</h4>
+                <p>Les outils s'adaptent aux besoins spécifiques de chaque enfant.</p>
+                <div class="icon-holder">
+                  <i class="bi-person-badge"></i>
+                </div>
+              </li>
+              <li>
+                <h4 class="mb-3">Efficacité</h4>
+                <p>Gain de temps dans la collecte et l'analyse des données.</p>
+                <div class="icon-holder">
+                  <i class="bi-speedometer2"></i>
+                </div>
+              </li>
+              <li>
+                <h4 class="mb-3">Suivi continu</h4>
+                <p>Mise à jour régulière des évaluations pour ajuster les stratégies d'accompagnement.</p>
+                <div class="icon-holder">
+                  <i class="bi-graph-up"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="skills container">
+  <section class="skills container fade-in">
     <div class="title">
-      <h1>{{ 'evaluation_methodology_section.title' | translate }}</h1>
+      <h1 class="section-header">{{ 'evaluation_methodology_section.title' | translate }}</h1>
     </div>
-    <div class="grid-wrapper2">
+    <div class="grid-wrapper stagger-animation">
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/evaluation.gif" class="image" alt="">
+          <img src="assets/realimg/pexels-toulouse-3457273.jpg" class="image" alt="">
           <h2>{{ 'evaluation_methodology_section.items.child_profile.title' | translate }}</h2>
         </div>
         <p [innerHTML]="'evaluation_methodology_section.items.child_profile.description' | translate"></p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/Activitésinteractives.gif" class="image" alt="">
+          <img src="assets/realimg/vecteezy_happy-girl-behind-blank-banner-on-brown-background-space-for_27184729.jpg" class="image" alt="">
           <h2>{{ 'evaluation_methodology_section.items.interactive_tests.title' | translate }}</h2>
         </div>
         <p [innerHTML]="'evaluation_methodology_section.items.interactive_tests.description' | translate"></p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/Accompagnement.gif" class="image" alt="">
+          <img src="assets/realimg/pexels-mccutcheon-1148998.jpg" class="image" alt="">
           <h2>{{ 'evaluation_methodology_section.items.real_time_observation.title' | translate }}</h2>
         </div>
         <p>{{ 'evaluation_methodology_section.items.real_time_observation.description' | translate }}</p>
       </div>
       <div class="grid-box">
         <div class="icon-title">
-          <img src="assets/img/Usability testing.gif" class="image" alt="">
+          <img src="assets/realimg/pexels-pixabay-39369.jpg" class="image" alt="">
           <h2>{{ 'evaluation_methodology_section.items.detailed_report.title' | translate }}</h2>
         </div>
         <p [innerHTML]="'evaluation_methodology_section.items.detailed_report.description' | translate"></p>
       </div>
     </div>
   </section>
-</body>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -40,7 +40,12 @@ import { Subscription } from 'rxjs';
 export class PickProfileComponent implements OnInit, OnDestroy {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
+  displayedChildren: Profile[] = []; // Cards currently visible (max 3)
+  currentCardIndex: number = 0; // Starting index for displayed cards
   searchTerm: string = '';
+  isNavigating: boolean = false; // Track navigation state for animation
+  navigationDirection: 'left' | 'right' | null = null; // Track navigation direction
+  scrollOffset: number = 0; // Track scroll position for animation
   displayDialog: boolean = false;
   updatedisplayDialog: boolean = false;
   isEditMode: boolean = false;
@@ -72,6 +77,17 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   error: string | null = null;
   userName: string = '';
   private languageSubscription!: Subscription;
+  currentLang: string = 'fr';
+  showLanguageMenu: boolean = false;
+  showMenuDropdown: boolean = false;
+  
+  // 3D Carousel properties
+  rotationAngle: number = 0;
+  isDragging: boolean = false;
+  startX: number = 0;
+  startY: number = 0;
+  currentX: number = 0;
+  rotationSpeed: number = 0.5; // Adjust rotation sensitivity
 
   constructor(
     private authService: AuthService,
@@ -101,18 +117,76 @@ export class PickProfileComponent implements OnInit, OnDestroy {
         Swal.fire({
           icon: 'error',
           title: translations['profile_messages.load_user_error.title'],
-          text: translations['profile_messages.load_user_error.text']
+          html: `<div class="error-warning">
+                  <i class="fas fa-exclamation-triangle warning-icon"></i>
+                  <p>${translations['profile_messages.load_user_error.text']}</p>
+                </div>`,
+          width: '700px',
+          confirmButtonColor: '#4da5d8',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'terms-popup error-popup',
+            title: 'terms-title',
+            htmlContainer: 'terms-html-container',
+            confirmButton: 'terms-confirm-button'
+          },
+          allowOutsideClick: true
         });
       });
       return;
     }
-    this.userName = this.authService.currentUserValue.username;
+    // Get username from localStorage and format it properly
+    const user = localStorage.getItem('user');
+    if (user) {
+      const userData = JSON.parse(user);
+      let name = userData.username || '';
+      // If username looks like an email prefix (contains underscore and numbers), try to format it
+      if (name.includes('_') && /_\d+/.test(name)) {
+        // Extract the part before the underscore and capitalize it
+        name = name.split('_')[0];
+        name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+      } else if (name) {
+        // Capitalize first letter of each word
+        name = name.split(' ').map((word: string) => 
+          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        ).join(' ');
+      }
+      this.userName = name || 'Utilisateur';
+    } else {
+      this.userName = this.authService.currentUserValue?.username || 'Utilisateur';
+    }
     this.loadChildren();
+    
+    // Initialize language
+    const savedLang = localStorage.getItem('lang') || 'fr';
+    this.currentLang = savedLang;
+    this.translate.use(this.currentLang);
     
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
+      this.currentLang = lang;
       this.translate.use(lang);
       this.updateGenderOptions();
+    });
+
+    // Setup mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    const menuBtnIcon = menuBtn?.querySelector('i');
+
+    menuBtn?.addEventListener('click', () => {
+      navLinks?.classList.toggle('open');
+      const isOpen = navLinks?.classList.contains('open');
+      menuBtnIcon?.setAttribute('class', isOpen ? 'ri-close-line' : 'ri-menu-line');
+    });
+
+    // Close menu when clicking on a link
+    navLinks?.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'A' || target.closest('a') || target.tagName === 'BUTTON' || target.closest('button')) {
+        navLinks?.classList.remove('open');
+        menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+      }
     });
   }
 
@@ -120,6 +194,11 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+    // Clean up event listeners
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('touchmove', this.onTouchMove);
+    document.removeEventListener('touchend', this.onTouchEnd);
   }
 
   private updateGenderOptions() {
@@ -194,7 +273,10 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   loadChildren() {
     this.profileService.getProfilesByParent(this.parentId).subscribe({
       next: (children) => {
-        this.children = children.map(child => {
+        // Handle both array and single object responses
+        const childrenArray = Array.isArray(children) ? children : (children ? [children] : []);
+        
+        this.children = childrenArray.map(child => {
           let imageUrl = (child as any).image || child.image_url;
           if (imageUrl && !imageUrl.startsWith('http')) {
             imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
@@ -205,15 +287,46 @@ export class PickProfileComponent implements OnInit, OnDestroy {
           };
         });
         this.filteredChildren = [...this.children];
+        this.currentCardIndex = 0;
+        this.updateDisplayedChildren();
+        // Reset rotation when children are loaded
+        this.rotationAngle = 0;
       },
       error: (err) => {
-        this.translate.get(['profile_messages.load_profiles_error.title', 'profile_messages.load_profiles_error.text']).subscribe(translations => {
-          Swal.fire({
-            icon: 'error',
-            title: translations['profile_messages.load_profiles_error.title'],
-            text: translations['profile_messages.load_profiles_error.text']
+        // Only show error for actual server/network errors (500+), not for "no profiles" cases
+        // Suppress all 4xx errors (400, 401, 403, 404, etc.) as they typically mean "no profiles" or client issues
+        const status = err?.status || err?.error?.status;
+        const isServerError = status && status >= 500;
+        const isNetworkError = !status && (err?.message?.includes('Network') || err?.message?.includes('network'));
+        
+        // Only show error for actual server errors (500+) or network failures
+        // Suppress all other errors (including 404, 400, etc.) as they likely mean "no profiles"
+        if (isServerError || isNetworkError) {
+          this.translate.get(['profile_messages.load_profiles_error.title', 'profile_messages.load_profiles_error.text']).subscribe(translations => {
+            Swal.fire({
+              icon: 'error',
+              title: translations['profile_messages.load_profiles_error.title'],
+              html: `<div class="error-warning">
+                      <i class="fas fa-exclamation-triangle warning-icon"></i>
+                      <p>${translations['profile_messages.load_profiles_error.text']}</p>
+                    </div>`,
+              width: '700px',
+              confirmButtonColor: '#4da5d8',
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'terms-popup error-popup',
+                title: 'terms-title',
+                htmlContainer: 'terms-html-container',
+                confirmButton: 'terms-confirm-button'
+              },
+              allowOutsideClick: true
+            });
           });
-        });
+        }
+        // For all other cases (404, 400, etc.), just set empty arrays silently (no error message)
+        this.children = [];
+        this.filteredChildren = [];
+        this.displayedChildren = [];
       }
     });
   }
@@ -228,10 +341,164 @@ export class PickProfileComponent implements OnInit, OnDestroy {
           .includes(this.searchTerm.toLowerCase())
       );
     }
+    // Reset to first card when filtering
+    this.currentCardIndex = 0;
+    this.updateDisplayedChildren();
+    // Reset rotation when filtering
+    this.rotationAngle = 0;
+  }
+
+  updateDisplayedChildren() {
+    // No transform animation - cards will display normally
+    // Keep scrollOffset for potential future use, but don't apply transform
+    this.scrollOffset = 0;
+  }
+
+  navigateLeft() {
+    if (this.filteredChildren.length === 0 || this.isNavigating) {
+      return;
+    }
+    
+    this.isNavigating = true;
+    this.navigationDirection = 'left';
+    
+    // Calculate angle step for one card position
+    const angleStep = 360 / this.filteredChildren.length;
+    // Rotate left (positive rotation in 3D space)
+    this.rotationAngle += angleStep;
+    
+    // Reset animation state after transition completes
+    setTimeout(() => {
+      this.isNavigating = false;
+      this.navigationDirection = null;
+    }, 400);
+  }
+
+  navigateRight() {
+    if (this.filteredChildren.length === 0 || this.isNavigating) {
+      return;
+    }
+    
+    this.isNavigating = true;
+    this.navigationDirection = 'right';
+    
+    // Calculate angle step for one card position
+    const angleStep = 360 / this.filteredChildren.length;
+    // Rotate right (negative rotation in 3D space)
+    this.rotationAngle -= angleStep;
+    
+    // Reset animation state after transition completes
+    setTimeout(() => {
+      this.isNavigating = false;
+      this.navigationDirection = null;
+    }, 400);
+  }
+
+  get canNavigateLeft(): boolean {
+    return this.filteredChildren.length > 3;
+  }
+
+  get canNavigateRight(): boolean {
+    return this.filteredChildren.length > 3;
+  }
+
+  get showNavigationArrows(): boolean {
+    return this.filteredChildren.length > 1;
+  }
+
+  // 3D Carousel methods
+  getCardTransform(index: number): string {
+    if (this.filteredChildren.length === 0) return '';
+    const angleStep = 360 / this.filteredChildren.length;
+    const angle = index * angleStep;
+    // Adjust radius based on number of cards for better visibility
+    const baseRadius = 200;
+    const radius = this.filteredChildren.length <= 5 ? baseRadius : baseRadius * 0.9;
+    return `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`;
+  }
+
+  getCardAnimationDelay(index: number): number {
+    if (this.filteredChildren.length === 0) return 0;
+    const totalDuration = 20;
+    const delayStep = totalDuration / this.filteredChildren.length;
+    return -(index * delayStep);
+  }
+
+  onMouseDown(event: MouseEvent): void {
+    if (this.filteredChildren.length === 0) return;
+    this.isDragging = true;
+    this.startX = event.clientX;
+    this.startY = event.clientY;
+    event.preventDefault();
+    
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  onMouseMove = (event: MouseEvent): void => {
+    if (!this.isDragging) return;
+    
+    const deltaX = event.clientX - this.startX;
+    this.rotationAngle += deltaX * this.rotationSpeed;
+    this.startX = event.clientX;
+    // Disable transition during drag for smooth real-time movement
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = 'none';
+    }
+  }
+
+  onMouseUp = (): void => {
+    this.isDragging = false;
+    // Re-enable transition after drag
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = '';
+    }
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  onTouchStart(event: TouchEvent): void {
+    if (this.filteredChildren.length === 0) return;
+    this.isDragging = true;
+    this.startX = event.touches[0].clientX;
+    this.startY = event.touches[0].clientY;
+    event.preventDefault();
+    
+    document.addEventListener('touchmove', this.onTouchMove);
+    document.addEventListener('touchend', this.onTouchEnd);
+  }
+
+  onTouchMove = (event: TouchEvent): void => {
+    if (!this.isDragging) return;
+    
+    const deltaX = event.touches[0].clientX - this.startX;
+    this.rotationAngle += deltaX * this.rotationSpeed;
+    this.startX = event.touches[0].clientX;
+    // Disable transition during drag for smooth real-time movement
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = 'none';
+    }
+    event.preventDefault();
+  }
+
+  onTouchEnd = (): void => {
+    this.isDragging = false;
+    // Re-enable transition after drag
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = '';
+    }
+    document.removeEventListener('touchmove', this.onTouchMove);
+    document.removeEventListener('touchend', this.onTouchEnd);
   }
 
   showDialog() {
     this.isEditMode = false;
+    this.newChild = this.resetChild();
+    this.selectedFile = null;
     this.profileForm = {
       first_name: '',
       last_name: '',
@@ -272,11 +539,13 @@ export class PickProfileComponent implements OnInit, OnDestroy {
           if (imageUrl && !imageUrl.startsWith('http')) {
             imageUrl = `${environment.apiUrl.slice(0, -1)}${imageUrl}`;
           }
-          this.children.push({
-            ...child,
-            image_url: imageUrl
-          });
-          this.filteredChildren = [...this.children];
+          // Reload all profiles from server to ensure data consistency
+          this.loadChildren();
+          
+          // Reset form and file selection
+          this.newChild = this.resetChild();
+          this.selectedFile = null;
+          
           this.displayDialog = false;
           this.isLoading = false;
           this.translate.get(['profile_messages.add_profile_success.title', 'profile_messages.add_profile_success.text']).subscribe(translations => {
@@ -293,7 +562,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'error',
               title: translations['profile_messages.add_profile_error.title'],
-              text: translations['profile_messages.add_profile_error.text']
+              html: `<div class="error-warning">
+                      <i class="fas fa-exclamation-triangle warning-icon"></i>
+                      <p>${translations['profile_messages.add_profile_error.text']}</p>
+                    </div>`,
+              width: '700px',
+              confirmButtonColor: '#4da5d8',
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'terms-popup error-popup',
+                title: 'terms-title',
+                htmlContainer: 'terms-html-container',
+                confirmButton: 'terms-confirm-button'
+              },
+              allowOutsideClick: true
             });
           });
         }
@@ -303,7 +585,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
         Swal.fire({
           icon: 'warning',
           title: translations['profile_messages.add_profile_required_fields_error.title'],
-          text: translations['profile_messages.add_profile_required_fields_error.text']
+          html: `<div class="error-warning">
+                  <i class="fas fa-exclamation-triangle warning-icon"></i>
+                  <p>${translations['profile_messages.add_profile_required_fields_error.text']}</p>
+                </div>`,
+          width: '700px',
+          confirmButtonColor: '#4da5d8',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'terms-popup error-popup',
+            title: 'terms-title',
+            htmlContainer: 'terms-html-container',
+            confirmButton: 'terms-confirm-button'
+          },
+          allowOutsideClick: true
         });
       });
     }
@@ -342,7 +637,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'error',
               title: translations['profile_messages.update_profile_error.title'],
-              text: translations['profile_messages.update_profile_error.text']
+              html: `<div class="error-warning">
+                      <i class="fas fa-exclamation-triangle warning-icon"></i>
+                      <p>${translations['profile_messages.update_profile_error.text']}</p>
+                    </div>`,
+              width: '700px',
+              confirmButtonColor: '#4da5d8',
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'terms-popup error-popup',
+                title: 'terms-title',
+                htmlContainer: 'terms-html-container',
+                confirmButton: 'terms-confirm-button'
+              },
+              allowOutsideClick: true
             });
           });
         }
@@ -475,7 +783,20 @@ export class PickProfileComponent implements OnInit, OnDestroy {
                 Swal.fire({
                   icon: 'error',
                   title: errorTranslations['profile_messages.disable_profile_error.title'],
-                  text: errorTranslations['profile_messages.disable_profile_error.text']
+                  html: `<div class="error-warning">
+                          <i class="fas fa-exclamation-triangle warning-icon"></i>
+                          <p>${errorTranslations['profile_messages.disable_profile_error.text']}</p>
+                        </div>`,
+                  width: '700px',
+                  confirmButtonColor: '#4da5d8',
+                  confirmButtonText: 'OK',
+                  customClass: {
+                    popup: 'terms-popup error-popup',
+                    title: 'terms-title',
+                    htmlContainer: 'terms-html-container',
+                    confirmButton: 'terms-confirm-button'
+                  },
+                  allowOutsideClick: true
                 });
               });
             }
@@ -493,5 +814,92 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   cancel() {
     this.displayDialog = false;
     this.error = null;
+    this.newChild = this.resetChild();
+    this.selectedFile = null;
+  }
+
+  // Language switcher methods
+  switchLanguage(language: string): void {
+    this.sharedService.changeLanguage(language);
+    this.showLanguageMenu = false;
+  }
+
+  toggleLanguageMenu(): void {
+    this.showLanguageMenu = !this.showLanguageMenu;
+  }
+
+  // Toggle menu dropdown
+  toggleMenuDropdown(): void {
+    this.showMenuDropdown = !this.showMenuDropdown;
+    if (this.showMenuDropdown) {
+      this.showLanguageMenu = false; // Close language menu if open
+    }
+  }
+
+  // Change account method
+  changeAccount(): void {
+    this.showMenuDropdown = false;
+    this.translate.get([
+      'navbar.buttons.change_account_confirm.title',
+      'navbar.buttons.change_account_confirm.text',
+      'navbar.buttons.change_account_confirm.confirm_button',
+      'navbar.buttons.change_account_confirm.cancel_button'
+    ]).subscribe(translations => {
+      const htmlContent = `
+        <div class="change-account-warning">
+          <i class="fas fa-exclamation-triangle warning-icon"></i>
+          <p>${translations['navbar.buttons.change_account_confirm.text']}</p>
+        </div>
+      `;
+      Swal.fire({
+        title: translations['navbar.buttons.change_account_confirm.title'],
+        html: htmlContent,
+        width: '700px',
+        showCancelButton: true,
+        confirmButtonColor: '#4da5d8',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: translations['navbar.buttons.change_account_confirm.confirm_button'],
+        cancelButtonText: translations['navbar.buttons.change_account_confirm.cancel_button'],
+        customClass: {
+          popup: 'terms-popup',
+          title: 'terms-title',
+          htmlContainer: 'terms-html-container',
+          confirmButton: 'terms-confirm-button',
+          cancelButton: 'terms-cancel-button'
+        },
+        backdrop: true,
+        allowOutsideClick: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.authService.logout();
+        }
+      });
+    });
+  }
+
+  // Close language menu when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
+      this.showLanguageMenu = false;
+    }
+    if (!target.closest('.menu-dropdown-container') && this.showMenuDropdown) {
+      this.showMenuDropdown = false;
+    }
+  }
+
+  // Close language menu with Escape key
+  @HostListener('document:keydown', ['$event'])
+  onEscapeKey(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Escape') {
+      if (this.showLanguageMenu) {
+        this.showLanguageMenu = false;
+      }
+      if (this.showMenuDropdown) {
+        this.showMenuDropdown = false;
+      }
+    }
   }
 }

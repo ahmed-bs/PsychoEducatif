@@ -1,43 +1,57 @@
 <div class="body">
+  <div class="clouds-container">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
+    <div class="cloud cloud-6"></div>
+  </div>
   <!-- Header -->
   <section class="featured-section">
     <header class="header__container">
-      <div class="header__image">
-        <div class="header__image__card header__image__card-1">
-          <span><i class="ri-user-follow-line"></i></span>
-          {{ 'new_featured_section.header_image_cards.educational_follow_up' | translate }}
+        <div class="header__image">
+            <img src="/assets/image/banniere-desktop-autisme.png" alt="header" />
         </div>
-        <div class="header__image__card header__image__card-2">
-          <span><i class="ri-calendar-todo-line"></i></span>
-          {{ 'new_featured_section.header_image_cards.personalized_activities' | translate }}
+        <div class="header__content">
+            <div class="header__content-wrapper">
+                <h2 class="animated-header" [innerHTML]="'new_featured_section.header_content' | translate"></h2>
+                <div class="header__buttons">
+                    <button class="btn btn-signup" routerLink="/auth/signup">
+                        <i class="fas fa-user-plus"></i>
+                        {{ 'navbar.buttons.sign_up' | translate }}
+                    </button>
+                    <button class="btn btn-signin" routerLink="/auth/signin">
+                        <i class="fas fa-sign-in-alt"></i>
+                        {{ 'navbar.buttons.sign_in' | translate }}
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="header__image__card header__image__card-3">
-          <span><i class="ri-flag-line"></i></span>
-          {{ 'new_featured_section.header_image_cards.defined_objectives' | translate }}
-        </div>
-        <div class="header__image__card header__image__card-4">
-          <span><i class="ri-parent-line"></i></span>
-          {{ 'new_featured_section.header_image_cards.parental_guidance' | translate }}
-        </div>
-        <img src="assets/img/Collab-bro-removebg-preview.png" alt="header" />
-      </div>
-      <div class="header__content">
-        <h2 class="animated-header">{{ 'new_featured_section.header_content' | translate }}</h2>
-      </div>
     </header>
-  </section>
+</section>
 
   <!-- Objectives -->
-  <section class="skills container2">
-    <div class="title">
-      <h1>{{ 'objectives_section.title' | translate }}</h1>
-    </div>
-    <div class="grid-wrapper">
-      <div class="grid-box">
-        <div class="icon-title">
-          <h2>{{ 'objectives_section.items.why_application.title' | translate }}</h2>
+  <section class="why-application-section">
+    <div class="why-application-container">
+      <div class="why-application-content">
+        <div class="why-application-icon">
+          <div class="icon-circle">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="icon-pulse"></div>
         </div>
-        <p>{{ 'objectives_section.items.why_application.description' | translate }}</p>
+        <h2 class="why-application-title">
+          <span class="title-line">{{ 'objectives_section.items.why_application.title' | translate }}</span>
+        </h2>
+        <div class="why-application-description">
+          <p class="description-text">{{ 'objectives_section.items.why_application.description' | translate }}</p>
+        </div>
+        <div class="why-application-decoration">
+          <div class="decoration-circle circle-1"></div>
+          <div class="decoration-circle circle-2"></div>
+          <div class="decoration-circle circle-3"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -51,14 +65,14 @@
       <!-- Card 1 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
-          <div class="front" style="background-image: url(assets/img/Autism.gif);">
+          <div class="front" style="background-image: url(assets/objectifimg/card1.jpg);">
             <div class="inner">
               <p>{{ 'goals_section.items.facilitate_evaluation.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img [src]="'assets/img/Autism.gif'" [attr.alt]="'goals_section.items.facilitate_evaluation.image_alt' | translate">
+              <img [src]="'assets/objectifimg/card1.jpg'" [attr.alt]="'goals_section.items.facilitate_evaluation.image_alt' | translate">
               <p>{{ 'goals_section.items.facilitate_evaluation.description' | translate }}</p>
             </div>
           </div>
@@ -67,14 +81,14 @@
       <!-- Card 2 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
-          <div class="front" style="background-image: url(assets/img/Accompagnement.gif);">
+          <div class="front" style="background-image: url(assets/objectifimg/card2.jpg);">
             <div class="inner">
               <p>{{ 'goals_section.items.personalized_support.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img [src]="'assets/img/Accompagnement.gif'" [attr.alt]="'goals_section.items.personalized_support.image_alt' | translate">
+              <img [src]="'assets/objectifimg/card2.jpg'" [attr.alt]="'goals_section.items.personalized_support.image_alt' | translate">
               <p>{{ 'goals_section.items.personalized_support.description' | translate }}</p>
             </div>
           </div>
@@ -83,14 +97,14 @@
       <!-- Card 3 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
-          <div class="front" style="background-image: url(assets/img/Activitésinteractives.gif);">
+          <div class="front" style="background-image: url(assets/objectifimg/card3.jpg);">
             <div class="inner">
               <p>{{ 'goals_section.items.family_involvement.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img [src]="'assets/img/Activitésinteractives.gif'" [attr.alt]="'goals_section.items.family_involvement.image_alt' | translate">
+              <img [src]="'assets/objectifimg/card3.jpg'" [attr.alt]="'goals_section.items.family_involvement.image_alt' | translate">
               <p>{{ 'goals_section.items.family_involvement.description' | translate }}</p>
             </div>
           </div>
@@ -99,14 +113,14 @@
       <!-- Card 4 -->
       <div class="col" ontouchstart="this.classList.toggle('hover');">
         <div class="container">
-          <div class="front" style="background-image: url('assets/img/Kindergarten student.gif')">
+          <div class="front" style="background-image: url('assets/objectifimg/card4.jpg')">
             <div class="inner">
               <p>{{ 'goals_section.items.improve_collaboration.title' | translate }}</p>
             </div>
           </div>
           <div class="back">
             <div class="inner">
-              <img [src]="'assets/img/Kindergarten student.gif'" [attr.alt]="'goals_section.items.improve_collaboration.image_alt' | translate">
+              <img [src]="'assets/objectifimg/card4.jpg'" [attr.alt]="'goals_section.items.improve_collaboration.image_alt' | translate">
               <p>{{ 'goals_section.items.improve_collaboration.description' | translate }}</p>
             </div>
           </div>
@@ -123,19 +137,19 @@
     <div class="trust-cards">
       <!-- Card 1 -->
       <div class="trust-card">
-        <img [src]="'assets/img/Accompagnement.gif'" [attr.alt]="'trust_section.items.fully_adapted.image_alt' | translate">
+        <img [src]="'assets/objectifimg/trust1.jpg'" [attr.alt]="'trust_section.items.fully_adapted.image_alt' | translate">
         <h3>{{ 'trust_section.items.fully_adapted.title' | translate }}</h3>
         <p>{{ 'trust_section.items.fully_adapted.description' | translate }}</p>
       </div>
       <!-- Card 2 -->
       <div class="trust-card">
-        <img [src]="'assets/img/Autism (2).gif'" [attr.alt]="'trust_section.items.expert_collaboration.image_alt' | translate">
+        <img [src]="'assets/objectifimg/trust2.jpg'" [attr.alt]="'trust_section.items.expert_collaboration.image_alt' | translate">
         <h3>{{ 'trust_section.items.expert_collaboration.title' | translate }}</h3>
         <p>{{ 'trust_section.items.expert_collaboration.description' | translate }}</p>
       </div>
       <!-- Card 3 -->
       <div class="trust-card">
-        <img [src]="'assets/img/Autism.gif'" [attr.alt]="'trust_section.items.accessible_everywhere.image_alt' | translate">
+        <img [src]="'assets/objectifimg/trust3.jpg'" [attr.alt]="'trust_section.items.accessible_everywhere.image_alt' | translate">
         <h3>{{ 'trust_section.items.accessible_everywhere.title' | translate }}</h3>
         <p>{{ 'trust_section.items.accessible_everywhere.description' | translate }}</p>
       </div>
