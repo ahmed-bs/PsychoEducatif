@@ -1150,38 +1150,159 @@
     }
 }
 
+/* Profile Count Indicator */
+.profile-count-indicator {
+    display: flex;
+    align-items: center;
+    animation: fadeInUp 0.6s ease-out;
+    flex-shrink: 0;
+}
+
+.profile-count-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, rgba(77, 165, 216, 0.15) 0%, rgba(61, 139, 184, 0.1) 100%);
+    border: 2px solid rgba(77, 165, 216, 0.3);
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(77, 165, 216, 0.2);
+    backdrop-filter: blur(10px);
+    font-family: 'PT Root UI', sans-serif;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.profile-count-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(77, 165, 216, 0.3);
+    border-color: rgba(77, 165, 216, 0.5);
+}
+
+.profile-count-badge i {
+    font-size: 1.1rem;
+    color: #4da5d8;
+}
+
+.profile-count-number {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e1964;
+    font-family: 'Montserrat Alternates', sans-serif;
+    min-width: 25px;
+    text-align: center;
+}
+
+.profile-count-text {
+    font-size: 0.9rem;
+    color: #55527C;
+    font-weight: 500;
+}
+
 /* Wrapper to contain the scrolling cards */
 .cards-container-wrapper {
     width: 820px;
-    overflow-x: hidden;
-    /* Hide overflow to show only 3 cards */
-    overflow-y: visible;
-    /* Allow vertical overflow for scaled cards */
+    overflow: visible;
     margin: 0 auto;
     position: relative;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    min-height: 350px;
-    /* Ensure minimum height for cards to be visible */
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* 3D Carousel Container */
+.card-3d {
+    position: relative;
+    width: 400px;
+    height: 350px;
+    transform-style: preserve-3d;
+    transform: perspective(800px);
+    will-change: transform;
+    cursor: grab;
+    user-select: none;
+    margin: 0 auto;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-3d:active {
+    cursor: grabbing;
+}
+
+.card-3d.navigating {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* 3D Carousel Items */
+.card-3d-item {
+    position: absolute;
+    width: 250px;
+    height: auto;
+    min-height: 300px;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+    transition-duration: 200ms;
+    will-change: transform, filter;
+    pointer-events: auto;
+    backface-visibility: hidden;
+}
+
+.card-3d-item .card {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Animation for brightness effect */
+@keyframes animateBrightness {
+    10% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(0.1);
+    }
+    90% {
+        filter: brightness(1);
+    }
+}
+
+/* Position cards in a circle - dynamically calculated via getCardTransform() */
+/* These are fallback styles, but the actual transform is calculated dynamically */
+
+/* Hover effect on cards */
+.card-3d-item .card:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Old cards-container styles - keeping for backward compatibility if needed */
 .cards-container {
     display: flex;
-    /* Ajout de flex pour aligner les cartes horizontalement */
     white-space: nowrap;
-    /* Empêche le retour à la ligne */
     gap: 15px;
-    /* Espace entre les cartes, matching the design */
     justify-content: center;
-    /* Center cards horizontally */
     align-items: center;
-    /* Center cards vertically to prevent clipping */
     padding-left: 0;
-    /* Remove any padding that might interfere */
     width: max-content;
-    /* Ensure container is wide enough for all cards */
     min-height: 300px;
-    /* Ensure minimum height for cards to be visible */
 }
 
 /* Navigation Arrows */
@@ -1236,8 +1357,49 @@
     overflow: visible;
 }
 
-/* Responsive adjustments for arrows */
+/* Responsive adjustments for 3D carousel */
 @media (max-width: 900px) {
+    .search-bar-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-bar {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .profile-count-indicator {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .profile-count-badge {
+        padding: 0.65rem 1.25rem;
+        gap: 0.6rem;
+    }
+    
+    .profile-count-badge i {
+        font-size: 1rem;
+    }
+    
+    .profile-count-number {
+        font-size: 1.2rem;
+    }
+    
+    .profile-count-text {
+        font-size: 0.85rem;
+    }
+    
+    .card-3d {
+        width: 350px;
+        height: 300px;
+    }
+    
+    .card-3d-item {
+        width: 220px;
+    }
+    
     .card-grid {
         padding: 16px 50px;
     }
@@ -1263,6 +1425,37 @@
 }
 
 @media (max-width: 600px) {
+    .search-bar-container {
+        gap: 0.75rem;
+    }
+    
+    .profile-count-badge {
+        padding: 0.55rem 1rem;
+        gap: 0.45rem;
+    }
+    
+    .profile-count-badge i {
+        font-size: 0.95rem;
+    }
+    
+    .profile-count-number {
+        font-size: 1.1rem;
+        min-width: 20px;
+    }
+    
+    .profile-count-text {
+        font-size: 0.8rem;
+    }
+    
+    .card-3d {
+        width: 300px;
+        height: 280px;
+    }
+    
+    .card-3d-item {
+        width: 200px;
+    }
+    
     .card-grid {
         padding: 16px 40px;
     }
@@ -1270,7 +1463,7 @@
     .nav-arrow {
         width: 40px;
         height: 40px;
-    font-size: 1.1rem;
+        font-size: 1.1rem;
     }
     
     .nav-arrow-left {
@@ -1471,9 +1664,19 @@
 
 
 /***************search-bar*******************/
-.search-bar {
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     margin-bottom: 1.5rem;
     width: 100%;
+    flex-wrap: wrap;
+}
+
+.search-bar {
+    flex: 1;
+    min-width: 250px;
     /* Assure que la barre prend toute la largeur disponible */
 }
 
@@ -1552,48 +1755,19 @@
 
 /****************************************/
 
-/* Assurez-vous que les cartes ne s'étirent pas */
+/* Card base styles - now used inside card-3d-item */
 .card {
     flex: 0 0 auto;
-    /* Taille fixe, pas d'étirement */
-    width: 250px;
-    /* Ajustez selon vos besoins */
-    /* Vos autres styles existants pour .card */
+    width: 100%;
     transition: 400ms;
     cursor: pointer;
     overflow: visible;
-    /* Allow content to overflow when scaled */
     position: relative;
-    /* Ensure z-index works for hovered card */
     z-index: 1;
     display: block !important;
-    /* Ensure card is displayed */
     visibility: visible !important;
-    /* Ensure card is visible */
     opacity: 1 !important;
-    /* Ensure card is fully opaque */
-}
-
-/* Override overflow for cards in cards-container */
-.cards-container .card {
-    overflow: visible !important;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    /* No base animation - only animate during navigation */
-}
-
-/* Hover effect: scale up the hovered card */
-.cards-container .card:hover {
-    transform: scale(1.2, 1.2);
-    z-index: 10;
-    /* Bring hovered card to front */
-}
-
-/* Blur and scale down other cards when one is hovered */
-.cards-container:hover > .card:not(:hover) {
-    filter: blur(10px);
-    transform: scale(0.9, 0.9);
+    box-sizing: border-box;
 }
 
 /* Slide animation for navigation */

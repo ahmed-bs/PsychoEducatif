@@ -80,6 +80,14 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   currentLang: string = 'fr';
   showLanguageMenu: boolean = false;
   showMenuDropdown: boolean = false;
+  
+  // 3D Carousel properties
+  rotationAngle: number = 0;
+  isDragging: boolean = false;
+  startX: number = 0;
+  startY: number = 0;
+  currentX: number = 0;
+  rotationSpeed: number = 0.5; // Adjust rotation sensitivity
 
   constructor(
     private authService: AuthService,
@@ -186,6 +194,11 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+    // Clean up event listeners
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('touchmove', this.onTouchMove);
+    document.removeEventListener('touchend', this.onTouchEnd);
   }
 
   private updateGenderOptions() {
@@ -276,6 +289,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
         this.filteredChildren = [...this.children];
         this.currentCardIndex = 0;
         this.updateDisplayedChildren();
+        // Reset rotation when children are loaded
+        this.rotationAngle = 0;
       },
       error: (err) => {
         // Only show error for actual server/network errors (500+), not for "no profiles" cases
@@ -329,6 +344,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     // Reset to first card when filtering
     this.currentCardIndex = 0;
     this.updateDisplayedChildren();
+    // Reset rotation when filtering
+    this.rotationAngle = 0;
   }
 
   updateDisplayedChildren() {
@@ -345,22 +362,16 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     this.isNavigating = true;
     this.navigationDirection = 'left';
     
-    // Infinite cycle: if at the beginning, go to the end
-    if (this.currentCardIndex === 0) {
-      // Calculate how many cards we can show (max 3 at a time)
-      const maxIndex = Math.max(0, this.filteredChildren.length - 3);
-      this.currentCardIndex = maxIndex;
-    } else {
-      this.currentCardIndex--;
-    }
-    
-    this.updateDisplayedChildren();
+    // Calculate angle step for one card position
+    const angleStep = 360 / this.filteredChildren.length;
+    // Rotate left (positive rotation in 3D space)
+    this.rotationAngle += angleStep;
     
     // Reset animation state after transition completes
     setTimeout(() => {
       this.isNavigating = false;
       this.navigationDirection = null;
-    }, 850); // Slightly longer than animation duration (800ms)
+    }, 400);
   }
 
   navigateRight() {
@@ -371,21 +382,16 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     this.isNavigating = true;
     this.navigationDirection = 'right';
     
-    // Infinite cycle: if at the end, go back to the beginning
-    const maxIndex = Math.max(0, this.filteredChildren.length - 3);
-    if (this.currentCardIndex >= maxIndex) {
-      this.currentCardIndex = 0;
-    } else {
-      this.currentCardIndex++;
-    }
-    
-    this.updateDisplayedChildren();
+    // Calculate angle step for one card position
+    const angleStep = 360 / this.filteredChildren.length;
+    // Rotate right (negative rotation in 3D space)
+    this.rotationAngle -= angleStep;
     
     // Reset animation state after transition completes
     setTimeout(() => {
       this.isNavigating = false;
       this.navigationDirection = null;
-    }, 850); // Slightly longer than animation duration (800ms)
+    }, 400);
   }
 
   get canNavigateLeft(): boolean {
@@ -397,7 +403,96 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   }
 
   get showNavigationArrows(): boolean {
-    return this.filteredChildren.length > 3;
+    return this.filteredChildren.length > 1;
+  }
+
+  // 3D Carousel methods
+  getCardTransform(index: number): string {
+    if (this.filteredChildren.length === 0) return '';
+    const angleStep = 360 / this.filteredChildren.length;
+    const angle = index * angleStep;
+    // Adjust radius based on number of cards for better visibility
+    const baseRadius = 200;
+    const radius = this.filteredChildren.length <= 5 ? baseRadius : baseRadius * 0.9;
+    return `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`;
+  }
+
+  getCardAnimationDelay(index: number): number {
+    if (this.filteredChildren.length === 0) return 0;
+    const totalDuration = 20;
+    const delayStep = totalDuration / this.filteredChildren.length;
+    return -(index * delayStep);
+  }
+
+  onMouseDown(event: MouseEvent): void {
+    if (this.filteredChildren.length === 0) return;
+    this.isDragging = true;
+    this.startX = event.clientX;
+    this.startY = event.clientY;
+    event.preventDefault();
+    
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  onMouseMove = (event: MouseEvent): void => {
+    if (!this.isDragging) return;
+    
+    const deltaX = event.clientX - this.startX;
+    this.rotationAngle += deltaX * this.rotationSpeed;
+    this.startX = event.clientX;
+    // Disable transition during drag for smooth real-time movement
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = 'none';
+    }
+  }
+
+  onMouseUp = (): void => {
+    this.isDragging = false;
+    // Re-enable transition after drag
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = '';
+    }
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  onTouchStart(event: TouchEvent): void {
+    if (this.filteredChildren.length === 0) return;
+    this.isDragging = true;
+    this.startX = event.touches[0].clientX;
+    this.startY = event.touches[0].clientY;
+    event.preventDefault();
+    
+    document.addEventListener('touchmove', this.onTouchMove);
+    document.addEventListener('touchend', this.onTouchEnd);
+  }
+
+  onTouchMove = (event: TouchEvent): void => {
+    if (!this.isDragging) return;
+    
+    const deltaX = event.touches[0].clientX - this.startX;
+    this.rotationAngle += deltaX * this.rotationSpeed;
+    this.startX = event.touches[0].clientX;
+    // Disable transition during drag for smooth real-time movement
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = 'none';
+    }
+    event.preventDefault();
+  }
+
+  onTouchEnd = (): void => {
+    this.isDragging = false;
+    // Re-enable transition after drag
+    const carousel = document.querySelector('.card-3d') as HTMLElement;
+    if (carousel) {
+      carousel.style.transition = '';
+    }
+    document.removeEventListener('touchmove', this.onTouchMove);
+    document.removeEventListener('touchend', this.onTouchEnd);
   }
 
   showDialog() {

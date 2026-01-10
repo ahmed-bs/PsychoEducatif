@@ -124,13 +124,25 @@
     </div>
   </div>
 
-  <!-- Search bar -->
-  <div class="search-bar">
-    <span class="p-input-icon-left">
-      <i class="pi pi-search"></i>
-      <input pInputText type="text" [(ngModel)]="searchTerm" [placeholder]="'hero_section.search_placeholder' | translate"
-        (input)="filterChildren()" class="search-input" />
-    </span>
+  <!-- Search bar with profile count -->
+  <div class="search-bar-container">
+    <div class="search-bar">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" [(ngModel)]="searchTerm" [placeholder]="'hero_section.search_placeholder' | translate"
+          (input)="filterChildren()" class="search-input" />
+      </span>
+    </div>
+    <!-- Profile Count Indicator -->
+    <div class="profile-count-indicator" *ngIf="filteredChildren.length > 0">
+      <div class="profile-count-badge">
+        <i class="fas fa-users"></i>
+        <span class="profile-count-number">{{ filteredChildren.length }}</span>
+        <span class="profile-count-text">
+          {{ filteredChildren.length === 1 ? 'Profile' : 'Profiles' }}
+        </span>
+      </div>
+    </div>
   </div>
 
   <div class="card-grid">
@@ -145,26 +157,32 @@
 
     <!-- Container with scroll for cards -->
     <div class="cards-container-wrapper">
-      <div class="cards-container" 
-           [class.empty-state]="filteredChildren.length === 0">
-        <!-- List of children - show all filtered children for scrolling effect -->
-        <div class="card" 
-             *ngFor="let child of filteredChildren; let first = first; let i = index" 
-             [class.first-card]="first && i === 0">
-          <div (click)="navigateToClient(child.id!)">
-          <img [src]="child.image_url" (error)="setDefaultImage($event, child)" alt="Child" class="card__image">
-          <h2 class="card__name">{{ child.first_name }} {{ child.last_name }}</h2>
-          <div class="card__actions">
-            <button pButton class="custom-edit-btn rounded-btn"
-              (click)="showEditDialog(child); $event.stopPropagation()">
-              <i class="pi pi-pencil"></i>
-            </button>
-            <button pButton class="custom-disable-btn rounded-btn"
-              (click)="disableChild(child); $event.stopPropagation()">
-              <i class="pi pi-trash"></i>
-            </button>
+      <!-- 3D Carousel - only show when there are children -->
+      <div class="card-3d" 
+           *ngIf="filteredChildren.length > 0"
+           [class.navigating]="isNavigating"
+           [style.transform]="'perspective(800px) rotateY(' + rotationAngle + 'deg)'"
+           (mousedown)="onMouseDown($event)"
+           (touchstart)="onTouchStart($event)">
+        <!-- List of children - show all filtered children for 3D carousel effect -->
+        <div class="card-3d-item" 
+             *ngFor="let child of filteredChildren; let i = index"
+             [style.transform]="getCardTransform(i)"
+             [style.animation-delay]="getCardAnimationDelay(i) + 's'">
+          <div class="card" (click)="navigateToClient(child.id!)">
+            <img [src]="child.image_url" (error)="setDefaultImage($event, child)" alt="Child" class="card__image">
+            <h2 class="card__name">{{ child.first_name }} {{ child.last_name }}</h2>
+            <div class="card__actions">
+              <button pButton class="custom-edit-btn rounded-btn"
+                (click)="showEditDialog(child); $event.stopPropagation()">
+                <i class="pi pi-pencil"></i>
+              </button>
+              <button pButton class="custom-disable-btn rounded-btn"
+                (click)="disableChild(child); $event.stopPropagation()">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
           </div>
-        </div>
         </div>
       </div>
       <!-- Message if list is empty -->
