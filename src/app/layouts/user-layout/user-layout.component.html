@@ -1,17 +1,4 @@
 <div class="layout-container">
-
-  <!-- Desktop Sidebar -->
-  <div class="sidebar hidden lg:block" [class.close]="isSidebarClosed" style="zoom: 90%;">
-    <app-sidebar-client></app-sidebar-client>
-  </div>
-
-  <!-- Mobile Sidebar Overlay -->
-  <div *ngIf="showMobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-[999]" (click)="closeMobileMenu()"></div>
-  <div [class.translate-x-0]="showMobileMenu" [class.-translate-x-full]="!showMobileMenu" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-[1000]
-              transform transition-transform duration-300 ease-in-out lg:hidden" style="zoom: 90%;">
-    <app-sidebar-client></app-sidebar-client>
-  </div>
-
   <!-- Main Content Area -->
   <div class="content-area">
     <app-navbar-dashboard> </app-navbar-dashboard>
@@ -20,10 +7,4 @@
       <router-outlet></router-outlet>
     </main>
   </div>
-
-  <!-- Mobile/Tablet Bottom Navigation -->
-  <div class="mobile-bottom-nav">
-    <app-sidebar-client></app-sidebar-client>
-  </div>
-
 </div>

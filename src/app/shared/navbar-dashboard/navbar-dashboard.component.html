@@ -1,109 +1,125 @@
-<!-- Desktop Navbar (Old Style) -->
-<nav class="desktop-navbar" *ngIf="isDesktop()">
-  <i class='bx bx-menu text-2xl cursor-pointer text-gray-700' (click)="toggleSidebarState()"></i>
-
-  <div class="md:hidden flex items-center">
-    <img class="icon mr-2" src="assets/logo.png" alt="" style="width: 30px; height: 30px;">
-    <div class="logo-name text-lg font-bold text-gray-800"><span>Evalu'</span>Action</div>
+<nav>
+  <div class="nav__header">
+    <div class="nav__logo-container">
+      <img class="nav__logo" src="assets/logo.png" alt="">
+      <span class="nav__logo-text">EvaluAction</span>
+    </div>
+    <div class="nav__menu__btn" id="menu-btn">
+      <span><i class="ri-menu-line"></i></span>
+    </div>
   </div>
-
-  <div class="desktop-right-section">
-    <!-- Language Switcher for Desktop -->
+  <ul class="nav__links" id="nav-links">
+    <li>
+      <a [routerLink]="['/Dashboard-client/client/', getChildId()]" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: false}">
+        <i class="fas fa-home"></i> {{ 'navbar.menu.home' | translate }}
+      </a>
+    </li>
+    <li class="nav__dropdown">
+      <a (click)="toggleEvaluationMenu()" [class.active-link]="isEvaluationActive()" >
+        <i class="fas fa-chart-line"></i> {{ 'navbar.menu.evaluation' | translate }}
+        <i class="fas fa-chevron-down dropdown-icon" [class.rotated]="showEvaluationMenu"></i>
+      </a>
+      <ul class="dropdown-menu" [class.show]="showEvaluationMenu">
+        <li>
+          <a routerLink="/Dashboard-client/client/evaluations_configurations" routerLinkActive="active-link" (click)="closeEvaluationMenu()">
+            <i class="fas fa-cog"></i> {{ 'navbar.menu.configuration' | translate }}
+          </a>
+        </li>
+        <li>
+          <a routerLink="/Dashboard-client/client/explore" routerLinkActive="active-link" (click)="closeEvaluationMenu()">
+            <i class="fas fa-search"></i> {{ 'navbar.menu.explorer' | translate }}
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a [routerLink]="['/Dashboard-client/client/summary/', getChildId()]" routerLinkActive="active-link">
+        <i class="fas fa-file-alt"></i> {{ 'navbar.menu.resume' | translate }}
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/Dashboard-client/client/calendar/', getChildId()]" routerLinkActive="active-link">
+        <i class="fas fa-calendar"></i> {{ 'navbar.menu.calendar' | translate }}
+      </a>
+    </li>
+  </ul>
+  <div class="nav__right-section">
+    <div class="nav__dropdown nav__user-menu">
+      <a (click)="toggleUserMenu()" >
+        <i class="fas fa-user-circle"></i>
+        <span class="user-name">{{ getUserDisplayName() }}</span>
+        <i class="fas fa-chevron-down dropdown-icon" [class.rotated]="showUserMenu"></i>
+      </a>
+      <ul class="dropdown-menu user-dropdown" [class.show]="showUserMenu">
+        <li>
+          <a (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> {{ 'navbar.buttons.logout' | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="nav__language">
+    <!-- Language Switcher -->
     <div class="language-menu-container">
       <button 
-        class="lang-icon-btn-desktop" 
+        class="lang-icon-btn" 
+        type="button"
         (click)="toggleLanguageMenu()"
-        [attr.aria-label]="'Language selector'">
-        <i class='bx bx-globe'></i>
+        [attr.aria-expanded]="showLanguageMenu"
+        [attr.aria-label]="'Language selector'"
+        [attr.aria-haspopup]="true">
+        <i class="fas fa-globe" [class.rotating]="showLanguageMenu"></i>
+        <span class="current-lang-indicator">{{ currentLang.toUpperCase() }}</span>
       </button>
-      <div class="language-dropdown" *ngIf="showLanguageMenu">
+      <div 
+        class="language-dropdown" 
+        [class.show]="showLanguageMenu"
+        role="menu"
+        [attr.aria-hidden]="!showLanguageMenu">
         <button 
           class="lang-option" 
+          type="button"
+          role="menuitem"
           [class.active]="currentLang === 'fr'"
-          (click)="switchLanguage('fr')">
-          <span class="lang-code">FR</span>
-          <span class="lang-name">Français</span>
-        </button>
-        <button 
-          class="lang-option" 
-          [class.active]="currentLang === 'ar'"
-          (click)="switchLanguage('ar')">
-          <span class="lang-code">عربي</span>
-          <span class="lang-name">العربية</span>
-        </button>
-        <button 
-          class="lang-option" 
-          [class.active]="currentLang === 'en'"
-          (click)="switchLanguage('en')">
-          <span class="lang-code">EN</span>
-          <span class="lang-name">English</span>
-        </button>
-      </div>
-    </div>
-
-    <a class="profile"> <img src="assets/logo.png" alt="Profile" class="w-9 h-9 object-cover rounded-full">
-    </a>
-  </div>
-</nav>
-
-<!-- Mobile/Tablet Navbar (New Style) -->
-<nav class="modern-navbar" *ngIf="!isDesktop()">
-  <div class="navbar-left">
-    <div class="brand">
-      <img src="assets/logo.png" alt="Logo" class="brand-logo">
-      <span class="brand-text">Evalu'Action</span>
-    </div>
-  </div>
-
-  <!-- <div class="navbar-center">
-    <div class="search-container">
-      <i class='bx bx-search search-icon'></i>
-      <input type="text" placeholder="Search..." class="search-input">
-    </div>
-  </div> -->
-
-  <div class="navbar-right">
-    <div class="nav-actions">
-      <!-- Language Switcher -->
-      <div class="language-menu-container">
-        <button 
-          class="lang-icon-btn" 
-          (click)="toggleLanguageMenu()"
-          [attr.aria-label]="'Language selector'">
-          <i class='bx bx-globe'></i>
-        </button>
-        <div class="language-dropdown" *ngIf="showLanguageMenu">
-          <button 
-            class="lang-option" 
-            [class.active]="currentLang === 'fr'"
-            (click)="switchLanguage('fr')">
+          (click)="switchLanguage('fr')"
+          [attr.aria-current]="currentLang === 'fr' ? 'true' : null">
+          <span class="lang-flag">🇫🇷</span>
+          <span class="lang-content">
             <span class="lang-code">FR</span>
             <span class="lang-name">Français</span>
-          </button>
-          <button 
-            class="lang-option" 
-            [class.active]="currentLang === 'ar'"
-            (click)="switchLanguage('ar')">
+          </span>
+          <i class="fas fa-check check-icon" *ngIf="currentLang === 'fr'"></i>
+        </button>
+        <button 
+          class="lang-option" 
+          type="button"
+          role="menuitem"
+          [class.active]="currentLang === 'ar'"
+          (click)="switchLanguage('ar')"
+          [attr.aria-current]="currentLang === 'ar' ? 'true' : null">
+          <span class="lang-flag">🇸🇦</span>
+          <span class="lang-content">
             <span class="lang-code">عربي</span>
             <span class="lang-name">العربية</span>
-          </button>
-          <button 
-            class="lang-option" 
-            [class.active]="currentLang === 'en'"
-            (click)="switchLanguage('en')">
+          </span>
+          <i class="fas fa-check check-icon" *ngIf="currentLang === 'ar'"></i>
+        </button>
+        <button 
+          class="lang-option" 
+          type="button"
+          role="menuitem"
+          [class.active]="currentLang === 'en'"
+          (click)="switchLanguage('en')"
+          [attr.aria-current]="currentLang === 'en' ? 'true' : null">
+          <span class="lang-flag">🇬🇧</span>
+          <span class="lang-content">
             <span class="lang-code">EN</span>
             <span class="lang-name">English</span>
-          </button>
-        </div>
-      </div>
-      
-      <div class="user-profile">
-        <img src="assets/logo.png" alt="Profile" class="profile-img">
-        <div class="profile-info">
-          <span class="profile-name">{{ currentUser?.username || currentUser?.email || 'User' }}</span>
-          <span class="profile-role">Parent</span>
-        </div>
+          </span>
+          <i class="fas fa-check check-icon" *ngIf="currentLang === 'en'"></i>
+        </button>
       </div>
     </div>
+  </div>
   </div>
 </nav>

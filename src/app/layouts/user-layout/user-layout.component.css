@@ -127,38 +127,17 @@
     color: var(--danger);
 }
 
-/* Content Area - Desktop Only (≥1024px) */
-@media screen and (min-width: 1024px) {
-  .content-area{
-      position: relative;
-      width: calc(100% - 205px);
-      left: 205px;
-      transition: all 0.3s ease;
-      margin-left: 0;
-      padding-left: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-  }
-
-  .sidebar.close~.content-area{
-      width: calc(100% - 57px);
-      left: 54px;
-  }
-}
-
-/* Content Area - Mobile/Tablet (≤1023px) */
-@media screen and (max-width: 1023px) {
-  .content-area{
-      position: relative;
-      width: 100%;
-      left: 0;
-      margin-left: 0;
-      padding-left: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-  }
+/* Content Area - Full Width */
+.content-area{
+    position: relative;
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-top: 110px; /* Space for navbar (70px height + 20px top margin + 20px spacing) */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .content-area nav{
@@ -291,6 +270,7 @@
     max-height: fit-content;
     flex: 1;
     overflow-y: auto;
+    margin-top: 0;
 }
 
 .main-content .header{
@@ -547,8 +527,12 @@ cursor: pointer;
 
 /* Mobile and Tablet Responsive Styles */
 @media screen and (max-width: 1024px) {
+  .content-area {
+    padding-top: 100px; /* Less padding on mobile for smaller navbar */
+  }
+
   .main-content {
-    padding: 0;
+    padding: 24px 16px;
     padding-bottom: 100px; /* Extra padding for bottom nav */
   }
 

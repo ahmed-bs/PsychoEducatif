@@ -106,11 +106,16 @@
       "home": "Accueil",
       "evaluation": "Évaluation",
       "objectives": "Objectifs",
-      "strategies": "Stratégies"
+      "strategies": "Stratégies",
+      "configuration": "Configuration",
+      "explorer": "Explorer",
+      "resume": "Résumé",
+      "calendar": "Calendrier"
     },
     "buttons": {
       "sign_up": "Sign Up",
       "sign_in": "Sign In",
+      "logout": "Déconnexion",
       "change_account": "Changer de compte",
       "change_account_confirm": {
         "title": "Changer de compte",

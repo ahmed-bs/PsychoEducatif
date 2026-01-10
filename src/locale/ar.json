@@ -106,11 +106,16 @@
       "home": "الرئيسية",
       "evaluation": "التقييم",
       "objectives": "الأهداف",
-      "strategies": "الاستراتيجيات"
+      "strategies": "الاستراتيجيات",
+      "configuration": "الإعدادات",
+      "explorer": "استكشاف",
+      "resume": "ملخص",
+      "calendar": "التقويم"
     },
     "buttons": {
       "sign_up": "التسجيل",
       "sign_in": "تسجيل الدخول",
+      "logout": "تسجيل الخروج",
       "change_account": "تغيير الحساب",
       "change_account_confirm": {
         "title": "تغيير الحساب",
