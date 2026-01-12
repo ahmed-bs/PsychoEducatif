@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/authService.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
@@ -23,6 +23,7 @@ export class SigninComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private authService: AuthService,
     private translate: TranslateService,
     private sharedService: SharedService
@@ -48,6 +49,16 @@ export class SigninComponent implements OnInit, OnDestroy {
         rememberMe: true
       });
     }
+
+    // Check for redirect parameter from query string
+    this.route.queryParams.subscribe(params => {
+      if (params['redirect'] === 'explorer') {
+        localStorage.setItem('redirectAfterLogin', 'explorer');
+      } else if (params['redirect'] === 'accueil' && params['tab']) {
+        localStorage.setItem('redirectAfterLogin', 'accueil');
+        localStorage.setItem('redirectTab', params['tab']);
+      }
+    });
 
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {

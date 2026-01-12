@@ -1051,7 +1051,11 @@
     "skills_content": {
       "competencies_count": "{{count}} compétences",
       "start_date": "Date de début",
-      "last_update": "Dernière mise à jour"
+      "last_update": "Dernière mise à jour",
+      "no_competencies": {
+        "title": "Aucune Compétence Trouvée",
+        "message": "Ce profil n'a pas été évalué même une seule fois. Veuillez commencer une évaluation pour voir les compétences ici."
+      }
     },
     "stats_content": {
       "progress_overview": {
@@ -1134,7 +1138,11 @@
     "skills_content": {
       "competencies_count": "{{count}} compétences",
       "start_date": "Date de début",
-      "last_update": "Dernière mise à jour"
+      "last_update": "Dernière mise à jour",
+      "no_competencies": {
+        "title": "Aucune Compétence Trouvée",
+        "message": "Ce profil n'a pas été évalué même une seule fois. Veuillez commencer une évaluation pour voir les compétences ici."
+      }
     },
     "stats_content": {
       "loading": "Chargement des statistiques...",
@@ -1270,6 +1278,10 @@
     "goals": {
       "title": "Objectifs de travail",
       "no_goals_found": "Aucun objectif trouvé. Cliquez sur \"Ajouter un nouvel objectif\" pour commencer !",
+      "no_goals": {
+        "title": "Aucun Objectif Trouvé",
+        "message": "Aucun objectif n'a encore été défini. Cliquez sur \"Ajouter un nouvel objectif\" pour commencer !"
+      },
       "add_new_goal": "Ajouter un nouvel objectif",
       "target_date": "Date cible",
       "edit": "Modifier",
@@ -1358,6 +1370,10 @@
       "items": "éléments",
       "domains_with_partiel_items": "Domaines avec éléments partiels",
       "no_domains_with_partiel": "Aucun domaine avec des éléments partiels trouvé",
+      "no_strategies": {
+        "title": "Aucune Stratégie Trouvée",
+        "message": "Aucun domaine avec des éléments partiels trouvé. Complétez quelques évaluations pour voir les stratégies ici."
+      },
       "filter": {
         "all": "Tous",
         "placeholder": "Filtrer par statut",

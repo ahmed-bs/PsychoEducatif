@@ -808,7 +808,24 @@ export class PickProfileComponent implements OnInit, OnDestroy {
 
   navigateToClient(childId: number) {
     localStorage.setItem('selectedChildId', childId.toString());
-    this.router.navigate(['/Dashboard-client/client/', childId]);
+    
+    // Check if we need to redirect after login
+    const redirectAfterLogin = localStorage.getItem('redirectAfterLogin');
+    const redirectTab = localStorage.getItem('redirectTab');
+    
+    if (redirectAfterLogin === 'explorer') {
+      localStorage.removeItem('redirectAfterLogin');
+      this.router.navigate(['/Dashboard-client/client/explore']);
+    } else if (redirectAfterLogin === 'accueil' && redirectTab) {
+      localStorage.removeItem('redirectAfterLogin');
+      localStorage.removeItem('redirectTab');
+      // Navigate to dashboard with the specified tab
+      this.router.navigate(['/Dashboard-client/client/', childId], {
+        queryParams: { tab: redirectTab }
+      });
+    } else {
+      this.router.navigate(['/Dashboard-client/client/', childId]);
+    }
   }
 
   cancel() {

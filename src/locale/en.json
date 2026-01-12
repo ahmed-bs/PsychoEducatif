@@ -1057,7 +1057,11 @@
     "skills_content": {
       "competencies_count": "{{count}} competencies",
       "start_date": "Start date",
-      "last_update": "Last update"
+      "last_update": "Last update",
+      "no_competencies": {
+        "title": "No Competencies Found",
+        "message": "This profile hasn't been evaluated even once. Please start an evaluation to see competencies here."
+      }
     },
     "stats_content": {
       "loading": "Loading statistics...",
@@ -1193,6 +1197,10 @@
     "goals": {
       "title": "Work goals",
       "no_goals_found": "No goals found. Click on \"Add a new goal\" to get started!",
+      "no_goals": {
+        "title": "No Goals Found",
+        "message": "No goals have been set yet. Click on \"Add a new goal\" to get started!"
+      },
       "add_new_goal": "Add a new goal",
       "target_date": "Target date",
       "edit": "Edit",
@@ -1281,6 +1289,10 @@
       "items": "items",
       "domains_with_partiel_items": "Domains with partial items",
       "no_domains_with_partiel": "No domain with partial items found",
+      "no_strategies": {
+        "title": "No Strategies Found",
+        "message": "No domains with partial items found. Complete some evaluations to see strategies here."
+      },
       "filter": {
         "all": "All",
         "placeholder": "Filter by status",

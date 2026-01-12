@@ -1,4 +1,20 @@
-<div class="bg-white rounded-xl shadow overflow-hidden">
+<!-- Empty State: No Strategies - Show bubble outside card -->
+<div *ngIf="!isLoadingDomains && domainsWithPartielItems.length === 0" class="empty-competencies-state">
+  <div class="empty-state-content">
+    <div class="message-cloud">
+      <div class="cloud-content">
+        <div class="cloud-bear-icon">
+          <img src="assets/img/bear.png" alt="Bear" class="bear-icon-image">
+        </div>
+        <h3 class="cloud-title">{{ 'dashboard_tabs.strategy.no_strategies.title' | translate }}</h3>
+        <p class="cloud-text">{{ 'dashboard_tabs.strategy.no_strategies.message' | translate }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Strategy Card - Only show when there are domains -->
+<div *ngIf="domainsWithPartielItems.length > 0" class="bg-white rounded-xl shadow overflow-hidden">
     <div class="bg-green-600 px-4 py-3 sm:px-6">
         <h3 class="text-lg sm:text-xl font-medium text-white">{{ 'dashboard_tabs.strategy.title' | translate }}</h3>
     </div>
@@ -10,7 +26,7 @@
         </div>
 
         <!-- Domains Table -->
-        <div *ngIf="!isLoadingDomains && domainsWithPartielItems.length > 0" class="mb-6">
+        <div *ngIf="!isLoadingDomains" class="mb-6">
             <div class="flex flex-col sm:flex-row items-start sm:items-center mb-4 gap-4">
                 <div class="flex-1 sm:flex-initial">
                     <p-dropdown 
@@ -187,12 +203,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <!-- Empty State -->
-        <div *ngIf="!isLoadingDomains && domainsWithPartielItems.length === 0" class="text-center py-8">
-            <i class="fas fa-inbox text-6xl text-gray-300 mb-4"></i>
-            <p class="text-gray-600 text-lg">{{ 'dashboard_tabs.strategy.no_domains_with_partiel' | translate }}</p>
         </div>
 
         <!-- Filtered Empty State -->

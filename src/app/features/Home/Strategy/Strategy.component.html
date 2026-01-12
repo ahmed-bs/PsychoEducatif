@@ -20,7 +20,7 @@
                       <i class="fas fa-user-plus"></i>
                       {{ 'navbar.buttons.sign_up' | translate }}
                   </button>
-                  <button class="btn btn-signin" routerLink="/auth/signin">
+                  <button class="btn btn-signin" [routerLink]="['/auth/signin']" [queryParams]="{redirect: 'accueil', tab: 'strategies'}">
                       <i class="fas fa-sign-in-alt"></i>
                       {{ 'navbar.buttons.sign_in' | translate }}
                   </button>
