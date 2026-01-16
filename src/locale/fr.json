@@ -534,7 +534,11 @@
         "acquired": "Acquis",
         "not_acquired": "Non Acquis",
         "partial": "Partiel"
-      }
+      },
+      "start_date": "Date de début",
+      "end_date": "Date de fin",
+      "start_date_placeholder": "Sélectionner la date de début",
+      "end_date_placeholder": "Sélectionner la date de fin"
     },
     "export_button": "Exporter",
     "table": {

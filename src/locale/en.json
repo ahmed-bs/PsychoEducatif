@@ -534,7 +534,11 @@
         "acquired": "Acquired",
         "not_acquired": "Not Acquired",
         "partial": "Partial"
-      }
+      },
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "start_date_placeholder": "Select start date",
+      "end_date_placeholder": "Select end date"
     },
     "export_button": "Export",
     "table": {

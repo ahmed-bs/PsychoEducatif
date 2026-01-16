@@ -13,6 +13,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { PaginatorModule } from 'primeng/paginator';
+import { CalendarModule } from 'primeng/calendar';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
@@ -59,7 +60,8 @@ interface CategoryTableRow {
     ToggleButtonModule,
     TooltipModule,
     TranslateModule,
-    PaginatorModule
+    PaginatorModule,
+    CalendarModule
   ],
 })
 export class SummaryComponent implements OnInit, OnDestroy {
@@ -75,6 +77,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
   selectedFilterModule: string = 'all';
   filterItemStatuses: any[] = [];
   selectedFilterItemStatus: string = 'all';
+  startDate: Date | null = null;
+  endDate: Date | null = null;
   private originalCategoryDataForTable: CategoryTableRow[] = [];
   domainItemsVisibility: { [domainName: string]: boolean } = {};
   currentLanguage: string = 'fr';
@@ -182,7 +186,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
           this.profileDomainService.getDomains(category.id || 0).pipe(
             switchMap(domains => {
               const domainRequests = domains.map(domain => 
-                this.profileItemService.getItems(domain.id).pipe(
+                this.profileItemService.getItems(
+                  domain.id, 
+                  this.profileId, 
+                  this.formatDateForApi(this.startDate),
+                  this.formatDateForApi(this.endDate)
+                ).pipe(
                   catchError(error => {
                     console.error(`Error loading items for domain ${domain.id}:`, error);
                     return of([]);
@@ -358,6 +367,28 @@ export class SummaryComponent implements OnInit, OnDestroy {
     });
 
     return Array.from(categoryMap.values());
+  }
+
+  formatDateForApi(date: Date | null): string | null {
+    if (!date) {
+      return null;
+    }
+    // Format as YYYY-MM-DD HH:mm:ss for API
+    // For start_date, set time to 00:00:00 if not specified
+    // For end_date, set time to 23:59:59 if not specified
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    // Return format: YYYY-MM-DD HH:mm:ss
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  onDateChange(): void {
+    // Reload data when dates change
+    this.loadSummaryData();
   }
 
   applyFilter(): void {

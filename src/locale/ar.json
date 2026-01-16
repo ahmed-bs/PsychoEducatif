@@ -535,7 +535,11 @@
         "acquired": "مكتسب",
         "not_acquired": "غير مكتسب",
         "partial": "جزئي"
-      }
+      },
+      "start_date": "تاريخ البداية",
+      "end_date": "تاريخ النهاية",
+      "start_date_placeholder": "اختر تاريخ البداية",
+      "end_date_placeholder": "اختر تاريخ النهاية"
     },
     "export_button": "تصدير",
     "table": {

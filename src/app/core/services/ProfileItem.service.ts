@@ -31,10 +31,16 @@ export class ProfileItemService {
     }
 
     // List items for a domain
-    getItems(domainId: number, profileId: number | null = null): Observable<ProfileItem[]> {
+    getItems(domainId: number, profileId: number | null = null, startDate: string | null = null, endDate: string | null = null): Observable<ProfileItem[]> {
         let params = new HttpParams().set('domain_id', domainId.toString());
         if (profileId !== null && profileId !== undefined) {
             params = params.set('profile_id', profileId.toString());
+        }
+        if (startDate !== null && startDate !== undefined && startDate !== '') {
+            params = params.set('start_date', startDate);
+        }
+        if (endDate !== null && endDate !== undefined && endDate !== '') {
+            params = params.set('end_date', endDate);
         }
         const url = `${this.baseUrl}`;
         return this.http.get<ApiResponse<ProfileItem[]>>(url, { params }).pipe(

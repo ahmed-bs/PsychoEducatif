@@ -5,6 +5,8 @@
   /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
   min-height: 100vh;
   padding: 1rem;
+  position: relative;
+  overflow: visible;
 }
 
 /* Loading and Error States */
@@ -55,7 +57,9 @@
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 1.5rem;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
 }
 
 .controls-content {
@@ -63,12 +67,16 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
+  overflow: visible;
 }
 
 .filters-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
+  overflow: visible;
 }
 
 .filter-section {
@@ -96,6 +104,123 @@
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* Date Filter Styling */
+.date-filter-section {
+  min-width: 200px;
+}
+
+.date-picker-wrapper {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.date-picker-wrapper ::ng-deep .p-calendar {
+  width: 100%;
+  position: relative;
+}
+
+.date-picker-wrapper ::ng-deep .p-calendar .p-inputtext {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.date-picker-wrapper ::ng-deep .p-calendar .p-inputtext:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.date-picker-wrapper ::ng-deep .p-calendar .p-inputtext:hover {
+  border-color: #ced4da;
+}
+
+.date-picker-wrapper ::ng-deep .p-calendar .p-datepicker-trigger {
+  background: transparent;
+  border: none;
+  color: #495057;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.date-picker-wrapper ::ng-deep .p-calendar .p-datepicker-trigger:hover {
+  background: #f8f9fa;
+  color: #007bff;
+}
+
+.date-picker-wrapper ::ng-deep .p-calendar .p-datepicker-trigger:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* Calendar Popup Styling */
+.date-picker-wrapper ::ng-deep .p-datepicker {
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  z-index: 9999 !important;
+}
+
+.date-picker-wrapper ::ng-deep .p-datepicker-panel {
+  z-index: 9999 !important;
+}
+
+/* Ensure calendar popup appears above everything */
+:host ::ng-deep .p-datepicker {
+  z-index: 10000 !important;
+}
+
+:host ::ng-deep .p-connected-overlay-enter-done {
+  z-index: 10000 !important;
+}
+
+.date-picker-wrapper ::ng-deep .p-datepicker .p-datepicker-header {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.date-picker-wrapper ::ng-deep .p-datepicker .p-timepicker {
+  border-top: 1px solid #e9ecef;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.date-picker-wrapper ::ng-deep .p-datepicker .p-timepicker button {
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.date-picker-wrapper ::ng-deep .p-datepicker .p-timepicker button:hover {
+  background: #e9ecef;
+}
+
+/* Responsive Date Picker */
+@media (max-width: 767px) {
+  .date-filter-section {
+    min-width: 100%;
+  }
+
+  .date-picker-wrapper ::ng-deep .p-calendar {
+    width: 100%;
+  }
+
+  .date-picker-wrapper ::ng-deep .p-calendar .p-inputtext {
+    font-size: 0.9rem;
+    padding: 0.625rem;
+  }
 }
 
 .export-section {
@@ -547,6 +672,17 @@
     min-width: 200px;
   }
 
+  .filter-section.date-filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 220px;
+  }
+
+  .date-picker-wrapper {
+    width: 100%;
+    min-width: 200px;
+  }
+
   .filter-select {
     min-width: 160px;
     flex: 1;
@@ -578,9 +714,17 @@
   .filter-section {
     min-width: 180px;
   }
+
+  .filter-section.date-filter-section {
+    min-width: 220px;
+  }
   
   .filter-select {
     min-width: 140px;
+  }
+
+  .date-picker-wrapper {
+    min-width: 200px;
   }
 }
 

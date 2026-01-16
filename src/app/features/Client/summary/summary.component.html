@@ -78,6 +78,52 @@
              </option>
            </select>
          </div>
+
+         <div class="filter-section date-filter-section">
+           <label for="start-date-filter" class="filter-label">
+             {{ 'skills_summary.filters.start_date' | translate }}:
+           </label>
+           <div class="date-picker-wrapper">
+             <p-calendar 
+               id="start-date-filter"
+               [(ngModel)]="startDate"
+               (onSelect)="onDateChange()"
+               (onClear)="onDateChange()"
+               [showIcon]="true"
+               dateFormat="yy-mm-dd"
+               [showTime]="true"
+               [hourFormat]="'24'"
+               [placeholder]="'skills_summary.filters.start_date_placeholder' | translate"
+               inputStyleClass="date-filter-input"
+               [inputStyle]="{'width': '100%'}"
+               [appendTo]="'body'"
+               [baseZIndex]="10000">
+             </p-calendar>
+           </div>
+         </div>
+
+         <div class="filter-section date-filter-section">
+           <label for="end-date-filter" class="filter-label">
+             {{ 'skills_summary.filters.end_date' | translate }}:
+           </label>
+           <div class="date-picker-wrapper">
+             <p-calendar 
+               id="end-date-filter"
+               [(ngModel)]="endDate"
+               (onSelect)="onDateChange()"
+               (onClear)="onDateChange()"
+               [showIcon]="true"
+               dateFormat="yy-mm-dd"
+               [showTime]="true"
+               [hourFormat]="'24'"
+               [placeholder]="'skills_summary.filters.end_date_placeholder' | translate"
+               inputStyleClass="date-filter-input"
+               [inputStyle]="{'width': '100%'}"
+               [appendTo]="'body'"
+               [baseZIndex]="10000">
+             </p-calendar>
+           </div>
+         </div>
        </div>
 
       <div class="export-section">
