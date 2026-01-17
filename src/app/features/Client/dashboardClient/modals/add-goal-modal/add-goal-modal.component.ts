@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormArray, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { GoalService } from 'src/app/core/services/goal.service';
 import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
@@ -31,6 +31,7 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
   goalForm!: FormGroup;
   isEditMode: boolean = false;
   priorities = ['low', 'medium', 'high'];
+  repetitionTypes = ['none', 'daily', 'weekly', 'monthly'];
   availableCategories: ProfileCategory[] = [];
   availableDomains: ProfileDomain[] = [];
 
@@ -133,26 +134,10 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
       description: ['', Validators.required],
       target_date: ['', Validators.required],
       priority: ['medium', Validators.required],
+      repetition_type: ['none', Validators.required],
       category_id: [null, Validators.required],
-      domain_id: [{ value: null, disabled: true }, Validators.required],
-      sub_objectives: this.fb.array([])
+      domain_id: [{ value: null, disabled: true }, Validators.required]
     });
-  }
-
-  get subObjectives(): FormArray {
-    return this.goalForm.get('sub_objectives') as FormArray;
-  }
-
-  addSubObjective(description: string = '', isCompleted: boolean = false): void {
-    this.subObjectives.push(this.fb.group({
-      id: [null],
-      description: [description, Validators.required],
-      is_completed: [isCompleted]
-    }));
-  }
-
-  removeSubObjective(index: number): void {
-    this.subObjectives.removeAt(index);
   }
 
   populateForm(goal: any): void {
@@ -165,6 +150,7 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
       description: goal.description,
       target_date: goal.target_date ? new Date(goal.target_date).toISOString().split('T')[0] : null,
       priority: goal.priority,
+      repetition_type: goal.repetition_type || 'none',
       category_id: categoryIdToPatch,
     }, { emitEvent: true }); 
 
@@ -185,23 +171,16 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
         }
       );
     }
-
-    this.subObjectives.clear();
-    goal.sub_objectives.forEach((sub: any) => {
-      this.addSubObjective(sub.description, sub.is_completed);
-      const lastIndex = this.subObjectives.length - 1;
-      (this.subObjectives.at(lastIndex) as FormGroup).get('id')?.setValue(sub.id);
-    });
   }
 
 
   resetForm(): void {
     this.goalForm.reset({
       priority: 'medium',
+      repetition_type: 'none',
       category_id: null,
       domain_id: null
     });
-    this.subObjectives.clear();
     this.availableDomains = [];
     this.availableCategories = [];
     this.goalForm.get('domain_id')?.disable();
@@ -372,5 +351,10 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
   // Helper method to get translated priority label
   getPriorityLabel(priority: string): string {
     return this.translate.instant(`add_goal_modal.priority.${priority}`);
+  }
+
+  // Helper method to get translated repetition type label
+  getRepetitionTypeLabel(repetitionType: string): string {
+    return this.translate.instant(`add_goal_modal.repetition_type.${repetitionType}`);
   }
 }

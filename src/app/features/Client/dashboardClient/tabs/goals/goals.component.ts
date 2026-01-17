@@ -16,7 +16,6 @@ export class GoalsComponent implements OnInit, OnDestroy {
   @Input() goals: any[] = [];
   @Output() addGoalClicked = new EventEmitter<void>();
   @Output() editGoalClicked = new EventEmitter<any>();
-  @Output() toggleSubObjectiveStatus = new EventEmitter<{ goalId: number; subObjectiveId: number; newStatus: boolean }>();
   @Output() deleteGoalClicked = new EventEmitter<number>();
 
   private languageSubscription: Subscription;
@@ -58,13 +57,6 @@ export class GoalsComponent implements OnInit, OnDestroy {
     return today.getTime() >= targetDate.getTime();
   }
 
-  getSubObjectiveTooltip(goal: any): string {
-    if (!this.isQuizAvailable(goal)) {
-      return this.translate.instant('dashboard_tabs.goals.messages.sub_objective_disabled', { date: this.formatDate(goal.target_date) });
-    }
-    return '';
-  }
-
   getQuizAvailabilityMessage(goal: any): string {
     if (this.isQuizAvailable(goal)) {
       return this.translate.instant('dashboard_tabs.goals.messages.quiz_available');
@@ -97,14 +89,6 @@ export class GoalsComponent implements OnInit, OnDestroy {
     this.editGoalClicked.emit(goal);
   }
 
-  onToggleSubObjective(goalId: number, subObjectiveId: number, currentStatus: boolean): void {
-    this.toggleSubObjectiveStatus.emit({
-      goalId: goalId,
-      subObjectiveId: subObjectiveId,
-      newStatus: !currentStatus
-    });
-  }
-
   onDeleteGoalClick(goalId: number): void {
     if (confirm(this.translate.instant('dashboard_tabs.goals.messages.confirm_delete'))) {
       this.deleteGoalClicked.emit(goalId);
@@ -117,18 +101,18 @@ export class GoalsComponent implements OnInit, OnDestroy {
     return date.toLocaleDateString('fr-FR');
   }
 
-  calculateProgress(goal: any): number {
-    if (!goal || !goal.sub_objectives || goal.sub_objectives.length === 0) {
-      return 0;
-    }
-
-    const totalSubObjectives = goal.sub_objectives.length;
-    const completedSubObjectives = goal.sub_objectives.filter((sub: any) => sub.is_completed).length;
-
-    return Math.round((completedSubObjectives / totalSubObjectives) * 100);
-  }
-
   getPriorityTranslation(priority: string): string {
     return this.translate.instant(`dashboard_tabs.goals.priority.${priority}`);
+  }
+
+  getRepetitionTypeTranslation(repetitionType: string): string {
+    if (!repetitionType || repetitionType === 'none') {
+      return '';
+    }
+    return this.translate.instant(`dashboard_tabs.goals.repetition_type.${repetitionType}`);
+  }
+
+  hasRepetition(goal: any): boolean {
+    return goal.repetition_type && goal.repetition_type !== 'none';
   }
 }

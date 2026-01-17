@@ -1335,6 +1335,12 @@
         "medium": "Moyenne",
         "low": "Faible"
       },
+      "repetition_type": {
+        "none": "Aucune",
+        "daily": "Quotidien",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuel"
+      },
       "messages": {
         "quiz_not_available": "Le quiz pour cet objectif ne sera disponible qu'à partir du {{date}}.",
         "quiz_available": "Cliquez pour passer le quiz.",
@@ -1545,6 +1551,7 @@
       "description": "Description",
       "target_date": "Date cible",
       "priority": "Priorité",
+      "repetition_type": "Type de répétition",
       "category": "Catégorie",
       "domain": "Domaine",
       "sub_objectives": "Sous-objectifs"
@@ -1569,13 +1576,15 @@
       "description_required": "La description est requise",
       "target_date_required": "La date cible est requise",
       "priority_required": "La priorité est requise",
+      "repetition_type_required": "Le type de répétition est requis",
       "category_required": "La catégorie est requise",
       "domain_required": "Le domaine est requis"
     },
     "messages": {
       "no_categories": "Aucune catégorie disponible. Assurez-vous d'avoir des catégories associées à votre profil",
       "select_category_first": "Veuillez d'abord sélectionner une catégorie",
-      "no_domains": "Aucun domaine disponible pour la catégorie sélectionnée"
+      "no_domains": "Aucun domaine disponible pour la catégorie sélectionnée",
+      "repetition_type_help": "Sélectionnez la fréquence de répétition de cet objectif. L'objectif sera automatiquement mis à jour selon le type sélectionné."
     },
     "success_messages": {
       "goal_updated": "Objectif mis à jour!",
@@ -1592,6 +1601,12 @@
       "high": "Élevée",
       "medium": "Moyenne",
       "low": "Faible"
+    },
+    "repetition_type": {
+      "none": "Aucune répétition",
+      "daily": "Quotidien",
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel"
     }
   },
   "calendar": {

@@ -1254,6 +1254,12 @@
         "medium": "Medium",
         "low": "Low"
       },
+      "repetition_type": {
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "messages": {
         "quiz_not_available": "The quiz for this goal will only be available from {{date}}.",
         "quiz_available": "Click to take the quiz.",
@@ -1464,6 +1470,7 @@
       "description": "Description",
       "target_date": "Target date",
       "priority": "Priority",
+      "repetition_type": "Repetition type",
       "category": "Category",
       "domain": "Domain",
       "sub_objectives": "Sub-objectives"
@@ -1488,13 +1495,15 @@
       "description_required": "Description is required",
       "target_date_required": "Target date is required",
       "priority_required": "Priority is required",
+      "repetition_type_required": "Repetition type is required",
       "category_required": "Category is required",
       "domain_required": "Domain is required"
     },
     "messages": {
       "no_categories": "No categories available. Make sure you have categories associated with your profile",
       "select_category_first": "Please select a category first",
-      "no_domains": "No domains available for the selected category"
+      "no_domains": "No domains available for the selected category",
+      "repetition_type_help": "Select how often this goal should repeat. The goal will be automatically updated based on the selected type."
     },
     "success_messages": {
       "goal_updated": "Goal updated!",
@@ -1511,6 +1520,12 @@
       "high": "High",
       "medium": "Medium",
       "low": "Low"
+    },
+    "repetition_type": {
+      "none": "No repetition",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
     }
   },
   "calendar": {

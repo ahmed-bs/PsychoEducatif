@@ -323,7 +323,6 @@
                 <div class="tab-content" id="goals-content" [class.active]="isTabActive('goals')">
                     <app-goals [goals]="goals" (addGoalClicked)="openAddGoalModal()"
                         (editGoalClicked)="openEditGoalModal($event)"
-                        (toggleSubObjectiveStatus)="onToggleSubObjective($event)"
                         (deleteGoalClicked)="onDeleteGoal($event)"></app-goals>
                 </div>
                 <app-add-goal-modal *ngIf="showGoalFormModal" [isVisible]="showGoalFormModal"

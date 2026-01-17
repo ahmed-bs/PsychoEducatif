@@ -515,40 +515,6 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     }
     this.closeGoalFormModal();
   }
-
-  onToggleSubObjective({ goalId, subObjectiveId, newStatus }: { goalId: number; subObjectiveId: number; newStatus: boolean }): void {
-    const goalIndex = this.goals.findIndex(g => g.id === goalId);
-
-    if (goalIndex !== -1) {
-      const goalToUpdate = { ...this.goals[goalIndex] };
-
-      const subObjectiveIndex = goalToUpdate.sub_objectives.findIndex((sub: any) => sub.id === subObjectiveId);
-
-      if (subObjectiveIndex !== -1) {
-        goalToUpdate.sub_objectives[subObjectiveIndex] = {
-          ...goalToUpdate.sub_objectives[subObjectiveIndex],
-          is_completed: newStatus
-        };
-
-        this.goals[goalIndex] = goalToUpdate;
-
-        this.goalService.updateGoal(goalToUpdate.id, goalToUpdate).subscribe({
-          next: (response) => {
-            console.log('Sub-objective status updated successfully on backend:', response);
-          },
-          error: (error) => {
-            console.error('Error updating sub-objective status:', error);
-            this.loadGoals();
-            console.error('Failed to update sub-objective. Please try again.');
-          }
-        });
-      } else {
-        console.warn(`Sub-objective with ID ${subObjectiveId} not found in goal ${goalId}.`);
-      }
-    } else {
-      console.warn(`Goal with ID ${goalId} not found.`);
-    }
-  }
   
   onDeleteGoal(goalId: number): void {
     this.goalService.deleteGoal(goalId).subscribe({

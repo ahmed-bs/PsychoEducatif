@@ -59,6 +59,19 @@
         </div>
 
         <div class="mb-4">
+          <label for="repetition_type" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.repetition_type' | translate }}:</label>
+          <select id="repetition_type" formControlName="repetition_type"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm sm:text-base"
+            [class.border-red-500]="goalForm.get('repetition_type')?.invalid && goalForm.get('repetition_type')?.touched">
+            <option *ngFor="let rt of repetitionTypes" [value]="rt">{{ getRepetitionTypeLabel(rt) }}</option>
+          </select>
+          <p *ngIf="goalForm.get('repetition_type')?.invalid && goalForm.get('repetition_type')?.touched" class="text-red-500 text-xs italic">
+            {{ 'add_goal_modal.validation.repetition_type_required' | translate }}.
+          </p>
+          <p class="text-xs text-gray-500 mt-1">{{ 'add_goal_modal.messages.repetition_type_help' | translate }}</p>
+        </div>
+
+        <div class="mb-4">
           <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{ 'add_goal_modal.labels.category' | translate }}:</label>
           <select id="category" formControlName="category_id"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm sm:text-base"
@@ -91,27 +104,6 @@
           <p *ngIf="goalForm.get('category_id')?.value && availableDomains.length === 0 && goalForm.get('category_id')?.touched" class="text-sm text-gray-500 mt-1">
             {{ 'add_goal_modal.messages.no_domains' | translate }}.
           </p>
-        </div>
-
-        <div class="mb-4 p-3 sm:p-4 border border-gray-200 rounded-lg">
-          <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3">{{ 'add_goal_modal.labels.sub_objectives' | translate }}:</h3>
-          <div class="max-h-32 sm:max-h-36 overflow-y-auto pr-2 custom-scrollbar" formArrayName="sub_objectives">
-            <div *ngFor="let subObjectiveGroup of subObjectives.controls; let i = index" [formGroupName]="i"
-              class="flex items-center mb-3">
-              <input type="text" formControlName="description"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2 text-sm sm:text-base"
-                [class.border-red-500]="subObjectiveGroup.get('description')?.invalid && subObjectiveGroup.get('description')?.touched"
-                [placeholder]="'add_goal_modal.placeholders.sub_objective' | translate">
-              <button type="button" (click)="removeSubObjective(i)"
-                class="text-red-600 hover:text-red-800 text-base sm:text-lg p-1">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </div>
-          <button type="button" (click)="addSubObjective()"
-            class="mt-2 bg-gray-200 text-gray-700 px-3 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-300 transition flex items-center text-sm sm:text-base">
-            <i class="fas fa-plus mr-2"></i> {{ 'add_goal_modal.buttons.add_sub_objective' | translate }}
-          </button>
         </div>
       </form>
     </div>

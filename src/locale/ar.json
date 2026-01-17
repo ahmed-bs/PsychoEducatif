@@ -1216,6 +1216,12 @@
         "medium": "متوسطة",
         "low": "منخفضة"
       },
+      "repetition_type": {
+        "none": "بدون",
+        "daily": "يومي",
+        "weekly": "أسبوعي",
+        "monthly": "شهري"
+      },
       "messages": {
         "quiz_not_available": "سيكون الاختبار لهذا الهدف متاحًا اعتبارًا من {{date}}.",
         "quiz_available": "انقر لإجراء الاختبار.",
@@ -1426,6 +1432,7 @@
       "description": "الوصف",
       "target_date": "التاريخ المستهدف",
       "priority": "الأولوية",
+      "repetition_type": "نوع التكرار",
       "category": "الفئة",
       "domain": "المجال",
       "sub_objectives": "الأهداف الفرعية"
@@ -1450,13 +1457,15 @@
       "description_required": "الوصف مطلوب",
       "target_date_required": "التاريخ المستهدف مطلوب",
       "priority_required": "الأولوية مطلوبة",
+      "repetition_type_required": "نوع التكرار مطلوب",
       "category_required": "الفئة مطلوبة",
       "domain_required": "المجال مطلوب"
     },
     "messages": {
       "no_categories": "لا توجد فئات متاحة. تأكد من وجود فئات مرتبطة بملفك الشخصي",
       "select_category_first": "يرجى اختيار فئة أولاً",
-      "no_domains": "لا توجد مجالات متاحة للفئة المختارة"
+      "no_domains": "لا توجد مجالات متاحة للفئة المختارة",
+      "repetition_type_help": "حدد عدد مرات تكرار هذا الهدف. سيتم تحديث الهدف تلقائيًا بناءً على النوع المحدد."
     },
     "success_messages": {
       "goal_updated": "تم تحديث الهدف!",
@@ -1473,6 +1482,12 @@
       "high": "عالية",
       "medium": "متوسطة",
       "low": "منخفضة"
+    },
+    "repetition_type": {
+      "none": "بدون تكرار",
+      "daily": "يومي",
+      "weekly": "أسبوعي",
+      "monthly": "شهري"
     }
   },
   "calendar": {

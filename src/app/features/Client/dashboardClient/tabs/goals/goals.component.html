@@ -13,87 +13,66 @@
   </div>
 </div>
 
-<!-- Goals Card - Only show when there are goals -->
-<div *ngIf="goals.length > 0" class="bg-white rounded-xl shadow overflow-hidden">
-  <div class="bg-blue-600 px-4 py-3 sm:px-6"> <h3 class="text-lg sm:text-xl font-medium text-white">{{ 'dashboard_tabs.goals.title' | translate }}</h3> </div>
-  <div class="p-4 sm:p-6">
-    <div *ngFor="let goal of goals" class="mb-6 border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
-      <div class="flex flex-col sm:flex-row sm:items-start mb-4">
-        <div class="flex-shrink-0 mt-1 sm:mt-0 mr-0 sm:mr-3 mb-3 sm:mb-0"> <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-800">
-            <i class="fas fa-bullseye text-sm"></i>
-          </div>
+<!-- Goals List - Modern Card Design -->
+<div *ngIf="goals.length > 0" class="goals-container">
+  <div class="goals-grid">
+    <div *ngFor="let goal of goals" class="goal-card">
+      <!-- Card Header -->
+      <div class="goal-card-header">
+        <div class="goal-icon">
+          <i class="fas fa-bullseye"></i>
         </div>
-        <div class="flex-grow">
-          <div class="flex flex-col sm:flex-row sm:items-center mb-1"> <h4 class="text-lg sm:text-xl font-bold text-gray-800">{{ goal.title }}</h4> <span class="ml-0 sm:ml-3 px-3 py-1 sm:px-4 sm:py-1 text-xs font-semibold rounded-full mt-2 sm:mt-0" [ngClass]="{
-                    'bg-red-100 text-red-800': goal.priority === 'high',
-                    'bg-yellow-100 text-yellow-800': goal.priority === 'medium',
-                    'bg-green-100 text-green-800': goal.priority === 'low'
-                  }">
-              {{ getPriorityTranslation(goal.priority) }}
-            </span>
-          </div>
-
-          <p class="mt-1 text-gray-600 mb-2 text-sm sm:text-base">{{ goal.description }}</p> <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-500 mt-2"> <div class="flex items-center mb-2 sm:mb-0"> <i class="fas fa-calendar-alt mr-2"></i> {{ 'dashboard_tabs.goals.target_date' | translate }}: {{ formatDate(goal.target_date) }}
-            </div>
-            <div class="flex items-center space-x-2 sm:space-x-3"> <button (click)="onEditGoalClick(goal)"
-                      class="text-blue-600 hover:text-blue-800 transition text-sm sm:text-base"> <i class="fas fa-edit mr-1"></i> {{ 'dashboard_tabs.goals.edit' | translate }}
-              </button>
-              <button (click)="onDeleteGoalClick(goal.id)"
-                      class="text-red-600 hover:text-red-800 transition text-sm sm:text-base"> <i class="fas fa-trash-alt mr-1"></i> {{ 'dashboard_tabs.goals.delete' | translate }}
-              </button>
-            </div>
-          </div>
-
-          <div class="mt-4">
-            <button (click)="onGoalClick(goal)"
-                    [ngClass]="{
-                      'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500': isQuizAvailable(goal),
-                      'bg-gray-400 cursor-not-allowed': !isQuizAvailable(goal)
-                    }"
-                    [disabled]="!isQuizAvailable(goal)"
-                    [title]="getQuizAvailabilityMessage(goal)"
-                    class="w-full py-2 px-4 text-white font-semibold rounded-md shadow-md
-                           focus:outline-none focus:ring-2 focus:ring-offset-2
-                           transition ease-in-out duration-150 text-base flex items-center justify-center">
-              <i class="fas fa-question-circle mr-2"></i> {{ 'dashboard_tabs.goals.take_quiz' | translate }}
-            </button>
-          </div>
-
+        <div class="goal-header-content">
+          <h3 class="goal-title">{{ goal.title }}</h3>
+          <span class="goal-priority-badge" [ngClass]="{
+            'priority-high': goal.priority === 'high',
+            'priority-medium': goal.priority === 'medium',
+            'priority-low': goal.priority === 'low'
+          }">
+            {{ getPriorityTranslation(goal.priority) }}
+          </span>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row sm:items-center mt-4 mb-4 gap-2 sm:gap-4"> <span class="text-sm text-gray-700 font-medium whitespace-nowrap mb-2 sm:mb-0">{{ 'dashboard_tabs.goals.progress' | translate }}: {{ calculateProgress(goal) }}%</span> <div class="w-full bg-gray-200 rounded-full h-3">
-          <div class="bg-blue-600 h-3 rounded-full transition-all duration-500 ease-out"
-               [style.width]="calculateProgress(goal) + '%'"></div>
+      <!-- Card Body -->
+      <div class="goal-card-body">
+        <p class="goal-description">{{ goal.description }}</p>
+        
+        <div class="goal-meta">
+          <div class="goal-meta-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>{{ formatDate(goal.target_date) }}</span>
+          </div>
+          <div *ngIf="hasRepetition(goal)" class="goal-meta-item">
+            <i class="fas fa-repeat"></i>
+            <span class="repetition-badge">{{ getRepetitionTypeTranslation(goal.repetition_type) }}</span>
+          </div>
         </div>
       </div>
 
-      <div *ngIf="goal.sub_objectives && goal.sub_objectives.length > 0" class="border-l-4 border-blue-200 pl-4 ml-3 pt-2">
-        <h5 class="font-medium text-gray-700 mb-3 text-base sm:text-lg">{{ 'dashboard_tabs.goals.sub_objectives' | translate }}</h5> <ul class="space-y-3">
-          <li *ngFor="let subObj of goal.sub_objectives" class="flex items-center">
-            <div class="flex-shrink-0 mr-3">
-              <button (click)="onToggleSubObjective(goal.id, subObj.id, subObj.is_completed)"
-                      [disabled]="!isQuizAvailable(goal)"
-                      [ngClass]="{
-                        'bg-blue-100 text-blue-800': isQuizAvailable(goal),
-                        'bg-gray-200 text-gray-500': !isQuizAvailable(goal),
-                        'cursor-not-allowed': !isQuizAvailable(goal)
-                      }"
-                      [title]="getSubObjectiveTooltip(goal)"
-                      class="flex items-center justify-center h-6 w-6 rounded-full transition-colors duration-200">
-                <i class="fas" [ngClass]="subObj.is_completed ? 'fa-check' : 'fa-spinner'"></i>
-              </button>
-            </div>
-            <div class="flex-grow">
-              <span class="text-gray-800 text-sm sm:text-base" [class.line-through]="subObj.is_completed"> {{ subObj.description }}
-              </span>
-            </div>
-          </li>
-        </ul>
+      <!-- Card Footer -->
+      <div class="goal-card-footer">
+        <button (click)="onGoalClick(goal)"
+                [ngClass]="{
+                  'quiz-btn-active': isQuizAvailable(goal),
+                  'quiz-btn-disabled': !isQuizAvailable(goal)
+                }"
+                [disabled]="!isQuizAvailable(goal)"
+                [title]="getQuizAvailabilityMessage(goal)"
+                class="quiz-btn">
+          <i class="fas fa-question-circle"></i>
+          <span>{{ 'dashboard_tabs.goals.take_quiz' | translate }}</span>
+        </button>
+        
+        <div class="goal-actions">
+          <button (click)="onEditGoalClick(goal)" class="action-btn edit-btn" title="{{ 'dashboard_tabs.goals.edit' | translate }}">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button (click)="onDeleteGoalClick(goal.id)" class="action-btn delete-btn" title="{{ 'dashboard_tabs.goals.delete' | translate }}">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
       </div>
-      <p *ngIf="!goal.sub_objectives || goal.sub_objectives.length === 0" class="text-gray-500 text-xs sm:text-sm italic border-l-4 border-gray-100 pl-4 ml-3 pt-2"> {{ 'dashboard_tabs.goals.no_sub_objectives' | translate }}
-      </p>
-
     </div>
   </div>
 </div>
