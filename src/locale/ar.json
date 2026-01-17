@@ -528,6 +528,10 @@
     "filter_label": "تصفية حسب حالة العناصر:",
     "filter_placeholder": "اختر حالة",
     "filters": {
+      "title": "المرشحات",
+      "toggle_filters": "إظهار/إخفاء المرشحات",
+      "basic_filters": "المرشحات الأساسية",
+      "date_filters": "مرشحات النطاق الزمني",
       "status": "الحالة",
       "module": "الوحدة",
       "item_status": {
@@ -539,7 +543,14 @@
       "start_date": "تاريخ البداية",
       "end_date": "تاريخ النهاية",
       "start_date_placeholder": "اختر تاريخ البداية",
-      "end_date_placeholder": "اختر تاريخ النهاية"
+      "end_date_placeholder": "اختر تاريخ النهاية",
+      "apply_filters": "تطبيق المرشحات",
+      "reset_filters": "إعادة تعيين المرشحات",
+      "date_error": {
+        "start_date_required": "تاريخ البداية مطلوب عند تحديد تاريخ النهاية.",
+        "end_date_required": "تاريخ النهاية مطلوب عند تحديد تاريخ البداية.",
+        "start_after_end": "يجب أن يكون تاريخ البداية قبل تاريخ النهاية."
+      }
     },
     "export_button": "تصدير",
     "table": {
@@ -641,7 +652,8 @@
       "status_options": {
         "ACQUIS": "مكتسبة",
         "PARTIEL": "جزئية",
-        "NON_ACQUIS": "غير مكتسبة"
+        "NON_ACQUIS": "غير مكتسبة",
+        "NON_COTE": "غير مقيمة"
       },
       "comment_label": "ملاحظات:",
       "comment_placeholder": "ملاحظات إضافية حول هذه المهارة...",
@@ -654,7 +666,8 @@
       "submit": "إرسال",
       "view_description": "عرض الوصف",
       "add_comment": "إضافة تعليق",
-      "add_strategy": "إضافة استراتيجية"
+      "add_strategy": "إضافة استراتيجية",
+      "historique": "التاريخ"
     },
     "tap_to_read_more": "انقر لقراءة المزيد",
     "view_mode": {
@@ -676,6 +689,29 @@
       "save": "حفظ",
       "saving": "جاري الحفظ...",
       "strategy_update_error": "خطأ في تحديث الاستراتيجية"
+    },
+    "historique": {
+      "title": "تاريخ الإجابات",
+      "loading": "جارٍ تحميل التاريخ...",
+      "no_data": "لا يوجد تاريخ متاح لهذا العنصر",
+      "status": "الحالة",
+      "date": "التاريخ",
+      "comment": "التعليق",
+      "load_error": "خطأ في تحميل التاريخ",
+      "stats": {
+        "acquis": "مكتسب",
+        "partiel": "جزئي",
+        "non_acquis": "غير مكتسب",
+        "total": "الإجمالي",
+        "trend": {
+          "up": "تحسن",
+          "down": "تراجع",
+          "stable": "مستقر"
+        }
+      },
+      "chart": {
+        "title": "تطور الحالة"
+      }
     }
   },
   "explore": {

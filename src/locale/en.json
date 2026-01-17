@@ -527,6 +527,10 @@
     "filter_label": "Filter by Item Status:",
     "filter_placeholder": "Select a status",
     "filters": {
+      "title": "Filters",
+      "toggle_filters": "Toggle Filters",
+      "basic_filters": "Basic Filters",
+      "date_filters": "Date Range Filters",
       "status": "Status",
       "module": "Module",
       "item_status": {
@@ -538,7 +542,14 @@
       "start_date": "Start Date",
       "end_date": "End Date",
       "start_date_placeholder": "Select start date",
-      "end_date_placeholder": "Select end date"
+      "end_date_placeholder": "Select end date",
+      "apply_filters": "Apply Filters",
+      "reset_filters": "Reset Filters",
+      "date_error": {
+        "start_date_required": "Start date is required when end date is selected.",
+        "end_date_required": "End date is required when start date is selected.",
+        "start_after_end": "Start date must be before end date."
+      }
     },
     "export_button": "Export",
     "table": {
@@ -640,7 +651,8 @@
       "status_options": {
         "ACQUIS": "Acquired",
         "PARTIEL": "Partial",
-        "NON_ACQUIS": "Not acquired"
+        "NON_ACQUIS": "Not acquired",
+        "NON_COTE": "Not evaluated"
       },
       "comment_label": "Observations:",
       "comment_placeholder": "Additional notes on this skill...",
@@ -653,7 +665,8 @@
       "submit": "Submit",
       "view_description": "View description",
       "add_comment": "Add comment",
-      "add_strategy": "Add strategy"
+      "add_strategy": "Add strategy",
+      "historique": "History"
     },
     "tap_to_read_more": "Tap to read more",
     "view_mode": {
@@ -675,6 +688,29 @@
       "save": "Save",
       "saving": "Saving...",
       "strategy_update_error": "Error updating strategy"
+    },
+    "historique": {
+      "title": "Answer History",
+      "loading": "Loading history...",
+      "no_data": "No history available for this item",
+      "status": "Status",
+      "date": "Date",
+      "comment": "Comment",
+      "load_error": "Error loading history",
+      "stats": {
+        "acquis": "Acquired",
+        "partiel": "Partial",
+        "non_acquis": "Not Acquired",
+        "total": "Total",
+        "trend": {
+          "up": "Improving",
+          "down": "Declining",
+          "stable": "Stable"
+        }
+      },
+      "chart": {
+        "title": "Status Evolution"
+      }
     }
   },
   "explore": {

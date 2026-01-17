@@ -527,6 +527,10 @@
     "filter_label": "Filtrer par Statut des Items :",
     "filter_placeholder": "Sélectionner un statut",
     "filters": {
+      "title": "Filtres",
+      "toggle_filters": "Afficher/Masquer les Filtres",
+      "basic_filters": "Filtres de Base",
+      "date_filters": "Filtres de Période",
       "status": "Statut",
       "module": "Module",
       "item_status": {
@@ -538,7 +542,14 @@
       "start_date": "Date de début",
       "end_date": "Date de fin",
       "start_date_placeholder": "Sélectionner la date de début",
-      "end_date_placeholder": "Sélectionner la date de fin"
+      "end_date_placeholder": "Sélectionner la date de fin",
+      "apply_filters": "Appliquer les Filtres",
+      "reset_filters": "Réinitialiser les Filtres",
+      "date_error": {
+        "start_date_required": "La date de début est requise lorsque la date de fin est sélectionnée.",
+        "end_date_required": "La date de fin est requise lorsque la date de début est sélectionnée.",
+        "start_after_end": "La date de début doit être antérieure à la date de fin."
+      }
     },
     "export_button": "Exporter",
     "table": {
@@ -640,7 +651,8 @@
       "status_options": {
         "ACQUIS": "Acquis",
         "PARTIEL": "Partiel",
-        "NON_ACQUIS": "Non acquis"
+        "NON_ACQUIS": "Non acquis",
+        "NON_COTE": "Non évaluée"
       },
       "comment_label": "Observations :",
       "comment_placeholder": "Notes complémentaires sur cette compétence...",
@@ -653,7 +665,8 @@
       "submit": "Soumettre",
       "view_description": "Voir la description",
       "add_comment": "Ajouter un commentaire",
-      "add_strategy": "Ajouter une stratégie"
+      "add_strategy": "Ajouter une stratégie",
+      "historique": "Historique"
     },
     "tap_to_read_more": "Appuyez pour lire plus",
     "view_mode": {
@@ -666,6 +679,29 @@
       "subtitle": "{{totalItems}} éléments à évaluer"
     },
 
+    "historique": {
+      "title": "Historique des Réponses",
+      "loading": "Chargement de l'historique...",
+      "no_data": "Aucun historique disponible pour cet élément",
+      "status": "Statut",
+      "date": "Date",
+      "comment": "Commentaire",
+      "load_error": "Erreur lors du chargement de l'historique",
+      "stats": {
+        "acquis": "Acquis",
+        "partiel": "Partiel",
+        "non_acquis": "Non acquis",
+        "total": "Total",
+        "trend": {
+          "up": "Amélioration",
+          "down": "Régression",
+          "stable": "Stable"
+        }
+      },
+      "chart": {
+        "title": "Évolution du statut"
+      }
+    },
     "popup": {
       "title": "Description de la compétence",
       "comment_title": "Ajouter un commentaire",

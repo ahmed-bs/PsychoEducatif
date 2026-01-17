@@ -100,4 +100,13 @@ export class ProfileItemService {
             catchError(this.handleError)
         );
     }
+
+    // Get answers history for an item
+    getItemAnswers(itemId: number): Observable<any> {
+        const url = `${this.baseUrl}${itemId}/answers/`;
+        return this.http.get<any>(url).pipe(
+            map(response => response.answers || []),
+            catchError(this.handleError)
+        );
+    }
 }
