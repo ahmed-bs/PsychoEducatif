@@ -9,39 +9,63 @@
     "add_child_button": "+"
   },
   "add_child_dialog": {
-    "header": "إضافة طفل",
-    "first_name_label": "الاسم الأول",
-    "first_name_placeholder": "الاسم الأول",
-    "last_name_label": "الاسم الأخير",
-    "last_name_placeholder": "الاسم الأخير",
-    "birth_date_label": "تاريخ الميلاد",
-    "diagnosis_label": "التشخيص",
-    "diagnosis_placeholder": "التشخيص",
-    "gender_label": "الجنس",
-    "male_option": "ذكر",
-    "female_option": "أنثى",
-    "profile_image_label": "صورة الملف الشخصي",
-    "drop_zone_text": "اسحب وأفلت أو انقر للتحميل",
-    "cancel_button": "إلغاء",
-    "add_button": "إضافة",
+    "header": "إضافة ملف شخصي جديد",
+    "modal_subtitle": "إنشاء ملف شخصي جديد بالمعلومات الأساسية",
+    "labels": {
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "birth_date": "تاريخ الميلاد",
+      "gender": "الجنس",
+      "diagnosis": "التشخيص",
+      "notes": "ملاحظات",
+      "image": "صورة الملف الشخصي"
+    },
+    "placeholders": {
+      "first_name": "أدخل الاسم الأول",
+      "last_name": "أدخل اسم العائلة",
+      "birth_date": "أدخل تاريخ الميلاد",
+      "diagnosis": "أدخل التشخيص (اختياري)",
+      "notes": "أدخل ملاحظات (اختياري)"
+    },
+    "buttons": {
+      "cancel": "إلغاء",
+      "add": "إضافة"
+    },
+    "gender_options": {
+      "male": "ذكر",
+      "female": "أنثى"
+    },
+    "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار",
     "required_fields_error": "الاسم الأول، الاسم الأخير، وتاريخ الميلاد مطلوبة."
   },
   "edit_child_dialog": {
-    "header": "تعديل طفل",
-    "first_name_label": "الاسم الأول",
-    "first_name_placeholder": "الاسم الأول",
-    "last_name_label": "الاسم الأخير",
-    "last_name_placeholder": "الاسم الأخير",
-    "birth_date_label": "تاريخ الميلاد",
-    "diagnosis_label": "التشخيص",
-    "diagnosis_placeholder": "التشخيص",
-    "gender_label": "الجنس",
-    "male_option": "ذكر",
-    "female_option": "أنثى",
-    "profile_image_label": "صورة الملف الشخصي",
-    "drop_zone_text": "اسحب وأفلت أو انقر للتحميل",
-    "cancel_button": "إلغاء",
-    "save_button": "حفظ",
+    "header": "تعديل الملف الشخصي",
+    "modal_subtitle": "تعديل معلومات الملف الشخصي",
+    "labels": {
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "birth_date": "تاريخ الميلاد",
+      "gender": "الجنس",
+      "diagnosis": "التشخيص",
+      "notes": "ملاحظات",
+      "image": "صورة الملف الشخصي"
+    },
+    "placeholders": {
+      "first_name": "أدخل الاسم الأول",
+      "last_name": "أدخل اسم العائلة",
+      "birth_date": "أدخل تاريخ الميلاد",
+      "diagnosis": "أدخل التشخيص (اختياري)",
+      "notes": "أدخل ملاحظات (اختياري)"
+    },
+    "buttons": {
+      "cancel": "إلغاء",
+      "update": "تحديث"
+    },
+    "gender_options": {
+      "male": "ذكر",
+      "female": "أنثى"
+    },
+    "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار",
     "required_fields_error": "الاسم الأول، الاسم الأخير، وتاريخ الميلاد مطلوبة."
   },
   "profile_messages": {
@@ -1091,6 +1115,7 @@
     },
     "add_child_dialog": {
       "header": "إضافة ملف شخصي جديد",
+      "modal_subtitle": "إنشاء ملف شخصي جديد بالمعلومات الأساسية",
       "labels": {
         "first_name": "الاسم الأول",
         "last_name": "اسم العائلة",
@@ -1110,10 +1135,16 @@
       "buttons": {
         "cancel": "إلغاء",
         "add": "إضافة"
-      }
+      },
+      "gender_options": {
+        "male": "ذكر",
+        "female": "أنثى"
+      },
+      "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار"
     },
     "edit_child_dialog": {
       "header": "تعديل الملف الشخصي",
+      "modal_subtitle": "تعديل معلومات الملف الشخصي",
       "labels": {
         "first_name": "الاسم الأول",
         "last_name": "اسم العائلة",
@@ -1133,7 +1164,12 @@
       "buttons": {
         "cancel": "إلغاء",
         "update": "تحديث"
-      }
+      },
+      "gender_options": {
+        "male": "ذكر",
+        "female": "أنثى"
+      },
+      "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار"
     },
     "share_profile_dialog": {
       "header": "مشاركة الملف الشخصي",

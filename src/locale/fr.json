@@ -9,39 +9,63 @@
     "add_child_button": "+"
   },
   "add_child_dialog": {
-    "header": "Ajouter un enfant",
-    "first_name_label": "Prénom",
-    "first_name_placeholder": "Prénom",
-    "last_name_label": "Nom de famille",
-    "last_name_placeholder": "Nom de famille",
-    "birth_date_label": "Date de naissance",
-    "diagnosis_label": "Diagnostic",
-    "diagnosis_placeholder": "Diagnostic",
-    "gender_label": "Genre",
-    "male_option": "Homme",
-    "female_option": "Femme",
-    "profile_image_label": "Image de profil",
-    "drop_zone_text": "Glisser-déposer ou cliquer pour télécharger",
-    "cancel_button": "Annuler",
-    "add_button": "Ajouter",
+    "header": "Ajouter un nouveau profil",
+    "modal_subtitle": "Créez un nouveau profil avec les informations de base",
+    "labels": {
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "birth_date": "Date de naissance",
+      "gender": "Genre",
+      "diagnosis": "Diagnostic",
+      "notes": "Notes",
+      "image": "Image de profil"
+    },
+    "placeholders": {
+      "first_name": "Entrez le prénom",
+      "last_name": "Entrez le nom",
+      "birth_date": "Entrez la date de naissance",
+      "diagnosis": "Entrez le diagnostic (facultatif)",
+      "notes": "Entrez des notes (facultatif)"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "add": "Ajouter"
+    },
+    "gender_options": {
+      "male": "Masculin",
+      "female": "Féminin"
+    },
+    "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner",
     "required_fields_error": "Prénom, nom de famille et date de naissance sont obligatoires."
   },
   "edit_child_dialog": {
-    "header": "Modifier un enfant",
-    "first_name_label": "Prénom",
-    "first_name_placeholder": "Prénom",
-    "last_name_label": "Nom de famille",
-    "last_name_placeholder": "Nom de famille",
-    "birth_date_label": "Date de naissance",
-    "diagnosis_label": "Diagnostic",
-    "diagnosis_placeholder": "Diagnostic",
-    "gender_label": "Genre",
-    "male_option": "Homme",
-    "female_option": "Femme",
-    "profile_image_label": "Image de profil",
-    "drop_zone_text": "Glisser-déposer ou cliquer pour télécharger",
-    "cancel_button": "Annuler",
-    "save_button": "Enregistrer",
+    "header": "Modifier le profil",
+    "modal_subtitle": "Modifiez les informations du profil",
+    "labels": {
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "birth_date": "Date de naissance",
+      "gender": "Genre",
+      "diagnosis": "Diagnostic",
+      "notes": "Notes",
+      "image": "Image de profil"
+    },
+    "placeholders": {
+      "first_name": "Entrez le prénom",
+      "last_name": "Entrez le nom",
+      "birth_date": "Entrez la date de naissance",
+      "diagnosis": "Entrez le diagnostic (facultatif)",
+      "notes": "Entrez des notes (facultatif)"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "update": "Mettre à jour"
+    },
+    "gender_options": {
+      "male": "Masculin",
+      "female": "Féminin"
+    },
+    "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner",
     "required_fields_error": "Prénom, nom de famille et date de naissance sont obligatoires."
   },
   "profile_messages": {
@@ -1209,6 +1233,7 @@
     },
     "add_child_dialog": {
       "header": "Ajouter un nouveau profil",
+      "modal_subtitle": "Créez un nouveau profil avec les informations de base",
       "labels": {
         "first_name": "Prénom",
         "last_name": "Nom",
@@ -1228,10 +1253,16 @@
       "buttons": {
         "cancel": "Annuler",
         "add": "Ajouter"
-      }
+      },
+      "gender_options": {
+        "male": "Masculin",
+        "female": "Féminin"
+      },
+      "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner"
     },
     "edit_child_dialog": {
       "header": "Modifier le profil",
+      "modal_subtitle": "Modifiez les informations du profil",
       "labels": {
         "first_name": "Prénom",
         "last_name": "Nom",
@@ -1251,7 +1282,12 @@
       "buttons": {
         "cancel": "Annuler",
         "update": "Mettre à jour"
-      }
+      },
+      "gender_options": {
+        "male": "Masculin",
+        "female": "Féminin"
+      },
+      "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner"
     },
     "share_profile_dialog": {
       "header": "Partager le profil",

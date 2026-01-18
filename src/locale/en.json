@@ -9,39 +9,63 @@
     "add_child_button": "+"
   },
   "add_child_dialog": {
-    "header": "Add a child",
-    "first_name_label": "First name",
-    "first_name_placeholder": "First name",
-    "last_name_label": "Last name",
-    "last_name_placeholder": "Last name",
-    "birth_date_label": "Date of birth",
-    "diagnosis_label": "Diagnosis",
-    "diagnosis_placeholder": "Diagnosis",
-    "gender_label": "Gender",
-    "male_option": "Male",
-    "female_option": "Female",
-    "profile_image_label": "Profile image",
-    "drop_zone_text": "Drag and drop or click to upload",
-    "cancel_button": "Cancel",
-    "add_button": "Add",
+    "header": "Add a new profile",
+    "modal_subtitle": "Create a new profile with basic information",
+    "labels": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "birth_date": "Date of birth",
+      "gender": "Gender",
+      "diagnosis": "Diagnosis",
+      "notes": "Notes",
+      "image": "Profile image"
+    },
+    "placeholders": {
+      "first_name": "Enter first name",
+      "last_name": "Enter last name",
+      "birth_date": "Enter date of birth",
+      "diagnosis": "Enter diagnosis (optional)",
+      "notes": "Enter notes (optional)"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "gender_options": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "drop_zone_text": "Drag and drop an image here or click to select",
     "required_fields_error": "First name, last name and date of birth are required."
   },
   "edit_child_dialog": {
-    "header": "Edit a child",
-    "first_name_label": "First name",
-    "first_name_placeholder": "First name",
-    "last_name_label": "Last name",
-    "last_name_placeholder": "Last name",
-    "birth_date_label": "Date of birth",
-    "diagnosis_label": "Diagnosis",
-    "diagnosis_placeholder": "Diagnosis",
-    "gender_label": "Gender",
-    "male_option": "Male",
-    "female_option": "Female",
-    "profile_image_label": "Profile image",
-    "drop_zone_text": "Drag and drop or click to upload",
-    "cancel_button": "Cancel",
-    "save_button": "Save",
+    "header": "Edit profile",
+    "modal_subtitle": "Modify profile information",
+    "labels": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "birth_date": "Date of birth",
+      "gender": "Gender",
+      "diagnosis": "Diagnosis",
+      "notes": "Notes",
+      "image": "Profile image"
+    },
+    "placeholders": {
+      "first_name": "Enter first name",
+      "last_name": "Enter last name",
+      "birth_date": "Enter date of birth",
+      "diagnosis": "Enter diagnosis (optional)",
+      "notes": "Enter notes (optional)"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "update": "Update"
+    },
+    "gender_options": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "drop_zone_text": "Drag and drop an image here or click to select",
     "required_fields_error": "First name, last name and date of birth are required."
   },
   "profile_messages": {
@@ -1128,6 +1152,7 @@
     },
     "add_child_dialog": {
       "header": "Add a new profile",
+      "modal_subtitle": "Create a new profile with basic information",
       "labels": {
         "first_name": "First name",
         "last_name": "Last name",
@@ -1147,10 +1172,16 @@
       "buttons": {
         "cancel": "Cancel",
         "add": "Add"
-      }
+      },
+      "gender_options": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "drop_zone_text": "Drag and drop an image here or click to select"
     },
     "edit_child_dialog": {
       "header": "Edit profile",
+      "modal_subtitle": "Modify profile information",
       "labels": {
         "first_name": "First name",
         "last_name": "Last name",
@@ -1170,7 +1201,12 @@
       "buttons": {
         "cancel": "Cancel",
         "update": "Update"
-      }
+      },
+      "gender_options": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "drop_zone_text": "Drag and drop an image here or click to select"
     },
     "share_profile_dialog": {
       "header": "Share profile",

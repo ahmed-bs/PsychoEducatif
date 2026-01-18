@@ -70,8 +70,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   birthDate: Date | null = null;
   genderOptions = [
-    { label: this.translate.instant('add_child_dialog.male_option'), value: 'M' },
-    { label: this.translate.instant('add_child_dialog.female_option'), value: 'F' }
+    { label: this.translate.instant('add_child_dialog.gender_options.male'), value: 'M' },
+    { label: this.translate.instant('add_child_dialog.gender_options.female'), value: 'F' }
   ];
   parentId: number = 0;
   error: string | null = null;
@@ -203,8 +203,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
 
   private updateGenderOptions() {
     this.genderOptions = [
-      { label: this.translate.instant('add_child_dialog.male_option'), value: 'M' },
-      { label: this.translate.instant('add_child_dialog.female_option'), value: 'F' }
+      { label: this.translate.instant('add_child_dialog.gender_options.male'), value: 'M' },
+      { label: this.translate.instant('add_child_dialog.gender_options.female'), value: 'F' }
     ];
   }
 
@@ -830,6 +830,7 @@ export class PickProfileComponent implements OnInit, OnDestroy {
 
   cancel() {
     this.displayDialog = false;
+    this.updatedisplayDialog = false;
     this.error = null;
     this.newChild = this.resetChild();
     this.selectedFile = null;
