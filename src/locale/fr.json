@@ -1291,6 +1291,7 @@
     },
     "share_profile_dialog": {
       "header": "Partager le profil",
+      "modal_subtitle": "Partagez ce profil avec d'autres utilisateurs en leur donnant accès",
       "labels": {
         "email": "Email du destinataire",
         "access_type": "Type d'accès"

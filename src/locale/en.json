@@ -1210,6 +1210,7 @@
     },
     "share_profile_dialog": {
       "header": "Share profile",
+      "modal_subtitle": "Share this profile with other users by giving them access",
       "labels": {
         "email": "Recipient email",
         "access_type": "Access type"
