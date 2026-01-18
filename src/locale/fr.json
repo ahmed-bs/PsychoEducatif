@@ -1384,8 +1384,11 @@
       "cancel": "Annuler",
       "save_changes": "Enregistrer les modifications",
       "add_new_note": "Ajouter une nouvelle note",
+      "modal_subtitle": "Ajoutez une observation ou une note importante",
+      "note_content_label": "Contenu de la note",
       "note_placeholder": "Écrivez vos observations ici...",
       "important_note_checkbox": "Note importante",
+      "important_note_description": "Marquer cette note comme importante",
       "save": "Enregistrer",
       "messages": {
         "content_empty": "Le contenu de la note ne peut pas être vide !",
@@ -1552,6 +1555,7 @@
       "add": "Ajouter un nouvel objectif",
       "edit": "Modifier l'objectif"
     },
+    "modal_subtitle": "Définissez un nouvel objectif de travail avec une date cible et une priorité",
     "labels": {
       "title": "Titre de l'objectif",
       "description": "Description",

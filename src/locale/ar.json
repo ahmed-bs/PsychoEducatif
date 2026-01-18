@@ -1265,8 +1265,11 @@
       "cancel": "إلغاء",
       "save_changes": "حفظ التغييرات",
       "add_new_note": "إضافة ملاحظة جديدة",
+      "modal_subtitle": "أضف ملاحظة أو مراقبة مهمة",
+      "note_content_label": "محتوى الملاحظة",
       "note_placeholder": "اكتب ملاحظاتك هنا...",
       "important_note_checkbox": "ملاحظة مهمة",
+      "important_note_description": "وضع علامة على هذه الملاحظة كمهمة",
       "save": "حفظ",
       "messages": {
         "content_empty": "لا يمكن أن يكون محتوى الملاحظة فارغًا!",
@@ -1433,6 +1436,7 @@
       "add": "إضافة هدف جديد",
       "edit": "تعديل الهدف"
     },
+    "modal_subtitle": "حدد هدف عمل جديد مع تاريخ مستهدف وأولوية",
     "labels": {
       "title": "عنوان الهدف",
       "description": "الوصف",

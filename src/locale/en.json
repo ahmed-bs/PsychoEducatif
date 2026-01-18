@@ -1303,8 +1303,11 @@
       "cancel": "Cancel",
       "save_changes": "Save changes",
       "add_new_note": "Add a new note",
+      "modal_subtitle": "Add an observation or important note",
+      "note_content_label": "Note content",
       "note_placeholder": "Write your observations here...",
       "important_note_checkbox": "Important note",
+      "important_note_description": "Mark this note as important",
       "save": "Save",
       "messages": {
         "content_empty": "Note content cannot be empty!",
@@ -1471,6 +1474,7 @@
       "add": "Add a new goal",
       "edit": "Edit goal"
     },
+    "modal_subtitle": "Define a new work goal with a target date and priority",
     "labels": {
       "title": "Goal title",
       "description": "Description",
