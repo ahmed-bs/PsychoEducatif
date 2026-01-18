@@ -889,6 +889,7 @@
     "add_domain_dialog": {
       "header_add": "إضافة مجال",
       "header_edit": "تعديل المجال",
+      "modal_subtitle": "إنشاء أو تعديل مجال لتنظيم العناصر الخاصة بك",
       "labels": {
         "title": "العنوان",
         "description": "الوصف"
@@ -911,6 +912,7 @@
     "add_item_dialog": {
       "header_add": "إضافة عنصر",
       "header_edit": "تعديل العنصر",
+      "modal_subtitle": "إنشاء أو تعديل عنصر تقييم مع حالته",
       "labels": {
         "title": "العنوان",
         "description": "الوصف",
@@ -996,6 +998,7 @@
     "add_category_dialog": {
       "header_add": "إضافة مهارة",
       "header_edit": "تعديل المهارة",
+      "modal_subtitle": "إنشاء أو تعديل مهارة مع معلوماتها متعددة اللغات",
       "labels": {
         "title": "العنوان",
         "title_ar": "العنوان",

@@ -922,6 +922,7 @@
     "add_domain_dialog": {
       "header_add": "Add a domain",
       "header_edit": "Edit a domain",
+      "modal_subtitle": "Create or edit a domain to organize your items",
       "labels": {
         "title": "Title",
         "description": "Description"
@@ -944,6 +945,7 @@
     "add_item_dialog": {
       "header_add": "Add an item",
       "header_edit": "Edit an item",
+      "modal_subtitle": "Create or edit an evaluation item with its status",
       "labels": {
         "title": "Title",
         "description": "Description",
@@ -1029,6 +1031,7 @@
     "add_category_dialog": {
       "header_add": "Add a Skill",
       "header_edit": "Edit a Skill",
+      "modal_subtitle": "Create or edit a skill with multilingual information",
       "labels": {
         "title": "Title",
         "title_ar": "العنوان",

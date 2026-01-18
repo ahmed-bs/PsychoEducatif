@@ -922,6 +922,7 @@
     "add_domain_dialog": {
       "header_add": "Ajouter un domaine",
       "header_edit": "Modifier un domaine",
+      "modal_subtitle": "Créez ou modifiez un domaine pour organiser vos items",
       "labels": {
         "title": "Titre",
         "description": "Description"
@@ -944,6 +945,7 @@
     "add_item_dialog": {
       "header_add": "Ajouter un item",
       "header_edit": "Modifier un item",
+      "modal_subtitle": "Créez ou modifiez un item d'évaluation avec son statut",
       "labels": {
         "title": "Titre",
         "description": "Description",
@@ -1029,6 +1031,7 @@
     "add_category_dialog": {
       "header_add": "Ajouter une Compétence",
       "header_edit": "Modifier une Compétence",
+      "modal_subtitle": "Créez ou modifiez une compétence avec ses informations multilingues",
       "labels": {
         "title": "Titre",
         "title_ar": "العنوان",
