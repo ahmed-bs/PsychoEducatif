@@ -148,6 +148,12 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     this.showLanguageMenu = false;
   }
 
+  // Change Profile - Navigate to profile selection page
+  changeProfile() {
+    this.showUserMenu = false;
+    this.router.navigate(['/pick_profileComponent']);
+  }
+
   // Logout
   logout() {
     this.showUserMenu = false;

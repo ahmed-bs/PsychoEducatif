@@ -116,6 +116,7 @@
       "sign_up": "Sign Up",
       "sign_in": "Sign In",
       "logout": "Logout",
+      "change_profile": "Change Profile",
       "change_account": "Change Account",
       "change_account_confirm": {
         "title": "Change Account",

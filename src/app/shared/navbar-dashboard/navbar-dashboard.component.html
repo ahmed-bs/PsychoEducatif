@@ -113,6 +113,11 @@
       </a>
       <ul class="dropdown-menu user-dropdown" [class.show]="showUserMenu">
         <li>
+          <a (click)="changeProfile()">
+            <i class="fas fa-user-circle"></i> {{ 'navbar.buttons.change_profile' | translate }}
+          </a>
+        </li>
+        <li>
           <a (click)="logout()">
             <i class="fas fa-sign-out-alt"></i> {{ 'navbar.buttons.logout' | translate }}
           </a>
