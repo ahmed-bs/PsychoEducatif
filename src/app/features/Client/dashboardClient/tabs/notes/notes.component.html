@@ -102,15 +102,33 @@
     </div>
   </div>
 
+  <!-- Empty State: No Notes - Show bubble outside card -->
+  <div *ngIf="!loadingNotes && notes.length === 0" class="empty-competencies-state">
+    <div class="empty-state-content">
+      <div class="message-cloud">
+        <div class="cloud-content">
+          <div class="cloud-bear-icon">
+            <img src="assets/img/bear.png" alt="Bear" class="bear-icon-image">
+          </div>
+          <h3 class="cloud-title">{{ 'dashboard_tabs.notes.no_notes.title' | translate }}</h3>
+          <p class="cloud-text">{{ 'dashboard_tabs.notes.no_notes.message' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Main Content -->
   <div class="main-content-wrapper" [class.sidebar-open]="isSidebarOpen">
-    <div class="bg-white rounded-xl shadow overflow-hidden">
+    <div *ngIf="loadingNotes" class="bg-white rounded-xl shadow overflow-hidden">
       <div class="p-4 sm:p-6">
-        <div *ngIf="loadingNotes" class="text-center text-gray-500 py-4 text-sm sm:text-base"> <p>{{ 'dashboard_tabs.notes.loading' | translate }}</p>
+        <div class="text-center text-gray-500 py-4 text-sm sm:text-base">
+          <p>{{ 'dashboard_tabs.notes.loading' | translate }}</p>
         </div>
+      </div>
+    </div>
 
-        <div *ngIf="!loadingNotes && notes.length === 0" class="text-center text-gray-500 py-4 text-sm sm:text-base"> <p>{{ 'dashboard_tabs.notes.no_notes_found' | translate }}</p>
-        </div>
+    <div *ngIf="!loadingNotes && notes.length > 0" class="bg-white rounded-xl shadow overflow-hidden">
+      <div class="p-4 sm:p-6">
 
         <div *ngIf="!loadingNotes && notes.length > 0">
             <div class="mb-6 pb-6 border-b border-gray-200 last:mb-0 last:pb-0 last:border-b-0" *ngFor="let note of notes"> <div class="flex items-start flex-col sm:flex-row"> <div class="flex-shrink-0 mt-1 mr-0 sm:mr-3 mb-2 sm:mb-0"> <div

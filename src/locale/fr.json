@@ -1369,6 +1369,10 @@
       "unknown": "Inconnu",
       "reset_filters": "Réinitialiser les filtres",
       "loading": "Chargement des notes...",
+      "no_notes": {
+        "title": "Aucune Note Trouvée",
+        "message": "Aucune note n'a encore été ajoutée. Cliquez sur \"Ajouter une nouvelle note\" pour commencer !"
+      },
       "no_notes_found": "Aucune note trouvée correspondant à vos critères. Essayez d'ajuster les filtres !",
       "important_note": "Note Importante du",
       "observation": "Observation du",

@@ -1288,6 +1288,10 @@
       "unknown": "Unknown",
       "reset_filters": "Reset filters",
       "loading": "Loading notes...",
+      "no_notes": {
+        "title": "No Notes Found",
+        "message": "No notes have been added yet. Click on \"Add a new note\" to get started!"
+      },
       "no_notes_found": "No notes found matching your criteria. Try adjusting the filters!",
       "important_note": "Important Note from",
       "observation": "Observation from",
