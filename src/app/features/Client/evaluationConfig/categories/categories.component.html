@@ -364,21 +364,54 @@
   </div>
 </div>
 
-<!-- Delete Confirmation Dialog -->
-<p-dialog [(visible)]="displayDeleteDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="header">
-    <div class="custom-dialog-header">
-      <h2>{{ 'categories.delete_dialog.header' | translate }}</h2>
+<!-- Delete Confirmation Modal -->
+<div *ngIf="displayDeleteDialog" class="eval-modal-overlay" (click)="displayDeleteDialog = false">
+  <div class="eval-modal eval-delete-modal" (click)="$event.stopPropagation()">
+    <div class="eval-modal-header eval-delete-header">
+      <div class="eval-modal-header-content">
+        <div class="eval-modal-icon-wrapper">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="eval-modal-title-wrapper">
+          <h3 class="eval-modal-title">{{ 'categories.delete_dialog.header' | translate }}</h3>
+          <p class="eval-modal-subtitle">{{ 'categories.delete_dialog.modal_subtitle' | translate }}</p>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="eval-modal-close-btn"
+        (click)="displayDeleteDialog = false"
+        [attr.aria-label]="'categories.delete_dialog.buttons.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-  </ng-template>
-  <div class="dialog-content">
-    <div class="delete-confirmation">
-      <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #e53e78; margin-bottom: 1rem;"></i>
-      <p>{{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete ? getLanguageField(categoryToDelete, 'name') : '' } }}</p>
+
+    <div class="eval-modal-body">
+      <div class="eval-delete-content">
+        <div class="eval-delete-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <p class="eval-delete-message">
+          {{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete ? getLanguageField(categoryToDelete, 'name') : '' } }}
+        </p>
+      </div>
+
+      <div class="eval-modal-footer">
+        <button 
+          type="button"
+          class="eval-modal-btn-secondary"
+          (click)="displayDeleteDialog = false">
+          <i class="fas fa-times"></i>
+          <span>{{ 'categories.delete_dialog.buttons.cancel' | translate }}</span>
+        </button>
+        <button 
+          type="button"
+          class="eval-modal-btn-danger"
+          (click)="confirmDelete()">
+          <i class="fas fa-trash-alt"></i>
+          <span>{{ 'categories.delete_dialog.buttons.delete' | translate }}</span>
+        </button>
+      </div>
     </div>
   </div>
-  <ng-template pTemplate="footer">
-    <p-button [label]="'categories.delete_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayDeleteDialog = false"></p-button>
-    <p-button [label]="'categories.delete_dialog.buttons.delete' | translate" styleClass="p-button-danger" (click)="confirmDelete()"></p-button>
-  </ng-template>
-</p-dialog>
+</div>

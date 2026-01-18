@@ -1075,6 +1075,7 @@
     },
     "delete_dialog": {
       "header": "Confirm deletion",
+      "modal_subtitle": "This action is irreversible and will permanently delete the item",
       "message": "Are you sure you want to delete the category \"{{categoryName}}\"? This action cannot be undone.",
       "buttons": {
         "cancel": "Cancel",

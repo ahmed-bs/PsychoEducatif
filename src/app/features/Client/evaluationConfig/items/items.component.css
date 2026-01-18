@@ -1,6 +1,7 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
 
 
 /* Layout & General Styles */
@@ -1072,6 +1073,15 @@
   justify-content: center;
   font-size: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.eval-modal-icon-wrapper i {
+  color: white !important;
+  font-size: 1.5rem;
+  position: relative;
+  z-index: 3;
 }
 
 .eval-modal-title-wrapper {
@@ -1112,9 +1122,20 @@
   pointer-events: auto;
 }
 
+.eval-modal-close-btn i {
+  color: white !important;
+  font-size: 1.125rem;
+  position: relative;
+  z-index: 11;
+}
+
 .eval-modal-close-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: scale(1.05) rotate(90deg);
+}
+
+.eval-modal-close-btn:hover i {
+  color: white !important;
 }
 
 .eval-modal-body {

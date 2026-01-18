@@ -1071,6 +1071,7 @@
     },
     "delete_dialog": {
       "header": "Confirmer la suppression",
+      "modal_subtitle": "Cette action est irréversible et supprimera définitivement l'élément",
       "message": "Êtes-vous sûr de vouloir supprimer la catégorie \"{{categoryName}}\" ? Cette action ne peut pas être annulée.",
       "buttons": {
         "cancel": "Annuler",
