@@ -13,6 +13,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { PaginatorModule } from 'primeng/paginator';
+import { CalendarModule } from 'primeng/calendar';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
@@ -59,7 +60,8 @@ interface CategoryTableRow {
     ToggleButtonModule,
     TooltipModule,
     TranslateModule,
-    PaginatorModule
+    PaginatorModule,
+    CalendarModule
   ],
 })
 export class SummaryComponent implements OnInit, OnDestroy {
@@ -75,6 +77,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
   selectedFilterModule: string = 'all';
   filterItemStatuses: any[] = [];
   selectedFilterItemStatus: string = 'all';
+  startDate: Date | null = null;
+  endDate: Date | null = null;
+  dateFilterError: string | null = null;
+  isSidebarOpen: boolean = false;
   private originalCategoryDataForTable: CategoryTableRow[] = [];
   domainItemsVisibility: { [domainName: string]: boolean } = {};
   currentLanguage: string = 'fr';
@@ -173,76 +179,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   loadSummaryData(): void {
-    this.isLoading = true;
-    this.error = null;
-
-    this.profileCategoryService.getCategories(this.profileId).pipe(
-      switchMap(categories => {
-        const categoryRequests = categories.map(category => 
-          this.profileDomainService.getDomains(category.id || 0).pipe(
-            switchMap(domains => {
-              const domainRequests = domains.map(domain => 
-                this.profileItemService.getItems(domain.id).pipe(
-                  catchError(error => {
-                    console.error(`Error loading items for domain ${domain.id}:`, error);
-                    return of([]);
-                  })
-                )
-              );
-              return forkJoin(domainRequests).pipe(
-                map(itemsArrays => {
-                  const allItems = itemsArrays.flat();
-                  return {
-                    category,
-                    domains: domains.map((domain, index) => ({
-                      ...domain,
-                      items: itemsArrays[index] || []
-                    })),
-                    allItems
-                  };
-                })
-              );
-            }),
-            catchError(error => {
-              console.error(`Error loading domains for category ${category.id}:`, error);
-              return of({ category, domains: [], allItems: [] });
-            })
-          )
-        );
-        return forkJoin(categoryRequests);
-      })
-    ).subscribe({
-      next: (results) => {
-                 const rawData = results.flatMap(result => 
-           result.allItems.map(item => {
-             const domain = result.domains.find(d => d.id === item.profile_domain);
-             return {
-               ...item,
-               profile_category_name: result.category.name,
-               profile_category_name_ar: result.category.name_ar,
-               profile_category_name_en: result.category.name_en,
-               profile_category_object: result.category, // Store the original category object
-               profile_domain_name: domain?.name || item.profile_domain_name || 'Unknown Domain',
-               profile_domain_name_ar: item.profile_domain_name_ar || domain?.name_ar || '',
-               profile_domain_name_en: item.profile_domain_name_en || domain?.name_en || '',
-               profile_domain_object: domain // Store the original domain object
-             };
-           })
-         );
-        
-        this.processCategoryAndDomainDataForTable(rawData);
-        // Update module filters after data is loaded
-        this.updateFilterModules();
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading summary data:', error);
-        this.translate.get('skills_summary.error.load_data_failed').subscribe((text) => {
-          this.error = text;
-        });
-        this.isLoading = false;
-      }
-    });
+    this.loadSummaryDataWithCallback();
   }
 
   processCategoryAndDomainDataForTable(rawData: any[]): void {
@@ -358,6 +295,179 @@ export class SummaryComponent implements OnInit, OnDestroy {
     });
 
     return Array.from(categoryMap.values());
+  }
+
+  formatDateForApi(date: Date | null): string | null {
+    if (!date) {
+      return null;
+    }
+    // Format as YYYY-MM-DD HH:mm:ss for API
+    // For start_date, set time to 00:00:00 if not specified
+    // For end_date, set time to 23:59:59 if not specified
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    // Return format: YYYY-MM-DD HH:mm:ss
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  onDateChange(): void {
+    // Clear error when dates change
+    this.dateFilterError = null;
+  }
+
+  validateDates(): boolean {
+    // Both dates must be filled or both must be empty
+    const hasStartDate = this.startDate !== null;
+    const hasEndDate = this.endDate !== null;
+
+    if (hasStartDate && !hasEndDate) {
+      this.dateFilterError = this.translate.instant('skills_summary.filters.date_error.end_date_required');
+      return false;
+    }
+
+    if (!hasStartDate && hasEndDate) {
+      this.dateFilterError = this.translate.instant('skills_summary.filters.date_error.start_date_required');
+      return false;
+    }
+
+    // Check if start date is before end date
+    if (hasStartDate && hasEndDate && this.startDate! > this.endDate!) {
+      this.dateFilterError = this.translate.instant('skills_summary.filters.date_error.start_after_end');
+      return false;
+    }
+
+    this.dateFilterError = null;
+    return true;
+  }
+
+  applyDateFilters(): void {
+    if (!this.validateDates()) {
+      return;
+    }
+
+    // Reload data with date filters
+    this.loadSummaryData();
+  }
+
+  onApplyFilters(): void {
+    // First validate dates
+    if (!this.validateDates()) {
+      return;
+    }
+
+    // If dates are valid, reload data with date filters
+    // applyFilter() will be called after data is loaded
+    this.loadSummaryDataWithCallback(() => {
+      this.applyFilter();
+    });
+  }
+
+  loadSummaryDataWithCallback(callback?: () => void): void {
+    this.isLoading = true;
+    this.error = null;
+
+    this.profileCategoryService.getCategories(this.profileId).pipe(
+      switchMap(categories => {
+        const categoryRequests = categories.map(category => 
+          this.profileDomainService.getDomains(category.id || 0).pipe(
+            switchMap(domains => {
+              const domainRequests = domains.map(domain => 
+                this.profileItemService.getItems(
+                  domain.id, 
+                  this.profileId, 
+                  this.formatDateForApi(this.startDate),
+                  this.formatDateForApi(this.endDate)
+                ).pipe(
+                  catchError(error => {
+                    console.error(`Error loading items for domain ${domain.id}:`, error);
+                    return of([]);
+                  })
+                )
+              );
+              return forkJoin(domainRequests).pipe(
+                map(itemsArrays => {
+                  const allItems = itemsArrays.flat();
+                  return {
+                    category,
+                    domains: domains.map((domain, index) => ({
+                      ...domain,
+                      items: itemsArrays[index] || []
+                    })),
+                    allItems
+                  };
+                })
+              );
+            }),
+            catchError(error => {
+              console.error(`Error loading domains for category ${category.id}:`, error);
+              return of({ category, domains: [], allItems: [] });
+            })
+          )
+        );
+        return forkJoin(categoryRequests);
+      })
+    ).subscribe({
+      next: (results) => {
+        const rawData = results.flatMap(result => 
+          result.allItems.map(item => {
+            const domain = result.domains.find(d => d.id === item.profile_domain);
+            return {
+              ...item,
+              profile_category_name: result.category.name,
+              profile_category_name_ar: result.category.name_ar,
+              profile_category_name_en: result.category.name_en,
+              profile_category_object: result.category,
+              profile_domain_name: domain?.name || item.profile_domain_name || 'Unknown Domain',
+              profile_domain_name_ar: item.profile_domain_name_ar || domain?.name_ar || '',
+              profile_domain_name_en: item.profile_domain_name_en || domain?.name_en || '',
+              profile_domain_object: domain
+            };
+          })
+        );
+        
+        this.processCategoryAndDomainDataForTable(rawData);
+        this.updateFilterModules();
+        this.isLoading = false;
+        
+        // Call callback if provided
+        if (callback) {
+          callback();
+        }
+      },
+      error: (error) => {
+        console.error('Error loading summary data:', error);
+        this.translate.get('skills_summary.error.load_data_failed').subscribe((text) => {
+          this.error = text;
+        });
+        this.isLoading = false;
+      }
+    });
+  }
+
+  resetFilters(): void {
+    // Reset all filters to default values
+    this.selectedFilterStatus = 'all';
+    this.selectedFilterModule = 'all';
+    this.selectedFilterItemStatus = 'all';
+    this.startDate = null;
+    this.endDate = null;
+    this.dateFilterError = null;
+    
+    // Reload data without filters
+    this.loadSummaryData();
+    this.applyFilter();
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
   }
 
   applyFilter(): void {

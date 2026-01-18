@@ -9,6 +9,8 @@ import { Location } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   standalone: true,
@@ -18,7 +20,8 @@ import { Subscription } from 'rxjs';
   imports: [
     FormsModule,
     CommonModule,
-    TranslateModule
+    TranslateModule,
+    NgChartsModule
   ]
 })
 export class QuizComponent implements OnInit, OnDestroy {
@@ -31,6 +34,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   showDescriptionPopup: boolean = false;
   showCommentPopup: boolean = false;
   showStrategyPopup: boolean = false;
+  showHistoriquePopup: boolean = false;
   currentView: 'card' | 'list' = 'card';
   currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
@@ -38,6 +42,88 @@ export class QuizComponent implements OnInit, OnDestroy {
   updatingStrategy: boolean = false;
   currentCommentText: string = '';
   currentStrategyText: string = '';
+  historiqueAnswers: any[] = [];
+  loadingHistorique: boolean = false;
+  currentHistoriqueItem: ProfileItem | null = null;
+  
+  // Chart data for historique progression
+  historiqueChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: []
+  };
+  getHistoriqueChartOptions(): ChartConfiguration<'line'>['options'] {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            font: { size: 11 },
+            usePointStyle: true,
+            padding: 10
+          }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          titleColor: '#ffffff',
+          bodyColor: '#ffffff',
+          borderColor: '#ffffff',
+          borderWidth: 1,
+          cornerRadius: 8,
+          callbacks: {
+            label: (context: any) => {
+              const statusMap: { [key: number]: string } = {
+                0: this.translate.instant('skills_evaluation.form.status_options.NON_COTE') || 'NON_COTE',
+                1: this.translate.instant('skills_evaluation.form.status_options.NON_ACQUIS') || 'NON_ACQUIS',
+                2: this.translate.instant('skills_evaluation.form.status_options.PARTIEL') || 'PARTIEL',
+                3: this.translate.instant('skills_evaluation.form.status_options.ACQUIS') || 'ACQUIS'
+              };
+              return statusMap[context.parsed.y] || '';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 3,
+          ticks: {
+            stepSize: 1,
+            callback: (value: any) => {
+              const statusMap: { [key: number]: string } = {
+                0: this.translate.instant('skills_evaluation.form.status_options.NON_COTE') || 'NON_COTE',
+                1: this.translate.instant('skills_evaluation.form.status_options.NON_ACQUIS') || 'NON_ACQUIS',
+                2: this.translate.instant('skills_evaluation.form.status_options.PARTIEL') || 'PARTIEL',
+                3: this.translate.instant('skills_evaluation.form.status_options.ACQUIS') || 'ACQUIS'
+              };
+              return statusMap[value] || '';
+            },
+            font: { size: 10 }
+          },
+          grid: {
+            color: 'rgba(0, 0, 0, 0.05)'
+          }
+        },
+        x: {
+          ticks: {
+            font: { size: 10 },
+            maxRotation: 45,
+            minRotation: 45
+          },
+          grid: {
+            display: false
+          }
+        }
+      }
+    };
+  }
+  
+  // Statistics
+  statusStats: { [key: string]: number } = {};
+  totalEvaluations: number = 0;
+  trendDirection: 'up' | 'down' | 'stable' = 'stable';
 
   // Helper to get commentaire value (handles both spellings)
   getCommentaire(item: ProfileItem): string {
@@ -406,6 +492,174 @@ export class QuizComponent implements OnInit, OnDestroy {
   getViewFromStorage(): 'card' | 'list' {
     const savedView = localStorage.getItem('quiz-view-mode');
     return (savedView as 'card' | 'list') || 'card';
+  }
+
+  openHistoriquePopup(item: ProfileItem): void {
+    this.currentHistoriqueItem = item;
+    this.showHistoriquePopup = true;
+    this.loadingHistorique = true;
+    this.historiqueAnswers = [];
+
+    if (item.id) {
+      this.profileItemService.getItemAnswers(item.id).subscribe({
+        next: (answers) => {
+          this.historiqueAnswers = answers;
+          this.prepareChartData();
+          this.calculateStatistics();
+          this.loadingHistorique = false;
+        },
+        error: (error) => {
+          console.error('Error loading historique:', error);
+          this.loadingHistorique = false;
+          this.translate.get('skills_evaluation.historique.load_error').subscribe((text) => {
+            alert(text);
+          });
+        }
+      });
+    }
+  }
+  
+  prepareChartData(): void {
+    if (!this.historiqueAnswers || this.historiqueAnswers.length === 0) {
+      this.historiqueChartData = { labels: [], datasets: [] };
+      return;
+    }
+    
+    // Sort by date (oldest first)
+    const sortedAnswers = [...this.historiqueAnswers].sort((a, b) => {
+      return new Date(a.dateEtat).getTime() - new Date(b.dateEtat).getTime();
+    });
+    
+    // Map status to numeric value for chart
+    const statusToValue: { [key: string]: number } = {
+      'NON_COTE': 0,
+      'NON_ACQUIS': 1,
+      'PARTIEL': 2,
+      'ACQUIS': 3
+    };
+    
+    const labels = sortedAnswers.map(answer => {
+      const date = new Date(answer.dateEtat);
+      return date.toLocaleDateString(this.currentLanguage === 'ar' ? 'ar-SA' : this.currentLanguage === 'en' ? 'en-US' : 'fr-FR', {
+        month: 'short',
+        day: 'numeric'
+      });
+    });
+    
+    const data = sortedAnswers.map(answer => statusToValue[answer.answer] || 0);
+    
+    this.historiqueChartData = {
+      labels: labels,
+      datasets: [{
+        label: this.translate.instant('skills_evaluation.historique.status') || 'Status',
+        data: data,
+        borderColor: 'rgb(99, 102, 241)',
+        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+        tension: 0.4,
+        fill: true,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: 'rgb(99, 102, 241)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2
+      }]
+    };
+  }
+  
+  calculateStatistics(): void {
+    this.statusStats = {};
+    this.totalEvaluations = this.historiqueAnswers.length;
+    
+    // Count each status
+    this.historiqueAnswers.forEach(answer => {
+      const status = answer.answer;
+      this.statusStats[status] = (this.statusStats[status] || 0) + 1;
+    });
+    
+    // Calculate trend (compare first and last)
+    if (this.historiqueAnswers.length >= 2) {
+      const sortedAnswers = [...this.historiqueAnswers].sort((a, b) => {
+        return new Date(a.dateEtat).getTime() - new Date(b.dateEtat).getTime();
+      });
+      
+      const statusToValue: { [key: string]: number } = {
+        'NON_COTE': 0,
+        'NON_ACQUIS': 1,
+        'PARTIEL': 2,
+        'ACQUIS': 3
+      };
+      
+      const firstValue = statusToValue[sortedAnswers[0].answer] || 0;
+      const lastValue = statusToValue[sortedAnswers[sortedAnswers.length - 1].answer] || 0;
+      
+      if (lastValue > firstValue) {
+        this.trendDirection = 'up';
+      } else if (lastValue < firstValue) {
+        this.trendDirection = 'down';
+      } else {
+        this.trendDirection = 'stable';
+      }
+    }
+  }
+  
+  getStatusCount(status: string): number {
+    return this.statusStats[status] || 0;
+  }
+  
+  getStatusPercentage(status: string): number {
+    if (this.totalEvaluations === 0) return 0;
+    return Math.round((this.getStatusCount(status) / this.totalEvaluations) * 100);
+  }
+  
+  getTrendIcon(): string {
+    switch (this.trendDirection) {
+      case 'up':
+        return 'trending_up';
+      case 'down':
+        return 'trending_down';
+      default:
+        return 'trending_flat';
+    }
+  }
+  
+  getTrendColor(): string {
+    switch (this.trendDirection) {
+      case 'up':
+        return 'text-green-600';
+      case 'down':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
+    }
+  }
+
+  closeHistoriquePopup(): void {
+    this.showHistoriquePopup = false;
+    this.historiqueAnswers = [];
+    this.currentHistoriqueItem = null;
+    this.loadingHistorique = false;
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString(this.currentLanguage === 'ar' ? 'ar-SA' : this.currentLanguage === 'en' ? 'en-US' : 'fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  getStatusLabel(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'ACQUIS': 'skills_evaluation.form.status_options.ACQUIS',
+      'PARTIEL': 'skills_evaluation.form.status_options.PARTIEL',
+      'NON_ACQUIS': 'skills_evaluation.form.status_options.NON_ACQUIS',
+      'NON_COTE': 'skills_evaluation.form.status_options.NON_COTE'
+    };
+    return statusMap[status] || status;
   }
 
   soumettreQuiz() {

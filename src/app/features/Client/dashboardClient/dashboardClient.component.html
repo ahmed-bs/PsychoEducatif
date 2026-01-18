@@ -16,84 +16,106 @@
             <div class="right"></div>
         </div>
 
-        <div class="container mx-auto px-2 sm:px-4 md:px-8 py-4 max-w-6xl">
+        <div class="container mx-auto px-2 sm:px-4 md:px-8 py-4 w-full">
     
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-                <div class="flex flex-col md:flex-row">
-                    <div class="md:w-1/4 bg-indigo-100 p-4 md:p-6 flex flex-col items-center justify-center">
-                        <div
-                            class="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full bg-indigo-200 flex items-center justify-center mb-4 overflow-hidden">
+            <div class="profile-card-container" *ngIf="selectedChild">
+                <!-- Panda image positioned half inside, half outside -->
+                <div class="panda-decoration">
+                    <img src="assets/img/panda.png" alt="Panda" class="panda-image">
+                </div>
+                
+                <div class="profile-card">
+                    <!-- Profile Image Section -->
+                    <div class="profile-image-section">
+                        <div class="profile-image-wrapper">
                             <img *ngIf="selectedChild?.image_url" [src]="selectedChild!.image_url"
                                 (error)="setDefaultImage($event, selectedChild!)" alt="Profile"
-                                class="w-full h-full object-cover rounded-full">
-                            <span
-                                *ngIf="!selectedChild?.image_url && selectedChild?.first_name && selectedChild?.last_name"
-                                class="text-2xl md:text-3xl lg:text-4xl font-bold text-indigo-800">
+                                class="profile-image">
+                            <div *ngIf="!selectedChild?.image_url && selectedChild?.first_name && selectedChild?.last_name"
+                                class="profile-initials">
                                 {{ selectedChild?.first_name?.charAt(0) }}{{ selectedChild?.last_name?.charAt(0) }}
-                            </span>
+                            </div>
                             <i *ngIf="!selectedChild?.image_url && !(selectedChild?.first_name && selectedChild?.last_name)"
-                                class="fas fa-user text-2xl md:text-3xl lg:text-4xl text-indigo-400"></i>
+                                class="fas fa-user profile-icon"></i>
+                            <div class="profile-image-ring"></div>
                         </div>
                     </div>
-                    <div class="md:w-3/4 p-4 md:p-6" *ngIf="selectedChild">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                            <div class="flex-1 min-w-0">
-                                <h2 class="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 truncate">{{ selectedChild.first_name }}
-                                    {{ selectedChild.last_name }}</h2>
-                                <div class="flex flex-wrap items-center mt-2 gap-2">
-                                    <span
-                                        class="bg-blue-100 text-blue-800 text-xs md:text-sm font-medium px-2 py-1 rounded">{{
-                                        calculateAge(selectedChild.birth_date) }}</span>
-                                    <span
-                                        class="bg-purple-100 text-purple-800 text-xs md:text-sm font-medium px-2 py-1 rounded">{{
-                                        selectedChild.gender === 'M' ? ('dashboard.child_profile.gender_male' |
-                                        translate) : ('dashboard.child_profile.gender_female' | translate) }}</span>
-                                </div>
-                                <p class="text-gray-600 mt-2 text-xs md:text-sm lg:text-base"><i
-                                        class="fas fa-calendar-alt mr-2 text-indigo-500"></i> {{
-                                    'dashboard.child_profile.last_evaluation' | translate: { date: getLastUpdateDate() } }}</p>
+
+                    <!-- Profile Information Section -->
+                    <div class="profile-info-section">
+                        <div class="profile-header">
+                            <h2 class="profile-name">{{ selectedChild.first_name }} {{ selectedChild.last_name }}</h2>
+                            <div class="profile-badges">
+                                <span class="badge badge-age">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    {{ calculateAge(selectedChild.birth_date) }}
+                                </span>
+                                <span class="badge badge-gender" [class.male]="selectedChild.gender === 'M'" [class.female]="selectedChild.gender === 'F'">
+                                    <i [class]="selectedChild.gender === 'M' ? 'fas fa-mars' : 'fas fa-venus'"></i>
+                                    {{ selectedChild.gender === 'M' ? ('dashboard.child_profile.gender_male' | translate) : ('dashboard.child_profile.gender_female' | translate) }}
+                                </span>
                             </div>
-                            <div
-                                class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
-                                <button (click)="navigateToPEU()"
-                                    class="peu-button bg-indigo-600 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center w-full sm:w-auto"
-                                    [attr.aria-label]="'PEI'">
-                                    <i class="fas fa-list-check mr-2 sm:mr-2 md:mr-2 lg:mr-2"></i> 
-                                    <span class="peu-text">PEI</span>
-                                </button>
-                                <button (click)="showShareDialog()"
-                                    class="share-button bg-green-600 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center justify-center w-full sm:w-auto"
-                                    [attr.aria-label]="'dashboard.child_profile.share_profile_button' | translate">
-                                    <i class="fas fa-share-alt mr-2 sm:mr-2 md:mr-2 lg:mr-2"></i> 
-                                    <span class="share-text">{{ 'dashboard.child_profile.share_profile_button' | translate }}</span>
-                                </button>
+                            <div class="profile-meta">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>{{ 'dashboard.child_profile.last_evaluation' | translate: { date: getLastUpdateDate() } }}</span>
                             </div>
                         </div>
 
-                        <div class="border-b border-gray-200 mt-4">
-                            <ul class="flex flex-wrap -mb-px overflow-x-auto md:overflow-visible justify-center md:justify-start">
-                                <li class="mr-1 md:mr-2" *ngFor="let tab of tabs">
-                                    <button
-                                        class="inline-block p-2 md:p-4 border-b-2 rounded-t-lg font-medium text-xs md:text-sm lg:text-base whitespace-nowrap"
-                                        [class.border-indigo-600]="isTabActive(tab.id)"
-                                        [class.text-indigo-600]="isTabActive(tab.id)"
-                                        [class.border-transparent]="!isTabActive(tab.id)"
-                                        [class.hover:text-gray-600]="!isTabActive(tab.id)"
-                                        [class.hover:border-gray-300]="!isTabActive(tab.id)" (click)="switchTab(tab.id)"
-                                        [attr.aria-label]="tab.label | translate">
-                                        {{ tab.label | translate }}
-                                    </button>
-                                </li>
-                            </ul>
+                        <!-- Action Buttons -->
+                        <div class="profile-actions">
+                            <button (click)="navigateToPEU()" class="action-btn action-btn-pei" [attr.aria-label]="'PEI'">
+                                <div class="btn-icon-wrapper">
+                                    <i class="fas fa-list-check"></i>
+                                </div>
+                                <span>PEI</span>
+                            </button>
+                            <button (click)="showShareDialog()" class="action-btn action-btn-share" [attr.aria-label]="'dashboard.child_profile.share_profile_button' | translate">
+                                <div class="btn-icon-wrapper">
+                                    <i class="fas fa-share-alt"></i>
+                                </div>
+                                <span>{{ 'dashboard.child_profile.share_profile_button' | translate }}</span>
+                            </button>
                         </div>
                     </div>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <div class="tabs-container mt-6">
+                    <ul class="tabs-nav">
+                        <li *ngFor="let tab of tabs">
+                            <button
+                                class="tab-card"
+                                [class.active]="isTabActive(tab.id)"
+                                (click)="switchTab(tab.id)"
+                                [attr.aria-label]="tab.label | translate">
+                                <i [class]="getTabIcon(tab.id)" class="tab-icon"></i>
+                                <span class="tab-text">{{ tab.label | translate }}</span>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
             <div id="tab-contents">
                 <div class="tab-content active" id="skills-content" [class.active]="isTabActive('skills')">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    <!-- Empty State: No Competencies -->
+                    <div *ngIf="filteredCategories.length === 0" class="empty-competencies-state">
+                        <div class="empty-state-content">
+                            <div class="message-cloud">
+                                <div class="cloud-content">
+                                    <div class="cloud-bear-icon">
+                                        <img src="assets/img/bear.png" alt="Bear" class="bear-icon-image">
+                                    </div>
+                                    <h3 class="cloud-title">{{ getNoCompetenciesTitle() }}</h3>
+                                    <p class="cloud-text">{{ getNoCompetenciesMessage() }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Competencies Grid -->
+                    <div *ngIf="filteredCategories.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <div *ngFor="let category of filteredCategories"
                             class="bg-white rounded-xl shadow overflow-hidden">
                             <div class="bg-indigo-600 px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center">
@@ -301,7 +323,6 @@
                 <div class="tab-content" id="goals-content" [class.active]="isTabActive('goals')">
                     <app-goals [goals]="goals" (addGoalClicked)="openAddGoalModal()"
                         (editGoalClicked)="openEditGoalModal($event)"
-                        (toggleSubObjectiveStatus)="onToggleSubObjective($event)"
                         (deleteGoalClicked)="onDeleteGoal($event)"></app-goals>
                 </div>
                 <app-add-goal-modal *ngIf="showGoalFormModal" [isVisible]="showGoalFormModal"
@@ -318,47 +339,82 @@
             </div>
 
             <!-- Share Profile Dialog/Modal -->
-            <div *ngIf="afficherBoiteDialoguePartage"
-                style="position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4);">
-                <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-                    <h2 class="text-lg font-bold mb-4">{{ 'dashboard.share_profile_dialog.header' | translate }}</h2>
-                    <form (ngSubmit)="shareProfile()">
-                        <div class="mb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{
-                                'dashboard.share_profile_dialog.labels.email' | translate }}</label>
-                            <input id="email" type="email" [(ngModel)]="saisieEmail" name="email"
-                                (input)="validateEmail()" [class.border-red-500]="saisieEmail && !isEmailValid"
-                                class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-500"
-                                [placeholder]="'dashboard.share_profile_dialog.placeholders.email' | translate"
-                                required />
-                            <div *ngIf="saisieEmail && !isEmailValid" class="text-red-500 text-xs mt-1">{{
-                                'dashboard.share_profile_dialog.errors.invalid_email' | translate }}</div>
+            <div *ngIf="afficherBoiteDialoguePartage" class="share-profile-modal-overlay" (click)="afficherBoiteDialoguePartage = false">
+                <div class="share-profile-modal" (click)="$event.stopPropagation()">
+                    <div class="share-modal-header">
+                        <div class="share-modal-header-content">
+                            <div class="share-modal-icon-wrapper">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
+                            <div class="share-modal-title-wrapper">
+                                <h3 class="share-modal-title">{{ 'dashboard.share_profile_dialog.header' | translate }}</h3>
+                                <p class="share-modal-subtitle">{{ 'dashboard.share_profile_dialog.modal_subtitle' | translate }}</p>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label for="access" class="block text-sm font-medium text-gray-700 mb-1">{{
-                                'dashboard.share_profile_dialog.labels.access_type' | translate }}</label>
-                            <select id="access" [(ngModel)]="accesSelectionne" name="access"
-                                class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-indigo-500"
-                                required>
-                                <option *ngFor="let option of optionsAcces" [ngValue]="option">{{ option.libelle }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex justify-end space-x-2 mt-6">
-                            <button type="button" (click)="afficherBoiteDialoguePartage = false"
-                                class="px-4 py-2 rounded bg-gray-300 text-gray-700 hover:bg-gray-400"
-                                [attr.aria-label]="'dashboard.share_profile_dialog.buttons.cancel' | translate">{{
-                                'dashboard.share_profile_dialog.buttons.cancel' | translate }}</button>
-                            <button type="submit" [disabled]="!isEmailValid || loadingShare"
-                                class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
-                                [attr.aria-label]="loadingShare ? ('dashboard.share_profile_dialog.buttons.sharing' | translate) : ('dashboard.share_profile_dialog.buttons.share' | translate)">{{
-                                loadingShare ? ('dashboard.share_profile_dialog.buttons.sharing' | translate) :
-                                ('dashboard.share_profile_dialog.buttons.share' | translate) }}</button>
-                        </div>
-                    </form>
-                    <button (click)="afficherBoiteDialoguePartage = false"
-                        class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl"
-                        [attr.aria-label]="'dashboard.share_profile_dialog.buttons.cancel' | translate">&times;</button>
+                        <button 
+                            type="button"
+                            class="share-modal-close-btn"
+                            (click)="afficherBoiteDialoguePartage = false"
+                            [attr.aria-label]="'dashboard.share_profile_dialog.buttons.cancel' | translate">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="share-modal-body">
+                        <form (ngSubmit)="shareProfile()">
+                            <div class="share-form-group">
+                                <label for="email" class="share-form-label">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>{{ 'dashboard.share_profile_dialog.labels.email' | translate }}</span>
+                                </label>
+                                <input 
+                                    id="email" 
+                                    type="email" 
+                                    [(ngModel)]="saisieEmail" 
+                                    name="email"
+                                    (input)="validateEmail()"
+                                    class="share-form-input"
+                                    [class.input-error]="saisieEmail && !isEmailValid"
+                                    [placeholder]="'dashboard.share_profile_dialog.placeholders.email' | translate"
+                                    required />
+                                <div *ngIf="saisieEmail && !isEmailValid" class="share-error-message">
+                                    {{ 'dashboard.share_profile_dialog.errors.invalid_email' | translate }}
+                                </div>
+                            </div>
+
+                            <div class="share-form-group">
+                                <label for="access" class="share-form-label">
+                                    <i class="fas fa-key"></i>
+                                    <span>{{ 'dashboard.share_profile_dialog.labels.access_type' | translate }}</span>
+                                </label>
+                                <select 
+                                    id="access" 
+                                    [(ngModel)]="accesSelectionne" 
+                                    name="access"
+                                    class="share-form-select"
+                                    required>
+                                    <option *ngFor="let option of optionsAcces" [ngValue]="option">{{ option.libelle }}</option>
+                                </select>
+                            </div>
+
+                            <div class="share-modal-footer">
+                                <button 
+                                    type="button"
+                                    class="share-modal-btn-secondary"
+                                    (click)="afficherBoiteDialoguePartage = false">
+                                    <i class="fas fa-times"></i>
+                                    <span>{{ 'dashboard.share_profile_dialog.buttons.cancel' | translate }}</span>
+                                </button>
+                                <button 
+                                    type="submit"
+                                    class="share-modal-btn-primary"
+                                    [disabled]="!isEmailValid || loadingShare">
+                                    <i class="fas fa-share-alt"></i>
+                                    <span>{{ loadingShare ? ('dashboard.share_profile_dialog.buttons.sharing' | translate) : ('dashboard.share_profile_dialog.buttons.share' | translate) }}</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

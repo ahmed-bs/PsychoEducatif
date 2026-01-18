@@ -1,16 +1,29 @@
-<div class="bg-white rounded-xl shadow overflow-hidden">
-    <div class="bg-green-600 px-4 py-3 sm:px-6">
-        <h3 class="text-lg sm:text-xl font-medium text-white">{{ 'dashboard_tabs.strategy.title' | translate }}</h3>
+<!-- Empty State: No Strategies - Show bubble outside card -->
+<div *ngIf="!isLoadingDomains && domainsWithPartielItems.length === 0" class="empty-competencies-state">
+  <div class="empty-state-content">
+    <div class="message-cloud">
+      <div class="cloud-content">
+        <div class="cloud-bear-icon">
+          <img src="assets/img/bear.png" alt="Bear" class="bear-icon-image">
+        </div>
+        <h3 class="cloud-title">{{ 'dashboard_tabs.strategy.no_strategies.title' | translate }}</h3>
+        <p class="cloud-text">{{ 'dashboard_tabs.strategy.no_strategies.message' | translate }}</p>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- Strategy Card - Only show when there are domains -->
+<div *ngIf="domainsWithPartielItems.length > 0" class="strategy-container">
     <div class="p-4 sm:p-6">
         <!-- Loading State -->
         <div *ngIf="isLoadingDomains" class="flex justify-center items-center py-8">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
             <span class="ml-3 text-gray-600">{{ 'dashboard_tabs.strategy.loading_categories' | translate }}</span>
         </div>
 
         <!-- Domains Table -->
-        <div *ngIf="!isLoadingDomains && domainsWithPartielItems.length > 0" class="mb-6">
+        <div *ngIf="!isLoadingDomains" class="mb-6">
             <div class="flex flex-col sm:flex-row items-start sm:items-center mb-4 gap-4">
                 <div class="flex-1 sm:flex-initial">
                     <p-dropdown 
@@ -46,8 +59,8 @@
             </div>
             <div class="overflow-x-auto -mx-4 sm:mx-0">
                 <div class="inline-block min-w-full align-middle">
-                    <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-                        <thead class="bg-green-50">
+                    <table class="strategy-table">
+                        <thead class="strategy-table-header">
                             <tr>
                                 <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                                     {{ 'dashboard_tabs.strategy.table.category' | translate }}
@@ -79,7 +92,7 @@
                                 </td>
                                 <td class="px-3 sm:px-6 py-3 sm:py-4">
                                     <div class="flex items-center min-w-[150px]">
-                                        <i class="fas fa-graduation-cap text-green-600 mr-2 flex-shrink-0"></i>
+                                        <i class="fas fa-graduation-cap domain-icon mr-2 flex-shrink-0"></i>
                                         <span class="text-sm text-gray-900 truncate" [title]="getDomainLanguageField(domain, 'name')">{{ getDomainLanguageField(domain, 'name') }}</span>
                 </div>
                                 </td>
@@ -95,8 +108,8 @@
                                 </td>
                                 <td class="px-2 sm:px-6 py-3 sm:py-4 hidden md:table-cell">
                                     <div class="flex items-center justify-center">
-                                        <div class="w-full bg-gray-200 rounded-full h-2 max-w-xs">
-                                            <div class="bg-green-600 h-2 rounded-full" [style.width.%]="domain.acquis_percentage || 0"></div>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar-fill" [style.width.%]="domain.acquis_percentage || 0"></div>
                                         </div>
                                         <span class="ml-2 text-xs text-gray-600 whitespace-nowrap">{{ formatPercentage(domain.acquis_percentage) }}%</span>
                                     </div>
@@ -104,7 +117,7 @@
                                 <td class="px-3 sm:px-6 py-3 sm:py-4 text-center">
                                     <button 
                                         (click)="toggleDomainExpansion(domain); $event.stopPropagation()"
-                                        class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                        class="strategy-action-btn">
                                         <i class="fas mr-1" [ngClass]="domain.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                                         <span class="hidden sm:inline">{{ 'dashboard_tabs.strategy.table.start' | translate }}</span>
                                     </button>
@@ -152,7 +165,7 @@
                                                             (change)="updateItemStatus(item, $any($event.target).value, $event)"
                                                             (click)="$event.stopPropagation()"
                                                             [value]="item.etat"
-                                                            class="text-xs border border-gray-300 rounded-md px-1 sm:px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-auto"
+                                                            class="status-select"
                                                             [disabled]="updatingItem">
                                                             <option value="PARTIEL">{{ 'dashboard_tabs.strategy.table.status_options.partiel' | translate }}</option>
                                                             <option value="ACQUIS">{{ 'dashboard_tabs.strategy.table.status_options.acquis' | translate }}</option>
@@ -162,19 +175,19 @@
                                                     <td class="px-2 sm:px-4 py-2 sm:py-3 text-center">
                                                         <button 
                                                             (click)="openCommentModal(item, $event)"
-                                                            class="relative inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                                            class="item-action-btn"
                                                             [title]="hasComment(item) ? ('dashboard_tabs.strategy.table.edit_comment' | translate) : ('dashboard_tabs.strategy.table.add_comment' | translate)">
                                                             <i class="fas fa-comment"></i>
-                                                            <span *ngIf="hasComment(item)" class="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full border border-white"></span>
+                                                            <span *ngIf="hasComment(item)" class="action-indicator"></span>
                             </button>
                                                     </td>
                                                     <td class="px-2 sm:px-4 py-2 sm:py-3 text-center">
                                                         <button 
                                                             (click)="openStrategyModal(item, $event)"
-                                                            class="relative inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                                            class="item-action-btn"
                                                             [title]="hasStrategy(item) ? ('dashboard_tabs.strategy.table.view_strategy' | translate) : ('dashboard_tabs.strategy.table.no_strategy' | translate)">
                                                             <i class="fas fa-lightbulb"></i>
-                                                            <span *ngIf="hasStrategy(item)" class="absolute -top-1 -right-1 h-2 w-2 bg-yellow-500 rounded-full border border-white"></span>
+                                                            <span *ngIf="hasStrategy(item)" class="action-indicator strategy-indicator"></span>
                             </button>
                                                     </td>
                                                 </tr>
@@ -187,12 +200,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <!-- Empty State -->
-        <div *ngIf="!isLoadingDomains && domainsWithPartielItems.length === 0" class="text-center py-8">
-            <i class="fas fa-inbox text-6xl text-gray-300 mb-4"></i>
-            <p class="text-gray-600 text-lg">{{ 'dashboard_tabs.strategy.no_domains_with_partiel' | translate }}</p>
         </div>
 
         <!-- Filtered Empty State -->
@@ -212,11 +219,11 @@
   (click)="closeCommentModal()">
   <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform transition-all duration-300 scale-100"
     (click)="$event.stopPropagation()">
-    <div class="bg-green-600 text-white px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center">
-      <h3 class="text-lg sm:text-xl font-semibold" id="modal-title">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">
         {{ 'dashboard_tabs.strategy.comment_modal.title' | translate }}
       </h3>
-      <button (click)="closeCommentModal()" class="text-white hover:text-gray-200 focus:outline-none" [disabled]="updatingItem">
+      <button (click)="closeCommentModal()" class="modal-close-btn" [disabled]="updatingItem">
         <i class="fas fa-times text-base sm:text-lg"></i>
       </button>
     </div>
@@ -228,7 +235,7 @@
         <textarea 
           [(ngModel)]="commentText"
           rows="4"
-          class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md p-2"
+          class="modal-textarea"
           [placeholder]="'dashboard_tabs.strategy.comment_modal.comment_placeholder' | translate"
           [disabled]="updatingItem">
         </textarea>
@@ -239,7 +246,7 @@
         type="button"
         (click)="saveComment()"
         [disabled]="updatingItem"
-        class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50">
+        class="modal-btn-primary">
         <span *ngIf="!updatingItem">{{ 'dashboard_tabs.strategy.comment_modal.save' | translate }}</span>
         <span *ngIf="updatingItem">{{ 'dashboard_tabs.strategy.comment_modal.saving' | translate }}</span>
       </button>
@@ -247,7 +254,7 @@
         type="button"
         (click)="closeCommentModal()"
         [disabled]="updatingItem"
-        class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50">
+        class="modal-btn-secondary">
         {{ 'dashboard_tabs.strategy.comment_modal.cancel' | translate }}
       </button>
     </div>
@@ -259,11 +266,11 @@
   (click)="closeStrategyModal()">
   <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform transition-all duration-300 scale-100"
     (click)="$event.stopPropagation()">
-    <div class="bg-green-600 text-white px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center">
-      <h3 class="text-lg sm:text-xl font-semibold" id="modal-title">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">
         {{ 'dashboard_tabs.strategy.strategy_modal.title' | translate }}
       </h3>
-      <button (click)="closeStrategyModal()" class="text-white hover:text-gray-200 focus:outline-none">
+      <button (click)="closeStrategyModal()" class="modal-close-btn">
         <i class="fas fa-times text-base sm:text-lg"></i>
       </button>
     </div>
@@ -284,7 +291,7 @@
       <button 
         type="button"
         (click)="closeStrategyModal()"
-        class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+        class="modal-btn-primary">
         {{ 'dashboard_tabs.strategy.strategy_modal.close' | translate }}
       </button>
     </div>

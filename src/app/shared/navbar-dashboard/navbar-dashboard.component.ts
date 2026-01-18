@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/authService.service';
@@ -10,18 +11,18 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./navbar-dashboard.component.css']
 })
 export class NavbarDashboardComponent implements OnInit, OnDestroy {
-
-  private currentScreenSize: 'desktop' | 'mobile' = 'desktop';
-  private lastScreenSize: 'desktop' | 'mobile' = 'desktop';
   currentLang: string = 'fr';
   currentUser: any = null;
-  private languageSubscription: Subscription;
+  private languageSubscription!: Subscription;
   showLanguageMenu: boolean = false;
+  showEvaluationMenu: boolean = false;
+  showUserMenu: boolean = false;
 
   constructor(
     private sharedService: SharedService,
     private translate: TranslateService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     const savedLang = localStorage.getItem('lang') || 'fr';
     this.currentLang = savedLang;
@@ -35,8 +36,27 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.updateScreenSize();
     this.getCurrentUser();
+    
+    // Setup mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    const menuBtnIcon = menuBtn?.querySelector('i');
+
+    menuBtn?.addEventListener('click', () => {
+      navLinks?.classList.toggle('open');
+      const isOpen = navLinks?.classList.contains('open');
+      menuBtnIcon?.setAttribute('class', isOpen ? 'ri-close-line' : 'ri-menu-line');
+    });
+
+    // Close menu when clicking on a link
+    navLinks?.addEventListener('click', (e) => {
+      const target = e?.target as HTMLElement;
+      if (target && (target.tagName === 'A' || target.closest('a'))) {
+        navLinks?.classList.remove('open');
+        menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+      }
+    });
   }
 
   getCurrentUser() {
@@ -54,73 +74,116 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  getUserDisplayName(): string {
+    if (!this.currentUser) {
+      return 'User';
+    }
+    
+    // Prefer username over email
+    let name = this.currentUser.username || '';
+    
+    // If username looks like an email or contains underscore with numbers, format it
+    if (name.includes('@')) {
+      // It's an email, try to get a better display name
+      name = this.currentUser.first_name || this.currentUser.last_name || name.split('@')[0];
+    } else if (name.includes('_') && /_\d+/.test(name)) {
+      // Extract the part before the underscore and capitalize it
+      name = name.split('_')[0];
+      name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    } else if (name) {
+      // Capitalize first letter of each word
+      name = name.split(' ').map((word: string) => 
+        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      ).join(' ');
+    }
+    
+    return name || 'User';
+  }
+
   ngOnDestroy() {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    this.updateScreenSize();
-  }
-
-  private updateScreenSize() {
-    this.lastScreenSize = this.currentScreenSize;
-    this.currentScreenSize = this.isDesktop() ? 'desktop' : 'mobile';
-    
-    // If screen size changed, reset everything like a page refresh
-    if (this.lastScreenSize !== this.currentScreenSize) {
-      this.resetToDefaultState();
-    }
-  }
-
-  private resetToDefaultState() {
-    // Reset any navbar states to default (like page refresh)
-    // Force a small delay to ensure DOM updates
-    setTimeout(() => {
-      // Additional reset if needed
-    }, 100);
-  }
-
-  // Check if we're on desktop
-  isDesktop(): boolean {
-    return window.innerWidth >= 1024;
+  // Get child ID for routing
+  getChildId(): string {
+    return localStorage.getItem('selectedChildId') || '1';
   }
 
   // Language switcher method
   switchLanguage(language: string) {
     this.sharedService.changeLanguage(language);
-    this.showLanguageMenu = false; // Close menu after selection
+    this.showLanguageMenu = false;
   }
 
   // Toggle language menu
   toggleLanguageMenu() {
     this.showLanguageMenu = !this.showLanguageMenu;
+    this.showEvaluationMenu = false;
+    this.showUserMenu = false;
   }
 
-  // Close language menu when clicking outside
+  // Toggle evaluation dropdown
+  toggleEvaluationMenu() {
+    this.showEvaluationMenu = !this.showEvaluationMenu;
+    this.showUserMenu = false;
+    this.showLanguageMenu = false;
+  }
+
+  closeEvaluationMenu() {
+    this.showEvaluationMenu = false;
+  }
+
+  // Check if evaluation route is active
+  isEvaluationActive(): boolean {
+    const currentUrl = this.router.url;
+    return currentUrl.includes('/evaluations_configurations') || currentUrl.includes('/explore');
+  }
+
+  // Toggle user menu
+  toggleUserMenu() {
+    this.showUserMenu = !this.showUserMenu;
+    this.showEvaluationMenu = false;
+    this.showLanguageMenu = false;
+  }
+
+  // Change Profile - Navigate to profile selection page
+  changeProfile() {
+    this.showUserMenu = false;
+    this.router.navigate(['/pick_profileComponent']);
+  }
+
+  // Logout
+  logout() {
+    this.showUserMenu = false;
+    this.authService.logout();
+  }
+
+  // Close menus when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (!target.closest('.language-menu-container')) {
+    if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
       this.showLanguageMenu = false;
+    }
+    if (!target.closest('.nav__dropdown') && this.showEvaluationMenu) {
+      this.showEvaluationMenu = false;
+    }
+    if (!target.closest('.nav__user-menu') && this.showUserMenu) {
+      this.showUserMenu = false;
+    }
+    if (!target.closest('.nav__right-section') && (this.showLanguageMenu || this.showUserMenu)) {
+      this.showLanguageMenu = false;
+      this.showUserMenu = false;
     }
   }
 
-  toggleSidebarState(): void {
-    const currentUrl = window.location.pathname;
-    const isClientLayout = currentUrl.includes('Dashboard-client');
-
-    if (this.currentScreenSize === 'desktop') {
-      // Desktop: Toggle desktop sidebar
-      this.sharedService.toggleSidebar();
-    } else if (isClientLayout) {
-      // Mobile/Tablet + Client Layout: Toggle mobile sidebar
-      this.sharedService.toggleMobileSidebar();
-    } else {
-      // Mobile/Tablet + Admin Layout: Toggle mobile off-canvas menu
-      this.sharedService.toggleMobileMenu();
-    }
+  // Close menus with Escape key
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKey(event: KeyboardEvent) {
+    this.showLanguageMenu = false;
+    this.showEvaluationMenu = false;
+    this.showUserMenu = false;
   }
 }

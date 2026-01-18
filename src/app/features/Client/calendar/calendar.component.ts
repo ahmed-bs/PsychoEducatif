@@ -727,14 +727,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
 
   // Calculate goal progress
   calculateGoalProgress(goal: any): number {
-    if (!goal || !goal.sub_objectives || goal.sub_objectives.length === 0) {
-      return 0;
-    }
-
-    const totalSubObjectives = goal.sub_objectives.length;
-    const completedSubObjectives = goal.sub_objectives.filter((sub: any) => sub.is_completed).length;
-
-    return Math.round((completedSubObjectives / totalSubObjectives) * 100);
+    return 0;
   }
 
   // Helper method to format dates properly

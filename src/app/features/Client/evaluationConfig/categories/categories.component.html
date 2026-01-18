@@ -231,67 +231,187 @@
   </main>
 </div>
 
-<!-- Add/Edit Category Dialog -->
-<p-dialog [(visible)]="displayAddUserDialog" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="header">
-    <div class="custom-dialog-header">
-      <h2>{{ (newCategory.id ? 'categories.add_category_dialog.header_edit' : 'categories.add_category_dialog.header_add') | translate }}</h2>
+<!-- Add/Edit Category Modal -->
+<div *ngIf="displayAddUserDialog" class="eval-modal-overlay" (click)="displayAddUserDialog = false">
+  <div class="eval-modal" (click)="$event.stopPropagation()">
+    <div class="eval-modal-header">
+      <div class="eval-modal-header-content">
+        <div class="eval-modal-icon-wrapper">
+          <i class="fas fa-tags"></i>
+        </div>
+        <div class="eval-modal-title-wrapper">
+          <h3 class="eval-modal-title">
+            {{ (newCategory.id ? 'categories.add_category_dialog.header_edit' : 'categories.add_category_dialog.header_add') | translate }}
+          </h3>
+          <p class="eval-modal-subtitle">{{ 'categories.add_category_dialog.modal_subtitle' | translate }}</p>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="eval-modal-close-btn"
+        (click)="displayAddUserDialog = false"
+        [attr.aria-label]="'categories.add_category_dialog.buttons.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-  </ng-template>
-  <div class="dialog-content">
-    <!-- Language-specific form fields -->
-    <div *ngIf="getCurrentLanguage() === 'ar'" class="field">
-      <label for="categoryNameAr">{{ 'categories.add_category_dialog.labels.title_ar' | translate }}</label>
-      <input pInputText id="categoryNameAr" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title_ar' | translate" />
-    </div>
-    <div *ngIf="getCurrentLanguage() === 'ar'" class="field">
-      <label for="categoryDescriptionAr">{{ 'categories.add_category_dialog.labels.description_ar' | translate }}</label>
-      <textarea pInputTextarea id="categoryDescriptionAr" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description_ar' | translate" rows="3"></textarea>
-    </div>
-    
-    <div *ngIf="getCurrentLanguage() === 'en'" class="field">
-      <label for="categoryNameEn">{{ 'categories.add_category_dialog.labels.title_en' | translate }}</label>
-      <input pInputText id="categoryNameEn" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title_en' | translate" />
-    </div>
-    <div *ngIf="getCurrentLanguage() === 'en'" class="field">
-      <label for="categoryDescriptionEn">{{ 'categories.add_category_dialog.labels.description_en' | translate }}</label>
-      <textarea pInputTextarea id="categoryDescriptionEn" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description_en' | translate" rows="3"></textarea>
-    </div>
-    
-    <div *ngIf="getCurrentLanguage() === 'fr'" class="field">
-      <label for="categoryName">{{ 'categories.add_category_dialog.labels.title' | translate }}</label>
-      <input pInputText id="categoryName" [(ngModel)]="newCategory.name" [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" />
-    </div>
-    <div *ngIf="getCurrentLanguage() === 'fr'" class="field">
-      <label for="categoryDescription">{{ 'categories.add_category_dialog.labels.description' | translate }}</label>
-      <textarea pInputTextarea id="categoryDescription" [(ngModel)]="newCategory.description" [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" rows="3"></textarea>
-    </div>
-    
-    <div class="field-info">
-      <small class="text-muted">{{ 'categories.add_category_dialog.info.at_least_one_name' | translate }}</small>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <p-button [label]="'categories.add_category_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayAddUserDialog = false"></p-button>
-    <p-button [label]="(newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add') | translate" styleClass="p-button-primary" (click)="saveCategory()" [style]="{ color: 'white' }"></p-button>
-  </ng-template>
-</p-dialog>
 
-<!-- Delete Confirmation Dialog -->
-<p-dialog [(visible)]="displayDeleteDialog" [modal]="true" [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="header">
-    <div class="custom-dialog-header">
-      <h2>{{ 'categories.delete_dialog.header' | translate }}</h2>
-    </div>
-  </ng-template>
-  <div class="dialog-content">
-    <div class="delete-confirmation">
-      <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #e53e78; margin-bottom: 1rem;"></i>
-      <p>{{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete ? getLanguageField(categoryToDelete, 'name') : '' } }}</p>
+    <div class="eval-modal-body">
+      <form (ngSubmit)="saveCategory()">
+        <!-- Language-specific form fields -->
+        <div *ngIf="getCurrentLanguage() === 'ar'" class="eval-form-group">
+          <label for="categoryNameAr" class="eval-form-label">
+            <i class="fas fa-heading"></i>
+            <span>{{ 'categories.add_category_dialog.labels.title_ar' | translate }}</span>
+          </label>
+          <input 
+            id="categoryNameAr" 
+            type="text" 
+            [(ngModel)]="newCategory.name" 
+            name="categoryNameAr"
+            class="eval-form-input"
+            [placeholder]="'categories.add_category_dialog.placeholders.title_ar' | translate" />
+        </div>
+        <div *ngIf="getCurrentLanguage() === 'ar'" class="eval-form-group">
+          <label for="categoryDescriptionAr" class="eval-form-label">
+            <i class="fas fa-align-left"></i>
+            <span>{{ 'categories.add_category_dialog.labels.description_ar' | translate }}</span>
+          </label>
+          <textarea 
+            id="categoryDescriptionAr" 
+            [(ngModel)]="newCategory.description" 
+            name="categoryDescriptionAr"
+            class="eval-form-textarea"
+            [placeholder]="'categories.add_category_dialog.placeholders.description_ar' | translate" 
+            rows="3"></textarea>
+        </div>
+        
+        <div *ngIf="getCurrentLanguage() === 'en'" class="eval-form-group">
+          <label for="categoryNameEn" class="eval-form-label">
+            <i class="fas fa-heading"></i>
+            <span>{{ 'categories.add_category_dialog.labels.title_en' | translate }}</span>
+          </label>
+          <input 
+            id="categoryNameEn" 
+            type="text" 
+            [(ngModel)]="newCategory.name" 
+            name="categoryNameEn"
+            class="eval-form-input"
+            [placeholder]="'categories.add_category_dialog.placeholders.title_en' | translate" />
+        </div>
+        <div *ngIf="getCurrentLanguage() === 'en'" class="eval-form-group">
+          <label for="categoryDescriptionEn" class="eval-form-label">
+            <i class="fas fa-align-left"></i>
+            <span>{{ 'categories.add_category_dialog.labels.description_en' | translate }}</span>
+          </label>
+          <textarea 
+            id="categoryDescriptionEn" 
+            [(ngModel)]="newCategory.description" 
+            name="categoryDescriptionEn"
+            class="eval-form-textarea"
+            [placeholder]="'categories.add_category_dialog.placeholders.description_en' | translate" 
+            rows="3"></textarea>
+        </div>
+        
+        <div *ngIf="getCurrentLanguage() === 'fr'" class="eval-form-group">
+          <label for="categoryName" class="eval-form-label">
+            <i class="fas fa-heading"></i>
+            <span>{{ 'categories.add_category_dialog.labels.title' | translate }}</span>
+          </label>
+          <input 
+            id="categoryName" 
+            type="text" 
+            [(ngModel)]="newCategory.name" 
+            name="categoryName"
+            class="eval-form-input"
+            [placeholder]="'categories.add_category_dialog.placeholders.title' | translate" />
+        </div>
+        <div *ngIf="getCurrentLanguage() === 'fr'" class="eval-form-group">
+          <label for="categoryDescription" class="eval-form-label">
+            <i class="fas fa-align-left"></i>
+            <span>{{ 'categories.add_category_dialog.labels.description' | translate }}</span>
+          </label>
+          <textarea 
+            id="categoryDescription" 
+            [(ngModel)]="newCategory.description" 
+            name="categoryDescription"
+            class="eval-form-textarea"
+            [placeholder]="'categories.add_category_dialog.placeholders.description' | translate" 
+            rows="3"></textarea>
+        </div>
+        
+        <div class="eval-field-info">
+          <i class="fas fa-info-circle"></i>
+          <small>{{ 'categories.add_category_dialog.info.at_least_one_name' | translate }}</small>
+        </div>
+
+        <div class="eval-modal-footer">
+          <button 
+            type="button"
+            class="eval-modal-btn-secondary"
+            (click)="displayAddUserDialog = false">
+            <i class="fas fa-times"></i>
+            <span>{{ 'categories.add_category_dialog.buttons.cancel' | translate }}</span>
+          </button>
+          <button 
+            type="submit"
+            class="eval-modal-btn-primary">
+            <i class="fas" [class.fa-plus]="!newCategory.id" [class.fa-save]="newCategory.id"></i>
+            <span>{{ (newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add') | translate }}</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-  <ng-template pTemplate="footer">
-    <p-button [label]="'categories.delete_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="displayDeleteDialog = false"></p-button>
-    <p-button [label]="'categories.delete_dialog.buttons.delete' | translate" styleClass="p-button-danger" (click)="confirmDelete()"></p-button>
-  </ng-template>
-</p-dialog>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div *ngIf="displayDeleteDialog" class="eval-modal-overlay" (click)="displayDeleteDialog = false">
+  <div class="eval-modal eval-delete-modal" (click)="$event.stopPropagation()">
+    <div class="eval-modal-header eval-delete-header">
+      <div class="eval-modal-header-content">
+        <div class="eval-modal-icon-wrapper">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="eval-modal-title-wrapper">
+          <h3 class="eval-modal-title">{{ 'categories.delete_dialog.header' | translate }}</h3>
+          <p class="eval-modal-subtitle">{{ 'categories.delete_dialog.modal_subtitle' | translate }}</p>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="eval-modal-close-btn"
+        (click)="displayDeleteDialog = false"
+        [attr.aria-label]="'categories.delete_dialog.buttons.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="eval-modal-body">
+      <div class="eval-delete-content">
+        <div class="eval-delete-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <p class="eval-delete-message">
+          {{ 'categories.delete_dialog.message' | translate: { categoryName: categoryToDelete ? getLanguageField(categoryToDelete, 'name') : '' } }}
+        </p>
+      </div>
+
+      <div class="eval-modal-footer">
+        <button 
+          type="button"
+          class="eval-modal-btn-secondary"
+          (click)="displayDeleteDialog = false">
+          <i class="fas fa-times"></i>
+          <span>{{ 'categories.delete_dialog.buttons.cancel' | translate }}</span>
+        </button>
+        <button 
+          type="button"
+          class="eval-modal-btn-danger"
+          (click)="confirmDelete()">
+          <i class="fas fa-trash-alt"></i>
+          <span>{{ 'categories.delete_dialog.buttons.delete' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

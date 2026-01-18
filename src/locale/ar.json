@@ -9,39 +9,63 @@
     "add_child_button": "+"
   },
   "add_child_dialog": {
-    "header": "إضافة طفل",
-    "first_name_label": "الاسم الأول",
-    "first_name_placeholder": "الاسم الأول",
-    "last_name_label": "الاسم الأخير",
-    "last_name_placeholder": "الاسم الأخير",
-    "birth_date_label": "تاريخ الميلاد",
-    "diagnosis_label": "التشخيص",
-    "diagnosis_placeholder": "التشخيص",
-    "gender_label": "الجنس",
-    "male_option": "ذكر",
-    "female_option": "أنثى",
-    "profile_image_label": "صورة الملف الشخصي",
-    "drop_zone_text": "اسحب وأفلت أو انقر للتحميل",
-    "cancel_button": "إلغاء",
-    "add_button": "إضافة",
+    "header": "إضافة ملف شخصي جديد",
+    "modal_subtitle": "إنشاء ملف شخصي جديد بالمعلومات الأساسية",
+    "labels": {
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "birth_date": "تاريخ الميلاد",
+      "gender": "الجنس",
+      "diagnosis": "التشخيص",
+      "notes": "ملاحظات",
+      "image": "صورة الملف الشخصي"
+    },
+    "placeholders": {
+      "first_name": "أدخل الاسم الأول",
+      "last_name": "أدخل اسم العائلة",
+      "birth_date": "أدخل تاريخ الميلاد",
+      "diagnosis": "أدخل التشخيص (اختياري)",
+      "notes": "أدخل ملاحظات (اختياري)"
+    },
+    "buttons": {
+      "cancel": "إلغاء",
+      "add": "إضافة"
+    },
+    "gender_options": {
+      "male": "ذكر",
+      "female": "أنثى"
+    },
+    "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار",
     "required_fields_error": "الاسم الأول، الاسم الأخير، وتاريخ الميلاد مطلوبة."
   },
   "edit_child_dialog": {
-    "header": "تعديل طفل",
-    "first_name_label": "الاسم الأول",
-    "first_name_placeholder": "الاسم الأول",
-    "last_name_label": "الاسم الأخير",
-    "last_name_placeholder": "الاسم الأخير",
-    "birth_date_label": "تاريخ الميلاد",
-    "diagnosis_label": "التشخيص",
-    "diagnosis_placeholder": "التشخيص",
-    "gender_label": "الجنس",
-    "male_option": "ذكر",
-    "female_option": "أنثى",
-    "profile_image_label": "صورة الملف الشخصي",
-    "drop_zone_text": "اسحب وأفلت أو انقر للتحميل",
-    "cancel_button": "إلغاء",
-    "save_button": "حفظ",
+    "header": "تعديل الملف الشخصي",
+    "modal_subtitle": "تعديل معلومات الملف الشخصي",
+    "labels": {
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "birth_date": "تاريخ الميلاد",
+      "gender": "الجنس",
+      "diagnosis": "التشخيص",
+      "notes": "ملاحظات",
+      "image": "صورة الملف الشخصي"
+    },
+    "placeholders": {
+      "first_name": "أدخل الاسم الأول",
+      "last_name": "أدخل اسم العائلة",
+      "birth_date": "أدخل تاريخ الميلاد",
+      "diagnosis": "أدخل التشخيص (اختياري)",
+      "notes": "أدخل ملاحظات (اختياري)"
+    },
+    "buttons": {
+      "cancel": "إلغاء",
+      "update": "تحديث"
+    },
+    "gender_options": {
+      "male": "ذكر",
+      "female": "أنثى"
+    },
+    "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار",
     "required_fields_error": "الاسم الأول، الاسم الأخير، وتاريخ الميلاد مطلوبة."
   },
   "profile_messages": {
@@ -106,11 +130,17 @@
       "home": "الرئيسية",
       "evaluation": "التقييم",
       "objectives": "الأهداف",
-      "strategies": "الاستراتيجيات"
+      "strategies": "الاستراتيجيات",
+      "configuration": "الإعدادات",
+      "explorer": "استكشاف",
+      "resume": "ملخص",
+      "calendar": "التقويم"
     },
     "buttons": {
       "sign_up": "التسجيل",
       "sign_in": "تسجيل الدخول",
+      "logout": "تسجيل الخروج",
+      "change_profile": "تغيير الملف الشخصي",
       "change_account": "تغيير الحساب",
       "change_account_confirm": {
         "title": "تغيير الحساب",
@@ -523,6 +553,10 @@
     "filter_label": "تصفية حسب حالة العناصر:",
     "filter_placeholder": "اختر حالة",
     "filters": {
+      "title": "المرشحات",
+      "toggle_filters": "إظهار/إخفاء المرشحات",
+      "basic_filters": "المرشحات الأساسية",
+      "date_filters": "مرشحات النطاق الزمني",
       "status": "الحالة",
       "module": "الوحدة",
       "item_status": {
@@ -530,6 +564,17 @@
         "acquired": "مكتسب",
         "not_acquired": "غير مكتسب",
         "partial": "جزئي"
+      },
+      "start_date": "تاريخ البداية",
+      "end_date": "تاريخ النهاية",
+      "start_date_placeholder": "اختر تاريخ البداية",
+      "end_date_placeholder": "اختر تاريخ النهاية",
+      "apply_filters": "تطبيق المرشحات",
+      "reset_filters": "إعادة تعيين المرشحات",
+      "date_error": {
+        "start_date_required": "تاريخ البداية مطلوب عند تحديد تاريخ النهاية.",
+        "end_date_required": "تاريخ النهاية مطلوب عند تحديد تاريخ البداية.",
+        "start_after_end": "يجب أن يكون تاريخ البداية قبل تاريخ النهاية."
       }
     },
     "export_button": "تصدير",
@@ -632,7 +677,8 @@
       "status_options": {
         "ACQUIS": "مكتسبة",
         "PARTIEL": "جزئية",
-        "NON_ACQUIS": "غير مكتسبة"
+        "NON_ACQUIS": "غير مكتسبة",
+        "NON_COTE": "غير مقيمة"
       },
       "comment_label": "ملاحظات:",
       "comment_placeholder": "ملاحظات إضافية حول هذه المهارة...",
@@ -645,7 +691,8 @@
       "submit": "إرسال",
       "view_description": "عرض الوصف",
       "add_comment": "إضافة تعليق",
-      "add_strategy": "إضافة استراتيجية"
+      "add_strategy": "إضافة استراتيجية",
+      "historique": "التاريخ"
     },
     "tap_to_read_more": "انقر لقراءة المزيد",
     "view_mode": {
@@ -667,6 +714,29 @@
       "save": "حفظ",
       "saving": "جاري الحفظ...",
       "strategy_update_error": "خطأ في تحديث الاستراتيجية"
+    },
+    "historique": {
+      "title": "تاريخ الإجابات",
+      "loading": "جارٍ تحميل التاريخ...",
+      "no_data": "لا يوجد تاريخ متاح لهذا العنصر",
+      "status": "الحالة",
+      "date": "التاريخ",
+      "comment": "التعليق",
+      "load_error": "خطأ في تحميل التاريخ",
+      "stats": {
+        "acquis": "مكتسب",
+        "partiel": "جزئي",
+        "non_acquis": "غير مكتسب",
+        "total": "الإجمالي",
+        "trend": {
+          "up": "تحسن",
+          "down": "تراجع",
+          "stable": "مستقر"
+        }
+      },
+      "chart": {
+        "title": "تطور الحالة"
+      }
     }
   },
   "explore": {
@@ -819,6 +889,7 @@
     "add_domain_dialog": {
       "header_add": "إضافة مجال",
       "header_edit": "تعديل المجال",
+      "modal_subtitle": "إنشاء أو تعديل مجال لتنظيم العناصر الخاصة بك",
       "labels": {
         "title": "العنوان",
         "description": "الوصف"
@@ -841,6 +912,7 @@
     "add_item_dialog": {
       "header_add": "إضافة عنصر",
       "header_edit": "تعديل العنصر",
+      "modal_subtitle": "إنشاء أو تعديل عنصر تقييم مع حالته",
       "labels": {
         "title": "العنوان",
         "description": "الوصف",
@@ -926,6 +998,7 @@
     "add_category_dialog": {
       "header_add": "إضافة مهارة",
       "header_edit": "تعديل المهارة",
+      "modal_subtitle": "إنشاء أو تعديل مهارة مع معلوماتها متعددة اللغات",
       "labels": {
         "title": "العنوان",
         "title_ar": "العنوان",
@@ -965,6 +1038,7 @@
     },
     "delete_dialog": {
       "header": "تأكيد الحذف",
+      "modal_subtitle": "هذا الإجراء لا رجعة فيه وسيحذف العنصر نهائياً",
       "message": "هل أنت متأكد من حذف الفئة \"{{categoryName}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
       "buttons": {
         "cancel": "إلغاء",
@@ -1015,7 +1089,11 @@
     "skills_content": {
       "competencies_count": "{{count}} مهارات",
       "start_date": "تاريخ البداية",
-      "last_update": "آخر تحديث"
+      "last_update": "آخر تحديث",
+      "no_competencies": {
+        "title": "لم يتم العثور على مهارات",
+        "message": "لم يتم تقييم هذا الملف الشخصي حتى مرة واحدة. يرجى بدء التقييم لرؤية المهارات هنا."
+      }
     },
     "stats_content": {
       "loading": "جاري تحميل الإحصائيات...",
@@ -1041,6 +1119,7 @@
     },
     "add_child_dialog": {
       "header": "إضافة ملف شخصي جديد",
+      "modal_subtitle": "إنشاء ملف شخصي جديد بالمعلومات الأساسية",
       "labels": {
         "first_name": "الاسم الأول",
         "last_name": "اسم العائلة",
@@ -1060,10 +1139,16 @@
       "buttons": {
         "cancel": "إلغاء",
         "add": "إضافة"
-      }
+      },
+      "gender_options": {
+        "male": "ذكر",
+        "female": "أنثى"
+      },
+      "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار"
     },
     "edit_child_dialog": {
       "header": "تعديل الملف الشخصي",
+      "modal_subtitle": "تعديل معلومات الملف الشخصي",
       "labels": {
         "first_name": "الاسم الأول",
         "last_name": "اسم العائلة",
@@ -1083,10 +1168,16 @@
       "buttons": {
         "cancel": "إلغاء",
         "update": "تحديث"
-      }
+      },
+      "gender_options": {
+        "male": "ذكر",
+        "female": "أنثى"
+      },
+      "drop_zone_text": "اسحب وأفلت صورة هنا أو انقر للاختيار"
     },
     "share_profile_dialog": {
       "header": "مشاركة الملف الشخصي",
+      "modal_subtitle": "شارك هذا الملف الشخصي مع مستخدمين آخرين من خلال منحهم الوصول",
       "labels": {
         "email": "بريد المتلقي",
         "access_type": "نوع الوصول"
@@ -1150,6 +1241,10 @@
     "goals": {
       "title": "أهداف العمل",
       "no_goals_found": "لم يتم العثور على أهداف. انقر على \"إضافة هدف جديد\" للبدء!",
+      "no_goals": {
+        "title": "لم يتم العثور على أهداف",
+        "message": "لم يتم تحديد أي أهداف بعد. انقر على \"إضافة هدف جديد\" للبدء!"
+      },
       "add_new_goal": "إضافة هدف جديد",
       "target_date": "التاريخ المستهدف",
       "edit": "تعديل",
@@ -1163,6 +1258,12 @@
         "medium": "متوسطة",
         "low": "منخفضة"
       },
+      "repetition_type": {
+        "none": "بدون",
+        "daily": "يومي",
+        "weekly": "أسبوعي",
+        "monthly": "شهري"
+      },
       "messages": {
         "quiz_not_available": "سيكون الاختبار لهذا الهدف متاحًا اعتبارًا من {{date}}.",
         "quiz_available": "انقر لإجراء الاختبار.",
@@ -1174,6 +1275,7 @@
     "notes": {
       "title": "الملاحظات والمراقبات",
       "filter_title": "تصفية الملاحظات",
+      "toggle_filters": "إظهار/إخفاء المرشحات",
       "search_content": "البحث حسب المحتوى",
       "search_placeholder": "بحث...",
       "importance_filter": "الأهمية",
@@ -1189,6 +1291,10 @@
       "unknown": "غير معروف",
       "reset_filters": "إعادة تعيين المرشحات",
       "loading": "جارٍ تحميل الملاحظات...",
+      "no_notes": {
+        "title": "لم يتم العثور على ملاحظات",
+        "message": "لم تتم إضافة أي ملاحظات بعد. انقر على \"إضافة ملاحظة جديدة\" للبدء!"
+      },
       "no_notes_found": "لم يتم العثور على ملاحظات تطابق معاييرك. جرب تعديل المرشحات!",
       "important_note": "ملاحظة مهمة من",
       "observation": "مراقبة من",
@@ -1200,8 +1306,11 @@
       "cancel": "إلغاء",
       "save_changes": "حفظ التغييرات",
       "add_new_note": "إضافة ملاحظة جديدة",
+      "modal_subtitle": "أضف ملاحظة أو مراقبة مهمة",
+      "note_content_label": "محتوى الملاحظة",
       "note_placeholder": "اكتب ملاحظاتك هنا...",
       "important_note_checkbox": "ملاحظة مهمة",
+      "important_note_description": "وضع علامة على هذه الملاحظة كمهمة",
       "save": "حفظ",
       "messages": {
         "content_empty": "لا يمكن أن يكون محتوى الملاحظة فارغًا!",
@@ -1238,6 +1347,10 @@
       "items": "عناصر",
       "domains_with_partiel_items": "المجالات مع العناصر الجزئية",
       "no_domains_with_partiel": "لم يتم العثور على مجالات مع عناصر جزئية",
+      "no_strategies": {
+        "title": "لم يتم العثور على استراتيجيات",
+        "message": "لم يتم العثور على مجالات مع عناصر جزئية. أكمل بعض التقييمات لرؤية الاستراتيجيات هنا."
+      },
       "filter": {
         "all": "الكل",
         "placeholder": "تصفية حسب الحالة",
@@ -1364,11 +1477,13 @@
       "add": "إضافة هدف جديد",
       "edit": "تعديل الهدف"
     },
+    "modal_subtitle": "حدد هدف عمل جديد مع تاريخ مستهدف وأولوية",
     "labels": {
       "title": "عنوان الهدف",
       "description": "الوصف",
       "target_date": "التاريخ المستهدف",
       "priority": "الأولوية",
+      "repetition_type": "نوع التكرار",
       "category": "الفئة",
       "domain": "المجال",
       "sub_objectives": "الأهداف الفرعية"
@@ -1393,13 +1508,15 @@
       "description_required": "الوصف مطلوب",
       "target_date_required": "التاريخ المستهدف مطلوب",
       "priority_required": "الأولوية مطلوبة",
+      "repetition_type_required": "نوع التكرار مطلوب",
       "category_required": "الفئة مطلوبة",
       "domain_required": "المجال مطلوب"
     },
     "messages": {
       "no_categories": "لا توجد فئات متاحة. تأكد من وجود فئات مرتبطة بملفك الشخصي",
       "select_category_first": "يرجى اختيار فئة أولاً",
-      "no_domains": "لا توجد مجالات متاحة للفئة المختارة"
+      "no_domains": "لا توجد مجالات متاحة للفئة المختارة",
+      "repetition_type_help": "حدد عدد مرات تكرار هذا الهدف. سيتم تحديث الهدف تلقائيًا بناءً على النوع المحدد."
     },
     "success_messages": {
       "goal_updated": "تم تحديث الهدف!",
@@ -1416,6 +1533,12 @@
       "high": "عالية",
       "medium": "متوسطة",
       "low": "منخفضة"
+    },
+    "repetition_type": {
+      "none": "بدون تكرار",
+      "daily": "يومي",
+      "weekly": "أسبوعي",
+      "monthly": "شهري"
     }
   },
   "calendar": {

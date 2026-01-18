@@ -35,6 +35,8 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
   filterStartDate: string = '';
   filterEndDate: string = '';
   filterAuthorUsername: string = '';
+  isSidebarOpen: boolean = false;
+  showAddNoteModal: boolean = false;
   private searchSubject = new Subject<string>();
   private authorSearchSubject = new Subject<string>();
   private languageSubscription: Subscription;
@@ -171,6 +173,17 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
     this.loadNotes();
   }
 
+  openAddNoteModal(): void {
+    this.showAddNoteModal = true;
+  }
+
+  closeAddNoteModal(): void {
+    this.showAddNoteModal = false;
+    // Reset form when closing
+    this.newNoteContent = '';
+    this.isImportantNote = false;
+  }
+
   onSaveNote(): void {
     if (!this.newNoteContent.trim()) {
       alert(this.translate.instant('dashboard_tabs.notes.messages.content_empty'));
@@ -190,6 +203,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
       next: (createdNote) => {
         this.newNoteContent = '';
         this.isImportantNote = false;
+        this.closeAddNoteModal();
         this.loadNotes();
       },
       error: (error) => {
@@ -302,5 +316,13 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
   getAuthorText(authorUsername: string | undefined): string {
     const username = authorUsername || this.translate.instant('dashboard_tabs.notes.unknown');
     return this.translate.instant('dashboard_tabs.notes.by_other', { username });
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
   }
 }

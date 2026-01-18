@@ -140,56 +140,168 @@
   </div>
 </div>
 
-<!-- Add Domain Dialog -->
-<p-dialog [(visible)]="displayAddDomainDialog" [modal]="true" [draggable]="false" [resizable]="false" [styleClass]="'responsive-dialog'">
-  <ng-template pTemplate="header">
-    <div class="custom-dialog-header">
-      <h2>{{ isEditingDomain() ? ('items.add_domain_dialog.header_edit' | translate) : ('items.add_domain_dialog.header_add' | translate) }}</h2>
+<!-- Add/Edit Domain Modal -->
+<div *ngIf="displayAddDomainDialog" class="eval-modal-overlay" (click)="closeDomainDialog()">
+  <div class="eval-modal" (click)="$event.stopPropagation()">
+    <div class="eval-modal-header">
+      <div class="eval-modal-header-content">
+        <div class="eval-modal-icon-wrapper">
+          <i class="fas fa-folder"></i>
+        </div>
+        <div class="eval-modal-title-wrapper">
+          <h3 class="eval-modal-title">
+            {{ isEditingDomain() ? ('items.add_domain_dialog.header_edit' | translate) : ('items.add_domain_dialog.header_add' | translate) }}
+          </h3>
+          <p class="eval-modal-subtitle">{{ 'items.add_domain_dialog.modal_subtitle' | translate }}</p>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="eval-modal-close-btn"
+        (click)="closeDomainDialog()"
+        [attr.aria-label]="'items.add_domain_dialog.buttons.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-  </ng-template>
-  <div class="dialog-content">
-    <div class="field">
-      <label for="domainName">{{ 'items.add_domain_dialog.labels.title' | translate }}</label>
-      <input pInputText id="domainName" [(ngModel)]="newDomain.name" [placeholder]="'items.add_domain_dialog.placeholders.title' | translate" />
-    </div>
-    <div class="field">
-      <label for="domainDesc">{{ 'items.add_domain_dialog.labels.description' | translate }}</label>
-      <input pInputText id="domainDesc" [(ngModel)]="newDomain.description" [placeholder]="'items.add_domain_dialog.placeholders.description' | translate" />
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-    <p-button [label]="'items.add_domain_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="closeDomainDialog()"></p-button>
-    <p-button [label]="isEditingDomain() ? ('items.add_domain_dialog.buttons.update' | translate) : ('items.add_domain_dialog.buttons.add' | translate)" styleClass="p-button-primary" (click)="isEditingDomain() ? updateDomain() : addDomain()" [style]="{ color: 'white' }"></p-button>
-  </ng-template>
-</p-dialog>
 
-<!-- Edit Item Dialog -->
-<p-dialog [(visible)]="displayAddItemDialog" [modal]="true" [draggable]="false" [resizable]="false" [styleClass]="'responsive-dialog'">
-  <ng-template pTemplate="header">
-    <div class="custom-dialog-header">
-      <h2>{{ isEditingItem() ? ('items.add_item_dialog.header_edit' | translate) : ('items.add_item_dialog.header_add' | translate) }}</h2>
-    </div>
-  </ng-template>
-  <div class="dialog-content">
-    <div class="field">
-      <label for="itemName">{{ 'items.add_item_dialog.labels.title' | translate }}</label>
-      <input pInputText id="itemName" [(ngModel)]="newItem.name" [placeholder]="'items.add_item_dialog.placeholders.title' | translate" />
-    </div>
-    <div class="field">
-      <label for="itemDesc">{{ 'items.add_item_dialog.labels.description' | translate }}</label>
-      <input pInputText id="itemDesc" [(ngModel)]="newItem.description" [placeholder]="'items.add_item_dialog.placeholders.description' | translate" />
-    </div>
-    <div class="field">
-      <label for="itemEtat">{{ 'items.add_item_dialog.labels.status' | translate }}</label>
-      <p-dropdown id="itemEtat" 
-                 [options]="statusOptions"
-                 [(ngModel)]="newItem.etat" 
-                 [placeholder]="'items.add_item_dialog.placeholders.status' | translate">
-      </p-dropdown>
+    <div class="eval-modal-body">
+      <form (ngSubmit)="isEditingDomain() ? updateDomain() : addDomain()">
+        <div class="eval-form-group">
+          <label for="domainName" class="eval-form-label">
+            <i class="fas fa-heading"></i>
+            <span>{{ 'items.add_domain_dialog.labels.title' | translate }}</span>
+          </label>
+          <input 
+            id="domainName" 
+            type="text" 
+            [(ngModel)]="newDomain.name" 
+            name="domainName"
+            class="eval-form-input"
+            [placeholder]="'items.add_domain_dialog.placeholders.title' | translate" 
+            required />
+        </div>
+
+        <div class="eval-form-group">
+          <label for="domainDesc" class="eval-form-label">
+            <i class="fas fa-align-left"></i>
+            <span>{{ 'items.add_domain_dialog.labels.description' | translate }}</span>
+          </label>
+          <input 
+            id="domainDesc" 
+            type="text" 
+            [(ngModel)]="newDomain.description" 
+            name="domainDesc"
+            class="eval-form-input"
+            [placeholder]="'items.add_domain_dialog.placeholders.description' | translate" />
+        </div>
+
+        <div class="eval-modal-footer">
+          <button 
+            type="button"
+            class="eval-modal-btn-secondary"
+            (click)="closeDomainDialog()">
+            <i class="fas fa-times"></i>
+            <span>{{ 'items.add_domain_dialog.buttons.cancel' | translate }}</span>
+          </button>
+          <button 
+            type="submit"
+            class="eval-modal-btn-primary">
+            <i class="fas" [class.fa-plus]="!isEditingDomain()" [class.fa-save]="isEditingDomain()"></i>
+            <span>{{ isEditingDomain() ? ('items.add_domain_dialog.buttons.update' | translate) : ('items.add_domain_dialog.buttons.add' | translate) }}</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-  <ng-template pTemplate="footer">
-    <p-button [label]="'items.add_item_dialog.buttons.cancel' | translate" styleClass="p-button-text" (click)="closeItemDialog()"></p-button>
-    <p-button [label]="isEditingItem() ? ('items.add_item_dialog.buttons.update' | translate) : ('items.add_item_dialog.buttons.add' | translate)" styleClass="p-button-primary" (click)="isEditingItem() ? updateItem() : addItem()" [style]="{ color: 'white' }"></p-button>
-  </ng-template>
-</p-dialog>
+</div>
+
+<!-- Add/Edit Item Modal -->
+<div *ngIf="displayAddItemDialog" class="eval-modal-overlay" (click)="closeItemDialog()">
+  <div class="eval-modal" (click)="$event.stopPropagation()">
+    <div class="eval-modal-header">
+      <div class="eval-modal-header-content">
+        <div class="eval-modal-icon-wrapper">
+          <i class="fas fa-list"></i>
+        </div>
+        <div class="eval-modal-title-wrapper">
+          <h3 class="eval-modal-title">
+            {{ isEditingItem() ? ('items.add_item_dialog.header_edit' | translate) : ('items.add_item_dialog.header_add' | translate) }}
+          </h3>
+          <p class="eval-modal-subtitle">{{ 'items.add_item_dialog.modal_subtitle' | translate }}</p>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="eval-modal-close-btn"
+        (click)="closeItemDialog()"
+        [attr.aria-label]="'items.add_item_dialog.buttons.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="eval-modal-body">
+      <form (ngSubmit)="isEditingItem() ? updateItem() : addItem()">
+        <div class="eval-form-group">
+          <label for="itemName" class="eval-form-label">
+            <i class="fas fa-heading"></i>
+            <span>{{ 'items.add_item_dialog.labels.title' | translate }}</span>
+          </label>
+          <input 
+            id="itemName" 
+            type="text" 
+            [(ngModel)]="newItem.name" 
+            name="itemName"
+            class="eval-form-input"
+            [placeholder]="'items.add_item_dialog.placeholders.title' | translate" 
+            required />
+        </div>
+
+        <div class="eval-form-group">
+          <label for="itemDesc" class="eval-form-label">
+            <i class="fas fa-align-left"></i>
+            <span>{{ 'items.add_item_dialog.labels.description' | translate }}</span>
+          </label>
+          <input 
+            id="itemDesc" 
+            type="text" 
+            [(ngModel)]="newItem.description" 
+            name="itemDesc"
+            class="eval-form-input"
+            [placeholder]="'items.add_item_dialog.placeholders.description' | translate" />
+        </div>
+
+        <div class="eval-form-group">
+          <label for="itemEtat" class="eval-form-label">
+            <i class="fas fa-check-circle"></i>
+            <span>{{ 'items.add_item_dialog.labels.status' | translate }}</span>
+          </label>
+          <select 
+            id="itemEtat" 
+            [(ngModel)]="newItem.etat" 
+            name="itemEtat"
+            class="eval-form-select"
+            required>
+            <option [value]="''" disabled>{{ 'items.add_item_dialog.placeholders.status' | translate }}</option>
+            <option *ngFor="let option of statusOptions" [value]="option.value">{{ option.label }}</option>
+          </select>
+        </div>
+
+        <div class="eval-modal-footer">
+          <button 
+            type="button"
+            class="eval-modal-btn-secondary"
+            (click)="closeItemDialog()">
+            <i class="fas fa-times"></i>
+            <span>{{ 'items.add_item_dialog.buttons.cancel' | translate }}</span>
+          </button>
+          <button 
+            type="submit"
+            class="eval-modal-btn-primary">
+            <i class="fas" [class.fa-plus]="!isEditingItem()" [class.fa-save]="isEditingItem()"></i>
+            <span>{{ isEditingItem() ? ('items.add_item_dialog.buttons.update' | translate) : ('items.add_item_dialog.buttons.add' | translate) }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

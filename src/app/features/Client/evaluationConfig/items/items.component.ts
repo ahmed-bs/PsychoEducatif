@@ -37,7 +37,7 @@ interface DomainWithUI extends ProfileDomain {
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
   providers: [MessageService],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.None,
 })
 export class ItemsComponent implements OnInit, OnDestroy {
   category: ProfileCategory | null = null;

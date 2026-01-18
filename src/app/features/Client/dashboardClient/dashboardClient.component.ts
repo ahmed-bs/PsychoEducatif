@@ -395,8 +395,11 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   ) {
     this.accesSelectionne = this.optionsAcces[0];
     
-    // Initialize current language
-    this.currentLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    // Initialize current language and set default
+    const savedLang = localStorage.getItem('lang') || localStorage.getItem('selectedLanguage') || 'fr';
+    this.translate.setDefaultLang('fr');
+    this.translate.use(savedLang);
+    this.currentLanguage = savedLang;
     
     // Subscribe to language changes
     this.languageSubscription = this.sharedService.languageChange$.subscribe(lang => {
@@ -412,12 +415,18 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       if (this.statistics && this.categories.length === 0 && this.selectedChild?.id) {
         this.loadCategories(this.selectedChild.id);
       }
-      // Force change detection
+      // Force change detection to update translations
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }
 
   ngOnInit() {
+    // Initialize translation
+    const savedLang = localStorage.getItem('lang') || localStorage.getItem('selectedLanguage') || 'fr';
+    this.translate.use(savedLang);
+    this.currentLanguage = savedLang;
+    
     const user = localStorage.getItem('user');
     this.parentId = user ? Number(JSON.parse(user).id) : 0;
 
@@ -429,6 +438,17 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     } else {
       this.currentProfileIdForModal = this.parentId;
     }
+
+    // Check for tab query parameter to set active tab
+    this.route.queryParams.subscribe(params => {
+      if (params['tab'] && this.tabs.some(tab => tab.id === params['tab'])) {
+        this.activeTab = params['tab'];
+        // Load statistics if stats tab is selected
+        if (this.activeTab === 'stats' && this.selectedChild?.id && !this.statistics) {
+          this.loadStatistics(this.selectedChild.id);
+        }
+      }
+    });
 
     this.loadChildren();
     this.loadGoals();
@@ -494,40 +514,6 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       this.goals.push(savedGoal);
     }
     this.closeGoalFormModal();
-  }
-
-  onToggleSubObjective({ goalId, subObjectiveId, newStatus }: { goalId: number; subObjectiveId: number; newStatus: boolean }): void {
-    const goalIndex = this.goals.findIndex(g => g.id === goalId);
-
-    if (goalIndex !== -1) {
-      const goalToUpdate = { ...this.goals[goalIndex] };
-
-      const subObjectiveIndex = goalToUpdate.sub_objectives.findIndex((sub: any) => sub.id === subObjectiveId);
-
-      if (subObjectiveIndex !== -1) {
-        goalToUpdate.sub_objectives[subObjectiveIndex] = {
-          ...goalToUpdate.sub_objectives[subObjectiveIndex],
-          is_completed: newStatus
-        };
-
-        this.goals[goalIndex] = goalToUpdate;
-
-        this.goalService.updateGoal(goalToUpdate.id, goalToUpdate).subscribe({
-          next: (response) => {
-            console.log('Sub-objective status updated successfully on backend:', response);
-          },
-          error: (error) => {
-            console.error('Error updating sub-objective status:', error);
-            this.loadGoals();
-            console.error('Failed to update sub-objective. Please try again.');
-          }
-        });
-      } else {
-        console.warn(`Sub-objective with ID ${subObjectiveId} not found in goal ${goalId}.`);
-      }
-    } else {
-      console.warn(`Goal with ID ${goalId} not found.`);
-    }
   }
   
   onDeleteGoal(goalId: number): void {
@@ -600,6 +586,17 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     return value.toFixed(2);
   }
 
+  getTabIcon(tabId: string): string {
+    const iconMap: { [key: string]: string } = {
+      'skills': 'fas fa-star',
+      'goals': 'fas fa-bullseye',
+      'strategies': 'fas fa-lightbulb',
+      'notes': 'fas fa-sticky-note',
+      'stats': 'fas fa-chart-bar'
+    };
+    return iconMap[tabId] || 'fas fa-circle';
+  }
+
   switchTab(tabId: string): void {
     this.activeTab = tabId;
     
@@ -611,6 +608,34 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
 
   isTabActive(tabId: string): boolean {
     return this.activeTab === tabId;
+  }
+
+  getNoCompetenciesTitle(): string {
+    const key = 'dashboard.skills_content.no_competencies.title';
+    try {
+      const translation = this.translate.instant(key);
+      // If translation returns the key itself, it means translation wasn't found
+      if (translation && translation !== key) {
+        return translation;
+      }
+    } catch (e) {
+      console.warn('Translation error for no_competencies.title:', e);
+    }
+    return 'No Competencies Found';
+  }
+
+  getNoCompetenciesMessage(): string {
+    const key = 'dashboard.skills_content.no_competencies.message';
+    try {
+      const translation = this.translate.instant(key);
+      // If translation returns the key itself, it means translation wasn't found
+      if (translation && translation !== key) {
+        return translation;
+      }
+    } catch (e) {
+      console.warn('Translation error for no_competencies.message:', e);
+    }
+    return 'This profile hasn\'t been evaluated even once. Please start an evaluation to see competencies here.';
   }
 
   loadChildren() {
@@ -669,7 +694,19 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
         this.loadCategories(childId);
         this.currentProfileIdForModal = childId;
         this.loadGoals();
-        this.loadStatistics(childId);
+        
+        // Check for tab query parameter after child is loaded
+        const tabParam = this.route.snapshot.queryParams['tab'];
+        if (tabParam && this.tabs.some(tab => tab.id === tabParam)) {
+          this.activeTab = tabParam;
+          // Load statistics if stats tab is selected
+          if (this.activeTab === 'stats' && child.id && !this.statistics) {
+            this.loadStatistics(child.id);
+          }
+        } else {
+          // Default: load statistics if no specific tab
+          this.loadStatistics(childId);
+        }
       },
       error: (err) => {
         Swal.fire('Erreur', 'Impossible de charger le profil.', 'error');

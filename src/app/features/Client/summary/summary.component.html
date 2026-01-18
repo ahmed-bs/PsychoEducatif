@@ -30,79 +30,192 @@
     </div>
   </div> -->
 
-  <!-- Controls Section -->
-  <div class="controls-section">
-    <div class="controls-content">
+  <!-- Filter Toggle Button -->
+  <button 
+    type="button"
+    class="filter-toggle-btn"
+    (click)="toggleSidebar()"
+    [class.active]="isSidebarOpen"
+    pTooltip="{{ 'skills_summary.filters.toggle_filters' | translate }}"
+    tooltipPosition="left">
+    <i class="pi" [class.pi-filter]="!isSidebarOpen" [class.pi-times]="isSidebarOpen"></i>
+  </button>
+
+  <!-- Sidebar Overlay -->
+  <div 
+    class="sidebar-overlay" 
+    *ngIf="isSidebarOpen"
+    (click)="closeSidebar()">
+  </div>
+
+  <!-- Filter Sidebar -->
+  <div class="filter-sidebar" [class.open]="isSidebarOpen">
+    <div class="sidebar-header">
+      <h3 class="sidebar-title">
+        <i class="pi pi-filter"></i>
+        {{ 'skills_summary.filters.title' | translate }}
+      </h3>
+      <button 
+        type="button"
+        class="sidebar-close-btn"
+        (click)="closeSidebar()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="sidebar-content">
       <div class="filters-container">
-        <div class="filter-section">
-          <label for="status-filter" class="filter-label">
-            {{ 'skills_summary.filters.status' | translate }}:
-          </label>
-          <select 
-            id="status-filter" 
-            class="filter-select"
-            [(ngModel)]="selectedFilterStatus" 
-            (change)="applyFilter()">
-            <option *ngFor="let status of filterStatuses" [value]="status.value">
-              {{ status.label }}
-            </option>
-          </select>
+        <!-- Basic Filters Group -->
+        <div class="filters-group">
+          <h4 class="filters-group-title">{{ 'skills_summary.filters.basic_filters' | translate }}</h4>
+          <div class="filters-row">
+            <div class="filter-section">
+              <label for="status-filter" class="filter-label">
+                {{ 'skills_summary.filters.status' | translate }}:
+              </label>
+              <select 
+                id="status-filter" 
+                class="filter-select"
+                [(ngModel)]="selectedFilterStatus">
+                <option *ngFor="let status of filterStatuses" [value]="status.value">
+                  {{ status.label }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-section">
+              <label for="module-filter" class="filter-label">
+                {{ 'skills_summary.filters.module' | translate }}:
+              </label>
+              <select 
+                id="module-filter" 
+                class="filter-select"
+                [(ngModel)]="selectedFilterModule">
+                <option *ngFor="let module of filterModules" [value]="module.value">
+                  {{ module.label }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-section">
+              <label for="item-status-filter" class="filter-label">
+                {{ 'skills_summary.filters.item_status.label' | translate }}:
+              </label>
+              <select 
+                id="item-status-filter" 
+                class="filter-select"
+                [(ngModel)]="selectedFilterItemStatus">
+                <option *ngFor="let itemStatus of filterItemStatuses" [value]="itemStatus.value">
+                  {{ itemStatus.label }}
+                </option>
+              </select>
+            </div>
+          </div>
         </div>
 
-         <div class="filter-section">
-           <label for="module-filter" class="filter-label">
-             {{ 'skills_summary.filters.module' | translate }}:
-           </label>
-           <select 
-             id="module-filter" 
-             class="filter-select"
-             [(ngModel)]="selectedFilterModule" 
-             (change)="applyFilter()">
-             <option *ngFor="let module of filterModules" [value]="module.value">
-               {{ module.label }}
-             </option>
-           </select>
-         </div>
+        <!-- Date Filters Group -->
+        <div class="filters-group date-filters-group">
+          <h4 class="filters-group-title">{{ 'skills_summary.filters.date_filters' | translate }}</h4>
+          <div class="filters-row date-filters-row">
+            <div class="filter-section date-filter-section">
+              <label for="start-date-filter" class="filter-label">
+                {{ 'skills_summary.filters.start_date' | translate }}:
+              </label>
+              <div class="date-picker-wrapper">
+                <p-calendar 
+                  id="start-date-filter"
+                  [(ngModel)]="startDate"
+                  (onSelect)="onDateChange()"
+                  (onClear)="onDateChange()"
+                  [showIcon]="true"
+                  dateFormat="yy-mm-dd"
+                  [showTime]="true"
+                  [hourFormat]="'24'"
+                  [placeholder]="'skills_summary.filters.start_date_placeholder' | translate"
+                  inputStyleClass="date-filter-input"
+                  [inputStyle]="{'width': '100%'}"
+                  [appendTo]="'body'"
+                  [baseZIndex]="10000">
+                </p-calendar>
+              </div>
+            </div>
 
-         <div class="filter-section">
-           <label for="item-status-filter" class="filter-label">
-             {{ 'skills_summary.filters.item_status.label' | translate }}:
-           </label>
-           <select 
-             id="item-status-filter" 
-             class="filter-select"
-             [(ngModel)]="selectedFilterItemStatus" 
-             (change)="applyFilter()">
-             <option *ngFor="let itemStatus of filterItemStatuses" [value]="itemStatus.value">
-               {{ itemStatus.label }}
-             </option>
-           </select>
-         </div>
-       </div>
+            <div class="filter-section date-filter-section">
+              <label for="end-date-filter" class="filter-label">
+                {{ 'skills_summary.filters.end_date' | translate }}:
+              </label>
+              <div class="date-picker-wrapper">
+                <p-calendar 
+                  id="end-date-filter"
+                  [(ngModel)]="endDate"
+                  (onSelect)="onDateChange()"
+                  (onClear)="onDateChange()"
+                  [showIcon]="true"
+                  dateFormat="yy-mm-dd"
+                  [showTime]="true"
+                  [hourFormat]="'24'"
+                  [placeholder]="'skills_summary.filters.end_date_placeholder' | translate"
+                  inputStyleClass="date-filter-input"
+                  [inputStyle]="{'width': '100%'}"
+                  [appendTo]="'body'"
+                  [baseZIndex]="10000">
+                </p-calendar>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Date Filter Error Message -->
+          <div *ngIf="dateFilterError" class="date-filter-error">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>{{ dateFilterError }}</span>
+          </div>
+        </div>
+      </div>
 
-      <div class="export-section">
-        <button
-          pButton
+      <!-- Apply Filters Button -->
+      <div class="filter-actions">
+        <button 
           type="button"
-          icon="pi pi-file-excel"
-          (click)="exportExcel()"
-          [disabled]="categoryDataForTable.length === 0"
-          class="export-btn excel-btn"
-          pTooltip="{{ 'skills_summary.export.excel' | translate }}"
-          tooltipPosition="top"
-        ></button>
-        <button
-          pButton
+          class="apply-filters-btn"
+          (click)="onApplyFilters()">
+          <i class="pi pi-filter"></i>
+          {{ 'skills_summary.filters.apply_filters' | translate }}
+        </button>
+        <button 
           type="button"
-          icon="pi pi-file-pdf"
-          (click)="exportPdf()"
-          [disabled]="categoryDataForTable.length === 0"
-          class="export-btn pdf-btn"
-          pTooltip="{{ 'skills_summary.export.pdf' | translate }}"
-          tooltipPosition="top"
-        ></button>
+          class="reset-filters-btn"
+          (click)="resetFilters()">
+          <i class="pi pi-refresh"></i>
+          {{ 'skills_summary.filters.reset_filters' | translate }}
+        </button>
       </div>
     </div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="main-content-wrapper" [class.sidebar-open]="isSidebarOpen">
+    <!-- Export Section -->
+    <div class="export-section">
+    <button
+      pButton
+      type="button"
+      icon="pi pi-file-excel"
+      (click)="exportExcel()"
+      [disabled]="categoryDataForTable.length === 0"
+      class="export-btn excel-btn"
+      pTooltip="{{ 'skills_summary.export.excel' | translate }}"
+      tooltipPosition="top"
+    ></button>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-file-pdf"
+      (click)="exportPdf()"
+      [disabled]="categoryDataForTable.length === 0"
+      class="export-btn pdf-btn"
+      pTooltip="{{ 'skills_summary.export.pdf' | translate }}"
+      tooltipPosition="top"
+    ></button>
   </div>
 
   <!-- Desktop Table View (hidden on mobile) -->
@@ -482,5 +595,6 @@
         styleClass="mobile-paginator">
       </p-paginator>
     </div>
+  </div>
   </div>
 </div>

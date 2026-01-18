@@ -9,39 +9,63 @@
     "add_child_button": "+"
   },
   "add_child_dialog": {
-    "header": "Ajouter un enfant",
-    "first_name_label": "Prénom",
-    "first_name_placeholder": "Prénom",
-    "last_name_label": "Nom de famille",
-    "last_name_placeholder": "Nom de famille",
-    "birth_date_label": "Date de naissance",
-    "diagnosis_label": "Diagnostic",
-    "diagnosis_placeholder": "Diagnostic",
-    "gender_label": "Genre",
-    "male_option": "Homme",
-    "female_option": "Femme",
-    "profile_image_label": "Image de profil",
-    "drop_zone_text": "Glisser-déposer ou cliquer pour télécharger",
-    "cancel_button": "Annuler",
-    "add_button": "Ajouter",
+    "header": "Ajouter un nouveau profil",
+    "modal_subtitle": "Créez un nouveau profil avec les informations de base",
+    "labels": {
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "birth_date": "Date de naissance",
+      "gender": "Genre",
+      "diagnosis": "Diagnostic",
+      "notes": "Notes",
+      "image": "Image de profil"
+    },
+    "placeholders": {
+      "first_name": "Entrez le prénom",
+      "last_name": "Entrez le nom",
+      "birth_date": "Entrez la date de naissance",
+      "diagnosis": "Entrez le diagnostic (facultatif)",
+      "notes": "Entrez des notes (facultatif)"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "add": "Ajouter"
+    },
+    "gender_options": {
+      "male": "Masculin",
+      "female": "Féminin"
+    },
+    "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner",
     "required_fields_error": "Prénom, nom de famille et date de naissance sont obligatoires."
   },
   "edit_child_dialog": {
-    "header": "Modifier un enfant",
-    "first_name_label": "Prénom",
-    "first_name_placeholder": "Prénom",
-    "last_name_label": "Nom de famille",
-    "last_name_placeholder": "Nom de famille",
-    "birth_date_label": "Date de naissance",
-    "diagnosis_label": "Diagnostic",
-    "diagnosis_placeholder": "Diagnostic",
-    "gender_label": "Genre",
-    "male_option": "Homme",
-    "female_option": "Femme",
-    "profile_image_label": "Image de profil",
-    "drop_zone_text": "Glisser-déposer ou cliquer pour télécharger",
-    "cancel_button": "Annuler",
-    "save_button": "Enregistrer",
+    "header": "Modifier le profil",
+    "modal_subtitle": "Modifiez les informations du profil",
+    "labels": {
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "birth_date": "Date de naissance",
+      "gender": "Genre",
+      "diagnosis": "Diagnostic",
+      "notes": "Notes",
+      "image": "Image de profil"
+    },
+    "placeholders": {
+      "first_name": "Entrez le prénom",
+      "last_name": "Entrez le nom",
+      "birth_date": "Entrez la date de naissance",
+      "diagnosis": "Entrez le diagnostic (facultatif)",
+      "notes": "Entrez des notes (facultatif)"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "update": "Mettre à jour"
+    },
+    "gender_options": {
+      "male": "Masculin",
+      "female": "Féminin"
+    },
+    "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner",
     "required_fields_error": "Prénom, nom de famille et date de naissance sont obligatoires."
   },
   "profile_messages": {
@@ -106,11 +130,17 @@
       "home": "Accueil",
       "evaluation": "Évaluation",
       "objectives": "Objectifs",
-      "strategies": "Stratégies"
+      "strategies": "Stratégies",
+      "configuration": "Configuration",
+      "explorer": "Explorer",
+      "resume": "Résumé",
+      "calendar": "Calendrier"
     },
     "buttons": {
       "sign_up": "Sign Up",
       "sign_in": "Sign In",
+      "logout": "Déconnexion",
+      "change_profile": "Changer de profil",
       "change_account": "Changer de compte",
       "change_account_confirm": {
         "title": "Changer de compte",
@@ -522,6 +552,10 @@
     "filter_label": "Filtrer par Statut des Items :",
     "filter_placeholder": "Sélectionner un statut",
     "filters": {
+      "title": "Filtres",
+      "toggle_filters": "Afficher/Masquer les Filtres",
+      "basic_filters": "Filtres de Base",
+      "date_filters": "Filtres de Période",
       "status": "Statut",
       "module": "Module",
       "item_status": {
@@ -529,6 +563,17 @@
         "acquired": "Acquis",
         "not_acquired": "Non Acquis",
         "partial": "Partiel"
+      },
+      "start_date": "Date de début",
+      "end_date": "Date de fin",
+      "start_date_placeholder": "Sélectionner la date de début",
+      "end_date_placeholder": "Sélectionner la date de fin",
+      "apply_filters": "Appliquer les Filtres",
+      "reset_filters": "Réinitialiser les Filtres",
+      "date_error": {
+        "start_date_required": "La date de début est requise lorsque la date de fin est sélectionnée.",
+        "end_date_required": "La date de fin est requise lorsque la date de début est sélectionnée.",
+        "start_after_end": "La date de début doit être antérieure à la date de fin."
       }
     },
     "export_button": "Exporter",
@@ -631,7 +676,8 @@
       "status_options": {
         "ACQUIS": "Acquis",
         "PARTIEL": "Partiel",
-        "NON_ACQUIS": "Non acquis"
+        "NON_ACQUIS": "Non acquis",
+        "NON_COTE": "Non évaluée"
       },
       "comment_label": "Observations :",
       "comment_placeholder": "Notes complémentaires sur cette compétence...",
@@ -644,7 +690,8 @@
       "submit": "Soumettre",
       "view_description": "Voir la description",
       "add_comment": "Ajouter un commentaire",
-      "add_strategy": "Ajouter une stratégie"
+      "add_strategy": "Ajouter une stratégie",
+      "historique": "Historique"
     },
     "tap_to_read_more": "Appuyez pour lire plus",
     "view_mode": {
@@ -657,6 +704,29 @@
       "subtitle": "{{totalItems}} éléments à évaluer"
     },
 
+    "historique": {
+      "title": "Historique des Réponses",
+      "loading": "Chargement de l'historique...",
+      "no_data": "Aucun historique disponible pour cet élément",
+      "status": "Statut",
+      "date": "Date",
+      "comment": "Commentaire",
+      "load_error": "Erreur lors du chargement de l'historique",
+      "stats": {
+        "acquis": "Acquis",
+        "partiel": "Partiel",
+        "non_acquis": "Non acquis",
+        "total": "Total",
+        "trend": {
+          "up": "Amélioration",
+          "down": "Régression",
+          "stable": "Stable"
+        }
+      },
+      "chart": {
+        "title": "Évolution du statut"
+      }
+    },
     "popup": {
       "title": "Description de la compétence",
       "comment_title": "Ajouter un commentaire",
@@ -852,6 +922,7 @@
     "add_domain_dialog": {
       "header_add": "Ajouter un domaine",
       "header_edit": "Modifier un domaine",
+      "modal_subtitle": "Créez ou modifiez un domaine pour organiser vos items",
       "labels": {
         "title": "Titre",
         "description": "Description"
@@ -874,6 +945,7 @@
     "add_item_dialog": {
       "header_add": "Ajouter un item",
       "header_edit": "Modifier un item",
+      "modal_subtitle": "Créez ou modifiez un item d'évaluation avec son statut",
       "labels": {
         "title": "Titre",
         "description": "Description",
@@ -959,6 +1031,7 @@
     "add_category_dialog": {
       "header_add": "Ajouter une Compétence",
       "header_edit": "Modifier une Compétence",
+      "modal_subtitle": "Créez ou modifiez une compétence avec ses informations multilingues",
       "labels": {
         "title": "Titre",
         "title_ar": "العنوان",
@@ -998,6 +1071,7 @@
     },
     "delete_dialog": {
       "header": "Confirmer la suppression",
+      "modal_subtitle": "Cette action est irréversible et supprimera définitivement l'élément",
       "message": "Êtes-vous sûr de vouloir supprimer la catégorie \"{{categoryName}}\" ? Cette action ne peut pas être annulée.",
       "buttons": {
         "cancel": "Annuler",
@@ -1046,7 +1120,11 @@
     "skills_content": {
       "competencies_count": "{{count}} compétences",
       "start_date": "Date de début",
-      "last_update": "Dernière mise à jour"
+      "last_update": "Dernière mise à jour",
+      "no_competencies": {
+        "title": "Aucune Compétence Trouvée",
+        "message": "Ce profil n'a pas été évalué même une seule fois. Veuillez commencer une évaluation pour voir les compétences ici."
+      }
     },
     "stats_content": {
       "progress_overview": {
@@ -1129,7 +1207,11 @@
     "skills_content": {
       "competencies_count": "{{count}} compétences",
       "start_date": "Date de début",
-      "last_update": "Dernière mise à jour"
+      "last_update": "Dernière mise à jour",
+      "no_competencies": {
+        "title": "Aucune Compétence Trouvée",
+        "message": "Ce profil n'a pas été évalué même une seule fois. Veuillez commencer une évaluation pour voir les compétences ici."
+      }
     },
     "stats_content": {
       "loading": "Chargement des statistiques...",
@@ -1155,6 +1237,7 @@
     },
     "add_child_dialog": {
       "header": "Ajouter un nouveau profil",
+      "modal_subtitle": "Créez un nouveau profil avec les informations de base",
       "labels": {
         "first_name": "Prénom",
         "last_name": "Nom",
@@ -1174,10 +1257,16 @@
       "buttons": {
         "cancel": "Annuler",
         "add": "Ajouter"
-      }
+      },
+      "gender_options": {
+        "male": "Masculin",
+        "female": "Féminin"
+      },
+      "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner"
     },
     "edit_child_dialog": {
       "header": "Modifier le profil",
+      "modal_subtitle": "Modifiez les informations du profil",
       "labels": {
         "first_name": "Prénom",
         "last_name": "Nom",
@@ -1197,10 +1286,16 @@
       "buttons": {
         "cancel": "Annuler",
         "update": "Mettre à jour"
-      }
+      },
+      "gender_options": {
+        "male": "Masculin",
+        "female": "Féminin"
+      },
+      "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner"
     },
     "share_profile_dialog": {
       "header": "Partager le profil",
+      "modal_subtitle": "Partagez ce profil avec d'autres utilisateurs en leur donnant accès",
       "labels": {
         "email": "Email du destinataire",
         "access_type": "Type d'accès"
@@ -1265,6 +1360,10 @@
     "goals": {
       "title": "Objectifs de travail",
       "no_goals_found": "Aucun objectif trouvé. Cliquez sur \"Ajouter un nouvel objectif\" pour commencer !",
+      "no_goals": {
+        "title": "Aucun Objectif Trouvé",
+        "message": "Aucun objectif n'a encore été défini. Cliquez sur \"Ajouter un nouvel objectif\" pour commencer !"
+      },
       "add_new_goal": "Ajouter un nouvel objectif",
       "target_date": "Date cible",
       "edit": "Modifier",
@@ -1278,6 +1377,12 @@
         "medium": "Moyenne",
         "low": "Faible"
       },
+      "repetition_type": {
+        "none": "Aucune",
+        "daily": "Quotidien",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuel"
+      },
       "messages": {
         "quiz_not_available": "Le quiz pour cet objectif ne sera disponible qu'à partir du {{date}}.",
         "quiz_available": "Cliquez pour passer le quiz.",
@@ -1289,6 +1394,7 @@
     "notes": {
       "title": "Notes et observations",
       "filter_title": "Filtrer les notes",
+      "toggle_filters": "Afficher/Masquer les Filtres",
       "search_content": "Rechercher par contenu",
       "search_placeholder": "Rechercher...",
       "importance_filter": "Importance",
@@ -1304,6 +1410,10 @@
       "unknown": "Inconnu",
       "reset_filters": "Réinitialiser les filtres",
       "loading": "Chargement des notes...",
+      "no_notes": {
+        "title": "Aucune Note Trouvée",
+        "message": "Aucune note n'a encore été ajoutée. Cliquez sur \"Ajouter une nouvelle note\" pour commencer !"
+      },
       "no_notes_found": "Aucune note trouvée correspondant à vos critères. Essayez d'ajuster les filtres !",
       "important_note": "Note Importante du",
       "observation": "Observation du",
@@ -1315,8 +1425,11 @@
       "cancel": "Annuler",
       "save_changes": "Enregistrer les modifications",
       "add_new_note": "Ajouter une nouvelle note",
+      "modal_subtitle": "Ajoutez une observation ou une note importante",
+      "note_content_label": "Contenu de la note",
       "note_placeholder": "Écrivez vos observations ici...",
       "important_note_checkbox": "Note importante",
+      "important_note_description": "Marquer cette note comme importante",
       "save": "Enregistrer",
       "messages": {
         "content_empty": "Le contenu de la note ne peut pas être vide !",
@@ -1353,6 +1466,10 @@
       "items": "éléments",
       "domains_with_partiel_items": "Domaines avec éléments partiels",
       "no_domains_with_partiel": "Aucun domaine avec des éléments partiels trouvé",
+      "no_strategies": {
+        "title": "Aucune Stratégie Trouvée",
+        "message": "Aucun domaine avec des éléments partiels trouvé. Complétez quelques évaluations pour voir les stratégies ici."
+      },
       "filter": {
         "all": "Tous",
         "placeholder": "Filtrer par statut",
@@ -1479,11 +1596,13 @@
       "add": "Ajouter un nouvel objectif",
       "edit": "Modifier l'objectif"
     },
+    "modal_subtitle": "Définissez un nouvel objectif de travail avec une date cible et une priorité",
     "labels": {
       "title": "Titre de l'objectif",
       "description": "Description",
       "target_date": "Date cible",
       "priority": "Priorité",
+      "repetition_type": "Type de répétition",
       "category": "Catégorie",
       "domain": "Domaine",
       "sub_objectives": "Sous-objectifs"
@@ -1508,13 +1627,15 @@
       "description_required": "La description est requise",
       "target_date_required": "La date cible est requise",
       "priority_required": "La priorité est requise",
+      "repetition_type_required": "Le type de répétition est requis",
       "category_required": "La catégorie est requise",
       "domain_required": "Le domaine est requis"
     },
     "messages": {
       "no_categories": "Aucune catégorie disponible. Assurez-vous d'avoir des catégories associées à votre profil",
       "select_category_first": "Veuillez d'abord sélectionner une catégorie",
-      "no_domains": "Aucun domaine disponible pour la catégorie sélectionnée"
+      "no_domains": "Aucun domaine disponible pour la catégorie sélectionnée",
+      "repetition_type_help": "Sélectionnez la fréquence de répétition de cet objectif. L'objectif sera automatiquement mis à jour selon le type sélectionné."
     },
     "success_messages": {
       "goal_updated": "Objectif mis à jour!",
@@ -1531,6 +1652,12 @@
       "high": "Élevée",
       "medium": "Moyenne",
       "low": "Faible"
+    },
+    "repetition_type": {
+      "none": "Aucune répétition",
+      "daily": "Quotidien",
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel"
     }
   },
   "calendar": {

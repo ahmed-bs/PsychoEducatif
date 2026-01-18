@@ -2,8 +2,251 @@
 .layout-container {
   position: relative;
   width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background styling from accueil */
+.layout-container.body {
+  font-family: 'PT Root UI', sans-serif;
+  overflow-x: hidden;
+  background: linear-gradient(to bottom, #e0f2fe 0%, #f0f9ff 50%, #ffffff 100%);
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Cloud background animation */
+.clouds-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+  opacity: 0.6;
+}
+
+.cloud:before,
+.cloud:after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+}
+
+.cloud:before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud:after {
+  width: 60px;
+  height: 60px;
+  top: -35px;
+  right: 10px;
+}
+
+/* Cloud shapes */
+.cloud-1 {
+  width: 100px;
+  height: 40px;
+  top: 20%;
+  left: -150px;
+  animation: moveCloud1 30s linear infinite;
+}
+
+.cloud-1:before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud-1:after {
+  width: 60px;
+  height: 60px;
+  top: -35px;
+  right: 10px;
+}
+
+.cloud-2 {
+  width: 120px;
+  height: 45px;
+  top: 40%;
+  left: -200px;
+  animation: moveCloud2 35s linear infinite;
+  animation-delay: -5s;
+}
+
+.cloud-2:before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 15px;
+}
+
+.cloud-2:after {
+  width: 70px;
+  height: 70px;
+  top: -40px;
+  right: 15px;
+}
+
+.cloud-3 {
+  width: 90px;
+  height: 35px;
+  top: 60%;
+  left: -180px;
+  animation: moveCloud3 40s linear infinite;
+  animation-delay: -10s;
+}
+
+.cloud-3:before {
+  width: 45px;
+  height: 45px;
+  top: -22px;
+  left: 8px;
+}
+
+.cloud-3:after {
+  width: 55px;
+  height: 55px;
+  top: -30px;
+  right: 8px;
+}
+
+.cloud-4 {
+  width: 110px;
+  height: 42px;
+  top: 10%;
+  left: -220px;
+  animation: moveCloud4 32s linear infinite;
+  animation-delay: -15s;
+}
+
+.cloud-4:before {
+  width: 55px;
+  height: 55px;
+  top: -27px;
+  left: 12px;
+}
+
+.cloud-4:after {
+  width: 65px;
+  height: 65px;
+  top: -37px;
+  right: 12px;
+}
+
+.cloud-5 {
+  width: 130px;
+  height: 50px;
+  top: 70%;
+  left: -250px;
+  animation: moveCloud5 38s linear infinite;
+  animation-delay: -20s;
+}
+
+.cloud-5:before {
+  width: 65px;
+  height: 65px;
+  top: -32px;
+  left: 18px;
+}
+
+.cloud-5:after {
+  width: 75px;
+  height: 75px;
+  top: -42px;
+  right: 18px;
+}
+
+.cloud-6 {
+  width: 95px;
+  height: 38px;
+  top: 30%;
+  left: -190px;
+  animation: moveCloud6 36s linear infinite;
+  animation-delay: -25s;
+}
+
+.cloud-6:before {
+  width: 48px;
+  height: 48px;
+  top: -24px;
+  left: 9px;
+}
+
+.cloud-6:after {
+  width: 58px;
+  height: 58px;
+  top: -32px;
+  right: 9px;
+}
+
+/* Cloud animations */
+@keyframes moveCloud1 {
+  from {
+    left: -150px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud2 {
+  from {
+    left: -200px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud3 {
+  from {
+    left: -180px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud4 {
+  from {
+    left: -220px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud5 {
+  from {
+    left: -250px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes moveCloud6 {
+  from {
+    left: -190px;
+  }
+  to {
+    left: 100%;
+  }
 }
 
 /* Desktop Sidebar */
@@ -127,38 +370,18 @@
     color: var(--danger);
 }
 
-/* Content Area - Desktop Only (≥1024px) */
-@media screen and (min-width: 1024px) {
-  .content-area{
-      position: relative;
-      width: calc(100% - 205px);
-      left: 205px;
-      transition: all 0.3s ease;
-      margin-left: 0;
-      padding-left: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-  }
-
-  .sidebar.close~.content-area{
-      width: calc(100% - 57px);
-      left: 54px;
-  }
-}
-
-/* Content Area - Mobile/Tablet (≤1023px) */
-@media screen and (max-width: 1023px) {
-  .content-area{
-      position: relative;
-      width: 100%;
-      left: 0;
-      margin-left: 0;
-      padding-left: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-  }
+/* Content Area - Full Width */
+.content-area{
+    position: relative;
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-top: 110px; /* Space for navbar (70px height + 20px top margin + 20px spacing) */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 1; /* Ensure content is above clouds */
 }
 
 .content-area nav{
@@ -291,6 +514,7 @@
     max-height: fit-content;
     flex: 1;
     overflow-y: auto;
+    margin-top: 0;
 }
 
 .main-content .header{
@@ -547,8 +771,12 @@ cursor: pointer;
 
 /* Mobile and Tablet Responsive Styles */
 @media screen and (max-width: 1024px) {
+  .content-area {
+    padding-top: 100px; /* Less padding on mobile for smaller navbar */
+  }
+
   .main-content {
-    padding: 0;
+    padding: 24px 16px;
     padding-bottom: 100px; /* Extra padding for bottom nav */
   }
 

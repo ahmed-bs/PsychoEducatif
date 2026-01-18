@@ -9,39 +9,63 @@
     "add_child_button": "+"
   },
   "add_child_dialog": {
-    "header": "Add a child",
-    "first_name_label": "First name",
-    "first_name_placeholder": "First name",
-    "last_name_label": "Last name",
-    "last_name_placeholder": "Last name",
-    "birth_date_label": "Date of birth",
-    "diagnosis_label": "Diagnosis",
-    "diagnosis_placeholder": "Diagnosis",
-    "gender_label": "Gender",
-    "male_option": "Male",
-    "female_option": "Female",
-    "profile_image_label": "Profile image",
-    "drop_zone_text": "Drag and drop or click to upload",
-    "cancel_button": "Cancel",
-    "add_button": "Add",
+    "header": "Add a new profile",
+    "modal_subtitle": "Create a new profile with basic information",
+    "labels": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "birth_date": "Date of birth",
+      "gender": "Gender",
+      "diagnosis": "Diagnosis",
+      "notes": "Notes",
+      "image": "Profile image"
+    },
+    "placeholders": {
+      "first_name": "Enter first name",
+      "last_name": "Enter last name",
+      "birth_date": "Enter date of birth",
+      "diagnosis": "Enter diagnosis (optional)",
+      "notes": "Enter notes (optional)"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "gender_options": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "drop_zone_text": "Drag and drop an image here or click to select",
     "required_fields_error": "First name, last name and date of birth are required."
   },
   "edit_child_dialog": {
-    "header": "Edit a child",
-    "first_name_label": "First name",
-    "first_name_placeholder": "First name",
-    "last_name_label": "Last name",
-    "last_name_placeholder": "Last name",
-    "birth_date_label": "Date of birth",
-    "diagnosis_label": "Diagnosis",
-    "diagnosis_placeholder": "Diagnosis",
-    "gender_label": "Gender",
-    "male_option": "Male",
-    "female_option": "Female",
-    "profile_image_label": "Profile image",
-    "drop_zone_text": "Drag and drop or click to upload",
-    "cancel_button": "Cancel",
-    "save_button": "Save",
+    "header": "Edit profile",
+    "modal_subtitle": "Modify profile information",
+    "labels": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "birth_date": "Date of birth",
+      "gender": "Gender",
+      "diagnosis": "Diagnosis",
+      "notes": "Notes",
+      "image": "Profile image"
+    },
+    "placeholders": {
+      "first_name": "Enter first name",
+      "last_name": "Enter last name",
+      "birth_date": "Enter date of birth",
+      "diagnosis": "Enter diagnosis (optional)",
+      "notes": "Enter notes (optional)"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "update": "Update"
+    },
+    "gender_options": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "drop_zone_text": "Drag and drop an image here or click to select",
     "required_fields_error": "First name, last name and date of birth are required."
   },
   "profile_messages": {
@@ -106,11 +130,17 @@
       "home": "Home",
       "evaluation": "Evaluation",
       "objectives": "Objectives",
-      "strategies": "Strategies"
+      "strategies": "Strategies",
+      "configuration": "Configuration",
+      "explorer": "Explorer",
+      "resume": "Resume",
+      "calendar": "Calendar"
     },
     "buttons": {
       "sign_up": "Sign Up",
       "sign_in": "Sign In",
+      "logout": "Logout",
+      "change_profile": "Change Profile",
       "change_account": "Change Account",
       "change_account_confirm": {
         "title": "Change Account",
@@ -522,6 +552,10 @@
     "filter_label": "Filter by Item Status:",
     "filter_placeholder": "Select a status",
     "filters": {
+      "title": "Filters",
+      "toggle_filters": "Toggle Filters",
+      "basic_filters": "Basic Filters",
+      "date_filters": "Date Range Filters",
       "status": "Status",
       "module": "Module",
       "item_status": {
@@ -529,6 +563,17 @@
         "acquired": "Acquired",
         "not_acquired": "Not Acquired",
         "partial": "Partial"
+      },
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "start_date_placeholder": "Select start date",
+      "end_date_placeholder": "Select end date",
+      "apply_filters": "Apply Filters",
+      "reset_filters": "Reset Filters",
+      "date_error": {
+        "start_date_required": "Start date is required when end date is selected.",
+        "end_date_required": "End date is required when start date is selected.",
+        "start_after_end": "Start date must be before end date."
       }
     },
     "export_button": "Export",
@@ -631,7 +676,8 @@
       "status_options": {
         "ACQUIS": "Acquired",
         "PARTIEL": "Partial",
-        "NON_ACQUIS": "Not acquired"
+        "NON_ACQUIS": "Not acquired",
+        "NON_COTE": "Not evaluated"
       },
       "comment_label": "Observations:",
       "comment_placeholder": "Additional notes on this skill...",
@@ -644,7 +690,8 @@
       "submit": "Submit",
       "view_description": "View description",
       "add_comment": "Add comment",
-      "add_strategy": "Add strategy"
+      "add_strategy": "Add strategy",
+      "historique": "History"
     },
     "tap_to_read_more": "Tap to read more",
     "view_mode": {
@@ -666,6 +713,29 @@
       "save": "Save",
       "saving": "Saving...",
       "strategy_update_error": "Error updating strategy"
+    },
+    "historique": {
+      "title": "Answer History",
+      "loading": "Loading history...",
+      "no_data": "No history available for this item",
+      "status": "Status",
+      "date": "Date",
+      "comment": "Comment",
+      "load_error": "Error loading history",
+      "stats": {
+        "acquis": "Acquired",
+        "partiel": "Partial",
+        "non_acquis": "Not Acquired",
+        "total": "Total",
+        "trend": {
+          "up": "Improving",
+          "down": "Declining",
+          "stable": "Stable"
+        }
+      },
+      "chart": {
+        "title": "Status Evolution"
+      }
     }
   },
   "explore": {
@@ -852,6 +922,7 @@
     "add_domain_dialog": {
       "header_add": "Add a domain",
       "header_edit": "Edit a domain",
+      "modal_subtitle": "Create or edit a domain to organize your items",
       "labels": {
         "title": "Title",
         "description": "Description"
@@ -874,6 +945,7 @@
     "add_item_dialog": {
       "header_add": "Add an item",
       "header_edit": "Edit an item",
+      "modal_subtitle": "Create or edit an evaluation item with its status",
       "labels": {
         "title": "Title",
         "description": "Description",
@@ -959,6 +1031,7 @@
     "add_category_dialog": {
       "header_add": "Add a Skill",
       "header_edit": "Edit a Skill",
+      "modal_subtitle": "Create or edit a skill with multilingual information",
       "labels": {
         "title": "Title",
         "title_ar": "العنوان",
@@ -1002,6 +1075,7 @@
     },
     "delete_dialog": {
       "header": "Confirm deletion",
+      "modal_subtitle": "This action is irreversible and will permanently delete the item",
       "message": "Are you sure you want to delete the category \"{{categoryName}}\"? This action cannot be undone.",
       "buttons": {
         "cancel": "Cancel",
@@ -1052,7 +1126,11 @@
     "skills_content": {
       "competencies_count": "{{count}} competencies",
       "start_date": "Start date",
-      "last_update": "Last update"
+      "last_update": "Last update",
+      "no_competencies": {
+        "title": "No Competencies Found",
+        "message": "This profile hasn't been evaluated even once. Please start an evaluation to see competencies here."
+      }
     },
     "stats_content": {
       "loading": "Loading statistics...",
@@ -1078,6 +1156,7 @@
     },
     "add_child_dialog": {
       "header": "Add a new profile",
+      "modal_subtitle": "Create a new profile with basic information",
       "labels": {
         "first_name": "First name",
         "last_name": "Last name",
@@ -1097,10 +1176,16 @@
       "buttons": {
         "cancel": "Cancel",
         "add": "Add"
-      }
+      },
+      "gender_options": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "drop_zone_text": "Drag and drop an image here or click to select"
     },
     "edit_child_dialog": {
       "header": "Edit profile",
+      "modal_subtitle": "Modify profile information",
       "labels": {
         "first_name": "First name",
         "last_name": "Last name",
@@ -1120,10 +1205,16 @@
       "buttons": {
         "cancel": "Cancel",
         "update": "Update"
-      }
+      },
+      "gender_options": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "drop_zone_text": "Drag and drop an image here or click to select"
     },
     "share_profile_dialog": {
       "header": "Share profile",
+      "modal_subtitle": "Share this profile with other users by giving them access",
       "labels": {
         "email": "Recipient email",
         "access_type": "Access type"
@@ -1188,6 +1279,10 @@
     "goals": {
       "title": "Work goals",
       "no_goals_found": "No goals found. Click on \"Add a new goal\" to get started!",
+      "no_goals": {
+        "title": "No Goals Found",
+        "message": "No goals have been set yet. Click on \"Add a new goal\" to get started!"
+      },
       "add_new_goal": "Add a new goal",
       "target_date": "Target date",
       "edit": "Edit",
@@ -1201,6 +1296,12 @@
         "medium": "Medium",
         "low": "Low"
       },
+      "repetition_type": {
+        "none": "None",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
       "messages": {
         "quiz_not_available": "The quiz for this goal will only be available from {{date}}.",
         "quiz_available": "Click to take the quiz.",
@@ -1212,6 +1313,7 @@
     "notes": {
       "title": "Notes and observations",
       "filter_title": "Filter notes",
+      "toggle_filters": "Toggle Filters",
       "search_content": "Search by content",
       "search_placeholder": "Search...",
       "importance_filter": "Importance",
@@ -1227,6 +1329,10 @@
       "unknown": "Unknown",
       "reset_filters": "Reset filters",
       "loading": "Loading notes...",
+      "no_notes": {
+        "title": "No Notes Found",
+        "message": "No notes have been added yet. Click on \"Add a new note\" to get started!"
+      },
       "no_notes_found": "No notes found matching your criteria. Try adjusting the filters!",
       "important_note": "Important Note from",
       "observation": "Observation from",
@@ -1238,8 +1344,11 @@
       "cancel": "Cancel",
       "save_changes": "Save changes",
       "add_new_note": "Add a new note",
+      "modal_subtitle": "Add an observation or important note",
+      "note_content_label": "Note content",
       "note_placeholder": "Write your observations here...",
       "important_note_checkbox": "Important note",
+      "important_note_description": "Mark this note as important",
       "save": "Save",
       "messages": {
         "content_empty": "Note content cannot be empty!",
@@ -1276,6 +1385,10 @@
       "items": "items",
       "domains_with_partiel_items": "Domains with partial items",
       "no_domains_with_partiel": "No domain with partial items found",
+      "no_strategies": {
+        "title": "No Strategies Found",
+        "message": "No domains with partial items found. Complete some evaluations to see strategies here."
+      },
       "filter": {
         "all": "All",
         "placeholder": "Filter by status",
@@ -1402,11 +1515,13 @@
       "add": "Add a new goal",
       "edit": "Edit goal"
     },
+    "modal_subtitle": "Define a new work goal with a target date and priority",
     "labels": {
       "title": "Goal title",
       "description": "Description",
       "target_date": "Target date",
       "priority": "Priority",
+      "repetition_type": "Repetition type",
       "category": "Category",
       "domain": "Domain",
       "sub_objectives": "Sub-objectives"
@@ -1431,13 +1546,15 @@
       "description_required": "Description is required",
       "target_date_required": "Target date is required",
       "priority_required": "Priority is required",
+      "repetition_type_required": "Repetition type is required",
       "category_required": "Category is required",
       "domain_required": "Domain is required"
     },
     "messages": {
       "no_categories": "No categories available. Make sure you have categories associated with your profile",
       "select_category_first": "Please select a category first",
-      "no_domains": "No domains available for the selected category"
+      "no_domains": "No domains available for the selected category",
+      "repetition_type_help": "Select how often this goal should repeat. The goal will be automatically updated based on the selected type."
     },
     "success_messages": {
       "goal_updated": "Goal updated!",
@@ -1454,6 +1571,12 @@
       "high": "High",
       "medium": "Medium",
       "low": "Low"
+    },
+    "repetition_type": {
+      "none": "No repetition",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
     }
   },
   "calendar": {
