@@ -1234,6 +1234,7 @@
     "notes": {
       "title": "الملاحظات والمراقبات",
       "filter_title": "تصفية الملاحظات",
+      "toggle_filters": "إظهار/إخفاء المرشحات",
       "search_content": "البحث حسب المحتوى",
       "search_placeholder": "بحث...",
       "importance_filter": "الأهمية",

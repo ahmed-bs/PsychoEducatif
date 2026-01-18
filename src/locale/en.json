@@ -1272,6 +1272,7 @@
     "notes": {
       "title": "Notes and observations",
       "filter_title": "Filter notes",
+      "toggle_filters": "Toggle Filters",
       "search_content": "Search by content",
       "search_placeholder": "Search...",
       "importance_filter": "Importance",

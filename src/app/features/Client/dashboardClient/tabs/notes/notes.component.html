@@ -1,48 +1,111 @@
-<div class="bg-white rounded-xl shadow overflow-hidden">
-    <div class="bg-yellow-600 px-4 py-3 sm:px-6"> <h3 class="text-lg sm:text-xl font-medium text-white">{{ 'dashboard_tabs.notes.title' | translate }}</h3> </div>
-    <div class="p-4 sm:p-6"> <div class="mb-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-gray-50"> <h4 class="font-medium text-gray-800 mb-2 text-base sm:text-lg">{{ 'dashboard_tabs.notes.filter_title' | translate }}</h4> <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"> <div>
-                    <label for="note-search" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.search_content' | translate }}</label>
-                    <input type="text" id="note-search"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [placeholder]="'dashboard_tabs.notes.search_placeholder' | translate"
-                           [(ngModel)]="filterSearchTerm"
-                           (input)="onSearchInputChange()">
-                </div>
-                <div>
-                    <label for="note-importance" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.importance_filter' | translate }}</label>
-                    <select id="note-importance"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [ngModel]="filterImportant === null ? 'all' : filterImportant.toString()"
-                            (ngModelChange)="onImportanceFilterChange($event)">
-                        <option value="all">{{ 'dashboard_tabs.notes.importance_options.all' | translate }}</option>
-                        <option value="true">{{ 'dashboard_tabs.notes.importance_options.important' | translate }}</option>
-                        <option value="false">{{ 'dashboard_tabs.notes.importance_options.not_important' | translate }}</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="note-start-date" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.date_start' | translate }}</label>
-                    <input type="date" id="note-start-date"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [(ngModel)]="filterStartDate"
-                           (change)="onStartDateChange($event)">
-                </div>
-                <div>
-                    <label for="note-end-date" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.date_end' | translate }}</label>
-                    <input type="date" id="note-end-date"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [(ngModel)]="filterEndDate"
-                           (change)="onEndDateChange($event)">
-                </div>
-                <div>
-                    <label for="note-author" class="block text-sm font-medium text-gray-700 mb-1">{{ 'dashboard_tabs.notes.author_filter' | translate }}</label>
-                    <input type="text" id="note-author"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" [placeholder]="'dashboard_tabs.notes.author_placeholder' | translate"
-                           [(ngModel)]="filterAuthorUsername"
-                           (input)="onAuthorUsernameChange()">
-                </div>
-            </div>
-            <div class="mt-4 text-center sm:text-right"> <button (click)="clearFilters()"
-                        class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition text-sm sm:text-base"> {{ 'dashboard_tabs.notes.reset_filters' | translate }}
-                </button>
-            </div>
+<div class="notes-container">
+  <!-- Filter Toggle Button -->
+  <button 
+    type="button"
+    class="filter-toggle-btn"
+    (click)="toggleSidebar()"
+    [class.active]="isSidebarOpen"
+    [title]="'dashboard_tabs.notes.toggle_filters' | translate">
+    <i class="fas" [class.fa-filter]="!isSidebarOpen" [class.fa-times]="isSidebarOpen"></i>
+  </button>
+
+  <!-- Sidebar Overlay -->
+  <div 
+    class="sidebar-overlay" 
+    *ngIf="isSidebarOpen"
+    (click)="closeSidebar()">
+  </div>
+
+  <!-- Filter Sidebar -->
+  <div class="filter-sidebar" [class.open]="isSidebarOpen">
+    <div class="sidebar-header">
+      <h3 class="sidebar-title">
+        <i class="fas fa-filter"></i>
+        {{ 'dashboard_tabs.notes.filter_title' | translate }}
+      </h3>
+      <button 
+        type="button"
+        class="sidebar-close-btn"
+        (click)="closeSidebar()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="sidebar-content">
+      <div class="filters-group">
+        <div class="filter-section">
+          <label for="note-search" class="filter-label">{{ 'dashboard_tabs.notes.search_content' | translate }}</label>
+          <input 
+            type="text" 
+            id="note-search"
+            class="filter-input"
+            [placeholder]="'dashboard_tabs.notes.search_placeholder' | translate"
+            [(ngModel)]="filterSearchTerm"
+            (input)="onSearchInputChange()">
         </div>
 
+        <div class="filter-section">
+          <label for="note-importance" class="filter-label">{{ 'dashboard_tabs.notes.importance_filter' | translate }}</label>
+          <select 
+            id="note-importance"
+            class="filter-select"
+            [ngModel]="filterImportant === null ? 'all' : filterImportant.toString()"
+            (ngModelChange)="onImportanceFilterChange($event)">
+            <option value="all">{{ 'dashboard_tabs.notes.importance_options.all' | translate }}</option>
+            <option value="true">{{ 'dashboard_tabs.notes.importance_options.important' | translate }}</option>
+            <option value="false">{{ 'dashboard_tabs.notes.importance_options.not_important' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="filter-section">
+          <label for="note-start-date" class="filter-label">{{ 'dashboard_tabs.notes.date_start' | translate }}</label>
+          <input 
+            type="date" 
+            id="note-start-date"
+            class="filter-input"
+            [(ngModel)]="filterStartDate"
+            (change)="onStartDateChange($event)">
+        </div>
+
+        <div class="filter-section">
+          <label for="note-end-date" class="filter-label">{{ 'dashboard_tabs.notes.date_end' | translate }}</label>
+          <input 
+            type="date" 
+            id="note-end-date"
+            class="filter-input"
+            [(ngModel)]="filterEndDate"
+            (change)="onEndDateChange($event)">
+        </div>
+
+        <div class="filter-section">
+          <label for="note-author" class="filter-label">{{ 'dashboard_tabs.notes.author_filter' | translate }}</label>
+          <input 
+            type="text" 
+            id="note-author"
+            class="filter-input"
+            [placeholder]="'dashboard_tabs.notes.author_placeholder' | translate"
+            [(ngModel)]="filterAuthorUsername"
+            (input)="onAuthorUsernameChange()">
+        </div>
+      </div>
+
+      <!-- Filter Actions -->
+      <div class="filter-actions">
+        <button 
+          type="button"
+          class="reset-filters-btn"
+          (click)="clearFilters()">
+          <i class="fas fa-redo"></i>
+          {{ 'dashboard_tabs.notes.reset_filters' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content-wrapper" [class.sidebar-open]="isSidebarOpen">
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+      <div class="p-4 sm:p-6">
         <div *ngIf="loadingNotes" class="text-center text-gray-500 py-4 text-sm sm:text-base"> <p>{{ 'dashboard_tabs.notes.loading' | translate }}</p>
         </div>
 
@@ -110,21 +173,77 @@
             </div>
         </div>
 
-        <div class="border-2 border-gray-200 rounded-lg p-4 sm:p-6 mt-6"> <h4 class="font-medium text-gray-800 mb-3 text-base sm:text-lg">{{ 'dashboard_tabs.notes.add_new_note' | translate }}</h4> <textarea
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm sm:text-base" rows="4" [placeholder]="'dashboard_tabs.notes.note_placeholder' | translate"
-                [(ngModel)]="newNoteContent">
-            </textarea>
-            <div class="mt-3 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0"> <div>
-                    <label class="inline-flex items-center text-sm sm:text-base"> <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600"
-                               [(ngModel)]="isImportantNote">
-                        <span class="ml-2 text-gray-700">{{ 'dashboard_tabs.notes.important_note_checkbox' | translate }}</span>
-                    </label>
-                </div>
-                <button
-                    class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition text-sm sm:text-base" (click)="onSaveNote()">
-                    {{ 'dashboard_tabs.notes.save' | translate }}
-                </button>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Floating Add Note Button -->
+  <div class="floating-add-note-wrapper">
+    <button 
+      (click)="openAddNoteModal()"
+      class="floating-add-note-button"
+      [title]="'dashboard_tabs.notes.add_new_note' | translate">
+      <i class="fas fa-plus"></i>
+    </button>
+    <span class="floating-button-label">{{ 'dashboard_tabs.notes.add_new_note' | translate }}</span>
+  </div>
+
+  <!-- Add Note Modal -->
+  <div *ngIf="showAddNoteModal" class="modal-overlay" (click)="closeAddNoteModal()">
+    <div class="add-note-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fas fa-pencil-alt"></i>
+          {{ 'dashboard_tabs.notes.add_new_note' | translate }}
+        </h3>
+        <button 
+          type="button"
+          class="modal-close-btn"
+          (click)="closeAddNoteModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="new-note-content" class="form-label">
+            {{ 'dashboard_tabs.notes.note_placeholder' | translate }}
+          </label>
+          <textarea
+            id="new-note-content"
+            class="form-textarea"
+            rows="6"
+            [placeholder]="'dashboard_tabs.notes.note_placeholder' | translate"
+            [(ngModel)]="newNoteContent">
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-checkbox-label">
+            <input 
+              type="checkbox" 
+              class="form-checkbox"
+              [(ngModel)]="isImportantNote">
+            <span>{{ 'dashboard_tabs.notes.important_note_checkbox' | translate }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button 
+          type="button"
+          class="modal-btn-secondary"
+          (click)="closeAddNoteModal()">
+          {{ 'dashboard_tabs.notes.cancel' | translate }}
+        </button>
+        <button 
+          type="button"
+          class="modal-btn-primary"
+          (click)="onSaveNote()">
+          <i class="fas fa-save mr-2"></i>
+          {{ 'dashboard_tabs.notes.save' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
