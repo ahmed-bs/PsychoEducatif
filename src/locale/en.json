@@ -1213,6 +1213,20 @@
       "drop_zone_text": "Drag and drop an image here or click to select"
     },
     "share_profile_dialog": {
+      "tabs": {
+        "share": "Share",
+        "users": "Users"
+      },
+      "users": {
+        "loading": "Loading users...",
+        "no_users": "No users have access to this profile"
+      },
+      "permissions": {
+        "view": "View",
+        "edit": "Edit",
+        "share": "Share",
+        "delete": "Delete"
+      },
       "header": "Share profile",
       "modal_subtitle": "Share this profile with other users by giving them access",
       "labels": {
@@ -1225,7 +1239,8 @@
       "buttons": {
         "cancel": "Cancel",
         "share": "Share",
-        "sharing": "Sharing..."
+        "sharing": "Sharing...",
+        "close": "Close"
       },
       "errors": {
         "invalid_email": "Invalid email",

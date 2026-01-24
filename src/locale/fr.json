@@ -1140,6 +1140,20 @@
       }
     },
     "share_profile_dialog": {
+     "tabs": {
+        "share": "Partager",
+        "users": "Utilisateurs"
+      },
+      "users": {
+        "loading": "Chargement des utilisateurs...",
+        "no_users": "Aucun utilisateur n’a accès à ce profil"
+      },
+      "permissions": {
+        "view": "Lecture",
+        "edit": "Modification",
+        "share": "Partage",
+        "delete": "Suppression"
+      },
       "header": "Partager le profil",
       "labels": {
         "email": "Email du destinataire",
@@ -1151,7 +1165,8 @@
       "buttons": {
         "cancel": "Annuler",
         "share": "Partager",
-        "sharing": "Partage en cours..."
+        "sharing": "Partage en cours...",
+         "close": "Fermer"
       },
       "errors": {
         "invalid_email": "Email invalide"

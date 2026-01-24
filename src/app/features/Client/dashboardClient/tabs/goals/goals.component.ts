@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
+import { CalendarComponent } from '../../../calendar/calendar.component';
 
 @Component({
   selector: 'app-goals',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, CalendarComponent],
   templateUrl: './goals.component.html',
   styleUrl: './goals.component.css'
 })
@@ -18,6 +19,7 @@ export class GoalsComponent implements OnInit, OnDestroy {
   @Output() editGoalClicked = new EventEmitter<any>();
   @Output() deleteGoalClicked = new EventEmitter<number>();
 
+  sidebarOpen = false;
   private languageSubscription: Subscription;
 
   constructor(
@@ -114,5 +116,14 @@ export class GoalsComponent implements OnInit, OnDestroy {
 
   hasRepetition(goal: any): boolean {
     return goal.repetition_type && goal.repetition_type !== 'none';
+  }
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  onGoalSaved(): void {
+    // Emit event to parent to refresh goals
+    this.addGoalClicked.emit();
   }
 }

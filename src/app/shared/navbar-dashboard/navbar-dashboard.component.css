@@ -496,6 +496,7 @@ nav {
   }
 
   .nav__links {
+    opacity: 1;
     position: relative;
     flex-direction: row;
     background-color: transparent;
@@ -505,13 +506,14 @@ nav {
     display: flex !important;
     align-items: center;
     pointer-events: auto;
-    z-index: 1;
+    box-shadow: none;
+    border-radius: 0;
     gap: 0.5rem;
     padding: 0;
     list-style: none;
     width: 100%;
     margin: 0;
-    transform: translateY(0) !important;
+    transform: none !important;
     left: auto;
     top: auto;
   }

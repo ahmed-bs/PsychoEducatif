@@ -109,6 +109,13 @@ export class ProfileService {
     );
   }
 
+  // Get users with permissions for a profile
+  getProfileUsersPermissions(profileId: number): Observable<any> {
+    const url = `${this.apiUrl}${profileId}/users-permissions/`;
+    return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   // Error handling
   private handleError(error: any): Observable<never> {

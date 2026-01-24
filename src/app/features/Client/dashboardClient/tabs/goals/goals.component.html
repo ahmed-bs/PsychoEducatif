@@ -1,3 +1,10 @@
+<!-- Calendar Sidebar Toggle Button -->
+<!-- <button (click)="toggleSidebar()" class="calendar-toggle-btn" [class.active]="sidebarOpen" [title]="'dashboard_tabs.goals.toggle_calendar' | translate">
+  <i class="fas" [ngClass]="sidebarOpen ? 'fa-times' : 'fa-calendar-alt'"></i>
+</button> -->
+
+<!-- Main Content Wrapper -->
+<div class="goals-main-wrapper" [class.sidebar-open]="sidebarOpen">
 <!-- Empty State: No Goals - Show bubble outside card -->
 <div *ngIf="goals.length === 0" class="empty-competencies-state">
   <div class="empty-state-content">
@@ -79,10 +86,35 @@
 
 <!-- Floating Action Button for Adding Goals -->
 <div class="floating-button-wrapper">
+    <span class="floating-button-label">{{ 'dashboard_tabs.goals.add_new_goal' | translate }}</span>
   <button (click)="onAddGoalClick()"
     class="floating-add-button"
     [title]="'dashboard_tabs.goals.add_new_goal' | translate">
     <i class="fas fa-plus"></i>
   </button>
-  <span class="floating-button-label">{{ 'dashboard_tabs.goals.add_new_goal' | translate }}</span>
+
+</div>
+
+<!-- Calendar Sidebar -->
+<div class="calendar-sidebar" [class.open]="sidebarOpen">
+  <div class="calendar-sidebar-header">
+    <h3 class="calendar-sidebar-title">
+      <i class="fas fa-calendar-alt"></i>
+      {{ 'dashboard_tabs.goals.calendar_title' | translate }}
+    </h3>
+    <button (click)="toggleSidebar()" class="calendar-sidebar-close" [title]="'dashboard_tabs.goals.close_calendar' | translate">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="calendar-sidebar-content">
+    <app-calendar 
+      [goals]="goals" 
+      [inProgressDomains]="[]"
+      (goalSaved)="onGoalSaved()">
+    </app-calendar>
+  </div>
+</div>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" [class.active]="sidebarOpen" (click)="toggleSidebar()"></div>
 </div>
