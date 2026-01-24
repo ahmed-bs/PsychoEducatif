@@ -361,59 +361,124 @@
                     </div>
 
                     <div class="share-modal-body">
-                        <form (ngSubmit)="shareProfile()">
-                            <div class="share-form-group">
-                                <label for="email" class="share-form-label">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>{{ 'dashboard.share_profile_dialog.labels.email' | translate }}</span>
-                                </label>
-                                <input 
-                                    id="email" 
-                                    type="email" 
-                                    [(ngModel)]="saisieEmail" 
-                                    name="email"
-                                    (input)="validateEmail()"
-                                    class="share-form-input"
-                                    [class.input-error]="saisieEmail && !isEmailValid"
-                                    [placeholder]="'dashboard.share_profile_dialog.placeholders.email' | translate"
-                                    required />
-                                <div *ngIf="saisieEmail && !isEmailValid" class="share-error-message">
-                                    {{ 'dashboard.share_profile_dialog.errors.invalid_email' | translate }}
+                        <!-- Tabs Navigation -->
+                        <div class="share-modal-tabs-nav">
+                            <button
+                                *ngFor="let tab of shareModalTabs"
+                                class="share-modal-tab-btn"
+                                [class.active]="isShareModalTabActive(tab.id)"
+                                (click)="switchShareModalTab(tab.id)"
+                                [attr.aria-label]="tab.label | translate">
+                                <span>{{ tab.label | translate }}</span>
+                            </button>
+                        </div>
+
+                        <!-- Share Tab Content -->
+                        <div class="share-modal-tab-content" [class.active]="isShareModalTabActive('share')">
+                            <form (ngSubmit)="shareProfile()">
+                                <div class="share-form-group">
+                                    <label for="email" class="share-form-label">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>{{ 'dashboard.share_profile_dialog.labels.email' | translate }}</span>
+                                    </label>
+                                    <input 
+                                        id="email" 
+                                        type="email" 
+                                        [(ngModel)]="saisieEmail" 
+                                        name="email"
+                                        (input)="validateEmail()"
+                                        class="share-form-input"
+                                        [class.input-error]="saisieEmail && !isEmailValid"
+                                        [placeholder]="'dashboard.share_profile_dialog.placeholders.email' | translate"
+                                        required />
+                                    <div *ngIf="saisieEmail && !isEmailValid" class="share-error-message">
+                                        {{ 'dashboard.share_profile_dialog.errors.invalid_email' | translate }}
+                                    </div>
+                                </div>
+
+                                <div class="share-form-group">
+                                    <label for="access" class="share-form-label">
+                                        <i class="fas fa-key"></i>
+                                        <span>{{ 'dashboard.share_profile_dialog.labels.access_type' | translate }}</span>
+                                    </label>
+                                    <select 
+                                        id="access" 
+                                        [(ngModel)]="accesSelectionne" 
+                                        name="access"
+                                        class="share-form-select"
+                                        required>
+                                        <option *ngFor="let option of optionsAcces" [ngValue]="option">{{ option.libelle }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="share-modal-footer">
+                                    <button 
+                                        type="button"
+                                        class="share-modal-btn-secondary"
+                                        (click)="afficherBoiteDialoguePartage = false">
+                                        <i class="fas fa-times"></i>
+                                        <span>{{ 'dashboard.share_profile_dialog.buttons.cancel' | translate }}</span>
+                                    </button>
+                                    <button 
+                                        type="submit"
+                                        class="share-modal-btn-primary"
+                                        [disabled]="!isEmailValid || loadingShare">
+                                        <i class="fas fa-share-alt"></i>
+                                        <span>{{ loadingShare ? ('dashboard.share_profile_dialog.buttons.sharing' | translate) : ('dashboard.share_profile_dialog.buttons.share' | translate) }}</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Users Tab Content -->
+                        <div class="share-modal-tab-content" [class.active]="isShareModalTabActive('users')">
+                            <!-- Loading State -->
+                            <div *ngIf="loadingUsersPermissions" class="share-users-loading">
+                                <div class="loading-spinner"></div>
+                                <p>{{ 'dashboard.share_profile_dialog.users.loading' | translate }}</p>
+                            </div>
+
+                            <!-- Users List -->
+                            <div *ngIf="!loadingUsersPermissions && profileUsersPermissions?.users?.length > 0" class="share-users-list">
+                                <div *ngFor="let user of profileUsersPermissions.users" class="share-user-card">
+                                    <div class="share-user-info">
+                                        <div class="share-user-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="share-user-details">
+                                            <h4 class="share-user-name">{{ user.username }}</h4>
+                                            <p class="share-user-email">{{ user.email }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="share-user-permissions">
+                                        <span 
+                                            *ngFor="let permission of user.permissions" 
+                                            class="permission-badge"
+                                            [class]="getPermissionBadgeClass(permission)">
+                                            <i class="fas" [class.fa-eye]="permission === 'view'" [class.fa-edit]="permission === 'edit'" [class.fa-share-alt]="permission === 'share'"></i>
+                                            {{ getPermissionLabel(permission) | translate }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="share-form-group">
-                                <label for="access" class="share-form-label">
-                                    <i class="fas fa-key"></i>
-                                    <span>{{ 'dashboard.share_profile_dialog.labels.access_type' | translate }}</span>
-                                </label>
-                                <select 
-                                    id="access" 
-                                    [(ngModel)]="accesSelectionne" 
-                                    name="access"
-                                    class="share-form-select"
-                                    required>
-                                    <option *ngFor="let option of optionsAcces" [ngValue]="option">{{ option.libelle }}</option>
-                                </select>
+                            <!-- Empty State -->
+                            <div *ngIf="!loadingUsersPermissions && (!profileUsersPermissions?.users || profileUsersPermissions.users.length === 0)" class="share-users-empty">
+                                <i class="fas fa-users"></i>
+                                <p>{{ 'dashboard.share_profile_dialog.users.no_users' | translate }}</p>
                             </div>
-
-                            <div class="share-modal-footer">
-                                <button 
-                                    type="button"
-                                    class="share-modal-btn-secondary"
-                                    (click)="afficherBoiteDialoguePartage = false">
-                                    <i class="fas fa-times"></i>
-                                    <span>{{ 'dashboard.share_profile_dialog.buttons.cancel' | translate }}</span>
-                                </button>
-                                <button 
-                                    type="submit"
-                                    class="share-modal-btn-primary"
-                                    [disabled]="!isEmailValid || loadingShare">
-                                    <i class="fas fa-share-alt"></i>
-                                    <span>{{ loadingShare ? ('dashboard.share_profile_dialog.buttons.sharing' | translate) : ('dashboard.share_profile_dialog.buttons.share' | translate) }}</span>
-                                </button>
-                            </div>
-                        </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer buttons (shown on all tabs) -->
+                    <div class="share-modal-footer" *ngIf="isShareModalTabActive('users')">
+                        <button 
+                            type="button"
+                            class="share-modal-btn-secondary"
+                            (click)="afficherBoiteDialoguePartage = false">
+                            <i class="fas fa-times"></i>
+                            <span>{{ 'dashboard.share_profile_dialog.buttons.close' | translate }}</span>
+                        </button>
                     </div>
                 </div>
             </div>

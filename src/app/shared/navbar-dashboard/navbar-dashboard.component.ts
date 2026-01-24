@@ -49,14 +49,26 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
       menuBtnIcon?.setAttribute('class', isOpen ? 'ri-close-line' : 'ri-menu-line');
     });
 
-    // Close menu when clicking on a link
+    // Close menu when clicking on a link or button
     navLinks?.addEventListener('click', (e) => {
       const target = e?.target as HTMLElement;
-      if (target && (target.tagName === 'A' || target.closest('a'))) {
-        navLinks?.classList.remove('open');
-        menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+      if (target && (target.tagName === 'A' || target.closest('a') || target.tagName === 'BUTTON' || target.closest('button'))) {
+        // Don't close if clicking on dropdown toggle buttons
+        if (!target.closest('.nav__dropdown > a') && !target.closest('.lang-icon-btn')) {
+          navLinks?.classList.remove('open');
+          menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+        }
       }
     });
+  }
+
+  // Helper method to close mobile menu
+  private closeMobileMenu() {
+    const navLinks = document.getElementById('nav-links');
+    const menuBtn = document.getElementById('menu-btn');
+    const menuBtnIcon = menuBtn?.querySelector('i');
+    navLinks?.classList.remove('open');
+    menuBtnIcon?.setAttribute('class', 'ri-menu-line');
   }
 
   getCurrentUser() {
@@ -115,6 +127,8 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   switchLanguage(language: string) {
     this.sharedService.changeLanguage(language);
     this.showLanguageMenu = false;
+    // Close mobile menu if open
+    this.closeMobileMenu();
   }
 
   // Toggle language menu
@@ -133,6 +147,12 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
 
   closeEvaluationMenu() {
     this.showEvaluationMenu = false;
+    // Close mobile menu if on mobile after navigation
+    setTimeout(() => {
+      if (window.innerWidth <= 767) {
+        this.closeMobileMenu();
+      }
+    }, 100);
   }
 
   // Check if evaluation route is active
@@ -151,12 +171,14 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   // Change Profile - Navigate to profile selection page
   changeProfile() {
     this.showUserMenu = false;
+    this.closeMobileMenu();
     this.router.navigate(['/pick_profileComponent']);
   }
 
   // Logout
   logout() {
     this.showUserMenu = false;
+    this.closeMobileMenu();
     this.authService.logout();
   }
 
@@ -164,6 +186,16 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
+    const navLinks = document.getElementById('nav-links');
+    const menuBtn = document.getElementById('menu-btn');
+    
+    // Close mobile menu if clicking outside nav and menu button
+    if (window.innerWidth <= 767 && navLinks?.classList.contains('open')) {
+      if (!target.closest('nav') && !target.closest('#menu-btn')) {
+        this.closeMobileMenu();
+      }
+    }
+    
     if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
       this.showLanguageMenu = false;
     }
@@ -173,7 +205,7 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     if (!target.closest('.nav__user-menu') && this.showUserMenu) {
       this.showUserMenu = false;
     }
-    if (!target.closest('.nav__right-section') && (this.showLanguageMenu || this.showUserMenu)) {
+    if (!target.closest('.nav__right-section') && !target.closest('.nav__right-section-mobile') && (this.showLanguageMenu || this.showUserMenu)) {
       this.showLanguageMenu = false;
       this.showUserMenu = false;
     }
@@ -185,5 +217,14 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     this.showLanguageMenu = false;
     this.showEvaluationMenu = false;
     this.showUserMenu = false;
+    this.closeMobileMenu();
+  }
+
+  // Handle window resize to close mobile menu if switching to desktop
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event) {
+    if (window.innerWidth > 767) {
+      this.closeMobileMenu();
+    }
   }
 }

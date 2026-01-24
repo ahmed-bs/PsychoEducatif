@@ -171,6 +171,34 @@
   gap: 0.75rem;
 }
 
+/* Main Content Wrapper */
+.goals-main-wrapper {
+  transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Adjust floating button when sidebar is open */
+.goals-main-wrapper.sidebar-open .floating-button-wrapper {
+  right: calc(55% + 1rem);
+}
+
+@media (max-width: 1200px) {
+  .goals-main-wrapper.sidebar-open .floating-button-wrapper {
+    right: calc(60% + 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .goals-main-wrapper.sidebar-open .floating-button-wrapper {
+    right: calc(85% + 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .goals-main-wrapper.sidebar-open .floating-button-wrapper {
+    right: 1rem;
+  }
+}
+
 /* Floating Action Button */
 .floating-add-button {
   width: 56px;
@@ -514,6 +542,415 @@
 
   .goal-description {
     font-size: 0.875rem;
+  }
+}
+
+/* Calendar Sidebar Toggle Button */
+.calendar-toggle-btn {
+  position: fixed;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  z-index: 999;
+}
+
+.calendar-toggle-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+.calendar-toggle-btn.active {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  right: calc(55% - 28px);
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calendar-toggle-btn.active:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+}
+
+@media (max-width: 1200px) {
+  .calendar-toggle-btn.active {
+    right: calc(65% - 28px);
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-toggle-btn.active {
+    right: calc(85% - 24px);
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-toggle-btn.active {
+    right: calc(100% - 22px);
+  }
+}
+
+/* Calendar Sidebar */
+.calendar-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100vh;
+  background: white;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 998;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Calendar Sidebar Header */
+.calendar-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.calendar-sidebar-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.calendar-sidebar-title i {
+  font-size: 1.375rem;
+}
+
+.calendar-sidebar-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  transition: all 0.2s ease;
+}
+
+.calendar-sidebar-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.calendar-sidebar-close:active {
+  transform: scale(0.95);
+}
+
+.calendar-sidebar.open {
+  width: 55%;
+  min-width: 650px;
+  max-width: 950px;
+}
+
+.calendar-sidebar-content {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  background: #f8fafc;
+  min-height: 0;
+}
+
+/* Calendar component adjustments in sidebar */
+.calendar-sidebar-content ::ng-deep app-calendar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Ensure modals are positioned relative to viewport, not sidebar */
+.calendar-sidebar-content ::ng-deep app-calendar .fixed {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+
+/* Hide header title and breadcrumbs in sidebar */
+.calendar-sidebar-content ::ng-deep app-calendar .head-title {
+  display: none;
+}
+
+/* Compact stats card */
+.calendar-sidebar-content ::ng-deep app-calendar .stats-card {
+  display: none;
+}
+
+/* Main calendar container adjustments */
+.calendar-sidebar-content ::ng-deep app-calendar > div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .p-4,
+.calendar-sidebar-content ::ng-deep app-calendar .sm\:p-6,
+.calendar-sidebar-content ::ng-deep app-calendar .lg\:p-8 {
+  padding: 0.75rem !important;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .flex {
+  flex-direction: column !important;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .lg\:flex-row {
+  flex-direction: column !important;
+}
+
+/* Calendar container - make it full width */
+.calendar-sidebar-content ::ng-deep app-calendar .flex-1,
+.calendar-sidebar-content ::ng-deep app-calendar .lg\:flex-auto {
+  width: 100%;
+  flex: 1;
+  min-height: 400px;
+}
+
+/* Hide the domain sidebar within calendar when in sidebar mode */
+.calendar-sidebar-content ::ng-deep app-calendar .sidebar {
+  display: none !important;
+}
+
+/* FullCalendar adjustments */
+.calendar-sidebar-content ::ng-deep app-calendar .calendar-container {
+  width: 100%;
+  min-height: 400px;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .calendar-container full-calendar {
+  min-height: 400px;
+}
+
+/* FullCalendar styling adjustments */
+.calendar-sidebar-content ::ng-deep app-calendar .fc {
+  font-size: 0.875rem !important;
+  height: 100% !important;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-toolbar {
+  padding: 0.75rem 1rem !important;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-toolbar-title {
+  font-size: 1.25rem !important;
+  margin: 0 10px !important;
+  white-space: nowrap;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-button {
+  padding: 6px 10px !important;
+  font-size: 0.8rem !important;
+  margin: 2px !important;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-daygrid-day-number,
+.calendar-sidebar-content ::ng-deep app-calendar .fc-col-header-cell-cushion {
+  font-size: 0.9rem !important;
+  padding: 4px !important;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-event {
+  font-size: 0.75rem !important;
+  padding: 4px 6px !important;
+  margin: 1px 0 !important;
+  cursor: pointer;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-view-harness {
+  min-height: 450px !important;
+  flex: 1;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-scroller {
+  overflow-y: auto !important;
+}
+
+.calendar-sidebar-content ::ng-deep app-calendar .fc-daygrid-body {
+  min-height: 400px;
+}
+
+/* Scrollbar styling */
+.calendar-sidebar-content {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #e2e8f0;
+}
+
+.calendar-sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.calendar-sidebar-content::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 3px;
+}
+
+.calendar-sidebar-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 3px;
+}
+
+.calendar-sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 997;
+  pointer-events: none;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* Adjust goals container when sidebar is open */
+.goals-container {
+  transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive adjustments for calendar sidebar */
+@media (max-width: 1200px) {
+  .calendar-sidebar.open {
+    width: 65%;
+    min-width: 550px;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-toggle-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+    right: 1rem;
+  }
+
+  .calendar-sidebar.open {
+    width: 90%;
+    min-width: 0;
+    max-width: 90%;
+  }
+
+  .calendar-sidebar-header {
+    padding: 1rem;
+  }
+
+  .calendar-sidebar-title {
+    font-size: 1.125rem;
+  }
+
+  .calendar-sidebar-content {
+    padding: 0;
+  }
+
+  .calendar-sidebar-content ::ng-deep app-calendar .fc-toolbar {
+    padding: 0.5rem !important;
+  }
+
+  .calendar-sidebar-content ::ng-deep app-calendar .fc-toolbar-title {
+    font-size: 1rem !important;
+  }
+
+  .calendar-sidebar-content ::ng-deep app-calendar .fc-button {
+    padding: 4px 8px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .calendar-sidebar-content ::ng-deep app-calendar .fc-view-harness {
+    min-height: 350px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-toggle-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.125rem;
+    right: 0.75rem;
+  }
+
+  .calendar-sidebar.open {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .calendar-sidebar-header {
+    padding: 0.875rem;
+  }
+
+  .calendar-sidebar-title {
+    font-size: 1rem;
+    gap: 0.5rem;
+  }
+
+  .calendar-sidebar-title i {
+    font-size: 1.125rem;
+  }
+
+  .calendar-sidebar-content ::ng-deep app-calendar .fc-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .calendar-sidebar-content ::ng-deep app-calendar .fc-toolbar-chunk {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .calendar-sidebar-content ::ng-deep app-calendar .fc-view-harness {
+    min-height: 300px !important;
   }
 }
 

@@ -375,6 +375,17 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
   
+  // Share modal tabs
+  shareModalActiveTab: string = 'share';
+  shareModalTabs = [
+    { id: 'share', label: 'dashboard.share_profile_dialog.tabs.share' },
+    { id: 'users', label: 'dashboard.share_profile_dialog.tabs.users' }
+  ];
+  
+  // Users permissions data
+  profileUsersPermissions: any = null;
+  loadingUsersPermissions: boolean = false;
+  
   // Statistics data
   statistics: OverallStatistics | null = null;
   isLoadingStatistics: boolean = false;
@@ -750,7 +761,59 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     this.saisieEmail = '';
     this.sharePermissions = { can_read: true, can_write: false, can_update: false, can_delete: false };
     this.accesSelectionne = this.optionsAcces[0];
+    this.shareModalActiveTab = 'share';
     this.afficherBoiteDialoguePartage = true;
+    // Load users permissions when opening the dialog
+    if (this.selectedChild?.id) {
+      this.loadUsersPermissions(this.selectedChild.id);
+    }
+  }
+  
+  switchShareModalTab(tabId: string): void {
+    this.shareModalActiveTab = tabId;
+    // Load users permissions when switching to users tab
+    if (tabId === 'users' && this.selectedChild?.id && !this.profileUsersPermissions) {
+      this.loadUsersPermissions(this.selectedChild.id);
+    }
+  }
+  
+  isShareModalTabActive(tabId: string): boolean {
+    return this.shareModalActiveTab === tabId;
+  }
+  
+  loadUsersPermissions(profileId: number): void {
+    this.loadingUsersPermissions = true;
+    this.profileUsersPermissions = null;
+    
+    this.profileService.getProfileUsersPermissions(profileId).subscribe({
+      next: (data) => {
+        this.profileUsersPermissions = data;
+        this.loadingUsersPermissions = false;
+      },
+      error: (error) => {
+        console.error('Error loading users permissions:', error);
+        this.loadingUsersPermissions = false;
+        // Don't show error to user, just log it
+      }
+    });
+  }
+  
+  getPermissionBadgeClass(permission: string): string {
+    const classMap: { [key: string]: string } = {
+      'view': 'permission-badge-view',
+      'edit': 'permission-badge-edit',
+      'share': 'permission-badge-share'
+    };
+    return classMap[permission] || 'permission-badge-default';
+  }
+  
+  getPermissionLabel(permission: string): string {
+    const labelMap: { [key: string]: string } = {
+      'view': 'dashboard.share_profile_dialog.permissions.view',
+      'edit': 'dashboard.share_profile_dialog.permissions.edit',
+      'share': 'dashboard.share_profile_dialog.permissions.share'
+    };
+    return labelMap[permission] || permission;
   }
 
   addChild() {
@@ -897,9 +960,15 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
 
     this.profileService.shareChildProfile(this.selectedChild.id!, shareData).subscribe({
       next: (message) => {
-        this.afficherBoiteDialoguePartage = false;
         this.loadingShare = false;
         Swal.fire('Succès', message || 'Profil partagé avec succès.', 'success');
+        // Reload users permissions after sharing
+        if (this.selectedChild?.id) {
+          this.loadUsersPermissions(this.selectedChild.id);
+        }
+        // Reset form
+        this.saisieEmail = '';
+        this.accesSelectionne = this.optionsAcces[0];
       },
       error: (err) => {
         this.loadingShare = false;

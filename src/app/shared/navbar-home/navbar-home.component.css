@@ -214,10 +214,13 @@ nav {
 }
 
 /* Mobile responsiveness for language switcher */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .nav__language {
     order: -1;
     margin: 0.5rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
   
   .lang-icon-btn {
@@ -232,9 +235,15 @@ nav {
   }
 
   .language-dropdown {
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     min-width: 160px;
     top: calc(100% + 0.5rem);
+    margin-left: 0;
+  }
+
+  .language-dropdown.show {
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 
   .lang-option {
@@ -544,65 +553,6 @@ nav {
   }
 }
 
-@media (min-width < 768px) {
-  nav {
-    position: static;
-    padding-block: 0 0;
-    padding-inline: 1rem;
-    max-width: 1200px;
-    margin-inline: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .nav__header {
-    flex: 1;
-    padding: 0;
-  }
-
-  .nav__menu__btn {
-    display: none;
-  }
-
-  .nav__links {
-    position: static;
-    padding: 0;
-    flex-direction: row;
-    background-color: transparent;
-    transform: none;
-    justify-content: center;
-    margin-left: 200px;
-  }
-
-  .nav__links a {
-    padding-block: 5px;
-    font-size: 15px;
-    color: #1a73e8;
-    border-bottom: 4px solid transparent;
-  }
-
-  .nav__btns {
-    display: flex;
-    flex: 1;
-  }
-
-  .nav__btns .btn {
-    padding: 14px 45px;
-    outline: none;
-    border: none;
-    font-size: 15px;
-    white-space: nowrap;
-    border-radius: 100px;
-    transition: 0.3s;
-    cursor: pointer;
-  }
-
-
-
-}
-
 /* Contact and Social Media Bar */
 .contact-social-bar {
   position: fixed;
@@ -714,30 +664,154 @@ nav {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .contact-social-bar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     flex-direction: column;
-    gap: 16px;
-    padding: 16px 20px;
+    gap: 12px;
+    padding: 12px 16px;
     z-index: 10;
   }
   
   nav {
-    top: 120px;
+    position: fixed;
+    top: 110px;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .nav__header {
+    padding: 0.75rem 1rem;
+    min-height: 60px;
+    position: relative;
+    z-index: 12;
+  }
+
+  .nav__logo {
+    width: 45px;
+  }
+
+  .nav__logo-text {
+    font-size: 1.2rem;
+  }
+
+  .nav__links {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 1rem;
+    padding-top: 1rem;
+    gap: 1rem;
+    border-radius: 0 0 20px 20px;
+    max-height: calc(100vh - 170px);
+    overflow-y: auto;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .nav__links.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav__links li {
+    width: 100%;
+  }
+
+  .nav__links a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
   }
 
   .contact-info {
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     width: 100%;
     text-align: center;
   }
 
+  .contact-item {
+    font-size: 12px;
+  }
+
+  .contact-item i {
+    font-size: 14px;
+  }
+
   .social-media {
     justify-content: center;
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .social-icon i {
+    font-size: 14px;
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .contact-social-bar {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .contact-item {
+    font-size: 11px;
+  }
+
+  .social-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .nav__header {
+    padding: 0.5rem 0.75rem;
+    min-height: 55px;
+  }
+
+  .nav__logo {
+    width: 40px;
+  }
+
+  .nav__logo-text {
+    font-size: 1.1rem;
+  }
+
+  nav {
+    top: 105px;
+  }
+
+  .nav__links {
+    top: 55px;
+    padding: 1rem 0.75rem;
+    gap: 0.75rem;
+    max-height: calc(100vh - 160px);
+  }
+
+  .nav__links a {
+    padding: 10px 14px;
+    font-size: 13px;
   }
 }
