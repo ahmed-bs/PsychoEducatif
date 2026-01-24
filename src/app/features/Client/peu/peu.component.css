@@ -1,8 +1,7 @@
 .peu-container {
   padding: 32px;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
-  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
   min-height: 100vh;
   position: relative;
 }
@@ -54,7 +53,7 @@
 }
 
 .back-button {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   cursor: pointer;
