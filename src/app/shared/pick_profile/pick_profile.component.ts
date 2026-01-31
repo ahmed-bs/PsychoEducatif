@@ -112,6 +112,21 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Re-read parentId from localStorage to ensure we have the latest data
+    // This fixes the issue where the component might initialize before user data is saved
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const userData = JSON.parse(user);
+        this.parentId = userData?.id ? Number(userData.id) : 0;
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+        this.parentId = 0;
+      }
+    } else {
+      this.parentId = 0;
+    }
+
     if (!this.parentId) {
       this.translate.get(['profile_messages.load_user_error.title', 'profile_messages.load_user_error.text']).subscribe(translations => {
         Swal.fire({
@@ -136,7 +151,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
       return;
     }
     // Get username from localStorage and format it properly
-    const user = localStorage.getItem('user');
     if (user) {
       const userData = JSON.parse(user);
       let name = userData.username || '';

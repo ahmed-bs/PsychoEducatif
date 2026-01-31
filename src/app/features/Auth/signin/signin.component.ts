@@ -91,9 +91,14 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.authService.login(email, password).subscribe({
       next: (response) => {
         this.isLoading = false;
+        
+        // Ensure all data is saved to localStorage before navigation
         localStorage.setItem('token', response.access);
         localStorage.setItem('refresh_token', response.refresh);
         localStorage.setItem('user', JSON.stringify(response.user));
+        
+        // Update auth service's current user subject to keep it in sync
+        this.authService.setCurrentUser(response.user);
         
         // Use translated success message
         this.translate.get(['login_form.success_message.title', 'login_form.success_message.text']).subscribe(translations => {
@@ -104,7 +109,10 @@ export class SigninComponent implements OnInit, OnDestroy {
             timer: 2000,
             showConfirmButton: false
           }).then(() => {
-            this.router.navigate(['/pick_profileComponent']);
+            // Small delay to ensure localStorage is fully written and component can read it
+            setTimeout(() => {
+              this.router.navigate(['/pick_profileComponent']);
+            }, 100);
           });
         });
       },

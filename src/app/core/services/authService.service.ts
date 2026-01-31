@@ -95,5 +95,10 @@ export class AuthService {
   get currentUserValue() {
     return this.currentUserSubject.value;
   }
+
+  // Update current user after login
+  setCurrentUser(user: any): void {
+    this.currentUserSubject.next(user);
+  }
 }
 

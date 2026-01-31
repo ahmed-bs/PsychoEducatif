@@ -113,10 +113,19 @@ export class SignupComponent implements OnInit, OnDestroy {
   showTermsAndConditions() {
     this.translate.get(['signup_form.terms_title', 'signup_form.terms_content']).subscribe(translations => {
       const closeText = this.translate.instant('skills_evaluation.popup.close') || 'Fermer';
+      // Determine responsive width based on screen size
+      const screenWidth = window.innerWidth;
+      let popupWidth = '600px';
+      if (screenWidth <= 480) {
+        popupWidth = '95%';
+      } else if (screenWidth <= 768) {
+        popupWidth = '90%';
+      }
+      
       Swal.fire({
         title: translations['signup_form.terms_title'],
         html: translations['signup_form.terms_content'],
-        width: '700px',
+        width: popupWidth,
         confirmButtonText: closeText,
         confirmButtonColor: '#4da5d8',
         customClass: {
