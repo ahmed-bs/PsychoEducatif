@@ -79,7 +79,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   private languageSubscription!: Subscription;
   currentLang: string = 'fr';
   showLanguageMenu: boolean = false;
-  showMenuDropdown: boolean = false;
   
   // 3D Carousel properties
   rotationAngle: number = 0;
@@ -183,25 +182,7 @@ export class PickProfileComponent implements OnInit, OnDestroy {
       this.updateGenderOptions();
     });
 
-    // Setup mobile menu toggle
-    const menuBtn = document.getElementById('menu-btn');
-    const navLinks = document.getElementById('nav-links');
-    const menuBtnIcon = menuBtn?.querySelector('i');
-
-    menuBtn?.addEventListener('click', () => {
-      navLinks?.classList.toggle('open');
-      const isOpen = navLinks?.classList.contains('open');
-      menuBtnIcon?.setAttribute('class', isOpen ? 'ri-close-line' : 'ri-menu-line');
-    });
-
-    // Close menu when clicking on a link
-    navLinks?.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === 'A' || target.closest('a') || target.tagName === 'BUTTON' || target.closest('button')) {
-        navLinks?.classList.remove('open');
-        menuBtnIcon?.setAttribute('class', 'ri-menu-line');
-      }
-    });
+    // Mobile menu toggle removed - navbar is always visible on mobile/tablet
   }
 
   ngOnDestroy() {
@@ -902,16 +883,11 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   }
 
   // Toggle menu dropdown
-  toggleMenuDropdown(): void {
-    this.showMenuDropdown = !this.showMenuDropdown;
-    if (this.showMenuDropdown) {
-      this.showLanguageMenu = false; // Close language menu if open
-    }
-  }
+
 
   // Change account method
   changeAccount(): void {
-    this.showMenuDropdown = false;
+    this.showLanguageMenu = false; // Close language menu if open
     this.translate.get([
       'navbar.buttons.change_account_confirm.title',
       'navbar.buttons.change_account_confirm.text',
@@ -957,9 +933,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
       this.showLanguageMenu = false;
     }
-    if (!target.closest('.menu-dropdown-container') && this.showMenuDropdown) {
-      this.showMenuDropdown = false;
-    }
   }
 
   // Close language menu with Escape key
@@ -969,9 +942,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (keyboardEvent.key === 'Escape') {
       if (this.showLanguageMenu) {
         this.showLanguageMenu = false;
-      }
-      if (this.showMenuDropdown) {
-        this.showMenuDropdown = false;
       }
     }
   }
