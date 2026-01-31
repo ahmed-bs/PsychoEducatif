@@ -438,6 +438,43 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     return -(index * delayStep);
   }
 
+  // Snap to nearest card position after swipe/glide
+  snapToNearestCard(): void {
+    if (this.filteredChildren.length === 0) return;
+    
+    const angleStep = 360 / this.filteredChildren.length;
+    
+    // Normalize rotation angle to 0-360 range for calculation
+    let normalizedAngle = this.rotationAngle % 360;
+    if (normalizedAngle < 0) {
+      normalizedAngle += 360;
+    }
+    
+    // Find the nearest card position (0 to filteredChildren.length - 1)
+    let nearestIndex = Math.round(normalizedAngle / angleStep);
+    // Ensure index is within valid range
+    if (nearestIndex >= this.filteredChildren.length) {
+      nearestIndex = 0;
+    } else if (nearestIndex < 0) {
+      nearestIndex = this.filteredChildren.length - 1;
+    }
+    
+    const targetAngle = nearestIndex * angleStep;
+    
+    // Calculate the shortest rotation path
+    let angleDiff = targetAngle - normalizedAngle;
+    
+    // Handle wrap-around (choose shortest path)
+    if (angleDiff > 180) {
+      angleDiff -= 360;
+    } else if (angleDiff < -180) {
+      angleDiff += 360;
+    }
+    
+    // Apply the snap - add the difference to current rotation angle
+    this.rotationAngle += angleDiff;
+  }
+
   onMouseDown(event: MouseEvent): void {
     if (this.filteredChildren.length === 0) return;
     this.isDragging = true;
@@ -469,6 +506,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (carousel) {
       carousel.style.transition = '';
     }
+    // Snap to nearest card position
+    this.snapToNearestCard();
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
@@ -505,6 +544,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (carousel) {
       carousel.style.transition = '';
     }
+    // Snap to nearest card position
+    this.snapToNearestCard();
     document.removeEventListener('touchmove', this.onTouchMove);
     document.removeEventListener('touchend', this.onTouchEnd);
   }
