@@ -435,26 +435,39 @@
   },
   "strategies_section": {
     "title": "🌟 Our Strategies",
+    "title_en": "🌟 Our Strategies",
     "items": {
       "interactive_tools": {
         "title": "Use of interactive tools",
+        "title_en": "Use of interactive tools",
         "description": "Develop games and fun activities to stimulate cognitive, social and behavioral skills.",
-        "image_alt": "Interactive tools"
+        "description_en": "Develop games and fun activities to stimulate cognitive, social and behavioral skills.",
+        "image_alt": "Interactive tools",
+        "image_alt_en": "Interactive tools"
       },
       "personalized_approach": {
         "title": "Personalized approach",
+        "title_en": "Personalized approach",
         "description": "Adapt educational strategies to each child's specific needs for optimal results.",
-        "image_alt": "Personalized approach"
+        "description_en": "Adapt educational strategies to each child's specific needs for optimal results.",
+        "image_alt": "Personalized approach",
+        "image_alt_en": "Personalized approach"
       },
       "family_involvement": {
         "title": "Family involvement",
+        "title_en": "Family involvement",
         "description": "Create a collaborative environment where parents actively participate in their child's development.",
-        "image_alt": "Family involvement"
+        "description_en": "Create a collaborative environment where parents actively participate in their child's development.",
+        "image_alt": "Family involvement",
+        "image_alt_en": "Family involvement"
       },
       "progress_tracking": {
         "title": "Continuous progress tracking",
+        "title_en": "Continuous progress tracking",
         "description": "Provide tools to measure skills evolution and adjust goals accordingly.",
-        "image_alt": "Progress tracking"
+        "description_en": "Provide tools to measure skills evolution and adjust goals accordingly.",
+        "image_alt": "Progress tracking",
+        "image_alt_en": "Progress tracking"
       }
     }
   },
