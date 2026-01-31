@@ -121,27 +121,52 @@ export class SigninComponent implements OnInit, OnDestroy {
         let errorMessage = this.translate.instant('login_form.error_message.default_text');
         if (error.error) {
           if (typeof error.error === 'object' && !Array.isArray(error.error)) {
-            errorMessage = Object.entries(error.error)
-              .map(([field, messages]) => {
-                if (Array.isArray(messages)) {
-                  return messages.map(msg => `${field}: ${msg}`).join('\n');
+            // Extract error messages without field prefixes
+            const messages: string[] = [];
+            Object.entries(error.error).forEach(([field, fieldMessages]) => {
+              if (Array.isArray(fieldMessages)) {
+                fieldMessages.forEach(msg => {
+                  // Skip field name prefix for non_field_errors, otherwise use a cleaner format
+                  if (field === 'non_field_errors') {
+                    messages.push(msg);
+                  } else {
+                    messages.push(msg);
+                  }
+                });
+              } else if (typeof fieldMessages === 'string') {
+                if (field === 'non_field_errors') {
+                  messages.push(fieldMessages);
+                } else {
+                  messages.push(fieldMessages);
                 }
-                return `${field}: ${messages}`;
-              })
-              .join('\n');
+              }
+            });
+            errorMessage = messages.length > 0 ? messages.join('\n') : errorMessage;
           } else if (typeof error.error === 'string') {
             errorMessage = error.error;
           } else if (error.error.message) {
             errorMessage = error.error.message;
           }
         }
-        // Use translated error message
+        // Use translated error message with matching popup design
         this.translate.get('login_form.error_message.title').subscribe(title => {
           Swal.fire({
             icon: 'error',
             title: title,
-            text: errorMessage,
-            confirmButtonColor: '#f44336'
+            html: `<div class="error-warning">
+                    <i class="fas fa-exclamation-triangle warning-icon"></i>
+                    <p>${errorMessage}</p>
+                  </div>`,
+            width: '700px',
+            confirmButtonColor: '#4da5d8',
+            confirmButtonText: 'OK',
+            customClass: {
+              popup: 'terms-popup error-popup',
+              title: 'terms-title',
+              htmlContainer: 'terms-html-container',
+              confirmButton: 'terms-confirm-button'
+            },
+            allowOutsideClick: true
           });
         });
         console.error('Login error:', error);
