@@ -166,69 +166,27 @@
           </div>
 
           <!-- Note Content -->
-          <ng-container *ngIf="editingNoteId !== note.id">
-            <div class="note-content">
-              <p class="note-text">{{ note.content }}</p>
-            </div>
+          <div class="note-content">
+            <p class="note-text">{{ note.content }}</p>
+          </div>
 
-            <!-- Note Actions -->
-            <div *ngIf="note.author_username === currentLoggedInUsername" class="note-actions">
-              <button 
-                type="button"
-                class="note-action-btn note-edit-btn"
-                (click)="startEdit(note)">
-                <i class="fas fa-edit"></i>
-                <span>{{ 'dashboard_tabs.notes.edit' | translate }}</span>
-              </button>
-              <button 
-                type="button"
-                class="note-action-btn note-delete-btn"
-                (click)="deleteNote(note.id)">
-                <i class="fas fa-trash-alt"></i>
-                <span>{{ 'dashboard_tabs.notes.delete' | translate }}</span>
-              </button>
-            </div>
-          </ng-container>
-
-          <!-- Edit Mode -->
-          <ng-container *ngIf="editingNoteId === note.id">
-            <div class="note-edit-mode">
-              <textarea
-                class="note-edit-textarea"
-                rows="6"
-                [(ngModel)]="editedNoteContent"
-                [placeholder]="'dashboard_tabs.notes.note_placeholder' | translate">
-              </textarea>
-              <div class="note-edit-actions">
-                <label class="note-edit-checkbox-label">
-                  <input 
-                    type="checkbox" 
-                    class="note-edit-checkbox"
-                    [(ngModel)]="editedIsImportant">
-                  <span class="checkbox-custom-edit">
-                    <i class="fas fa-check" *ngIf="editedIsImportant"></i>
-                  </span>
-                  <span class="checkbox-text">{{ 'dashboard_tabs.notes.important_note_checkbox' | translate }}</span>
-                </label>
-                <div class="note-edit-buttons">
-                  <button
-                    type="button"
-                    class="note-cancel-btn"
-                    (click)="cancelEdit()">
-                    <i class="fas fa-times"></i>
-                    {{ 'dashboard_tabs.notes.cancel' | translate }}
-                  </button>
-                  <button
-                    type="button"
-                    class="note-save-btn"
-                    (click)="saveEditedNote(note.id)">
-                    <i class="fas fa-save"></i>
-                    {{ 'dashboard_tabs.notes.save_changes' | translate }}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </ng-container>
+          <!-- Note Actions -->
+          <div *ngIf="note.author_username === currentLoggedInUsername" class="note-actions">
+            <button 
+              type="button"
+              class="note-action-btn note-edit-btn"
+              (click)="startEdit(note)">
+              <i class="fas fa-edit"></i>
+              <span>{{ 'dashboard_tabs.notes.edit' | translate }}</span>
+            </button>
+            <button 
+              type="button"
+              class="note-action-btn note-delete-btn"
+              (click)="openDeleteModal(note)">
+              <i class="fas fa-trash-alt"></i>
+              <span>{{ 'dashboard_tabs.notes.delete' | translate }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -327,6 +285,160 @@
           [disabled]="!newNoteContent.trim()">
           <i class="fas fa-save"></i>
           {{ 'dashboard_tabs.notes.save' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Note Modal -->
+  <div *ngIf="showEditNoteModal" class="modal-overlay" (click)="closeEditNoteModal()">
+    <div class="add-note-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-icon-wrapper">
+            <i class="fas fa-edit"></i>
+          </div>
+          <div class="modal-title-wrapper">
+            <h3 class="modal-title">
+              {{ 'dashboard_tabs.notes.edit_note' | translate }}
+            </h3>
+            <p class="modal-subtitle">{{ 'dashboard_tabs.notes.edit_modal_subtitle' | translate }}</p>
+          </div>
+        </div>
+        <button 
+          type="button"
+          class="modal-close-btn"
+          (click)="closeEditNoteModal()"
+          [attr.aria-label]="'dashboard_tabs.notes.cancel' | translate">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="edit-note-content" class="form-label">
+            <i class="fas fa-align-left"></i>
+            <span>{{ 'dashboard_tabs.notes.note_content_label' | translate }}</span>
+          </label>
+          <div class="textarea-wrapper">
+            <textarea
+              id="edit-note-content"
+              class="form-textarea"
+              rows="8"
+              [placeholder]="'dashboard_tabs.notes.note_placeholder' | translate"
+              [(ngModel)]="editedNoteContent"
+              maxlength="2000">
+            </textarea>
+            <div class="character-count">
+              <span [class.warning]="editedNoteContent.length > 1800">{{ editedNoteContent.length }}/2000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <div class="checkbox-wrapper" [class.checked]="editedIsImportant">
+            <label class="form-checkbox-label">
+              <input 
+                type="checkbox" 
+                class="form-checkbox"
+                [(ngModel)]="editedIsImportant">
+              <div class="checkbox-custom">
+                <i class="fas fa-check" *ngIf="editedIsImportant"></i>
+              </div>
+              <div class="checkbox-content">
+                <span class="checkbox-title">
+                  <i class="fas fa-star"></i>
+                  {{ 'dashboard_tabs.notes.important_note_checkbox' | translate }}
+                </span>
+                <span class="checkbox-description">{{ 'dashboard_tabs.notes.important_note_description' | translate }}</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button 
+          type="button"
+          class="modal-btn-secondary"
+          (click)="closeEditNoteModal()">
+          <i class="fas fa-times"></i>
+          {{ 'dashboard_tabs.notes.cancel' | translate }}
+        </button>
+        <button 
+          type="button"
+          class="modal-btn-primary"
+          (click)="saveEditedNote(editingNoteId || undefined)"
+          [disabled]="!editedNoteContent.trim()">
+          <i class="fas fa-save"></i>
+          {{ 'dashboard_tabs.notes.save_changes' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Note Confirmation Modal -->
+  <div *ngIf="showDeleteNoteModal" class="modal-overlay" (click)="closeDeleteModal()">
+    <div class="add-note-modal delete-note-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header delete-modal-header">
+        <div class="modal-header-content">
+          <div class="modal-icon-wrapper delete-icon-wrapper">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="modal-title-wrapper">
+            <h3 class="modal-title">
+              {{ 'dashboard_tabs.notes.delete_confirmation_title' | translate }}
+            </h3>
+            <p class="modal-subtitle">{{ 'dashboard_tabs.notes.delete_confirmation_message' | translate }}</p>
+          </div>
+        </div>
+        <button 
+          type="button"
+          class="modal-close-btn"
+          (click)="closeDeleteModal()"
+          [attr.aria-label]="'dashboard_tabs.notes.cancel' | translate">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="delete-note-preview" *ngIf="noteBeingDeleted">
+          <div class="preview-content">
+            <div class="preview-label">
+              <i class="fas fa-sticky-note"></i>
+              <span>{{ 'dashboard_tabs.notes.note_preview' | translate }}</span>
+            </div>
+            <div class="preview-text">
+              <p>{{ noteBeingDeleted.content }}</p>
+            </div>
+            <div class="preview-meta">
+              <span *ngIf="noteBeingDeleted.is_important" class="preview-badge important-badge">
+                <i class="fas fa-star"></i>
+                {{ 'dashboard_tabs.notes.important_note_checkbox' | translate }}
+              </span>
+              <span class="preview-date">
+                <i class="fas fa-calendar-alt"></i>
+                {{ formatDate(noteBeingDeleted.created_at) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button 
+          type="button"
+          class="modal-btn-secondary"
+          (click)="closeDeleteModal()">
+          <i class="fas fa-times"></i>
+          {{ 'dashboard_tabs.notes.cancel' | translate }}
+        </button>
+        <button 
+          type="button"
+          class="modal-btn-danger"
+          (click)="confirmDeleteNote()">
+          <i class="fas fa-trash-alt"></i>
+          {{ 'dashboard_tabs.notes.confirm_delete' | translate }}
         </button>
       </div>
     </div>

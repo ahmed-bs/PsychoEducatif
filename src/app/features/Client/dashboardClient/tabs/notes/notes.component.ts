@@ -37,6 +37,10 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
   filterAuthorUsername: string = '';
   isSidebarOpen: boolean = false;
   showAddNoteModal: boolean = false;
+  showEditNoteModal: boolean = false;
+  noteBeingEdited: Note | null = null;
+  showDeleteNoteModal: boolean = false;
+  noteBeingDeleted: Note | null = null;
   private searchSubject = new Subject<string>();
   private authorSearchSubject = new Subject<string>();
   private languageSubscription: Subscription;
@@ -220,15 +224,23 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   startEdit(note: Note): void {
+    this.noteBeingEdited = note;
     this.editingNoteId = note.id || null;
     this.editedNoteContent = note.content;
     this.editedIsImportant = note.is_important;
+    this.showEditNoteModal = true;
   }
 
   cancelEdit(): void {
+    this.showEditNoteModal = false;
     this.editingNoteId = null;
     this.editedNoteContent = '';
     this.editedIsImportant = false;
+    this.noteBeingEdited = null;
+  }
+
+  closeEditNoteModal(): void {
+    this.cancelEdit();
   }
 
   saveEditedNote(noteId: number | undefined): void {
@@ -248,7 +260,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
         if (index !== -1) {
           this.notes[index] = { ...this.notes[index], ...response };
         }
-        this.cancelEdit();
+        this.closeEditNoteModal();
         this.loadNotes(); // Reload to ensure data consistency and potentially update author if needed
       },
       error: (error) => {
@@ -290,13 +302,26 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
     return timeDifferenceMs > thresholdMs;
   }
 
-  deleteNote(id: number | undefined): void {
-    if (id === undefined || !confirm(this.translate.instant('dashboard_tabs.notes.messages.confirm_delete'))) {
+  openDeleteModal(note: Note): void {
+    this.noteBeingDeleted = note;
+    this.showDeleteNoteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteNoteModal = false;
+    this.noteBeingDeleted = null;
+  }
+
+  confirmDeleteNote(): void {
+    if (!this.noteBeingDeleted || !this.noteBeingDeleted.id) {
       return;
     }
-    this.notesService.deleteNote(id).subscribe({
+
+    const noteId = this.noteBeingDeleted.id;
+    this.notesService.deleteNote(noteId).subscribe({
       next: () => {
-        this.notes = this.notes.filter(note => note.id !== id);
+        this.notes = this.notes.filter(note => note.id !== noteId);
+        this.closeDeleteModal();
       },
       error: (error) => {
         console.error('Error deleting note:', error);
@@ -305,6 +330,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           alert(this.translate.instant('dashboard_tabs.notes.messages.delete_failed'));
         }
+        this.closeDeleteModal();
       }
     });
   }
