@@ -244,7 +244,226 @@
     display: block;
   }
 
+/* =============== MAIN LAYOUT STYLES =============== */
 
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
 
+main {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.head-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.head-title .left {
+  flex: 1;
+  min-width: 0;
+}
+
+.head-title .left h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #1e1964;
+  line-height: 1.2;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumb li a {
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb li a:hover {
+  color: #6366f1;
+}
+
+.breadcrumb li a.active {
+  color: #6366f1;
+  font-weight: 600;
+}
+
+.breadcrumb li i {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.head-title .right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* =============== RESPONSIVE DESIGN - TABLET & MOBILE =============== */
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .container {
+    padding: 1.25rem;
+  }
+
+  .head-title {
+    margin-bottom: 1.5rem;
+  }
+
+  .head-title .left h1 {
+    font-size: 1.75rem;
+  }
+
+  .breadcrumb li a {
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile Landscape (481px - 768px) */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .head-title {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+  }
+
+  .head-title .left {
+    width: 100%;
+  }
+
+  .head-title .left h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb li a {
+    font-size: 0.8rem;
+  }
+
+  .breadcrumb li i {
+    font-size: 0.75rem;
+  }
+
+  .head-title .right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* Mobile Portrait (up to 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .head-title {
+    margin-bottom: 1rem;
+    gap: 0.75rem;
+  }
+
+  .head-title .left h1 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.8rem;
+    gap: 0.25rem;
+  }
+
+  .breadcrumb li {
+    gap: 0.25rem;
+  }
+
+  .breadcrumb li a {
+    font-size: 0.75rem;
+  }
+
+  .breadcrumb li i {
+    font-size: 0.7rem;
+  }
+
+  .head-title .right {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 0.5rem;
+  }
+}
+
+/* Extra Small Mobile (up to 360px) */
+@media (max-width: 360px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .head-title .left h1 {
+    font-size: 1.1rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.75rem;
+  }
+
+  .breadcrumb li a {
+    font-size: 0.7rem;
+  }
+}
+
+/* =============== TOUCH-FRIENDLY INTERACTIONS =============== */
+@media (max-width: 1024px) {
+  .breadcrumb li a {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .breadcrumb li a:active {
+    background-color: #f3f4f6;
+  }
+}
 
   

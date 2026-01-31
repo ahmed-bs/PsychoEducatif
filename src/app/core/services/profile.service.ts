@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError, of } from 'rxjs';
 import { Profile ,ProfileResponse  } from '../models/profile.model';
 import { environment } from 'src/environments/environment';
 import { ApiResponse, CreateProfileRequest, ShareProfileRequest, UpdateProfileRequest } from '../models/createprofile.model';
@@ -74,15 +74,45 @@ export class ProfileService {
   // Delete a child profile
   deleteChildProfile(profileId: number): Observable<string> {
     return this.http
-      .delete<ApiResponse<never>>(`${this.apiUrl}${profileId}/delete/`)
+      .delete(`${this.apiUrl}${profileId}/delete/`, { observe: 'response' })
       .pipe(
         map(response => {
-          if (response.error) {
-            throw new Error(response.error);
+          // Check status code first - 200-204 means success
+          if (response.status >= 200 && response.status < 300) {
+            // Handle empty response (204 No Content)
+            if (response.status === 204 || !response.body) {
+              return 'Profile deleted successfully';
+            }
+            // Try to parse response body as ApiResponse
+            try {
+              const body = typeof response.body === 'string' 
+                ? JSON.parse(response.body) 
+                : response.body;
+              const apiResponse = body as ApiResponse<never>;
+              if (apiResponse?.error) {
+                throw new Error(apiResponse.error);
+              }
+              return apiResponse?.message || 'Profile deleted successfully';
+            } catch (parseError) {
+              // If parsing fails but status is success, deletion succeeded
+              return 'Profile deleted successfully';
+            }
           }
-          return response.message!;
+          throw new Error(`Unexpected status code: ${response.status}`);
         }),
-        catchError(this.handleError)
+        catchError((error: HttpErrorResponse | Error) => {
+          // If it's an HttpErrorResponse with successful status code, deletion succeeded
+          if (error instanceof HttpErrorResponse) {
+            const status = error.status;
+            // 200-299 range means success (including 204 No Content)
+            if (status >= 200 && status < 300) {
+              // Deletion succeeded - return success message
+              return of('Profile deleted successfully');
+            }
+          }
+          // For other errors, use standard error handling
+          return this.handleError(error);
+        })
       );
   }
 

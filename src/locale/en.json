@@ -435,26 +435,39 @@
   },
   "strategies_section": {
     "title": "🌟 Our Strategies",
+    "title_en": "🌟 Our Strategies",
     "items": {
       "interactive_tools": {
         "title": "Use of interactive tools",
+        "title_en": "Use of interactive tools",
         "description": "Develop games and fun activities to stimulate cognitive, social and behavioral skills.",
-        "image_alt": "Interactive tools"
+        "description_en": "Develop games and fun activities to stimulate cognitive, social and behavioral skills.",
+        "image_alt": "Interactive tools",
+        "image_alt_en": "Interactive tools"
       },
       "personalized_approach": {
         "title": "Personalized approach",
+        "title_en": "Personalized approach",
         "description": "Adapt educational strategies to each child's specific needs for optimal results.",
-        "image_alt": "Personalized approach"
+        "description_en": "Adapt educational strategies to each child's specific needs for optimal results.",
+        "image_alt": "Personalized approach",
+        "image_alt_en": "Personalized approach"
       },
       "family_involvement": {
         "title": "Family involvement",
+        "title_en": "Family involvement",
         "description": "Create a collaborative environment where parents actively participate in their child's development.",
-        "image_alt": "Family involvement"
+        "description_en": "Create a collaborative environment where parents actively participate in their child's development.",
+        "image_alt": "Family involvement",
+        "image_alt_en": "Family involvement"
       },
       "progress_tracking": {
         "title": "Continuous progress tracking",
+        "title_en": "Continuous progress tracking",
         "description": "Provide tools to measure skills evolution and adjust goals accordingly.",
-        "image_alt": "Progress tracking"
+        "description_en": "Provide tools to measure skills evolution and adjust goals accordingly.",
+        "image_alt": "Progress tracking",
+        "image_alt_en": "Progress tracking"
       }
     }
   },
@@ -1110,8 +1123,8 @@
     },
     "child_profile": {
       "last_evaluation": "Last evaluation: {{date}}",
-      "gender_male": "♂ Male",
-      "gender_female": "♀ Female",
+      "gender_male": "Male",
+      "gender_female": "Female",
       "share_profile_button": "Share profile",
       "edit_profile_button": "Edit profile",
       "disable_profile_button": "Disable profile"
@@ -1322,8 +1335,25 @@
         "quiz_available": "Click to take the quiz.",
         "cannot_navigate_quiz": "Unable to launch quiz: Goal domain not found.",
         "confirm_delete": "Are you sure you want to delete this goal and all its sub-objectives?",
-        "sub_objective_disabled": "You cannot edit the sub-objective before {{date}}"
-      }
+        "sub_objective_disabled": "You cannot edit the sub-objective before {{date}}",
+        "update_date_failed": "Failed to update target date. Please try again."
+      },
+      "update_date_title": "Update Target Date",
+      "update_date_message": "Do you want to update this goal's target date to tomorrow before taking the quiz?",
+      "goal": "Goal",
+      "current_target_date": "Current Target Date",
+      "new_target_date": "New Target Date",
+      "tomorrow": "Tomorrow",
+      "repetition_type_label": "Repetition Type",
+      "yes_update": "Yes, Update",
+      "no_update": "No, Continue Without Update",
+      "updating": "Updating...",
+      "cancel": "Cancel",
+      "delete_confirmation_title": "Delete Goal",
+      "delete_confirmation_message": "Are you sure you want to delete this goal? This action cannot be undone.",
+      "goal_preview": "Goal Preview",
+      "confirm_delete": "Confirm Delete",
+      "deleting": "Deleting..."
     },
     "notes": {
       "title": "Notes and observations",
@@ -1359,12 +1389,19 @@
       "cancel": "Cancel",
       "save_changes": "Save changes",
       "add_new_note": "Add a new note",
+      "edit_note": "Edit note",
       "modal_subtitle": "Add an observation or important note",
+      "edit_modal_subtitle": "Edit your observation or important note",
+      "delete_confirmation_title": "Delete Note",
+      "delete_confirmation_message": "Are you sure you want to delete this note? This action cannot be undone.",
+      "note_preview": "Note Preview",
+      "confirm_delete": "Confirm Delete",
       "note_content_label": "Note content",
       "note_placeholder": "Write your observations here...",
       "important_note_checkbox": "Important note",
       "important_note_description": "Mark this note as important",
       "save": "Save",
+      "saving": "Saving...",
       "messages": {
         "content_empty": "Note content cannot be empty!",
         "no_profile_selected": "Unable to save note: No profile selected.",

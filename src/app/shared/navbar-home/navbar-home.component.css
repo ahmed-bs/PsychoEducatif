@@ -471,7 +471,73 @@ nav {
 
 
 
- @media (min-width: 768px) {
+ @media (min-width: 768px) and (max-width: 1024px) {
+   nav {
+     position: fixed;
+     top: 0;
+     left: 0;
+     right: 0;
+     width: 100%;
+     z-index: 11;
+     padding-inline: 2rem;
+     margin-inline: auto;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 2rem;
+     min-height: 70px;
+     height: auto;
+   }
+
+  .nav__header {
+    background-color: transparent;
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav__menu__btn {
+    display: none;
+  }
+
+  .nav__links {
+    position: static;
+    flex-direction: row;
+    background-color: transparent;
+    transform: none;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  .nav__links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .nav__links a:hover,
+  .nav__links a.active-link {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000000;
+  }
+ }
+
+ @media (min-width: 1025px) {
    nav {
      position: fixed;
      top: 55px;
@@ -664,21 +730,21 @@ nav {
 }
 
 /* Responsive */
-@media (max-width: 767px) {
+/* Hide contact-social-bar on tablet and mobile */
+@media (max-width: 1024px) {
   .contact-social-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px 16px;
-    z-index: 10;
+    display: none;
   }
   
   nav {
+    top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  nav {
     position: fixed;
-    top: 110px;
+    top: 0;
     left: 0;
     right: 0;
     margin-top: 0;
@@ -740,52 +806,10 @@ nav {
     font-size: 14px;
   }
 
-  .contact-info {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    text-align: center;
-  }
-
-  .contact-item {
-    font-size: 12px;
-  }
-
-  .contact-item i {
-    font-size: 14px;
-  }
-
-  .social-media {
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .social-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .social-icon i {
-    font-size: 14px;
-  }
 }
 
 /* Small Mobile (max-width: 480px) */
 @media (max-width: 480px) {
-  .contact-social-bar {
-    padding: 10px 12px;
-    gap: 10px;
-  }
-
-  .contact-item {
-    font-size: 11px;
-  }
-
-  .social-icon {
-    width: 28px;
-    height: 28px;
-  }
-
   .nav__header {
     padding: 0.5rem 0.75rem;
     min-height: 55px;
@@ -800,7 +824,7 @@ nav {
   }
 
   nav {
-    top: 105px;
+    top: 0;
   }
 
   .nav__links {

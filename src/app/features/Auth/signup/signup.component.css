@@ -537,104 +537,169 @@
 
 /* Terms and Conditions Popup Styles */
 ::ng-deep .terms-popup {
-  border-radius: 20px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-  }
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  font-family: 'Nunito', sans-serif !important;
+  max-width: 600px !important;
+}
 
 ::ng-deep .terms-title {
   font-family: 'Nunito', sans-serif !important;
   font-weight: 700 !important;
-  font-size: 28px !important;
+  font-size: 24px !important;
   color: #4da5d8 !important;
   margin-bottom: 20px !important;
   text-align: center;
-  }
+}
 
 ::ng-deep .terms-html-container {
   font-family: 'Nunito', sans-serif !important;
-  font-size: 15px !important;
-  line-height: 1.8 !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
   color: #333 !important;
-  text-align: left;
   max-height: 60vh;
   overflow-y: auto;
-  padding: 10px 5px;
+  padding: 10px 0;
 }
 
 ::ng-deep .terms-html-container::-webkit-scrollbar {
-  width: 8px;
-  }
+  width: 6px;
+}
 
 ::ng-deep .terms-html-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-  }
+  background: #f1f1f1;
+  border-radius: 3px;
+}
 
 ::ng-deep .terms-html-container::-webkit-scrollbar-thumb {
   background: #4da5d8;
-  border-radius: 10px;
-  }
-
-::ng-deep .terms-html-container::-webkit-scrollbar-thumb:hover {
-  background: #3d8bb8;
+  border-radius: 3px;
 }
 
 ::ng-deep .terms-content {
-  padding: 10px 0;
-  }
-
-::ng-deep .terms-section {
-    margin-bottom: 25px;
-  padding: 15px;
-  background: rgba(77, 165, 216, 0.05);
-  border-radius: 12px;
-  border-left: 4px solid #4da5d8;
-  transition: all 0.3s ease;
+  padding: 0;
 }
 
-::ng-deep .terms-section:hover {
-  background: rgba(77, 165, 216, 0.1);
-  transform: translateX(5px);
-  }
+::ng-deep .terms-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #4da5d8;
+}
 
 ::ng-deep .terms-section h4 {
   font-family: 'Nunito', sans-serif !important;
   font-weight: 600 !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   color: #4da5d8 !important;
-  margin: 0 0 12px 0 !important;
-  padding: 0 !important;
-  }
+  margin: 0 0 10px 0 !important;
+}
 
 ::ng-deep .terms-section p {
   font-family: 'Nunito', sans-serif !important;
-  font-weight: 400 !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
   color: #555 !important;
   margin: 0 !important;
-  line-height: 1.7 !important;
-  }
+  line-height: 1.6 !important;
+}
 
 ::ng-deep .terms-confirm-button {
   font-family: 'Nunito', sans-serif !important;
   font-weight: 600 !important;
-  font-size: 16px !important;
-  padding: 12px 30px !important;
-  border-radius: 25px !important;
-  background: linear-gradient(135deg, #4da5d8 0%, #3d8bb8 100%) !important;
+  font-size: 15px !important;
+  padding: 10px 24px !important;
+  border-radius: 8px !important;
+  background: #4da5d8 !important;
   border: none !important;
-  box-shadow: 0 4px 15px rgba(77, 165, 216, 0.3) !important;
-  transition: all 0.3s ease !important;
-  }
+  color: white !important;
+  transition: background 0.2s ease !important;
+}
 
 ::ng-deep .terms-confirm-button:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(77, 165, 216, 0.4) !important;
-  background: linear-gradient(135deg, #3d8bb8 0%, #2d7ba8 100%) !important;
+  background: #3d8bb8 !important;
+}
+
+/* Responsive Styles for Terms Popup */
+@media (max-width: 768px) {
+  ::ng-deep .terms-popup {
+    max-width: 90% !important;
+    margin: 10px !important;
+    border-radius: 10px !important;
+  }
+
+  ::ng-deep .terms-title {
+    font-size: 20px !important;
+    margin-bottom: 15px !important;
+  }
+
+  ::ng-deep .terms-html-container {
+    font-size: 13px !important;
+    max-height: 50vh !important;
+    padding: 8px 0 !important;
+  }
+
+  ::ng-deep .terms-section {
+    padding: 12px !important;
+    margin-bottom: 15px !important;
+  }
+
+  ::ng-deep .terms-section h4 {
+    font-size: 15px !important;
+    margin-bottom: 8px !important;
+  }
+
+  ::ng-deep .terms-section p {
+    font-size: 13px !important;
+  }
+
+  ::ng-deep .terms-confirm-button {
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  ::ng-deep .terms-popup {
+    max-width: 95% !important;
+    margin: 5px !important;
+    border-radius: 8px !important;
+  }
+
+  ::ng-deep .terms-title {
+    font-size: 18px !important;
+    margin-bottom: 12px !important;
+    padding: 0 10px !important;
+  }
+
+  ::ng-deep .terms-html-container {
+    font-size: 12px !important;
+    max-height: 45vh !important;
+    padding: 5px 0 !important;
+  }
+
+  ::ng-deep .terms-section {
+    padding: 10px !important;
+    margin-bottom: 12px !important;
+    border-left-width: 2px !important;
+  }
+
+  ::ng-deep .terms-section h4 {
+    font-size: 14px !important;
+    margin-bottom: 6px !important;
+  }
+
+  ::ng-deep .terms-section p {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  ::ng-deep .terms-confirm-button {
+    font-size: 13px !important;
+    padding: 10px 16px !important;
+  }
 }
 
 /* Responsive Design */

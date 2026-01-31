@@ -227,24 +227,24 @@
 
                             <div class="grid grid-cols-1 mb-6">
                                 <div
-                                    class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                                                         <div class="w-full h-64">
+                                    class="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-6 flex flex-col items-center chart-container">
+                                                                         <div class="w-full chart-height-responsive">
                                          <canvas baseChart [data]="skillsChartData" [options]="getSkillsChartOptions()"
                                              [type]="'doughnut'"></canvas>
                                      </div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 mb-6">
                                 <div
-                                    class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                                                         <div class="w-full h-64">
+                                    class="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-6 flex flex-col items-center chart-container">
+                                                                         <div class="w-full chart-height-responsive">
                                          <canvas baseChart [data]="progressChartData" [options]="getProgressChartOptions()"
                                              [type]="'bar'"></canvas>
                                      </div>
                                 </div>
                                 <div
-                                    class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                                                         <div class="w-full h-64">
+                                    class="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-6 flex flex-col items-center chart-container">
+                                                                         <div class="w-full chart-height-responsive">
                                          <canvas baseChart [data]="lineChartData" [options]="getLineChartOptions()"
                                              [type]="'line'"></canvas>
                                      </div>
@@ -252,26 +252,26 @@
                             </div>
                             <div class="grid grid-cols-1 mb-8">
                                 <div
-                                    class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center chart-container">
-                                                                         <div class="w-full h-64">
+                                    class="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-6 flex flex-col items-center chart-container">
+                                                                         <div class="w-full chart-height-responsive">
                                          <canvas baseChart [data]="polarChartData" [options]="getPolarChartOptions()"
                                              [type]="'polarArea'"></canvas>
                                      </div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                                <div class="bg-white rounded-xl shadow-md p-6">
-                                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 mb-8">
+                                <div class="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-6">
+                                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 md:mb-4 flex items-center">
                                         <i class="fas fa-chart-line text-indigo-600 mr-2"></i>
                                         {{ 'dashboard.stats_content.progress_overview.title' | translate }}
                                     </h3>
-                                    <div class="space-y-4">
+                                    <div class="space-y-3 md:space-y-4">
                                         <div *ngFor="let categoryStat of statistics?.categoryStats || []"
                                             class="category-progress-card">
                                             <div class="flex justify-between items-center mb-2">
-                                                <span class="font-medium text-gray-700">{{ getCategoryNameForStats(categoryStat)
+                                                <span class="text-sm sm:text-base font-medium text-gray-700">{{ getCategoryNameForStats(categoryStat)
                                                     }}</span>
-                                                <span class="text-sm text-gray-500"
+                                                <span class="text-xs sm:text-sm text-gray-500"
                                                     [innerHTML]="'dashboard.stats_content.progress_overview.competencies_count' | translate: { count: categoryStat.totalItems }"></span>
                                             </div>
                                             <div class="progress-bar">
@@ -287,24 +287,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-white rounded-xl shadow-md p-6">
-                                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <div class="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-6">
+                                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 md:mb-4 flex items-center">
                                         <i class="fas fa-clock text-green-600 mr-2"></i>
                                         {{ 'dashboard.stats_content.recent_activity.title' | translate }}
                                     </h3>
-                                    <div class="space-y-4">
+                                    <div class="space-y-3 md:space-y-4">
                                         <div *ngFor="let categoryStat of (statistics?.categoryStats || []).slice(0, 3)"
                                             class="activity-item">
-                                            <div class="flex items-start space-x-3">
+                                            <div class="flex items-start space-x-2 sm:space-x-3">
                                                 <div class="flex-shrink-0">
                                                     <div class="activity-icon">
                                                         <i class="fas fa-star text-sm"></i>
                                                     </div>
                                                 </div>
                                                 <div class="flex-1 min-w-0">
-                                                    <p class="text-sm font-medium text-gray-900">{{
+                                                    <p class="text-xs sm:text-sm font-medium text-gray-900">{{
                                                         getCategoryNameForStats(categoryStat) }}</p>
-                                                    <p class="text-sm text-gray-500"
+                                                    <p class="text-xs sm:text-sm text-gray-500"
                                                         [innerHTML]="'dashboard.stats_content.recent_activity.competencies_evaluated' | translate: { count: categoryStat.totalItems }">
                                                     </p>
                                                     <p class="text-xs text-gray-400">{{

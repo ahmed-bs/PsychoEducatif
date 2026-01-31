@@ -5,6 +5,76 @@
       <img class="nav__logo" src="assets/logo.png" alt="">
       <span class="nav__logo-text">EvaluAction</span>
     </div>
+    <!-- Language Switcher - Same row as EvaluAction -->
+    <div class="language-menu-container">
+      <button 
+        class="lang-icon-btn" 
+        type="button"
+        (click)="toggleLanguageMenu()"
+        [attr.aria-expanded]="showLanguageMenu"
+        [attr.aria-label]="'Language selector'"
+        [attr.aria-haspopup]="true">
+        <i class="fas fa-globe" [class.rotating]="showLanguageMenu"></i>
+        <span class="current-lang-indicator">{{ currentLang.toUpperCase() }}</span>
+      </button>
+      <div 
+        class="language-dropdown" 
+        [class.show]="showLanguageMenu"
+        role="menu"
+        [attr.aria-hidden]="!showLanguageMenu">
+        <button 
+          class="lang-option" 
+          type="button"
+          role="menuitem"
+          [class.active]="currentLang === 'fr'"
+          (click)="switchLanguage('fr')"
+          [attr.aria-current]="currentLang === 'fr' ? 'true' : null">
+          <span class="lang-flag">🇫🇷</span>
+          <span class="lang-content">
+            <span class="lang-code">FR</span>
+            <span class="lang-name">Français</span>
+          </span>
+          <i class="fas fa-check check-icon" *ngIf="currentLang === 'fr'"></i>
+        </button>
+        <button 
+          class="lang-option" 
+          type="button"
+          role="menuitem"
+          [class.active]="currentLang === 'ar'"
+          (click)="switchLanguage('ar')"
+          [attr.aria-current]="currentLang === 'ar' ? 'true' : null">
+          <span class="lang-flag">🇸🇦</span>
+          <span class="lang-content">
+            <span class="lang-code">عربي</span>
+            <span class="lang-name">العربية</span>
+          </span>
+          <i class="fas fa-check check-icon" *ngIf="currentLang === 'ar'"></i>
+        </button>
+        <button 
+          class="lang-option" 
+          type="button"
+          role="menuitem"
+          [class.active]="currentLang === 'en'"
+          (click)="switchLanguage('en')"
+          [attr.aria-current]="currentLang === 'en' ? 'true' : null">
+          <span class="lang-flag">🇬🇧</span>
+          <span class="lang-content">
+            <span class="lang-code">EN</span>
+            <span class="lang-name">English</span>
+          </span>
+          <i class="fas fa-check check-icon" *ngIf="currentLang === 'en'"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Logout Button - Same row as EvaluAction -->
+    <button 
+      class="logout-btn" 
+      type="button"
+      (click)="changeAccount()"
+      [attr.aria-label]="'navbar.buttons.change_account' | translate">
+      <i class="fas fa-sign-out-alt"></i>
+      <!-- <span>{{ 'navbar.buttons.change_account' | translate }}</span> -->
+    </button>
     <div class="nav__menu__btn" id="menu-btn">
       <span><i class="ri-menu-line"></i></span>
     </div>
@@ -12,93 +82,7 @@
   <ul class="nav__links" id="nav-links">
     <li class="nav__actions">
       <div class="nav__actions-container">
-        <!-- Language Switcher -->
-        <div class="language-menu-container">
-          <button 
-            class="lang-icon-btn" 
-            type="button"
-            (click)="toggleLanguageMenu()"
-            [attr.aria-expanded]="showLanguageMenu"
-            [attr.aria-label]="'Language selector'"
-            [attr.aria-haspopup]="true">
-            <i class="fas fa-globe" [class.rotating]="showLanguageMenu"></i>
-            <span class="current-lang-indicator">{{ currentLang.toUpperCase() }}</span>
-          </button>
-          <div 
-            class="language-dropdown" 
-            [class.show]="showLanguageMenu"
-            role="menu"
-            [attr.aria-hidden]="!showLanguageMenu">
-            <button 
-              class="lang-option" 
-              type="button"
-              role="menuitem"
-              [class.active]="currentLang === 'fr'"
-              (click)="switchLanguage('fr')"
-              [attr.aria-current]="currentLang === 'fr' ? 'true' : null">
-              <span class="lang-flag">🇫🇷</span>
-              <span class="lang-content">
-                <span class="lang-code">FR</span>
-                <span class="lang-name">Français</span>
-              </span>
-              <i class="fas fa-check check-icon" *ngIf="currentLang === 'fr'"></i>
-            </button>
-            <button 
-              class="lang-option" 
-              type="button"
-              role="menuitem"
-              [class.active]="currentLang === 'ar'"
-              (click)="switchLanguage('ar')"
-              [attr.aria-current]="currentLang === 'ar' ? 'true' : null">
-              <span class="lang-flag">🇸🇦</span>
-              <span class="lang-content">
-                <span class="lang-code">عربي</span>
-                <span class="lang-name">العربية</span>
-              </span>
-              <i class="fas fa-check check-icon" *ngIf="currentLang === 'ar'"></i>
-            </button>
-            <button 
-              class="lang-option" 
-              type="button"
-              role="menuitem"
-              [class.active]="currentLang === 'en'"
-              (click)="switchLanguage('en')"
-              [attr.aria-current]="currentLang === 'en' ? 'true' : null">
-              <span class="lang-flag">🇬🇧</span>
-              <span class="lang-content">
-                <span class="lang-code">EN</span>
-                <span class="lang-name">English</span>
-              </span>
-              <i class="fas fa-check check-icon" *ngIf="currentLang === 'en'"></i>
-            </button>
-          </div>
-        </div>
-        <!-- Three-dot menu -->
-        <div class="menu-dropdown-container">
-          <button 
-            class="menu-icon-btn" 
-            type="button"
-            (click)="toggleMenuDropdown()"
-            [attr.aria-expanded]="showMenuDropdown"
-            [attr.aria-label]="'Account menu'"
-            [attr.aria-haspopup]="true">
-            <i class="fas fa-ellipsis-v"></i>
-          </button>
-          <div 
-            class="menu-dropdown" 
-            [class.show]="showMenuDropdown"
-            role="menu"
-            [attr.aria-hidden]="!showMenuDropdown">
-            <button 
-              class="menu-option" 
-              type="button"
-              role="menuitem"
-              (click)="changeAccount()">
-              <i class="fas fa-exchange-alt"></i>
-              <span>{{ 'navbar.buttons.change_account' | translate }}</span>
-            </button>
-          </div>
-        </div>
+        <!-- Empty - actions moved to header -->
       </div>
     </li>
   </ul>
@@ -305,14 +289,14 @@
           <span>{{ 'add_child_dialog.labels.gender' | translate }}</span>
         </label>
         <div class="gender-radio-group">
-          <div class="radio-option">
+          <label class="radio-option" for="maleAdd">
             <input type="radio" id="maleAdd" name="genderAdd" value="M" [(ngModel)]="newChild.gender">
-            <label for="maleAdd">{{ 'add_child_dialog.gender_options.male' | translate }}</label>
-          </div>
-          <div class="radio-option">
+            <span>{{ 'add_child_dialog.gender_options.male' | translate }}</span>
+          </label>
+          <label class="radio-option" for="femaleAdd">
             <input type="radio" id="femaleAdd" name="genderAdd" value="F" [(ngModel)]="newChild.gender">
-            <label for="femaleAdd">{{ 'add_child_dialog.gender_options.female' | translate }}</label>
-          </div>
+            <span>{{ 'add_child_dialog.gender_options.female' | translate }}</span>
+          </label>
         </div>
       </div>
       <div class="form-group">
@@ -441,14 +425,14 @@
           <span>{{ 'edit_child_dialog.labels.gender' | translate }}</span>
         </label>
         <div class="gender-radio-group">
-          <div class="radio-option">
+          <label class="radio-option" for="maleEdit">
             <input type="radio" id="maleEdit" name="genderEdit" value="M" [(ngModel)]="selectedChild.gender">
-            <label for="maleEdit">{{ 'edit_child_dialog.gender_options.male' | translate }}</label>
-          </div>
-          <div class="radio-option">
+            <span>{{ 'edit_child_dialog.gender_options.male' | translate }}</span>
+          </label>
+          <label class="radio-option" for="femaleEdit">
             <input type="radio" id="femaleEdit" name="genderEdit" value="F" [(ngModel)]="selectedChild.gender">
-            <label for="femaleEdit">{{ 'edit_child_dialog.gender_options.female' | translate }}</label>
-          </div>
+            <span>{{ 'edit_child_dialog.gender_options.female' | translate }}</span>
+          </label>
         </div>
       </div>
       <div class="form-group">

@@ -1073,8 +1073,8 @@
     },
     "child_profile": {
       "last_evaluation": "آخر تقييم: {{date}}",
-      "gender_male": "♂ ذكر",
-      "gender_female": "♀ أنثى",
+      "gender_male": "ذكر",
+      "gender_female": "أنثى",
       "share_profile_button": "مشاركة الملف الشخصي",
       "edit_profile_button": "تعديل الملف الشخصي",
       "disable_profile_button": "تعطيل الملف الشخصي"
@@ -1284,8 +1284,25 @@
         "quiz_available": "انقر لإجراء الاختبار.",
         "cannot_navigate_quiz": "تعذر تشغيل الاختبار: لم يتم العثور على مجال الهدف.",
         "confirm_delete": "هل أنت متأكد من حذف هذا الهدف وجميع أهدافه الفرعية؟",
-        "sub_objective_disabled": "لا يمكنك تعديل الهدف الفرعي قبل {{date}}"
-      }
+        "sub_objective_disabled": "لا يمكنك تعديل الهدف الفرعي قبل {{date}}",
+        "update_date_failed": "فشل في تحديث التاريخ المستهدف. يرجى المحاولة مرة أخرى."
+      },
+      "update_date_title": "تحديث التاريخ المستهدف",
+      "update_date_message": "هل تريد تحديث التاريخ المستهدف لهذا الهدف إلى غدًا قبل إجراء الاختبار؟",
+      "goal": "الهدف",
+      "current_target_date": "التاريخ المستهدف الحالي",
+      "new_target_date": "التاريخ المستهدف الجديد",
+      "tomorrow": "غدًا",
+      "repetition_type_label": "نوع التكرار",
+      "yes_update": "نعم، تحديث",
+      "no_update": "لا، المتابعة بدون تحديث",
+      "updating": "جاري التحديث...",
+      "cancel": "إلغاء",
+      "delete_confirmation_title": "حذف الهدف",
+      "delete_confirmation_message": "هل أنت متأكد من حذف هذا الهدف؟ لا يمكن التراجع عن هذا الإجراء.",
+      "goal_preview": "معاينة الهدف",
+      "confirm_delete": "تأكيد الحذف",
+      "deleting": "جاري الحذف..."
     },
     "notes": {
       "title": "الملاحظات والمراقبات",
@@ -1321,12 +1338,19 @@
       "cancel": "إلغاء",
       "save_changes": "حفظ التغييرات",
       "add_new_note": "إضافة ملاحظة جديدة",
+      "edit_note": "تعديل الملاحظة",
       "modal_subtitle": "أضف ملاحظة أو مراقبة مهمة",
+      "edit_modal_subtitle": "عدّل ملاحظتك أو مراقبتك المهمة",
+      "delete_confirmation_title": "حذف الملاحظة",
+      "delete_confirmation_message": "هل أنت متأكد من حذف هذه الملاحظة؟ لا يمكن التراجع عن هذا الإجراء.",
+      "note_preview": "معاينة الملاحظة",
+      "confirm_delete": "تأكيد الحذف",
       "note_content_label": "محتوى الملاحظة",
       "note_placeholder": "اكتب ملاحظاتك هنا...",
       "important_note_checkbox": "ملاحظة مهمة",
       "important_note_description": "وضع علامة على هذه الملاحظة كمهمة",
       "save": "حفظ",
+      "saving": "جاري الحفظ...",
       "messages": {
         "content_empty": "لا يمكن أن يكون محتوى الملاحظة فارغًا!",
         "no_profile_selected": "تعذر حفظ الملاحظة: لم يتم اختيار ملف شخصي.",

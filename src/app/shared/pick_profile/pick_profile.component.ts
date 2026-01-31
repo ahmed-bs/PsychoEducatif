@@ -79,7 +79,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   private languageSubscription!: Subscription;
   currentLang: string = 'fr';
   showLanguageMenu: boolean = false;
-  showMenuDropdown: boolean = false;
   
   // 3D Carousel properties
   rotationAngle: number = 0;
@@ -112,6 +111,21 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Re-read parentId from localStorage to ensure we have the latest data
+    // This fixes the issue where the component might initialize before user data is saved
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const userData = JSON.parse(user);
+        this.parentId = userData?.id ? Number(userData.id) : 0;
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+        this.parentId = 0;
+      }
+    } else {
+      this.parentId = 0;
+    }
+
     if (!this.parentId) {
       this.translate.get(['profile_messages.load_user_error.title', 'profile_messages.load_user_error.text']).subscribe(translations => {
         Swal.fire({
@@ -136,7 +150,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
       return;
     }
     // Get username from localStorage and format it properly
-    const user = localStorage.getItem('user');
     if (user) {
       const userData = JSON.parse(user);
       let name = userData.username || '';
@@ -169,25 +182,7 @@ export class PickProfileComponent implements OnInit, OnDestroy {
       this.updateGenderOptions();
     });
 
-    // Setup mobile menu toggle
-    const menuBtn = document.getElementById('menu-btn');
-    const navLinks = document.getElementById('nav-links');
-    const menuBtnIcon = menuBtn?.querySelector('i');
-
-    menuBtn?.addEventListener('click', () => {
-      navLinks?.classList.toggle('open');
-      const isOpen = navLinks?.classList.contains('open');
-      menuBtnIcon?.setAttribute('class', isOpen ? 'ri-close-line' : 'ri-menu-line');
-    });
-
-    // Close menu when clicking on a link
-    navLinks?.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === 'A' || target.closest('a') || target.tagName === 'BUTTON' || target.closest('button')) {
-        navLinks?.classList.remove('open');
-        menuBtnIcon?.setAttribute('class', 'ri-menu-line');
-      }
-    });
+    // Mobile menu toggle removed - navbar is always visible on mobile/tablet
   }
 
   ngOnDestroy() {
@@ -424,8 +419,53 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     return -(index * delayStep);
   }
 
+  // Snap to nearest card position after swipe/glide
+  snapToNearestCard(): void {
+    if (this.filteredChildren.length === 0) return;
+    
+    const angleStep = 360 / this.filteredChildren.length;
+    
+    // Normalize rotation angle to 0-360 range for calculation
+    let normalizedAngle = this.rotationAngle % 360;
+    if (normalizedAngle < 0) {
+      normalizedAngle += 360;
+    }
+    
+    // Find the nearest card position (0 to filteredChildren.length - 1)
+    let nearestIndex = Math.round(normalizedAngle / angleStep);
+    // Ensure index is within valid range
+    if (nearestIndex >= this.filteredChildren.length) {
+      nearestIndex = 0;
+    } else if (nearestIndex < 0) {
+      nearestIndex = this.filteredChildren.length - 1;
+    }
+    
+    const targetAngle = nearestIndex * angleStep;
+    
+    // Calculate the shortest rotation path
+    let angleDiff = targetAngle - normalizedAngle;
+    
+    // Handle wrap-around (choose shortest path)
+    if (angleDiff > 180) {
+      angleDiff -= 360;
+    } else if (angleDiff < -180) {
+      angleDiff += 360;
+    }
+    
+    // Apply the snap - add the difference to current rotation angle
+    this.rotationAngle += angleDiff;
+  }
+
   onMouseDown(event: MouseEvent): void {
     if (this.filteredChildren.length === 0) return;
+    
+    // Check if the click target is a button or inside card__actions
+    const target = event.target as HTMLElement;
+    if (target.closest('.card__actions') || target.closest('button')) {
+      // Don't start dragging if clicking a button
+      return;
+    }
+    
     this.isDragging = true;
     this.startX = event.clientX;
     this.startY = event.clientY;
@@ -455,12 +495,22 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (carousel) {
       carousel.style.transition = '';
     }
+    // Snap to nearest card position
+    this.snapToNearestCard();
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 
   onTouchStart(event: TouchEvent): void {
     if (this.filteredChildren.length === 0) return;
+    
+    // Check if the touch target is a button or inside card__actions
+    const target = event.target as HTMLElement;
+    if (target.closest('.card__actions') || target.closest('button')) {
+      // Don't start dragging if touching a button
+      return;
+    }
+    
     this.isDragging = true;
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
@@ -491,6 +541,8 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (carousel) {
       carousel.style.transition = '';
     }
+    // Snap to nearest card position
+    this.snapToNearestCard();
     document.removeEventListener('touchmove', this.onTouchMove);
     document.removeEventListener('touchend', this.onTouchEnd);
   }
@@ -847,16 +899,11 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   }
 
   // Toggle menu dropdown
-  toggleMenuDropdown(): void {
-    this.showMenuDropdown = !this.showMenuDropdown;
-    if (this.showMenuDropdown) {
-      this.showLanguageMenu = false; // Close language menu if open
-    }
-  }
+
 
   // Change account method
   changeAccount(): void {
-    this.showMenuDropdown = false;
+    this.showLanguageMenu = false; // Close language menu if open
     this.translate.get([
       'navbar.buttons.change_account_confirm.title',
       'navbar.buttons.change_account_confirm.text',
@@ -902,9 +949,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
       this.showLanguageMenu = false;
     }
-    if (!target.closest('.menu-dropdown-container') && this.showMenuDropdown) {
-      this.showMenuDropdown = false;
-    }
   }
 
   // Close language menu with Escape key
@@ -914,9 +958,6 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (keyboardEvent.key === 'Escape') {
       if (this.showLanguageMenu) {
         this.showLanguageMenu = false;
-      }
-      if (this.showMenuDropdown) {
-        this.showMenuDropdown = false;
       }
     }
   }
