@@ -51,32 +51,43 @@
   border-radius: 8px;
 }
 
+/* Action Bar */
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  position: sticky;
+  top: 1rem;
+  z-index: 5;
+}
+
 /* Filter Toggle Button */
 .filter-toggle-btn {
-  position: fixed;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  z-index: 1000;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
   background: #007bff;
   color: white;
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: all 0.3s ease;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .filter-toggle-btn:hover {
   background: #0056b3;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
 }
 
 .filter-toggle-btn.active {
@@ -85,6 +96,17 @@
 
 .filter-toggle-btn.active:hover {
   background: #c82333;
+}
+
+.filter-toggle-btn .btn-label {
+  display: inline;
+}
+
+/* Export Buttons Container */
+.export-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 /* Sidebar Overlay */
@@ -514,22 +536,18 @@
   }
 }
 
-.export-section {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-}
+/* Export section removed - now in action bar */
 
 .export-btn {
   width: 48px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: 8px;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .export-btn .p-button-icon {
@@ -544,6 +562,7 @@
 .excel-btn:hover:not([disabled]) {
   background: linear-gradient(135deg, #1e6b3d 0%, #155724 100%);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 .pdf-btn {
@@ -553,6 +572,7 @@
 .pdf-btn:hover:not([disabled]) {
   background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 .export-btn[disabled] {
@@ -936,6 +956,67 @@
   box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
 }
 
+/* Fix mobile paginator rows per page dropdown alignment */
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options {
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown {
+  min-width: 80px;
+  height: auto;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown .p-dropdown-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  line-height: 1.5;
+  min-height: 2.5rem;
+  vertical-align: middle;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown .p-dropdown-label.p-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown .p-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fix mobile dropdown panel items alignment */
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown-panel {
+  min-width: 80px;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-items {
+  padding: 0.25rem 0;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 0.75rem;
+  min-height: 2.5rem;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-item:hover {
+  background: #f8f9fa;
+}
+
+:host ::ng-deep .mobile-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-item.p-highlight {
+  background: #007bff;
+  color: #ffffff;
+}
+
 /* ===== TABLET STYLES ===== */
 @media (min-width: 768px) {
   .summary-container {
@@ -945,14 +1026,31 @@
   .main-content-wrapper.sidebar-open {
     margin-right: 380px;
   }
+
+  .action-bar {
+    flex-direction: row;
+    z-index: 1;
+  }
 }
 
 @media (max-width: 767px) {
+  .action-bar {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.75rem;
+    position: relative;
+    top: 0;
+    z-index: 1;
+  }
+
   .filter-toggle-btn {
-    right: 15px;
-    width: 45px;
-    height: 45px;
-    font-size: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .export-buttons {
+    width: 100%;
+    justify-content: center;
   }
 
   .filter-sidebar {
@@ -1029,6 +1127,12 @@
 }
 
 /* ===== MEDIUM TABLET STYLES ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .action-bar {
+    z-index: 1;
+  }
+}
+
 @media (min-width: 900px) {
   .filters-container {
     flex-wrap: nowrap;
@@ -1055,6 +1159,10 @@
 @media (min-width: 1024px) {
   .summary-container {
     padding: 2rem;
+  }
+
+  .action-bar {
+    padding: 1.25rem 1.5rem;
   }
 
   .controls-content {
@@ -1471,6 +1579,67 @@
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
     color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+
+  /* Fix paginator rows per page dropdown alignment */
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options {
+    display: flex;
+    align-items: center;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown {
+    min-width: 80px;
+    height: auto;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown .p-dropdown-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+    line-height: 1.5;
+    min-height: 2.5rem;
+    vertical-align: middle;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown .p-dropdown-label.p-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown .p-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Fix dropdown panel items alignment */
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown-panel {
+    min-width: 80px;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-items {
+    padding: 0.25rem 0;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    min-height: 2.5rem;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-item:hover {
+    background: #f8f9fa;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-rpp-options .p-dropdown-panel .p-dropdown-item.p-highlight {
+    background: #007bff;
+    color: #ffffff;
   }
 }
 
