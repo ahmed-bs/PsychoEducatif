@@ -282,9 +282,9 @@
           type="button"
           class="modal-btn-primary"
           (click)="onSaveNote()"
-          [disabled]="!newNoteContent.trim()">
+          [disabled]="!newNoteContent.trim() || savingNote">
           <i class="fas fa-save"></i>
-          {{ 'dashboard_tabs.notes.save' | translate }}
+          {{ savingNote ? ('dashboard_tabs.notes.saving' | translate) : ('dashboard_tabs.notes.save' | translate) }}
         </button>
       </div>
     </div>
@@ -369,9 +369,9 @@
           type="button"
           class="modal-btn-primary"
           (click)="saveEditedNote(editingNoteId || undefined)"
-          [disabled]="!editedNoteContent.trim()">
+          [disabled]="!editedNoteContent.trim() || savingNote">
           <i class="fas fa-save"></i>
-          {{ 'dashboard_tabs.notes.save_changes' | translate }}
+          {{ savingNote ? ('dashboard_tabs.notes.saving' | translate) : ('dashboard_tabs.notes.save_changes' | translate) }}
         </button>
       </div>
     </div>

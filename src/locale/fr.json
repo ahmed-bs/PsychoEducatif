@@ -1403,8 +1403,25 @@
         "quiz_available": "Cliquez pour passer le quiz.",
         "cannot_navigate_quiz": "Impossible de lancer le quiz : Le domaine de l'objectif est introuvable.",
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer cet objectif et tous ses sous-objectifs ?",
-        "sub_objective_disabled": "Vous ne pouvez pas modifier le sous-objectif avant le {{date}}"
-      }
+        "sub_objective_disabled": "Vous ne pouvez pas modifier le sous-objectif avant le {{date}}",
+        "update_date_failed": "Échec de la mise à jour de la date cible. Veuillez réessayer."
+      },
+      "update_date_title": "Mettre à jour la date cible",
+      "update_date_message": "Voulez-vous mettre à jour la date cible de cet objectif à demain avant de passer le quiz ?",
+      "goal": "Objectif",
+      "current_target_date": "Date cible actuelle",
+      "new_target_date": "Nouvelle date cible",
+      "tomorrow": "Demain",
+      "repetition_type_label": "Type de répétition",
+      "yes_update": "Oui, mettre à jour",
+      "no_update": "Non, continuer sans mettre à jour",
+      "updating": "Mise à jour...",
+      "cancel": "Annuler",
+      "delete_confirmation_title": "Supprimer l'objectif",
+      "delete_confirmation_message": "Êtes-vous sûr de vouloir supprimer cet objectif ? Cette action est irréversible.",
+      "goal_preview": "Aperçu de l'objectif",
+      "confirm_delete": "Confirmer la suppression",
+      "deleting": "Suppression..."
     },
     "notes": {
       "title": "Notes et observations",
@@ -1452,6 +1469,7 @@
       "important_note_checkbox": "Note importante",
       "important_note_description": "Marquer cette note comme importante",
       "save": "Enregistrer",
+      "saving": "Enregistrement...",
       "messages": {
         "content_empty": "Le contenu de la note ne peut pas être vide !",
         "no_profile_selected": "Impossible d'enregistrer la note : Aucun profil sélectionné.",

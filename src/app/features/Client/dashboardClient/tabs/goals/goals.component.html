@@ -1,7 +1,3 @@
-<!-- Calendar Sidebar Toggle Button -->
-<button (click)="toggleSidebar()" class="calendar-toggle-btn" [class.active]="sidebarOpen" [title]="'dashboard_tabs.goals.toggle_calendar' | translate">
-  <i class="fas" [ngClass]="sidebarOpen ? 'fa-times' : 'fa-calendar-alt'"></i>
-</button>
 
 <!-- Main Content Wrapper -->
 <div class="goals-main-wrapper" [class.sidebar-open]="sidebarOpen">
@@ -75,7 +71,7 @@
           <button (click)="onEditGoalClick(goal)" class="action-btn edit-btn" title="{{ 'dashboard_tabs.goals.edit' | translate }}">
             <i class="fas fa-edit"></i>
           </button>
-          <button (click)="onDeleteGoalClick(goal.id)" class="action-btn delete-btn" title="{{ 'dashboard_tabs.goals.delete' | translate }}">
+          <button (click)="onDeleteGoalClick(goal)" class="action-btn delete-btn" title="{{ 'dashboard_tabs.goals.delete' | translate }}">
             <i class="fas fa-trash-alt"></i>
           </button>
         </div>
@@ -95,26 +91,136 @@
 
 </div>
 
-<!-- Calendar Sidebar -->
-<div class="calendar-sidebar" [class.open]="sidebarOpen">
-  <div class="calendar-sidebar-header">
-    <h3 class="calendar-sidebar-title">
-      <i class="fas fa-calendar-alt"></i>
-      {{ 'dashboard_tabs.goals.calendar_title' | translate }}
-    </h3>
-    <button (click)="toggleSidebar()" class="calendar-sidebar-close" [title]="'dashboard_tabs.goals.close_calendar' | translate">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="calendar-sidebar-content">
-    <app-calendar 
-      [goals]="goals" 
-      [inProgressDomains]="[]"
-      (goalSaved)="onGoalSaved()">
-    </app-calendar>
+<!-- Update Target Date Confirmation Modal -->
+<div *ngIf="showUpdateDateModal" class="modal-overlay" (click)="closeUpdateDateModal()">
+  <div class="update-date-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-icon-wrapper">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="modal-title-wrapper">
+          <h3 class="modal-title">
+            {{ 'dashboard_tabs.goals.update_date_title' | translate }}
+          </h3>
+          <p class="modal-subtitle">{{ 'dashboard_tabs.goals.update_date_message' | translate }}</p>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="modal-close-btn"
+        (click)="closeUpdateDateModal()"
+        [attr.aria-label]="'dashboard_tabs.goals.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="update-date-info" *ngIf="goalToUpdate">
+        <div class="info-item-compact">
+          <i class="fas fa-calendar-plus"></i>
+          <span class="info-text">{{ 'dashboard_tabs.goals.new_target_date' | translate }}: <strong>{{ 'dashboard_tabs.goals.tomorrow' | translate }}</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button 
+        type="button"
+        class="modal-btn-secondary"
+        (click)="cancelUpdateTargetDate()"
+        [disabled]="updatingDate">
+        <i class="fas fa-times"></i>
+        {{ 'dashboard_tabs.goals.no_update' | translate }}
+      </button>
+      <button 
+        type="button"
+        class="modal-btn-primary"
+        (click)="confirmUpdateTargetDate()"
+        [disabled]="updatingDate">
+        <i class="fas fa-check"></i>
+        {{ updatingDate ? ('dashboard_tabs.goals.updating' | translate) : ('dashboard_tabs.goals.yes_update' | translate) }}
+      </button>
+    </div>
   </div>
 </div>
 
-<!-- Sidebar Overlay -->
-<div class="sidebar-overlay" [class.active]="sidebarOpen" (click)="toggleSidebar()"></div>
+<!-- Delete Goal Confirmation Modal -->
+<div *ngIf="showDeleteGoalModal" class="modal-overlay" (click)="closeDeleteGoalModal()">
+  <div class="update-date-modal delete-goal-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header delete-modal-header">
+      <div class="modal-header-content">
+        <div class="modal-icon-wrapper delete-icon-wrapper">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="modal-title-wrapper">
+          <h3 class="modal-title">
+            {{ 'dashboard_tabs.goals.delete_confirmation_title' | translate }}
+          </h3>
+          <p class="modal-subtitle">{{ 'dashboard_tabs.goals.delete_confirmation_message' | translate }}</p>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="modal-close-btn"
+        (click)="closeDeleteGoalModal()"
+        [attr.aria-label]="'dashboard_tabs.goals.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="delete-goal-preview" *ngIf="goalBeingDeleted">
+        <div class="preview-content">
+          <div class="preview-label">
+            <i class="fas fa-bullseye"></i>
+            <span>{{ 'dashboard_tabs.goals.goal_preview' | translate }}</span>
+          </div>
+          <div class="preview-text">
+            <p><strong>{{ goalBeingDeleted.title }}</strong></p>
+            <p *ngIf="goalBeingDeleted.description">{{ goalBeingDeleted.description }}</p>
+          </div>
+          <div class="preview-meta">
+            <span class="preview-badge priority-badge" [ngClass]="{
+              'priority-high': goalBeingDeleted.priority === 'high',
+              'priority-medium': goalBeingDeleted.priority === 'medium',
+              'priority-low': goalBeingDeleted.priority === 'low'
+            }">
+              <i class="fas fa-flag"></i>
+              {{ getPriorityTranslation(goalBeingDeleted.priority) }}
+            </span>
+            <span class="preview-date">
+              <i class="fas fa-calendar-alt"></i>
+              {{ formatDate(goalBeingDeleted.target_date) }}
+            </span>
+            <span *ngIf="hasRepetition(goalBeingDeleted)" class="preview-badge repetition-badge">
+              <i class="fas fa-repeat"></i>
+              {{ getRepetitionTypeTranslation(goalBeingDeleted.repetition_type) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button 
+        type="button"
+        class="modal-btn-secondary"
+        (click)="closeDeleteGoalModal()"
+        [disabled]="deletingGoal">
+        <i class="fas fa-times"></i>
+        {{ 'dashboard_tabs.goals.cancel' | translate }}
+      </button>
+      <button 
+        type="button"
+        class="modal-btn-danger"
+        (click)="confirmDeleteGoal()"
+        [disabled]="deletingGoal">
+        <i class="fas fa-trash-alt"></i>
+        {{ deletingGoal ? ('dashboard_tabs.goals.deleting' | translate) : ('dashboard_tabs.goals.confirm_delete' | translate) }}
+      </button>
+    </div>
+  </div>
+</div>
+
 </div>

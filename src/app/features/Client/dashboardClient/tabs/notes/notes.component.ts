@@ -41,6 +41,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
   noteBeingEdited: Note | null = null;
   showDeleteNoteModal: boolean = false;
   noteBeingDeleted: Note | null = null;
+  savingNote: boolean = false;
   private searchSubject = new Subject<string>();
   private authorSearchSubject = new Subject<string>();
   private languageSubscription: Subscription;
@@ -186,6 +187,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
     // Reset form when closing
     this.newNoteContent = '';
     this.isImportantNote = false;
+    this.savingNote = false;
   }
 
   onSaveNote(): void {
@@ -197,7 +199,11 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
       alert(this.translate.instant('dashboard_tabs.notes.messages.no_profile_selected'));
       return;
     }
+    if (this.savingNote) {
+      return; // Prevent multiple submissions
+    }
 
+    this.savingNote = true;
     const noteToCreate: { content: string, is_important: boolean } = {
       content: this.newNoteContent,
       is_important: this.isImportantNote
@@ -205,12 +211,14 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
 
     this.notesService.createNote(this.currentProfileId, noteToCreate).subscribe({
       next: (createdNote) => {
+        this.savingNote = false;
         this.newNoteContent = '';
         this.isImportantNote = false;
         this.closeAddNoteModal();
         this.loadNotes();
       },
       error: (error) => {
+        this.savingNote = false;
         console.error('Error creating note:', error);
         if (error.status === 401) {
           alert(this.translate.instant('dashboard_tabs.notes.messages.auth_required'));
@@ -237,6 +245,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
     this.editedNoteContent = '';
     this.editedIsImportant = false;
     this.noteBeingEdited = null;
+    this.savingNote = false;
   }
 
   closeEditNoteModal(): void {
@@ -248,7 +257,11 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
       alert(this.translate.instant('dashboard_tabs.notes.messages.note_id_missing'));
       return;
     }
+    if (this.savingNote) {
+      return; // Prevent multiple submissions
+    }
 
+    this.savingNote = true;
     const updatedNote: Partial<Note> = {
       content: this.editedNoteContent,
       is_important: this.editedIsImportant
@@ -256,6 +269,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
 
     this.notesService.updateNote(noteId, updatedNote).subscribe({
       next: (response) => {
+        this.savingNote = false;
         const index = this.notes.findIndex(n => n.id === noteId);
         if (index !== -1) {
           this.notes[index] = { ...this.notes[index], ...response };
@@ -264,6 +278,7 @@ export class NotesComponent implements OnInit, OnChanges, OnDestroy {
         this.loadNotes(); // Reload to ensure data consistency and potentially update author if needed
       },
       error: (error) => {
+        this.savingNote = false;
         console.error('Error updating note:', error);
         if (error.status === 401) {
           alert(this.translate.instant('dashboard_tabs.notes.messages.auth_required_update'));
