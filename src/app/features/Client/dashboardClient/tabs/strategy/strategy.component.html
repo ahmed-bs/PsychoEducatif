@@ -57,7 +57,9 @@
                     </button>
                 </div>
             </div>
-            <div class="overflow-x-auto -mx-4 sm:mx-0">
+            
+            <!-- Desktop Table View -->
+            <div class="desktop-table-view overflow-x-auto -mx-4 sm:mx-0">
                 <div class="inline-block min-w-full align-middle">
                     <table class="strategy-table">
                         <thead class="strategy-table-header">
@@ -199,6 +201,100 @@
                         </ng-container>
                     </tbody>
                 </table>
+                </div>
+            </div>
+
+            <!-- Mobile/Tablet Card List View -->
+            <div class="mobile-card-view">
+                <div class="domain-cards-container">
+                    <ng-container *ngFor="let domain of filteredDomainsWithPartielItems">
+                        <div class="domain-card">
+                            <div class="domain-card-header" (click)="toggleDomainExpansion(domain)">
+                                <div class="domain-card-header-content">
+                                    <div class="domain-card-title-section">
+                                        <div class="domain-card-category">
+                                            <span class="category-badge">{{ getCategoryName(domain) }}</span>
+                                        </div>
+                                        <div class="domain-card-name">
+                                            <i class="fas fa-graduation-cap domain-icon"></i>
+                                            <span>{{ getDomainLanguageField(domain, 'name') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="domain-card-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-label">{{ 'dashboard_tabs.strategy.table.total_items' | translate }}</span>
+                                            <span class="stat-value stat-blue">{{ domain.item_count || 0 }}</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">{{ 'dashboard_tabs.strategy.table.partiel_items' | translate }}</span>
+                                            <span class="stat-value stat-yellow">{{ domain.partiel_count || 0 }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="domain-card-progress">
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar-fill" [style.width.%]="domain.acquis_percentage || 0"></div>
+                                        </div>
+                                        <span class="progress-text">{{ formatPercentage(domain.acquis_percentage) }}%</span>
+                                    </div>
+                                </div>
+                                <button class="domain-card-toggle" (click)="toggleDomainExpansion(domain); $event.stopPropagation()">
+                                    <i class="fas" [ngClass]="domain.expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Expanded Items List -->
+                            <div *ngIf="domain.expanded" class="domain-card-items">
+                                <div class="items-header">
+                                    <h4>{{ 'dashboard_tabs.strategy.table.partiel_items' | translate }}</h4>
+                                    <span class="items-count">{{ domain.partielItems?.length || 0 }}</span>
+                                </div>
+                                <div class="items-list">
+                                    <div *ngFor="let item of domain.partielItems" class="item-card">
+                                        <div class="item-card-header">
+                                            <div class="item-name-section">
+                                                <h5 class="item-name">{{ getItemLanguageField(item, 'name') }}</h5>
+                                                <p *ngIf="getItemLanguageField(item, 'description')" class="item-description">{{ getItemLanguageField(item, 'description') }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="item-card-actions">
+                                            <div class="item-status-section">
+                                                <label class="item-action-label">{{ 'dashboard_tabs.strategy.table.status' | translate }}</label>
+                                                <select 
+                                                    (change)="updateItemStatus(item, $any($event.target).value, $event)"
+                                                    (click)="$event.stopPropagation()"
+                                                    [value]="item.etat"
+                                                    class="status-select-mobile"
+                                                    [disabled]="updatingItem">
+                                                    <option value="PARTIEL">{{ 'dashboard_tabs.strategy.table.status_options.partiel' | translate }}</option>
+                                                    <option value="ACQUIS">{{ 'dashboard_tabs.strategy.table.status_options.acquis' | translate }}</option>
+                                                    <option value="NON_ACQUIS">{{ 'dashboard_tabs.strategy.table.status_options.non_acquis' | translate }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="item-buttons-section">
+                                                <button 
+                                                    (click)="openCommentModal(item, $event)"
+                                                    class="item-action-btn-mobile"
+                                                    [title]="hasComment(item) ? ('dashboard_tabs.strategy.table.edit_comment' | translate) : ('dashboard_tabs.strategy.table.add_comment' | translate)">
+                                                    <i class="fas fa-comment"></i>
+                                                    <span *ngIf="hasComment(item)" class="action-indicator"></span>
+                                                    <span class="btn-label">{{ 'dashboard_tabs.strategy.table.comment' | translate }}</span>
+                                                </button>
+                                                <button 
+                                                    (click)="openStrategyModal(item, $event)"
+                                                    class="item-action-btn-mobile"
+                                                    [title]="hasStrategy(item) ? ('dashboard_tabs.strategy.table.view_strategy' | translate) : ('dashboard_tabs.strategy.table.no_strategy' | translate)">
+                                                    <i class="fas fa-lightbulb"></i>
+                                                    <span *ngIf="hasStrategy(item)" class="action-indicator strategy-indicator"></span>
+                                                    <span class="btn-label">{{ 'dashboard_tabs.strategy.table.strategy' | translate }}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
             </div>
         </div>
 
