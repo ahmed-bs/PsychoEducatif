@@ -258,6 +258,7 @@
   top: 55px;
   isolation: isolate;
   width: 100%;
+  max-width: 100%;
   z-index: 11;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.5);
@@ -266,23 +267,34 @@
   border-radius: 50px;
   left: 0;
   right: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .profile-navbar .nav__header {
   padding: 1rem;
   width: 100%;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: transparent;
   margin-top: 0;
   gap: 0.75rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-wrap: nowrap;
 }
 
 /* Language menu container in header - positions between EvaluAction and logout */
 .profile-navbar .nav__header .language-menu-container {
   margin-left: auto;
   margin-right: 0;
+  flex-shrink: 0;
+}
+
+.profile-navbar .nav__logo-container {
+  flex-shrink: 0;
 }
 
 /* Mobile/Tablet - navbar header layout */
@@ -291,11 +303,19 @@
     padding: 0.75rem 1rem;
     justify-content: space-between;
     gap: 0.5rem;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .profile-navbar .nav__header .language-menu-container {
     margin-left: auto;
     margin-right: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .profile-navbar .logout-btn {
+    flex-shrink: 0;
+    margin-left: 0;
   }
 }
 
@@ -544,7 +564,8 @@
   font-family: 'Lato', sans-serif;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
-  margin-left: auto;
+  flex-shrink: 0;
+  margin-left: 0;
 }
 
 .profile-navbar .logout-btn:hover {
@@ -585,15 +606,20 @@
     align-items: center;
     flex: 1;
     gap: 0.5rem;
+    max-width: 100%;
+    overflow: hidden;
+    min-width: 0;
   }
 
   .profile-navbar .nav__header .language-menu-container {
     margin-left: auto;
     margin-right: 0.5rem;
+    flex-shrink: 0;
   }
 
   .profile-navbar .logout-btn {
     margin-left: 0;
+    flex-shrink: 0;
   }
 
   .profile-navbar .nav__menu__btn {
@@ -652,15 +678,20 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    max-width: calc(100% - 4rem);
+    overflow: hidden;
+    min-width: 0;
   }
 
   .profile-navbar .nav__header .language-menu-container {
     margin-left: auto;
     margin-right: 0.5rem;
+    flex-shrink: 0;
   }
 
   .profile-navbar .logout-btn {
     margin-left: 0;
+    flex-shrink: 0;
   }
 
   .profile-navbar .nav__menu__btn {
@@ -750,14 +781,28 @@
     font-size: 0.7rem;
   }
 
+  /* Navbar header - ensure all elements stay inside */
+  .profile-navbar .nav__header {
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+  }
+
   /* Language switcher in header row */
   .profile-navbar .nav__header .language-menu-container {
     margin-left: auto;
     margin-right: 0.5rem;
+    flex-shrink: 0;
   }
 
   .profile-navbar .nav__header .logout-btn {
     margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  .profile-navbar .nav__logo-container {
+    flex-shrink: 0;
   }
 
   .profile-navbar .language-dropdown {
@@ -927,6 +972,9 @@
     justify-content: center;
     gap: 8px;
     margin-top: 16px;
+    position: relative;
+    z-index: 20;
+    pointer-events: auto;
 }
 
 .card__actions button {
@@ -937,6 +985,11 @@
     height: 44px;
     padding: 0;
     font-size: 1.2rem;
+    position: relative;
+    z-index: 21;
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Custom Edit Button (Secondary) */
@@ -1371,13 +1424,21 @@
     padding: 20px;
     transition: all 0.3s ease-in-out;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     cursor: pointer;
     border: 1px solid #e0e0e0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+/* Ensure buttons are clickable on mobile/tablet */
+.card-3d-item .card .card__actions,
+.card-3d-item .card .card__actions button {
+    pointer-events: auto !important;
+    z-index: 100;
+    position: relative;
 }
 
 /* Animation for brightness effect */
@@ -2282,6 +2343,16 @@
     .progress-value {
         font-size: 10px;
     }
+    /* Ensure buttons are clickable on tablet */
+    .card-3d-item .card .card__actions {
+        z-index: 100;
+        pointer-events: auto;
+    }
+    .card-3d-item .card .card__actions button {
+        z-index: 101;
+        pointer-events: auto;
+        touch-action: manipulation;
+    }
 }
 @media (max-width: 600px) {
     .hero-section {
@@ -2339,12 +2410,20 @@
         flex-direction: row;
         gap: 8px;
         align-items: center;
+        z-index: 100;
+        pointer-events: auto;
     }
     .card__actions button {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         font-size: 1rem;
         padding: 0;
+        z-index: 101;
+        pointer-events: auto;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        min-width: 40px;
+        min-height: 40px;
     }
     .card--add {
         margin-left: 0;

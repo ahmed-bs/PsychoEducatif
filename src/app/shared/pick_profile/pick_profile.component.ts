@@ -458,6 +458,14 @@ export class PickProfileComponent implements OnInit, OnDestroy {
 
   onMouseDown(event: MouseEvent): void {
     if (this.filteredChildren.length === 0) return;
+    
+    // Check if the click target is a button or inside card__actions
+    const target = event.target as HTMLElement;
+    if (target.closest('.card__actions') || target.closest('button')) {
+      // Don't start dragging if clicking a button
+      return;
+    }
+    
     this.isDragging = true;
     this.startX = event.clientX;
     this.startY = event.clientY;
@@ -495,6 +503,14 @@ export class PickProfileComponent implements OnInit, OnDestroy {
 
   onTouchStart(event: TouchEvent): void {
     if (this.filteredChildren.length === 0) return;
+    
+    // Check if the touch target is a button or inside card__actions
+    const target = event.target as HTMLElement;
+    if (target.closest('.card__actions') || target.closest('button')) {
+      // Don't start dragging if touching a button
+      return;
+    }
+    
     this.isDragging = true;
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
