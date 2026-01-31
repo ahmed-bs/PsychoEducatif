@@ -1123,8 +1123,8 @@
     },
     "child_profile": {
       "last_evaluation": "Last evaluation: {{date}}",
-      "gender_male": "♂ Male",
-      "gender_female": "♀ Female",
+      "gender_male": "Male",
+      "gender_female": "Female",
       "share_profile_button": "Share profile",
       "edit_profile_button": "Edit profile",
       "disable_profile_button": "Disable profile"

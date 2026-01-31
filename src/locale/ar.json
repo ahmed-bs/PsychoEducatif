@@ -1073,8 +1073,8 @@
     },
     "child_profile": {
       "last_evaluation": "آخر تقييم: {{date}}",
-      "gender_male": "♂ ذكر",
-      "gender_female": "♀ أنثى",
+      "gender_male": "ذكر",
+      "gender_female": "أنثى",
       "share_profile_button": "مشاركة الملف الشخصي",
       "edit_profile_button": "تعديل الملف الشخصي",
       "disable_profile_button": "تعطيل الملف الشخصي"
