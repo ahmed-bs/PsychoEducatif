@@ -556,7 +556,9 @@
     },
     "loading": "Loading...",
     "error": {
-      "load_data_failed": "Failed to load summary data. Please try again later."
+      "load_data_failed": "Failed to load summary data. Please try again later.",
+      "unauthorized": "Your session has expired. Please log in again to continue.",
+      "unauthorized_title": "Session Expired"
     },
     "load_summary_error": {
       "title": "Error",

@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, of, throwError } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
 
 interface DomainTableRow {
@@ -384,6 +384,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
                 ).pipe(
                   catchError(error => {
                     console.error(`Error loading items for domain ${domain.id}:`, error);
+                    // Check for 401 errors
+                    const errorStatus = error?.status || error?.originalError?.status;
+                    if (errorStatus === 401) {
+                      // Propagate 401 errors to be handled at the top level
+                      return throwError(() => error);
+                    }
                     return of([]);
                   })
                 )
@@ -404,6 +410,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
             }),
             catchError(error => {
               console.error(`Error loading domains for category ${category.id}:`, error);
+              // Check for 401 errors
+              const errorStatus = error?.status || error?.originalError?.status;
+              if (errorStatus === 401) {
+                // Propagate 401 errors to be handled at the top level
+                return throwError(() => error);
+              }
               return of({ category, domains: [], allItems: [] });
             })
           )
@@ -440,9 +452,23 @@ export class SummaryComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error loading summary data:', error);
-        this.translate.get('skills_summary.error.load_data_failed').subscribe((text) => {
-          this.error = text;
-        });
+        
+        // Check if it's a 401 Unauthorized error
+        const errorStatus = error?.status || error?.originalError?.status;
+        if (errorStatus === 401) {
+          // Show friendly message for unauthorized errors
+          this.translate.get([
+            'skills_summary.error.unauthorized_title',
+            'skills_summary.error.unauthorized'
+          ]).subscribe((translations) => {
+            this.error = translations['skills_summary.error.unauthorized'];
+          });
+        } else {
+          // Show generic error message for other errors
+          this.translate.get('skills_summary.error.load_data_failed').subscribe((text) => {
+            this.error = text;
+          });
+        }
         this.isLoading = false;
       }
     });

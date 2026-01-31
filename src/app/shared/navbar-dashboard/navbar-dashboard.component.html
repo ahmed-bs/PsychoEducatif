@@ -104,24 +104,11 @@
           </button>
         </div>
       </div>
-      <div class="nav__dropdown nav__user-menu">
-        <a (click)="toggleUserMenu()" >
-          <i class="fas fa-user-circle"></i>
-          <span class="user-name">{{ getUserDisplayName() }}</span>
-          <i class="fas fa-chevron-down dropdown-icon" [class.rotated]="showUserMenu"></i>
+      <!-- Mobile/Tablet: Simple logout button (no dropdown) -->
+      <div class="nav__user-menu-mobile">
+        <a (click)="logout()" class="logout-btn-mobile">
+          <i class="fas fa-sign-out-alt"></i> {{ 'navbar.buttons.logout' | translate }}
         </a>
-        <ul class="dropdown-menu user-dropdown" [class.show]="showUserMenu">
-          <li>
-            <a (click)="changeProfile()">
-              <i class="fas fa-user-circle"></i> {{ 'navbar.buttons.change_profile' | translate }}
-            </a>
-          </li>
-          <li>
-            <a (click)="logout()">
-              <i class="fas fa-sign-out-alt"></i> {{ 'navbar.buttons.logout' | translate }}
-            </a>
-          </li>
-        </ul>
       </div>
     </li>
   </ul>

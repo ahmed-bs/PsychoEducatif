@@ -30,12 +30,18 @@ export class ProfileCategoryService {
         
         let errorMessage = 'An error occurred';
         if (error.error instanceof ErrorEvent) {
+            // Client-side error
             errorMessage = error.error.message;
         } else {
             // Server-side error
-            errorMessage = error.error.error || `Error Code: ${error.status}\nMessage: ${error.message}`;
+            if (error.status === 401) {
+                // Friendly message for unauthorized errors
+                errorMessage = 'UNAUTHORIZED';
+            } else {
+                errorMessage = error.error?.error || error.error?.message || `Error Code: ${error.status}\nMessage: ${error.message}`;
+            }
         }
-        return throwError(() => new Error(errorMessage));
+        return throwError(() => ({ status: error.status, message: errorMessage, originalError: error }));
     }
 
     // Get current language from localStorage

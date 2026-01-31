@@ -543,7 +543,9 @@
     },
     "loading": "Chargement...",
     "error": {
-      "load_data_failed": "Échec du chargement des données récapitulatives. Veuillez réessayer plus tard."
+      "load_data_failed": "Échec du chargement des données récapitulatives. Veuillez réessayer plus tard.",
+      "unauthorized": "Votre session a expiré. Veuillez vous reconnecter pour continuer.",
+      "unauthorized_title": "Session expirée"
     },
     "load_summary_error": {
       "title": "Erreur",
