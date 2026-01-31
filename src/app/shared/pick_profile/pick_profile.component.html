@@ -289,14 +289,14 @@
           <span>{{ 'add_child_dialog.labels.gender' | translate }}</span>
         </label>
         <div class="gender-radio-group">
-          <div class="radio-option">
+          <label class="radio-option" for="maleAdd">
             <input type="radio" id="maleAdd" name="genderAdd" value="M" [(ngModel)]="newChild.gender">
-            <label for="maleAdd">{{ 'add_child_dialog.gender_options.male' | translate }}</label>
-          </div>
-          <div class="radio-option">
+            <span>{{ 'add_child_dialog.gender_options.male' | translate }}</span>
+          </label>
+          <label class="radio-option" for="femaleAdd">
             <input type="radio" id="femaleAdd" name="genderAdd" value="F" [(ngModel)]="newChild.gender">
-            <label for="femaleAdd">{{ 'add_child_dialog.gender_options.female' | translate }}</label>
-          </div>
+            <span>{{ 'add_child_dialog.gender_options.female' | translate }}</span>
+          </label>
         </div>
       </div>
       <div class="form-group">
@@ -425,14 +425,14 @@
           <span>{{ 'edit_child_dialog.labels.gender' | translate }}</span>
         </label>
         <div class="gender-radio-group">
-          <div class="radio-option">
+          <label class="radio-option" for="maleEdit">
             <input type="radio" id="maleEdit" name="genderEdit" value="M" [(ngModel)]="selectedChild.gender">
-            <label for="maleEdit">{{ 'edit_child_dialog.gender_options.male' | translate }}</label>
-          </div>
-          <div class="radio-option">
+            <span>{{ 'edit_child_dialog.gender_options.male' | translate }}</span>
+          </label>
+          <label class="radio-option" for="femaleEdit">
             <input type="radio" id="femaleEdit" name="genderEdit" value="F" [(ngModel)]="selectedChild.gender">
-            <label for="femaleEdit">{{ 'edit_child_dialog.gender_options.female' | translate }}</label>
-          </div>
+            <span>{{ 'edit_child_dialog.gender_options.female' | translate }}</span>
+          </label>
         </div>
       </div>
       <div class="form-group">
