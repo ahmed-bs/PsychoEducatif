@@ -12,20 +12,6 @@
       </li>
     </ul>
   </div>
-  <div class="right">
-    <div class="stats-card">
-      <div class="stat-item">
-        <i class="bx bx-target-lock"></i>
-        <span class="stat-number">{{ goals?.length || 0 }}</span>
-        <span class="stat-label">{{ 'calendar.stats.goals' | translate }}</span>
-      </div>
-      <div class="stat-item">
-        <i class="bx bx-trending-up"></i>
-        <span class="stat-number">{{ goalRelatedDomains?.length || 0 }}</span>
-        <span class="stat-label">{{ 'calendar.stats.domains' | translate }}</span>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
@@ -38,31 +24,36 @@
 
   <!-- Sidebar with Progress -->
   <div class="sidebar bg-white shadow-lg rounded-2xl w-full lg:w-96 flex flex-col">
-    <!-- Fixed Header -->
-    <div class="sidebar-header p-4 border-b border-gray-200">
-      <h2 class="title">
-        <i class="bx bx-target-lock"></i>
-        {{ 'calendar.sidebar.goal_domains_title' | translate }}
-      </h2>
-      <div class="progress-summary">
-        <div class="overall-progress">
-          <div class="progress-circle">
-            <svg class="progress-ring" width="60" height="60">
-              <circle class="progress-ring-circle-bg" cx="30" cy="30" r="24"></circle>
-              <circle class="progress-ring-circle" cx="30" cy="30" r="24" 
-                      [style.stroke-dasharray]="getOverallProgress() * 1.51 + ' 151'"></circle>
-            </svg>
-            <span class="progress-text">{{ getOverallProgress() }}%</span>
+    <!-- Mini Calendar Widget -->
+    <div class="mini-calendar-widget p-4 border-b border-gray-200">
+      <div class="mini-calendar-header">
+        <h3 class="mini-calendar-title">
+          <i class="bx bx-calendar"></i>
+          {{ getCurrentMonthYear() }}
+        </h3>
+      </div>
+      <div class="mini-calendar-grid">
+        <!-- Weekday headers -->
+        <div class="mini-calendar-weekdays">
+          <div class="mini-calendar-weekday" *ngFor="let day of getWeekdayHeaders()">{{ day }}</div>
+        </div>
+        <!-- Calendar days -->
+        <div class="mini-calendar-days">
+          <div *ngFor="let day of getCalendarDays()" 
+               class="mini-calendar-day"
+               [class.other-month]="day.otherMonth"
+               [class.has-goal]="hasGoalOnDate(day.date)">
+            <span class="day-number">{{ day.day }}</span>
+            <span *ngIf="hasGoalOnDate(day.date)" class="goal-dot"></span>
           </div>
-          <span class="progress-label">{{ 'calendar.overall_progress' | translate }}</span>
         </div>
       </div>
     </div>
 
     <!-- Scrollable Content -->
     <div class="sidebar-content flex-1 overflow-y-auto p-4">
-      <div *ngIf="goalRelatedDomains.length > 0; else noDomains" class="plans-list flex flex-col gap-3">
-        <ng-container *ngFor="let domain of goalRelatedDomains">
+      <div *ngIf="listeDomainesEnCours.length > 0; else noDomains" class="plans-list flex flex-col gap-3">
+        <ng-container *ngFor="let domain of listeDomainesEnCours; let i = index">
           <div class="skill-card bg-indigo-50 p-4 rounded-lg mb-0 shadow-sm cursor-pointer" 
                (click)="navigateToQuiz(domain)" 
                [title]="'calendar.domain.click_to_quiz' | translate">
@@ -76,16 +67,19 @@
                   </span>
                 </div>
               </div>
-              <div class="skill-progress">
-                <span class="progress-percentage">{{ domain.acquis_percentage }}%</span>
-                <div class="progress-indicator" [class]="getProgressClass(domain.acquis_percentage)">
-                  <i class="bx" [class]="getProgressIcon(domain.acquis_percentage)"></i>
+              <div class="skill-progress-circular">
+                <div class="circular-progress" 
+                     [style.--progress]="domain.acquis_percentage + '%'"
+                     [style.--color]="getDomainColor(domain)">
+                  <svg class="circular-progress-svg" width="60" height="60" viewBox="0 0 60 60">
+                    <circle class="circular-progress-bg" cx="30" cy="30" r="24"></circle>
+                    <circle class="circular-progress-fill" 
+                            cx="30" cy="30" r="24"
+                            [style.stroke]="getDomainColor(domain)"
+                            [style.stroke-dashoffset]="150.8 - (domain.acquis_percentage * 150.8 / 100)"></circle>
+                  </svg>
+                  <span class="circular-progress-text">{{ domain.acquis_percentage }}%</span>
                 </div>
-              </div>
-            </div>
-            <div class="progress-bar h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div class="progress-fill h-full bg-indigo-500 rounded-full" 
-                   [style.width]="domain.acquis_percentage + '%'">
               </div>
             </div>
             <div class="skill-footer">
@@ -132,143 +126,174 @@
   </app-add-goal-modal>
 
   <!-- Goal Details Modal -->
-  <div *ngIf="showGoalDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-      <!-- Header -->
-      <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 rounded-t-2xl">
-        <div class="flex items-center justify-between">
-          <h3 class="text-xl font-bold text-white">
-            <i class="bx bx-target-lock mr-2"></i>
-            {{ 'calendar.goal.details_title' | translate }}
-          </h3>
-          <div class="flex items-center space-x-2">
-            <button (click)="onDeleteGoal()" 
-                    class="text-white hover:text-red-200 transition-colors p-1 rounded-full hover:bg-red-500/20"
-                    [title]="'calendar.goal.delete' | translate">
-              <i class="bx bx-trash text-lg"></i>
-            </button>
-            <button (click)="closeGoalDetailsModal()" class="text-white hover:text-gray-200 transition-colors">
-              <i class="bx bx-x text-2xl"></i>
-            </button>
+  <div *ngIf="showGoalDetailsModal" class="modal-overlay" (click)="closeGoalDetailsModal()">
+    <div class="add-note-modal goal-details-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-icon-wrapper">
+            <i class="bx bx-target-lock"></i>
           </div>
+          <div class="modal-title-wrapper">
+            <h3 class="modal-title">
+              {{ 'calendar.goal.details_title' | translate }}
+            </h3>
+          </div>
+        </div>
+        <div class="modal-header-actions">
+          <button (click)="onDeleteGoal()" 
+                  class="modal-action-btn modal-delete-btn"
+                  [title]="'calendar.goal.delete' | translate">
+            <i class="bx bx-trash"></i>
+          </button>
+          <button 
+            type="button"
+            class="modal-close-btn"
+            (click)="closeGoalDetailsModal()"
+            [attr.aria-label]="'calendar.messages.cancel' | translate">
+            <i class="bx bx-x"></i>
+          </button>
         </div>
       </div>
 
       <!-- Tabs -->
-      <div class="border-b border-gray-200">
-        <div class="flex">
-          <button (click)="switchToDetailsTab()" 
-                  [class]="activeTab === 'details' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
-                  class="flex-1 py-3 px-4 text-sm font-medium transition-colors">
-            <i class="bx bx-info-circle mr-2"></i>
-            {{ 'calendar.goal.details_tab' | translate }}
-          </button>
-          <button (click)="switchToEditTab()" 
-                  [class]="activeTab === 'edit' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
-                  class="flex-1 py-3 px-4 text-sm font-medium transition-colors">
-            <i class="bx bx-edit mr-2"></i>
-            {{ 'calendar.goal.edit_tab' | translate }}
-          </button>
-        </div>
+      <div class="modal-tabs">
+        <button (click)="switchToDetailsTab()" 
+                [class.active]="activeTab === 'details'"
+                class="modal-tab">
+          <i class="bx bx-info-circle"></i>
+          {{ 'calendar.goal.details_tab' | translate }}
+        </button>
+        <button (click)="switchToEditTab()" 
+                [class.active]="activeTab === 'edit'"
+                class="modal-tab">
+          <i class="bx bx-edit"></i>
+          {{ 'calendar.goal.edit_tab' | translate }}
+        </button>
       </div>
 
       <!-- Details Tab Content -->
-      <div *ngIf="activeTab === 'details' && selectedGoal" class="p-6">
+      <div *ngIf="activeTab === 'details' && selectedGoal" class="modal-body">
         <!-- Goal Title -->
-        <div class="mb-6">
-          <h4 class="text-2xl font-bold text-gray-800 mb-2">{{ selectedGoal.title }}</h4>
-          <p class="text-gray-600">{{ selectedGoal.description }}</p>
+        <div class="form-group">
+          <h4 class="goal-title">{{ selectedGoal.title }}</h4>
+          <p class="goal-description">{{ selectedGoal.description }}</p>
         </div>
 
         <!-- Goal Details -->
-        <div class="space-y-4 mb-6">
+        <div class="form-group">
           <!-- Priority -->
-          <div class="flex items-center">
-            <i class="bx bx-flag text-blue-600 mr-3"></i>
-            <span class="text-gray-700 font-medium">{{ 'calendar.goal.priority_label' | translate }}:</span>
-            <span class="ml-2 px-3 py-1 rounded-full text-xs font-semibold" 
-                  [ngClass]="{
-                    'bg-red-100 text-red-800': selectedGoal.priority === 'high',
-                    'bg-yellow-100 text-yellow-800': selectedGoal.priority === 'medium',
-                    'bg-green-100 text-green-800': selectedGoal.priority === 'low'
-                  }">
-              {{ getPriorityTranslation(selectedGoal.priority) }}
-            </span>
+          <div class="goal-detail-item">
+            <label class="form-label">
+              <i class="bx bx-flag"></i>
+              <span>{{ 'calendar.goal.priority_label' | translate }}</span>
+            </label>
+            <div class="goal-detail-value">
+              <span class="priority-badge" 
+                    [ngClass]="{
+                      'priority-high': selectedGoal.priority === 'high',
+                      'priority-medium': selectedGoal.priority === 'medium',
+                      'priority-low': selectedGoal.priority === 'low'
+                    }">
+                {{ getPriorityTranslation(selectedGoal.priority) }}
+              </span>
+            </div>
           </div>
 
           <!-- Target Date -->
-          <div class="flex items-center">
-            <i class="bx bx-calendar text-blue-600 mr-3"></i>
-            <span class="text-gray-700 font-medium">{{ 'calendar.goal.target_date' | translate }}:</span>
-            <span class="ml-2 text-gray-600">{{ formatGoalDate(selectedGoal.target_date) }}</span>
+          <div class="goal-detail-item">
+            <label class="form-label">
+              <i class="bx bx-calendar"></i>
+              <span>{{ 'calendar.goal.target_date' | translate }}</span>
+            </label>
+            <div class="goal-detail-value">
+              <span>{{ formatGoalDate(selectedGoal.target_date) }}</span>
+            </div>
           </div>
 
           <!-- Domain -->
-          <div class="flex items-center" *ngIf="selectedGoal.domain">
-            <i class="bx bx-layer text-blue-600 mr-3"></i>
-            <span class="text-gray-700 font-medium">{{ 'calendar.goal.domain' | translate }}:</span>
-                            <span class="ml-2 text-gray-600">{{ getDomainDisplayName(selectedGoal.domain) }}</span>
+          <div class="goal-detail-item" *ngIf="selectedGoal.domain">
+            <label class="form-label">
+              <i class="bx bx-layer"></i>
+              <span>{{ 'calendar.goal.domain' | translate }}</span>
+            </label>
+            <div class="goal-detail-value">
+              <span>{{ getDomainDisplayName(selectedGoal.domain) }}</span>
+            </div>
           </div>
 
           <!-- Progress -->
-          <div class="flex items-center">
-            <i class="bx bx-trending-up text-blue-600 mr-3"></i>
-            <span class="text-gray-700 font-medium">{{ 'calendar.goal.progress' | translate }}:</span>
-            <span class="ml-2 text-gray-600">{{ calculateGoalProgress(selectedGoal) }}%</span>
+          <div class="goal-detail-item">
+            <label class="form-label">
+              <i class="bx bx-trending-up"></i>
+              <span>{{ 'calendar.goal.progress' | translate }}</span>
+            </label>
+            <div class="goal-detail-value">
+              <span>{{ calculateGoalProgress(selectedGoal) }}%</span>
+            </div>
           </div>
         </div>
-
-        <!-- Sub Objectives -->
       </div>
 
       <!-- Edit Tab Content -->
-      <div *ngIf="activeTab === 'edit' && editingGoal" class="p-6">
-        <form (ngSubmit)="saveEditedGoal()" class="space-y-6">
+      <div *ngIf="activeTab === 'edit' && editingGoal" class="modal-body">
+        <form (ngSubmit)="saveEditedGoal()">
           <!-- Title -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ 'calendar.goal.edit.title_label' | translate }} *
+          <div class="form-group">
+            <label for="edit-goal-title" class="form-label">
+              <i class="bx bx-text"></i>
+              <span>{{ 'calendar.goal.edit.title_label' | translate }} *</span>
             </label>
-            <input type="text" 
-                   [(ngModel)]="editingGoal.title" 
-                   name="title"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                   [placeholder]="'calendar.goal.edit.title_placeholder' | translate"
-                   required>
+            <input 
+              id="edit-goal-title"
+              type="text" 
+              [(ngModel)]="editingGoal.title" 
+              name="title"
+              class="form-input"
+              [placeholder]="'calendar.goal.edit.title_placeholder' | translate"
+              required>
           </div>
 
           <!-- Description -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ 'calendar.goal.edit.description_label' | translate }}
+          <div class="form-group">
+            <label for="edit-goal-description" class="form-label">
+              <i class="bx bx-align-left"></i>
+              <span>{{ 'calendar.goal.edit.description_label' | translate }}</span>
             </label>
-            <textarea [(ngModel)]="editingGoal.description" 
-                      name="description"
-                      rows="3"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      [placeholder]="'calendar.goal.edit.description_placeholder' | translate"></textarea>
+            <textarea 
+              id="edit-goal-description"
+              [(ngModel)]="editingGoal.description" 
+              name="description"
+              rows="4"
+              class="form-textarea"
+              [placeholder]="'calendar.goal.edit.description_placeholder' | translate"></textarea>
           </div>
 
           <!-- Target Date -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ 'calendar.goal.edit.target_date_label' | translate }} *
+          <div class="form-group">
+            <label for="edit-goal-target-date" class="form-label">
+              <i class="bx bx-calendar"></i>
+              <span>{{ 'calendar.goal.edit.target_date_label' | translate }} *</span>
             </label>
-            <input type="date" 
-                   [(ngModel)]="editingGoal.target_date" 
-                   name="target_date"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                   required>
+            <input 
+              id="edit-goal-target-date"
+              type="date" 
+              [(ngModel)]="editingGoal.target_date" 
+              name="target_date"
+              class="form-input"
+              required>
           </div>
 
           <!-- Priority -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ 'calendar.goal.edit.priority_label' | translate }}
+          <div class="form-group">
+            <label for="edit-goal-priority" class="form-label">
+              <i class="bx bx-flag"></i>
+              <span>{{ 'calendar.goal.edit.priority_label' | translate }}</span>
             </label>
-            <select [(ngModel)]="editingGoal.priority" 
-                    name="priority"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <select 
+              id="edit-goal-priority"
+              [(ngModel)]="editingGoal.priority" 
+              name="priority"
+              class="form-select">
               <option value="low">{{ 'calendar.goal.priority.low' | translate }}</option>
               <option value="medium">{{ 'calendar.goal.priority.medium' | translate }}</option>
               <option value="high">{{ 'calendar.goal.priority.high' | translate }}</option>
@@ -276,32 +301,102 @@
           </div>
 
           <!-- Domain (Read-only) -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ 'calendar.goal.edit.domain_label' | translate }}
+          <div class="form-group">
+            <label for="edit-goal-domain" class="form-label">
+              <i class="bx bx-layer"></i>
+              <span>{{ 'calendar.goal.edit.domain_label' | translate }}</span>
             </label>
-            <input type="text" 
-                   [value]="editingGoal.domain?.name || ''" 
-                   class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
-                   readonly>
-            <p class="text-xs text-gray-500 mt-1">{{ 'calendar.goal.edit.domain_readonly' | translate }}</p>
+            <input 
+              id="edit-goal-domain"
+              type="text" 
+              [value]="getDomainDisplayName(editingGoal.domain) || ''" 
+              class="form-input"
+              readonly>
+            <p class="help-text">{{ 'calendar.goal.edit.domain_readonly' | translate }}</p>
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex space-x-3 pt-4 border-t border-gray-200">
-            <button type="button" 
-                    (click)="cancelEditing()"
-                    class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors">
-              <i class="bx bx-x mr-2"></i>
+          <div class="modal-footer">
+            <button 
+              type="button" 
+              class="modal-btn-secondary"
+              (click)="cancelEditing()">
+              <i class="bx bx-x"></i>
               {{ 'calendar.goal.edit.cancel' | translate }}
             </button>
-            <button type="submit" 
-                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors">
-              <i class="bx bx-save mr-2"></i>
+            <button 
+              type="submit" 
+              class="modal-btn-primary">
+              <i class="bx bx-save"></i>
               {{ 'calendar.goal.edit.save' | translate }}
             </button>
           </div>
         </form>
+      </div>
+
+      <!-- Footer for Details Tab -->
+      <div *ngIf="activeTab === 'details'" class="modal-footer">
+        <button 
+          type="button" 
+          class="modal-btn-secondary"
+          (click)="closeGoalDetailsModal()">
+          <i class="bx bx-x"></i>
+          {{ 'calendar.messages.cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Target Date Confirmation Modal -->
+  <div *ngIf="showUpdateDateModal" class="modal-overlay" (click)="closeUpdateDateModal()">
+    <div class="add-note-modal update-date-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-icon-wrapper">
+            <i class="bx bx-calendar"></i>
+          </div>
+          <div class="modal-title-wrapper">
+            <h3 class="modal-title">
+              {{ 'dashboard_tabs.goals.update_date_title' | translate }}
+            </h3>
+            <p class="modal-subtitle">{{ 'dashboard_tabs.goals.update_date_message' | translate }}</p>
+          </div>
+        </div>
+        <button 
+          type="button"
+          class="modal-close-btn"
+          (click)="closeUpdateDateModal()"
+          [attr.aria-label]="'dashboard_tabs.goals.cancel' | translate">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="update-date-info" *ngIf="goalToUpdate">
+          <div class="info-item-compact">
+            <i class="bx bx-calendar-plus"></i>
+            <span class="info-text">{{ 'dashboard_tabs.goals.new_target_date' | translate }}: <strong>{{ 'dashboard_tabs.goals.tomorrow' | translate }}</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button 
+          type="button"
+          class="modal-btn-secondary"
+          (click)="cancelUpdateTargetDate()"
+          [disabled]="updatingDate">
+          <i class="bx bx-x"></i>
+          {{ 'dashboard_tabs.goals.no_update' | translate }}
+        </button>
+        <button 
+          type="button"
+          class="modal-btn-primary"
+          (click)="confirmUpdateTargetDate()"
+          [disabled]="updatingDate">
+          <i class="bx bx-check"></i>
+          {{ updatingDate ? ('dashboard_tabs.goals.updating' | translate) : ('dashboard_tabs.goals.yes_update' | translate) }}
+        </button>
       </div>
     </div>
   </div>

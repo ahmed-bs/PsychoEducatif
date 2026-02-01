@@ -19,27 +19,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Back Button */
-.back-button {
-  position: absolute;
-  top: 70px;
-  left: 20px;
-  cursor: pointer;
-  background-color: #f0f0f0;
-  border-radius: 50%;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.back-button:hover {
-  background-color: #e0e0e0;
-}
-
 /* Form Styles */
 .add-item-section {
   margin-bottom: 2rem;
@@ -111,6 +90,136 @@
 /* Item List Styles */
 .item-list {
   padding: 16px;
+}
+
+/* Add Item Form Container */
+.add-item-form-container {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #E5E7EB;
+  padding-bottom: 16px;
+}
+
+.toggle-add-item-btn {
+  background-color: #6366F1;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.toggle-add-item-btn:hover {
+  background-color: #4F46E5;
+}
+
+.toggle-add-item-btn .material-symbols-sharp {
+  font-size: 1.2rem;
+}
+
+.add-item-form {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #F9FAFB;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+}
+
+.form-row-inline {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.form-row-inline > * {
+  min-width: 0;
+}
+
+.form-group-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0; /* Prevents grid overflow */
+  width: 100%;
+}
+
+.form-group-inline:first-child {
+  flex: 1;
+}
+
+.form-group-inline:nth-child(2) {
+  flex: 1;
+}
+
+.form-group-inline label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+  margin-bottom: 4px;
+}
+
+/* Ensure inputs inside form-group-inline take full width */
+.form-group-inline input {
+  width: 100% !important;
+  display: block;
+}
+
+/* Input styling for inline form - Simple HTML inputs */
+.inline-form-input {
+  width: 100%;
+  height: 42px;
+  min-height: 42px;
+  max-height: 42px;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #ced4da;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  line-height: 1.5;
+  display: block;
+  font-family: inherit;
+  background-color: white;
+  color: #1f2937;
+}
+
+.inline-form-input:focus {
+  outline: none;
+  border-color: #6366F1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.inline-form-input::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+.inline-form-input:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.add-item-btn-inline {
+  background-color: #6366F1 !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  height: 42px;
+  min-height: 42px;
+  white-space: nowrap;
+  align-self: flex-end;
+}
+
+.add-item-btn-inline:hover {
+  background-color: #4F46E5 !important;
 }
 
 .item-header {
@@ -221,11 +330,12 @@
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   font-weight: 500;
   margin-bottom: 20px;
+  width: fit-content;
 }
 
 .add-domain-btn:hover {
@@ -339,13 +449,6 @@
   .card {
     padding: 16px;
     margin: 12px 0;
-  }
-
-  .back-button {
-    top: 60px;
-    left: 12px;
-    width: 36px;
-    height: 36px;
   }
 
   .form-row {
@@ -504,10 +607,32 @@
   }
 
   .add-domain-btn {
-    width: 100%;
-    justify-content: center;
-    padding: 12px;
+    padding: 10px 16px;
     font-size: 0.9rem;
+  }
+
+  .form-row-inline {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .add-item-btn-inline {
+    grid-column: 1;
+    justify-self: stretch;
+    width: 100%;
+    align-self: stretch;
+  }
+
+  .add-item-form {
+    padding: 12px;
+  }
+
+  .inline-form-input {
+    min-height: 40px;
+    height: 40px;
+    max-height: 40px;
+    padding: 0.625rem;
+    font-size: 0.875rem;
   }
 }
 
@@ -519,13 +644,6 @@
   .card {
     padding: 12px;
     margin: 10px 0;
-  }
-
-  .back-button {
-    top: 50px;
-    left: 8px;
-    width: 32px;
-    height: 32px;
   }
 
   .form-row {
@@ -587,6 +705,36 @@
 
   .description-info-btn i {
     font-size: 0.9rem;
+  }
+
+  .toggle-add-item-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .form-row-inline {
+    gap: 10px;
+  }
+
+  .add-item-form {
+    padding: 10px;
+  }
+
+  .inline-form-input {
+    min-height: 38px;
+    height: 38px;
+    max-height: 38px;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .add-item-btn-inline {
+    height: 38px;
+    min-height: 38px;
+    padding: 0.625rem 1rem !important;
+    font-size: 0.85rem;
   }
 }
 
@@ -1349,5 +1497,268 @@
   .eval-modal-btn-secondary {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* Custom Alert Notification Styles - Matching Notes Component */
+.custom-alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.custom-alert-container.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.custom-alert-cloud {
+  position: relative;
+  background: #ffffff;
+  border-radius: 40px 40px 40px 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 400px;
+  min-width: 300px;
+  animation: cloud-appear-alert 0.6s ease-out;
+  border-left: 4px solid transparent;
+}
+
+.custom-alert-container.success .custom-alert-cloud {
+  border-left-color: #10b981;
+}
+
+.custom-alert-container.error .custom-alert-cloud {
+  border-left-color: #ef4444;
+}
+
+/* Cloud shape with multiple rounded parts */
+.custom-alert-cloud::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  right: 35px;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-alert-cloud::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 18px;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes cloud-appear-alert {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.custom-alert-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.custom-alert-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.25rem;
+}
+
+.custom-alert-container.success .custom-alert-icon {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.custom-alert-container.error .custom-alert-icon {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.custom-alert-text {
+  flex: 1;
+  font-size: 0.9375rem;
+  color: #1f2937;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 500;
+}
+
+.custom-alert-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 2;
+  font-size: 0.875rem;
+}
+
+.custom-alert-close:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .custom-alert-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .custom-alert-cloud {
+    max-width: 100%;
+    min-width: auto;
+    padding: 0.875rem 1.25rem;
+    border-radius: 35px 35px 35px 6px;
+  }
+
+  .custom-alert-cloud::before {
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    right: 30px;
+  }
+
+  .custom-alert-cloud::after {
+    width: 16px;
+    height: 16px;
+    top: -6px;
+    right: 15px;
+  }
+
+  .custom-alert-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+
+  .custom-alert-text {
+    font-size: 0.875rem;
+  }
+}
+
+/* Delete Modal Styles - Matching Notes Component */
+.delete-modal {
+  max-width: 500px;
+}
+
+.delete-modal-header {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+}
+
+.delete-icon-wrapper {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.eval-modal-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.eval-modal-btn-danger::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.eval-modal-btn-danger:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.eval-modal-btn-danger:hover:not(:disabled) {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+  transform: translateY(-2px);
+}
+
+.eval-modal-btn-danger:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.eval-modal-btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.eval-modal-btn-danger i {
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive adjustments for delete modals */
+@media (max-width: 768px) {
+  .delete-modal {
+    max-width: 95vw;
+  }
+
+  .preview-content {
+    padding: 0.875rem;
+  }
+
+  .preview-text {
+    padding: 0.875rem;
   }
 }

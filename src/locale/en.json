@@ -134,7 +134,8 @@
       "configuration": "Configuration",
       "explorer": "Explorer",
       "resume": "Resume",
-      "calendar": "Calendar"
+      "calendar": "Calendar",
+      "aide": "Help"
     },
     "buttons": {
       "sign_up": "Sign Up",
@@ -556,7 +557,9 @@
     },
     "loading": "Loading...",
     "error": {
-      "load_data_failed": "Failed to load summary data. Please try again later."
+      "load_data_failed": "Failed to load summary data. Please try again later.",
+      "unauthorized": "Your session has expired. Please log in again to continue.",
+      "unauthorized_title": "Session Expired"
     },
     "load_summary_error": {
       "title": "Error",
@@ -1010,7 +1013,8 @@
       },
       "confirm": {
         "delete_domain": "Are you sure you want to delete {{domainName}}?",
-        "delete_item": "Are you sure you want to delete {{itemName}}?"
+        "delete_item": "Are you sure you want to delete {{itemName}}?",
+        "delete_button": "Delete"
       },
       "info": {
         "summary": "Information",
@@ -1067,7 +1071,7 @@
         "update": "Update"
       },
       "info": {
-        "at_least_one_name": "At least one title (in French or Arabic) must be provided."
+        "at_least_one_name": "At least one title must be provided."
       }
     },
     "messages": {
@@ -1079,7 +1083,7 @@
       },
       "error": {
         "summary": "Error",
-        "name_required": "At least one title (in French or Arabic) must be provided",
+        "name_required": "At least one title must be provided",
         "generic_error": "{{error}}"
       },
       "confirm": {

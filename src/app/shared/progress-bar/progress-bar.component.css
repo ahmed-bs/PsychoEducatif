@@ -1,3 +1,4 @@
+/* Common Variables */
 .progressbar {
   --size: 100px; /* Reduced from 132px */
   --bar-width: 15px; /* Reduced from 20px */
@@ -5,7 +6,10 @@
   --color-dark-glare: #bbdefb; /* Blue 100 */
   --color-success: #4fc3f7; /* Light Blue 300 */
   --color-success-dark: #01579b; /* Blue 900 */
+}
 
+/* Circle Mode Styles */
+.progressbar-circle {
   font-size: 1.5rem; /* Reduced from 2rem */
   width: var(--size);
   aspect-ratio: 1 / 1;
@@ -21,7 +25,7 @@
   transition: --progress 500ms linear;
 }
 
-.progress-content {
+.progressbar-circle .progress-content {
   background: white;
   width: calc(100% - var(--bar-width));
   aspect-ratio: 1;
@@ -30,13 +34,59 @@
   place-items: center;
 }
 
-.checkmark {
-  color: var(--color-dark);
-}
-
-.progressbar[aria-valuenow="100"] .progress-content {
+.progressbar-circle[aria-valuenow="100"] .progress-content {
   background: var(--color-success);
   animation: progressComplete 0.5s ease-out;
+}
+
+/* Line Mode Styles */
+.progressbar-line {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.progress-line-track {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.progress-line-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  transition: width 500ms ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
+.progressbar-line[aria-valuenow="100"] .progress-line-fill {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  animation: progressCompleteLine 0.5s ease-out;
+  box-shadow: 0 2px 4px rgba(72, 187, 120, 0.2);
+}
+
+.progress-line-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5568;
+  text-align: right;
+}
+
+.checkmark {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
 }
 
 @keyframes progressComplete {
@@ -50,15 +100,24 @@
   }
 }
 
+@keyframes progressCompleteLine {
+  from { 
+    opacity: 0.8;
+  }
+  to { 
+    opacity: 1;
+  }
+}
+
 /* Fallback for browsers without conic-gradient support */
 @supports not (background: conic-gradient(red, red 0%, red 0%)) {
-  .progressbar {
+  .progressbar-circle {
     background: var(--color-dark-glare);
     position: relative;
     overflow: hidden;
   }
   
-  .progressbar::before {
+  .progressbar-circle::before {
     content: "";
     position: absolute;
     top: 0;

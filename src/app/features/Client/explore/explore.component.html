@@ -95,10 +95,11 @@
                     
                     <div class="card-body">
                       <h5 class="card-title">{{ getDomainLanguageField(domain, 'name') }}</h5>
-                      <div class="progress-section">
-                        <app-progress-bar [acquisPercentage]="domain.acquis_percentage"></app-progress-bar>
-                        <!-- <span class="progress-text">{{ domain.acquis_percentage || 0 }}% {{ 'explore.card.completed' | translate }}</span> -->
-                      </div>
+                    </div>
+
+                    <div class="progress-section">
+                      <app-progress-bar [acquisPercentage]="domain.acquis_percentage" mode="line"></app-progress-bar>
+                      <!-- <span class="progress-text">{{ domain.acquis_percentage || 0 }}% {{ 'explore.card.completed' | translate }}</span> -->
                     </div>
 
                     <div class="card-stats">
@@ -115,7 +116,7 @@
                         {{ domain.non_acquis_count || 0 }}
                       </div>
                     </div>
-                      <br>
+
                     <div class="card-footer">
                       <span class="action-text">
                         <i class="fas fa-play-circle"></i>

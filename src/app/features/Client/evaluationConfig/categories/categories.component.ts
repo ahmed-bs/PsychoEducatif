@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -8,7 +7,6 @@ import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -21,7 +19,6 @@ import { TooltipModule } from 'primeng/tooltip';
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
-  providers: [MessageService],
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
   displayAddUserDialog: boolean = false;
@@ -33,16 +30,17 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   profileId!: number;
   loading: boolean = true;
   isEditMode: boolean = false;
-  viewMode: 'grid' | 'list' | 'table' = 'grid';
+  viewMode: 'grid' | 'list' | 'table' = 'list';
   currentLanguage: string = 'fr';
   private languageSubscription: Subscription;
   selectedDescriptionCategory: ProfileCategory | null = null;
   isMobile: boolean = false;
+  customAlert: { message: string; type: 'success' | 'error'; show: boolean } | null = null;
+  savingCategory: boolean = false;
 
   constructor(
     private router: Router,
     private profileCategoryService: ProfileCategoryService,
-    private messageService: MessageService,
     private translate: TranslateService,
     private sharedService: SharedService,
     private cdr: ChangeDetectorRef
@@ -66,11 +64,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.loadCategories();
   }
 
-  // Set default view mode - list for mobile, grid for desktop
+  // Set default view mode - list for all devices
   private setDefaultViewMode(): void {
     if (typeof window !== 'undefined') {
       this.isMobile = window.innerWidth <= 768;
-      this.viewMode = this.isMobile ? 'list' : 'grid';
+      this.viewMode = 'list';
     }
   }
 
@@ -208,6 +206,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     console.log('showAddUserDialog called - resetting for new category');
     this.newCategory = { name: '', name_ar: '', name_en: '', description: '', description_ar: '', description_en: '' };
     this.isEditMode = false;
+    this.savingCategory = false;
     this.displayAddUserDialog = true;
     console.log('After showAddUserDialog:');
     console.log('- isEditMode:', this.isEditMode);
@@ -232,6 +231,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.newCategory.id = profileCategory.id;
     
     this.isEditMode = true;
+    this.savingCategory = false;
     this.displayAddUserDialog = true;
     
     console.log('After showEditDialog:');
@@ -241,6 +241,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   saveCategory() {
+    // Prevent multiple submissions
+    if (this.savingCategory) {
+      return;
+    }
+
     // Create a clean data object for the API call
     // Preserve all existing language fields and update the current language field
     const categoryData: Partial<ProfileCategory> = {
@@ -277,6 +282,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Set saving state
+    this.savingCategory = true;
+
     console.log('isEditMode:', this.isEditMode);
     console.log('newCategory.id:', this.newCategory.id);
     console.log('newCategory object:', this.newCategory);
@@ -297,6 +305,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   addCategory(categoryData: Partial<ProfileCategory>) {
     this.profileCategoryService.create(this.profileId, categoryData).subscribe({
       next: (profileCategory) => {
+        this.savingCategory = false;
         this.categories.push(profileCategory);
         this.displayAddUserDialog = false;
         this.translate.get('categories.messages.success.category_added').subscribe((text) => {
@@ -304,6 +313,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         });
       },
       error: (error) => {
+        this.savingCategory = false;
         this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
           this.showError(text);
         });
@@ -317,6 +327,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       console.log('Category data to send:', categoryData);
       this.profileCategoryService.update(this.newCategory.id, categoryData).subscribe({
         next: (updatedCategory) => {
+          this.savingCategory = false;
           const index = this.categories.findIndex((c) => c.id === updatedCategory.id);
           if (index !== -1) {
             this.categories[index] = updatedCategory;
@@ -327,6 +338,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           });
         },
         error: (error) => {
+          this.savingCategory = false;
           this.translate.get('categories.messages.error.generic_error', { error: error.message }).subscribe((text) => {
             this.showError(text);
           });
@@ -369,10 +381,35 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   showSuccess(message: string) {
-    this.messageService.add({ severity: 'success', summary: this.translate.instant('categories.messages.success.summary'), detail: message });
+    this.customAlert = { message: message, type: 'success', show: true };
+    setTimeout(() => {
+      if (this.customAlert) {
+        this.customAlert.show = false;
+        setTimeout(() => {
+          this.customAlert = null;
+        }, 300);
+      }
+    }, 3000);
   }
 
   showError(message: string) {
-    this.messageService.add({ severity: 'error', summary: this.translate.instant('categories.messages.error.summary'), detail: message });
+    this.customAlert = { message: message, type: 'error', show: true };
+    setTimeout(() => {
+      if (this.customAlert) {
+        this.customAlert.show = false;
+        setTimeout(() => {
+          this.customAlert = null;
+        }, 300);
+      }
+    }, 4000);
+  }
+
+  closeCustomAlert() {
+    if (this.customAlert) {
+      this.customAlert.show = false;
+      setTimeout(() => {
+        this.customAlert = null;
+      }, 300);
+    }
   }
 }

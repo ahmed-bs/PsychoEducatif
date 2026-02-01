@@ -22,6 +22,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { ToastModule } from 'primeng/toast';
 import { EvaluationConfigRoutes } from './evaluationConfig.routing';
 import { ItemsComponent } from './items/items.component';
+import { BackButtonComponent } from 'src/app/shared/back-button/back-button.component';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
@@ -56,7 +57,8 @@ import { HttpLoaderFactory } from 'src/app/app.module';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    BackButtonComponent
   ],
   declarations: [EvaluationConfigComponent,CategoriesComponent,ItemsComponent]
 })

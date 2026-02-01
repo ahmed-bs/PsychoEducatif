@@ -160,17 +160,6 @@
     border-color: #d0d8e8;
   }
   
-  .sales::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6px;
-    height: 100%;
-    background: linear-gradient(to bottom, #6a3de8, #9370DB);
-    border-radius: 4px 0 0 4px;
-  }
-  
   /* Icon Style */
   .material-symbols-sharp {
     font-size: 2.2rem;
@@ -1627,11 +1616,24 @@
   color: #374151;
 }
 
-.eval-modal-btn-secondary:hover {
+.eval-modal-btn-secondary:hover:not(:disabled) {
   background: #f9fafb;
   border-color: #d1d5db;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.eval-modal-btn-secondary:disabled,
+.eval-modal-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.eval-modal-btn-secondary:disabled:hover,
+.eval-modal-btn-primary:disabled:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .eval-modal-btn-secondary i {
@@ -1764,4 +1766,180 @@
 .eval-modal-btn-danger i {
   position: relative;
   z-index: 1;
+}
+
+/* Custom Alert Notification Styles - Matching Notes Component */
+.custom-alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.custom-alert-container.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.custom-alert-cloud {
+  position: relative;
+  background: #ffffff;
+  border-radius: 40px 40px 40px 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 400px;
+  min-width: 300px;
+  animation: cloud-appear-alert 0.6s ease-out;
+  border-left: 4px solid transparent;
+}
+
+.custom-alert-container.success .custom-alert-cloud {
+  border-left-color: #10b981;
+}
+
+.custom-alert-container.error .custom-alert-cloud {
+  border-left-color: #ef4444;
+}
+
+/* Cloud shape with multiple rounded parts */
+.custom-alert-cloud::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  right: 35px;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-alert-cloud::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 18px;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes cloud-appear-alert {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.custom-alert-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.custom-alert-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.25rem;
+}
+
+.custom-alert-container.success .custom-alert-icon {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.custom-alert-container.error .custom-alert-icon {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.custom-alert-text {
+  flex: 1;
+  font-size: 0.9375rem;
+  color: #1f2937;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 500;
+}
+
+.custom-alert-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 2;
+  font-size: 0.875rem;
+}
+
+.custom-alert-close:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .custom-alert-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .custom-alert-cloud {
+    max-width: 100%;
+    min-width: auto;
+    padding: 0.875rem 1.25rem;
+    border-radius: 35px 35px 35px 6px;
+  }
+
+  .custom-alert-cloud::before {
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    right: 30px;
+  }
+
+  .custom-alert-cloud::after {
+    width: 16px;
+    height: 16px;
+    top: -6px;
+    right: 15px;
+  }
+
+  .custom-alert-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+
+  .custom-alert-text {
+    font-size: 0.875rem;
+  }
 }

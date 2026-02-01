@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
-import { Location } from '@angular/common';
+import { BackButtonComponent } from 'src/app/shared/back-button/back-button.component';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Subscription } from 'rxjs';
@@ -20,6 +20,7 @@ import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
   imports: [
     FormsModule,
     CommonModule,
+    BackButtonComponent,
     TranslateModule,
     NgChartsModule
   ]
@@ -145,7 +146,6 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private profileItemService: ProfileItemService,
@@ -318,9 +318,6 @@ export class QuizComponent implements OnInit, OnDestroy {
     }
   }
 
-  goBack() {
-    this.location.back();
-  }
 
   toggleDescriptionPopup() {
     this.showDescriptionPopup = !this.showDescriptionPopup;

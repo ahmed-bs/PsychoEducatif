@@ -61,8 +61,13 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     firstDay: 1, // Start with Monday for consistency
-    events: [], 
-    
+    events: [],
+    // Time grid configuration for day and week views
+    slotMinTime: '08:00:00', // Start at 8:00 AM
+    slotMaxTime: '20:00:00', // End at 8:00 PM
+    slotDuration: '01:00:00', // 1 hour slots
+    slotLabelInterval: '01:00:00', // Show time labels every hour
+    allDaySlot: false, // Hide all-day row
     eventContent: this.renderEventContent.bind(this)
   };
   currentMonth: string = new Date().toLocaleString('default', { month: 'long' });
@@ -77,6 +82,9 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   selectedGoal: any = null;
   activeTab: 'details' | 'edit' = 'details';
   editingGoal: any = null;
+  showUpdateDateModal: boolean = false;
+  goalToUpdate: any = null;
+  updatingDate: boolean = false;
   categories: ProfileCategory[] = [];
   domains: { [categoryId: number]: ProfileDomain[] } = {};
   goalRelatedDomains: ProfileDomain[] = [];
@@ -89,8 +97,8 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get listeDomainesEnCours(): ProfileDomain[] {
-    // Return goal-related domains instead of all domains in progress
-    return this.goalRelatedDomains;
+    // Return only domains related to goals with today's date
+    return this.getTodayGoalDomains();
   }
 
   items: { [domainId: number]: ProfileItem[] } = {};
@@ -359,12 +367,57 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
 
   mettreAJourEvenementsCalendrier() {
     if (this.goals && this.goals.length > 0) {
-      this.calendarOptions.events = this.goals.map(goal => ({
-        id: goal.id?.toString() ?? '',
-        title: goal.title,
-        start: goal.target_date, 
-        allDay: true,
-      }));
+      // Group goals by date
+      const goalsByDate: { [date: string]: any[] } = {};
+      
+      this.goals.forEach(goal => {
+        const dateStr = goal.target_date ? goal.target_date.split('T')[0] : '';
+        if (dateStr) {
+          if (!goalsByDate[dateStr]) {
+            goalsByDate[dateStr] = [];
+          }
+          goalsByDate[dateStr].push(goal);
+        }
+      });
+      
+      // Create events with consecutive hourly slots
+      const events: any[] = [];
+      
+      Object.keys(goalsByDate).forEach(dateStr => {
+        const dayGoals = goalsByDate[dateStr];
+        
+        dayGoals.forEach((goal, index) => {
+          const eventId = goal.id?.toString() ?? '';
+          const colorIndex = eventId ? (Number(eventId) % 4) : 0;
+          const colors = [
+            'rgba(59, 130, 246, 0.25)',   // Blue - Description button
+            'rgba(245, 158, 11, 0.25)',   // Orange/Amber - Comment button
+            'rgba(139, 92, 246, 0.25)',   // Purple - Strategy button
+            'rgba(20, 184, 166, 0.25)',   // Teal - Historique button
+          ];
+          const textColors = ['#2563eb', '#d97706', '#7c3aed', '#0d9488']; // Blue, Orange, Purple, Teal
+          
+          // Calculate start time: 8:00 AM + index hours
+          const startHour = 8 + index;
+          const startTime = `${startHour.toString().padStart(2, '0')}:00:00`;
+          const endHour = startHour + 1;
+          const endTime = `${endHour.toString().padStart(2, '0')}:00:00`;
+          
+          events.push({
+            id: eventId,
+            title: goal.title,
+            start: `${dateStr}T${startTime}`,
+            end: `${dateStr}T${endTime}`,
+            allDay: false,
+            backgroundColor: colors[colorIndex],
+            borderColor: colors[colorIndex].replace('0.25', '0.4'),
+            textColor: textColors[colorIndex],
+            classNames: [`event-color-${colorIndex}`],
+          });
+        });
+      });
+      
+      this.calendarOptions.events = events;
     } else {
       this.calendarOptions.events = [];
     }
@@ -377,10 +430,84 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   
   renderEventContent(eventInfo: any) {
     const title = eventInfo.event.title;
-    const element = document.createElement('div');
-    element.innerHTML = eventInfo.timeText + ' ' + title; 
-    element.setAttribute('title', title); 
-    return { domNodes: [element] };
+    const eventId = eventInfo.event.id;
+    
+    // Find the goal for this event
+    const goal = this.goals?.find(g => g.id?.toString() === eventId);
+    const percentage = goal?.domain?.acquis_percentage || 0;
+    const color = this.getEventColor(eventId);
+    
+    const container = document.createElement('div');
+    container.className = 'fc-event-content-wrapper';
+    container.style.display = 'flex';
+    container.style.alignItems = 'center';
+    container.style.gap = '8px';
+    
+    // Get the corresponding text color for the background color
+    const colorIndex = eventId ? (Number(eventId) % 4) : 0;
+    const textColors = ['#2563eb', '#d97706', '#7c3aed', '#0d9488']; // Blue, Orange, Purple, Teal
+    const textColor = textColors[colorIndex];
+    
+    // Circular progress indicator
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'fc-event-progress';
+    progressContainer.style.position = 'relative';
+    progressContainer.style.width = '24px';
+    progressContainer.style.height = '24px';
+    progressContainer.style.flexShrink = '0';
+    
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.style.transform = 'rotate(-90deg)';
+    
+    const bgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    bgCircle.setAttribute('cx', '12');
+    bgCircle.setAttribute('cy', '12');
+    bgCircle.setAttribute('r', '10');
+    bgCircle.setAttribute('fill', 'none');
+    bgCircle.setAttribute('stroke', 'rgba(0, 0, 0, 0.1)');
+    bgCircle.setAttribute('stroke-width', '2');
+    
+    const progressCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    progressCircle.setAttribute('cx', '12');
+    progressCircle.setAttribute('cy', '12');
+    progressCircle.setAttribute('r', '10');
+    progressCircle.setAttribute('fill', 'none');
+    progressCircle.setAttribute('stroke', color);
+    progressCircle.setAttribute('stroke-width', '2');
+    progressCircle.setAttribute('stroke-linecap', 'round');
+    const circumference = 2 * Math.PI * 10;
+    const offset = circumference - (percentage / 100) * circumference;
+    progressCircle.setAttribute('stroke-dasharray', `${circumference}`);
+    progressCircle.setAttribute('stroke-dashoffset', `${offset}`);
+    progressCircle.style.transition = 'stroke-dashoffset 0.6s ease';
+    
+    svg.appendChild(bgCircle);
+    svg.appendChild(progressCircle);
+    progressContainer.appendChild(svg);
+    
+    // Text content
+    const textDiv = document.createElement('div');
+    textDiv.className = 'fc-event-text';
+    textDiv.textContent = title;
+    textDiv.style.flex = '1';
+    textDiv.style.fontSize = '0.875rem';
+    textDiv.style.color = textColor;
+    textDiv.style.fontWeight = '500';
+    textDiv.style.overflow = 'hidden';
+    textDiv.style.textOverflow = 'ellipsis';
+    textDiv.style.whiteSpace = 'nowrap';
+    
+    container.appendChild(progressContainer);
+    container.appendChild(textDiv);
+    container.setAttribute('title', title);
+    
+    // Store color info for CSS styling
+    container.setAttribute('data-event-color-index', colorIndex.toString());
+    
+    return { domNodes: [container] };
   }
   
 
@@ -549,6 +676,35 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     return 'bx-error-circle';
   }
 
+  // Get different color for each domain (half transparent)
+  getDomainColor(domain: any): string {
+    // Using quiz component button colors
+    const colors = [
+      'rgba(59, 130, 246, 0.25)',   // Blue - Description button
+      'rgba(245, 158, 11, 0.25)',   // Orange/Amber - Comment button
+      'rgba(139, 92, 246, 0.25)',   // Purple - Strategy button
+      'rgba(20, 184, 166, 0.25)',   // Teal - Historique button
+    ];
+    
+    // Use domain ID to consistently assign colors
+    const index = domain.id ? (Number(domain.id) % colors.length) : 0;
+    return colors[index];
+  }
+
+  // Get different color for calendar events (using quiz component button colors)
+  getEventColor(eventId: string): string {
+    // Using quiz component button colors
+    const colors = [
+      'rgba(59, 130, 246, 0.25)',   // Blue - Description button
+      'rgba(245, 158, 11, 0.25)',   // Orange/Amber - Comment button
+      'rgba(139, 92, 246, 0.25)',   // Purple - Strategy button
+      'rgba(20, 184, 166, 0.25)',   // Teal - Historique button
+    ];
+    
+    const index = eventId ? (Number(eventId) % colors.length) : 0;
+    return colors[index];
+  }
+
   // Method to manually trigger extraction for debugging
   manualExtractGoalDomains(): void {
     console.log('Manual extraction triggered');
@@ -572,11 +728,80 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     console.log('==========================');
   }
 
-  // Navigate to quiz for a specific domain
+  // Get domains related to goals with today's date
+  getTodayGoalDomains(): ProfileDomain[] {
+    if (!this.goals || this.goals.length === 0 || !this.goalRelatedDomains || this.goalRelatedDomains.length === 0) {
+      return [];
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayStr = today.toISOString().split('T')[0];
+
+    // Get goals with today's date
+    const todayGoals = this.goals.filter(goal => {
+      if (!goal.target_date) return false;
+      const goalDate = new Date(goal.target_date);
+      goalDate.setHours(0, 0, 0, 0);
+      const goalDateStr = goalDate.toISOString().split('T')[0];
+      return goalDateStr === todayStr;
+    });
+
+    if (todayGoals.length === 0) {
+      return [];
+    }
+
+    // Get domain IDs from today's goals
+    const todayDomainIds = new Set<number>();
+    todayGoals.forEach(goal => {
+      if (goal.domain_id) {
+        todayDomainIds.add(Number(goal.domain_id));
+      } else if (goal.domain && goal.domain.id) {
+        todayDomainIds.add(Number(goal.domain.id));
+      }
+    });
+
+    // Filter domains that match today's goal domains
+    return this.goalRelatedDomains.filter(domain => {
+      return todayDomainIds.has(Number(domain.id));
+    });
+  }
+
+  // Get goal for a specific domain
+  getGoalForDomain(domain: any): any {
+    if (!this.goals || this.goals.length === 0) {
+      return null;
+    }
+
+    const domainId = Number(domain.id);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayStr = today.toISOString().split('T')[0];
+
+    return this.goals.find(goal => {
+      if (!goal.target_date) return false;
+      const goalDate = new Date(goal.target_date);
+      goalDate.setHours(0, 0, 0, 0);
+      const goalDateStr = goalDate.toISOString().split('T')[0];
+      
+      if (goalDateStr !== todayStr) return false;
+
+      const goalDomainId = goal.domain_id ? Number(goal.domain_id) : (goal.domain && goal.domain.id ? Number(goal.domain.id) : null);
+      return goalDomainId === domainId;
+    });
+  }
+
+  // Navigate to quiz for a specific domain (with update date modal)
   navigateToQuiz(domain: any): void {
-    if (domain.id) {
+    const goal = this.getGoalForDomain(domain);
+    
+    if (goal) {
+      // Show update date modal first
+      this.goalToUpdate = goal;
+      this.showUpdateDateModal = true;
+    } else if (domain.id) {
+      // If no goal found, navigate directly
       console.log('Navigating to quiz for domain:', domain);
-      // Use the same navigation pattern as the goals component
       this.router.navigate(['/Dashboard-client/client/quiz', domain.id]);
     } else {
       console.error('Cannot navigate to quiz: missing domainId');
@@ -585,6 +810,57 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
         title: this.translate.instant('calendar.messages.error'),
         text: this.translate.instant('calendar.messages.navigation_error')
       });
+    }
+  }
+
+  // Update date modal methods
+  closeUpdateDateModal(): void {
+    this.showUpdateDateModal = false;
+    this.goalToUpdate = null;
+    this.updatingDate = false;
+  }
+
+  confirmUpdateTargetDate(): void {
+    if (!this.goalToUpdate || !this.goalToUpdate.id || this.updatingDate) {
+      return;
+    }
+
+    // Save goal reference before closing modal
+    const goalToNavigate = this.goalToUpdate;
+    this.updatingDate = true;
+    this.goalService.updateTargetDate(this.goalToUpdate.id).subscribe({
+      next: () => {
+        this.updatingDate = false;
+        this.closeUpdateDateModal();
+        // Reload goals after updating
+        if (this.currentProfileId) {
+          this.chargerObjectifs(this.currentProfileId);
+        }
+        // Navigate to quiz after updating date
+        if (goalToNavigate.domain_id) {
+          this.router.navigate(['/Dashboard-client/client/quiz', goalToNavigate.domain_id]);
+        }
+      },
+      error: (error) => {
+        this.updatingDate = false;
+        console.error('Error updating target date:', error);
+        Swal.fire({
+          icon: 'error',
+          title: this.translate.instant('calendar.messages.error'),
+          text: this.translate.instant('dashboard_tabs.goals.messages.update_date_failed')
+        });
+      }
+    });
+  }
+
+  cancelUpdateTargetDate(): void {
+    // User cancelled, navigate to quiz without updating date
+    if (this.goalToUpdate && this.goalToUpdate.domain_id) {
+      const domainId = this.goalToUpdate.domain_id;
+      this.closeUpdateDateModal();
+      this.router.navigate(['/Dashboard-client/client/quiz', domainId]);
+    } else {
+      this.closeUpdateDateModal();
     }
   }
 
@@ -838,5 +1114,97 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
   // Helper method to get item display name
   getItemDisplayName(item: ProfileItem): string {
     return this.getItemLanguageField(item, 'name') || item.name || '';
+  }
+
+  // Mini Calendar Methods
+  getCurrentMonthYear(): string {
+    const now = new Date();
+    return now.toLocaleDateString(this.currentLang === 'ar' ? 'ar' : 'fr', { 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  }
+
+  getWeekdayHeaders(): string[] {
+    if (this.currentLang === 'ar') {
+      return ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'];
+    } else if (this.currentLang === 'en') {
+      return ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    } else {
+      return ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+    }
+  }
+
+  getCalendarDays(): any[] {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    
+    // First day of the month
+    const firstDay = new Date(year, month, 1);
+    const firstDayOfWeek = (firstDay.getDay() + 6) % 7; // Monday = 0
+    
+    // Last day of the month
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    
+    // Last day of previous month
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+    
+    const days: any[] = [];
+    
+    // Previous month days
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+      days.push({
+        day: prevMonthLastDay - i,
+        date: new Date(year, month - 1, prevMonthLastDay - i),
+        otherMonth: true
+      });
+    }
+    
+    // Current month days
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({
+        day: i,
+        date: new Date(year, month, i),
+        otherMonth: false
+      });
+    }
+    
+    // Next month days to fill the grid (42 days total for 6 weeks)
+    const remainingDays = 42 - days.length;
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push({
+        day: i,
+        date: new Date(year, month + 1, i),
+        otherMonth: true
+      });
+    }
+    
+    return days;
+  }
+
+  hasGoalOnDate(date: Date): boolean {
+    if (!this.goals || this.goals.length === 0) {
+      return false;
+    }
+    
+    if (!date || isNaN(date.getTime())) {
+      return false;
+    }
+    
+    const dateStr = date.toISOString().split('T')[0];
+    
+    return this.goals.some(goal => {
+      if (!goal.target_date) return false;
+      try {
+        const goalDate = new Date(goal.target_date);
+        if (isNaN(goalDate.getTime())) return false;
+        const goalDateStr = goalDate.toISOString().split('T')[0];
+        return goalDateStr === dateStr;
+      } catch (e) {
+        return false;
+      }
+    });
   }
 }

@@ -131,14 +131,41 @@ nav {
   justify-content: center;
 }
 
-.nav__right-section-mobile .nav__user-menu {
+/* Mobile/Tablet: Simple logout button (no dropdown) */
+.nav__user-menu-mobile {
   width: 100%;
 }
 
-.nav__right-section-mobile .nav__user-menu > a {
-  width: 100%;
+.logout-btn-mobile {
+  display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
   padding: 12px 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: none;
+}
+
+.logout-btn-mobile:hover {
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.logout-btn-mobile:active {
+  transform: translateY(0);
+}
+
+.logout-btn-mobile i {
+  font-size: 1rem;
 }
 
 .nav__links a {
@@ -459,6 +486,31 @@ nav {
     font-size: 0.95rem;
     padding: 10px 18px;
   }
+
+  /* Fix dropdown positioning for tablet */
+  .dropdown-menu {
+    position: relative !important;
+    left: 0 !important;
+    transform: translateX(0) translateY(0) scale(1) !important;
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: none;
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    margin-top: 0.5rem;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .dropdown-menu.show {
+    transform: translateX(0) translateY(0) scale(1) !important;
+  }
+
+  /* Ensure dropdown parent takes full width */
+  .nav__dropdown {
+    width: 100%;
+    position: relative;
+  }
 }
 
 /* Desktop Styles */
@@ -629,6 +681,11 @@ nav {
     transform: translateX(-50%) translateY(0) scale(1);
   }
 
+  /* Ensure dropdown parent is positioned correctly */
+  .nav__dropdown {
+    position: relative;
+  }
+
   .user-dropdown {
     right: 0;
     left: auto;
@@ -718,9 +775,9 @@ nav {
   }
 
   .dropdown-menu {
-    position: relative;
-    left: 0;
-    transform: translateX(0) translateY(0) scale(1);
+    position: relative !important;
+    left: 0 !important;
+    transform: translateX(0) translateY(0) scale(1) !important;
     opacity: 1;
     pointer-events: auto;
     box-shadow: none;
@@ -728,17 +785,27 @@ nav {
     background: rgba(0, 0, 0, 0.05);
     margin-top: 0.5rem;
     width: 100%;
+    margin-left: 0 !important;
   }
 
-  .user-dropdown {
-    left: 0;
-    right: auto;
-    transform: translateX(0) translateY(0) scale(1);
+  .dropdown-menu.show {
+    transform: translateX(0) translateY(0) scale(1) !important;
+  }
+
+  /* Ensure dropdown parent takes full width */
+  .nav__dropdown {
     width: 100%;
+    position: relative;
   }
 
-  .user-name {
-    font-size: 0.85rem;
+  /* Mobile logout button styles */
+  .logout-btn-mobile {
+    font-size: 0.875rem;
+    padding: 10px 14px;
+  }
+
+  .logout-btn-mobile i {
+    font-size: 0.9rem;
   }
 }
 
@@ -765,5 +832,11 @@ nav {
   .lang-icon-btn {
     min-width: 48px;
     height: 38px;
+  }
+
+  /* Tablet logout button styles */
+  .logout-btn-mobile {
+    font-size: 0.9rem;
+    padding: 12px 16px;
   }
 }

@@ -30,16 +30,42 @@
     </div>
   </div> -->
 
-  <!-- Filter Toggle Button -->
-  <button 
-    type="button"
-    class="filter-toggle-btn"
-    (click)="toggleSidebar()"
-    [class.active]="isSidebarOpen"
-    pTooltip="{{ 'skills_summary.filters.toggle_filters' | translate }}"
-    tooltipPosition="left">
-    <i class="pi" [class.pi-filter]="!isSidebarOpen" [class.pi-times]="isSidebarOpen"></i>
-  </button>
+  <!-- Action Bar -->
+  <div class="action-bar">
+    <button 
+      type="button"
+      class="filter-toggle-btn"
+      (click)="toggleSidebar()"
+      [class.active]="isSidebarOpen"
+      pTooltip="{{ 'skills_summary.filters.toggle_filters' | translate }}"
+      tooltipPosition="bottom">
+      <i class="pi" [class.pi-filter]="!isSidebarOpen" [class.pi-times]="isSidebarOpen"></i>
+      <span class="btn-label">{{ 'skills_summary.filters.toggle_filters' | translate }}</span>
+    </button>
+    
+    <div class="export-buttons">
+      <button
+        pButton
+        type="button"
+        icon="pi pi-file-excel"
+        (click)="exportExcel()"
+        [disabled]="categoryDataForTable.length === 0"
+        class="export-btn excel-btn"
+        pTooltip="{{ 'skills_summary.export.excel' | translate }}"
+        tooltipPosition="bottom"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-file-pdf"
+        (click)="exportPdf()"
+        [disabled]="categoryDataForTable.length === 0"
+        class="export-btn pdf-btn"
+        pTooltip="{{ 'skills_summary.export.pdf' | translate }}"
+        tooltipPosition="bottom"
+      ></button>
+    </div>
+  </div>
 
   <!-- Sidebar Overlay -->
   <div 
@@ -194,29 +220,6 @@
 
   <!-- Main Content Wrapper -->
   <div class="main-content-wrapper" [class.sidebar-open]="isSidebarOpen">
-    <!-- Export Section -->
-    <div class="export-section">
-    <button
-      pButton
-      type="button"
-      icon="pi pi-file-excel"
-      (click)="exportExcel()"
-      [disabled]="categoryDataForTable.length === 0"
-      class="export-btn excel-btn"
-      pTooltip="{{ 'skills_summary.export.excel' | translate }}"
-      tooltipPosition="top"
-    ></button>
-    <button
-      pButton
-      type="button"
-      icon="pi pi-file-pdf"
-      (click)="exportPdf()"
-      [disabled]="categoryDataForTable.length === 0"
-      class="export-btn pdf-btn"
-      pTooltip="{{ 'skills_summary.export.pdf' | translate }}"
-      tooltipPosition="top"
-    ></button>
-  </div>
 
   <!-- Desktop Table View (hidden on mobile) -->
   <div class="desktop-view">

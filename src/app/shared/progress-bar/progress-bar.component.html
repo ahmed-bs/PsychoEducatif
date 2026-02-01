@@ -1,4 +1,6 @@
-<div class="progressbar" 
+<!-- Circle Mode -->
+<div *ngIf="mode === 'circle'" 
+     class="progressbar progressbar-circle" 
      role="progressbar"
      [attr.aria-valuenow]="acquisPercentage"
      [attr.aria-busy]="!isComplete"
@@ -8,4 +10,19 @@
     <span *ngIf="!isComplete">{{ acquisPercentage }}%</span>
     <span *ngIf="isComplete" class="checkmark">✓</span>
   </div>
+</div>
+
+<!-- Line Mode -->
+<div *ngIf="mode === 'line'" 
+     class="progressbar progressbar-line" 
+     role="progressbar"
+     [attr.aria-valuenow]="acquisPercentage"
+     [attr.aria-busy]="!isComplete"
+     [style.--progress]="acquisPercentage + '%'">
+  <div class="progress-line-track">
+    <div class="progress-line-fill" [style.width]="acquisPercentage + '%'">
+      <span *ngIf="isComplete" class="checkmark">✓</span>
+    </div>
+  </div>
+  <span *ngIf="!isComplete" class="progress-line-text">{{ acquisPercentage }}%</span>
 </div>

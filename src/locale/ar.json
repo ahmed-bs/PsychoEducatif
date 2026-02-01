@@ -134,7 +134,8 @@
       "configuration": "الإعدادات",
       "explorer": "استكشاف",
       "resume": "ملخص",
-      "calendar": "التقويم"
+      "calendar": "التقويم",
+      "aide": "مساعدة"
     },
     "buttons": {
       "sign_up": "التسجيل",
@@ -544,7 +545,9 @@
     },
     "loading": "جارٍ التحميل...",
     "error": {
-      "load_data_failed": "فشل تحميل بيانات الملخص. يرجى المحاولة لاحقًا."
+      "load_data_failed": "فشل تحميل بيانات الملخص. يرجى المحاولة لاحقًا.",
+      "unauthorized": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى للمتابعة.",
+      "unauthorized_title": "انتهت الجلسة"
     },
     "load_summary_error": {
       "title": "خطأ",
@@ -964,7 +967,8 @@
       },
       "confirm": {
         "delete_domain": "هل أنت متأكد من حذف {{domainName}}؟",
-        "delete_item": "هل أنت متأكد من حذف {{itemName}}؟"
+        "delete_item": "هل أنت متأكد من حذف {{itemName}}؟",
+        "delete_button": "حذف"
       },
       "info": {
         "summary": "معلومات",
