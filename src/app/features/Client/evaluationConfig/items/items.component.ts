@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { catchError, forkJoin, of, switchMap, tap } from 'rxjs';
@@ -69,6 +68,14 @@ export class ItemsComponent implements OnInit, OnDestroy {
   profileId: number = 1;
   itemsByDomain: Record<number, ProfileItem[]> = {};
   selectedDescriptionItem: ProfileItem | null = null;
+  showAddItemForm: Record<number, boolean> = {};
+  customAlert: { message: string; type: 'success' | 'error'; show: boolean } | null = null;
+  savingDomain: boolean = false;
+  savingItem: boolean = false;
+  showDeleteDomainModal: boolean = false;
+  showDeleteItemModal: boolean = false;
+  domainToDelete: DomainWithUI | null = null;
+  itemToDelete: { item: ProfileItem; domain: DomainWithUI } | null = null;
 
   statusOptions = [
     { label: this.translate.instant('items.items_by_domain.status_labels.NON_COTE'), value: 'NON_COTE' as ItemStatus },
@@ -78,7 +85,6 @@ export class ItemsComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private location: Location,
     private route: ActivatedRoute,
     private profileCategoryService: ProfileCategoryService,
     private profileDomainService: ProfileDomainService,
@@ -277,31 +283,42 @@ export class ItemsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let createData: any = { ...this.newDomain };
+    // Prevent multiple submissions
+    if (this.savingDomain) {
+      return;
+    }
 
-    // Handle language-specific fields for backend create
+    this.savingDomain = true;
+
+    // Create data object with all language fields
+    // Backend requires at least name or name_ar to be present
+    let createData: any = {};
+
+    // Set the appropriate field based on current language
     if (this.currentLanguage === 'ar') {
       createData = {
         name_ar: this.newDomain.name,
         description_ar: this.newDomain.description
-        // Don't send name and description when using Arabic fields
       };
     } else if (this.currentLanguage === 'en') {
+      // For English, send name_en but also include name/name_ar as empty strings
+      // Backend validation requires at least name or name_ar field to be present
       createData = {
+        name: '',  // Empty but present to satisfy backend validation
         name_en: this.newDomain.name,
+        description: '',
         description_en: this.newDomain.description
-        // Don't send name and description when using English fields
       };
     } else {
       createData = {
         name: this.newDomain.name,
         description: this.newDomain.description
-        // Don't send name_ar/name_en and description_ar/description_en when using French fields
       };
     }
 
     this.profileDomainService.create(this.categoryId, createData).subscribe({
       next: (domain) => {
+        this.savingDomain = false;
         this.domains.push(domain as DomainWithUI);
         this.itemsByDomain[domain.id] = [];
         this.updateDomainsWithDisplayNames();
@@ -311,6 +328,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         });
       },
       error: (error) => {
+        this.savingDomain = false;
         this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
           this.showError(text);
         });
@@ -318,8 +336,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
     });
   }
 
-  addItem() {
-    if (!this.selectedDomain?.id) {
+  addItem(domain?: DomainWithUI) {
+    // Use provided domain or selectedDomain
+    const targetDomain = domain || this.selectedDomain;
+    if (!targetDomain?.id) {
       this.translate.get('items.messages.error.name_and_domain_required').subscribe((text) => {
         this.showError(text);
       });
@@ -331,45 +351,58 @@ export class ItemsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const domainId = this.selectedDomain.id;
-    let createData: any = { ...this.newItem };
+    // Prevent multiple submissions
+    if (this.savingItem) {
+      return;
+    }
 
-    // Handle language-specific fields for backend create
+    this.savingItem = true;
+
+    const domainId = targetDomain.id;
+    
+    // Create data object with all language fields
+    // Backend requires at least name or name_ar to be present
+    let createData: any = {
+      etat: this.newItem.etat
+    };
+
+    // Set the appropriate field based on current language
     if (this.currentLanguage === 'ar') {
-      createData = {
-        name_ar: this.newItem.name,
-        description_ar: this.newItem.description,
-        etat: this.newItem.etat
-        // Don't send name and description when using Arabic fields
-      };
+      createData.name_ar = this.newItem.name;
+      createData.description_ar = this.newItem.description;
     } else if (this.currentLanguage === 'en') {
-      createData = {
-        name_en: this.newItem.name,
-        description_en: this.newItem.description,
-        etat: this.newItem.etat
-        // Don't send name and description when using English fields
-      };
+      // For English, send name_en but also include name as empty string
+      // Backend validation requires at least name or name_ar field to be present
+      createData.name = '';  // Empty but present to satisfy backend validation
+      createData.name_en = this.newItem.name;
+      createData.description = '';
+      createData.description_en = this.newItem.description;
     } else {
-      createData = {
-        name: this.newItem.name,
-        description: this.newItem.description,
-        etat: this.newItem.etat
-        // Don't send name_ar/name_en and description_ar/description_en when using French fields
-      };
+      createData.name = this.newItem.name;
+      createData.description = this.newItem.description;
     }
 
     this.profileItemService.create(domainId, createData).subscribe({
       next: (item) => {
+        this.savingItem = false;
         if (!this.itemsByDomain[domainId]) {
           this.itemsByDomain[domainId] = [];
         }
         this.itemsByDomain[domainId].push(item);
-        this.closeItemDialog();
+        // Close the inline form if it was open
+        if (this.showAddItemForm[domainId]) {
+          this.closeAddItemForm(domainId);
+        }
+        // Also close modal if it was open
+        if (this.displayAddItemDialog) {
+          this.closeItemDialog();
+        }
         this.translate.get('items.messages.success.item_added').subscribe((text) => {
           this.showSuccess(text);
         });
       },
       error: (error) => {
+        this.savingItem = false;
         this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
           this.showError(text);
         });
@@ -390,32 +423,45 @@ export class ItemsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const domainId = this.selectedDomain.id;
-    let updateData: any = { ...this.newDomain };
+    // Prevent multiple submissions
+    if (this.savingDomain) {
+      return;
+    }
 
-    // Handle language-specific fields for backend update
+    this.savingDomain = true;
+
+    const domainId = this.selectedDomain.id;
+    
+    // Create update data object with all language fields
+    // Preserve existing values and update the current language field
+    let updateData: any = {
+      name: this.selectedDomain.name || '',
+      name_ar: this.selectedDomain.name_ar || '',
+      name_en: (this.selectedDomain as any).name_en || '',
+      description: this.selectedDomain.description || '',
+      description_ar: this.selectedDomain.description_ar || '',
+      description_en: (this.selectedDomain as any).description_en || ''
+    };
+
+    // Update the appropriate field based on current language
     if (this.currentLanguage === 'ar') {
-      updateData = {
-        name_ar: this.newDomain.name,
-        description_ar: this.newDomain.description
-        // Don't send name and description when using Arabic fields
-      };
+      updateData.name_ar = this.newDomain.name;
+      updateData.description_ar = this.newDomain.description;
     } else if (this.currentLanguage === 'en') {
-      updateData = {
-        name_en: this.newDomain.name,
-        description_en: this.newDomain.description
-        // Don't send name and description when using English fields
-      };
+      updateData.name_en = this.newDomain.name;
+      updateData.description_en = this.newDomain.description;
+      // Ensure at least name or name_ar is present (backend requirement)
+      if (!updateData.name && !updateData.name_ar) {
+        updateData.name = '';
+      }
     } else {
-      updateData = {
-        name: this.newDomain.name,
-        description: this.newDomain.description
-        // Don't send name_ar/name_en and description_ar/description_en when using French fields
-      };
+      updateData.name = this.newDomain.name;
+      updateData.description = this.newDomain.description;
     }
 
     this.profileDomainService.update(domainId, updateData).subscribe({
       next: (updatedDomain) => {
+        this.savingDomain = false;
         const index = this.domains.findIndex((d) => d.id === updatedDomain.id);
         if (index !== -1) {
           this.domains[index] = updatedDomain as DomainWithUI;
@@ -428,6 +474,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         });
       },
       error: (error) => {
+        this.savingDomain = false;
         this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
           this.showError(text);
         });
@@ -448,36 +495,47 @@ export class ItemsComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Prevent multiple submissions
+    if (this.savingItem) {
+      return;
+    }
+
+    this.savingItem = true;
+
     const domainId = this.selectedDomain.id;
     const itemId = this.selectedItem.id;
-    let updateData: any = { ...this.newItem };
+    
+    // Create update data object with all language fields
+    // Preserve existing values and update the current language field
+    let updateData: any = {
+      name: this.selectedItem.name || '',
+      name_ar: (this.selectedItem as any).name_ar || '',
+      name_en: (this.selectedItem as any).name_en || '',
+      description: this.selectedItem.description || '',
+      description_ar: (this.selectedItem as any).description_ar || '',
+      description_en: (this.selectedItem as any).description_en || '',
+      etat: this.newItem.etat
+    };
 
-    // Handle language-specific fields for backend update
+    // Update the appropriate field based on current language
     if (this.currentLanguage === 'ar') {
-      updateData = {
-        name_ar: this.newItem.name,
-        description_ar: this.newItem.description,
-        etat: this.newItem.etat
-        // Don't send name and description when using Arabic fields
-      };
+      updateData.name_ar = this.newItem.name;
+      updateData.description_ar = this.newItem.description;
     } else if (this.currentLanguage === 'en') {
-      updateData = {
-        name_en: this.newItem.name,
-        description_en: this.newItem.description,
-        etat: this.newItem.etat
-        // Don't send name and description when using English fields
-      };
+      updateData.name_en = this.newItem.name;
+      updateData.description_en = this.newItem.description;
+      // Ensure at least name or name_ar is present (backend requirement)
+      if (!updateData.name && !updateData.name_ar) {
+        updateData.name = '';
+      }
     } else {
-      updateData = {
-        name: this.newItem.name,
-        description: this.newItem.description,
-        etat: this.newItem.etat
-        // Don't send name_ar/name_en and description_ar/description_en when using French fields
-      };
+      updateData.name = this.newItem.name;
+      updateData.description = this.newItem.description;
     }
 
     this.profileItemService.update(itemId, updateData).subscribe({
       next: (updatedItem) => {
+        this.savingItem = false;
         const items = this.itemsByDomain[domainId] || [];
         const itemIndex = items.findIndex((i: ProfileItem) => i.id === updatedItem.id);
         if (itemIndex !== -1) {
@@ -489,6 +547,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         });
       },
       error: (error) => {
+        this.savingItem = false;
         this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
           this.showError(text);
         });
@@ -498,58 +557,70 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
   deleteDomain(domain: DomainWithUI) {
     if (!domain.id) return;
+    this.domainToDelete = domain;
+    this.showDeleteDomainModal = true;
+  }
 
-    this.translate.get('items.messages.confirm.delete_domain', { domainName: this.getDomainLanguageField(domain, 'name') }).subscribe((message) => {
-      if (!confirm(message)) {
-        return;
+  closeDeleteDomainModal() {
+    this.showDeleteDomainModal = false;
+    this.domainToDelete = null;
+  }
+
+  confirmDeleteDomain() {
+    if (!this.domainToDelete?.id) return;
+
+    const domainId = this.domainToDelete.id;
+    this.profileDomainService.destroy(domainId).subscribe({
+      next: () => {
+        this.domains = this.domains.filter((d) => d.id !== domainId);
+        delete this.itemsByDomain[domainId];
+        this.closeDeleteDomainModal();
+        this.translate.get('items.messages.success.domain_deleted').subscribe((text) => {
+          this.showSuccess(text);
+        });
+      },
+      error: (error) => {
+        this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
       }
-
-      const domainId = domain.id;
-      this.profileDomainService.destroy(domainId).subscribe({
-        next: () => {
-          this.domains = this.domains.filter((d) => d.id !== domainId);
-          delete this.itemsByDomain[domainId];
-          this.translate.get('items.messages.success.domain_deleted').subscribe((text) => {
-            this.showSuccess(text);
-          });
-        },
-        error: (error) => {
-          this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
-            this.showError(text);
-          });
-        }
-      });
     });
   }
 
   deleteItem(item: ProfileItem, domain: DomainWithUI) {
     if (!item.id || !domain.id) return;
+    this.itemToDelete = { item, domain };
+    this.showDeleteItemModal = true;
+  }
 
-    this.translate.get('items.messages.confirm.delete_item', { itemName: this.getItemLanguageField(item, 'name') }).subscribe((message) => {
-      if (!confirm(message)) {
-        return;
-      }
+  closeDeleteItemModal() {
+    this.showDeleteItemModal = false;
+    this.itemToDelete = null;
+  }
 
-      const domainId = domain.id;
-      const itemId = item.id;
+  confirmDeleteItem() {
+    if (!this.itemToDelete?.item.id || !this.itemToDelete?.domain.id) return;
 
-      this.profileItemService.destroy(itemId).subscribe({
-        next: () => {
-          if (this.itemsByDomain[domainId]) {
-            this.itemsByDomain[domainId] = this.itemsByDomain[domainId].filter(
-              (i: ProfileItem) => i.id !== itemId
-            );
-          }
-          this.translate.get('items.messages.success.item_deleted').subscribe((text) => {
-            this.showSuccess(text);
-          });
-        },
-        error: (error) => {
-          this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
-            this.showError(text);
-          });
+    const domainId = this.itemToDelete.domain.id;
+    const itemId = this.itemToDelete.item.id;
+
+    this.profileItemService.destroy(itemId).subscribe({
+      next: () => {
+        if (this.itemsByDomain[domainId]) {
+          this.itemsByDomain[domainId] = this.itemsByDomain[domainId].filter(
+            (i: ProfileItem) => i.id !== itemId
+          );
         }
-      });
+        this.closeDeleteItemModal();
+        this.translate.get('items.messages.success.item_deleted').subscribe((text) => {
+          this.showSuccess(text);
+        });
+      },
+      error: (error) => {
+        this.translate.get('items.messages.error.generic_error', { error: error.message }).subscribe((text) => {
+          this.showError(text);
+        });
+      }
     });
   }
 
@@ -604,16 +675,38 @@ export class ItemsComponent implements OnInit, OnDestroy {
   }
 
   showSuccess(message: string) {
-    this.messageService.add({ severity: 'success', summary: this.translate.instant('items.messages.success.summary'), detail: message });
+    this.customAlert = { message: message, type: 'success', show: true };
+    setTimeout(() => {
+      if (this.customAlert) {
+        this.customAlert.show = false;
+        setTimeout(() => {
+          this.customAlert = null;
+        }, 300);
+      }
+    }, 4000);
   }
 
   showError(message: string) {
-    this.messageService.add({ severity: 'error', summary: this.translate.instant('items.messages.error.summary'), detail: message });
+    this.customAlert = { message: message, type: 'error', show: true };
+    setTimeout(() => {
+      if (this.customAlert) {
+        this.customAlert.show = false;
+        setTimeout(() => {
+          this.customAlert = null;
+        }, 300);
+      }
+    }, 4000);
   }
 
-  goBack() {
-    this.location.back();
+  closeCustomAlert() {
+    if (this.customAlert) {
+      this.customAlert.show = false;
+      setTimeout(() => {
+        this.customAlert = null;
+      }, 300);
+    }
   }
+
 
   toggleFilters() {
     this.showFilters = !this.showFilters;
@@ -628,6 +721,23 @@ export class ItemsComponent implements OnInit, OnDestroy {
     this.selectedDomain = domain;
     this.resetNewItem();
     this.displayAddItemDialog = true;
+  }
+
+  toggleAddItemForm(domain: DomainWithUI) {
+    if (!domain.id) return;
+    this.showAddItemForm[domain.id] = !this.showAddItemForm[domain.id];
+    if (this.showAddItemForm[domain.id]) {
+      this.selectedDomain = domain;
+      this.resetNewItem();
+    } else {
+      this.resetNewItem();
+    }
+  }
+
+  closeAddItemForm(domainId: number) {
+    this.showAddItemForm[domainId] = false;
+    this.resetNewItem();
+    this.savingItem = false;
   }
 
   showEditDomainDialog(domain: DomainWithUI) {
@@ -661,6 +771,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     this.displayAddDomainDialog = false;
     this.selectedDomain = null;
     this.newDomain = { name: '', description: '' };
+    this.savingDomain = false;
   }
 
   closeItemDialog() {
@@ -668,6 +779,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     this.selectedDomain = null;
     this.selectedItem = null;
     this.resetNewItem();
+    this.savingItem = false;
   }
 
   showEditItemDialog(item: ProfileItem, domain: DomainWithUI) {
@@ -750,7 +862,6 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
   private validateLanguageContent(type: 'domain' | 'item'): boolean {
     const arabicPattern = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
-    const frenchPattern = /[àâäéèêëïîôöùûüÿç]/i;
     
     let name: string = '';
     let description: string = '';
@@ -787,20 +898,32 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return false;
       }
     } else if (this.currentLanguage === 'en') {
-      // For English language, no specific character validation needed
-      // English can contain any characters
-      return true;
-    } else {
-      // For French language, check if content contains French characters
-      if (!frenchPattern.test(name)) {
-        this.translate.get('items.messages.error.french_content_required').subscribe((text) => {
+      // For English language, check that it's not Arabic
+      if (arabicPattern.test(name)) {
+        this.translate.get('items.messages.error.arabic_content_required').subscribe((text) => {
           this.showError(text);
         });
         return false;
       }
       
-      if (description && !frenchPattern.test(description)) {
-        this.translate.get('items.messages.error.french_description_required').subscribe((text) => {
+      if (description && arabicPattern.test(description)) {
+        this.translate.get('items.messages.error.arabic_description_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+    } else {
+      // For French language, check that it's not Arabic
+      // French text can be written with or without accents, so we don't require accents
+      if (arabicPattern.test(name)) {
+        this.translate.get('items.messages.error.arabic_content_required').subscribe((text) => {
+          this.showError(text);
+        });
+        return false;
+      }
+      
+      if (description && arabicPattern.test(description)) {
+        this.translate.get('items.messages.error.arabic_description_required').subscribe((text) => {
           this.showError(text);
         });
         return false;

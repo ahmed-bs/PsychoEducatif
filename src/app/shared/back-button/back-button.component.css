@@ -1,0 +1,79 @@
+/* Back Button */
+.back-button {
+  position: fixed;
+  top: 110px;
+  left: 20px;
+  cursor: pointer;
+  background-color: #6366F1;
+  color: white;
+  border-radius: 50%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  z-index: 10;
+  transition: all 0.3s ease;
+  animation: backButtonPulse 2s ease-in-out infinite;
+}
+
+.back-button:hover {
+  background-color: #4F46E5;
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
+.back-button:active {
+  transform: scale(0.95);
+}
+
+@keyframes backButtonPulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.7), 0 0 0 8px rgba(99, 102, 241, 0.1);
+    transform: scale(1.05);
+  }
+}
+
+.back-button .material-symbols-sharp {
+  font-size: 24px;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover .material-symbols-sharp {
+  transform: translateX(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .back-button {
+    top: 100px;
+    left: 12px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .back-button .material-symbols-sharp {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-button {
+    top: 90px;
+    left: 8px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .back-button .material-symbols-sharp {
+    font-size: 18px;
+  }
+}
+

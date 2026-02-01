@@ -11,7 +11,20 @@
   </div>
 </div>
 
-<p-toast></p-toast>
+<!-- Custom Alert Notification -->
+<div *ngIf="customAlert" class="custom-alert-container" [class.show]="customAlert.show" [class.success]="customAlert.type === 'success'" [class.error]="customAlert.type === 'error'">
+  <div class="custom-alert-cloud">
+    <div class="custom-alert-content">
+      <div class="custom-alert-icon">
+        <i class="fas" [class.fa-check-circle]="customAlert.type === 'success'" [class.fa-exclamation-circle]="customAlert.type === 'error'"></i>
+      </div>
+      <p class="custom-alert-text">{{ customAlert.message }}</p>
+    </div>
+    <button class="custom-alert-close" (click)="closeCustomAlert()" type="button">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
 
 <div class="p-3">
   <div class="flex col justify-end">
@@ -232,7 +245,7 @@
 </div>
 
 <!-- Add/Edit Category Modal -->
-<div *ngIf="displayAddUserDialog" class="eval-modal-overlay" (click)="displayAddUserDialog = false">
+<div *ngIf="displayAddUserDialog" class="eval-modal-overlay" (click)="displayAddUserDialog = false; savingCategory = false">
   <div class="eval-modal" (click)="$event.stopPropagation()">
     <div class="eval-modal-header">
       <div class="eval-modal-header-content">
@@ -249,7 +262,7 @@
       <button 
         type="button"
         class="eval-modal-close-btn"
-        (click)="displayAddUserDialog = false"
+        (click)="displayAddUserDialog = false; savingCategory = false"
         [attr.aria-label]="'categories.add_category_dialog.buttons.cancel' | translate">
         <i class="fas fa-times"></i>
       </button>
@@ -339,7 +352,7 @@
             rows="3"></textarea>
         </div>
         
-        <div class="eval-field-info">
+        <div *ngIf="getCurrentLanguage() === 'ar'" class="eval-field-info">
           <i class="fas fa-info-circle"></i>
           <small>{{ 'categories.add_category_dialog.info.at_least_one_name' | translate }}</small>
         </div>
@@ -348,14 +361,17 @@
           <button 
             type="button"
             class="eval-modal-btn-secondary"
-            (click)="displayAddUserDialog = false">
+            [disabled]="savingCategory"
+            (click)="displayAddUserDialog = false; savingCategory = false">
             <i class="fas fa-times"></i>
             <span>{{ 'categories.add_category_dialog.buttons.cancel' | translate }}</span>
           </button>
           <button 
             type="submit"
-            class="eval-modal-btn-primary">
-            <i class="fas" [class.fa-plus]="!newCategory.id" [class.fa-save]="newCategory.id"></i>
+            class="eval-modal-btn-primary"
+            [disabled]="savingCategory">
+            <i class="fas" [class.fa-plus]="!newCategory.id" [class.fa-save]="newCategory.id" *ngIf="!savingCategory"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="savingCategory"></i>
             <span>{{ (newCategory.id ? 'categories.add_category_dialog.buttons.update' : 'categories.add_category_dialog.buttons.add') | translate }}</span>
           </button>
         </div>

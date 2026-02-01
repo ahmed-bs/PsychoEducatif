@@ -1012,7 +1012,8 @@
       },
       "confirm": {
         "delete_domain": "Are you sure you want to delete {{domainName}}?",
-        "delete_item": "Are you sure you want to delete {{itemName}}?"
+        "delete_item": "Are you sure you want to delete {{itemName}}?",
+        "delete_button": "Delete"
       },
       "info": {
         "summary": "Information",
@@ -1069,7 +1070,7 @@
         "update": "Update"
       },
       "info": {
-        "at_least_one_name": "At least one title (in French or Arabic) must be provided."
+        "at_least_one_name": "At least one title must be provided."
       }
     },
     "messages": {
@@ -1081,7 +1082,7 @@
       },
       "error": {
         "summary": "Error",
-        "name_required": "At least one title (in French or Arabic) must be provided",
+        "name_required": "At least one title must be provided",
         "generic_error": "{{error}}"
       },
       "confirm": {

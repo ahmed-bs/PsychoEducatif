@@ -7,6 +7,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 })
 export class ProgressBarComponent implements OnChanges {
   @Input() acquisPercentage: number = 0;
+  @Input() mode: 'circle' | 'line' = 'circle';
   isComplete: boolean = false;
 
   ngOnChanges(): void {

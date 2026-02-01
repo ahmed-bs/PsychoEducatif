@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProfileItemListComponent } from 'src/app/shared/profile-item-list/profile-item-list.component';
+import { BackButtonComponent } from 'src/app/shared/back-button/back-button.component';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileItemService } from 'src/app/core/services/ProfileItem.service';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
@@ -31,6 +32,7 @@ function containsArabic(text: string): boolean {
   imports: [
     CommonModule,
     ProfileItemListComponent,
+    BackButtonComponent,
     ButtonModule,
     TranslateModule
   ]
@@ -46,7 +48,6 @@ export class PeuComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private profileItemService: ProfileItemService,
     private profileCategoryService: ProfileCategoryService,
     private profileDomainService: ProfileDomainService,
@@ -212,13 +213,6 @@ export class PeuComponent implements OnInit, OnDestroy {
     });
   }
 
-  goBack() {
-    if (this.profileId) {
-      this.router.navigate(['/Dashboard-client/client', this.profileId]);
-    } else {
-      this.router.navigate(['/Dashboard-client/client']);
-    }
-  }
 
   exportExcel(): void {
     if (this.items.length === 0) {

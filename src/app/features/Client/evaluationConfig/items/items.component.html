@@ -1,54 +1,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
 
-<div class="back-button" (click)="goBack()">
-  <span class="material-symbols-sharp">arrow_back</span>
-</div>
+<app-back-button></app-back-button>
 <br><br>
 
-<p-toast></p-toast>
-
-<div class="card">
-  <div class="add-item-section">
-    <h2>{{ 'items.add_item_section.title' | translate }}</h2>
-    
-    <div class="form-row">
-      <div class="form-group">
-        <label>{{ 'items.add_item_section.labels.domain' | translate }}</label>
-        <p-dropdown [options]="domainsWithDisplayNames" 
-                   [(ngModel)]="selectedDomain" 
-                   optionLabel="displayName" 
-                   [placeholder]="'items.add_item_section.placeholders.domain' | translate"
-                   [style]="{'width':'100%'}">
-        </p-dropdown>
+<!-- Custom Alert Notification -->
+<div *ngIf="customAlert" class="custom-alert-container" [class.show]="customAlert.show" [class.success]="customAlert.type === 'success'" [class.error]="customAlert.type === 'error'">
+  <div class="custom-alert-cloud">
+    <div class="custom-alert-content">
+      <div class="custom-alert-icon">
+        <i class="fas" [class.fa-check-circle]="customAlert.type === 'success'" [class.fa-exclamation-circle]="customAlert.type === 'error'"></i>
       </div>
-      
-      <div class="form-group item-input">
-        <label>{{ 'items.add_item_section.labels.item' | translate }}</label>
-        <input type="text" 
-               pInputText 
-               [(ngModel)]="newItem.name" 
-               [placeholder]="'items.add_item_section.placeholders.item_title' | translate"
-               [style]="{'width':'100%'}">
-      </div>
-
-      <div class="form-group item-input">
-        <label>{{ 'items.add_item_section.labels.description' | translate }}</label>
-        <input type="text" 
-               pInputText 
-               [(ngModel)]="newItem.description" 
-               [placeholder]="'items.add_item_section.placeholders.item_description' | translate"
-               [style]="{'width':'100%'}">
-      </div>
-      
-      <button pButton 
-              type="button" 
-              [label]="'items.add_item_section.add_item_button' | translate"
-              icon="pi pi-plus" 
-              class="add-item-btn"
-              (click)="addItem()"
-              [disabled]="!selectedDomain || !newItem.name">
-      </button>
+      <p class="custom-alert-text">{{ customAlert.message }}</p>
     </div>
+    <button class="custom-alert-close" (click)="closeCustomAlert()" type="button">
+      <i class="fas fa-times"></i>
+    </button>
   </div>
 </div>
 
@@ -74,6 +40,46 @@
     </div>
 
     <div class="item-list" *ngIf="domain.expanded">
+      <!-- Add Item Button and Form -->
+      <div class="add-item-form-container">
+        <button 
+          class="toggle-add-item-btn" 
+          (click)="toggleAddItemForm(domain); $event.stopPropagation()"
+          type="button">
+          <span class="material-symbols-sharp">{{ showAddItemForm[domain.id!] ? 'expand_less' : 'expand_more' }}</span>
+          <span>{{ 'items.add_item_section.add_item_button' | translate }}</span>
+        </button>
+        
+        <div class="add-item-form" *ngIf="showAddItemForm[domain.id!]">
+          <div class="form-row-inline">
+            <div class="form-group-inline">
+              <label>{{ 'items.add_item_section.labels.item' | translate }}</label>
+              <input type="text" 
+                     class="inline-form-input"
+                     [(ngModel)]="newItem.name" 
+                     [placeholder]="'items.add_item_section.placeholders.item_title' | translate">
+            </div>
+
+            <div class="form-group-inline">
+              <label>{{ 'items.add_item_section.labels.description' | translate }}</label>
+              <input type="text" 
+                     class="inline-form-input"
+                     [(ngModel)]="newItem.description" 
+                     [placeholder]="'items.add_item_section.placeholders.item_description' | translate">
+            </div>
+            
+            <button pButton 
+                    type="button" 
+                    [label]="'items.add_item_section.add_item_button' | translate"
+                    icon="pi pi-plus" 
+                    class="add-item-btn-inline"
+                    (click)="addItem(domain)"
+                    [disabled]="!newItem.name || savingItem">
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="item-header">
         <div class="col-item">{{ 'items.items_by_domain.headers.item' | translate }}</div>
         <div class="col-etat">{{ 'items.items_by_domain.headers.status' | translate }}</div>
@@ -205,7 +211,8 @@
           </button>
           <button 
             type="submit"
-            class="eval-modal-btn-primary">
+            class="eval-modal-btn-primary"
+            [disabled]="savingDomain">
             <i class="fas" [class.fa-plus]="!isEditingDomain()" [class.fa-save]="isEditingDomain()"></i>
             <span>{{ isEditingDomain() ? ('items.add_domain_dialog.buttons.update' | translate) : ('items.add_domain_dialog.buttons.add' | translate) }}</span>
           </button>
@@ -296,12 +303,97 @@
           </button>
           <button 
             type="submit"
-            class="eval-modal-btn-primary">
+            class="eval-modal-btn-primary"
+            [disabled]="savingItem">
             <i class="fas" [class.fa-plus]="!isEditingItem()" [class.fa-save]="isEditingItem()"></i>
             <span>{{ isEditingItem() ? ('items.add_item_dialog.buttons.update' | translate) : ('items.add_item_dialog.buttons.add' | translate) }}</span>
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Domain Confirmation Modal -->
+<div *ngIf="showDeleteDomainModal" class="eval-modal-overlay" (click)="closeDeleteDomainModal()">
+  <div class="eval-modal delete-modal" (click)="$event.stopPropagation()">
+    <div class="eval-modal-header delete-modal-header">
+      <div class="eval-modal-header-content">
+        <div class="eval-modal-icon-wrapper delete-icon-wrapper">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="eval-modal-title-wrapper">
+          <h3 class="eval-modal-title">
+            {{ 'items.messages.confirm.delete_domain' | translate: { domainName: domainToDelete ? getDomainLanguageField(domainToDelete, 'name') : '' } }}
+          </h3>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="eval-modal-close-btn"
+        (click)="closeDeleteDomainModal()"
+        [attr.aria-label]="'items.add_domain_dialog.buttons.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="eval-modal-footer">
+      <button 
+        type="button"
+        class="eval-modal-btn-secondary"
+        (click)="closeDeleteDomainModal()">
+        <i class="fas fa-times"></i>
+        <span>{{ 'items.add_domain_dialog.buttons.cancel' | translate }}</span>
+      </button>
+      <button 
+        type="button"
+        class="eval-modal-btn-danger"
+        (click)="confirmDeleteDomain()">
+        <i class="fas fa-trash-alt"></i>
+        <span>{{ 'items.messages.confirm.delete_button' | translate }}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Item Confirmation Modal -->
+<div *ngIf="showDeleteItemModal" class="eval-modal-overlay" (click)="closeDeleteItemModal()">
+  <div class="eval-modal delete-modal" (click)="$event.stopPropagation()">
+    <div class="eval-modal-header delete-modal-header">
+      <div class="eval-modal-header-content">
+        <div class="eval-modal-icon-wrapper delete-icon-wrapper">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="eval-modal-title-wrapper">
+          <h3 class="eval-modal-title">
+            {{ 'items.messages.confirm.delete_item' | translate: { itemName: itemToDelete ? getItemLanguageField(itemToDelete.item, 'name') : '' } }}
+          </h3>
+        </div>
+      </div>
+      <button 
+        type="button"
+        class="eval-modal-close-btn"
+        (click)="closeDeleteItemModal()"
+        [attr.aria-label]="'items.add_item_dialog.buttons.cancel' | translate">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="eval-modal-footer">
+      <button 
+        type="button"
+        class="eval-modal-btn-secondary"
+        (click)="closeDeleteItemModal()">
+        <i class="fas fa-times"></i>
+        <span>{{ 'items.add_item_dialog.buttons.cancel' | translate }}</span>
+      </button>
+      <button 
+        type="button"
+        class="eval-modal-btn-danger"
+        (click)="confirmDeleteItem()">
+        <i class="fas fa-trash-alt"></i>
+        <span>{{ 'items.messages.confirm.delete_button' | translate }}</span>
+      </button>
     </div>
   </div>
 </div>
