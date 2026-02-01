@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/authService.service';
+import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,7 +23,8 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private translate: TranslateService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     const savedLang = localStorage.getItem('lang') || 'fr';
     this.currentLang = savedLang;
@@ -180,6 +182,36 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
     this.showUserMenu = false;
     this.closeMobileMenu();
     this.authService.logout();
+  }
+
+  // Download Documentation PDF
+  downloadDocumentation() {
+    // PDF should be in assets folder: assets/Documentation-de-lApplication-PsychoEducatif.pdf
+    const pdfPath = 'assets/Documentation-de-lApplication-PsychoEducatif.pdf';
+    
+    this.http.get(pdfPath, { responseType: 'blob' }).subscribe({
+      next: (blob: Blob) => {
+        this.triggerDownload(blob, 'Documentation-de-lApplication-PsychoEducatif.pdf');
+      },
+      error: (error) => {
+        console.error('Error downloading PDF:', error);
+        alert(this.translate.instant('navbar.errors.pdf_not_found') || 'PDF file not found. Please ensure the file is in the assets folder.');
+      }
+    });
+    
+    // Close mobile menu if open
+    this.closeMobileMenu();
+  }
+
+  private triggerDownload(blob: Blob, filename: string) {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   }
 
   // Close menus when clicking outside

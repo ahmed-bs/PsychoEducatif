@@ -134,7 +134,8 @@
       "configuration": "Configuration",
       "explorer": "Explorer",
       "resume": "Résumé",
-      "calendar": "Calendrier"
+      "calendar": "Calendrier",
+      "aide": "Aide"
     },
     "buttons": {
       "sign_up": "Sign Up",
