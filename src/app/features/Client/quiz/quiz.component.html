@@ -1,11 +1,23 @@
 <app-back-button></app-back-button>
 <br /><br />
+
+<!-- Floating Submit Button -->
+<button
+  type="button"
+  class="floating-submit-btn"
+  (click)="soumettreQuiz()"
+  *ngIf="items.length > 0 && (currentView === 'list' || currentIndex === items.length - 1)"
+>
+  <span class="material-symbols-sharp">check_circle</span>
+  <span>{{ 'skills_evaluation.buttons.submit' | translate }}</span>
+</button>
+
 <div class="quiz-container mx-auto p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen">
   <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
     {{ 'skills_evaluation.title' | translate }}
   </h2>
-  <div *ngIf="domain" class="text-center mb-4">
-    <h3 class="text-xl font-semibold text-gray-700">
+  <div *ngIf="domain" class="quiz-domain-name">
+    <h3>
       {{ getDomainLanguageField(domain, 'name') }}
     </h3>
   </div>
@@ -53,17 +65,17 @@
     <!-- Card View (Original) -->
     <div *ngIf="currentView === 'card'">
       <div class="progress-indicator text-center mb-6">
-        <p class="text-lg font-medium text-gray-700" [innerHTML]="'skills_evaluation.progress_indicator.text' | translate: { currentIndex: currentIndex + 1, totalItems: items.length }"></p>
+        <p class="text-lg font-medium" [innerHTML]="'skills_evaluation.progress_indicator.text' | translate: { currentIndex: currentIndex + 1, totalItems: items.length }"></p>
         <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
           <div class="bg-blue-600 h-2.5 rounded-full" [style.width]="(currentIndex + 1) / items.length * 100 + '%'"></div>
         </div>
       </div>
 
-      <form #quizForm="ngForm" class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
+      <form #quizForm="ngForm" class="quiz-card-form">
         <div class="sub-skill mb-6">
           <div class="flex items-center justify-between mb-4">
-            <p class="text-lg font-semibold text-gray-600" [innerHTML]="'skills_evaluation.form.skill_label' | translate: { skillName: getItemLanguageField(items[currentIndex], 'name') }"></p>
-            <span class="text-sm text-gray-500">#{{ currentIndex + 1 }}</span>
+            <p class="quiz-skill-name" [innerHTML]="'skills_evaluation.form.skill_label' | translate: { skillName: getItemLanguageField(items[currentIndex], 'name') }"></p>
+            <span class="quiz-skill-number">#{{ currentIndex + 1 }}</span>
           </div>
 
           <!-- Action Buttons -->
@@ -105,72 +117,66 @@
             </button>
           </div>
 
-          <label class="block text-gray-700 text-sm font-bold mb-3">{{ 'skills_evaluation.form.status_label' | translate }}</label>
-          <div class="flex flex-wrap gap-3 mb-6">
-            <label class="inline-flex items-center">
+          <label class="quiz-status-label">{{ 'skills_evaluation.form.status_label' | translate }}</label>
+          <div class="quiz-status-options">
+            <label class="quiz-status-option">
               <input
                 type="radio"
-                class="form-radio h-5 w-5 text-green-600"
+                class="form-radio"
                 id="{{ items[currentIndex].id }}-acquis"
                 value="ACQUIS"
                 [(ngModel)]="items[currentIndex].etat"
                 [name]="'etat-' + items[currentIndex].id"
               />
-              <span class="ml-2 text-green-700 font-medium">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
+              <span class="quiz-status-text">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
             </label>
 
-            <label class="inline-flex items-center">
+            <label class="quiz-status-option">
               <input
                 type="radio"
-                class="form-radio h-5 w-5 text-yellow-500"
+                class="form-radio"
                 id="{{ items[currentIndex].id }}-partiel"
                 value="PARTIEL"
                 [(ngModel)]="items[currentIndex].etat"
                 [name]="'etat-' + items[currentIndex].id"
               />
-              <span class="ml-2 text-yellow-700 font-medium">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
+              <span class="quiz-status-text">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
             </label>
 
-            <label class="inline-flex items-center">
+            <label class="quiz-status-option">
               <input
                 type="radio"
-                class="form-radio h-5 w-5 text-red-600"
+                class="form-radio"
                 id="{{ items[currentIndex].id }}-non-acquis"
                 value="NON_ACQUIS"
                 [(ngModel)]="items[currentIndex].etat"
                 [name]="'etat-' + items[currentIndex].id"
               />
-              <span class="ml-2 text-red-700 font-medium">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
+              <span class="quiz-status-text">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
             </label>
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row-reverse gap-3 sm:gap-4 pt-4 border-t border-gray-200">
+        <div class="quiz-navigation-buttons">
           <button
             type="button"
-            class="w-full sm:w-auto px-5 py-2.5 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+            class="quiz-nav-btn quiz-nav-btn-prev"
             (click)="precedent()"
             [disabled]="currentIndex === 0"
           >
-            {{ 'skills_evaluation.buttons.previous' | translate }}
+            <span class="material-symbols-sharp">arrow_back</span>
+            <span>{{ 'skills_evaluation.buttons.previous' | translate }}</span>
           </button>
 
           <button
             type="button"
-            class="w-full sm:w-auto px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+            class="quiz-nav-btn quiz-nav-btn-next"
             (click)="suivant()"
             [disabled]="currentIndex === items.length - 1"
             *ngIf="currentIndex < items.length - 1"
           >
-            {{ 'skills_evaluation.buttons.next' | translate }}
-          </button>
-          <button
-            type="button"
-            class="w-full sm:w-auto px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-            (click)="soumettreQuiz()"
-            *ngIf="currentIndex === items.length - 1"
-          >
-            {{ 'skills_evaluation.buttons.submit' | translate }}
+            <span>{{ 'skills_evaluation.buttons.next' | translate }}</span>
+            <span class="material-symbols-sharp">arrow_forward</span>
           </button>
         </div>
       </form>
@@ -178,12 +184,11 @@
 
     <!-- List View -->
     <div *ngIf="currentView === 'list'" class="list-view-container">
-      <div class="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
-        <!-- <h3 class="text-2xl font-bold text-gray-800">{{ 'skills_evaluation.list_view.title' | translate }}</h3> -->
-        <p class="text-gray-600 mt-2">{{ 'skills_evaluation.list_view.subtitle' | translate: { totalItems: items.length } }}</p>
+      <div class="list-view-header">
+        <p>{{ 'skills_evaluation.list_view.subtitle' | translate: { totalItems: items.length } }}</p>
       </div>
       
-      <div class="space-y-0">
+      <div class="list-items-wrapper">
         <div *ngFor="let item of items; let i = index" class="list-item">
           <div class="list-item-header">
             <h4 class="list-item-title">{{ getItemLanguageField(item, 'name') }}</h4>
@@ -230,9 +235,9 @@
           </div>
 
           <div class="space-y-4">
-            <label class="block text-gray-700 text-sm font-bold">{{ 'skills_evaluation.form.status_label' | translate }}</label>
-            <div class="status-options">
-              <label class="status-option acquis">
+            <label class="quiz-status-label">{{ 'skills_evaluation.form.status_label' | translate }}</label>
+            <div class="quiz-status-options">
+              <label class="quiz-status-option">
                 <input
                   type="radio"
                   class="form-radio"
@@ -241,10 +246,10 @@
                   [(ngModel)]="item.etat"
                   [name]="'list-etat-' + item.id"
                 />
-                <span class="ml-3 text-green-700 font-medium">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
+                <span class="quiz-status-text">{{ 'skills_evaluation.form.status_options.ACQUIS' | translate }}</span>
               </label>
 
-              <label class="status-option partiel">
+              <label class="quiz-status-option">
                 <input
                   type="radio"
                   class="form-radio"
@@ -253,10 +258,10 @@
                   [(ngModel)]="item.etat"
                   [name]="'list-etat-' + item.id"
                 />
-                <span class="ml-3 text-yellow-700 font-medium">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
+                <span class="quiz-status-text">{{ 'skills_evaluation.form.status_options.PARTIEL' | translate }}</span>
               </label>
 
-              <label class="status-option non-acquis">
+              <label class="quiz-status-option">
                 <input
                   type="radio"
                   class="form-radio"
@@ -265,24 +270,13 @@
                   [(ngModel)]="item.etat"
                   [name]="'list-etat-' + item.id"
                 />
-                <span class="ml-3 text-red-700 font-medium">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
+                <span class="quiz-status-text">{{ 'skills_evaluation.form.status_options.NON_ACQUIS' | translate }}</span>
               </label>
             </div>
           </div>
-          <br>
-          <hr>
         </div>
       </div>
 
-      <div class="flex justify-end p-6 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
-        <button
-          type="button"
-          class="submit-btn"
-          (click)="soumettreQuiz()"
-        >
-          {{ 'skills_evaluation.buttons.submit' | translate }}
-        </button>
-      </div>
     </div>
 
 
