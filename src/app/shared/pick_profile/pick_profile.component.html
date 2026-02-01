@@ -6,65 +6,17 @@
       <span class="nav__logo-text">EvaluAction</span>
     </div>
     <!-- Language Switcher - Same row as EvaluAction -->
-    <div class="language-menu-container">
+    <div class="language-menu-container" #languageMenuContainer>
       <button 
         class="lang-icon-btn" 
         type="button"
-        (click)="toggleLanguageMenu()"
+        (click)="toggleLanguageMenu($event)"
         [attr.aria-expanded]="showLanguageMenu"
         [attr.aria-label]="'Language selector'"
         [attr.aria-haspopup]="true">
         <i class="fas fa-globe" [class.rotating]="showLanguageMenu"></i>
         <span class="current-lang-indicator">{{ currentLang.toUpperCase() }}</span>
       </button>
-      <div 
-        class="language-dropdown" 
-        [class.show]="showLanguageMenu"
-        role="menu"
-        [attr.aria-hidden]="!showLanguageMenu">
-        <button 
-          class="lang-option" 
-          type="button"
-          role="menuitem"
-          [class.active]="currentLang === 'fr'"
-          (click)="switchLanguage('fr')"
-          [attr.aria-current]="currentLang === 'fr' ? 'true' : null">
-          <span class="lang-flag">🇫🇷</span>
-          <span class="lang-content">
-            <span class="lang-code">FR</span>
-            <span class="lang-name">Français</span>
-          </span>
-          <i class="fas fa-check check-icon" *ngIf="currentLang === 'fr'"></i>
-        </button>
-        <button 
-          class="lang-option" 
-          type="button"
-          role="menuitem"
-          [class.active]="currentLang === 'ar'"
-          (click)="switchLanguage('ar')"
-          [attr.aria-current]="currentLang === 'ar' ? 'true' : null">
-          <span class="lang-flag">🇸🇦</span>
-          <span class="lang-content">
-            <span class="lang-code">عربي</span>
-            <span class="lang-name">العربية</span>
-          </span>
-          <i class="fas fa-check check-icon" *ngIf="currentLang === 'ar'"></i>
-        </button>
-        <button 
-          class="lang-option" 
-          type="button"
-          role="menuitem"
-          [class.active]="currentLang === 'en'"
-          (click)="switchLanguage('en')"
-          [attr.aria-current]="currentLang === 'en' ? 'true' : null">
-          <span class="lang-flag">🇬🇧</span>
-          <span class="lang-content">
-            <span class="lang-code">EN</span>
-            <span class="lang-name">English</span>
-          </span>
-          <i class="fas fa-check check-icon" *ngIf="currentLang === 'en'"></i>
-        </button>
-      </div>
     </div>
     <!-- Logout Button - Same row as EvaluAction -->
     <button 
@@ -476,4 +428,58 @@
     </div>
   </div>
 </div>
+</div>
+
+<!-- Language Dropdown - Outside navbar to escape overflow -->
+<div 
+  class="language-dropdown" 
+  [class.show]="showLanguageMenu"
+  [style.top]="dropdownPosition.top"
+  [style.right]="dropdownPosition.right"
+  role="menu"
+  [attr.aria-hidden]="!showLanguageMenu"
+  (click)="$event.stopPropagation()"
+  *ngIf="showLanguageMenu">
+  <button 
+    class="lang-option" 
+    type="button"
+    role="menuitem"
+    [class.active]="currentLang === 'fr'"
+    (click)="switchLanguage('fr')"
+    [attr.aria-current]="currentLang === 'fr' ? 'true' : null">
+    <span class="lang-flag">🇫🇷</span>
+    <span class="lang-content">
+      <span class="lang-code">FR</span>
+      <span class="lang-name">Français</span>
+    </span>
+    <i class="fas fa-check check-icon" *ngIf="currentLang === 'fr'"></i>
+  </button>
+  <button 
+    class="lang-option" 
+    type="button"
+    role="menuitem"
+    [class.active]="currentLang === 'ar'"
+    (click)="switchLanguage('ar')"
+    [attr.aria-current]="currentLang === 'ar' ? 'true' : null">
+    <span class="lang-flag">🇸🇦</span>
+    <span class="lang-content">
+      <span class="lang-code">عربي</span>
+      <span class="lang-name">العربية</span>
+    </span>
+    <i class="fas fa-check check-icon" *ngIf="currentLang === 'ar'"></i>
+  </button>
+  <button 
+    class="lang-option" 
+    type="button"
+    role="menuitem"
+    [class.active]="currentLang === 'en'"
+    (click)="switchLanguage('en')"
+    [attr.aria-current]="currentLang === 'en' ? 'true' : null">
+    <span class="lang-flag">🇬🇧</span>
+    <span class="lang-content">
+      <span class="lang-code">EN</span>
+      <span class="lang-name">English</span>
+    </span>
+    <i class="fas fa-check check-icon" *ngIf="currentLang === 'en'"></i>
+  </button>
 </div>
