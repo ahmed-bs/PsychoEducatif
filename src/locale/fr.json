@@ -1097,106 +1097,6 @@
         "delete": "Supprimer"
       }
     }
-  },  "dashboard": {
-    "head_title": {
-      "title": "🏠 Bienvenue sur le Tableau de Bord",
-      "breadcrumb": {
-        "dashboard": "Tableau de bord"
-      }
-    },
-    "dropdown": {
-      "add_profile": "Ajouter un nouveau profil",
-      "diagnosis_unspecified": "Non spécifié"
-    },
-    "child_profile": {
-      "last_evaluation": "Dernière évaluation: {{date}}",
-      "gender_male": "♂ Male",
-      "gender_female": "♀ Female",
-      "share_profile_button": "Partager le profil"
-    },
-    "tabs": {
-      "skills": "Compétences",
-      "stats": "Statistiques",
-      "goals": "Objectifs",
-      "strategies": "Stratégies",
-      "notes": "Notes"
-    },
-    "skills_content": {
-      "competencies_count": "{{count}} compétences",
-      "start_date": "Date de début",
-      "last_update": "Dernière mise à jour",
-      "no_competencies": {
-        "title": "Aucune Compétence Trouvée",
-        "message": "Ce profil n'a pas été évalué même une seule fois. Veuillez commencer une évaluation pour voir les compétences ici."
-      }
-    },
-    "stats_content": {
-      "progress_overview": {
-        "title": "Aperçu des Progrès",
-        "competencies_count": "{{count}} compétences",
-        "progress": "Progrès: {{percentage}}%",
-        "goal": "Objectif: {{percentage}}%"
-      },
-      "recent_activity": {
-        "title": "Activité Récente",
-        "competencies_evaluated": "{{count}} compétences évaluées",
-        "last_update": "Dernière mise à jour: {{date}}"
-      }
-    },
-    "share_profile_dialog": {
-     "tabs": {
-        "share": "Partager",
-        "users": "Utilisateurs"
-      },
-      "users": {
-        "loading": "Chargement des utilisateurs...",
-        "no_users": "Aucun utilisateur n’a accès à ce profil"
-      },
-      "permissions": {
-        "view": "Lecture",
-        "edit": "Modification",
-        "share": "Partage",
-        "delete": "Suppression"
-      },
-      "header": "Partager le profil",
-      "labels": {
-        "email": "Email du destinataire",
-        "access_type": "Type d'accès"
-      },
-      "placeholders": {
-        "email": "Entrez l'email"
-      },
-      "buttons": {
-        "cancel": "Annuler",
-        "share": "Partager",
-        "sharing": "Partage en cours...",
-         "close": "Fermer"
-      },
-      "errors": {
-        "invalid_email": "Email invalide"
-      },
-      "access_options": {
-        "view_only": "Lecture seule",
-        "edit": "Modification",
-        "full_access": "Accès complet"
-      }
-    },
-    "messages": {
-      "success": {
-        "summary": "Succès",
-        "profile_shared": "Profil partagé avec succès",
-        "child_added": "Profil ajouté avec succès",
-        "child_updated": "Profil mis à jour avec succès",
-        "goal_saved": "Objectif sauvegardé avec succès"
-      },
-      "error": {
-        "summary": "Erreur",
-        "load_data_failed": "Échec du chargement des données. Veuillez réessayer plus tard",
-        "email_required": "L'email est requis",
-        "access_type_required": "Le type d'accès est requis",
-        "generic_error": "{{error}}"
-      }
-    }
   }, "dashboard": {
     "head_title": {
       "title": "🏠 Bienvenue sur le Tableau de Bord",
@@ -1313,6 +1213,20 @@
       "drop_zone_text": "Glissez-déposez une image ici ou cliquez pour sélectionner"
     },
     "share_profile_dialog": {
+      "tabs": {
+        "share": "Partager",
+        "users": "Utilisateurs"
+      },
+      "users": {
+        "loading": "Chargement des utilisateurs...",
+        "no_users": "Aucun utilisateur n'a accès à ce profil"
+      },
+      "permissions": {
+        "view": "Lecture",
+        "edit": "Modification",
+        "share": "Partage",
+        "delete": "Suppression"
+      },
       "header": "Partager le profil",
       "modal_subtitle": "Partagez ce profil avec d'autres utilisateurs en leur donnant accès",
       "labels": {
@@ -1325,7 +1239,8 @@
       "buttons": {
         "cancel": "Annuler",
         "share": "Partager",
-        "sharing": "Partage en cours..."
+        "sharing": "Partage en cours...",
+        "close": "Fermer"
       },
       "errors": {
         "invalid_email": "Email invalide",

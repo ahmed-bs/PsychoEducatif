@@ -767,6 +767,28 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
+  // Helper method to extract domain ID from a goal
+  getDomainIdFromGoal(goal: any): number | null {
+    if (!goal) return null;
+    
+    // Check if we stored it during navigation
+    if (goal._domainIdForNavigation) {
+      return Number(goal._domainIdForNavigation);
+    }
+    
+    // Check direct domain_id property
+    if (goal.domain_id) {
+      return Number(goal.domain_id);
+    }
+    
+    // Check nested domain.id property
+    if (goal.domain && goal.domain.id) {
+      return Number(goal.domain.id);
+    }
+    
+    return null;
+  }
+
   // Get goal for a specific domain
   getGoalForDomain(domain: any): any {
     if (!this.goals || this.goals.length === 0) {
@@ -798,6 +820,8 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
     if (goal) {
       // Show update date modal first
       this.goalToUpdate = goal;
+      // Store domain ID for navigation after modal closes
+      this.goalToUpdate._domainIdForNavigation = domain.id;
       this.showUpdateDateModal = true;
     } else if (domain.id) {
       // If no goal found, navigate directly
@@ -825,8 +849,20 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    // Save goal reference before closing modal
+    // Save goal reference and domain ID before closing modal
     const goalToNavigate = this.goalToUpdate;
+    const domainId = this.getDomainIdFromGoal(goalToNavigate);
+    
+    if (!domainId) {
+      console.error('Cannot navigate to quiz: missing domainId');
+      Swal.fire({
+        icon: 'error',
+        title: this.translate.instant('calendar.messages.error'),
+        text: this.translate.instant('calendar.messages.navigation_error')
+      });
+      return;
+    }
+
     this.updatingDate = true;
     this.goalService.updateTargetDate(this.goalToUpdate.id).subscribe({
       next: () => {
@@ -837,9 +873,7 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
           this.chargerObjectifs(this.currentProfileId);
         }
         // Navigate to quiz after updating date
-        if (goalToNavigate.domain_id) {
-          this.router.navigate(['/Dashboard-client/client/quiz', goalToNavigate.domain_id]);
-        }
+        this.router.navigate(['/Dashboard-client/client/quiz', domainId]);
       },
       error: (error) => {
         this.updatingDate = false;
@@ -855,10 +889,20 @@ export class CalendarComponent implements OnInit, OnChanges, OnDestroy {
 
   cancelUpdateTargetDate(): void {
     // User cancelled, navigate to quiz without updating date
-    if (this.goalToUpdate && this.goalToUpdate.domain_id) {
-      const domainId = this.goalToUpdate.domain_id;
+    if (this.goalToUpdate) {
+      const domainId = this.getDomainIdFromGoal(this.goalToUpdate);
       this.closeUpdateDateModal();
-      this.router.navigate(['/Dashboard-client/client/quiz', domainId]);
+      
+      if (domainId) {
+        this.router.navigate(['/Dashboard-client/client/quiz', domainId]);
+      } else {
+        console.error('Cannot navigate to quiz: missing domainId');
+        Swal.fire({
+          icon: 'error',
+          title: this.translate.instant('calendar.messages.error'),
+          text: this.translate.instant('calendar.messages.navigation_error')
+        });
+      }
     } else {
       this.closeUpdateDateModal();
     }
