@@ -469,6 +469,14 @@
         "description_en": "Provide tools to measure skills evolution and adjust goals accordingly.",
         "image_alt": "Progress tracking",
         "image_alt_en": "Progress tracking"
+      },
+      "has_recommendations": {
+        "title": "HAS recommendations for autism",
+        "title_en": "HAS recommendations for autism",
+        "description": "Application of the French National Authority for Health (HAS) recommendations for evidence-based care adapted to the specific needs of each autistic child.",
+        "description_en": "Application of the French National Authority for Health (HAS) recommendations for evidence-based care adapted to the specific needs of each autistic child.",
+        "image_alt": "HAS recommendations for autism",
+        "image_alt_en": "HAS recommendations for autism"
       }
     }
   },

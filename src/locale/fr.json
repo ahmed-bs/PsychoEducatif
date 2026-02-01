@@ -454,8 +454,13 @@
       },
       "progress_tracking": {
         "title": "Suivi continu des progrès",
-        "description": "Mettre à disposition des outils pour mesurer l’évolution des compétences et ajuster les objectifs en conséquence.",
+        "description": "Mettre à disposition des outils pour mesurer l'évolution des compétences et ajuster les objectifs en conséquence.",
         "image_alt": "Suivi des progrès"
+      },
+      "has_recommendations": {
+        "title": "Recommandations HAS pour l'autisme",
+        "description": "Application des recommandations de la Haute Autorité de Santé (HAS) pour une prise en charge fondée sur des preuves scientifiques et adaptée aux besoins spécifiques de chaque enfant autiste.",
+        "image_alt": "Recommandations HAS pour l'autisme"
       }
     }
   },
