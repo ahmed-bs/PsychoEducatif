@@ -267,8 +267,25 @@
   border-radius: 50px;
   left: 0;
   right: 0;
-  overflow: hidden;
+  overflow: visible;
   box-sizing: border-box;
+}
+
+/* Wrapper to maintain rounded corners while allowing dropdown overflow */
+.profile-navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 50px;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .profile-navbar .nav__header {
@@ -282,7 +299,7 @@
   margin-top: 0;
   gap: 0.75rem;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
   flex-wrap: nowrap;
 }
 
@@ -291,6 +308,8 @@
   margin-left: auto;
   margin-right: 0;
   flex-shrink: 0;
+  overflow: visible;
+  z-index: 1001;
 }
 
 .profile-navbar .nav__logo-container {
@@ -381,6 +400,8 @@
 .profile-navbar .language-menu-container {
   position: relative;
   display: inline-block;
+  overflow: visible;
+  z-index: 1001;
 }
 
 .profile-navbar .lang-icon-btn {
@@ -429,10 +450,8 @@
   letter-spacing: 0.5px;
 }
 
-.profile-navbar .language-dropdown {
-  position: absolute;
-  top: calc(100% + 0.25rem);
-  right: 0;
+.language-dropdown {
+  position: fixed;
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -440,20 +459,52 @@
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
   min-width: 180px;
-  z-index: 1000;
+  z-index: 10000;
   overflow: hidden;
   opacity: 0;
+  visibility: hidden;
   transform: translateY(-10px) scale(0.95);
   pointer-events: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+
+.language-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  display: block;
+}
+
+.profile-navbar .language-dropdown {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(162, 197, 233, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-width: 180px;
+  z-index: 10000;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
 }
 
 .profile-navbar .language-dropdown.show {
   opacity: 1;
+  visibility: visible;
   transform: translateY(0) scale(1);
   pointer-events: auto;
+  display: block;
 }
 
+.lang-option,
 .profile-navbar .lang-option {
   display: flex;
   align-items: center;
@@ -471,15 +522,18 @@
   border-bottom: 1px solid rgba(162, 197, 233, 0.1);
 }
 
+.lang-option:last-child,
 .profile-navbar .lang-option:last-child {
   border-bottom: none;
 }
 
+.lang-option:hover,
 .profile-navbar .lang-option:hover {
   background: rgba(162, 197, 233, 0.1);
   padding-left: 1.25rem;
 }
 
+.lang-option.active,
 .profile-navbar .lang-option.active {
   background: linear-gradient(135deg, #a2c5e9 0%, #7db3e0 100%);
   color: white;
@@ -487,11 +541,13 @@
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.lang-option.active:hover,
 .profile-navbar .lang-option.active:hover {
   background: linear-gradient(135deg, #8fb5d9 0%, #6ba3d6 100%);
   padding-left: 1rem;
 }
 
+.lang-flag,
 .profile-navbar .lang-flag {
   font-size: 1.25rem;
   line-height: 1;
@@ -499,6 +555,7 @@
   text-align: center;
 }
 
+.lang-content,
 .profile-navbar .lang-content {
   display: flex;
   flex-direction: column;
@@ -506,22 +563,26 @@
   flex: 1;
 }
 
+.lang-code,
 .profile-navbar .lang-code {
   font-weight: 700;
   font-size: 0.875rem;
   letter-spacing: 0.5px;
 }
 
+.lang-name,
 .profile-navbar .lang-name {
   color: #6b7280;
   font-size: 0.75rem;
   font-weight: 400;
 }
 
+.lang-option.active .lang-name,
 .profile-navbar .lang-option.active .lang-name {
   color: rgba(255, 255, 255, 0.9);
 }
 
+.check-icon,
 .profile-navbar .check-icon {
   font-size: 0.875rem;
   opacity: 0;
@@ -529,6 +590,7 @@
   transition: all 0.2s ease;
 }
 
+.lang-option.active .check-icon,
 .profile-navbar .lang-option.active .check-icon {
   opacity: 1;
   transform: scale(1);
@@ -784,7 +846,7 @@
   /* Navbar header - ensure all elements stay inside */
   .profile-navbar .nav__header {
     max-width: 100%;
-    overflow: hidden;
+    overflow: visible;
     padding: 0.75rem 1rem;
     box-sizing: border-box;
   }
@@ -806,9 +868,7 @@
   }
 
   .profile-navbar .language-dropdown {
-    right: 0;
     min-width: 160px;
-    top: calc(100% + 0.5rem);
   }
 
   .profile-navbar .lang-option {

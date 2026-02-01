@@ -79,6 +79,7 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   private languageSubscription!: Subscription;
   currentLang: string = 'fr';
   showLanguageMenu: boolean = false;
+  dropdownPosition: { top: string; right: string } = { top: '0px', right: '0px' };
   
   // 3D Carousel properties
   rotationAngle: number = 0;
@@ -894,8 +895,29 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     this.showLanguageMenu = false;
   }
 
-  toggleLanguageMenu(): void {
+  toggleLanguageMenu(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+      const target = event.target as HTMLElement;
+      const button = target.closest('.lang-icon-btn') as HTMLElement;
+      
+      if (button && !this.showLanguageMenu) {
+        // Calculate position when opening
+        const rect = button.getBoundingClientRect();
+        const navbar = document.querySelector('.profile-navbar') as HTMLElement;
+        const navbarRect = navbar?.getBoundingClientRect();
+        
+        if (navbarRect) {
+          // Position relative to viewport, accounting for navbar position
+          this.dropdownPosition = {
+            top: `${rect.bottom + 4}px`,
+            right: `${window.innerWidth - rect.right}px`
+          };
+        }
+      }
+    }
     this.showLanguageMenu = !this.showLanguageMenu;
+    console.log('Language menu toggled, showLanguageMenu:', this.showLanguageMenu);
   }
 
   // Toggle menu dropdown
@@ -946,9 +968,14 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
-      this.showLanguageMenu = false;
-    }
+    // Use setTimeout to avoid immediate closure when opening
+    setTimeout(() => {
+      if (!target.closest('.language-menu-container') && 
+          !target.closest('.language-dropdown') && 
+          this.showLanguageMenu) {
+        this.showLanguageMenu = false;
+      }
+    }, 0);
   }
 
   // Close language menu with Escape key
