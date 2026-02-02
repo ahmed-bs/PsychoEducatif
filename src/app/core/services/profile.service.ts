@@ -4,6 +4,7 @@ import { catchError, map, Observable, throwError, of } from 'rxjs';
 import { Profile ,ProfileResponse  } from '../models/profile.model';
 import { environment } from 'src/environments/environment';
 import { ApiResponse, CreateProfileRequest, ShareProfileRequest, UpdateProfileRequest } from '../models/createprofile.model';
+import { ProfileFile, ProfileFilesResponse, ProfileFileUploadResponse } from '../models/profileFile.model';
 
 @Injectable({
   providedIn: 'any'
@@ -143,6 +144,38 @@ export class ProfileService {
   getProfileUsersPermissions(profileId: number): Observable<any> {
     const url = `${this.apiUrl}${profileId}/users-permissions/`;
     return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // File Management Methods
+  // Upload a file for a profile
+  uploadProfileFile(profileId: number, file: File, description?: string): Observable<ProfileFile> {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (description) {
+      formData.append('description', description);
+    }
+    const url = `${this.apiUrl}${profileId}/files/`;
+    return this.http.post<ProfileFileUploadResponse>(url, formData).pipe(
+      map(response => response.data),
+      catchError(this.handleError)
+    );
+  }
+
+  // Get all files for a profile
+  getProfileFiles(profileId: number): Observable<ProfileFile[]> {
+    const url = `${this.apiUrl}${profileId}/files/`;
+    return this.http.get<ProfileFilesResponse>(url).pipe(
+      map(response => response.data),
+      catchError(this.handleError)
+    );
+  }
+
+  // Download a file
+  downloadProfileFile(profileId: number, fileId: number): Observable<Blob> {
+    const url = `${this.apiUrl}${profileId}/files/${fileId}/download/`;
+    return this.http.get(url, { responseType: 'blob' }).pipe(
       catchError(this.handleError)
     );
   }

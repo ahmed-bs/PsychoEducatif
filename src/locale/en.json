@@ -1139,7 +1139,8 @@
       "gender_female": "Female",
       "share_profile_button": "Share profile",
       "edit_profile_button": "Edit profile",
-      "disable_profile_button": "Disable profile"
+      "disable_profile_button": "Disable profile",
+      "files_button": "Files"
     },
     "tabs": {
       "skills": "Skills",
@@ -1274,6 +1275,33 @@
       "access_options": {
         "read_only": "Read only",
         "read_write": "Read and edit"
+      }
+    },
+    "file_dialog": {
+      "header": "File Management",
+      "modal_subtitle": "Upload, view, and download profile files",
+      "tabs": {
+        "upload": "Upload",
+        "files": "Files"
+      },
+      "upload": {
+        "title": "Upload a file",
+        "select_file": "Select a file",
+        "description": "Description (optional)",
+        "description_placeholder": "Enter a file description",
+        "upload": "Upload",
+        "uploading": "Uploading..."
+      },
+      "files": {
+        "title": "Available files",
+        "loading": "Loading files...",
+        "no_files": "No files available",
+        "download": "Download",
+        "uploaded_by": "Uploaded by",
+        "compressed": "compressed"
+      },
+      "buttons": {
+        "close": "Close"
       }
     },
     "charts": {
