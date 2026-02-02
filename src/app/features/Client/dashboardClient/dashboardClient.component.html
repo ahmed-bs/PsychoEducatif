@@ -76,6 +76,12 @@
                                 </div>
                                 <span>{{ 'dashboard.child_profile.share_profile_button' | translate }}</span>
                             </button>
+                            <button (click)="showFileDialog()" class="action-btn action-btn-files" [attr.aria-label]="'dashboard.child_profile.files_button' | translate">
+                                <div class="btn-icon-wrapper">
+                                    <i class="fas fa-folder-open"></i>
+                                </div>
+                                <span>{{ 'dashboard.child_profile.files_button' | translate }}</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -478,6 +484,175 @@
                             (click)="afficherBoiteDialoguePartage = false">
                             <i class="fas fa-times"></i>
                             <span>{{ 'dashboard.share_profile_dialog.buttons.close' | translate }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Management Dialog/Modal -->
+            <div *ngIf="displayFileDialog" class="share-profile-modal-overlay" (click)="closeFileDialog()">
+                <div class="share-profile-modal file-management-modal" (click)="$event.stopPropagation()">
+                    <div class="share-modal-header">
+                        <div class="share-modal-header-content">
+                            <div class="share-modal-icon-wrapper">
+                                <i class="fas fa-folder-open"></i>
+                            </div>
+                            <div class="share-modal-title-wrapper">
+                                <h3 class="share-modal-title">{{ 'dashboard.file_dialog.header' | translate }}</h3>
+                                <p class="share-modal-subtitle">{{ 'dashboard.file_dialog.modal_subtitle' | translate }}</p>
+                            </div>
+                        </div>
+                        <button 
+                            type="button"
+                            class="share-modal-close-btn"
+                            (click)="closeFileDialog()"
+                            [attr.aria-label]="'dashboard.file_dialog.buttons.close' | translate">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="share-modal-body">
+                        <!-- Tabs Navigation -->
+                        <div class="share-modal-tabs-nav">
+                            <button
+                                *ngFor="let tab of fileModalTabs"
+                                class="share-modal-tab-btn"
+                                [class.active]="isFileModalTabActive(tab.id)"
+                                (click)="switchFileModalTab(tab.id)"
+                                [attr.aria-label]="tab.label | translate">
+                                <span>{{ tab.label | translate }}</span>
+                            </button>
+                        </div>
+
+                        <!-- Upload Tab Content -->
+                        <div class="share-modal-tab-content" [class.active]="isFileModalTabActive('upload')">
+                            <div class="file-upload-section">
+                                <h4 class="file-section-title">
+                                    <i class="fas fa-upload"></i>
+                                    {{ 'dashboard.file_dialog.upload.title' | translate }}
+                                </h4>
+                                <form (ngSubmit)="uploadFile()" class="file-upload-form">
+                                    <div class="share-form-group">
+                                        <label for="file-input" class="share-form-label">
+                                            <i class="fas fa-file"></i>
+                                            <span>{{ 'dashboard.file_dialog.upload.select_file' | translate }}</span>
+                                        </label>
+                                        <input 
+                                            id="file-input"
+                                            type="file" 
+                                            (change)="onFileForUploadSelected($event)"
+                                            class="share-form-input file-input"
+                                            accept="*/*"
+                                            required />
+                                        <div *ngIf="selectedFileForUpload" class="selected-file-info">
+                                            <i class="fas fa-check-circle"></i>
+                                            <span>{{ selectedFileForUpload.name }} ({{ formatFileSize(selectedFileForUpload.size / 1024 / 1024) }})</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="share-form-group">
+                                        <label for="file-description" class="share-form-label">
+                                            <i class="fas fa-comment"></i>
+                                            <span>{{ 'dashboard.file_dialog.upload.description' | translate }}</span>
+                                        </label>
+                                        <input 
+                                            id="file-description"
+                                            type="text" 
+                                            [(ngModel)]="fileDescription"
+                                            name="file-description"
+                                            class="share-form-input"
+                                            [placeholder]="'dashboard.file_dialog.upload.description_placeholder' | translate" />
+                                    </div>
+
+                                    <div class="file-upload-actions">
+                                        <button 
+                                            type="submit"
+                                            class="share-modal-btn-primary"
+                                            [disabled]="!selectedFileForUpload || uploadingFile">
+                                            <i class="fas fa-upload"></i>
+                                            <span>{{ uploadingFile ? ('dashboard.file_dialog.upload.uploading' | translate) : ('dashboard.file_dialog.upload.upload' | translate) }}</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Files List Tab Content -->
+                        <div class="share-modal-tab-content" [class.active]="isFileModalTabActive('files')">
+                            <div class="file-list-section">
+                                <h4 class="file-section-title">
+                                    <i class="fas fa-list"></i>
+                                    {{ 'dashboard.file_dialog.files.title' | translate }}
+                                </h4>
+
+                                <!-- Loading State -->
+                                <div *ngIf="loadingFiles" class="share-users-loading">
+                                    <div class="loading-spinner"></div>
+                                    <p>{{ 'dashboard.file_dialog.files.loading' | translate }}</p>
+                                </div>
+
+                                <!-- Files List -->
+                                <div *ngIf="!loadingFiles && profileFiles.length > 0" class="files-list">
+                                    <div *ngFor="let file of profileFiles" class="file-item-card">
+                                        <div class="file-item-info">
+                                            <div class="file-item-icon">
+                                                <i [class]="getFileIcon(file.file_type)"></i>
+                                            </div>
+                                            <div class="file-item-details">
+                                                <h5 class="file-item-name">{{ file.original_filename }}</h5>
+                                                <div class="file-item-meta">
+                                                    <span class="file-meta-item">
+                                                        <i class="fas fa-weight"></i>
+                                                        {{ formatFileSize(file.file_size_mb) }}
+                                                    </span>
+                                                    <span class="file-meta-item" *ngIf="file.compression_ratio > 0">
+                                                        <i class="fas fa-compress"></i>
+                                                        {{ file.compression_ratio.toFixed(1) }}% {{ 'dashboard.file_dialog.files.compressed' | translate }}
+                                                    </span>
+                                                    <span class="file-meta-item">
+                                                        <i class="fas fa-calendar"></i>
+                                                        {{ formatDate(file.uploaded_at) }}
+                                                    </span>
+                                                    <span class="file-meta-item" *ngIf="file.description">
+                                                        <i class="fas fa-comment"></i>
+                                                        {{ file.description }}
+                                                    </span>
+                                                </div>
+                                                <div class="file-item-uploader">
+                                                    <i class="fas fa-user"></i>
+                                                    {{ 'dashboard.file_dialog.files.uploaded_by' | translate }}: {{ file.uploaded_by_username }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="file-item-actions">
+                                            <button 
+                                                (click)="downloadFile(file)"
+                                                class="file-action-btn file-download-btn"
+                                                [attr.aria-label]="'dashboard.file_dialog.files.download' | translate">
+                                                <i class="fas fa-download"></i>
+                                                <span>{{ 'dashboard.file_dialog.files.download' | translate }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Empty State -->
+                                <div *ngIf="!loadingFiles && profileFiles.length === 0" class="share-users-empty">
+                                    <i class="fas fa-folder-open"></i>
+                                    <p>{{ 'dashboard.file_dialog.files.no_files' | translate }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="share-modal-footer">
+                        <button 
+                            type="button"
+                            class="share-modal-btn-secondary"
+                            (click)="closeFileDialog()">
+                            <i class="fas fa-times"></i>
+                            <span>{{ 'dashboard.file_dialog.buttons.close' | translate }}</span>
                         </button>
                     </div>
                 </div>

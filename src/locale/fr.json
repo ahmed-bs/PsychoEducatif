@@ -454,8 +454,13 @@
       },
       "progress_tracking": {
         "title": "Suivi continu des progrès",
-        "description": "Mettre à disposition des outils pour mesurer l’évolution des compétences et ajuster les objectifs en conséquence.",
+        "description": "Mettre à disposition des outils pour mesurer l'évolution des compétences et ajuster les objectifs en conséquence.",
         "image_alt": "Suivi des progrès"
+      },
+      "has_recommendations": {
+        "title": "Recommandations HAS pour l'autisme",
+        "description": "Application des recommandations de la Haute Autorité de Santé (HAS) pour une prise en charge fondée sur des preuves scientifiques et adaptée aux besoins spécifiques de chaque enfant autiste.",
+        "image_alt": "Recommandations HAS pour l'autisme"
       }
     }
   },
@@ -1114,7 +1119,8 @@
       "gender_female": "Female",
       "share_profile_button": "Partager le profil",
       "edit_profile_button": "Modifier le profil",
-      "disable_profile_button": "Désactiver le profil"
+      "disable_profile_button": "Désactiver le profil",
+      "files_button": "Fichiers"
     },
     "tabs": {
       "skills": "Compétences",
@@ -1249,6 +1255,33 @@
       "access_options": {
         "read_only": "Lecture seule",
         "read_write": "Lecture et modification"
+      }
+    },
+    "file_dialog": {
+      "header": "Gestion des fichiers",
+      "modal_subtitle": "Téléchargez, consultez et téléchargez les fichiers du profil",
+      "tabs": {
+        "upload": "Télécharger",
+        "files": "Fichiers"
+      },
+      "upload": {
+        "title": "Télécharger un fichier",
+        "select_file": "Sélectionner un fichier",
+        "description": "Description (optionnel)",
+        "description_placeholder": "Entrez une description du fichier",
+        "upload": "Télécharger",
+        "uploading": "Téléchargement en cours..."
+      },
+      "files": {
+        "title": "Fichiers disponibles",
+        "loading": "Chargement des fichiers...",
+        "no_files": "Aucun fichier disponible",
+        "download": "Télécharger",
+        "uploaded_by": "Téléchargé par",
+        "compressed": "compressé"
+      },
+      "buttons": {
+        "close": "Fermer"
       }
     },
     "charts": {

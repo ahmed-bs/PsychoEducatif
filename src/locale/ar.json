@@ -456,6 +456,11 @@
         "title": "متابعة مستمرة للتقدم",
         "description": "توفير أدوات لقياس تطور المهارات وتعديل الأهداف وفقًا لذلك.",
         "image_alt": "متابعة التقدم"
+      },
+      "has_recommendations": {
+        "title": "توصيات الهيئة العليا للصحة (HAS) للتوحد",
+        "description": "تطبيق توصيات الهيئة العليا للصحة الفرنسية (HAS) لتوفير رعاية قائمة على الأدلة العلمية ومكيفة مع الاحتياجات الخاصة لكل طفل مصاب بالتوحد.",
+        "image_alt": "توصيات HAS للتوحد"
       }
     }
   },
@@ -1081,7 +1086,8 @@
       "gender_female": "أنثى",
       "share_profile_button": "مشاركة الملف الشخصي",
       "edit_profile_button": "تعديل الملف الشخصي",
-      "disable_profile_button": "تعطيل الملف الشخصي"
+      "disable_profile_button": "تعطيل الملف الشخصي",
+      "files_button": "الملفات"
     },
     "tabs": {
       "skills": "المهارات",
@@ -1216,6 +1222,33 @@
       "access_options": {
         "read_only": "عرض فقط",
         "read_write": "عرض وتعديل"
+      }
+    },
+    "file_dialog": {
+      "header": "إدارة الملفات",
+      "modal_subtitle": "رفع وعرض وتنزيل ملفات الملف الشخصي",
+      "tabs": {
+        "upload": "رفع",
+        "files": "الملفات"
+      },
+      "upload": {
+        "title": "رفع ملف",
+        "select_file": "اختر ملف",
+        "description": "الوصف (اختياري)",
+        "description_placeholder": "أدخل وصف الملف",
+        "upload": "رفع",
+        "uploading": "جارٍ الرفع..."
+      },
+      "files": {
+        "title": "الملفات المتاحة",
+        "loading": "جارٍ تحميل الملفات...",
+        "no_files": "لا توجد ملفات متاحة",
+        "download": "تنزيل",
+        "uploaded_by": "تم الرفع بواسطة",
+        "compressed": "مضغوط"
+      },
+      "buttons": {
+        "close": "إغلاق"
       }
     },
     "charts": {

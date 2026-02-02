@@ -30,6 +30,7 @@ import { SharedService } from 'src/app/core/services/shared.service';
 import { StatisticsService, OverallStatistics, CategoryStatistics } from 'src/app/core/services/statistics.service';
 import { Subscription } from 'rxjs';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
+import { ProfileFile } from 'src/app/core/models/profileFile.model';
 
 @Component({
   selector: 'app-dashboardClient',
@@ -389,6 +390,19 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   // Statistics data
   statistics: OverallStatistics | null = null;
   isLoadingStatistics: boolean = false;
+  
+  // File Management
+  displayFileDialog: boolean = false;
+  profileFiles: ProfileFile[] = [];
+  loadingFiles: boolean = false;
+  uploadingFile: boolean = false;
+  selectedFileForUpload: File | null = null;
+  fileDescription: string = '';
+  fileModalActiveTab: string = 'upload';
+  fileModalTabs = [
+    { id: 'upload', label: 'dashboard.file_dialog.tabs.upload' },
+    { id: 'files', label: 'dashboard.file_dialog.tabs.files' }
+  ];
 
   constructor(
     private dialog: MatDialog,
@@ -1563,6 +1577,139 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
       this.router.navigate(['/Dashboard-client/client/peu', this.selectedChild.id]);
     } else if (this.childId) {
       this.router.navigate(['/Dashboard-client/client/peu', this.childId]);
+    }
+  }
+
+  // File Management Methods
+  showFileDialog() {
+    this.displayFileDialog = true;
+    this.selectedFileForUpload = null;
+    this.fileDescription = '';
+    this.fileModalActiveTab = 'upload';
+    if (this.selectedChild?.id) {
+      this.loadProfileFiles(this.selectedChild.id);
+    }
+  }
+
+  switchFileModalTab(tabId: string): void {
+    this.fileModalActiveTab = tabId;
+    // Load files when switching to files tab
+    if (tabId === 'files' && this.selectedChild?.id && this.profileFiles.length === 0 && !this.loadingFiles) {
+      this.loadProfileFiles(this.selectedChild.id);
+    }
+  }
+
+  isFileModalTabActive(tabId: string): boolean {
+    return this.fileModalActiveTab === tabId;
+  }
+
+  closeFileDialog() {
+    this.displayFileDialog = false;
+    this.selectedFileForUpload = null;
+    this.fileDescription = '';
+  }
+
+  loadProfileFiles(profileId: number) {
+    this.loadingFiles = true;
+    this.profileService.getProfileFiles(profileId).subscribe({
+      next: (files) => {
+        this.profileFiles = files;
+        this.loadingFiles = false;
+      },
+      error: (error) => {
+        console.error('Error loading files:', error);
+        this.loadingFiles = false;
+        Swal.fire('Erreur', 'Impossible de charger les fichiers.', 'error');
+      }
+    });
+  }
+
+  onFileForUploadSelected(event: any): void {
+    if (event.target.files.length > 0) {
+      this.selectedFileForUpload = event.target.files[0];
+    }
+  }
+
+  uploadFile() {
+    if (!this.selectedFileForUpload || !this.selectedChild?.id) {
+      Swal.fire('Erreur', 'Veuillez sélectionner un fichier.', 'warning');
+      return;
+    }
+
+    this.uploadingFile = true;
+    this.profileService.uploadProfileFile(
+      this.selectedChild.id,
+      this.selectedFileForUpload,
+      this.fileDescription || undefined
+    ).subscribe({
+      next: (file) => {
+        this.uploadingFile = false;
+        Swal.fire('Succès', 'Fichier uploadé avec succès.', 'success');
+        // Reload files list
+        this.loadProfileFiles(this.selectedChild!.id!);
+        // Switch to files tab to show the uploaded file
+        this.fileModalActiveTab = 'files';
+        // Reset form
+        this.selectedFileForUpload = null;
+        this.fileDescription = '';
+        // Reset file input
+        const fileInput = document.getElementById('file-input') as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = '';
+        }
+      },
+      error: (error) => {
+        this.uploadingFile = false;
+        console.error('Error uploading file:', error);
+        Swal.fire('Erreur', error.message || 'Impossible d\'uploader le fichier.', 'error');
+      }
+    });
+  }
+
+  downloadFile(file: ProfileFile) {
+    if (!this.selectedChild?.id) {
+      return;
+    }
+
+    this.profileService.downloadProfileFile(this.selectedChild.id, file.id).subscribe({
+      next: (blob) => {
+        // Create a download link
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.original_filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      },
+      error: (error) => {
+        console.error('Error downloading file:', error);
+        Swal.fire('Erreur', 'Impossible de télécharger le fichier.', 'error');
+      }
+    });
+  }
+
+  formatFileSize(sizeInMB: number): string {
+    if (sizeInMB < 1) {
+      return `${(sizeInMB * 1024).toFixed(2)} KB`;
+    }
+    return `${sizeInMB.toFixed(2)} MB`;
+  }
+
+  getFileIcon(fileType: string): string {
+    if (fileType.startsWith('image/')) {
+      return 'fas fa-image';
+    } else if (fileType.includes('pdf')) {
+      return 'fas fa-file-pdf';
+    } else if (fileType.includes('word') || fileType.includes('document')) {
+      return 'fas fa-file-word';
+    } else if (fileType.includes('excel') || fileType.includes('spreadsheet')) {
+      return 'fas fa-file-excel';
+    } else if (fileType.includes('text')) {
+      return 'fas fa-file-alt';
+    } else {
+      return 'fas fa-file';
     }
   }
 }
