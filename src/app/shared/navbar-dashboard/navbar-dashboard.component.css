@@ -42,6 +42,8 @@ nav {
   justify-content: space-between;
   background-color: transparent;
   margin-top: 0;
+  position: relative;
+  z-index: 12;
 }
 
 .nav__logo-container {
@@ -68,6 +70,26 @@ nav {
   font-size: 1.5rem;
   color: #000000;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav__menu__btn i,
+.nav__menu__btn span,
+.nav__menu__btn * {
+  pointer-events: none;
+  user-select: none;
+}
+
+.nav__menu__btn:active {
+  transform: scale(0.95);
+  opacity: 0.8;
 }
 
 .nav__links {
@@ -179,6 +201,16 @@ nav {
   justify-content: center;
   gap: 8px;
   text-decoration: none;
+  position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.nav__links a i,
+.nav__links a * {
+  pointer-events: none;
+  user-select: none;
 }
 
 .nav__links a:hover,
@@ -201,6 +233,8 @@ nav {
   font-size: 0.75rem;
   transition: transform 0.3s ease;
   margin-left: 4px;
+  pointer-events: none;
+  user-select: none;
 }
 
 .dropdown-icon.rotated {
@@ -255,6 +289,15 @@ nav {
   font-size: 0.875rem;
   border-radius: 0;
   justify-content: flex-start;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.dropdown-menu a i,
+.dropdown-menu a * {
+  pointer-events: none;
+  user-select: none;
 }
 
 .dropdown-menu a:hover {
@@ -321,6 +364,16 @@ nav {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.lang-icon-btn i,
+.lang-icon-btn span,
+.lang-icon-btn * {
+  pointer-events: none;
+  user-select: none;
 }
 
 .lang-icon-btn:hover {
@@ -390,6 +443,16 @@ nav {
   font-size: 0.875rem;
   position: relative;
   border-bottom: 1px solid rgba(162, 197, 233, 0.1);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.lang-option i,
+.lang-option span,
+.lang-option * {
+  pointer-events: none;
+  user-select: none;
 }
 
 .lang-option:last-child {
@@ -470,6 +533,16 @@ nav {
     padding: 0 1.25rem;
   }
 
+  .nav__header {
+    position: relative;
+    z-index: 12;
+  }
+
+  .nav__menu__btn {
+    z-index: 13;
+    position: relative;
+  }
+
   .nav__logo-text {
     font-size: 1.35rem;
   }
@@ -480,6 +553,7 @@ nav {
 
   .nav__links {
     gap: 1.5rem;
+    z-index: 11;
   }
 
   .nav__links a {
@@ -638,6 +712,15 @@ nav {
     color: #2c3e50;
     font-weight: 500;
     font-size: 0.9rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  
+  .nav__links a i,
+  .nav__links a * {
+    pointer-events: none;
+    user-select: none;
   }
 
   /* Tablet-specific desktop optimizations */
@@ -713,6 +796,14 @@ nav {
 
   .nav__header {
     padding: 0.75rem 1rem;
+    position: relative;
+    z-index: 12;
+  }
+
+  .nav__menu__btn {
+    font-size: 1.3rem;
+    z-index: 13;
+    position: relative;
   }
 
   .nav__logo {
@@ -723,21 +814,26 @@ nav {
     font-size: 1.2rem;
   }
 
-  .nav__menu__btn {
-    font-size: 1.3rem;
-  }
-
   .nav__links {
     padding-top: 1rem;
     padding-bottom: 1rem;
     gap: 1rem;
     font-size: 14px;
     border-radius: 0 0 25px 25px;
+    z-index: 11;
   }
 
   .nav__links a {
     padding: 10px 16px;
     font-size: 14px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .nav__links a:active {
+    transform: scale(0.98);
+    opacity: 0.9;
   }
 
   .nav__right-section {
@@ -753,6 +849,14 @@ nav {
     height: 36px;
     padding: 0 10px;
     font-size: 0.9rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .lang-icon-btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
   }
 
   .current-lang-indicator {
@@ -817,6 +921,16 @@ nav {
     margin: 0 15px;
   }
 
+  .nav__header {
+    position: relative;
+    z-index: 12;
+  }
+
+  .nav__menu__btn {
+    z-index: 13;
+    position: relative;
+  }
+
   .nav__right-section {
     display: none !important;
   }
@@ -827,11 +941,20 @@ nav {
 
   .nav__links {
     gap: 1.25rem;
+    z-index: 11;
   }
 
   .lang-icon-btn {
     min-width: 48px;
     height: 38px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .lang-icon-btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
   }
 
   /* Tablet logout button styles */

@@ -4,18 +4,18 @@
       <img class="nav__logo" src="assets/logo.png" alt="">
       <span class="nav__logo-text">EvaluAction</span>
     </div>
-    <div class="nav__menu__btn" id="menu-btn">
+    <div class="nav__menu__btn" id="menu-btn" #menuBtn (click)="toggleMobileMenu()">
       <span><i class="ri-menu-line"></i></span>
     </div>
   </div>
-  <ul class="nav__links" id="nav-links">
+  <ul class="nav__links" id="nav-links" #navLinks>
     <li>
       <a [routerLink]="['/Dashboard-client/client/', getChildId()]" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: false}">
         <i class="fas fa-home"></i> {{ 'navbar.menu.home' | translate }}
       </a>
     </li>
     <li class="nav__dropdown">
-      <a (click)="toggleEvaluationMenu()" [class.active-link]="isEvaluationActive()" >
+      <a (click)="toggleEvaluationMenu($event)" [class.active-link]="isEvaluationActive()" >
         <i class="fas fa-chart-line"></i> {{ 'navbar.menu.evaluation' | translate }}
         <i class="fas fa-chevron-down dropdown-icon" [class.rotated]="showEvaluationMenu"></i>
       </a>
@@ -124,7 +124,7 @@
       <button 
         class="lang-icon-btn" 
         type="button"
-        (click)="toggleLanguageMenu()"
+        (click)="toggleLanguageMenu($event)"
         [attr.aria-expanded]="showLanguageMenu"
         [attr.aria-label]="'Language selector'"
         [attr.aria-haspopup]="true">
@@ -181,7 +181,7 @@
       </div>
     </div>
     <div class="nav__dropdown nav__user-menu">
-      <a (click)="toggleUserMenu()" >
+      <a (click)="toggleUserMenu($event)" >
         <i class="fas fa-user-circle"></i>
         <span class="user-name">{{ getUserDisplayName() }}</span>
         <i class="fas fa-chevron-down dropdown-icon" [class.rotated]="showUserMenu"></i>

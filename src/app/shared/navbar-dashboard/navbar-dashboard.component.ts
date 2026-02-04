@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, AfterViewInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,20 +11,25 @@ import { Subscription } from 'rxjs';
   templateUrl: './navbar-dashboard.component.html',
   styleUrls: ['./navbar-dashboard.component.css']
 })
-export class NavbarDashboardComponent implements OnInit, OnDestroy {
+export class NavbarDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   currentLang: string = 'fr';
   currentUser: any = null;
   private languageSubscription!: Subscription;
   showLanguageMenu: boolean = false;
   showEvaluationMenu: boolean = false;
   showUserMenu: boolean = false;
+  isMobileMenuOpen: boolean = false;
+
+  @ViewChild('menuBtn', { static: false }) menuBtn!: ElementRef;
+  @ViewChild('navLinks', { static: false }) navLinks!: ElementRef;
 
   constructor(
     private sharedService: SharedService,
     private translate: TranslateService,
     private authService: AuthService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {
     const savedLang = localStorage.getItem('lang') || 'fr';
     this.currentLang = savedLang;
@@ -39,38 +44,56 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getCurrentUser();
-    
-    // Setup mobile menu toggle
-    const menuBtn = document.getElementById('menu-btn');
-    const navLinks = document.getElementById('nav-links');
-    const menuBtnIcon = menuBtn?.querySelector('i');
+  }
 
-    menuBtn?.addEventListener('click', () => {
-      navLinks?.classList.toggle('open');
-      const isOpen = navLinks?.classList.contains('open');
-      menuBtnIcon?.setAttribute('class', isOpen ? 'ri-close-line' : 'ri-menu-line');
-    });
-
-    // Close menu when clicking on a link or button
-    navLinks?.addEventListener('click', (e) => {
-      const target = e?.target as HTMLElement;
-      if (target && (target.tagName === 'A' || target.closest('a') || target.tagName === 'BUTTON' || target.closest('button'))) {
-        // Don't close if clicking on dropdown toggle buttons
-        if (!target.closest('.nav__dropdown > a') && !target.closest('.lang-icon-btn')) {
-          navLinks?.classList.remove('open');
-          menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+  ngAfterViewInit() {
+    // Setup click handler for nav links to close menu
+    if (this.navLinks?.nativeElement) {
+      this.navLinks.nativeElement.addEventListener('click', (e: MouseEvent) => {
+        const target = e?.target as HTMLElement;
+        if (target && (target.tagName === 'A' || target.closest('a') || target.tagName === 'BUTTON' || target.closest('button'))) {
+          // Don't close if clicking on dropdown toggle buttons
+          if (!target.closest('.nav__dropdown > a') && !target.closest('.lang-icon-btn')) {
+            this.closeMobileMenu();
+          }
         }
+      });
+    }
+    
+    // Ensure change detection runs after view initialization
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 0);
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    if (this.navLinks?.nativeElement) {
+      if (this.isMobileMenuOpen) {
+        this.navLinks.nativeElement.classList.add('open');
+      } else {
+        this.navLinks.nativeElement.classList.remove('open');
       }
-    });
+    }
+    this.updateMenuIcon();
   }
 
   // Helper method to close mobile menu
-  private closeMobileMenu() {
-    const navLinks = document.getElementById('nav-links');
-    const menuBtn = document.getElementById('menu-btn');
-    const menuBtnIcon = menuBtn?.querySelector('i');
-    navLinks?.classList.remove('open');
-    menuBtnIcon?.setAttribute('class', 'ri-menu-line');
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+    if (this.navLinks?.nativeElement) {
+      this.navLinks.nativeElement.classList.remove('open');
+    }
+    this.updateMenuIcon();
+  }
+
+  private updateMenuIcon(): void {
+    if (this.menuBtn?.nativeElement) {
+      const menuBtnIcon = this.menuBtn.nativeElement.querySelector('i');
+      if (menuBtnIcon) {
+        menuBtnIcon.setAttribute('class', this.isMobileMenuOpen ? 'ri-close-line' : 'ri-menu-line');
+      }
+    }
   }
 
   getCurrentUser() {
@@ -134,17 +157,27 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   }
 
   // Toggle language menu
-  toggleLanguageMenu() {
+  toggleLanguageMenu(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.showLanguageMenu = !this.showLanguageMenu;
     this.showEvaluationMenu = false;
     this.showUserMenu = false;
+    this.cdr.detectChanges();
   }
 
   // Toggle evaluation dropdown
-  toggleEvaluationMenu() {
+  toggleEvaluationMenu(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.showEvaluationMenu = !this.showEvaluationMenu;
     this.showUserMenu = false;
     this.showLanguageMenu = false;
+    this.cdr.detectChanges();
   }
 
   closeEvaluationMenu() {
@@ -164,10 +197,15 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   }
 
   // Toggle user menu
-  toggleUserMenu() {
+  toggleUserMenu(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.showUserMenu = !this.showUserMenu;
     this.showEvaluationMenu = false;
     this.showLanguageMenu = false;
+    this.cdr.detectChanges();
   }
 
   // Change Profile - Navigate to profile selection page
@@ -218,14 +256,10 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    const navLinks = document.getElementById('nav-links');
-    const menuBtn = document.getElementById('menu-btn');
     
     // Close mobile menu if clicking outside nav and menu button
-    if (window.innerWidth <= 767 && navLinks?.classList.contains('open')) {
-      if (!target.closest('nav') && !target.closest('#menu-btn')) {
-        this.closeMobileMenu();
-      }
+    if (this.isMobileMenuOpen && !target.closest('nav') && !target.closest('#menu-btn')) {
+      this.closeMobileMenu();
     }
     
     if (!target.closest('.language-menu-container') && this.showLanguageMenu) {
@@ -245,7 +279,8 @@ export class NavbarDashboardComponent implements OnInit, OnDestroy {
 
   // Close menus with Escape key
   @HostListener('document:keydown.escape', ['$event'])
-  onEscapeKey(event: KeyboardEvent) {
+  onEscapeKey(event: Event) {
+    const keyboardEvent = event as KeyboardEvent;
     this.showLanguageMenu = false;
     this.showEvaluationMenu = false;
     this.showUserMenu = false;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,7 +41,7 @@ import { ProfileFile } from 'src/app/core/models/profileFile.model';
   providers: [MessageService]
 })
 
-export class DashboardClientComponent implements OnInit, OnDestroy {
+export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestroy {
   children: Profile[] = [];
   filteredChildren: Profile[] = [];
   searchTerm: string = '';
@@ -489,6 +489,14 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
     }, 300);
   }
 
+  ngAfterViewInit() {
+    // Ensure change detection runs after view initialization
+    // This helps ensure all event handlers are properly bound
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 0);
+  }
+
   ngOnDestroy() {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
@@ -623,11 +631,17 @@ export class DashboardClientComponent implements OnInit, OnDestroy {
   }
 
   switchTab(tabId: string): void {
-    this.activeTab = tabId;
-    
-    // Load statistics when stats tab is accessed
-    if (tabId === 'stats' && this.selectedChild?.id && !this.statistics) {
-      this.loadStatistics(this.selectedChild.id);
+    // Prevent default if event is passed
+    if (tabId && this.tabs.some(tab => tab.id === tabId)) {
+      this.activeTab = tabId;
+      
+      // Load statistics when stats tab is accessed
+      if (tabId === 'stats' && this.selectedChild?.id && !this.statistics) {
+        this.loadStatistics(this.selectedChild.id);
+      }
+      
+      // Force change detection to ensure UI updates immediately
+      this.cdr.detectChanges();
     }
   }
 

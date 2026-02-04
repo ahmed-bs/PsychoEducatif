@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Router } from '@angular/router';
@@ -10,14 +10,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './Accueil.component.html',
   styleUrls: ['./Accueil.component.css']
 })
-export class AccueilComponent implements OnInit, OnDestroy {
+export class AccueilComponent implements OnInit, AfterViewInit, OnDestroy {
   private languageSubscription!: Subscription;
 
   constructor(
     private translate: TranslateService,
     private sharedService: SharedService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -48,6 +49,14 @@ export class AccueilComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
+  ngAfterViewInit() {
+    // Ensure change detection runs after view initialization
+    // This helps ensure all event handlers are properly bound
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 0);
+  }
+
   ngOnDestroy() {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
@@ -57,12 +66,12 @@ export class AccueilComponent implements OnInit, OnDestroy {
   // Variable to track the visibility of sections
   isVisible = true;
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onScroll() {
     this.checkScrollAnimations();
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     this.checkScrollAnimations();
   }
