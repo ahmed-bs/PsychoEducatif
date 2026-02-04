@@ -983,17 +983,25 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .tab-icon {
   font-size: 1.25rem;
   margin-bottom: 2px;
   transition: transform 0.3s ease;
+  pointer-events: none;
+  display: inline-block;
 }
 
 .tab-text {
   font-size: 0.7rem;
   line-height: 1.2;
+  pointer-events: none;
+  user-select: none;
 }
 
 .tab-card:hover {
@@ -1038,20 +1046,29 @@
     height: 60px;
     padding: 0.35rem 0.5rem;
     gap: 4px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .tab-icon {
     font-size: 1rem;
     margin-bottom: 1px;
+    pointer-events: none;
   }
   
   .tab-text {
     font-size: 0.625rem;
     line-height: 1.1;
+    pointer-events: none;
   }
   
   .tab-card:hover {
     flex: 1.2;
+  }
+  
+  .tab-card:active {
+    transform: scale(0.98);
+    opacity: 0.9;
   }
 }
 
@@ -1069,14 +1086,24 @@
     height: 58px;
     padding: 0.3rem 0.4rem;
     gap: 3px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
   }
   
   .tab-icon {
     font-size: 0.95rem;
+    pointer-events: none;
   }
   
   .tab-text {
     font-size: 0.6rem;
+    pointer-events: none;
+  }
+  
+  .tab-card:active {
+    transform: scale(0.97);
+    opacity: 0.85;
   }
 }
 
@@ -1095,18 +1122,28 @@
     padding: 0.25rem 0.35rem;
     gap: 2px;
     border-radius: 12px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
   }
   
   .tab-icon {
     font-size: 0.9rem;
+    pointer-events: none;
   }
   
   .tab-text {
     font-size: 0.575rem;
+    pointer-events: none;
   }
   
   .tab-card:hover {
     flex: 1;
+  }
+  
+  .tab-card:active {
+    transform: scale(0.96);
+    opacity: 0.8;
   }
 }
 

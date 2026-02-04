@@ -88,6 +88,9 @@ export class PickProfileComponent implements OnInit, OnDestroy {
   startY: number = 0;
   currentX: number = 0;
   rotationSpeed: number = 0.5; // Adjust rotation sensitivity
+  touchStartTime: number = 0; // Track touch start time
+  hasMoved: boolean = false; // Track if user actually dragged
+  touchThreshold: number = 10; // Minimum pixels to move before considering it a drag
 
   constructor(
     private authService: AuthService,
@@ -467,37 +470,64 @@ export class PickProfileComponent implements OnInit, OnDestroy {
       return;
     }
     
-    this.isDragging = true;
+    // Initialize drag tracking
+    this.isDragging = false; // Start as false, will be set to true if user actually drags
+    this.hasMoved = false;
     this.startX = event.clientX;
     this.startY = event.clientY;
-    event.preventDefault();
+    
+    // Don't prevent default immediately - allow click events to fire if it's just a click
+    // Only prevent default if user actually starts dragging (handled in onMouseMove)
     
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
   onMouseMove = (event: MouseEvent): void => {
-    if (!this.isDragging) return;
+    if (this.filteredChildren.length === 0) return;
     
-    const deltaX = event.clientX - this.startX;
-    this.rotationAngle += deltaX * this.rotationSpeed;
-    this.startX = event.clientX;
-    // Disable transition during drag for smooth real-time movement
-    const carousel = document.querySelector('.card-3d') as HTMLElement;
-    if (carousel) {
-      carousel.style.transition = 'none';
+    const deltaX = Math.abs(event.clientX - this.startX);
+    const deltaY = Math.abs(event.clientY - this.startY);
+    const totalDelta = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    // Only start dragging if user moved beyond threshold
+    if (!this.hasMoved && totalDelta > this.touchThreshold) {
+      this.hasMoved = true;
+      this.isDragging = true;
+      // Now prevent default to stop click events
+      event.preventDefault();
+    }
+    
+    // Only rotate if actually dragging
+    if (this.isDragging) {
+      const deltaX = event.clientX - this.startX;
+      this.rotationAngle += deltaX * this.rotationSpeed;
+      this.startX = event.clientX;
+      // Disable transition during drag for smooth real-time movement
+      const carousel = document.querySelector('.card-3d') as HTMLElement;
+      if (carousel) {
+        carousel.style.transition = 'none';
+      }
+      event.preventDefault();
     }
   }
 
   onMouseUp = (): void => {
-    this.isDragging = false;
-    // Re-enable transition after drag
-    const carousel = document.querySelector('.card-3d') as HTMLElement;
-    if (carousel) {
-      carousel.style.transition = '';
+    // Only snap if user actually dragged
+    if (this.isDragging && this.hasMoved) {
+      // Re-enable transition after drag
+      const carousel = document.querySelector('.card-3d') as HTMLElement;
+      if (carousel) {
+        carousel.style.transition = '';
+      }
+      // Snap to nearest card position
+      this.snapToNearestCard();
     }
-    // Snap to nearest card position
-    this.snapToNearestCard();
+    
+    // Reset drag state
+    this.isDragging = false;
+    this.hasMoved = false;
+    
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
@@ -512,38 +542,70 @@ export class PickProfileComponent implements OnInit, OnDestroy {
       return;
     }
     
-    this.isDragging = true;
+    // Initialize drag tracking
+    this.isDragging = false; // Start as false, will be set to true if user actually drags
+    this.hasMoved = false;
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
-    event.preventDefault();
+    this.touchStartTime = Date.now();
     
-    document.addEventListener('touchmove', this.onTouchMove);
+    // Don't prevent default immediately - allow click events to fire if it's just a tap
+    // Only prevent default if user actually starts dragging (handled in onTouchMove)
+    
+    document.addEventListener('touchmove', this.onTouchMove, { passive: false });
     document.addEventListener('touchend', this.onTouchEnd);
   }
 
   onTouchMove = (event: TouchEvent): void => {
-    if (!this.isDragging) return;
+    if (this.filteredChildren.length === 0) return;
     
-    const deltaX = event.touches[0].clientX - this.startX;
-    this.rotationAngle += deltaX * this.rotationSpeed;
-    this.startX = event.touches[0].clientX;
-    // Disable transition during drag for smooth real-time movement
-    const carousel = document.querySelector('.card-3d') as HTMLElement;
-    if (carousel) {
-      carousel.style.transition = 'none';
+    const deltaX = Math.abs(event.touches[0].clientX - this.startX);
+    const deltaY = Math.abs(event.touches[0].clientY - this.startY);
+    const totalDelta = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    // Only start dragging if user moved beyond threshold
+    if (!this.hasMoved && totalDelta > this.touchThreshold) {
+      this.hasMoved = true;
+      this.isDragging = true;
+      // Now prevent default to stop click events
+      event.preventDefault();
     }
-    event.preventDefault();
+    
+    // Only rotate if actually dragging
+    if (this.isDragging) {
+      const deltaX = event.touches[0].clientX - this.startX;
+      this.rotationAngle += deltaX * this.rotationSpeed;
+      this.startX = event.touches[0].clientX;
+      // Disable transition during drag for smooth real-time movement
+      const carousel = document.querySelector('.card-3d') as HTMLElement;
+      if (carousel) {
+        carousel.style.transition = 'none';
+      }
+      event.preventDefault();
+    }
   }
 
   onTouchEnd = (): void => {
-    this.isDragging = false;
-    // Re-enable transition after drag
-    const carousel = document.querySelector('.card-3d') as HTMLElement;
-    if (carousel) {
-      carousel.style.transition = '';
+    const touchDuration = Date.now() - this.touchStartTime;
+    
+    // Only snap if user actually dragged (moved beyond threshold)
+    if (this.isDragging && this.hasMoved) {
+      // Re-enable transition after drag
+      const carousel = document.querySelector('.card-3d') as HTMLElement;
+      if (carousel) {
+        carousel.style.transition = '';
+      }
+      // Snap to nearest card position
+      this.snapToNearestCard();
     }
-    // Snap to nearest card position
-    this.snapToNearestCard();
+    // If it was a quick tap (short duration and no movement), allow click event to fire
+    // The click handler on the card will handle navigation
+    
+    // Reset drag state
+    this.isDragging = false;
+    this.hasMoved = false;
+    this.touchStartTime = 0;
+    
     document.removeEventListener('touchmove', this.onTouchMove);
     document.removeEventListener('touchend', this.onTouchEnd);
   }
