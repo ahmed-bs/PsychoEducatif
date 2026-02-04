@@ -1491,6 +1491,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    touch-action: manipulation; /* Improve touch responsiveness */
 }
 
 /* Ensure buttons are clickable on mobile/tablet */

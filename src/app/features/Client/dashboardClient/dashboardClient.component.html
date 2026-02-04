@@ -91,10 +91,12 @@
                     <ul class="tabs-nav">
                         <li *ngFor="let tab of tabs">
                             <button
+                                type="button"
                                 class="tab-card"
                                 [class.active]="isTabActive(tab.id)"
                                 (click)="switchTab(tab.id)"
-                                [attr.aria-label]="tab.label | translate">
+                                [attr.aria-label]="tab.label | translate"
+                                [attr.aria-pressed]="isTabActive(tab.id)">
                                 <i [class]="getTabIcon(tab.id)" class="tab-icon"></i>
                                 <span class="tab-text">{{ tab.label | translate }}</span>
                             </button>
