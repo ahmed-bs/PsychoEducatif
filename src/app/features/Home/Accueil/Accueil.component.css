@@ -777,6 +777,14 @@ a {
   cursor: pointer;
   /* Ensure button functionality is preserved */
   z-index: 1;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.accordion-button * {
+  pointer-events: none;
+  user-select: none;
 }
 
 .accordion-button:not(.collapsed) {
@@ -795,6 +803,11 @@ a {
 .accordion-button:hover {
   background-color: #f8f9fa;
   transform: none !important;
+}
+
+.accordion-button:active {
+  transform: scale(0.98) !important;
+  opacity: 0.9;
 }
 
 .accordion-button::after {
@@ -1248,6 +1261,16 @@ html {
   transition: all 0.3s ease;
   text-decoration: none;
   font-family: 'PT Root UI', sans-serif;
+  position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.header__buttons .btn i,
+.header__buttons .btn * {
+  pointer-events: none;
+  user-select: none;
 }
 
 .btn-signup {
@@ -1312,6 +1335,16 @@ html {
   border-color: #0088cc;
   transform: translateY(-4px) scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 166, 255, 0.5);
+}
+
+.btn-signin:active {
+  transform: translateY(-2px) scale(1.02);
+  opacity: 0.9;
+}
+
+.btn-signup:active {
+  transform: translateY(-2px) scale(1.02);
+  opacity: 0.9;
 }
 
 .header__buttons .btn i {
@@ -2481,6 +2514,16 @@ html {
   padding: 15px 25px;
   transition: all 0.3s;
   margin: 0 5px;
+  position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  cursor: pointer;
+}
+
+.nav-tabs .nav-link * {
+  pointer-events: none;
+  user-select: none;
 }
 
 .nav-tabs .nav-link:first-child {
@@ -2493,6 +2536,11 @@ html {
 .nav-tabs .nav-link:hover {
   border-bottom-color: var(--primary-color);
   color: var(--primary-color);
+}
+
+.nav-tabs .nav-link:active {
+  transform: scale(0.98);
+  opacity: 0.9;
 }
 
 .accordion-button {
@@ -3156,6 +3204,14 @@ blockquote {
     justify-content: center;
     padding: 0.875rem 1.25rem;
     font-size: 0.9rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .header__buttons .btn:active {
+    transform: scale(0.97);
+    opacity: 0.85;
   }
 
   .animated-header {
@@ -3252,6 +3308,14 @@ blockquote {
   .faq-section .accordion-button {
     padding: 1rem 1.25rem;
     font-size: 0.95rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .faq-section .accordion-button:active {
+    transform: scale(0.98);
+    opacity: 0.9;
   }
 
   .faq-section .accordion-body {
@@ -3278,6 +3342,14 @@ blockquote {
     border: 1px solid #dee2e6;
     border-radius: 25px !important;
     margin-bottom: 0.5rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .nav-tabs .nav-link:active {
+    transform: scale(0.98);
+    opacity: 0.9;
   }
 
   .nav-tabs .nav-link.active {
@@ -3557,6 +3629,14 @@ blockquote {
   .faq-section .accordion-button {
     padding: 0.875rem 1rem;
     font-size: 0.85rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .faq-section .accordion-button:active {
+    transform: scale(0.97);
+    opacity: 0.85;
   }
 
   .faq-section .accordion-body {
@@ -3568,6 +3648,14 @@ blockquote {
     max-width: 100%;
     padding: 0.75rem 1rem;
     font-size: 0.85rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .header__buttons .btn:active {
+    transform: scale(0.96);
+    opacity: 0.8;
   }
 }
 
