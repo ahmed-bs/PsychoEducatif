@@ -933,9 +933,15 @@
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
+  /* Hide main calendar on mobile */
+  .main-calendar-container {
+    display: none !important;
+  }
+
   .sidebar {
     margin-bottom: 1.5rem;
     padding: 20px;
+    width: 100% !important;
   }
 
   .skill-card {
@@ -991,9 +997,15 @@
 }
 
 @media screen and (max-width: 480px) {
+  /* Hide main calendar on mobile */
+  .main-calendar-container {
+    display: none !important;
+  }
+
   .sidebar {
     padding: 15px;
     border-radius: 20px;
+    width: 100% !important;
   }
 
   .skill-card {

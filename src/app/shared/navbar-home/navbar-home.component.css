@@ -522,6 +522,12 @@ nav {
     padding: 0;
     display: flex;
     align-items: center;
+    pointer-events: none;
+    z-index: 12;
+  }
+
+  .nav__logo-container {
+    pointer-events: auto;
   }
 
   .nav__menu__btn {
@@ -529,7 +535,6 @@ nav {
   }
 
   .nav__links {
-    position: static;
     flex-direction: row;
     background-color: transparent;
     transform: none;
@@ -540,7 +545,8 @@ nav {
     display: flex;
     align-items: center;
     pointer-events: auto;
-    z-index: 1;
+    z-index: 10;
+    position: relative;
   }
 
   .nav__links a {
@@ -588,6 +594,12 @@ nav {
     padding: 0;
     display: flex;
     align-items: center;
+    pointer-events: none;
+    z-index: 12;
+  }
+
+  .nav__logo-container {
+    pointer-events: auto;
   }
 
   .nav__menu__btn {
@@ -595,7 +607,6 @@ nav {
   }
 
   .nav__links {
-    position: static;
     flex-direction: row;
     background-color: transparent;
     transform: none;
@@ -606,7 +617,8 @@ nav {
     display: flex;
     align-items: center;
     pointer-events: auto;
-    z-index: 1;
+    z-index: 10;
+    position: relative;
   }
 
   .nav__links a {
