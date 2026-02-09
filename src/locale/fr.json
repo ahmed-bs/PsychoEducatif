@@ -1398,6 +1398,35 @@
             "description": "Chaque domaine affiche la date de début et la date de dernière mise à jour, vous permettant de suivre l'historique des évaluations et des progrès."
           }
         }
+      },
+      "notes": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "add": {
+            "title": "Ajouter une note",
+            "video_info": "",
+            "description_title": "Comment ajouter une note",
+            "description": "Cette vidéo vous montre comment ajouter une nouvelle note pour suivre les observations importantes concernant le progrès et les activités de votre enfant. Vous pouvez créer des notes avec des titres, descriptions et dates pour organiser vos observations."
+          },
+          "edit": {
+            "title": "Modifier une note",
+            "video_info": "",
+            "description_title": "Comment modifier une note",
+            "description": "Apprenez à modifier une note existante pour mettre à jour les informations, corriger des erreurs ou ajouter des détails supplémentaires. Vous pouvez modifier le titre, la description et d'autres détails de vos notes."
+          },
+          "delete": {
+            "title": "Supprimer une note",
+            "video_info": "",
+            "description_title": "Comment supprimer une note",
+            "description": "Découvrez comment supprimer une note que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer la note avant de confirmer l'action."
+          },
+          "filter": {
+            "title": "Filtrer les notes",
+            "video_info": "",
+            "description_title": "Comment filtrer les notes",
+            "description": "Cette vidéo explique comment utiliser les filtres pour trouver rapidement des notes spécifiques. Vous pouvez filtrer par date, titre, ou d'autres critères pour organiser et localiser vos notes plus facilement."
+          }
+        }
       }
     },
     "charts": {

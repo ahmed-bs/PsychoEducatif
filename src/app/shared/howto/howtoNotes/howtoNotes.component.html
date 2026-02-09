@@ -1,3 +1,129 @@
-<p>
-  howtoNotes works!
-</p>
+<div class="howto-static-content">
+  <!-- Add Note Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.notes.videos.add.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.notes.videos.add.title' | translate">
+        <source src="assets/vidsHowto/addnotes.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.notes.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showAddVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.notes.videos.add.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.notes.videos.add.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.notes.videos.add.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Edit Note Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.notes.videos.edit.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.notes.videos.edit.title' | translate">
+        <source src="assets/vidsHowto/editnote.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.notes.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showEditVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.notes.videos.edit.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon domains-icon">
+          <i class="fas fa-edit"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.notes.videos.edit.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.notes.videos.edit.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Delete Note Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.notes.videos.delete.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.notes.videos.delete.title' | translate">
+        <source src="assets/vidsHowto/deletenote.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.notes.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showDeleteVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.notes.videos.delete.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon progress-icon">
+          <i class="fas fa-trash-alt"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.notes.videos.delete.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.notes.videos.delete.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Filter Notes Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.notes.videos.filter.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.notes.videos.filter.title' | translate">
+        <source src="assets/vidsHowto/filternotes.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.notes.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showFilterVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.notes.videos.filter.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon items-icon">
+          <i class="fas fa-filter"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.notes.videos.filter.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.notes.videos.filter.description' | translate }}</p>
+    </div>
+  </div>
+</div>

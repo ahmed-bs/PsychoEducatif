@@ -15,8 +15,16 @@
     <app-howtoCompetance></app-howtoCompetance>
   </div>
 
+  <!-- Notes Guide View -->
+  <div *ngIf="showNotesGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoNotes></app-howtoNotes>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">
@@ -26,11 +34,11 @@
     </div>
     
     <!-- Clickable Sections -->
-    <div class="howto-section clickable" (click)="handleTabClick('skills')">
+    <!-- <div class="howto-section clickable" (click)="handleTabClick('skills')">
       <h3><i class="fas fa-star"></i> {{ 'dashboard.howto_dialog.sections.skills.title' | translate }}</h3>
       <p>{{ 'dashboard.howto_dialog.sections.skills.description' | translate }}</p>
       <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
-    </div>
+    </div> -->
     
     <div class="howto-section clickable" (click)="handleTabClick('goals')">
       <h3><i class="fas fa-bullseye"></i> {{ 'dashboard.howto_dialog.sections.goals.title' | translate }}</h3>

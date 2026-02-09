@@ -1418,6 +1418,35 @@
             "description": "Each domain displays the start date and last update date, allowing you to track the history of evaluations and progress."
           }
         }
+      },
+      "notes": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "add": {
+            "title": "Add a Note",
+            "video_info": "",
+            "description_title": "How to Add a Note",
+            "description": "This video shows you how to add a new note to track important observations about your child's progress and activities. You can create notes with titles, descriptions, and dates to organize your observations."
+          },
+          "edit": {
+            "title": "Edit a Note",
+            "video_info": "",
+            "description_title": "How to Edit a Note",
+            "description": "Learn how to edit an existing note to update information, correct errors, or add additional details. You can modify the title, description, and other details of your notes."
+          },
+          "delete": {
+            "title": "Delete a Note",
+            "video_info": "",
+            "description_title": "How to Delete a Note",
+            "description": "Discover how to delete a note you no longer need. Deletion is permanent, so make sure you want to remove the note before confirming the action."
+          },
+          "filter": {
+            "title": "Filter Notes",
+            "video_info": "",
+            "description_title": "How to Filter Notes",
+            "description": "This video explains how to use filters to quickly find specific notes. You can filter by date, title, or other criteria to organize and locate your notes more easily."
+          }
+        }
       }
     },
     "charts": {
