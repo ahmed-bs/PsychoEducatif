@@ -64,11 +64,17 @@
 
                         <!-- Action Buttons -->
                         <div class="profile-actions">
-                            <button (click)="navigateToPEU()" class="action-btn action-btn-pei" [attr.aria-label]="'PEI'">
+                            <button (click)="navigateToPEU()" class="action-btn action-btn-pei" [attr.aria-label]="'dashboard.child_profile.pei_button' | translate">
                                 <div class="btn-icon-wrapper">
                                     <i class="fas fa-list-check"></i>
                                 </div>
-                                <span>PEI</span>
+                                <span>{{ 'dashboard.child_profile.pei_button' | translate }}</span>
+                            </button>
+                            <button (click)="navigateToProposePEI()" class="action-btn action-btn-propose-pei" [attr.aria-label]="'dashboard.child_profile.propose_pei_button' | translate">
+                                <div class="btn-icon-wrapper">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <span>{{ 'dashboard.child_profile.propose_pei_button' | translate }}</span>
                             </button>
                             <button (click)="showShareDialog()" class="action-btn action-btn-share" [attr.aria-label]="'dashboard.child_profile.share_profile_button' | translate">
                                 <div class="btn-icon-wrapper">
@@ -546,6 +552,10 @@
                                             class="share-form-input file-input"
                                             accept="*/*"
                                             required />
+                                        <div class="file-size-hint">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>Taille maximale: 25 MB</span>
+                                        </div>
                                         <div *ngIf="selectedFileForUpload" class="selected-file-info">
                                             <i class="fas fa-check-circle"></i>
                                             <span>{{ selectedFileForUpload.name }} ({{ formatFileSize(selectedFileForUpload.size / 1024 / 1024) }})</span>
@@ -606,10 +616,6 @@
                                                     <span class="file-meta-item">
                                                         <i class="fas fa-weight"></i>
                                                         {{ formatFileSize(file.file_size_mb) }}
-                                                    </span>
-                                                    <span class="file-meta-item" *ngIf="file.compression_ratio > 0">
-                                                        <i class="fas fa-compress"></i>
-                                                        {{ file.compression_ratio.toFixed(1) }}% {{ 'dashboard.file_dialog.files.compressed' | translate }}
                                                     </span>
                                                     <span class="file-meta-item">
                                                         <i class="fas fa-calendar"></i>

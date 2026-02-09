@@ -1117,6 +1117,8 @@
       "last_evaluation": "Dernière évaluation: {{date}}",
       "gender_male": "Male",
       "gender_female": "Female",
+      "pei_button": "Personnaliser PEI",
+      "propose_pei_button": "Proposer PEI",
       "share_profile_button": "Partager le profil",
       "edit_profile_button": "Modifier le profil",
       "disable_profile_button": "Désactiver le profil",
@@ -1768,5 +1770,25 @@
       "comments": "Commentaires",
       "done": "Terminé"
     }
+  },
+  "propose_pei": {
+    "title": "Éléments Partiels",
+    "subtitle": "Gérez les éléments partiels et leur statut PEI",
+    "loading": "Chargement des éléments partiels...",
+    "no_items": "Aucun élément partiel trouvé",
+    "no_search_results": "Aucun résultat trouvé pour votre recherche",
+    "domains": "domaines",
+    "items": "éléments",
+    "comment": "Commentaire",
+    "domain": "Domaine",
+    "category": "Catégorie",
+    "search_placeholder": "Rechercher un élément, domaine ou catégorie...",
+    "clear_search": "Effacer",
+    "search_results": "{{count}} résultat(s) trouvé(s)",
+    "pei": "PEI",
+    "update_success": "Succès",
+    "update_success_detail": "Le statut PEI a été mis à jour avec succès",
+    "update_error": "Erreur",
+    "update_error_detail": "Une erreur s'est produite lors de la mise à jour du statut PEI"
   }
 }

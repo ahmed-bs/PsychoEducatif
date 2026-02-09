@@ -1594,6 +1594,14 @@ export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
+  navigateToProposePEI() {
+    if (this.selectedChild?.id) {
+      this.router.navigate(['/Dashboard-client/client/propose-pei', this.selectedChild.id]);
+    } else if (this.childId) {
+      this.router.navigate(['/Dashboard-client/client/propose-pei', this.childId]);
+    }
+  }
+
   // File Management Methods
   showFileDialog() {
     this.displayFileDialog = true;
@@ -1640,13 +1648,31 @@ export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestro
 
   onFileForUploadSelected(event: any): void {
     if (event.target.files.length > 0) {
-      this.selectedFileForUpload = event.target.files[0];
+      const file = event.target.files[0];
+      const maxSizeInBytes = 25 * 1024 * 1024; // 25MB in bytes
+      
+      if (file.size > maxSizeInBytes) {
+        Swal.fire('Erreur', 'La taille du fichier ne doit pas dépasser 25 MB.', 'error');
+        // Reset file input
+        event.target.value = '';
+        this.selectedFileForUpload = null;
+        return;
+      }
+      
+      this.selectedFileForUpload = file;
     }
   }
 
   uploadFile() {
     if (!this.selectedFileForUpload || !this.selectedChild?.id) {
       Swal.fire('Erreur', 'Veuillez sélectionner un fichier.', 'warning');
+      return;
+    }
+
+    // Double-check file size before upload
+    const maxSizeInBytes = 25 * 1024 * 1024; // 25MB in bytes
+    if (this.selectedFileForUpload.size > maxSizeInBytes) {
+      Swal.fire('Erreur', 'La taille du fichier ne doit pas dépasser 25 MB.', 'error');
       return;
     }
 

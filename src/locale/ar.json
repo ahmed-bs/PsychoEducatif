@@ -1084,6 +1084,8 @@
       "last_evaluation": "آخر تقييم: {{date}}",
       "gender_male": "ذكر",
       "gender_female": "أنثى",
+      "pei_button": "تخصيص PEI",
+      "propose_pei_button": "اقتراح PEI",
       "share_profile_button": "مشاركة الملف الشخصي",
       "edit_profile_button": "تعديل الملف الشخصي",
       "disable_profile_button": "تعطيل الملف الشخصي",
@@ -1732,5 +1734,25 @@
       "comments": "التعليقات",
       "done": "منجز"
     }
+  },
+  "propose_pei": {
+    "title": "العناصر الجزئية",
+    "subtitle": "إدارة العناصر الجزئية وحالة PEI الخاصة بها",
+    "loading": "جاري تحميل العناصر الجزئية...",
+    "no_items": "لم يتم العثور على عناصر جزئية",
+    "no_search_results": "لم يتم العثور على نتائج لبحثك",
+    "domains": "مجالات",
+    "items": "عناصر",
+    "comment": "تعليق",
+    "domain": "المجال",
+    "category": "الفئة",
+    "search_placeholder": "البحث عن عنصر أو مجال أو فئة...",
+    "clear_search": "مسح",
+    "search_results": "تم العثور على {{count}} نتيجة",
+    "pei": "PEI",
+    "update_success": "نجاح",
+    "update_success_detail": "تم تحديث حالة PEI بنجاح",
+    "update_error": "خطأ",
+    "update_error_detail": "حدث خطأ أثناء تحديث حالة PEI"
   }
 }

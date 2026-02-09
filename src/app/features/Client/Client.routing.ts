@@ -7,6 +7,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { PickProfileComponent } from 'src/app/shared/pick_profile/pick_profile.component';
 import { Child_profileComponent } from './Child_profile/Child_profile.component';
 import { PeuComponent } from './peu/peu.component';
+import { Propose_peiComponent } from './propose_pei/propose_pei.component';
 
 
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'summary/:childId', loadChildren: () => import('./summary/summary.module').then(m => m.SummaryModule) },
   { path: 'quiz/:domainId', component: QuizComponent },
   { path: 'peu/:childId', component: PeuComponent },
+  { path: 'propose-pei/:childId', component: Propose_peiComponent },
   { path:':childId',component:DashboardClientComponent },
 ];
 
