@@ -13,7 +13,16 @@
                     </li>
                 </ul>
             </div>
-            <div class="right"></div>
+            <div class="right">
+                <button 
+                    type="button"
+                    class="help-icon-btn"
+                    (click)="showHowtoDialog()"
+                    [attr.aria-label]="'dashboard.help_button' | translate"
+                    title="{{ 'dashboard.help_button' | translate }}">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
         </div>
 
         <div class="container mx-auto px-2 sm:px-4 md:px-8 py-4 w-full">
@@ -661,6 +670,45 @@
                             (click)="closeFileDialog()">
                             <i class="fas fa-times"></i>
                             <span>{{ 'dashboard.file_dialog.buttons.close' | translate }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Howto Help Dialog/Modal -->
+            <div *ngIf="displayHowtoDialog" class="share-profile-modal-overlay" (click)="closeHowtoDialog()">
+                <div class="share-profile-modal howto-modal" (click)="$event.stopPropagation()">
+                    <div class="share-modal-header">
+                        <div class="share-modal-header-content">
+                            <div class="share-modal-icon-wrapper">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="share-modal-title-wrapper">
+                                <h3 class="share-modal-title">{{ 'dashboard.howto_dialog.title' | translate }}</h3>
+                                <p class="share-modal-subtitle">{{ 'dashboard.howto_dialog.subtitle' | translate }}</p>
+                            </div>
+                        </div>
+                        <button 
+                            type="button"
+                            class="share-modal-close-btn"
+                            (click)="closeHowtoDialog()"
+                            [attr.aria-label]="'dashboard.howto_dialog.close' | translate">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="share-modal-body">
+                        <app-howto (navigateToTab)="onHowtoTabClick($event)" [onClose]="closeHowtoDialog.bind(this)"></app-howto>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="share-modal-footer">
+                        <button 
+                            type="button"
+                            class="share-modal-btn-secondary"
+                            (click)="closeHowtoDialog()">
+                            <i class="fas fa-times"></i>
+                            <span>{{ 'dashboard.howto_dialog.close' | translate }}</span>
                         </button>
                     </div>
                 </div>

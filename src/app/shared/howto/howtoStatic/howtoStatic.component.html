@@ -1,0 +1,138 @@
+<div class="howto-static-content">
+  <!-- Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.statistics.video_title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.statistics.video_title' | translate">
+        <source src="assets/vidsHowto/stats.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.statistics.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.statistics.video_info' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Cards Descriptions -->
+  <div class="howto-cards-descriptions">
+    <h3 class="howto-cards-title">
+      <i class="fas fa-info-circle"></i> {{ 'dashboard.howto_dialog.statistics.cards_title' | translate }}
+    </h3>
+    
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-layer-group"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.cards.categories.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.cards.categories.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon domains-icon">
+          <i class="fas fa-sitemap"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.cards.domains.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.cards.domains.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon items-icon">
+          <i class="fas fa-tasks"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.cards.items.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.cards.items.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon progress-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.cards.progress.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.cards.progress.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Charts Descriptions -->
+  <div class="howto-charts-descriptions">
+    <h3 class="howto-charts-title">
+      <i class="fas fa-chart-bar"></i> {{ 'dashboard.howto_dialog.statistics.charts_title' | translate }}
+    </h3>
+    
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon chart-icon skills-chart-icon">
+          <i class="fas fa-chart-pie"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.charts.skills_chart.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.charts.skills_chart.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon chart-icon progress-chart-icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.charts.progress_chart.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.charts.progress_chart.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon chart-icon line-chart-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.charts.line_chart.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.charts.line_chart.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon chart-icon polar-chart-icon">
+          <i class="fas fa-chart-area"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.charts.polar_chart.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.charts.polar_chart.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon chart-icon progress-overview-icon">
+          <i class="fas fa-list-alt"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.charts.progress_overview.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.charts.progress_overview.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon chart-icon recent-activity-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.statistics.charts.recent_activity.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.statistics.charts.recent_activity.description' | translate }}</p>
+    </div>
+  </div>
+</div>

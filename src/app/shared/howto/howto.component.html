@@ -1,0 +1,51 @@
+<div class="howto-content">
+  <!-- Statistics Guide View -->
+  <div *ngIf="showStatisticsGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoStatic></app-howtoStatic>
+  </div>
+
+  <!-- Main Howto View -->
+  <div *ngIf="!showStatisticsGuide">
+    <!-- Welcome Section as Title/Explanation -->
+    <div class="howto-welcome">
+      <h2 class="howto-welcome-title">
+        <i class="fas fa-info-circle"></i> {{ 'dashboard.howto_dialog.sections.welcome.title' | translate }}
+      </h2>
+      <p class="howto-welcome-description">{{ 'dashboard.howto_dialog.sections.welcome.description' | translate }}</p>
+    </div>
+    
+    <!-- Clickable Sections -->
+    <div class="howto-section clickable" (click)="handleTabClick('skills')">
+      <h3><i class="fas fa-star"></i> {{ 'dashboard.howto_dialog.sections.skills.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.skills.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('goals')">
+      <h3><i class="fas fa-bullseye"></i> {{ 'dashboard.howto_dialog.sections.goals.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.goals.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('strategies')">
+      <h3><i class="fas fa-lightbulb"></i> {{ 'dashboard.howto_dialog.sections.strategies.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.strategies.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('notes')">
+      <h3><i class="fas fa-sticky-note"></i> {{ 'dashboard.howto_dialog.sections.notes.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.notes.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('stats')">
+      <h3><i class="fas fa-chart-bar"></i> {{ 'dashboard.howto_dialog.sections.statistics.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.statistics.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+  </div>
+</div>

@@ -1142,7 +1142,8 @@
       "share_profile_button": "Share profile",
       "edit_profile_button": "Edit profile",
       "disable_profile_button": "Disable profile",
-      "files_button": "Files"
+      "files_button": "Files",
+      "help_button": "Help"
     },
     "tabs": {
       "skills": "Skills",
@@ -1304,6 +1305,91 @@
       },
       "buttons": {
         "close": "Close"
+      }
+    },
+    "help_button": "Help",
+    "howto_dialog": {
+      "title": "Help & Guide",
+      "subtitle": "Learn how to use the dashboard features",
+      "close": "Close",
+      "back": "Back",
+      "click_to_view": "Click to view",
+      "statistics": {
+        "video_title": "Statistics Overview Video",
+        "video_not_supported": "Your browser does not support the video tag.",
+        "video_info": "",
+        "cards_title": "Statistics Cards Explained",
+        "charts_title": "Charts Explained",
+        "cards": {
+          "categories": {
+            "title": "Categories",
+            "description": "This card displays the total number of skill categories in your child's profile. Categories group related skills together, making it easier to organize and track progress across different areas of development."
+          },
+          "domains": {
+            "title": "Domains",
+            "description": "This card shows the total number of domains within all categories. Domains represent specific areas of skills within each category, providing a more detailed breakdown of your child's competencies."
+          },
+          "items": {
+            "title": "Items",
+            "description": "This card indicates the total number of individual skill items or competencies that have been evaluated. Each item represents a specific skill or ability that is being tracked and assessed."
+          },
+          "progress": {
+            "title": "Overall Progress",
+            "description": "This card displays the overall progress percentage across all evaluated skills. It gives you a quick overview of how much progress your child has made overall, calculated as an average across all domains and categories."
+          }
+        },
+        "charts": {
+          "skills_chart": {
+            "title": "Donut Chart - Skills Distribution",
+            "description": "This circular donut chart displays the distribution of skills by category. Each segment represents a different category, allowing you to quickly visualize how your child's skills are distributed across various areas."
+          },
+          "progress_chart": {
+            "title": "Bar Chart - Progress by Category",
+            "description": "This bar chart shows the progress percentage for each skill category. The bars allow you to easily compare the level of progression between different categories."
+          },
+          "line_chart": {
+            "title": "Line Chart - Progress Evolution",
+            "description": "This line chart illustrates the evolution of progress over time. It helps you track trends and identify improvements or areas that need more attention."
+          },
+          "polar_chart": {
+            "title": "Polar Chart - Domain Overview",
+            "description": "This polar area chart provides a visual overview of all skill domains. Each section represents a domain, allowing for quick comparison of their relative importance."
+          },
+          "progress_overview": {
+            "title": "Progress Overview by Category",
+            "description": "This section displays a detailed view of progress for each category. You can see the progress percentage, number of evaluated competencies, and compare with the set goal for each category."
+          },
+          "recent_activity": {
+            "title": "Recent Activity",
+            "description": "This section shows the latest evaluation activities by category. It displays which categories have been recently updated and the number of competencies evaluated, helping you track recent development activity."
+          }
+        }
+      },
+      "sections": {
+        "welcome": {
+          "title": "User Guide",
+          "description": "Welcome to the dashboard. This section will help you understand how to use the different features."
+        },
+        "skills": {
+          "title": "Skills",
+          "description": "View your child's skills organized by categories and domains. You can see the progress of each domain."
+        },
+        "goals": {
+          "title": "Goals",
+          "description": "Create and manage goals to track your child's development."
+        },
+        "strategies": {
+          "title": "Strategies",
+          "description": "Access and manage educational strategies and interventions tailored to your child's needs."
+        },
+        "notes": {
+          "title": "Notes",
+          "description": "Keep track of important observations, notes, and reminders about your child's progress and activities."
+        },
+        "statistics": {
+          "title": "Statistics",
+          "description": "Visualize statistics and overall progress through different charts and indicators."
+        }
       }
     },
     "charts": {

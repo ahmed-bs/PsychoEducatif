@@ -1,0 +1,193 @@
+.howto-content {
+  padding: 1rem 0;
+}
+
+/* Welcome Section as Title/Explanation */
+.howto-welcome {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.howto-welcome-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.howto-welcome-title i {
+  color: #6366f1;
+  -webkit-text-fill-color: #6366f1;
+  font-size: 1.5rem;
+}
+
+.howto-welcome-description {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.7;
+  font-size: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Clickable Sections */
+.howto-section {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-left: 4px solid #6366f1;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.howto-section.clickable {
+  cursor: pointer;
+}
+
+.howto-section.clickable:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+  border-left-color: #4f46e5;
+}
+
+.howto-section.clickable:active {
+  transform: translateX(2px);
+}
+
+.howto-section h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.howto-section h3 i {
+  color: #6366f1;
+  font-size: 1rem;
+}
+
+.howto-section p {
+  margin: 0 0 0.5rem 0;
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+.howto-click-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6366f1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.howto-section.clickable:hover .howto-click-hint {
+  color: #4f46e5;
+  transform: translateX(4px);
+}
+
+.howto-click-hint i {
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.howto-section.clickable:hover .howto-click-hint i {
+  transform: translateX(4px);
+}
+
+.howto-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Statistics Guide View */
+.howto-statistics-guide {
+  padding: 0;
+}
+
+.howto-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.howto-back-btn:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.howto-back-btn:active {
+  transform: translateX(0);
+}
+
+.howto-back-btn i {
+  font-size: 0.875rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .howto-welcome {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .howto-welcome-title {
+    font-size: 1.25rem;
+  }
+
+  .howto-welcome-title i {
+    font-size: 1.25rem;
+  }
+
+  .howto-welcome-description {
+    font-size: 0.9375rem;
+  }
+
+  .howto-section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .howto-section h3 {
+    font-size: 1rem;
+  }
+
+  .howto-section p {
+    font-size: 0.875rem;
+  }
+
+  .howto-click-hint {
+    font-size: 0.8125rem;
+  }
+}
+

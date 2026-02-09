@@ -31,13 +31,14 @@ import { StatisticsService, OverallStatistics, CategoryStatistics } from 'src/ap
 import { Subscription } from 'rxjs';
 import { ProfileItem } from 'src/app/core/models/ProfileItem';
 import { ProfileFile } from 'src/app/core/models/profileFile.model';
+import { HowtoComponent } from 'src/app/shared/howto/howto.component';
 
 @Component({
   selector: 'app-dashboardClient',
   templateUrl: './dashboardClient.component.html',
   styleUrls: ['./dashboardClient.component.css'],
   standalone: true,
-  imports: [ButtonModule, DialogModule,TranslateModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent, StrategyComponent],
+  imports: [ButtonModule, DialogModule,TranslateModule, InputTextModule, FormsModule, CommonModule, DropdownModule, NgChartsModule, GoalsComponent, AddGoalModalComponent, NotesComponent, StrategyComponent, HowtoComponent],
   providers: [MessageService]
 })
 
@@ -404,6 +405,9 @@ export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestro
     { id: 'files', label: 'dashboard.file_dialog.tabs.files' }
   ];
 
+  // Howto Modal
+  displayHowtoDialog: boolean = false;
+
   constructor(
     private dialog: MatDialog,
     private router: Router,
@@ -440,9 +444,11 @@ export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestro
       if (this.statistics && this.categories.length === 0 && this.selectedChild?.id) {
         this.loadCategories(this.selectedChild.id);
       }
-      // Force change detection to update translations
-      this.cdr.markForCheck();
-      this.cdr.detectChanges();
+      // Defer change detection to avoid "update mode" error
+      setTimeout(() => {
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
+      }, 0);
     });
   }
 
@@ -1751,5 +1757,23 @@ export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestro
     } else {
       return 'fas fa-file';
     }
+  }
+
+  // Howto Modal Methods
+  showHowtoDialog(): void {
+    this.displayHowtoDialog = true;
+  }
+
+  closeHowtoDialog(): void {
+    this.displayHowtoDialog = false;
+  }
+
+  onHowtoTabClick(tabId: string): void {
+    // Close the howto dialog
+    this.closeHowtoDialog();
+    // Switch to the selected tab
+    setTimeout(() => {
+      this.switchTab(tabId);
+    }, 100);
   }
 }

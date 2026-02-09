@@ -1122,7 +1122,8 @@
       "share_profile_button": "Partager le profil",
       "edit_profile_button": "Modifier le profil",
       "disable_profile_button": "Désactiver le profil",
-      "files_button": "Fichiers"
+      "files_button": "Fichiers",
+      "help_button": "Aide"
     },
     "tabs": {
       "skills": "Compétences",
@@ -1284,6 +1285,91 @@
       },
       "buttons": {
         "close": "Fermer"
+      }
+    },
+    "help_button": "Aide",
+    "howto_dialog": {
+      "title": "Aide & Guide",
+      "subtitle": "Apprenez à utiliser les fonctionnalités du tableau de bord",
+      "close": "Fermer",
+      "back": "Retour",
+      "click_to_view": "Cliquez pour voir",
+      "statistics": {
+        "video_title": "Vidéo de présentation des statistiques",
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "video_info": "",
+        "cards_title": "Explication des cartes de statistiques",
+        "charts_title": "Explication des graphiques",
+        "cards": {
+          "categories": {
+            "title": "Catégories",
+            "description": "Cette carte affiche le nombre total de catégories de compétences dans le profil de votre enfant. Les catégories regroupent les compétences connexes, facilitant l'organisation et le suivi des progrès dans différents domaines de développement."
+          },
+          "domains": {
+            "title": "Domaines",
+            "description": "Cette carte montre le nombre total de domaines dans toutes les catégories. Les domaines représentent des zones spécifiques de compétences au sein de chaque catégorie, fournissant une ventilation plus détaillée des compétences de votre enfant."
+          },
+          "items": {
+            "title": "Éléments",
+            "description": "Cette carte indique le nombre total d'éléments de compétences individuels ou de compétences qui ont été évalués. Chaque élément représente une compétence ou une capacité spécifique qui est suivie et évaluée."
+          },
+          "progress": {
+            "title": "Progrès Global",
+            "description": "Cette carte affiche le pourcentage de progrès global sur toutes les compétences évaluées. Elle vous donne un aperçu rapide de la progression de votre enfant, calculé comme une moyenne sur tous les domaines et catégories."
+          }
+        },
+        "charts": {
+          "skills_chart": {
+            "title": "Graphique en Donut - Répartition des Compétences",
+            "description": "Ce graphique circulaire (donut) présente la répartition des compétences par catégorie. Chaque segment représente une catégorie différente, vous permettant de visualiser rapidement la distribution des compétences de votre enfant."
+          },
+          "progress_chart": {
+            "title": "Graphique en Barres - Progrès par Catégorie",
+            "description": "Ce graphique en barres montre le pourcentage de progrès pour chaque catégorie de compétences. Les barres vous permettent de comparer facilement le niveau de progression entre les différentes catégories."
+          },
+          "line_chart": {
+            "title": "Graphique Linéaire - Évolution du Progrès",
+            "description": "Ce graphique linéaire illustre l'évolution du progrès au fil du temps. Il vous aide à suivre les tendances et à identifier les améliorations ou les domaines nécessitant plus d'attention."
+          },
+          "polar_chart": {
+            "title": "Graphique Polaire - Vue d'Ensemble des Domaines",
+            "description": "Ce graphique polaire (en aires) offre une vue d'ensemble visuelle de tous les domaines de compétences. Chaque section représente un domaine, permettant une comparaison rapide de leur importance relative."
+          },
+          "progress_overview": {
+            "title": "Aperçu du Progrès par Catégorie",
+            "description": "Cette section affiche une vue détaillée du progrès pour chaque catégorie. Vous pouvez voir le pourcentage de progression, le nombre de compétences évaluées, et comparer avec l'objectif fixé pour chaque catégorie."
+          },
+          "recent_activity": {
+            "title": "Activité Récente",
+            "description": "Cette section présente les dernières activités d'évaluation par catégorie. Elle vous montre quelles catégories ont été récemment mises à jour et le nombre de compétences évaluées, vous aidant à suivre l'activité récente de développement."
+          }
+        }
+      },
+      "sections": {
+        "welcome": {
+          "title": "Guide d'utilisation",
+          "description": "Bienvenue sur le tableau de bord. Cette section vous aidera à comprendre comment utiliser les différentes fonctionnalités."
+        },
+        "skills": {
+          "title": "Compétences",
+          "description": "Consultez les compétences de votre enfant organisées par catégories et domaines. Vous pouvez voir le progrès de chaque domaine."
+        },
+        "goals": {
+          "title": "Objectifs",
+          "description": "Créez et gérez les objectifs pour suivre le développement de votre enfant."
+        },
+        "strategies": {
+          "title": "Stratégies",
+          "description": "Accédez et gérez les stratégies éducatives et interventions adaptées aux besoins de votre enfant."
+        },
+        "notes": {
+          "title": "Notes",
+          "description": "Gardez une trace des observations importantes, notes et rappels concernant le progrès et les activités de votre enfant."
+        },
+        "statistics": {
+          "title": "Statistiques",
+          "description": "Visualisez les statistiques et le progrès global à travers différents graphiques et indicateurs."
+        }
       }
     },
     "charts": {
