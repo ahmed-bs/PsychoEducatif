@@ -410,9 +410,29 @@ export class PickProfileComponent implements OnInit, OnDestroy {
     if (this.filteredChildren.length === 0) return '';
     const angleStep = 360 / this.filteredChildren.length;
     const angle = index * angleStep;
-    // Adjust radius based on number of cards for better visibility
+    // Adjust radius based on number of cards to maintain consistent spacing
+    // Increase radius proportionally with more cards to prevent stacking
     const baseRadius = 200;
-    const radius = this.filteredChildren.length <= 5 ? baseRadius : baseRadius * 0.9;
+    const numCards = this.filteredChildren.length;
+    
+    // Scale radius to maintain visual spacing - larger radius for more cards
+    // This ensures cards are always well-spaced regardless of count
+    let radius: number;
+    if (numCards <= 3) {
+      radius = baseRadius;
+    } else if (numCards <= 5) {
+      radius = baseRadius * 1.2;
+    } else if (numCards <= 7) {
+      radius = baseRadius * 1.5;
+    } else if (numCards <= 10) {
+      radius = baseRadius * 1.8;
+    } else if (numCards <= 15) {
+      radius = baseRadius * 2.2;
+    } else {
+      // For 15+ cards, scale even more aggressively to maintain spacing
+      radius = baseRadius * (2.2 + (numCards - 15) * 0.15);
+    }
+    
     return `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`;
   }
 

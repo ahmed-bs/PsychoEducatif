@@ -1414,13 +1414,14 @@
 
 /* Wrapper to contain the scrolling cards */
 .cards-container-wrapper {
-    width: 820px;
+    width: 100%;
+    max-width: 1000px;
     overflow: visible;
     margin: 0 auto;
     position: relative;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    min-height: 400px;
+    min-height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1439,15 +1440,16 @@
 /* 3D Carousel Container */
 .card-3d {
     position: relative;
-    width: 400px;
-    height: 350px;
+    width: 600px;
+    height: 500px;
     transform-style: preserve-3d;
-    transform: perspective(800px);
+    transform: perspective(1000px);
     will-change: transform;
     cursor: grab;
     user-select: none;
     margin: 0 auto;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible;
 }
 
 .card-3d:active {
@@ -1648,8 +1650,9 @@
     }
     
     .card-3d {
-        width: 350px;
-        height: 300px;
+        width: 500px;
+        height: 450px;
+        transform: perspective(900px);
     }
     
     .card-3d-item {
@@ -1727,8 +1730,9 @@
     }
     
     .card-3d {
-        width: 300px;
-        height: 280px;
+        width: 400px;
+        height: 380px;
+        transform: perspective(800px);
     }
     
     .card-3d-item {
