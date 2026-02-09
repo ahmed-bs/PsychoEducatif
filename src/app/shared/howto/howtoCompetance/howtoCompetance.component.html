@@ -1,0 +1,71 @@
+<div class="howto-static-content">
+  <!-- Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.competance.video_title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.competance.video_title' | translate">
+        <source src="assets/vidsHowto/competances.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.competance.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.competance.video_info' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Competance Cards Descriptions -->
+  <div class="howto-cards-descriptions">
+    <h3 class="howto-cards-title">
+      <i class="fas fa-info-circle"></i> {{ 'dashboard.howto_dialog.competance.cards_title' | translate }}
+    </h3>
+    
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-layer-group"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.competance.cards.categories.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.competance.cards.categories.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon domains-icon">
+          <i class="fas fa-sitemap"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.competance.cards.domains.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.competance.cards.domains.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon progress-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.competance.cards.progress.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.competance.cards.progress.description' | translate }}</p>
+    </div>
+
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon items-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.competance.cards.dates.title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.competance.cards.dates.description' | translate }}</p>
+    </div>
+  </div>
+</div>

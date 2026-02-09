@@ -1386,9 +1386,37 @@
           "title": "Notes",
           "description": "Keep track of important observations, notes, and reminders about your child's progress and activities."
         },
+        "competance": {
+          "title": "Competencies",
+          "description": "Learn how to view and understand your child's competencies organized by categories and domains."
+        },
         "statistics": {
           "title": "Statistics",
           "description": "Visualize statistics and overall progress through different charts and indicators."
+        }
+      },
+      "competance": {
+        "video_title": "Competencies Overview Video",
+        "video_not_supported": "Your browser does not support the video tag.",
+        "video_info": "",
+        "cards_title": "Competency Cards Explained",
+        "cards": {
+          "categories": {
+            "title": "Categories",
+            "description": "Categories group related competencies in different areas of development. Each category contains multiple specific competency domains."
+          },
+          "domains": {
+            "title": "Domains",
+            "description": "Domains represent specific competency areas within each category. Each domain displays its progress percentage and evaluation details."
+          },
+          "progress": {
+            "title": "Progress Bar",
+            "description": "The visual progress bar shows the percentage of competencies acquired for each domain. It allows you to quickly track your child's progress."
+          },
+          "dates": {
+            "title": "Tracking Dates",
+            "description": "Each domain displays the start date and last update date, allowing you to track the history of evaluations and progress."
+          }
         }
       }
     },

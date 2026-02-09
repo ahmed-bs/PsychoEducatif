@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } fro
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HowtoStaticComponent } from './howtoStatic/howtoStatic.component';
+import { HowtoCompetanceComponent } from './howtoCompetance/howtoCompetance.component';
 import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
@@ -9,13 +10,14 @@ import { SharedService } from 'src/app/core/services/shared.service';
   templateUrl: './howto.component.html',
   styleUrls: ['./howto.component.css'],
   standalone: true,
-  imports: [CommonModule, TranslateModule, HowtoStaticComponent]
+  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent]
 })
 export class HowtoComponent implements OnInit {
   @Output() navigateToTab = new EventEmitter<string>();
   @Input() onClose?: () => void;
   
   showStatisticsGuide: boolean = false;
+  showCompetanceGuide: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -45,6 +47,9 @@ export class HowtoComponent implements OnInit {
     if (tabId === 'stats') {
       // Show statistics guide
       this.showStatisticsGuide = true;
+    } else if (tabId === 'competance') {
+      // Show competance guide
+      this.showCompetanceGuide = true;
     } else {
       // Navigate to other tabs
       this.navigateToTab.emit(tabId);
@@ -56,6 +61,7 @@ export class HowtoComponent implements OnInit {
 
   goBack(): void {
     this.showStatisticsGuide = false;
+    this.showCompetanceGuide = false;
   }
 
 }

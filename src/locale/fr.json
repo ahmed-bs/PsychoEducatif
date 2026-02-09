@@ -1366,9 +1366,37 @@
           "title": "Notes",
           "description": "Gardez une trace des observations importantes, notes et rappels concernant le progrès et les activités de votre enfant."
         },
+        "competance": {
+          "title": "Compétences",
+          "description": "Découvrez comment consulter et comprendre les compétences de votre enfant organisées par catégories et domaines."
+        },
         "statistics": {
           "title": "Statistiques",
           "description": "Visualisez les statistiques et le progrès global à travers différents graphiques et indicateurs."
+        }
+      },
+      "competance": {
+        "video_title": "Vidéo de présentation des compétences",
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "video_info": "",
+        "cards_title": "Explication des cartes de compétences",
+        "cards": {
+          "categories": {
+            "title": "Catégories",
+            "description": "Les catégories regroupent les compétences connexes dans différents domaines de développement. Chaque catégorie contient plusieurs domaines de compétences spécifiques."
+          },
+          "domains": {
+            "title": "Domaines",
+            "description": "Les domaines représentent des zones spécifiques de compétences au sein de chaque catégorie. Chaque domaine affiche son pourcentage de progression et les détails d'évaluation."
+          },
+          "progress": {
+            "title": "Barre de progression",
+            "description": "La barre de progression visuelle montre le pourcentage de compétences acquises pour chaque domaine. Elle vous permet de suivre rapidement les progrès de votre enfant."
+          },
+          "dates": {
+            "title": "Dates de suivi",
+            "description": "Chaque domaine affiche la date de début et la date de dernière mise à jour, vous permettant de suivre l'historique des évaluations et des progrès."
+          }
         }
       }
     },
