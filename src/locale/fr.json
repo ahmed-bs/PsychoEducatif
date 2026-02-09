@@ -1280,6 +1280,7 @@
         "loading": "Chargement des fichiers...",
         "no_files": "Aucun fichier disponible",
         "download": "Télécharger",
+        "delete": "Supprimer",
         "uploaded_by": "Téléchargé par",
         "compressed": "compressé"
       },
@@ -1373,6 +1374,10 @@
         "statistics": {
           "title": "Statistiques",
           "description": "Visualisez les statistiques et le progrès global à travers différents graphiques et indicateurs."
+        },
+        "change_profile": {
+          "title": "Changer de profil / Déconnexion",
+          "description": "Apprenez comment changer de profil ou vous déconnecter de votre compte."
         }
       },
       "competance": {
@@ -1478,6 +1483,17 @@
             "video_info": "",
             "description_title": "Comment filtrer et exporter les stratégies",
             "description": "Cette vidéo vous montre comment filtrer les stratégies en utilisant l'état des éléments, puis comment exporter les résultats filtrés au format PDF ou Excel. Vous pouvez organiser vos stratégies selon différents critères et les exporter pour un usage hors ligne ou pour le partage."
+          }
+        }
+      },
+      "change_profile": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "change_profile": {
+            "title": "Changer de profil ou se déconnecter",
+            "video_info": "",
+            "description_title": "Comment changer de profil ou se déconnecter",
+            "description": "Cette vidéo vous montre comment changer de profil pour accéder à un autre profil d'enfant, ou comment vous déconnecter de votre compte. Vous pouvez facilement basculer entre différents profils ou vous déconnecter en toute sécurité."
           }
         }
       }

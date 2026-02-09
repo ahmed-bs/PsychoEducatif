@@ -6,6 +6,7 @@ import { HowtoCompetanceComponent } from './howtoCompetance/howtoCompetance.comp
 import { HowtoNotesComponent } from './howtoNotes/howtoNotes.component';
 import { HowtoObjectifsComponent } from './howtoObjectifs/howtoObjectifs.component';
 import { HowtoStrategieComponent } from './howtoStrategie/howtoStrategie.component';
+import { HowtochangeProfComponent } from './howtochangeProf/howtochangeProf.component';
 import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { SharedService } from 'src/app/core/services/shared.service';
   templateUrl: './howto.component.html',
   styleUrls: ['./howto.component.css'],
   standalone: true,
-  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent]
+  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent]
 })
 export class HowtoComponent implements OnInit {
   @Output() navigateToTab = new EventEmitter<string>();
@@ -24,6 +25,7 @@ export class HowtoComponent implements OnInit {
   showNotesGuide: boolean = false;
   showObjectifsGuide: boolean = false;
   showStrategieGuide: boolean = false;
+  showChangeProfGuide: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -65,6 +67,9 @@ export class HowtoComponent implements OnInit {
     } else if (tabId === 'strategies') {
       // Show strategie guide
       this.showStrategieGuide = true;
+    } else if (tabId === 'change_profile') {
+      // Show change profile guide
+      this.showChangeProfGuide = true;
     } else {
       // Navigate to other tabs
       this.navigateToTab.emit(tabId);
@@ -80,6 +85,7 @@ export class HowtoComponent implements OnInit {
     this.showNotesGuide = false;
     this.showObjectifsGuide = false;
     this.showStrategieGuide = false;
+    this.showChangeProfGuide = false;
   }
 
 }

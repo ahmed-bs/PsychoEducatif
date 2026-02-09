@@ -1736,6 +1736,37 @@ export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestro
     });
   }
 
+  deleteFile(file: ProfileFile) {
+    if (!this.selectedChild?.id) {
+      return;
+    }
+
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: `Voulez-vous vraiment supprimer le fichier "${file.original_filename}" ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.profileService.deleteProfileFile(this.selectedChild!.id!, file.id).subscribe({
+          next: (message) => {
+            Swal.fire('Supprimé', message || 'Fichier supprimé avec succès.', 'success');
+            // Reload files list
+            this.loadProfileFiles(this.selectedChild!.id!);
+          },
+          error: (error) => {
+            console.error('Error deleting file:', error);
+            Swal.fire('Erreur', error.message || 'Impossible de supprimer le fichier.', 'error');
+          }
+        });
+      }
+    });
+  }
+
   formatFileSize(sizeInMB: number): string {
     if (sizeInMB < 1) {
       return `${(sizeInMB * 1024).toFixed(2)} KB`;

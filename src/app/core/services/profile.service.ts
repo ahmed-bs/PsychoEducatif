@@ -180,6 +180,50 @@ export class ProfileService {
     );
   }
 
+  // Delete a file
+  deleteProfileFile(profileId: number, fileId: number): Observable<string> {
+    const url = `${this.apiUrl}${profileId}/files/${fileId}/`;
+    return this.http.delete(url, { observe: 'response' }).pipe(
+      map(response => {
+        // Check status code first - 200-204 means success
+        if (response.status >= 200 && response.status < 300) {
+          // Handle empty response (204 No Content)
+          if (response.status === 204 || !response.body) {
+            return 'File deleted successfully';
+          }
+          // Try to parse response body as ApiResponse
+          try {
+            const body = typeof response.body === 'string' 
+              ? JSON.parse(response.body) 
+              : response.body;
+            const apiResponse = body as ApiResponse<never>;
+            if (apiResponse?.error) {
+              throw new Error(apiResponse.error);
+            }
+            return apiResponse?.message || 'File deleted successfully';
+          } catch (parseError) {
+            // If parsing fails but status is success, deletion succeeded
+            return 'File deleted successfully';
+          }
+        }
+        throw new Error(`Unexpected status code: ${response.status}`);
+      }),
+      catchError((error: HttpErrorResponse | Error) => {
+        // If it's an HttpErrorResponse with successful status code, deletion succeeded
+        if (error instanceof HttpErrorResponse) {
+          const status = error.status;
+          // 200-299 range means success (including 204 No Content)
+          if (status >= 200 && status < 300) {
+            // Deletion succeeded - return success message
+            return of('File deleted successfully');
+          }
+        }
+        // For other errors, use standard error handling
+        return this.handleError(error);
+      })
+    );
+  }
+
   // Error handling
   private handleError(error: any): Observable<never> {
     let errorMessage = 'An error occurred';

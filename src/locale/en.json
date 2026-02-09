@@ -1300,6 +1300,7 @@
         "loading": "Loading files...",
         "no_files": "No files available",
         "download": "Download",
+        "delete": "Delete",
         "uploaded_by": "Uploaded by",
         "compressed": "compressed"
       },
@@ -1393,6 +1394,10 @@
         "statistics": {
           "title": "Statistics",
           "description": "Visualize statistics and overall progress through different charts and indicators."
+        },
+        "change_profile": {
+          "title": "Change Profile / Logout",
+          "description": "Learn how to change profile or logout from your account."
         }
       },
       "competance": {
@@ -1498,6 +1503,17 @@
             "video_info": "",
             "description_title": "How to Filter and Export Strategies",
             "description": "This video shows you how to filter strategies using the state of items, then how to export the filtered results to PDF or Excel format. You can organize your strategies according to different criteria and export them for offline use or sharing."
+          }
+        }
+      },
+      "change_profile": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "change_profile": {
+            "title": "Change profile or logout",
+            "video_info": "",
+            "description_title": "How to change profile or logout",
+            "description": "This video shows you how to change profile to access another child's profile, or how to logout from your account. You can easily switch between different profiles or logout securely."
           }
         }
       }

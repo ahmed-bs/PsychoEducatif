@@ -3097,6 +3097,22 @@ canvas {
   transform: translateY(0);
 }
 
+.file-delete-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.file-delete-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
+}
+
+.file-delete-btn:active {
+  transform: translateY(0);
+}
+
 /* Responsive adjustments for file management */
 @media (max-width: 768px) {
   .file-management-modal {
@@ -3110,6 +3126,8 @@ canvas {
 
   .file-item-actions {
     width: 100%;
+    display: flex;
+    gap: 0.5rem;
   }
 
   .file-action-btn {

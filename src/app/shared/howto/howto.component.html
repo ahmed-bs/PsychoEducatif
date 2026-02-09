@@ -39,8 +39,16 @@
     <app-howtoStrategie></app-howtoStrategie>
   </div>
 
+  <!-- Change Profile Guide View -->
+  <div *ngIf="showChangeProfGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtochangeProf></app-howtochangeProf>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">
@@ -83,6 +91,12 @@
     <div class="howto-section clickable" (click)="handleTabClick('stats')">
       <h3><i class="fas fa-chart-bar"></i> {{ 'dashboard.howto_dialog.sections.statistics.title' | translate }}</h3>
       <p>{{ 'dashboard.howto_dialog.sections.statistics.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('change_profile')">
+      <h3><i class="fas fa-user-cog"></i> {{ 'dashboard.howto_dialog.sections.change_profile.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.change_profile.description' | translate }}</p>
       <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
     </div>
   </div>
