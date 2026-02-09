@@ -23,8 +23,16 @@
     <app-howtoNotes></app-howtoNotes>
   </div>
 
+  <!-- Objectifs Guide View -->
+  <div *ngIf="showObjectifsGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoObjectifs></app-howtoObjectifs>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">

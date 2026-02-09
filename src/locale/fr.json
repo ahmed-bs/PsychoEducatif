@@ -1427,6 +1427,38 @@
             "description": "Cette vidéo explique comment utiliser les filtres pour trouver rapidement des notes spécifiques. Vous pouvez filtrer par date, titre, ou d'autres critères pour organiser et localiser vos notes plus facilement."
           }
         }
+      },
+      "objectifs": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "add": {
+            "title": "Ajouter un objectif",
+            "video_info": "",
+            "description_title": "Comment ajouter un objectif",
+            "description": "Cette vidéo vous montre comment ajouter un nouvel objectif pour suivre le développement de votre enfant. Vous pouvez créer des objectifs avec des titres, descriptions, dates cibles et autres détails pour organiser vos objectifs de développement."
+          },
+          "edit": {
+            "title": "Modifier un objectif",
+            "video_info": "",
+            "description_title": "Comment modifier un objectif",
+            "description": "Apprenez à modifier un objectif existant pour mettre à jour les informations, corriger des erreurs ou ajouter des détails supplémentaires. Vous pouvez modifier le titre, la description, les dates et d'autres détails de vos objectifs.",
+            "remark": "Remarque : Si vous choisissez \"Pas mettre à jour\" lors de la modification, l'objectif sera désactivé jusqu'à ce qu'il soit réactivé via l'édition."
+          },
+          "delete": {
+            "title": "Supprimer un objectif",
+            "video_info": "",
+            "description_title": "Comment supprimer un objectif",
+            "description": "Découvrez comment supprimer un objectif que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer l'objectif avant de confirmer l'action."
+          },
+          "passer_quiz": {
+            "title": "Passer un quiz",
+            "video_info": "",
+            "description_title": "Comment passer un quiz",
+            "description": "Cette vidéo explique comment passer un quiz pour évaluer les progrès de votre enfant par rapport à un objectif. Les quiz vous permettent de suivre et d'évaluer les performances de manière structurée.",
+            "date_remark": "Remarque importante : La fonction \"Passer le quiz\" n'est accessible que lorsque la date est aujourd'hui. Vous ne pouvez passer le quiz que le jour prévu.",
+            "quiz_remark": "Remarque : Si vous choisissez \"Pas mettre à jour\" dans le popup du quiz, l'objectif sera désactivé jusqu'à ce qu'il soit réactivé via l'édition."
+          }
+        }
       }
     },
     "charts": {

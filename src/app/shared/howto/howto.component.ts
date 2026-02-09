@@ -4,6 +4,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HowtoStaticComponent } from './howtoStatic/howtoStatic.component';
 import { HowtoCompetanceComponent } from './howtoCompetance/howtoCompetance.component';
 import { HowtoNotesComponent } from './howtoNotes/howtoNotes.component';
+import { HowtoObjectifsComponent } from './howtoObjectifs/howtoObjectifs.component';
 import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { SharedService } from 'src/app/core/services/shared.service';
   templateUrl: './howto.component.html',
   styleUrls: ['./howto.component.css'],
   standalone: true,
-  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent]
+  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent]
 })
 export class HowtoComponent implements OnInit {
   @Output() navigateToTab = new EventEmitter<string>();
@@ -20,6 +21,7 @@ export class HowtoComponent implements OnInit {
   showStatisticsGuide: boolean = false;
   showCompetanceGuide: boolean = false;
   showNotesGuide: boolean = false;
+  showObjectifsGuide: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -55,6 +57,9 @@ export class HowtoComponent implements OnInit {
     } else if (tabId === 'notes') {
       // Show notes guide
       this.showNotesGuide = true;
+    } else if (tabId === 'goals') {
+      // Show objectifs guide
+      this.showObjectifsGuide = true;
     } else {
       // Navigate to other tabs
       this.navigateToTab.emit(tabId);
@@ -68,6 +73,7 @@ export class HowtoComponent implements OnInit {
     this.showStatisticsGuide = false;
     this.showCompetanceGuide = false;
     this.showNotesGuide = false;
+    this.showObjectifsGuide = false;
   }
 
 }
