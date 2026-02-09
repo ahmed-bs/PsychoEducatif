@@ -2834,6 +2834,25 @@ canvas {
   color: #10b981;
 }
 
+.file-size-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #eff6ff;
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  color: #1e40af;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.file-size-hint i {
+  color: #3b82f6;
+  font-size: 0.875rem;
+}
+
 .file-upload-actions {
   display: flex;
   justify-content: flex-end;

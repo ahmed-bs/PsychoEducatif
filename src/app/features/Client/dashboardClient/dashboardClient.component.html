@@ -552,6 +552,10 @@
                                             class="share-form-input file-input"
                                             accept="*/*"
                                             required />
+                                        <div class="file-size-hint">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>Taille maximale: 25 MB</span>
+                                        </div>
                                         <div *ngIf="selectedFileForUpload" class="selected-file-info">
                                             <i class="fas fa-check-circle"></i>
                                             <span>{{ selectedFileForUpload.name }} ({{ formatFileSize(selectedFileForUpload.size / 1024 / 1024) }})</span>
@@ -612,10 +616,6 @@
                                                     <span class="file-meta-item">
                                                         <i class="fas fa-weight"></i>
                                                         {{ formatFileSize(file.file_size_mb) }}
-                                                    </span>
-                                                    <span class="file-meta-item" *ngIf="file.compression_ratio > 0">
-                                                        <i class="fas fa-compress"></i>
-                                                        {{ file.compression_ratio.toFixed(1) }}% {{ 'dashboard.file_dialog.files.compressed' | translate }}
                                                     </span>
                                                     <span class="file-meta-item">
                                                         <i class="fas fa-calendar"></i>

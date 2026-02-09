@@ -1353,10 +1353,13 @@ html {
 }
 
 .strategy-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2.5rem;
   padding: 2rem 0;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .strategy-card {
@@ -1370,6 +1373,9 @@ html {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  flex: 0 1 calc(25% - 1.875rem);
+  max-width: 300px;
+  min-width: 250px;
 }
 
 .strategy-card::before {
@@ -2970,6 +2976,20 @@ blockquote {
     width: 90px;
     height: 90px;
   }
+
+  /* Strategy cards - 2 per row on tablet */
+  .strategy-card {
+    flex: 0 1 calc(50% - 1rem);
+    max-width: 400px;
+  }
+}
+
+/* Medium-large screens (1025px - 1400px) - 3 cards per row */
+@media (max-width: 1400px) and (min-width: 1025px) {
+  .strategy-card {
+    flex: 0 1 calc(33.333% - 1.33rem);
+    max-width: 350px;
+  }
 }
 
 /* Mobile Styles (max-width: 768px) */
@@ -3247,10 +3267,16 @@ blockquote {
     font-size: 1.75rem;
   }
 
+  .strategy-card {
+    flex: 0 1 100%;
+    max-width: 100%;
+    min-width: auto;
+  }
+  
   .strategy-cards {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
     padding: 1rem 0;
+    max-width: 100%;
   }
 
   .strategy-card {
@@ -3445,6 +3471,11 @@ blockquote {
 
   .strategy-cards {
     gap: 1.25rem;
+  }
+  
+  .strategy-card {
+    flex: 0 1 100%;
+    max-width: 100%;
   }
 
   .strategy-card {
