@@ -1459,6 +1459,27 @@
             "quiz_remark": "Remarque : Si vous choisissez \"Pas mettre à jour\" dans le popup du quiz, l'objectif sera désactivé jusqu'à ce qu'il soit réactivé via l'édition."
           }
         }
+      },
+      "strategies": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "remark": {
+          "title": "Remarque importante",
+          "text": "Aucune stratégie ne s'affichera dans la liste jusqu'à ce que vous répondiez à une évaluation concernant les enfants avec des éléments de réponse partiels."
+        },
+        "videos": {
+          "overview": {
+            "title": "Vue d'ensemble des stratégies",
+            "video_info": "",
+            "description_title": "Vue d'ensemble des stratégies",
+            "description": "Cette vidéo vous donne une vue d'ensemble de la section des stratégies. Vous apprendrez à naviguer dans la liste des stratégies et à comprendre comment elles sont organisées et présentées."
+          },
+          "filter_export": {
+            "title": "Filtrer et exporter les stratégies",
+            "video_info": "",
+            "description_title": "Comment filtrer et exporter les stratégies",
+            "description": "Cette vidéo vous montre comment filtrer les stratégies en utilisant l'état des éléments, puis comment exporter les résultats filtrés au format PDF ou Excel. Vous pouvez organiser vos stratégies selon différents critères et les exporter pour un usage hors ligne ou pour le partage."
+          }
+        }
       }
     },
     "charts": {

@@ -1,3 +1,79 @@
-<p>
-  howtoStrategie works!
-</p>
+<div class="howto-static-content">
+  <!-- Important Remark Section -->
+  <div class="howto-card-description" style="margin-bottom: 2rem;">
+    <div class="card-description-header">
+      <div class="card-icon progress-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h4>{{ 'dashboard.howto_dialog.strategies.remark.title' | translate }}</h4>
+    </div>
+    <div class="remark-box">
+      <i class="fas fa-info-circle"></i>
+      <span>{{ 'dashboard.howto_dialog.strategies.remark.text' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- Overview Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.strategies.videos.overview.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.strategies.videos.overview.title' | translate">
+        <source src="assets/vidsHowto/strategielook.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.strategies.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showOverviewVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.strategies.videos.overview.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.strategies.videos.overview.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.strategies.videos.overview.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Filter and Export Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.strategies.videos.filter_export.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.strategies.videos.filter_export.title' | translate">
+        <source src="assets/vidsHowto/filterAndExportStrategie.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.strategies.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showFilterExportVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.strategies.videos.filter_export.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon items-icon">
+          <i class="fas fa-filter"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.strategies.videos.filter_export.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.strategies.videos.filter_export.description' | translate }}</p>
+    </div>
+  </div>
+</div>

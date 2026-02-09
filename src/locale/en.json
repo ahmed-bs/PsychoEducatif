@@ -1479,6 +1479,27 @@
             "quiz_remark": "Note: If you choose \"Don't update\" in the quiz popup, the objective will be disabled until reactivated through editing."
           }
         }
+      },
+      "strategies": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "remark": {
+          "title": "Important Note",
+          "text": "Nothing will show in the list of strategies until you answer an evaluation about the kids with partial answer items."
+        },
+        "videos": {
+          "overview": {
+            "title": "Strategies Overview",
+            "video_info": "",
+            "description_title": "Strategies Overview",
+            "description": "This video gives you an overview of the strategies section. You'll learn how to navigate the list of strategies and understand how they are organized and displayed."
+          },
+          "filter_export": {
+            "title": "Filter and Export Strategies",
+            "video_info": "",
+            "description_title": "How to Filter and Export Strategies",
+            "description": "This video shows you how to filter strategies using the state of items, then how to export the filtered results to PDF or Excel format. You can organize your strategies according to different criteria and export them for offline use or sharing."
+          }
+        }
       }
     },
     "charts": {
