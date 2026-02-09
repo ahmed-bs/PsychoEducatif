@@ -1,0 +1,33 @@
+<div class="howto-static-content">
+  <!-- Upload and Download Files Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.upload_file.videos.upload_download.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.upload_file.videos.upload_download.title' | translate">
+        <source src="assets/vidsHowto/filesupload.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.upload_file.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showUploadVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.upload_file.videos.upload_download.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.upload_file.videos.upload_download.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.upload_file.videos.upload_download.description' | translate }}</p>
+    </div>
+  </div>
+</div>

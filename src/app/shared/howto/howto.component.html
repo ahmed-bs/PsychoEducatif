@@ -47,8 +47,16 @@
     <app-howtochangeProf></app-howtochangeProf>
   </div>
 
+  <!-- Upload File Guide View -->
+  <div *ngIf="showUploadFileGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoUploadfile></app-howtoUploadfile>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">
@@ -97,6 +105,12 @@
     <div class="howto-section clickable" (click)="handleTabClick('change_profile')">
       <h3><i class="fas fa-user-cog"></i> {{ 'dashboard.howto_dialog.sections.change_profile.title' | translate }}</h3>
       <p>{{ 'dashboard.howto_dialog.sections.change_profile.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('upload_file')">
+      <h3><i class="fas fa-cloud-upload-alt"></i> {{ 'dashboard.howto_dialog.sections.upload_file.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.upload_file.description' | translate }}</p>
       <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
     </div>
   </div>

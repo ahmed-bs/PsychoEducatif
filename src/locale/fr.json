@@ -1378,6 +1378,10 @@
         "change_profile": {
           "title": "Changer de profil / Déconnexion",
           "description": "Apprenez comment changer de profil ou vous déconnecter de votre compte."
+        },
+        "upload_file": {
+          "title": "Télécharger et téléverser des fichiers",
+          "description": "Apprenez comment téléverser et télécharger des fichiers dans l'application."
         }
       },
       "competance": {
@@ -1494,6 +1498,17 @@
             "video_info": "",
             "description_title": "Comment changer de profil ou se déconnecter",
             "description": "Cette vidéo vous montre comment changer de profil pour accéder à un autre profil d'enfant, ou comment vous déconnecter de votre compte. Vous pouvez facilement basculer entre différents profils ou vous déconnecter en toute sécurité."
+          }
+        }
+      },
+      "upload_file": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "upload_download": {
+            "title": "Téléverser et télécharger des fichiers",
+            "video_info": "",
+            "description_title": "Comment téléverser et télécharger des fichiers",
+            "description": "Cette vidéo démontre comment téléverser des fichiers dans l'application et télécharger des fichiers depuis celle-ci. Apprenez le processus étape par étape pour gérer les fichiers, y compris la sélection de fichiers, leur téléversement et le téléchargement de documents lorsque nécessaire."
           }
         }
       }
