@@ -64,11 +64,17 @@
 
                         <!-- Action Buttons -->
                         <div class="profile-actions">
-                            <button (click)="navigateToPEU()" class="action-btn action-btn-pei" [attr.aria-label]="'PEI'">
+                            <button (click)="navigateToPEU()" class="action-btn action-btn-pei" [attr.aria-label]="'dashboard.child_profile.pei_button' | translate">
                                 <div class="btn-icon-wrapper">
                                     <i class="fas fa-list-check"></i>
                                 </div>
-                                <span>PEI</span>
+                                <span>{{ 'dashboard.child_profile.pei_button' | translate }}</span>
+                            </button>
+                            <button (click)="navigateToProposePEI()" class="action-btn action-btn-propose-pei" [attr.aria-label]="'dashboard.child_profile.propose_pei_button' | translate">
+                                <div class="btn-icon-wrapper">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <span>{{ 'dashboard.child_profile.propose_pei_button' | translate }}</span>
                             </button>
                             <button (click)="showShareDialog()" class="action-btn action-btn-share" [attr.aria-label]="'dashboard.child_profile.share_profile_button' | translate">
                                 <div class="btn-icon-wrapper">

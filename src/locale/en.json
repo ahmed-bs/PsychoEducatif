@@ -1137,6 +1137,8 @@
       "last_evaluation": "Last evaluation: {{date}}",
       "gender_male": "Male",
       "gender_female": "Female",
+      "pei_button": "Personalise PEI",
+      "propose_pei_button": "Propose PEI",
       "share_profile_button": "Share profile",
       "edit_profile_button": "Edit profile",
       "disable_profile_button": "Disable profile",
@@ -1788,5 +1790,25 @@
       "comments": "Comments",
       "done": "Done"
     }
+  },
+  "propose_pei": {
+    "title": "Partial Items",
+    "subtitle": "Manage partial items and their PEI status",
+    "loading": "Loading partial items...",
+    "no_items": "No partial items found",
+    "no_search_results": "No results found for your search",
+    "domains": "domains",
+    "items": "items",
+    "comment": "Comment",
+    "domain": "Domain",
+    "category": "Category",
+    "search_placeholder": "Search for an item, domain or category...",
+    "clear_search": "Clear",
+    "search_results": "{{count}} result(s) found",
+    "pei": "PEI",
+    "update_success": "Success",
+    "update_success_detail": "PEI status has been updated successfully",
+    "update_error": "Error",
+    "update_error_detail": "An error occurred while updating PEI status"
   }
 }

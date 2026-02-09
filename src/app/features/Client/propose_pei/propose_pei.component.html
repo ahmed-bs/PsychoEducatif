@@ -1,0 +1,127 @@
+<div class="propose-pei-container">
+  <p-toast></p-toast>
+  <app-back-button></app-back-button>
+  
+  <!-- <div class="propose-pei-header">
+    <h1>{{ 'propose_pei.title' | translate }}</h1>
+    <p class="subtitle">{{ 'propose_pei.subtitle' | translate }}</p>
+  </div> -->
+
+  <!-- Search Filter -->
+  <div *ngIf="!isLoading && !error && categoriesWithPartielItems.length > 0" class="search-filter-container">
+    <div class="search-input-wrapper">
+      <i class="pi pi-search search-icon"></i>
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchChange()"
+        [placeholder]="'propose_pei.search_placeholder' | translate"
+        class="search-input"
+        autocomplete="off">
+      <button 
+        *ngIf="searchTerm" 
+        (click)="clearSearch()" 
+        class="clear-search-btn"
+        [attr.aria-label]="'propose_pei.clear_search' | translate">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+    <div *ngIf="searchTerm" class="search-results-info">
+      <span>{{ 'propose_pei.search_results' | translate: { count: getTotalFilteredItems() } }}</span>
+    </div>
+  </div>
+
+  <div class="propose-pei-content">
+    <div *ngIf="isLoading" class="loading-state">
+      <i class="pi pi-spin pi-spinner loading-icon"></i>
+      <p>{{ 'propose_pei.loading' | translate }}</p>
+    </div>
+
+    <div *ngIf="error" class="error-state">
+      <i class="pi pi-exclamation-triangle error-icon"></i>
+      <p>{{ error }}</p>
+    </div>
+
+    <div *ngIf="!isLoading && !error && categoriesWithPartielItems.length === 0" class="empty-state">
+      <i class="pi pi-info-circle empty-icon"></i>
+      <p>{{ 'propose_pei.no_items' | translate }}</p>
+    </div>
+
+    <div *ngIf="!isLoading && !error && searchTerm && filteredCategoriesWithPartielItems.length === 0" class="empty-state">
+      <i class="pi pi-search empty-icon"></i>
+      <p>{{ 'propose_pei.no_search_results' | translate }}</p>
+      <button (click)="clearSearch()" class="clear-search-link">{{ 'propose_pei.clear_search' | translate }}</button>
+    </div>
+
+    <div *ngIf="!isLoading && !error && ((!searchTerm && categoriesWithPartielItems.length > 0) || (searchTerm && filteredCategoriesWithPartielItems.length > 0))" class="categories-list">
+      <div *ngFor="let category of (searchTerm ? filteredCategoriesWithPartielItems : categoriesWithPartielItems); let categoryIndex = index" class="category-card">
+        <div class="category-header">
+          <h2 class="category-title">
+            <i class="pi pi-folder category-icon"></i>
+            {{ getCategoryName(category) }}
+          </h2>
+          <span class="category-count">
+            {{ category.domains?.length || 0 }} {{ 'propose_pei.domains' | translate }}
+          </span>
+        </div>
+
+        <div class="domains-list">
+          <div *ngFor="let domain of category.domains; let domainIndex = index" class="domain-card">
+            <div class="domain-header" (click)="toggleDomain(categoryIndex, domainIndex)">
+              <div class="domain-header-left">
+                <i class="pi" [ngClass]="domain.expanded ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                <h3 class="domain-title">{{ getDomainName(domain) }}</h3>
+              </div>
+              <span class="domain-count">
+                {{ domain.partielItems?.length || 0 }} {{ 'propose_pei.items' | translate }}
+              </span>
+            </div>
+
+            <div *ngIf="domain.expanded && domain.partielItems" class="items-list">
+              <div *ngFor="let item of domain.partielItems" class="item-card" [class.updating]="isItemUpdating(item.id)">
+                <div class="item-header">
+                  <div class="item-header-left">
+                    <div class="pei-toggle-wrapper">
+                      <label class="pei-toggle-label">{{ 'propose_pei.pei' | translate }}</label>
+                      <p-inputSwitch 
+                        [(ngModel)]="item.isPeu" 
+                        (onChange)="toggleIsPeu(item, categoryIndex, domainIndex, $event)"
+                        [disabled]="isItemUpdating(item.id)"
+                        [class.updating-switch]="isItemUpdating(item.id)">
+                      </p-inputSwitch>
+                      <span *ngIf="isItemUpdating(item.id)" class="updating-indicator">
+                        <i class="pi pi-spin pi-spinner"></i>
+                      </span>
+                    </div>
+                    <h4 class="item-title">{{ getItemName(item) }}</h4>
+                  </div>
+                  <span class="item-status status-partiel">PARTIEL</span>
+                </div>
+                
+                <div *ngIf="getItemDescription(item)" class="item-description">
+                  <p>{{ getItemDescription(item) }}</p>
+                </div>
+
+                <div *ngIf="getItemComment(item)" class="item-comment">
+                  <strong>{{ 'propose_pei.comment' | translate }}:</strong>
+                  <p>{{ getItemComment(item) }}</p>
+                </div>
+
+                <div class="item-meta">
+                  <span class="meta-item">
+                    <i class="pi pi-tag"></i>
+                    {{ 'propose_pei.domain' | translate }}: {{ getDomainName(domain) }}
+                  </span>
+                  <span class="meta-item">
+                    <i class="pi pi-folder"></i>
+                    {{ 'propose_pei.category' | translate }}: {{ getCategoryName(category) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

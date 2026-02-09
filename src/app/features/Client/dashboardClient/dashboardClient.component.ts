@@ -1594,6 +1594,14 @@ export class DashboardClientComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
+  navigateToProposePEI() {
+    if (this.selectedChild?.id) {
+      this.router.navigate(['/Dashboard-client/client/propose-pei', this.selectedChild.id]);
+    } else if (this.childId) {
+      this.router.navigate(['/Dashboard-client/client/propose-pei', this.childId]);
+    }
+  }
+
   // File Management Methods
   showFileDialog() {
     this.displayFileDialog = true;
