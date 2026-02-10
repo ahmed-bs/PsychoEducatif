@@ -1406,6 +1406,10 @@
         "item": {
           "title": "Éléments",
           "description": "Apprenez à gérer vos éléments de compétences. Vous pouvez voir les éléments en vue liste ou carte, ajouter de nouveaux éléments, modifier les éléments existants et supprimer les éléments dont vous n'avez plus besoin."
+        },
+        "share_profile": {
+          "title": "Partager un Profil",
+          "description": "Apprenez à partager le profil de votre enfant avec d'autres utilisateurs. Vous pouvez sélectionner les utilisateurs avec qui partager, définir les permissions d'accès et gérer les profils partagés."
         }
       },
       "competance": {
@@ -1703,6 +1707,21 @@
             "video_info": "",
             "description_title": "Comment Supprimer un Élément",
             "description": "Découvrez comment supprimer un élément que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer l'élément avant de confirmer l'action."
+          }
+        }
+      },
+      "share_profile": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Partage de Profil",
+          "description": "Cette section vous guide pour partager le profil de votre enfant avec d'autres utilisateurs. Le partage de profil permet à d'autres personnes autorisées d'accéder aux informations et au suivi du développement de votre enfant."
+        },
+        "videos": {
+          "share_profile": {
+            "title": "Partager un Profil",
+            "video_info": "",
+            "description_title": "Comment Partager un Profil",
+            "description": "Cette vidéo vous montre comment partager le profil de votre enfant avec d'autres utilisateurs. Vous apprendrez à sélectionner les utilisateurs avec qui partager, à définir les permissions d'accès, et à gérer les profils partagés. Le partage permet une collaboration entre les différents intervenants impliqués dans le développement de votre enfant."
           }
         }
       }

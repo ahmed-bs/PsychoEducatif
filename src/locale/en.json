@@ -1426,6 +1426,10 @@
         "item": {
           "title": "Items",
           "description": "Learn how to manage your skill items. You can view items in list or card view, add new items, edit existing items, and delete items you no longer need."
+        },
+        "share_profile": {
+          "title": "Share Profile",
+          "description": "Learn how to share your child's profile with other users. You can select users to share with, set access permissions, and manage shared profiles."
         }
       },
       "competance": {
@@ -1723,6 +1727,21 @@
             "video_info": "",
             "description_title": "How to Delete an Item",
             "description": "Discover how to delete an item you no longer need. Deletion is permanent, so make sure you want to remove the item before confirming the action."
+          }
+        }
+      },
+      "share_profile": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Profile Sharing",
+          "description": "This section guides you to share your child's profile with other users. Profile sharing allows authorized people to access information and track your child's development."
+        },
+        "videos": {
+          "share_profile": {
+            "title": "Share a Profile",
+            "video_info": "",
+            "description_title": "How to Share a Profile",
+            "description": "This video shows you how to share your child's profile with other users. You'll learn to select users to share with, set access permissions, and manage shared profiles. Sharing enables collaboration between different stakeholders involved in your child's development."
           }
         }
       }

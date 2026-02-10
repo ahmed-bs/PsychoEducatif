@@ -103,8 +103,16 @@
     <app-howtoItem></app-howtoItem>
   </div>
 
+  <!-- Share Profile Guide View -->
+  <div *ngIf="showShareProfileGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoShareProfile></app-howtoShareProfile>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide && !showExplorerGuide && !showCategoryGuide && !showDomaineGuide && !showItemGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide && !showExplorerGuide && !showCategoryGuide && !showDomaineGuide && !showItemGuide && !showShareProfileGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">
@@ -195,6 +203,12 @@
     <div class="howto-section clickable" (click)="handleTabClick('item')">
       <h3><i class="fas fa-list-ul"></i> {{ 'dashboard.howto_dialog.sections.item.title' | translate }}</h3>
       <p>{{ 'dashboard.howto_dialog.sections.item.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('share_profile')">
+      <h3><i class="fas fa-share-alt"></i> {{ 'dashboard.howto_dialog.sections.share_profile.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.share_profile.description' | translate }}</p>
       <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
     </div>
   </div>

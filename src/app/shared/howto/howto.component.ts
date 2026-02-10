@@ -14,6 +14,7 @@ import { HowtoExplorerComponent } from './howtoExplorer/howtoExplorer.component'
 import { HowtoCategoryComponent } from './howtoCategory/howtoCategory.component';
 import { HowtoDomaineComponent } from './HowtoDomaine/HowtoDomaine.component';
 import { HowtoItemComponent } from './howtoItem/howtoItem.component';
+import { HowtoShareProfileComponent } from './howtoShareProfile/howtoShareProfile.component';
 import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
@@ -21,7 +22,7 @@ import { SharedService } from 'src/app/core/services/shared.service';
   templateUrl: './howto.component.html',
   styleUrls: ['./howto.component.css'],
   standalone: true,
-  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent, HowtoSummaryComponent, HowtoCalendarComponent, HowtoExplorerComponent, HowtoCategoryComponent, HowtoDomaineComponent, HowtoItemComponent]
+  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent, HowtoSummaryComponent, HowtoCalendarComponent, HowtoExplorerComponent, HowtoCategoryComponent, HowtoDomaineComponent, HowtoItemComponent, HowtoShareProfileComponent]
 })
 export class HowtoComponent implements OnInit {
   @Output() navigateToTab = new EventEmitter<string>();
@@ -40,6 +41,7 @@ export class HowtoComponent implements OnInit {
   showCategoryGuide: boolean = false;
   showDomaineGuide: boolean = false;
   showItemGuide: boolean = false;
+  showShareProfileGuide: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -105,6 +107,9 @@ export class HowtoComponent implements OnInit {
     } else if (tabId === 'item') {
       // Show item guide
       this.showItemGuide = true;
+    } else if (tabId === 'share_profile') {
+      // Show share profile guide
+      this.showShareProfileGuide = true;
     } else {
       // Navigate to other tabs
       this.navigateToTab.emit(tabId);
@@ -128,6 +133,7 @@ export class HowtoComponent implements OnInit {
     this.showCategoryGuide = false;
     this.showDomaineGuide = false;
     this.showItemGuide = false;
+    this.showShareProfileGuide = false;
   }
 
 }
