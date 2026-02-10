@@ -71,8 +71,16 @@
     <app-howtoCalendar></app-howtoCalendar>
   </div>
 
+  <!-- Explorer Guide View -->
+  <div *ngIf="showExplorerGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoExplorer></app-howtoExplorer>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide && !showExplorerGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">
@@ -139,6 +147,12 @@
     <div class="howto-section clickable" (click)="handleTabClick('calendar')">
       <h3><i class="fas fa-calendar-alt"></i> {{ 'dashboard.howto_dialog.sections.calendar.title' | translate }}</h3>
       <p>{{ 'dashboard.howto_dialog.sections.calendar.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('explorer')">
+      <h3><i class="fas fa-search"></i> {{ 'dashboard.howto_dialog.sections.explorer.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.explorer.description' | translate }}</p>
       <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
     </div>
   </div>

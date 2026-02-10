@@ -1,0 +1,97 @@
+<div class="howto-static-content">
+  <!-- Evaluation List View Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.explorer.videos.evaluation_list_view.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.explorer.videos.evaluation_list_view.title' | translate">
+        <source src="assets/vidsHowto/evaluationlistview.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.explorer.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showEvaluationListViewVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.explorer.videos.evaluation_list_view.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-list"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.explorer.videos.evaluation_list_view.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.explorer.videos.evaluation_list_view.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Answer Evaluation and View Answers Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.explorer.videos.answer_evaluation.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.explorer.videos.answer_evaluation.title' | translate">
+        <source src="assets/vidsHowto/answerEvaluationandviewanswers.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.explorer.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showAnswerEvaluationVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.explorer.videos.answer_evaluation.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon items-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.explorer.videos.answer_evaluation.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.explorer.videos.answer_evaluation.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Historique, Strategie, Comment, Description Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.explorer.videos.historique_strategie.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.explorer.videos.historique_strategie.title' | translate">
+        <source src="assets/vidsHowto/voirhistoriqueOrStrategieOrcommentOrdescription.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.explorer.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showHistoriqueStrategieVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.explorer.videos.historique_strategie.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon progress-icon">
+          <i class="fas fa-history"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.explorer.videos.historique_strategie.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.explorer.videos.historique_strategie.description' | translate }}</p>
+    </div>
+  </div>
+</div>

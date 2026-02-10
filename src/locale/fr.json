@@ -1390,6 +1390,10 @@
         "calendar": {
           "title": "Calendrier",
           "description": "Découvrez la vue calendrier des objectifs. Vous pouvez ajouter ou répondre aux évaluations, voir les objectifs d'aujourd'hui avec différents types de vues (semaine, jour, liste, mois)."
+        },
+        "explorer": {
+          "title": "Explorateur",
+          "description": "Apprenez à naviguer dans les évaluations par domaine, filtrer par catégories, afficher les éléments en format tableau ou carte, répondre aux évaluations et accéder aux données historiques, stratégies, commentaires et descriptions."
         }
       },
       "competance": {
@@ -1571,6 +1575,29 @@
             "video_info": "",
             "description_title": "Comment répondre à une évaluation depuis un objectif d'aujourd'hui",
             "description": "Cette vidéo explique comment répondre à une évaluation directement depuis un objectif d'aujourd'hui dans la vue calendrier. Vous pouvez passer l'évaluation pour suivre les progrès de votre enfant par rapport à l'objectif."
+          }
+        }
+      },
+      "explorer": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "evaluation_list_view": {
+            "title": "Vue Liste des Évaluations - Catégories, Filtres, Vue Tableau et Carte",
+            "video_info": "",
+            "description_title": "Comment Voir les Évaluations par Domaine",
+            "description": "Cette vidéo vous montre comment naviguer dans l'explorateur d'évaluations. Vous apprendrez à voir les évaluations organisées par domaine, divisées par catégories, utiliser les filtres pour affiner les résultats, et basculer entre les formats de vue tableau et carte pour mieux visualiser les éléments d'évaluation."
+          },
+          "answer_evaluation": {
+            "title": "Répondre aux Évaluations et Voir les Réponses",
+            "video_info": "",
+            "description_title": "Comment Répondre aux Évaluations et Voir les Réponses",
+            "description": "Cette vidéo démontre comment répondre aux questions d'évaluation et voir vos réponses précédentes. Vous apprendrez le processus de complétion des évaluations et de révision de vos réponses pour suivre les progrès au fil du temps."
+          },
+          "historique_strategie": {
+            "title": "Voir l'Historique, la Stratégie, les Commentaires et la Description",
+            "video_info": "",
+            "description_title": "Comment Accéder aux Options des Éléments",
+            "description": "Cette vidéo vous montre comment accéder aux différentes options pour les éléments d'évaluation. Vous apprendrez à voir l'évolution historique et l'amélioration des éléments, ajouter ou voir les descriptions, ajouter ou voir les commentaires, et accéder ou modifier les stratégies associées à chaque élément."
           }
         }
       }

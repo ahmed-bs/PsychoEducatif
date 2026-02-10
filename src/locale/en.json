@@ -1410,6 +1410,10 @@
         "calendar": {
           "title": "Calendar",
           "description": "Discover the calendar view of goals. You can add or answer evaluations, see today's goals with different view types (week, day, list, month)."
+        },
+        "explorer": {
+          "title": "Explorer",
+          "description": "Learn how to navigate evaluations by domain, filter by categories, view items in table or card format, answer evaluations, and access historical data, strategies, comments, and descriptions."
         }
       },
       "competance": {
@@ -1591,6 +1595,29 @@
             "video_info": "",
             "description_title": "How to Answer an Evaluation from Today's Goal",
             "description": "This video explains how to answer an evaluation directly from a today's goal in the calendar view. You can take the evaluation to track your child's progress towards the goal."
+          }
+        }
+      },
+      "explorer": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "evaluation_list_view": {
+            "title": "Evaluation List View - Categories, Filters, Table and Card View",
+            "video_info": "",
+            "description_title": "How to View Evaluations by Domain",
+            "description": "This video shows you how to navigate the evaluation explorer. You'll learn how to view evaluations organized by domain, divided by categories, use filters to narrow down results, and switch between table and card view formats to better visualize the evaluation items."
+          },
+          "answer_evaluation": {
+            "title": "Answer Evaluation and View Answers",
+            "video_info": "",
+            "description_title": "How to Answer Evaluations and View Answers",
+            "description": "This video demonstrates how to answer evaluation questions and view your previous answers. You'll learn the process of completing evaluations and reviewing your responses to track progress over time."
+          },
+          "historique_strategie": {
+            "title": "View History, Strategy, Comments, and Description",
+            "video_info": "",
+            "description_title": "How to Access Item Options",
+            "description": "This video shows you how to access different options for evaluation items. You'll learn how to view the historical evolution and improvement of items, add or view descriptions, add or view comments, and access or modify strategies associated with each item."
           }
         }
       }
