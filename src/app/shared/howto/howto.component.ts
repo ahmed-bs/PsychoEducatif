@@ -8,6 +8,7 @@ import { HowtoObjectifsComponent } from './howtoObjectifs/howtoObjectifs.compone
 import { HowtoStrategieComponent } from './howtoStrategie/howtoStrategie.component';
 import { HowtochangeProfComponent } from './howtochangeProf/howtochangeProf.component';
 import { HowtoUploadfileComponent } from './howtoUploadfile/howtoUploadfile.component';
+import { HowtoSummaryComponent } from './howtoSummary/howtoSummary.component';
 import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
@@ -15,7 +16,7 @@ import { SharedService } from 'src/app/core/services/shared.service';
   templateUrl: './howto.component.html',
   styleUrls: ['./howto.component.css'],
   standalone: true,
-  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent]
+  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent, HowtoSummaryComponent]
 })
 export class HowtoComponent implements OnInit {
   @Output() navigateToTab = new EventEmitter<string>();
@@ -28,6 +29,7 @@ export class HowtoComponent implements OnInit {
   showStrategieGuide: boolean = false;
   showChangeProfGuide: boolean = false;
   showUploadFileGuide: boolean = false;
+  showSummaryGuide: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -75,6 +77,9 @@ export class HowtoComponent implements OnInit {
     } else if (tabId === 'upload_file') {
       // Show upload file guide
       this.showUploadFileGuide = true;
+    } else if (tabId === 'summary') {
+      // Show summary guide
+      this.showSummaryGuide = true;
     } else {
       // Navigate to other tabs
       this.navigateToTab.emit(tabId);
@@ -92,6 +97,7 @@ export class HowtoComponent implements OnInit {
     this.showStrategieGuide = false;
     this.showChangeProfGuide = false;
     this.showUploadFileGuide = false;
+    this.showSummaryGuide = false;
   }
 
 }

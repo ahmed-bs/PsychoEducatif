@@ -1402,6 +1402,10 @@
         "upload_file": {
           "title": "Upload and Download Files",
           "description": "Learn how to upload and download files in the application."
+        },
+        "summary": {
+          "title": "Summary",
+          "description": "Learn how to see all items in domains within a category by expanding them, then how to filter and export the summary."
         }
       },
       "competance": {
@@ -1529,6 +1533,27 @@
             "video_info": "",
             "description_title": "How to Upload and Download Files",
             "description": "This video demonstrates how to upload files to the application and download files from it. Learn the step-by-step process for managing files, including selecting files, uploading them, and downloading documents when needed."
+          }
+        }
+      },
+      "summary": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "remark": {
+          "title": "Important Note",
+          "text": "The summary will show the last result changes in the selected time period."
+        },
+        "videos": {
+          "expand_items": {
+            "title": "Expand Items in Summary",
+            "video_info": "",
+            "description_title": "How to See All Items in Domains Within a Category",
+            "description": "This video shows you how to expand a category to see all items in the domains. You'll learn how to use the expand function to display all details of evaluated items in each domain of a specific category."
+          },
+          "filter_export": {
+            "title": "Filter and Export Summary",
+            "video_info": "",
+            "description_title": "How to Filter and Export Summary",
+            "description": "This video shows you how to filter the summary according to different criteria (time period, categories, domains) and how to export the filtered results to PDF or Excel format. The summary will show the last result changes in the selected time period."
           }
         }
       }
