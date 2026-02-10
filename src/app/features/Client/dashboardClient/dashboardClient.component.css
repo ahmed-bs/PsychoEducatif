@@ -2167,6 +2167,93 @@ canvas {
   height: 120%;
 }
 
+/* =============== HELP ICON BUTTON =============== */
+.help-icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #6366f1;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.help-icon-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.help-icon-btn:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.help-icon-btn:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.help-icon-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.help-icon-btn i {
+  position: relative;
+  z-index: 1;
+}
+
+.help-icon-btn:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments for help icon */
+@media (max-width: 768px) {
+  .help-icon-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .help-icon-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+}
+
+/* Howto Modal Specific Styles */
+.howto-modal {
+  max-width: 600px;
+}
+
+.howto-modal .share-modal-header {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.howto-modal .share-modal-icon-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 /* =============== ACCESSIBILITY IMPROVEMENTS =============== */
 
 /* Focus states for better accessibility */
@@ -3010,6 +3097,22 @@ canvas {
   transform: translateY(0);
 }
 
+.file-delete-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.file-delete-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
+}
+
+.file-delete-btn:active {
+  transform: translateY(0);
+}
+
 /* Responsive adjustments for file management */
 @media (max-width: 768px) {
   .file-management-modal {
@@ -3023,6 +3126,8 @@ canvas {
 
   .file-item-actions {
     width: 100%;
+    display: flex;
+    gap: 0.5rem;
   }
 
   .file-action-btn {

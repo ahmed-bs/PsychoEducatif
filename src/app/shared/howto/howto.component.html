@@ -1,0 +1,145 @@
+<div class="howto-content">
+  <!-- Statistics Guide View -->
+  <div *ngIf="showStatisticsGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoStatic></app-howtoStatic>
+  </div>
+
+  <!-- Competance Guide View -->
+  <div *ngIf="showCompetanceGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoCompetance></app-howtoCompetance>
+  </div>
+
+  <!-- Notes Guide View -->
+  <div *ngIf="showNotesGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoNotes></app-howtoNotes>
+  </div>
+
+  <!-- Objectifs Guide View -->
+  <div *ngIf="showObjectifsGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoObjectifs></app-howtoObjectifs>
+  </div>
+
+  <!-- Strategie Guide View -->
+  <div *ngIf="showStrategieGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoStrategie></app-howtoStrategie>
+  </div>
+
+  <!-- Change Profile Guide View -->
+  <div *ngIf="showChangeProfGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtochangeProf></app-howtochangeProf>
+  </div>
+
+  <!-- Upload File Guide View -->
+  <div *ngIf="showUploadFileGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoUploadfile></app-howtoUploadfile>
+  </div>
+
+  <!-- Summary Guide View -->
+  <div *ngIf="showSummaryGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoSummary></app-howtoSummary>
+  </div>
+
+  <!-- Calendar Guide View -->
+  <div *ngIf="showCalendarGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoCalendar></app-howtoCalendar>
+  </div>
+
+  <!-- Main Howto View -->
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide">
+    <!-- Welcome Section as Title/Explanation -->
+    <div class="howto-welcome">
+      <h2 class="howto-welcome-title">
+        <i class="fas fa-info-circle"></i> {{ 'dashboard.howto_dialog.sections.welcome.title' | translate }}
+      </h2>
+      <p class="howto-welcome-description">{{ 'dashboard.howto_dialog.sections.welcome.description' | translate }}</p>
+    </div>
+    
+    <!-- Clickable Sections -->
+    <!-- <div class="howto-section clickable" (click)="handleTabClick('skills')">
+      <h3><i class="fas fa-star"></i> {{ 'dashboard.howto_dialog.sections.skills.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.skills.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div> -->
+    
+    <div class="howto-section clickable" (click)="handleTabClick('goals')">
+      <h3><i class="fas fa-bullseye"></i> {{ 'dashboard.howto_dialog.sections.goals.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.goals.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('strategies')">
+      <h3><i class="fas fa-lightbulb"></i> {{ 'dashboard.howto_dialog.sections.strategies.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.strategies.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('notes')">
+      <h3><i class="fas fa-sticky-note"></i> {{ 'dashboard.howto_dialog.sections.notes.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.notes.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('competance')">
+      <h3><i class="fas fa-graduation-cap"></i> {{ 'dashboard.howto_dialog.sections.competance.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.competance.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('stats')">
+      <h3><i class="fas fa-chart-bar"></i> {{ 'dashboard.howto_dialog.sections.statistics.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.statistics.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('change_profile')">
+      <h3><i class="fas fa-user-cog"></i> {{ 'dashboard.howto_dialog.sections.change_profile.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.change_profile.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('upload_file')">
+      <h3><i class="fas fa-cloud-upload-alt"></i> {{ 'dashboard.howto_dialog.sections.upload_file.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.upload_file.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('summary')">
+      <h3><i class="fas fa-file-alt"></i> {{ 'dashboard.howto_dialog.sections.summary.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.summary.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('calendar')">
+      <h3><i class="fas fa-calendar-alt"></i> {{ 'dashboard.howto_dialog.sections.calendar.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.calendar.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+  </div>
+</div>

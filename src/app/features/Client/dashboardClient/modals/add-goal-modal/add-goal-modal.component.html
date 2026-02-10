@@ -120,7 +120,7 @@
             class="form-select"
             [class.input-error]="goalForm.get('category_id')?.invalid && goalForm.get('category_id')?.touched">
             <option [ngValue]="null" disabled>{{ 'add_goal_modal.placeholders.select_category' | translate }}</option>
-            <option *ngFor="let category of availableCategories" [value]="category.id">{{ getLanguageField(category, 'name') }}</option>
+            <option *ngFor="let category of availableCategories" [ngValue]="category.id">{{ getLanguageField(category, 'name') }}</option>
           </select>
           <p *ngIf="goalForm.get('category_id')?.invalid && goalForm.get('category_id')?.touched" class="error-message">
             {{ 'add_goal_modal.validation.category_required' | translate }}
@@ -141,7 +141,7 @@
             class="form-select"
             [class.input-error]="goalForm.get('domain_id')?.invalid && goalForm.get('domain_id')?.touched">
             <option [ngValue]="null" disabled>{{ 'add_goal_modal.placeholders.select_domain' | translate }}</option>
-            <option *ngFor="let domain of availableDomains" [value]="domain.id">{{ getDomainLanguageField(domain, 'name') }}</option>
+            <option *ngFor="let domain of availableDomains" [ngValue]="domain.id">{{ getDomainLanguageField(domain, 'name') }}</option>
           </select>
           <p *ngIf="goalForm.get('domain_id')?.invalid && goalForm.get('domain_id')?.touched" class="error-message">
             {{ 'add_goal_modal.validation.domain_required' | translate }}

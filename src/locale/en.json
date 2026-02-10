@@ -1142,7 +1142,8 @@
       "share_profile_button": "Share profile",
       "edit_profile_button": "Edit profile",
       "disable_profile_button": "Disable profile",
-      "files_button": "Files"
+      "files_button": "Files",
+      "help_button": "Help"
     },
     "tabs": {
       "skills": "Skills",
@@ -1299,11 +1300,299 @@
         "loading": "Loading files...",
         "no_files": "No files available",
         "download": "Download",
+        "delete": "Delete",
         "uploaded_by": "Uploaded by",
         "compressed": "compressed"
       },
       "buttons": {
         "close": "Close"
+      }
+    },
+    "help_button": "Help",
+    "howto_dialog": {
+      "title": "Help & Guide",
+      "subtitle": "Learn how to use the dashboard features",
+      "close": "Close",
+      "back": "Back",
+      "click_to_view": "Click to view",
+      "statistics": {
+        "video_title": "Statistics Overview Video",
+        "video_not_supported": "Your browser does not support the video tag.",
+        "video_info": "",
+        "cards_title": "Statistics Cards Explained",
+        "charts_title": "Charts Explained",
+        "cards": {
+          "categories": {
+            "title": "Categories",
+            "description": "This card displays the total number of skill categories in your child's profile. Categories group related skills together, making it easier to organize and track progress across different areas of development."
+          },
+          "domains": {
+            "title": "Domains",
+            "description": "This card shows the total number of domains within all categories. Domains represent specific areas of skills within each category, providing a more detailed breakdown of your child's competencies."
+          },
+          "items": {
+            "title": "Items",
+            "description": "This card indicates the total number of individual skill items or competencies that have been evaluated. Each item represents a specific skill or ability that is being tracked and assessed."
+          },
+          "progress": {
+            "title": "Overall Progress",
+            "description": "This card displays the overall progress percentage across all evaluated skills. It gives you a quick overview of how much progress your child has made overall, calculated as an average across all domains and categories."
+          }
+        },
+        "charts": {
+          "skills_chart": {
+            "title": "Donut Chart - Skills Distribution",
+            "description": "This circular donut chart displays the distribution of skills by category. Each segment represents a different category, allowing you to quickly visualize how your child's skills are distributed across various areas."
+          },
+          "progress_chart": {
+            "title": "Bar Chart - Progress by Category",
+            "description": "This bar chart shows the progress percentage for each skill category. The bars allow you to easily compare the level of progression between different categories."
+          },
+          "line_chart": {
+            "title": "Line Chart - Progress Evolution",
+            "description": "This line chart illustrates the evolution of progress over time. It helps you track trends and identify improvements or areas that need more attention."
+          },
+          "polar_chart": {
+            "title": "Polar Chart - Domain Overview",
+            "description": "This polar area chart provides a visual overview of all skill domains. Each section represents a domain, allowing for quick comparison of their relative importance."
+          },
+          "progress_overview": {
+            "title": "Progress Overview by Category",
+            "description": "This section displays a detailed view of progress for each category. You can see the progress percentage, number of evaluated competencies, and compare with the set goal for each category."
+          },
+          "recent_activity": {
+            "title": "Recent Activity",
+            "description": "This section shows the latest evaluation activities by category. It displays which categories have been recently updated and the number of competencies evaluated, helping you track recent development activity."
+          }
+        }
+      },
+      "sections": {
+        "welcome": {
+          "title": "User Guide",
+          "description": "Welcome to the dashboard. This section will help you understand how to use the different features."
+        },
+        "skills": {
+          "title": "Skills",
+          "description": "View your child's skills organized by categories and domains. You can see the progress of each domain."
+        },
+        "goals": {
+          "title": "Goals",
+          "description": "Create and manage goals to track your child's development."
+        },
+        "strategies": {
+          "title": "Strategies",
+          "description": "Access and manage educational strategies and interventions tailored to your child's needs."
+        },
+        "notes": {
+          "title": "Notes",
+          "description": "Keep track of important observations, notes, and reminders about your child's progress and activities."
+        },
+        "competance": {
+          "title": "Competencies",
+          "description": "Learn how to view and understand your child's competencies organized by categories and domains."
+        },
+        "statistics": {
+          "title": "Statistics",
+          "description": "Visualize statistics and overall progress through different charts and indicators."
+        },
+        "change_profile": {
+          "title": "Change Profile / Logout",
+          "description": "Learn how to change profile or logout from your account."
+        },
+        "upload_file": {
+          "title": "Upload and Download Files",
+          "description": "Learn how to upload and download files in the application."
+        },
+        "summary": {
+          "title": "Summary",
+          "description": "Learn how to see all items in domains within a category by expanding them, then how to filter and export the summary."
+        },
+        "calendar": {
+          "title": "Calendar",
+          "description": "Discover the calendar view of goals. You can add or answer evaluations, see today's goals with different view types (week, day, list, month)."
+        }
+      },
+      "competance": {
+        "video_title": "Competencies Overview Video",
+        "video_not_supported": "Your browser does not support the video tag.",
+        "video_info": "",
+        "cards_title": "Competency Cards Explained",
+        "cards": {
+          "categories": {
+            "title": "Categories",
+            "description": "Categories group related competencies in different areas of development. Each category contains multiple specific competency domains."
+          },
+          "domains": {
+            "title": "Domains",
+            "description": "Domains represent specific competency areas within each category. Each domain displays its progress percentage and evaluation details."
+          },
+          "progress": {
+            "title": "Progress Bar",
+            "description": "The visual progress bar shows the percentage of competencies acquired for each domain. It allows you to quickly track your child's progress."
+          },
+          "dates": {
+            "title": "Tracking Dates",
+            "description": "Each domain displays the start date and last update date, allowing you to track the history of evaluations and progress."
+          }
+        }
+      },
+      "notes": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "add": {
+            "title": "Add a Note",
+            "video_info": "",
+            "description_title": "How to Add a Note",
+            "description": "This video shows you how to add a new note to track important observations about your child's progress and activities. You can create notes with titles, descriptions, and dates to organize your observations."
+          },
+          "edit": {
+            "title": "Edit a Note",
+            "video_info": "",
+            "description_title": "How to Edit a Note",
+            "description": "Learn how to edit an existing note to update information, correct errors, or add additional details. You can modify the title, description, and other details of your notes."
+          },
+          "delete": {
+            "title": "Delete a Note",
+            "video_info": "",
+            "description_title": "How to Delete a Note",
+            "description": "Discover how to delete a note you no longer need. Deletion is permanent, so make sure you want to remove the note before confirming the action."
+          },
+          "filter": {
+            "title": "Filter Notes",
+            "video_info": "",
+            "description_title": "How to Filter Notes",
+            "description": "This video explains how to use filters to quickly find specific notes. You can filter by date, title, or other criteria to organize and locate your notes more easily."
+          }
+        }
+      },
+      "objectifs": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "add": {
+            "title": "Add an Objective",
+            "video_info": "",
+            "description_title": "How to Add an Objective",
+            "description": "This video shows you how to add a new objective to track your child's development. You can create objectives with titles, descriptions, target dates, and other details to organize your development goals."
+          },
+          "edit": {
+            "title": "Edit an Objective",
+            "video_info": "",
+            "description_title": "How to Edit an Objective",
+            "description": "Learn how to edit an existing objective to update information, correct errors, or add additional details. You can modify the title, description, dates, and other details of your objectives.",
+            "remark": "Note: If you choose \"Don't update\" when editing, the objective will be disabled until reactivated through editing."
+          },
+          "delete": {
+            "title": "Delete an Objective",
+            "video_info": "",
+            "description_title": "How to Delete an Objective",
+            "description": "Discover how to delete an objective you no longer need. Deletion is permanent, so make sure you want to remove the objective before confirming the action."
+          },
+          "passer_quiz": {
+            "title": "Take a Quiz",
+            "video_info": "",
+            "description_title": "How to Take a Quiz",
+            "description": "This video explains how to take a quiz to evaluate your child's progress towards an objective. Quizzes allow you to track and assess performance in a structured way.",
+            "date_remark": "Important Note: The \"Take Quiz\" function is only accessible when the date is today. You can only take the quiz on the scheduled day.",
+            "quiz_remark": "Note: If you choose \"Don't update\" in the quiz popup, the objective will be disabled until reactivated through editing."
+          }
+        }
+      },
+      "strategies": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "remark": {
+          "title": "Important Note",
+          "text": "Nothing will show in the list of strategies until you answer an evaluation about the kids with partial answer items."
+        },
+        "videos": {
+          "overview": {
+            "title": "Strategies Overview",
+            "video_info": "",
+            "description_title": "Strategies Overview",
+            "description": "This video gives you an overview of the strategies section. You'll learn how to navigate the list of strategies and understand how they are organized and displayed."
+          },
+          "filter_export": {
+            "title": "Filter and Export Strategies",
+            "video_info": "",
+            "description_title": "How to Filter and Export Strategies",
+            "description": "This video shows you how to filter strategies using the state of items, then how to export the filtered results to PDF or Excel format. You can organize your strategies according to different criteria and export them for offline use or sharing."
+          }
+        }
+      },
+      "change_profile": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "change_profile": {
+            "title": "Change profile or logout",
+            "video_info": "",
+            "description_title": "How to change profile or logout",
+            "description": "This video shows you how to change profile to access another child's profile, or how to logout from your account. You can easily switch between different profiles or logout securely."
+          }
+        }
+      },
+      "upload_file": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "upload_download": {
+            "title": "Upload and Download Files",
+            "video_info": "",
+            "description_title": "How to Upload and Download Files",
+            "description": "This video demonstrates how to upload files to the application and download files from it. Learn the step-by-step process for managing files, including selecting files, uploading them, and downloading documents when needed."
+          }
+        }
+      },
+      "summary": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "remark": {
+          "title": "Important Note",
+          "text": "The summary will show the last result changes in the selected time period."
+        },
+        "videos": {
+          "expand_items": {
+            "title": "Expand Items in Summary",
+            "video_info": "",
+            "description_title": "How to See All Items in Domains Within a Category",
+            "description": "This video shows you how to expand a category to see all items in the domains. You'll learn how to use the expand function to display all details of evaluated items in each domain of a specific category."
+          },
+          "filter_export": {
+            "title": "Filter and Export Summary",
+            "video_info": "",
+            "description_title": "How to Filter and Export Summary",
+            "description": "This video shows you how to filter the summary according to different criteria (time period, categories, domains) and how to export the filtered results to PDF or Excel format. The summary will show the last result changes in the selected time period."
+          }
+        }
+      },
+      "calendar": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Calendar View of Goals",
+          "description": "The calendar is another view of your goals. You can add or answer evaluations, see today's goals with different view types: week, day, list, or month."
+        },
+        "videos": {
+          "calendar_view": {
+            "title": "Calendar View - View Types",
+            "video_info": "",
+            "description_title": "How to Use Different Calendar Views",
+            "description": "This video shows you how to navigate the calendar view and use the different view types available: week, day, list, and month. You'll learn to see your today's goals and switch between different views to better organize your goals."
+          },
+          "modify_goal": {
+            "title": "Modify a Goal from Calendar",
+            "video_info": "",
+            "description_title": "How to Modify a Goal from Calendar",
+            "description": "This video shows you how to modify a goal directly from the calendar view. You can update the goal information, correct errors, or add additional details directly from the calendar."
+          },
+          "delete_goal": {
+            "title": "Delete a Goal from Calendar",
+            "video_info": "",
+            "description_title": "How to Delete a Goal from Calendar",
+            "description": "Discover how to delete a goal directly from the calendar view. Deletion is permanent, so make sure you want to remove the goal before confirming the action."
+          },
+          "answer_quiz": {
+            "title": "Answer an Evaluation from Calendar",
+            "video_info": "",
+            "description_title": "How to Answer an Evaluation from Today's Goal",
+            "description": "This video explains how to answer an evaluation directly from a today's goal in the calendar view. You can take the evaluation to track your child's progress towards the goal."
+          }
+        }
       }
     },
     "charts": {

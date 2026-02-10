@@ -1122,7 +1122,8 @@
       "share_profile_button": "Partager le profil",
       "edit_profile_button": "Modifier le profil",
       "disable_profile_button": "Désactiver le profil",
-      "files_button": "Fichiers"
+      "files_button": "Fichiers",
+      "help_button": "Aide"
     },
     "tabs": {
       "skills": "Compétences",
@@ -1279,11 +1280,299 @@
         "loading": "Chargement des fichiers...",
         "no_files": "Aucun fichier disponible",
         "download": "Télécharger",
+        "delete": "Supprimer",
         "uploaded_by": "Téléchargé par",
         "compressed": "compressé"
       },
       "buttons": {
         "close": "Fermer"
+      }
+    },
+    "help_button": "Aide",
+    "howto_dialog": {
+      "title": "Aide & Guide",
+      "subtitle": "Apprenez à utiliser les fonctionnalités du tableau de bord",
+      "close": "Fermer",
+      "back": "Retour",
+      "click_to_view": "Cliquez pour voir",
+      "statistics": {
+        "video_title": "Vidéo de présentation des statistiques",
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "video_info": "",
+        "cards_title": "Explication des cartes de statistiques",
+        "charts_title": "Explication des graphiques",
+        "cards": {
+          "categories": {
+            "title": "Catégories",
+            "description": "Cette carte affiche le nombre total de catégories de compétences dans le profil de votre enfant. Les catégories regroupent les compétences connexes, facilitant l'organisation et le suivi des progrès dans différents domaines de développement."
+          },
+          "domains": {
+            "title": "Domaines",
+            "description": "Cette carte montre le nombre total de domaines dans toutes les catégories. Les domaines représentent des zones spécifiques de compétences au sein de chaque catégorie, fournissant une ventilation plus détaillée des compétences de votre enfant."
+          },
+          "items": {
+            "title": "Éléments",
+            "description": "Cette carte indique le nombre total d'éléments de compétences individuels ou de compétences qui ont été évalués. Chaque élément représente une compétence ou une capacité spécifique qui est suivie et évaluée."
+          },
+          "progress": {
+            "title": "Progrès Global",
+            "description": "Cette carte affiche le pourcentage de progrès global sur toutes les compétences évaluées. Elle vous donne un aperçu rapide de la progression de votre enfant, calculé comme une moyenne sur tous les domaines et catégories."
+          }
+        },
+        "charts": {
+          "skills_chart": {
+            "title": "Graphique en Donut - Répartition des Compétences",
+            "description": "Ce graphique circulaire (donut) présente la répartition des compétences par catégorie. Chaque segment représente une catégorie différente, vous permettant de visualiser rapidement la distribution des compétences de votre enfant."
+          },
+          "progress_chart": {
+            "title": "Graphique en Barres - Progrès par Catégorie",
+            "description": "Ce graphique en barres montre le pourcentage de progrès pour chaque catégorie de compétences. Les barres vous permettent de comparer facilement le niveau de progression entre les différentes catégories."
+          },
+          "line_chart": {
+            "title": "Graphique Linéaire - Évolution du Progrès",
+            "description": "Ce graphique linéaire illustre l'évolution du progrès au fil du temps. Il vous aide à suivre les tendances et à identifier les améliorations ou les domaines nécessitant plus d'attention."
+          },
+          "polar_chart": {
+            "title": "Graphique Polaire - Vue d'Ensemble des Domaines",
+            "description": "Ce graphique polaire (en aires) offre une vue d'ensemble visuelle de tous les domaines de compétences. Chaque section représente un domaine, permettant une comparaison rapide de leur importance relative."
+          },
+          "progress_overview": {
+            "title": "Aperçu du Progrès par Catégorie",
+            "description": "Cette section affiche une vue détaillée du progrès pour chaque catégorie. Vous pouvez voir le pourcentage de progression, le nombre de compétences évaluées, et comparer avec l'objectif fixé pour chaque catégorie."
+          },
+          "recent_activity": {
+            "title": "Activité Récente",
+            "description": "Cette section présente les dernières activités d'évaluation par catégorie. Elle vous montre quelles catégories ont été récemment mises à jour et le nombre de compétences évaluées, vous aidant à suivre l'activité récente de développement."
+          }
+        }
+      },
+      "sections": {
+        "welcome": {
+          "title": "Guide d'utilisation",
+          "description": "Bienvenue sur le tableau de bord. Cette section vous aidera à comprendre comment utiliser les différentes fonctionnalités."
+        },
+        "skills": {
+          "title": "Compétences",
+          "description": "Consultez les compétences de votre enfant organisées par catégories et domaines. Vous pouvez voir le progrès de chaque domaine."
+        },
+        "goals": {
+          "title": "Objectifs",
+          "description": "Créez et gérez les objectifs pour suivre le développement de votre enfant."
+        },
+        "strategies": {
+          "title": "Stratégies",
+          "description": "Accédez et gérez les stratégies éducatives et interventions adaptées aux besoins de votre enfant."
+        },
+        "notes": {
+          "title": "Notes",
+          "description": "Gardez une trace des observations importantes, notes et rappels concernant le progrès et les activités de votre enfant."
+        },
+        "competance": {
+          "title": "Compétences",
+          "description": "Découvrez comment consulter et comprendre les compétences de votre enfant organisées par catégories et domaines."
+        },
+        "statistics": {
+          "title": "Statistiques",
+          "description": "Visualisez les statistiques et le progrès global à travers différents graphiques et indicateurs."
+        },
+        "change_profile": {
+          "title": "Changer de profil / Déconnexion",
+          "description": "Apprenez comment changer de profil ou vous déconnecter de votre compte."
+        },
+        "upload_file": {
+          "title": "Télécharger et téléverser des fichiers",
+          "description": "Apprenez comment téléverser et télécharger des fichiers dans l'application."
+        },
+        "summary": {
+          "title": "Résumé",
+          "description": "Apprenez à voir tous les éléments dans les domaines d'une catégorie en les développant, puis à filtrer et exporter le résumé."
+        },
+        "calendar": {
+          "title": "Calendrier",
+          "description": "Découvrez la vue calendrier des objectifs. Vous pouvez ajouter ou répondre aux évaluations, voir les objectifs d'aujourd'hui avec différents types de vues (semaine, jour, liste, mois)."
+        }
+      },
+      "competance": {
+        "video_title": "Vidéo de présentation des compétences",
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "video_info": "",
+        "cards_title": "Explication des cartes de compétences",
+        "cards": {
+          "categories": {
+            "title": "Catégories",
+            "description": "Les catégories regroupent les compétences connexes dans différents domaines de développement. Chaque catégorie contient plusieurs domaines de compétences spécifiques."
+          },
+          "domains": {
+            "title": "Domaines",
+            "description": "Les domaines représentent des zones spécifiques de compétences au sein de chaque catégorie. Chaque domaine affiche son pourcentage de progression et les détails d'évaluation."
+          },
+          "progress": {
+            "title": "Barre de progression",
+            "description": "La barre de progression visuelle montre le pourcentage de compétences acquises pour chaque domaine. Elle vous permet de suivre rapidement les progrès de votre enfant."
+          },
+          "dates": {
+            "title": "Dates de suivi",
+            "description": "Chaque domaine affiche la date de début et la date de dernière mise à jour, vous permettant de suivre l'historique des évaluations et des progrès."
+          }
+        }
+      },
+      "notes": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "add": {
+            "title": "Ajouter une note",
+            "video_info": "",
+            "description_title": "Comment ajouter une note",
+            "description": "Cette vidéo vous montre comment ajouter une nouvelle note pour suivre les observations importantes concernant le progrès et les activités de votre enfant. Vous pouvez créer des notes avec des titres, descriptions et dates pour organiser vos observations."
+          },
+          "edit": {
+            "title": "Modifier une note",
+            "video_info": "",
+            "description_title": "Comment modifier une note",
+            "description": "Apprenez à modifier une note existante pour mettre à jour les informations, corriger des erreurs ou ajouter des détails supplémentaires. Vous pouvez modifier le titre, la description et d'autres détails de vos notes."
+          },
+          "delete": {
+            "title": "Supprimer une note",
+            "video_info": "",
+            "description_title": "Comment supprimer une note",
+            "description": "Découvrez comment supprimer une note que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer la note avant de confirmer l'action."
+          },
+          "filter": {
+            "title": "Filtrer les notes",
+            "video_info": "",
+            "description_title": "Comment filtrer les notes",
+            "description": "Cette vidéo explique comment utiliser les filtres pour trouver rapidement des notes spécifiques. Vous pouvez filtrer par date, titre, ou d'autres critères pour organiser et localiser vos notes plus facilement."
+          }
+        }
+      },
+      "objectifs": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "add": {
+            "title": "Ajouter un objectif",
+            "video_info": "",
+            "description_title": "Comment ajouter un objectif",
+            "description": "Cette vidéo vous montre comment ajouter un nouvel objectif pour suivre le développement de votre enfant. Vous pouvez créer des objectifs avec des titres, descriptions, dates cibles et autres détails pour organiser vos objectifs de développement."
+          },
+          "edit": {
+            "title": "Modifier un objectif",
+            "video_info": "",
+            "description_title": "Comment modifier un objectif",
+            "description": "Apprenez à modifier un objectif existant pour mettre à jour les informations, corriger des erreurs ou ajouter des détails supplémentaires. Vous pouvez modifier le titre, la description, les dates et d'autres détails de vos objectifs.",
+            "remark": "Remarque : Si vous choisissez \"Pas mettre à jour\" lors de la modification, l'objectif sera désactivé jusqu'à ce qu'il soit réactivé via l'édition."
+          },
+          "delete": {
+            "title": "Supprimer un objectif",
+            "video_info": "",
+            "description_title": "Comment supprimer un objectif",
+            "description": "Découvrez comment supprimer un objectif que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer l'objectif avant de confirmer l'action."
+          },
+          "passer_quiz": {
+            "title": "Passer un quiz",
+            "video_info": "",
+            "description_title": "Comment passer un quiz",
+            "description": "Cette vidéo explique comment passer un quiz pour évaluer les progrès de votre enfant par rapport à un objectif. Les quiz vous permettent de suivre et d'évaluer les performances de manière structurée.",
+            "date_remark": "Remarque importante : La fonction \"Passer le quiz\" n'est accessible que lorsque la date est aujourd'hui. Vous ne pouvez passer le quiz que le jour prévu.",
+            "quiz_remark": "Remarque : Si vous choisissez \"Pas mettre à jour\" dans le popup du quiz, l'objectif sera désactivé jusqu'à ce qu'il soit réactivé via l'édition."
+          }
+        }
+      },
+      "strategies": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "remark": {
+          "title": "Remarque importante",
+          "text": "Aucune stratégie ne s'affichera dans la liste jusqu'à ce que vous répondiez à une évaluation concernant les enfants avec des éléments de réponse partiels."
+        },
+        "videos": {
+          "overview": {
+            "title": "Vue d'ensemble des stratégies",
+            "video_info": "",
+            "description_title": "Vue d'ensemble des stratégies",
+            "description": "Cette vidéo vous donne une vue d'ensemble de la section des stratégies. Vous apprendrez à naviguer dans la liste des stratégies et à comprendre comment elles sont organisées et présentées."
+          },
+          "filter_export": {
+            "title": "Filtrer et exporter les stratégies",
+            "video_info": "",
+            "description_title": "Comment filtrer et exporter les stratégies",
+            "description": "Cette vidéo vous montre comment filtrer les stratégies en utilisant l'état des éléments, puis comment exporter les résultats filtrés au format PDF ou Excel. Vous pouvez organiser vos stratégies selon différents critères et les exporter pour un usage hors ligne ou pour le partage."
+          }
+        }
+      },
+      "change_profile": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "change_profile": {
+            "title": "Changer de profil ou se déconnecter",
+            "video_info": "",
+            "description_title": "Comment changer de profil ou se déconnecter",
+            "description": "Cette vidéo vous montre comment changer de profil pour accéder à un autre profil d'enfant, ou comment vous déconnecter de votre compte. Vous pouvez facilement basculer entre différents profils ou vous déconnecter en toute sécurité."
+          }
+        }
+      },
+      "upload_file": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "upload_download": {
+            "title": "Téléverser et télécharger des fichiers",
+            "video_info": "",
+            "description_title": "Comment téléverser et télécharger des fichiers",
+            "description": "Cette vidéo démontre comment téléverser des fichiers dans l'application et télécharger des fichiers depuis celle-ci. Apprenez le processus étape par étape pour gérer les fichiers, y compris la sélection de fichiers, leur téléversement et le téléchargement de documents lorsque nécessaire."
+          }
+        }
+      },
+      "summary": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "remark": {
+          "title": "Remarque importante",
+          "text": "Le résumé affichera les derniers changements de résultats dans la période de temps sélectionnée."
+        },
+        "videos": {
+          "expand_items": {
+            "title": "Développer les éléments dans le résumé",
+            "video_info": "",
+            "description_title": "Comment voir tous les éléments dans les domaines d'une catégorie",
+            "description": "Cette vidéo vous montre comment développer une catégorie pour voir tous les éléments dans les domaines. Vous apprendrez à utiliser la fonction d'expansion pour afficher tous les détails des éléments évalués dans chaque domaine d'une catégorie spécifique."
+          },
+          "filter_export": {
+            "title": "Filtrer et exporter le résumé",
+            "video_info": "",
+            "description_title": "Comment filtrer et exporter le résumé",
+            "description": "Cette vidéo vous montre comment filtrer le résumé selon différents critères (période de temps, catégories, domaines) et comment exporter les résultats filtrés au format PDF ou Excel. Le résumé affichera les derniers changements de résultats dans la période de temps sélectionnée."
+          }
+        }
+      },
+      "calendar": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Vue Calendrier des Objectifs",
+          "description": "Le calendrier est une autre vision de vos objectifs. Vous pouvez ajouter ou répondre aux évaluations, voir les objectifs d'aujourd'hui avec différents types de vues : semaine, jour, liste ou mois."
+        },
+        "videos": {
+          "calendar_view": {
+            "title": "Vue Calendrier - Types de vues",
+            "video_info": "",
+            "description_title": "Comment utiliser les différentes vues du calendrier",
+            "description": "Cette vidéo vous montre comment naviguer dans la vue calendrier et utiliser les différents types de vues disponibles : semaine, jour, liste et mois. Vous apprendrez à voir vos objectifs d'aujourd'hui et à basculer entre les différentes vues pour mieux organiser vos objectifs."
+          },
+          "modify_goal": {
+            "title": "Modifier un objectif depuis le calendrier",
+            "video_info": "",
+            "description_title": "Comment modifier un objectif depuis le calendrier",
+            "description": "Cette vidéo vous montre comment modifier un objectif directement depuis la vue calendrier. Vous pouvez mettre à jour les informations de l'objectif, corriger des erreurs ou ajouter des détails supplémentaires directement depuis le calendrier."
+          },
+          "delete_goal": {
+            "title": "Supprimer un objectif depuis le calendrier",
+            "video_info": "",
+            "description_title": "Comment supprimer un objectif depuis le calendrier",
+            "description": "Découvrez comment supprimer un objectif directement depuis la vue calendrier. La suppression est permanente, alors assurez-vous de vouloir supprimer l'objectif avant de confirmer l'action."
+          },
+          "answer_quiz": {
+            "title": "Répondre à une évaluation depuis le calendrier",
+            "video_info": "",
+            "description_title": "Comment répondre à une évaluation depuis un objectif d'aujourd'hui",
+            "description": "Cette vidéo explique comment répondre à une évaluation directement depuis un objectif d'aujourd'hui dans la vue calendrier. Vous pouvez passer l'évaluation pour suivre les progrès de votre enfant par rapport à l'objectif."
+          }
+        }
       }
     },
     "charts": {

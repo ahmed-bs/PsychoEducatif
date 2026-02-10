@@ -1,0 +1,33 @@
+<div class="howto-static-content">
+  <!-- Change Profile Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.change_profile.videos.change_profile.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.change_profile.videos.change_profile.title' | translate">
+        <source src="assets/vidsHowto/changeProf.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.change_profile.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showChangeProfVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.change_profile.videos.change_profile.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.change_profile.videos.change_profile.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.change_profile.videos.change_profile.description' | translate }}</p>
+    </div>
+  </div>
+</div>

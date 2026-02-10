@@ -1,0 +1,141 @@
+<div class="howto-static-content">
+  <!-- Add Objectif Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.objectifs.videos.add.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.objectifs.videos.add.title' | translate">
+        <source src="assets/vidsHowto/addObjectifs.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.objectifs.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showAddVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.objectifs.videos.add.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon categories-icon">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.objectifs.videos.add.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.objectifs.videos.add.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Edit Objectif Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.objectifs.videos.edit.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.objectifs.videos.edit.title' | translate">
+        <source src="assets/vidsHowto/editObjectif.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.objectifs.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showEditVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.objectifs.videos.edit.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon domains-icon">
+          <i class="fas fa-edit"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.objectifs.videos.edit.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.objectifs.videos.edit.description' | translate }}</p>
+      <div class="remark-box" *ngIf="'dashboard.howto_dialog.objectifs.videos.edit.remark' | translate as remark">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ remark }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Objectif Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.objectifs.videos.delete.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.objectifs.videos.delete.title' | translate">
+        <source src="assets/vidsHowto/deleteObjectif.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.objectifs.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showDeleteVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.objectifs.videos.delete.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon progress-icon">
+          <i class="fas fa-trash-alt"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.objectifs.videos.delete.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.objectifs.videos.delete.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Passer Quiz Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.objectifs.videos.passer_quiz.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.objectifs.videos.passer_quiz.title' | translate">
+        <source src="assets/vidsHowto/passerQuiz.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.objectifs.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showPasserQuizVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.objectifs.videos.passer_quiz.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon items-icon">
+          <i class="fas fa-question-circle"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.objectifs.videos.passer_quiz.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.objectifs.videos.passer_quiz.description' | translate }}</p>
+      <div class="remark-box">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ 'dashboard.howto_dialog.objectifs.videos.passer_quiz.date_remark' | translate }}</span>
+      </div>
+      <div class="remark-box" *ngIf="'dashboard.howto_dialog.objectifs.videos.passer_quiz.quiz_remark' | translate as quizRemark">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ quizRemark }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -677,7 +677,7 @@ export class StrategyComponent implements OnInit, OnDestroy, OnChanges {
     this.updatingItem = true;
     this.profileItemService.update(item.id, { etat: newStatus }).subscribe({
       next: (updatedItem) => {
-        // Update the item in the domain's partielItems array
+        // Find and update the item in the domain that contains it
         const domain = this.domainsWithPartielItems.find(d => 
           d.partielItems?.some(i => i.id === updatedItem.id)
         );
@@ -685,22 +685,18 @@ export class StrategyComponent implements OnInit, OnDestroy, OnChanges {
         if (domain && domain.partielItems) {
           const itemIndex = domain.partielItems.findIndex(i => i.id === updatedItem.id);
           if (itemIndex !== -1) {
-            // If status changed from PARTIEL, remove from partielItems
-            if (newStatus !== 'PARTIEL') {
-              domain.partielItems.splice(itemIndex, 1);
-              domain.partiel_count = (domain.partiel_count || 0) - 1;
-              // If no more partiel items, remove domain from list
-              if (domain.partielItems.length === 0) {
-                const domainIndex = this.domainsWithPartielItems.findIndex(d => d.id === domain.id);
-                if (domainIndex !== -1) {
-                  this.domainsWithPartielItems.splice(domainIndex, 1);
-                }
-              }
-            } else {
-              domain.partielItems[itemIndex] = updatedItem;
-            }
+            // Update the item with new status
+            domain.partielItems[itemIndex] = updatedItem;
+            
+            // Recalculate partiel_count for this domain
+            const partielItems = domain.partielItems.filter(i => i.etat === 'PARTIEL');
+            domain.partiel_count = partielItems.length;
           }
         }
+        
+        // Reapply the filter to reflect the status change
+        this.applyStatusFilter();
+        
         this.updatingItem = false;
       },
       error: (error) => {

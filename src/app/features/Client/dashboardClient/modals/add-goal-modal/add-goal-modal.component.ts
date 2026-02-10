@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { GoalService } from 'src/app/core/services/goal.service';
@@ -6,7 +6,7 @@ import { ProfileCategory } from 'src/app/core/models/ProfileCategory';
 import { ProfileDomain } from 'src/app/core/models/ProfileDomain';
 import { ProfileDomainService } from 'src/app/core/services/ProfileDomain.service';
 import { ProfileCategoryService } from 'src/app/core/services/ProfileCategory.service';
-import { debounceTime, distinctUntilChanged, filter, switchMap, take } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, switchMap, take, forkJoin, map, catchError, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { TranslateModule, TranslateService } from '@ngx-translate/core'; 
 import { SharedService } from 'src/app/core/services/shared.service';
@@ -41,7 +41,8 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
     private domainService: ProfileDomainService,
     private profileCategoryService: ProfileCategoryService,
     private translate: TranslateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -86,13 +87,19 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
         }
 
         
-        if (this.currentProfileId && (changes['currentProfileId'] || this.availableCategories.length === 0)) {
+        if (this.currentProfileId && (changes['currentProfileId'] || changes['goalToEdit'] || this.availableCategories.length === 0)) {
             this.profileCategoryService.getCategories(this.currentProfileId).subscribe(
                 categories => {
                     this.availableCategories = categories;
+                    this.cdr.detectChanges(); // Force change detection after categories are loaded
 
                     if (this.isEditMode && this.goalToEdit) {
-                        this.populateForm(this.goalToEdit);
+                        // Ensure categories are loaded before populating form
+                        // Use setTimeout to ensure the form and categories are fully initialized and rendered
+                        setTimeout(() => {
+                            this.populateForm(this.goalToEdit);
+                            this.cdr.detectChanges(); // Force change detection after populating form
+                        }, 100); // Increased delay to ensure DOM is ready
                     } else {
                         
                         if (this.availableCategories.length > 0 && this.goalForm.get('category_id')?.value === null) {
@@ -142,34 +149,169 @@ export class AddGoalModalComponent implements OnInit, OnChanges {
 
   populateForm(goal: any): void {
     console.log("Populate Form: ", goal)
-    const categoryIdToPatch = goal.domain?.profile_category_id || null;
-
     
-    this.goalForm.patchValue({
-      title: goal.title,
-      description: goal.description,
-      target_date: goal.target_date ? new Date(goal.target_date).toISOString().split('T')[0] : null,
-      priority: goal.priority,
-      repetition_type: goal.repetition_type || 'none',
-      category_id: categoryIdToPatch,
-    }, { emitEvent: true }); 
-
-    if (categoryIdToPatch) {
-      this.domainService.getDomains(categoryIdToPatch).pipe(
-        take(1)
-      ).subscribe(
-        domains => {
-          this.availableDomains = domains;
-          this.goalForm.get('domain_id')?.enable();
-          this.goalForm.get('domain_id')?.setValue(goal.domain_id || null, { emitEvent: false });
-        },
-        error => {
-          console.error('Modal: Error loading domains for category', categoryIdToPatch, ':', error);
-          this.availableDomains = [];
-          this.goalForm.get('domain_id')?.disable();
-          this.goalForm.get('domain_id')?.setValue(null, { emitEvent: false });
+    // Helper function to safely extract ID from various formats
+    const extractId = (value: any): number | null => {
+      if (value === null || value === undefined) {
+        return null;
+      }
+      
+      // If it's already a number, return it
+      if (typeof value === 'number' && !isNaN(value)) {
+        return value;
+      }
+      
+      // If it's an object with an id property, extract the id
+      if (typeof value === 'object' && value !== null && 'id' in value) {
+        const id = value.id;
+        if (typeof id === 'number' && !isNaN(id)) {
+          return id;
         }
-      );
+        if (typeof id === 'string') {
+          const numId = Number(id);
+          return isNaN(numId) ? null : numId;
+        }
+      }
+      
+      // If it's a string, try to convert to number
+      if (typeof value === 'string') {
+        const numId = Number(value);
+        return isNaN(numId) ? null : numId;
+      }
+      
+      return null;
+    };
+    
+    // Extract domain_id from goal.domain.id
+    const domainIdToPatch = extractId(goal.domain?.id || goal.domain_id);
+    
+    // The domain object doesn't have profile_category, so we need to find it
+    // by checking which category contains this domain
+    // We'll do this after categories are loaded
+
+    // Ensure priority and repetition_type are valid values
+    const validPriority = goal.priority && this.priorities.includes(goal.priority) ? goal.priority : 'medium';
+    const validRepetitionType = goal.repetition_type && this.repetitionTypes.includes(goal.repetition_type) ? goal.repetition_type : 'none';
+
+    // Set basic fields first
+    this.goalForm.get('title')?.setValue(goal.title || '', { emitEvent: false });
+    this.goalForm.get('description')?.setValue(goal.description || '', { emitEvent: false });
+    this.goalForm.get('target_date')?.setValue(
+      goal.target_date ? new Date(goal.target_date).toISOString().split('T')[0] : null, 
+      { emitEvent: false }
+    );
+    this.goalForm.get('priority')?.setValue(validPriority, { emitEvent: false });
+    this.goalForm.get('repetition_type')?.setValue(validRepetitionType, { emitEvent: false });
+
+    // Find which category contains this domain by checking each category's domains
+    if (domainIdToPatch !== null && !isNaN(domainIdToPatch)) {
+      // Use requestAnimationFrame to ensure the view is ready
+      requestAnimationFrame(() => {
+        // Double check categories are available
+        if (this.availableCategories.length === 0) {
+          console.warn('Categories not loaded yet, retrying...');
+          setTimeout(() => this.populateForm(goal), 100);
+          return;
+        }
+
+        // Find which category contains this domain by checking all categories in parallel
+        const findCategoryForDomain = (domainId: number): Promise<number | null> => {
+          return new Promise((resolve) => {
+            if (this.availableCategories.length === 0) {
+              resolve(null);
+              return;
+            }
+
+            // Create observables for all category domain checks
+            const categoryChecks = this.availableCategories
+              .filter(cat => cat.id !== undefined)
+              .map(category => 
+                this.domainService.getDomains(category.id!).pipe(
+                  take(1),
+                  map(domains => ({
+                    categoryId: category.id!,
+                    containsDomain: domains.some(d => d.id === domainId)
+                  })),
+                  catchError(() => of({ categoryId: category.id!, containsDomain: false }))
+                )
+              );
+
+            // Use forkJoin to check all categories in parallel
+            forkJoin(categoryChecks).subscribe(
+              results => {
+                const foundCategory = results.find(r => r.containsDomain);
+                resolve(foundCategory ? foundCategory.categoryId : null);
+              },
+              error => {
+                console.error('Error checking categories:', error);
+                resolve(null);
+              }
+            );
+          });
+        };
+
+        // Find the category that contains this domain
+        findCategoryForDomain(domainIdToPatch).then(categoryIdToPatch => {
+          if (categoryIdToPatch !== null) {
+            // Find the exact category object
+            const category = this.availableCategories.find(c => c.id === categoryIdToPatch);
+            
+            if (category && category.id !== undefined) {
+              // Set category_id
+              this.goalForm.get('category_id')?.setValue(category.id, { emitEvent: false, onlySelf: false });
+              this.cdr.detectChanges();
+              
+              // Load domains for the category
+              this.domainService.getDomains(categoryIdToPatch).pipe(take(1)).subscribe(
+                domains => {
+                  this.availableDomains = domains;
+                  this.cdr.detectChanges();
+                  
+                  // Use requestAnimationFrame again for domains
+                  requestAnimationFrame(() => {
+                    if (this.availableDomains.length > 0) {
+                      this.goalForm.get('domain_id')?.enable();
+                      
+                      // Find the exact domain object
+                      const domain = this.availableDomains.find(d => d.id === domainIdToPatch);
+                      if (domain && domain.id !== undefined) {
+                        this.goalForm.get('domain_id')?.setValue(domain.id, { emitEvent: false, onlySelf: false });
+                        this.cdr.detectChanges();
+                      } else {
+                        console.warn('Domain not found in loaded domains:', domainIdToPatch);
+                        this.goalForm.get('domain_id')?.setValue(null, { emitEvent: false });
+                      }
+                    } else {
+                      this.goalForm.get('domain_id')?.disable();
+                      this.goalForm.get('domain_id')?.setValue(null, { emitEvent: false });
+                    }
+                  });
+                },
+                error => {
+                  console.error('Modal: Error loading domains for category', categoryIdToPatch, ':', error);
+                  this.availableDomains = [];
+                  this.goalForm.get('domain_id')?.disable();
+                  this.goalForm.get('domain_id')?.setValue(null, { emitEvent: false });
+                }
+              );
+            } else {
+              console.warn('Category not found:', categoryIdToPatch);
+            }
+          } else {
+            console.warn('Could not find category for domain:', domainIdToPatch);
+            this.goalForm.get('category_id')?.setValue(null, { emitEvent: false });
+            this.goalForm.get('domain_id')?.setValue(null, { emitEvent: false });
+            this.availableDomains = [];
+            this.goalForm.get('domain_id')?.disable();
+          }
+        });
+      });
+    } else {
+      console.warn('Modal: Invalid or missing domain ID');
+      this.goalForm.get('category_id')?.setValue(null, { emitEvent: false });
+      this.goalForm.get('domain_id')?.setValue(null, { emitEvent: false });
+      this.availableDomains = [];
+      this.goalForm.get('domain_id')?.disable();
     }
   }
 
