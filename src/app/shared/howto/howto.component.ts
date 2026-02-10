@@ -11,6 +11,9 @@ import { HowtoUploadfileComponent } from './howtoUploadfile/howtoUploadfile.comp
 import { HowtoSummaryComponent } from './howtoSummary/howtoSummary.component';
 import { HowtoCalendarComponent } from './howtoCalendar/howtoCalendar.component';
 import { HowtoExplorerComponent } from './howtoExplorer/howtoExplorer.component';
+import { HowtoCategoryComponent } from './howtoCategory/howtoCategory.component';
+import { HowtoDomaineComponent } from './HowtoDomaine/HowtoDomaine.component';
+import { HowtoItemComponent } from './howtoItem/howtoItem.component';
 import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
@@ -18,7 +21,7 @@ import { SharedService } from 'src/app/core/services/shared.service';
   templateUrl: './howto.component.html',
   styleUrls: ['./howto.component.css'],
   standalone: true,
-  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent, HowtoSummaryComponent, HowtoCalendarComponent, HowtoExplorerComponent]
+  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent, HowtoSummaryComponent, HowtoCalendarComponent, HowtoExplorerComponent, HowtoCategoryComponent, HowtoDomaineComponent, HowtoItemComponent]
 })
 export class HowtoComponent implements OnInit {
   @Output() navigateToTab = new EventEmitter<string>();
@@ -34,6 +37,9 @@ export class HowtoComponent implements OnInit {
   showSummaryGuide: boolean = false;
   showCalendarGuide: boolean = false;
   showExplorerGuide: boolean = false;
+  showCategoryGuide: boolean = false;
+  showDomaineGuide: boolean = false;
+  showItemGuide: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -90,6 +96,15 @@ export class HowtoComponent implements OnInit {
     } else if (tabId === 'explorer') {
       // Show explorer guide
       this.showExplorerGuide = true;
+    } else if (tabId === 'category') {
+      // Show category guide
+      this.showCategoryGuide = true;
+    } else if (tabId === 'domaine') {
+      // Show domaine guide
+      this.showDomaineGuide = true;
+    } else if (tabId === 'item') {
+      // Show item guide
+      this.showItemGuide = true;
     } else {
       // Navigate to other tabs
       this.navigateToTab.emit(tabId);
@@ -110,6 +125,9 @@ export class HowtoComponent implements OnInit {
     this.showSummaryGuide = false;
     this.showCalendarGuide = false;
     this.showExplorerGuide = false;
+    this.showCategoryGuide = false;
+    this.showDomaineGuide = false;
+    this.showItemGuide = false;
   }
 
 }

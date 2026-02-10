@@ -79,8 +79,32 @@
     <app-howtoExplorer></app-howtoExplorer>
   </div>
 
+  <!-- Category Guide View -->
+  <div *ngIf="showCategoryGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoCategory></app-howtoCategory>
+  </div>
+
+  <!-- Domaine Guide View -->
+  <div *ngIf="showDomaineGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-HowtoDomaine></app-HowtoDomaine>
+  </div>
+
+  <!-- Item Guide View -->
+  <div *ngIf="showItemGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoItem></app-howtoItem>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide && !showExplorerGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide && !showExplorerGuide && !showCategoryGuide && !showDomaineGuide && !showItemGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">
@@ -153,6 +177,24 @@
     <div class="howto-section clickable" (click)="handleTabClick('explorer')">
       <h3><i class="fas fa-search"></i> {{ 'dashboard.howto_dialog.sections.explorer.title' | translate }}</h3>
       <p>{{ 'dashboard.howto_dialog.sections.explorer.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('category')">
+      <h3><i class="fas fa-folder"></i> {{ 'dashboard.howto_dialog.sections.category.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.category.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('domaine')">
+      <h3><i class="fas fa-layer-group"></i> {{ 'dashboard.howto_dialog.sections.domaine.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.domaine.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('item')">
+      <h3><i class="fas fa-list-ul"></i> {{ 'dashboard.howto_dialog.sections.item.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.item.description' | translate }}</p>
       <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
     </div>
   </div>

@@ -1414,6 +1414,18 @@
         "explorer": {
           "title": "Explorer",
           "description": "Learn how to navigate evaluations by domain, filter by categories, view items in table or card format, answer evaluations, and access historical data, strategies, comments, and descriptions."
+        },
+        "category": {
+          "title": "Categories",
+          "description": "Learn how to manage your skill categories. You can view categories in list or card view, add new categories, edit existing categories, and delete categories you no longer need."
+        },
+        "domaine": {
+          "title": "Domains",
+          "description": "Learn how to manage your skill domains. You can view domains in list or card view, add new domains, edit existing domains, and delete domains you no longer need."
+        },
+        "item": {
+          "title": "Items",
+          "description": "Learn how to manage your skill items. You can view items in list or card view, add new items, edit existing items, and delete items you no longer need."
         }
       },
       "competance": {
@@ -1618,6 +1630,99 @@
             "video_info": "",
             "description_title": "How to Access Item Options",
             "description": "This video shows you how to access different options for evaluation items. You'll learn how to view the historical evolution and improvement of items, add or view descriptions, add or view comments, and access or modify strategies associated with each item."
+          }
+        }
+      },
+      "category": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Category Management",
+          "description": "This section guides you to access the category management page. You can navigate to this page from the main menu to manage your skill categories."
+        },
+        "list_view_card_view": {
+          "title": "List View and Card View",
+          "description": "The categories page offers two display modes: list view and card view. The list view displays categories in a table format with all detailed information, while the card view presents categories as visual cards for more intuitive navigation. You can switch between these two views according to your preferences."
+        },
+        "videos": {
+          "add_category": {
+            "title": "Add a Category",
+            "video_info": "",
+            "description_title": "How to Add a Category",
+            "description": "This video shows you how to add a new skill category. You'll learn to create a category with a name and description, which will allow you to organize and structure your child's skills."
+          },
+          "edit_category": {
+            "title": "Edit a Category",
+            "video_info": "",
+            "description_title": "How to Edit a Category",
+            "description": "Learn how to edit an existing category to update its information, correct errors, or add additional details. You can modify the name, description, and other properties of your categories."
+          },
+          "delete_category": {
+            "title": "Delete a Category",
+            "video_info": "",
+            "description_title": "How to Delete a Category",
+            "description": "Discover how to delete a category you no longer need. Deletion is permanent, so make sure you want to remove the category before confirming the action. Note that deleting a category may affect associated domains and items."
+          }
+        }
+      },
+      "domaine": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Domain Management",
+          "description": "This section guides you to access the domain management page. You can navigate to this page from the main menu to manage your skill domains within categories."
+        },
+        "list_view_card_view": {
+          "title": "List View and Card View",
+          "description": "The domains page offers two display modes: list view and card view. The list view displays domains in a table format with all detailed information, while the card view presents domains as visual cards for more intuitive navigation. You can switch between these two views according to your preferences."
+        },
+        "videos": {
+          "add_domaine": {
+            "title": "Add a Domain",
+            "video_info": "",
+            "description_title": "How to Add a Domain",
+            "description": "This video shows you how to add a new skill domain within a category. You'll learn to create a domain with a name and description, which will allow you to organize and structure your child's skills in more detail."
+          },
+          "edit_domaine": {
+            "title": "Edit a Domain",
+            "video_info": "",
+            "description_title": "How to Edit a Domain",
+            "description": "Learn how to edit an existing domain to update its information, correct errors, or add additional details. You can modify the name, description, and other properties of your domains."
+          },
+          "delete_domaine": {
+            "title": "Delete a Domain",
+            "video_info": "",
+            "description_title": "How to Delete a Domain",
+            "description": "Discover how to delete a domain you no longer need. Deletion is permanent, so make sure you want to remove the domain before confirming the action. Note that deleting a domain may affect associated items."
+          }
+        }
+      },
+      "item": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Item Management",
+          "description": "This section guides you to access the item management page. You can navigate to this page from the main menu to manage your skill items within domains."
+        },
+        "list_view_card_view": {
+          "title": "List View and Card View",
+          "description": "The items page offers two display modes: list view and card view. The list view displays items in a table format with all detailed information, while the card view presents items as visual cards for more intuitive navigation. You can switch between these two views according to your preferences."
+        },
+        "videos": {
+          "add_item": {
+            "title": "Add an Item",
+            "video_info": "",
+            "description_title": "How to Add an Item",
+            "description": "This video shows you how to add a new skill item within a domain. You'll learn to create an item with a name and description, which will allow you to organize and structure your child's skills in more detail."
+          },
+          "edit_item": {
+            "title": "Edit an Item",
+            "video_info": "",
+            "description_title": "How to Edit an Item",
+            "description": "Learn how to edit an existing item to update its information, correct errors, or add additional details. You can modify the name, description, and other properties of your items."
+          },
+          "delete_item": {
+            "title": "Delete an Item",
+            "video_info": "",
+            "description_title": "How to Delete an Item",
+            "description": "Discover how to delete an item you no longer need. Deletion is permanent, so make sure you want to remove the item before confirming the action."
           }
         }
       }
