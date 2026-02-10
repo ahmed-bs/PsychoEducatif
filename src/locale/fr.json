@@ -1410,6 +1410,14 @@
         "share_profile": {
           "title": "Partager un Profil",
           "description": "Apprenez à partager le profil de votre enfant avec d'autres utilisateurs. Vous pouvez sélectionner les utilisateurs avec qui partager, définir les permissions d'accès et gérer les profils partagés."
+        },
+        "proposer_pei": {
+          "title": "Proposer un Élément au PEI",
+          "description": "Apprenez à ajouter un autre élément à l'interface PEI personnalisé. Seuls les éléments partiels apparaissent dans cette interface. Pour ajouter plus d'éléments, allez dans Configuration > Catégories > Domaines > Éléments."
+        },
+        "personalise_pei": {
+          "title": "Personnaliser le PEI",
+          "description": "Apprenez à personnaliser votre PEI en cochant et décochant les éléments faits et non faits. Cette fonctionnalité vous permet de suivre la progression des éléments de compétences dans votre plan d'enseignement individualisé."
         }
       },
       "competance": {
@@ -1722,6 +1730,40 @@
             "video_info": "",
             "description_title": "Comment Partager un Profil",
             "description": "Cette vidéo vous montre comment partager le profil de votre enfant avec d'autres utilisateurs. Vous apprendrez à sélectionner les utilisateurs avec qui partager, à définir les permissions d'accès, et à gérer les profils partagés. Le partage permet une collaboration entre les différents intervenants impliqués dans le développement de votre enfant."
+          }
+        }
+      },
+      "proposer_pei": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Proposer un Élément au PEI Personnalisé",
+          "description": "Cette section vous guide pour ajouter un autre élément à l'interface PEI (Plan d'Enseignement Individualisé) personnalisé. Le PEI personnalisé vous permet de sélectionner et d'organiser les éléments de compétences spécifiques pour votre enfant."
+        },
+        "remark": {
+          "title": "Remarque importante",
+          "text": "Seuls les éléments partiels apparaissent dans cette interface. Si vous souhaitez ajouter plus d'éléments, vous devez aller dans Configuration > Catégories > Domaines > Éléments et activer le switcher pour rendre les éléments partiels."
+        },
+        "videos": {
+          "proposer_pei": {
+            "title": "Ajouter un Élément au PEI Personnalisé",
+            "video_info": "",
+            "description_title": "Comment Ajouter un Élément au PEI Personnalisé",
+            "description": "Cette vidéo vous montre comment ajouter un autre élément à l'interface PEI personnalisé. Vous apprendrez à sélectionner les éléments partiels disponibles et à les ajouter à votre PEI personnalisé pour créer un plan d'enseignement adapté aux besoins spécifiques de votre enfant."
+          }
+        }
+      },
+      "personalise_pei": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Personnaliser le PEI - Cocher/Décocher les Éléments",
+          "description": "Cette section vous guide pour personnaliser votre PEI en cochant et décochant les éléments faits et non faits. Cette fonctionnalité vous permet de suivre la progression des éléments de compétences dans votre plan d'enseignement individualisé."
+        },
+        "videos": {
+          "personalise_pei": {
+            "title": "Cocher et Décocher les Éléments dans le PEI",
+            "video_info": "",
+            "description_title": "Comment Cocher et Décocher les Éléments",
+            "description": "Cette vidéo vous montre comment cocher et décocher les éléments faits et non faits dans votre PEI personnalisé. Vous apprendrez à marquer les éléments comme terminés (cochés) ou non terminés (décochés) pour suivre efficacement la progression de votre enfant dans le plan d'enseignement individualisé."
           }
         }
       }

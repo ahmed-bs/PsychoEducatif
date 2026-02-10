@@ -111,8 +111,24 @@
     <app-howtoShareProfile></app-howtoShareProfile>
   </div>
 
+  <!-- Proposer PEI Guide View -->
+  <div *ngIf="showProposerPeiGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howToproposerPei></app-howToproposerPei>
+  </div>
+
+  <!-- Personalise PEI Guide View -->
+  <div *ngIf="showPersonalisePeiGuide" class="howto-statistics-guide">
+    <button class="howto-back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> {{ 'dashboard.howto_dialog.back' | translate }}
+    </button>
+    <app-howtoPersonalisePei></app-howtoPersonalisePei>
+  </div>
+
   <!-- Main Howto View -->
-  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide && !showExplorerGuide && !showCategoryGuide && !showDomaineGuide && !showItemGuide && !showShareProfileGuide">
+  <div *ngIf="!showStatisticsGuide && !showCompetanceGuide && !showNotesGuide && !showObjectifsGuide && !showStrategieGuide && !showChangeProfGuide && !showUploadFileGuide && !showSummaryGuide && !showCalendarGuide && !showExplorerGuide && !showCategoryGuide && !showDomaineGuide && !showItemGuide && !showShareProfileGuide && !showProposerPeiGuide && !showPersonalisePeiGuide">
     <!-- Welcome Section as Title/Explanation -->
     <div class="howto-welcome">
       <h2 class="howto-welcome-title">
@@ -209,6 +225,18 @@
     <div class="howto-section clickable" (click)="handleTabClick('share_profile')">
       <h3><i class="fas fa-share-alt"></i> {{ 'dashboard.howto_dialog.sections.share_profile.title' | translate }}</h3>
       <p>{{ 'dashboard.howto_dialog.sections.share_profile.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('proposer_pei')">
+      <h3><i class="fas fa-clipboard-list"></i> {{ 'dashboard.howto_dialog.sections.proposer_pei.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.proposer_pei.description' | translate }}</p>
+      <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
+    </div>
+    
+    <div class="howto-section clickable" (click)="handleTabClick('personalise_pei')">
+      <h3><i class="fas fa-check-square"></i> {{ 'dashboard.howto_dialog.sections.personalise_pei.title' | translate }}</h3>
+      <p>{{ 'dashboard.howto_dialog.sections.personalise_pei.description' | translate }}</p>
       <span class="howto-click-hint"><i class="fas fa-arrow-right"></i> {{ 'dashboard.howto_dialog.click_to_view' | translate }}</span>
     </div>
   </div>

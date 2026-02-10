@@ -1,0 +1,58 @@
+<div class="howto-static-content">
+  <!-- Introduction Section -->
+  <div class="howto-card-description" style="margin-bottom: 2rem;">
+    <div class="card-description-header">
+      <div class="card-icon items-icon">
+        <i class="fas fa-clipboard-list"></i>
+      </div>
+      <h4>{{ 'dashboard.howto_dialog.proposer_pei.introduction.title' | translate }}</h4>
+    </div>
+    <p>{{ 'dashboard.howto_dialog.proposer_pei.introduction.description' | translate }}</p>
+  </div>
+
+  <!-- Important Remark Section -->
+  <div class="howto-card-description" style="margin-bottom: 2rem;">
+    <div class="card-description-header">
+      <div class="card-icon progress-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h4>{{ 'dashboard.howto_dialog.proposer_pei.remark.title' | translate }}</h4>
+    </div>
+    <div class="remark-box">
+      <i class="fas fa-info-circle"></i>
+      <span>{{ 'dashboard.howto_dialog.proposer_pei.remark.text' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- Proposer PEI Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.proposer_pei.videos.proposer_pei.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.proposer_pei.videos.proposer_pei.title' | translate">
+        <source src="assets/vidsHowto/proposerPei.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.proposer_pei.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showProposerPeiVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.proposer_pei.videos.proposer_pei.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon domains-icon">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.proposer_pei.videos.proposer_pei.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.proposer_pei.videos.proposer_pei.description' | translate }}</p>
+    </div>
+  </div>
+</div>

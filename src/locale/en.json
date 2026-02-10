@@ -1430,6 +1430,14 @@
         "share_profile": {
           "title": "Share Profile",
           "description": "Learn how to share your child's profile with other users. You can select users to share with, set access permissions, and manage shared profiles."
+        },
+        "proposer_pei": {
+          "title": "Propose Item to IEP",
+          "description": "Learn how to add another item to the personalized IEP interface. Only partial items appear in this interface. To add more items, go to Configuration > Categories > Domains > Items."
+        },
+        "personalise_pei": {
+          "title": "Personalize IEP",
+          "description": "Learn how to personalize your IEP by checking and unchecking done and undone items. This feature allows you to track the progress of skill items in your individualized education plan."
         }
       },
       "competance": {
@@ -1742,6 +1750,40 @@
             "video_info": "",
             "description_title": "How to Share a Profile",
             "description": "This video shows you how to share your child's profile with other users. You'll learn to select users to share with, set access permissions, and manage shared profiles. Sharing enables collaboration between different stakeholders involved in your child's development."
+          }
+        }
+      },
+      "proposer_pei": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Propose an Item to Personalized IEP",
+          "description": "This section guides you to add another item to the personalized IEP (Individualized Education Plan) interface. The personalized IEP allows you to select and organize specific skill items for your child."
+        },
+        "remark": {
+          "title": "Important Note",
+          "text": "Only partial items appear in this interface. If you want to add more items, you need to go to Configuration > Categories > Domains > Items and enable the switcher to make items partial."
+        },
+        "videos": {
+          "proposer_pei": {
+            "title": "Add an Item to Personalized IEP",
+            "video_info": "",
+            "description_title": "How to Add an Item to Personalized IEP",
+            "description": "This video shows you how to add another item to the personalized IEP interface. You'll learn to select available partial items and add them to your personalized IEP to create an education plan tailored to your child's specific needs."
+          }
+        }
+      },
+      "personalise_pei": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Personalize IEP - Check/Uncheck Items",
+          "description": "This section guides you to personalize your IEP by checking and unchecking done and undone items. This feature allows you to track the progress of skill items in your individualized education plan."
+        },
+        "videos": {
+          "personalise_pei": {
+            "title": "Check and Uncheck Items in IEP",
+            "video_info": "",
+            "description_title": "How to Check and Uncheck Items",
+            "description": "This video shows you how to check and uncheck done and undone items in your personalized IEP. You'll learn to mark items as completed (checked) or not completed (unchecked) to effectively track your child's progress in the individualized education plan."
           }
         }
       }
