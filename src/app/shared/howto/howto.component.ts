@@ -9,6 +9,7 @@ import { HowtoStrategieComponent } from './howtoStrategie/howtoStrategie.compone
 import { HowtochangeProfComponent } from './howtochangeProf/howtochangeProf.component';
 import { HowtoUploadfileComponent } from './howtoUploadfile/howtoUploadfile.component';
 import { HowtoSummaryComponent } from './howtoSummary/howtoSummary.component';
+import { HowtoCalendarComponent } from './howtoCalendar/howtoCalendar.component';
 import { SharedService } from 'src/app/core/services/shared.service';
 
 @Component({
@@ -16,7 +17,7 @@ import { SharedService } from 'src/app/core/services/shared.service';
   templateUrl: './howto.component.html',
   styleUrls: ['./howto.component.css'],
   standalone: true,
-  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent, HowtoSummaryComponent]
+  imports: [CommonModule, TranslateModule, HowtoStaticComponent, HowtoCompetanceComponent, HowtoNotesComponent, HowtoObjectifsComponent, HowtoStrategieComponent, HowtochangeProfComponent, HowtoUploadfileComponent, HowtoSummaryComponent, HowtoCalendarComponent]
 })
 export class HowtoComponent implements OnInit {
   @Output() navigateToTab = new EventEmitter<string>();
@@ -30,6 +31,7 @@ export class HowtoComponent implements OnInit {
   showChangeProfGuide: boolean = false;
   showUploadFileGuide: boolean = false;
   showSummaryGuide: boolean = false;
+  showCalendarGuide: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -80,6 +82,9 @@ export class HowtoComponent implements OnInit {
     } else if (tabId === 'summary') {
       // Show summary guide
       this.showSummaryGuide = true;
+    } else if (tabId === 'calendar') {
+      // Show calendar guide
+      this.showCalendarGuide = true;
     } else {
       // Navigate to other tabs
       this.navigateToTab.emit(tabId);
@@ -98,6 +103,7 @@ export class HowtoComponent implements OnInit {
     this.showChangeProfGuide = false;
     this.showUploadFileGuide = false;
     this.showSummaryGuide = false;
+    this.showCalendarGuide = false;
   }
 
 }

@@ -1386,6 +1386,10 @@
         "summary": {
           "title": "Résumé",
           "description": "Apprenez à voir tous les éléments dans les domaines d'une catégorie en les développant, puis à filtrer et exporter le résumé."
+        },
+        "calendar": {
+          "title": "Calendrier",
+          "description": "Découvrez la vue calendrier des objectifs. Vous pouvez ajouter ou répondre aux évaluations, voir les objectifs d'aujourd'hui avec différents types de vues (semaine, jour, liste, mois)."
         }
       },
       "competance": {
@@ -1534,6 +1538,39 @@
             "video_info": "",
             "description_title": "Comment filtrer et exporter le résumé",
             "description": "Cette vidéo vous montre comment filtrer le résumé selon différents critères (période de temps, catégories, domaines) et comment exporter les résultats filtrés au format PDF ou Excel. Le résumé affichera les derniers changements de résultats dans la période de temps sélectionnée."
+          }
+        }
+      },
+      "calendar": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Vue Calendrier des Objectifs",
+          "description": "Le calendrier est une autre vision de vos objectifs. Vous pouvez ajouter ou répondre aux évaluations, voir les objectifs d'aujourd'hui avec différents types de vues : semaine, jour, liste ou mois."
+        },
+        "videos": {
+          "calendar_view": {
+            "title": "Vue Calendrier - Types de vues",
+            "video_info": "",
+            "description_title": "Comment utiliser les différentes vues du calendrier",
+            "description": "Cette vidéo vous montre comment naviguer dans la vue calendrier et utiliser les différents types de vues disponibles : semaine, jour, liste et mois. Vous apprendrez à voir vos objectifs d'aujourd'hui et à basculer entre les différentes vues pour mieux organiser vos objectifs."
+          },
+          "modify_goal": {
+            "title": "Modifier un objectif depuis le calendrier",
+            "video_info": "",
+            "description_title": "Comment modifier un objectif depuis le calendrier",
+            "description": "Cette vidéo vous montre comment modifier un objectif directement depuis la vue calendrier. Vous pouvez mettre à jour les informations de l'objectif, corriger des erreurs ou ajouter des détails supplémentaires directement depuis le calendrier."
+          },
+          "delete_goal": {
+            "title": "Supprimer un objectif depuis le calendrier",
+            "video_info": "",
+            "description_title": "Comment supprimer un objectif depuis le calendrier",
+            "description": "Découvrez comment supprimer un objectif directement depuis la vue calendrier. La suppression est permanente, alors assurez-vous de vouloir supprimer l'objectif avant de confirmer l'action."
+          },
+          "answer_quiz": {
+            "title": "Répondre à une évaluation depuis le calendrier",
+            "video_info": "",
+            "description_title": "Comment répondre à une évaluation depuis un objectif d'aujourd'hui",
+            "description": "Cette vidéo explique comment répondre à une évaluation directement depuis un objectif d'aujourd'hui dans la vue calendrier. Vous pouvez passer l'évaluation pour suivre les progrès de votre enfant par rapport à l'objectif."
           }
         }
       }

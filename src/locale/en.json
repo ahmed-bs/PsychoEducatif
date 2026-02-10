@@ -1406,6 +1406,10 @@
         "summary": {
           "title": "Summary",
           "description": "Learn how to see all items in domains within a category by expanding them, then how to filter and export the summary."
+        },
+        "calendar": {
+          "title": "Calendar",
+          "description": "Discover the calendar view of goals. You can add or answer evaluations, see today's goals with different view types (week, day, list, month)."
         }
       },
       "competance": {
@@ -1554,6 +1558,39 @@
             "video_info": "",
             "description_title": "How to Filter and Export Summary",
             "description": "This video shows you how to filter the summary according to different criteria (time period, categories, domains) and how to export the filtered results to PDF or Excel format. The summary will show the last result changes in the selected time period."
+          }
+        }
+      },
+      "calendar": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Calendar View of Goals",
+          "description": "The calendar is another view of your goals. You can add or answer evaluations, see today's goals with different view types: week, day, list, or month."
+        },
+        "videos": {
+          "calendar_view": {
+            "title": "Calendar View - View Types",
+            "video_info": "",
+            "description_title": "How to Use Different Calendar Views",
+            "description": "This video shows you how to navigate the calendar view and use the different view types available: week, day, list, and month. You'll learn to see your today's goals and switch between different views to better organize your goals."
+          },
+          "modify_goal": {
+            "title": "Modify a Goal from Calendar",
+            "video_info": "",
+            "description_title": "How to Modify a Goal from Calendar",
+            "description": "This video shows you how to modify a goal directly from the calendar view. You can update the goal information, correct errors, or add additional details directly from the calendar."
+          },
+          "delete_goal": {
+            "title": "Delete a Goal from Calendar",
+            "video_info": "",
+            "description_title": "How to Delete a Goal from Calendar",
+            "description": "Discover how to delete a goal directly from the calendar view. Deletion is permanent, so make sure you want to remove the goal before confirming the action."
+          },
+          "answer_quiz": {
+            "title": "Answer an Evaluation from Calendar",
+            "video_info": "",
+            "description_title": "How to Answer an Evaluation from Today's Goal",
+            "description": "This video explains how to answer an evaluation directly from a today's goal in the calendar view. You can take the evaluation to track your child's progress towards the goal."
           }
         }
       }
