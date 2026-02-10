@@ -1410,6 +1410,34 @@
         "calendar": {
           "title": "Calendar",
           "description": "Discover the calendar view of goals. You can add or answer evaluations, see today's goals with different view types (week, day, list, month)."
+        },
+        "explorer": {
+          "title": "Explorer",
+          "description": "Learn how to navigate evaluations by domain, filter by categories, view items in table or card format, answer evaluations, and access historical data, strategies, comments, and descriptions."
+        },
+        "category": {
+          "title": "Categories",
+          "description": "Learn how to manage your skill categories. You can view categories in list or card view, add new categories, edit existing categories, and delete categories you no longer need."
+        },
+        "domaine": {
+          "title": "Domains",
+          "description": "Learn how to manage your skill domains. You can view domains in list or card view, add new domains, edit existing domains, and delete domains you no longer need."
+        },
+        "item": {
+          "title": "Items",
+          "description": "Learn how to manage your skill items. You can view items in list or card view, add new items, edit existing items, and delete items you no longer need."
+        },
+        "share_profile": {
+          "title": "Share Profile",
+          "description": "Learn how to share your child's profile with other users. You can select users to share with, set access permissions, and manage shared profiles."
+        },
+        "proposer_pei": {
+          "title": "Propose Item to IEP",
+          "description": "Learn how to add another item to the personalized IEP interface. Only partial items appear in this interface. To add more items, go to Configuration > Categories > Domains > Items."
+        },
+        "personalise_pei": {
+          "title": "Personalize IEP",
+          "description": "Learn how to personalize your IEP by checking and unchecking done and undone items. This feature allows you to track the progress of skill items in your individualized education plan."
         }
       },
       "competance": {
@@ -1591,6 +1619,171 @@
             "video_info": "",
             "description_title": "How to Answer an Evaluation from Today's Goal",
             "description": "This video explains how to answer an evaluation directly from a today's goal in the calendar view. You can take the evaluation to track your child's progress towards the goal."
+          }
+        }
+      },
+      "explorer": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "videos": {
+          "evaluation_list_view": {
+            "title": "Evaluation List View - Categories, Filters, Table and Card View",
+            "video_info": "",
+            "description_title": "How to View Evaluations by Domain",
+            "description": "This video shows you how to navigate the evaluation explorer. You'll learn how to view evaluations organized by domain, divided by categories, use filters to narrow down results, and switch between table and card view formats to better visualize the evaluation items."
+          },
+          "answer_evaluation": {
+            "title": "Answer Evaluation and View Answers",
+            "video_info": "",
+            "description_title": "How to Answer Evaluations and View Answers",
+            "description": "This video demonstrates how to answer evaluation questions and view your previous answers. You'll learn the process of completing evaluations and reviewing your responses to track progress over time."
+          },
+          "historique_strategie": {
+            "title": "View History, Strategy, Comments, and Description",
+            "video_info": "",
+            "description_title": "How to Access Item Options",
+            "description": "This video shows you how to access different options for evaluation items. You'll learn how to view the historical evolution and improvement of items, add or view descriptions, add or view comments, and access or modify strategies associated with each item."
+          }
+        }
+      },
+      "category": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Category Management",
+          "description": "This section guides you to access the category management page. You can navigate to this page from the main menu to manage your skill categories."
+        },
+        "list_view_card_view": {
+          "title": "List View and Card View",
+          "description": "The categories page offers two display modes: list view and card view. The list view displays categories in a table format with all detailed information, while the card view presents categories as visual cards for more intuitive navigation. You can switch between these two views according to your preferences."
+        },
+        "videos": {
+          "add_category": {
+            "title": "Add a Category",
+            "video_info": "",
+            "description_title": "How to Add a Category",
+            "description": "This video shows you how to add a new skill category. You'll learn to create a category with a name and description, which will allow you to organize and structure your child's skills."
+          },
+          "edit_category": {
+            "title": "Edit a Category",
+            "video_info": "",
+            "description_title": "How to Edit a Category",
+            "description": "Learn how to edit an existing category to update its information, correct errors, or add additional details. You can modify the name, description, and other properties of your categories."
+          },
+          "delete_category": {
+            "title": "Delete a Category",
+            "video_info": "",
+            "description_title": "How to Delete a Category",
+            "description": "Discover how to delete a category you no longer need. Deletion is permanent, so make sure you want to remove the category before confirming the action. Note that deleting a category may affect associated domains and items."
+          }
+        }
+      },
+      "domaine": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Domain Management",
+          "description": "This section guides you to access the domain management page. You can navigate to this page from the main menu to manage your skill domains within categories."
+        },
+        "list_view_card_view": {
+          "title": "List View and Card View",
+          "description": "The domains page offers two display modes: list view and card view. The list view displays domains in a table format with all detailed information, while the card view presents domains as visual cards for more intuitive navigation. You can switch between these two views according to your preferences."
+        },
+        "videos": {
+          "add_domaine": {
+            "title": "Add a Domain",
+            "video_info": "",
+            "description_title": "How to Add a Domain",
+            "description": "This video shows you how to add a new skill domain within a category. You'll learn to create a domain with a name and description, which will allow you to organize and structure your child's skills in more detail."
+          },
+          "edit_domaine": {
+            "title": "Edit a Domain",
+            "video_info": "",
+            "description_title": "How to Edit a Domain",
+            "description": "Learn how to edit an existing domain to update its information, correct errors, or add additional details. You can modify the name, description, and other properties of your domains."
+          },
+          "delete_domaine": {
+            "title": "Delete a Domain",
+            "video_info": "",
+            "description_title": "How to Delete a Domain",
+            "description": "Discover how to delete a domain you no longer need. Deletion is permanent, so make sure you want to remove the domain before confirming the action. Note that deleting a domain may affect associated items."
+          }
+        }
+      },
+      "item": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Item Management",
+          "description": "This section guides you to access the item management page. You can navigate to this page from the main menu to manage your skill items within domains."
+        },
+        "list_view_card_view": {
+          "title": "List View and Card View",
+          "description": "The items page offers two display modes: list view and card view. The list view displays items in a table format with all detailed information, while the card view presents items as visual cards for more intuitive navigation. You can switch between these two views according to your preferences."
+        },
+        "videos": {
+          "add_item": {
+            "title": "Add an Item",
+            "video_info": "",
+            "description_title": "How to Add an Item",
+            "description": "This video shows you how to add a new skill item within a domain. You'll learn to create an item with a name and description, which will allow you to organize and structure your child's skills in more detail."
+          },
+          "edit_item": {
+            "title": "Edit an Item",
+            "video_info": "",
+            "description_title": "How to Edit an Item",
+            "description": "Learn how to edit an existing item to update its information, correct errors, or add additional details. You can modify the name, description, and other properties of your items."
+          },
+          "delete_item": {
+            "title": "Delete an Item",
+            "video_info": "",
+            "description_title": "How to Delete an Item",
+            "description": "Discover how to delete an item you no longer need. Deletion is permanent, so make sure you want to remove the item before confirming the action."
+          }
+        }
+      },
+      "share_profile": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Profile Sharing",
+          "description": "This section guides you to share your child's profile with other users. Profile sharing allows authorized people to access information and track your child's development."
+        },
+        "videos": {
+          "share_profile": {
+            "title": "Share a Profile",
+            "video_info": "",
+            "description_title": "How to Share a Profile",
+            "description": "This video shows you how to share your child's profile with other users. You'll learn to select users to share with, set access permissions, and manage shared profiles. Sharing enables collaboration between different stakeholders involved in your child's development."
+          }
+        }
+      },
+      "proposer_pei": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Propose an Item to Personalized IEP",
+          "description": "This section guides you to add another item to the personalized IEP (Individualized Education Plan) interface. The personalized IEP allows you to select and organize specific skill items for your child."
+        },
+        "remark": {
+          "title": "Important Note",
+          "text": "Only partial items appear in this interface. If you want to add more items, you need to go to Configuration > Categories > Domains > Items and enable the switcher to make items partial."
+        },
+        "videos": {
+          "proposer_pei": {
+            "title": "Add an Item to Personalized IEP",
+            "video_info": "",
+            "description_title": "How to Add an Item to Personalized IEP",
+            "description": "This video shows you how to add another item to the personalized IEP interface. You'll learn to select available partial items and add them to your personalized IEP to create an education plan tailored to your child's specific needs."
+          }
+        }
+      },
+      "personalise_pei": {
+        "video_not_supported": "Your browser does not support the video tag.",
+        "introduction": {
+          "title": "Personalize IEP - Check/Uncheck Items",
+          "description": "This section guides you to personalize your IEP by checking and unchecking done and undone items. This feature allows you to track the progress of skill items in your individualized education plan."
+        },
+        "videos": {
+          "personalise_pei": {
+            "title": "Check and Uncheck Items in IEP",
+            "video_info": "",
+            "description_title": "How to Check and Uncheck Items",
+            "description": "This video shows you how to check and uncheck done and undone items in your personalized IEP. You'll learn to mark items as completed (checked) or not completed (unchecked) to effectively track your child's progress in the individualized education plan."
           }
         }
       }

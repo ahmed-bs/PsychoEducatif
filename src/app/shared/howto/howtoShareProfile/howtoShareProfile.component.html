@@ -1,0 +1,44 @@
+<div class="howto-static-content">
+  <!-- Introduction Section -->
+  <div class="howto-card-description" style="margin-bottom: 2rem;">
+    <div class="card-description-header">
+      <div class="card-icon categories-icon">
+        <i class="fas fa-share-alt"></i>
+      </div>
+      <h4>{{ 'dashboard.howto_dialog.share_profile.introduction.title' | translate }}</h4>
+    </div>
+    <p>{{ 'dashboard.howto_dialog.share_profile.introduction.description' | translate }}</p>
+  </div>
+
+  <!-- Share Profile Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.share_profile.videos.share_profile.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.share_profile.videos.share_profile.title' | translate">
+        <source src="assets/vidsHowto/shareProfile.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.share_profile.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showShareProfileVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.share_profile.videos.share_profile.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon domains-icon">
+          <i class="fas fa-user-friends"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.share_profile.videos.share_profile.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.share_profile.videos.share_profile.description' | translate }}</p>
+    </div>
+  </div>
+</div>

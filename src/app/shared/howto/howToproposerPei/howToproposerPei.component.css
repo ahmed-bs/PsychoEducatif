@@ -1,0 +1,274 @@
+.howto-static-content {
+  padding: 0;
+}
+
+/* Video Section */
+.howto-video-section {
+  margin-bottom: 2rem;
+}
+
+.howto-video-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.howto-video-title i {
+  color: #6366f1;
+  font-size: 1.125rem;
+}
+
+.video-wrapper {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #000;
+}
+
+.howto-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+.video-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  color: #1e40af;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.video-info i {
+  color: #3b82f6;
+  font-size: 0.875rem;
+}
+
+/* Cards Descriptions Section */
+.howto-cards-descriptions {
+  margin-top: 2rem;
+}
+
+.howto-cards-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.howto-cards-title i {
+  color: #6366f1;
+  font-size: 1.125rem;
+}
+
+.howto-card-description {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-left: 4px solid #6366f1;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.howto-card-description:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
+.howto-card-description:last-child {
+  margin-bottom: 0;
+}
+
+.card-description-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.categories-icon {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.domains-icon {
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+}
+
+.items-icon {
+  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+}
+
+.progress-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+}
+
+/* Charts Descriptions Section */
+.howto-charts-descriptions {
+  margin-top: 2.5rem;
+}
+
+.howto-charts-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.howto-charts-title i {
+  color: #6366f1;
+  font-size: 1.125rem;
+}
+
+/* Chart Icons */
+.chart-icon {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.skills-chart-icon {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+}
+
+.progress-chart-icon {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.line-chart-icon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.polar-chart-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.progress-overview-icon {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+.recent-activity-icon {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+}
+
+.howto-card-description h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.howto-card-description p {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .howto-video-title,
+  .howto-cards-title,
+  .howto-charts-title {
+    font-size: 1.125rem;
+  }
+  
+  .howto-charts-descriptions {
+    margin-top: 2rem;
+  }
+
+  .howto-video {
+    max-height: 300px;
+  }
+
+  .howto-card-description {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .howto-card-description h4 {
+    font-size: 1rem;
+  }
+
+  .howto-card-description p {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .howto-video {
+    max-height: 250px;
+  }
+
+  .card-description-header {
+    gap: 0.75rem;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Remark Box */
+.remark-box {
+  margin-top: 1rem;
+  padding: 0.875rem 1rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-left: 4px solid #f59e0b;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: #92400e;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.remark-box i {
+  color: #f59e0b;
+  font-size: 1rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.remark-box span {
+  flex: 1;
+}
+

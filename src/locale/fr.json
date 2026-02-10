@@ -1390,6 +1390,34 @@
         "calendar": {
           "title": "Calendrier",
           "description": "Découvrez la vue calendrier des objectifs. Vous pouvez ajouter ou répondre aux évaluations, voir les objectifs d'aujourd'hui avec différents types de vues (semaine, jour, liste, mois)."
+        },
+        "explorer": {
+          "title": "Explorateur",
+          "description": "Apprenez à naviguer dans les évaluations par domaine, filtrer par catégories, afficher les éléments en format tableau ou carte, répondre aux évaluations et accéder aux données historiques, stratégies, commentaires et descriptions."
+        },
+        "category": {
+          "title": "Catégories",
+          "description": "Apprenez à gérer vos catégories de compétences. Vous pouvez voir les catégories en vue liste ou carte, ajouter de nouvelles catégories, modifier les catégories existantes et supprimer les catégories dont vous n'avez plus besoin."
+        },
+        "domaine": {
+          "title": "Domaines",
+          "description": "Apprenez à gérer vos domaines de compétences. Vous pouvez voir les domaines en vue liste ou carte, ajouter de nouveaux domaines, modifier les domaines existants et supprimer les domaines dont vous n'avez plus besoin."
+        },
+        "item": {
+          "title": "Éléments",
+          "description": "Apprenez à gérer vos éléments de compétences. Vous pouvez voir les éléments en vue liste ou carte, ajouter de nouveaux éléments, modifier les éléments existants et supprimer les éléments dont vous n'avez plus besoin."
+        },
+        "share_profile": {
+          "title": "Partager un Profil",
+          "description": "Apprenez à partager le profil de votre enfant avec d'autres utilisateurs. Vous pouvez sélectionner les utilisateurs avec qui partager, définir les permissions d'accès et gérer les profils partagés."
+        },
+        "proposer_pei": {
+          "title": "Proposer un Élément au PEI",
+          "description": "Apprenez à ajouter un autre élément à l'interface PEI personnalisé. Seuls les éléments partiels apparaissent dans cette interface. Pour ajouter plus d'éléments, allez dans Configuration > Catégories > Domaines > Éléments."
+        },
+        "personalise_pei": {
+          "title": "Personnaliser le PEI",
+          "description": "Apprenez à personnaliser votre PEI en cochant et décochant les éléments faits et non faits. Cette fonctionnalité vous permet de suivre la progression des éléments de compétences dans votre plan d'enseignement individualisé."
         }
       },
       "competance": {
@@ -1571,6 +1599,171 @@
             "video_info": "",
             "description_title": "Comment répondre à une évaluation depuis un objectif d'aujourd'hui",
             "description": "Cette vidéo explique comment répondre à une évaluation directement depuis un objectif d'aujourd'hui dans la vue calendrier. Vous pouvez passer l'évaluation pour suivre les progrès de votre enfant par rapport à l'objectif."
+          }
+        }
+      },
+      "explorer": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "videos": {
+          "evaluation_list_view": {
+            "title": "Vue Liste des Évaluations - Catégories, Filtres, Vue Tableau et Carte",
+            "video_info": "",
+            "description_title": "Comment Voir les Évaluations par Domaine",
+            "description": "Cette vidéo vous montre comment naviguer dans l'explorateur d'évaluations. Vous apprendrez à voir les évaluations organisées par domaine, divisées par catégories, utiliser les filtres pour affiner les résultats, et basculer entre les formats de vue tableau et carte pour mieux visualiser les éléments d'évaluation."
+          },
+          "answer_evaluation": {
+            "title": "Répondre aux Évaluations et Voir les Réponses",
+            "video_info": "",
+            "description_title": "Comment Répondre aux Évaluations et Voir les Réponses",
+            "description": "Cette vidéo démontre comment répondre aux questions d'évaluation et voir vos réponses précédentes. Vous apprendrez le processus de complétion des évaluations et de révision de vos réponses pour suivre les progrès au fil du temps."
+          },
+          "historique_strategie": {
+            "title": "Voir l'Historique, la Stratégie, les Commentaires et la Description",
+            "video_info": "",
+            "description_title": "Comment Accéder aux Options des Éléments",
+            "description": "Cette vidéo vous montre comment accéder aux différentes options pour les éléments d'évaluation. Vous apprendrez à voir l'évolution historique et l'amélioration des éléments, ajouter ou voir les descriptions, ajouter ou voir les commentaires, et accéder ou modifier les stratégies associées à chaque élément."
+          }
+        }
+      },
+      "category": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Gestion des Catégories",
+          "description": "Cette section vous guide pour accéder à la page de gestion des catégories. Vous pouvez naviguer vers cette page depuis le menu principal pour gérer vos catégories de compétences."
+        },
+        "list_view_card_view": {
+          "title": "Vue Liste et Vue Carte",
+          "description": "La page des catégories offre deux modes d'affichage : la vue liste et la vue carte. La vue liste affiche les catégories sous forme de tableau avec toutes les informations détaillées, tandis que la vue carte présente les catégories sous forme de cartes visuelles pour une navigation plus intuitive. Vous pouvez basculer entre ces deux vues selon vos préférences."
+        },
+        "videos": {
+          "add_category": {
+            "title": "Ajouter une Catégorie",
+            "video_info": "",
+            "description_title": "Comment Ajouter une Catégorie",
+            "description": "Cette vidéo vous montre comment ajouter une nouvelle catégorie de compétences. Vous apprendrez à créer une catégorie avec un nom et une description, ce qui vous permettra d'organiser et de structurer les compétences de votre enfant."
+          },
+          "edit_category": {
+            "title": "Modifier une Catégorie",
+            "video_info": "",
+            "description_title": "Comment Modifier une Catégorie",
+            "description": "Apprenez à modifier une catégorie existante pour mettre à jour ses informations, corriger des erreurs ou ajouter des détails supplémentaires. Vous pouvez modifier le nom, la description et d'autres propriétés de vos catégories."
+          },
+          "delete_category": {
+            "title": "Supprimer une Catégorie",
+            "video_info": "",
+            "description_title": "Comment Supprimer une Catégorie",
+            "description": "Découvrez comment supprimer une catégorie que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer la catégorie avant de confirmer l'action. Notez que la suppression d'une catégorie peut affecter les domaines et éléments associés."
+          }
+        }
+      },
+      "domaine": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Gestion des Domaines",
+          "description": "Cette section vous guide pour accéder à la page de gestion des domaines. Vous pouvez naviguer vers cette page depuis le menu principal pour gérer vos domaines de compétences au sein des catégories."
+        },
+        "list_view_card_view": {
+          "title": "Vue Liste et Vue Carte",
+          "description": "La page des domaines offre deux modes d'affichage : la vue liste et la vue carte. La vue liste affiche les domaines sous forme de tableau avec toutes les informations détaillées, tandis que la vue carte présente les domaines sous forme de cartes visuelles pour une navigation plus intuitive. Vous pouvez basculer entre ces deux vues selon vos préférences."
+        },
+        "videos": {
+          "add_domaine": {
+            "title": "Ajouter un Domaine",
+            "video_info": "",
+            "description_title": "Comment Ajouter un Domaine",
+            "description": "Cette vidéo vous montre comment ajouter un nouveau domaine de compétences dans une catégorie. Vous apprendrez à créer un domaine avec un nom et une description, ce qui vous permettra d'organiser et de structurer les compétences de votre enfant de manière plus détaillée."
+          },
+          "edit_domaine": {
+            "title": "Modifier un Domaine",
+            "video_info": "",
+            "description_title": "Comment Modifier un Domaine",
+            "description": "Apprenez à modifier un domaine existant pour mettre à jour ses informations, corriger des erreurs ou ajouter des détails supplémentaires. Vous pouvez modifier le nom, la description et d'autres propriétés de vos domaines."
+          },
+          "delete_domaine": {
+            "title": "Supprimer un Domaine",
+            "video_info": "",
+            "description_title": "Comment Supprimer un Domaine",
+            "description": "Découvrez comment supprimer un domaine que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer le domaine avant de confirmer l'action. Notez que la suppression d'un domaine peut affecter les éléments associés."
+          }
+        }
+      },
+      "item": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Gestion des Éléments",
+          "description": "Cette section vous guide pour accéder à la page de gestion des éléments de compétences. Vous pouvez naviguer vers cette page depuis le menu principal pour gérer vos éléments de compétences au sein des domaines."
+        },
+        "list_view_card_view": {
+          "title": "Vue Liste et Vue Carte",
+          "description": "La page des éléments offre deux modes d'affichage : la vue liste et la vue carte. La vue liste affiche les éléments sous forme de tableau avec toutes les informations détaillées, tandis que la vue carte présente les éléments sous forme de cartes visuelles pour une navigation plus intuitive. Vous pouvez basculer entre ces deux vues selon vos préférences."
+        },
+        "videos": {
+          "add_item": {
+            "title": "Ajouter un Élément",
+            "video_info": "",
+            "description_title": "Comment Ajouter un Élément",
+            "description": "Cette vidéo vous montre comment ajouter un nouvel élément de compétences dans un domaine. Vous apprendrez à créer un élément avec un nom et une description, ce qui vous permettra d'organiser et de structurer les compétences de votre enfant de manière plus détaillée."
+          },
+          "edit_item": {
+            "title": "Modifier un Élément",
+            "video_info": "",
+            "description_title": "Comment Modifier un Élément",
+            "description": "Apprenez à modifier un élément existant pour mettre à jour ses informations, corriger des erreurs ou ajouter des détails supplémentaires. Vous pouvez modifier le nom, la description et d'autres propriétés de vos éléments."
+          },
+          "delete_item": {
+            "title": "Supprimer un Élément",
+            "video_info": "",
+            "description_title": "Comment Supprimer un Élément",
+            "description": "Découvrez comment supprimer un élément que vous n'avez plus besoin. La suppression est permanente, alors assurez-vous de vouloir supprimer l'élément avant de confirmer l'action."
+          }
+        }
+      },
+      "share_profile": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Partage de Profil",
+          "description": "Cette section vous guide pour partager le profil de votre enfant avec d'autres utilisateurs. Le partage de profil permet à d'autres personnes autorisées d'accéder aux informations et au suivi du développement de votre enfant."
+        },
+        "videos": {
+          "share_profile": {
+            "title": "Partager un Profil",
+            "video_info": "",
+            "description_title": "Comment Partager un Profil",
+            "description": "Cette vidéo vous montre comment partager le profil de votre enfant avec d'autres utilisateurs. Vous apprendrez à sélectionner les utilisateurs avec qui partager, à définir les permissions d'accès, et à gérer les profils partagés. Le partage permet une collaboration entre les différents intervenants impliqués dans le développement de votre enfant."
+          }
+        }
+      },
+      "proposer_pei": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Proposer un Élément au PEI Personnalisé",
+          "description": "Cette section vous guide pour ajouter un autre élément à l'interface PEI (Plan d'Enseignement Individualisé) personnalisé. Le PEI personnalisé vous permet de sélectionner et d'organiser les éléments de compétences spécifiques pour votre enfant."
+        },
+        "remark": {
+          "title": "Remarque importante",
+          "text": "Seuls les éléments partiels apparaissent dans cette interface. Si vous souhaitez ajouter plus d'éléments, vous devez aller dans Configuration > Catégories > Domaines > Éléments et activer le switcher pour rendre les éléments partiels."
+        },
+        "videos": {
+          "proposer_pei": {
+            "title": "Ajouter un Élément au PEI Personnalisé",
+            "video_info": "",
+            "description_title": "Comment Ajouter un Élément au PEI Personnalisé",
+            "description": "Cette vidéo vous montre comment ajouter un autre élément à l'interface PEI personnalisé. Vous apprendrez à sélectionner les éléments partiels disponibles et à les ajouter à votre PEI personnalisé pour créer un plan d'enseignement adapté aux besoins spécifiques de votre enfant."
+          }
+        }
+      },
+      "personalise_pei": {
+        "video_not_supported": "Votre navigateur ne prend pas en charge la balise vidéo.",
+        "introduction": {
+          "title": "Personnaliser le PEI - Cocher/Décocher les Éléments",
+          "description": "Cette section vous guide pour personnaliser votre PEI en cochant et décochant les éléments faits et non faits. Cette fonctionnalité vous permet de suivre la progression des éléments de compétences dans votre plan d'enseignement individualisé."
+        },
+        "videos": {
+          "personalise_pei": {
+            "title": "Cocher et Décocher les Éléments dans le PEI",
+            "video_info": "",
+            "description_title": "Comment Cocher et Décocher les Éléments",
+            "description": "Cette vidéo vous montre comment cocher et décocher les éléments faits et non faits dans votre PEI personnalisé. Vous apprendrez à marquer les éléments comme terminés (cochés) ou non terminés (décochés) pour suivre efficacement la progression de votre enfant dans le plan d'enseignement individualisé."
           }
         }
       }

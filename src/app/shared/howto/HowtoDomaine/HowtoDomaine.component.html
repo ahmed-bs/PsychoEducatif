@@ -1,0 +1,119 @@
+<div class="howto-static-content">
+  <!-- Introduction Section -->
+  <div class="howto-card-description" style="margin-bottom: 2rem;">
+    <div class="card-description-header">
+      <div class="card-icon domains-icon">
+        <i class="fas fa-layer-group"></i>
+      </div>
+      <h4>{{ 'dashboard.howto_dialog.domaine.introduction.title' | translate }}</h4>
+    </div>
+    <p>{{ 'dashboard.howto_dialog.domaine.introduction.description' | translate }}</p>
+  </div>
+
+  <!-- List View and Card View Section -->
+  <div class="howto-card-description" style="margin-bottom: 2rem;">
+    <div class="card-description-header">
+      <div class="card-icon domains-icon">
+        <i class="fas fa-th-large"></i>
+      </div>
+      <h4>{{ 'dashboard.howto_dialog.domaine.list_view_card_view.title' | translate }}</h4>
+    </div>
+    <p>{{ 'dashboard.howto_dialog.domaine.list_view_card_view.description' | translate }}</p>
+  </div>
+
+  <!-- Add Domaine Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.domaine.videos.add_domaine.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.domaine.videos.add_domaine.title' | translate">
+        <source src="assets/vidsHowto/adddomaine.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.domaine.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showAddDomaineVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.domaine.videos.add_domaine.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon domains-icon">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.domaine.videos.add_domaine.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.domaine.videos.add_domaine.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Edit Domaine Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.domaine.videos.edit_domaine.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.domaine.videos.edit_domaine.title' | translate">
+        <source src="assets/vidsHowto/editdomaine.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.domaine.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showEditDomaineVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.domaine.videos.edit_domaine.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon items-icon">
+          <i class="fas fa-edit"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.domaine.videos.edit_domaine.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.domaine.videos.edit_domaine.description' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Delete Domaine Video Section -->
+  <div class="howto-video-section">
+    <h3 class="howto-video-title">
+      <i class="fas fa-video"></i> {{ 'dashboard.howto_dialog.domaine.videos.delete_domaine.title' | translate }}
+    </h3>
+    <div class="video-wrapper">
+      <video 
+        controls 
+        loop
+        autoplay
+        muted
+        class="howto-video"
+        [attr.aria-label]="'dashboard.howto_dialog.domaine.videos.delete_domaine.title' | translate">
+        <source src="assets/vidsHowto/deleteDomaone.mp4" type="video/mp4">
+        {{ 'dashboard.howto_dialog.domaine.video_not_supported' | translate }}
+      </video>
+      <div class="video-info" *ngIf="showDeleteDomaineVideoInfo">
+        <i class="fas fa-info-circle"></i>
+        <span>{{ 'dashboard.howto_dialog.domaine.videos.delete_domaine.video_info' | translate }}</span>
+      </div>
+    </div>
+    <div class="howto-card-description">
+      <div class="card-description-header">
+        <div class="card-icon progress-icon">
+          <i class="fas fa-trash-alt"></i>
+        </div>
+        <h4>{{ 'dashboard.howto_dialog.domaine.videos.delete_domaine.description_title' | translate }}</h4>
+      </div>
+      <p>{{ 'dashboard.howto_dialog.domaine.videos.delete_domaine.description' | translate }}</p>
+    </div>
+  </div>
+</div>
